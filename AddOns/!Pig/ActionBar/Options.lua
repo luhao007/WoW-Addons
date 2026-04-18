@@ -256,7 +256,7 @@ ActionF.AutoFanye:SetScript("OnClick", function (self)
 	end
 	ActionBar_AutoFanye()
 end)
-if PIG_MaxTocversion() then
+if PIG_MaxTocversion(60000) and PIG_MaxTocversion(50000,true) or PIG_MaxTocversion(20000) then
 	local function xianshitutentiao()
 		if InCombatLockdown() then return end
 		MultiCastActionBarFrame_Update(MultiCastActionBarFrame)

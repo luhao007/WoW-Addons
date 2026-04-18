@@ -67,7 +67,7 @@ Prat:AddModuleToLoad(function()
 		local L
 
 		L = {}
--- Font
+		-- Font
 L["Auto Restore Font Size"] = true
 L["Chat window font options."] = true
 L["Font"] = true
@@ -97,7 +97,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("enUS", L)
 
 		L = {}
--- Font
+		-- Font
 --[[Translation missing --]]
 L["Auto Restore Font Size"] = "Auto Restore Font Size"
 --[[Translation missing --]]
@@ -152,7 +152,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("itIT", L)
 
 		L = {}
--- Font
+		-- Font
 --[[Translation missing --]]
 L["Auto Restore Font Size"] = "Auto Restore Font Size"
 --[[Translation missing --]]
@@ -207,7 +207,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("ptBR", L)
 
 		L = {}
--- Font
+		-- Font
 L["Auto Restore Font Size"] = "Restauration automatique de la taille du texte"
 L["Chat window font options."] = "Options de formatage du texte."
 L["Font"] = "Police"
@@ -239,7 +239,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("frFR",L)
 
 		L = {}
--- Font
+		-- Font
 L["Auto Restore Font Size"] = "Schriftgröße automatisch wiederherstellen"
 L["Chat window font options."] = "Optionen für die Schriftart des Chatfensters."
 L["Font"] = "Schrifttyp"
@@ -269,7 +269,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("deDE", L)
 
 		L = {}
--- Font
+		-- Font
 L["Auto Restore Font Size"] = "글꼴 크기 자동 복원"
 L["Chat window font options."] = "대화창 글꼴 옵션입니다."
 L["Font"] = "글꼴"
@@ -301,7 +301,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("koKR",L)
 
 		L = {}
--- Font
+		-- Font
 --[[Translation missing --]]
 L["Auto Restore Font Size"] = "Auto Restore Font Size"
 --[[Translation missing --]]
@@ -356,7 +356,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("esMX",L)
 
 		L = {}
--- Font
+		-- Font
 L["Auto Restore Font Size"] = "Авто-восстановление размера"
 L["Chat window font options."] = "Настройки шрифта окна чата."
 L["Font"] = "Шрифт"
@@ -388,7 +388,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("ruRU",L)
 
 		L = {}
--- Font
+		-- Font
 L["Auto Restore Font Size"] = "自动还原字体尺寸"
 L["Chat window font options."] = "聊天窗口字体选项"
 L["Font"] = "字体"
@@ -420,7 +420,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("zhCN",L)
 
 		L = {}
--- Font
+		-- Font
 L["Auto Restore Font Size"] = "Restaurar Tamaño Fuentes Automáticamente"
 L["Chat window font options."] = "Opciones de la fuente de la ventana del chat."
 L["Font"] = "Fuente"
@@ -452,7 +452,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 		PL:AddLocale("esES",L)
 
 		L = {}
--- Font
+		-- Font
 L["Auto Restore Font Size"] = "自動還原字型大小"
 L["Chat window font options."] = "聊天視窗字型選項。"
 L["Font"] = "字型"

@@ -1168,8 +1168,12 @@ function BusinessInfo.MailPlus_ADDUI()
 		SendMailSubjectEditBoxMiddle:SetWidth(154)
 		SendStationeryBackgroundRight:ClearAllPoints();
 		if PIG_MaxTocversion() then
+			if ElvUI then
+				C_Timer.After(0.1,function() MailEditBox:SetSize(line_W1-2,174) end)
+			else
+				MailEditBox:SetSize(line_W1-2,174)
+			end
 			SendMailSubjectEditBox:SetPoint("TOPLEFT", "SendMailNameEditBox", "BOTTOMLEFT", -34,0);
-			MailEditBox:SetSize(line_W1-2,174)
 			MailEditBox:SetPoint("TOPLEFT", "SendMailFrame", "TOPLEFT", 10,-86);
 			SendStationeryBackgroundLeft:SetAllPoints(MailEditBox)
 			MailEditBoxScrollBar:SetScale(0.6)

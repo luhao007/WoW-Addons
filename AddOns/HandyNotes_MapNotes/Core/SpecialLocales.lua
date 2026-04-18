@@ -39,6 +39,20 @@ ns.ABOUT = { -- RetailOptions.lua
   koKR = "정보",
 }
 
+ns.PROFFESSION_DETECTION = { -- RetailOptions.lua
+  deDE = "Solange noch keine 2 Hauptberufe und 3 Nebenberufe erlernt wurden, werden alle Symbole angezeigt, sofern diese Funktion aktiviert ist.",
+  enUS = "As long as fewer than 2 primary and 3 secondary professions are learned, all icons will be shown while this feature is enabled.",
+  frFR = "Tant que moins de 2 métiers principaux et 3 métiers secondaires sont appris, toutes les icônes seront affichées tant que cette fonction est activée.",
+  esES = "Mientras no se hayan aprendido al menos 2 profesiones principales y 3 secundarias, se mostrarán todos los iconos mientras esta función esté activada.",
+  esMX = "Mientras no se hayan aprendido al menos 2 profesiones principales y 3 secundarias, se mostrarán todos los íconos mientras esta función esté activada.",
+  itIT = "Finché non sono state apprese almeno 2 professioni principali e 3 secondarie, tutte le icone verranno mostrate finché questa funzione è attiva.",
+  ptBR = "Enquanto menos de 2 profissões principais e 3 secundárias forem aprendidas, todos os ícones serão exibidos enquanto esta função estiver ativada.",
+  ruRU = "Пока не изучены как минимум 2 основные и 3 второстепенные профессии, все значки будут отображаться, если эта функция включена.",
+  zhCN = "在学习至少2个主要专业和3个次要专业之前，只要启用此功能，所有图标都会显示。",
+  zhTW = "在學會至少2個主要專業和3個次要專業之前，只要啟用此功能，所有圖示都會顯示。",
+  koKR = "주 전문 2개와 보조 전문 3개를 배우기 전까지, 이 기능이 활성화되어 있으면 모든 아이콘이 표시됩니다.",
+}
+
 ns.CHANGE_VERSIONS_CHECK = { -- RetailVersionsCheck.lua
   deDE = "Neue Version |cff00ff00%s|r verfügbar, deine Version |cffffff00%s|r ist veraltet!",
   enUS = "New version |cff00ff00%s|r available, your version |cffffff00%s|r is outdated!",

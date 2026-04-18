@@ -51,7 +51,7 @@ Prat:AddModuleToLoad(function()
 		local L
 
 		L = {}
--- Invites
+		-- Invites
 L["Enable Alt-Invite"] = true
 L["Enable Invite Links"] = true
 L["module_desc"] = "Options for easy inviting of players to groups"
@@ -62,7 +62,7 @@ L["Toggle group invites by alt-clicking on player name."] = true
 		PL:AddLocale("enUS",L)
 
 		L = {}
--- Invites
+		-- Invites
 --[[Translation missing --]]
 L["Enable Alt-Invite"] = "Enable Alt-Invite"
 L["Enable Invite Links"] = "Activer les liens d'invitation"
@@ -78,7 +78,7 @@ L["Toggle group invites by alt-clicking on player name."] = "Toggle group invite
 		PL:AddLocale("frFR",L)
 
 		L = {}
--- Invites
+		-- Invites
 L["Enable Alt-Invite"] = "Alternative Einladung aktivieren"
 L["Enable Invite Links"] = "Aktiviere Einladungs-Links"
 L["module_desc"] = "Optionen zum einfachen Einladen von Spielern für Gruppen"
@@ -89,7 +89,7 @@ L["Toggle group invites by alt-clicking on player name."] = "Zum Umschalten der 
 		PL:AddLocale("deDE",L)
 
 		L = {}
--- Invites
+		-- Invites
 L["Enable Alt-Invite"] = "Alt-초대 켜기"
 L["Enable Invite Links"] = "초대 링크 켜기"
 L["module_desc"] = "사용자 그룹 쉽게 추가하기 옵션"
@@ -100,7 +100,7 @@ L["Toggle group invites by alt-clicking on player name."] = "플레이어 이름
 		PL:AddLocale("koKR",L)
 
 		L = {}
--- Invites
+		-- Invites
 --[[Translation missing --]]
 L["Enable Alt-Invite"] = "Enable Alt-Invite"
 --[[Translation missing --]]
@@ -117,7 +117,7 @@ L["Toggle group invites by alt-clicking on player name."] = "Toggle group invite
 		PL:AddLocale("esMX",L)
 
 		L = {}
--- Invites
+		-- Invites
 L["Enable Alt-Invite"] = "включить Alt-приглашение "
 L["Enable Invite Links"] = "Показать ссылку \"приглашения\" "
 L["module_desc"] = "Опции простого приглашения игроков в группу "
@@ -130,7 +130,7 @@ L["Toggle group invites by alt-clicking on player name."] = [=[Переключ�
 		PL:AddLocale("ruRU",L)
 
 		L = {}
--- Invites
+		-- Invites
 L["Enable Alt-Invite"] = "启用Alt-调出"
 L["Enable Invite Links"] = "启用调出链接"
 L["module_desc"] = "便捷邀请玩家加入队伍的选项"
@@ -141,7 +141,7 @@ L["Toggle group invites by alt-clicking on player name."] = "通过按住Alt键�
 		PL:AddLocale("zhCN",L)
 
 		L = {}
--- Invites
+		-- Invites
 --[[Translation missing --]]
 L["Enable Alt-Invite"] = "Enable Alt-Invite"
 --[[Translation missing --]]
@@ -158,7 +158,7 @@ L["Toggle group invites by alt-clicking on player name."] = "Toggle group invite
 		PL:AddLocale("esES",L)
 
 		L = {}
--- Invites
+		-- Invites
 --[[Translation missing --]]
 L["Enable Alt-Invite"] = "Enable Alt-Invite"
 --[[Translation missing --]]

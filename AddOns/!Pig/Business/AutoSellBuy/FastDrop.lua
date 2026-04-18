@@ -13,7 +13,10 @@ local function shifoucunzai(beibaoInfo,dataX)
 end
 function BusinessInfo.FastDrop(QuickButUI_index)
 	local L=addonTable.locale
+	local Fun=addonTable.Fun
 	local Data=addonTable.Data
+	local bagIDMax= Data.bagData["bagIDMax"]
+
 	local Create=addonTable.Create
 	local PIGButton = Create.PIGButton
 	local PIGCheckbutton=Create.PIGCheckbutton
@@ -26,7 +29,7 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 	local GetContainerItemLink = C_Container.GetContainerItemLink
 	local PickupContainerItem =C_Container.PickupContainerItem
 	local UseContainerItem =C_Container.UseContainerItem
-	local bagIDMax= addonTable.Data.bagData["bagIDMax"]
+	
 	---
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
 	local _GN,_GNE = "丢弃","Diuqi"
@@ -43,6 +46,7 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 	local QkButAction=CreateFrame("Button",BindingName,UIParent, "SecureActionButtonTemplate");
 	QkButAction:SetAttribute("type1", "macro");
 	QkButAction:SetAttribute("macrotext", [=[/run Pig_DelItem()]=]);
+	Fun.PIGUseKeyDown(QkButAction)
 	_G["BINDING_NAME_CLICK "..BindingName..":LeftButton"]= "PIG"..GnName.._GN
 	---
 	fujiF.fuzhiCDM = PIGButton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",160,-10},{110,20},"复制".._GN.."指令");

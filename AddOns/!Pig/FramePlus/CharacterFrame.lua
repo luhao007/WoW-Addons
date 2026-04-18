@@ -1836,14 +1836,6 @@ function FramePlusfun.Character_Shuxing()
 				PaperDollFrame_SetDefenses(stat6,6,ITEM_MOD_BLOCK_VALUE_SHORT..":",STAT_BLOCK_TOOLTIP);
 			end
 		end
-		local function PaperDollFrameUpdate()
-			if CharacterModelFrame.backdrop then CharacterModelFrame.backdrop:SetPoint("BOTTOMRIGHT",CharacterModelFrame,"BOTTOMRIGHT",5,0);end
-			local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
-			shuxingF.fuji.CategoryList[0].Butlist[1].Label:SetText(string.format("%.2f",avgItemLevelEquipped).." / "..string.format("%.2f",avgItemLevel))
-			for i=1, #PLAYERSTAT_DROPDOWN_OPTIONS do
-				UpdatePaperdollStats("CategoryName"..i, PLAYERSTAT_DROPDOWN_OPTIONS[i], i)
-			end
-		end;
 		local function shunxu_paixie(xuhao)
 			for i=2, #PLAYERSTAT_DROPDOWN_OPTIONS do
 				shuxingF.fuji.CategoryList[i]:ClearAllPoints();
@@ -1863,41 +1855,72 @@ function FramePlusfun.Character_Shuxing()
 				shuxingF.fuji.CategoryList[2]:SetPoint("TOP", shuxingF.fuji.CategoryList[4],"BOTTOM",0, 0)
 				shuxingF.fuji.CategoryList[3]:SetPoint("TOP", shuxingF.fuji.CategoryList[2],"BOTTOM",0, 0)
 				shuxingF.fuji.CategoryList[5]:SetPoint("TOP", shuxingF.fuji.CategoryList[3],"BOTTOM",0, 0)
+			elseif xuhao==4 then
+				shuxingF.fuji.CategoryList[5]:SetPoint("TOP", shuxingF.fuji.CategoryList[1],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[2]:SetPoint("TOP", shuxingF.fuji.CategoryList[5],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[3]:SetPoint("TOP", shuxingF.fuji.CategoryList[2],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[4]:SetPoint("TOP", shuxingF.fuji.CategoryList[3],"BOTTOM",0, 0)	
 			end
 		end
 		local _, classId = UnitClassBase("player");--1战士/2圣骑士/3猎人/4盗贼/5牧师/6死亡骑士/7萨满祭司/8法师/9术士/10武僧/11德鲁伊/12恶魔猎手
 		local function Update_Point_P()
-			if classId == 3 then
+			if classId == 3 then--远程
 				shunxu_paixie(2)
-			elseif classId ==5 or classId ==7 or classId ==8 or classId ==9 then
-				shunxu_paixie(3)	
-			else
+			elseif classId ==5 or classId ==8 or classId ==9 then--法术
+				shunxu_paixie(3)
+			elseif classId ==2 then
+				local datax=TalentData.GetTianfuIcon(nil,classId,"player")
+				if datax[4]==3 then
+					shunxu_paixie(1)
+				elseif datax[4]==2 then
+					shunxu_paixie(4)
+				else
+					shunxu_paixie(3)
+				end
+			elseif classId ==7 then
+				local datax=TalentData.GetTianfuIcon(nil,classId,"player")
+				if datax[4]==2 then
+					shunxu_paixie(1)
+				else
+					shunxu_paixie(3)
+				end
+			else--近战
 				shunxu_paixie(1)
 			end
 		end
-		Update_Point_P()
+		local function PaperDollFrameUpdate()
+			if CharacterModelFrame.backdrop then CharacterModelFrame.backdrop:SetPoint("BOTTOMRIGHT",CharacterModelFrame,"BOTTOMRIGHT",5,0);end
+			local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
+			shuxingF.fuji.CategoryList[0].Butlist[1].Label:SetText(string.format("%.2f",avgItemLevelEquipped).." / "..string.format("%.2f",avgItemLevel))
+			for i=1, #PLAYERSTAT_DROPDOWN_OPTIONS do
+				UpdatePaperdollStats("CategoryName"..i, PLAYERSTAT_DROPDOWN_OPTIONS[i], i)
+			end
+		end;
 		PaperDollFrame:HookScript("OnShow", function()
 			if CharacterFrame.backdrop then CharacterFrame.backdrop:SetPoint("BOTTOMRIGHT", PaperDollFrame.pigBGF,"BOTTOMRIGHT", 0, 0);end
 			CharacterFrameCloseButton:SetPoint("CENTER",CharacterFrame,"TOPRIGHT",142,-25)
 			PaperDollFrame.InsetR:SetSidebarTab(1)
 			SetPortraitTexture(PaperDollFrame.InsetR.TabList[1].Icon, "player");
 			PaperDollFrameUpdate()
+			Update_Point_P()
 		end)
 		PaperDollFrame:HookScript("OnHide", function()
 			if CharacterFrame.backdrop then CharacterFrame.backdrop:SetPoint("BOTTOMRIGHT", CharacterFrame,"BOTTOMRIGHT", -32, 76);end
 			CharacterFrameCloseButton:SetPoint("CENTER",CharacterFrame,"TOPRIGHT",-44,-25)
 		end)
-		PaperDollFrame:RegisterEvent("UNIT_AURA");--获得BUFF时
-		PaperDollFrame:RegisterEvent("UNIT_DISPLAYPOWER");--当单位的魔法类型改变时触发，例如德鲁伊变形
-		PaperDollFrame:RegisterEvent("CHARACTER_POINTS_CHANGED");--分配天赋点触发
-		if PIG_MaxTocversion(20000) then
-			PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
-		end
-		PaperDollFrame:HookScript("OnEvent", function(self,event,arg1)
-			if self:IsVisible() then
-				PaperDollFrameUpdate()
-			end
-		end);
+		--内存占用
+		-- PaperDollFrame:RegisterEvent("UNIT_AURA");--获得BUFF时
+		-- PaperDollFrame:RegisterEvent("UNIT_DISPLAYPOWER");--当单位的魔法类型改变时触发，例如德鲁伊变形
+		-- PaperDollFrame:RegisterEvent("CHARACTER_POINTS_CHANGED");--分配天赋点触发
+		-- PaperDollFrame:RegisterEvent("PLAYER_TALENT_UPDATE");--天赋改变
+		-- if PIG_MaxTocversion(20000) then
+		-- 	PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
+		-- end
+		-- PaperDollFrame:HookScript("OnEvent", function(self,event,arg1)
+		-- 	if self:IsVisible() then
+		-- 		PaperDollFrameUpdate()
+		-- 	end
+		-- end);
 
 		--称号
 		if PIG_MaxTocversion(40000) then

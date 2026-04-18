@@ -120,6 +120,7 @@ class Manager:
             "社交": "F48CBA",  # Pink - Paladin
             "功能": "FFF468",  # Yellow - Rogue
             "辅助": "FFFFFF",  # White - Priest
+            "特色": "33937F",  # Teal - Evoker
         }
         color = colors.get(cat, "FFF569")  # Unknown defaults to Rogue Yellow
         return f"|cFFFFE00A<|r|cFF{color}{cat}|r|cFFFFE00A>|r"

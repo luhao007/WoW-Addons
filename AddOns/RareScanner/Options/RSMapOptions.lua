@@ -54,8 +54,21 @@ function RSMapOptions.GetMapOptions()
 					end,
 					width = "full",
 				},
-				scale = {
+				ignoreWmOnMinimap = {
 					order = 1,
+					type = "toggle",
+					name = string.format(AL["IGNORE_WORLDMAP_SHOW_ON_MINIMAP"], AL["MAP_MENU_SHOW"]),
+					desc = string.format(AL["IGNORE_WORLDMAP_SHOW_ON_MINIMAP_DESC"], AL["MAP_MENU_SHOW"]),
+					get = function() return RSConfigDB.IsIgnoringWorldMapFiltersOnMinimap() end,
+					set = function(_, value)
+						RSConfigDB.SetIgnoringWorldMapFiltersOnMinimap(value)
+						RSMinimap.RefreshAllData(true)
+					end,
+					width = "full",
+					disabled = function() return not RSConfigDB.IsShowingMinimapIcons() end,
+				},
+				scale = {
+					order = 2,
 					type = "range",
 					name = AL["MAP_SCALE_ICONS"],
 					desc = AL["MAP_SCALE_ICONS_DESC"],
@@ -71,7 +84,7 @@ function RSMapOptions.GetMapOptions()
 					disabled = function() return (not RSConfigDB.IsShowingNpcs() and not RSConfigDB.IsShowingContainers() and not RSConfigDB.IsShowingEvents()) end,
 				},
 				minimapscale = {
-					order = 2,
+					order = 3,
 					type = "range",
 					name = AL["MINIMAP_SCALE_ICONS"],
 					desc = AL["MINIMAP_SCALE_ICONS_DESC"],
@@ -89,7 +102,7 @@ function RSMapOptions.GetMapOptions()
 				},
 				icons = {
 					type = "group",
-					order = 3,
+					order = 4,
 					name = AL["MAP_ICONS"],
 					handler = RareScanner,
 					desc = AL["MAP_ICONS_DESC"],
@@ -333,7 +346,7 @@ function RSMapOptions.GetMapOptions()
 				},
 				timers = {
 					type = "group",
-					order = 4,
+					order = 5,
 					name = AL["MAP_TIMERS"],
 					handler = RareScanner,
 					desc = AL["MAP_TIMERS_DESC"],
@@ -393,7 +406,7 @@ function RSMapOptions.GetMapOptions()
 				},
 				searcher = {
 					type = "group",
-					order = 5,
+					order = 6,
 					name = AL["MAP_SEARCHER"],
 					handler = RareScanner,
 					desc = AL["MAP_SEARCHER_DESC"],
@@ -424,7 +437,7 @@ function RSMapOptions.GetMapOptions()
 				}, 
 				waypoints = {
 					type = "group",
-					order = 6,
+					order = 7,
 					name = AL["MAP_WAYPOINTS"],
 					handler = RareScanner,
 					desc = AL["MAP_WAYPOINTS_DESC"],
@@ -468,7 +481,7 @@ function RSMapOptions.GetMapOptions()
 				},
 				tooltips = {
 					type = "group",
-					order = 7,
+					order = 8,
 					name = AL["MAP_TOOLTIPS"],
 					handler = RareScanner,
 					desc = AL["MAP_TOOLTIPS_DESC"],
@@ -623,7 +636,7 @@ function RSMapOptions.GetMapOptions()
 				},
 				spawnSpots = {
 					type = "group",
-					order = 8,
+					order = 9,
 					name = AL["MAP_SPAWN_SPOTS"],
 					handler = RareScanner,
 					desc = AL["MAP_SPAWN_SPOTS_DESC"],
@@ -632,7 +645,7 @@ function RSMapOptions.GetMapOptions()
 				},
 				animations = {
 					type = "group",
-					order = 9,
+					order = 10,
 					name = AL["MAP_ANIMATIONS"],
 					handler = RareScanner,
 					desc = AL["MAP_ANIMATIONS_DESC"],
@@ -751,7 +764,7 @@ function RSMapOptions.GetMapOptions()
 				},
 				reputation = {
 					type = "group",
-					order = 10,
+					order = 11,
 					name = AL["MAP_REPUTATION"],
 					handler = RareScanner,
 					desc = AL["MAP_REPUTATION_DESC"],
@@ -771,7 +784,7 @@ function RSMapOptions.GetMapOptions()
 				},
 				guidance = {
 					type = "group",
-					order = 11,
+					order = 12,
 					name = AL["MAP_GUIDE"],
 					handler = RareScanner,
 					desc = AL["MAP_GUIDE_DESC"],

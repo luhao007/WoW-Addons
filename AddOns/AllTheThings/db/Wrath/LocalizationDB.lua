@@ -2836,6 +2836,10 @@ local ObjectNames = {
 	[179914] = "Pile of Bones",
 	[179915] = "Pile of Skulls",
 	[179922] = "Vessel of Tainted Blood",
+	[180024] = "Mysterious Deadmines Chest",
+	[180025] = "Mysterious Eastvale Haystack",
+	[180055] = "Mysterious Wailing Caverns Chest",
+	[180056] = "Mysterious Tree Stump",
 	[180164] = "Sungrass",
 	[180165] = "Purple Lotus",
 	[180166] = "Mountain Silversage",
@@ -4805,6 +4809,10 @@ local ObjectModels = {
 	[179914] = 200638,
 	[179915] = 200638,
 	[179922] = 198100,
+	[180024] = 199748,
+	[180025] = 190597,
+	[180055] = 199748,
+	[180056] = 203584,
 	[180164] = 219496,
 	[180165] = 219483,
 	[180166] = 219473,
@@ -7552,6 +7560,9 @@ localize(ObjectNames, {
 	[179914] = "Knochenhaufen",
 	[179915] = "Schädelhaufen",
 	[179922] = "Gefäß mit besudeltem Blut",
+	[180025] = "Geheimnisvoller Heuhaufen des Osttals",
+	[180055] = "Geheimnisvolle Schatztruhe aus den Höhlen des Wehklagens",
+	[180056] = "Geheimnisvoller Baumstumpf",
 	[180164] = "Sonnengras",
 	[180165] = "Lila Lotus",
 	[180166] = "Bergsilbersalbei",
@@ -9399,6 +9410,9 @@ localize(ObjectNames, {
 	[179914] = "Pile d'ossements",
 	[179915] = "Pile de crânes",
 	[179922] = "Calice de sang corrompu",
+	[180025] = "Meule de foin mystérieuse du Val d'est",
+	[180055] = "Coffre mystérieux des cavernes des Lamentations",
+	[180056] = "Souche mystérieuse",
 	[180164] = "Soleillette",
 	[180165] = "Lotus pourpre",
 	[180166] = "Sauge-argent des montagnes",
@@ -10535,6 +10549,8 @@ localize(ObjectNames, {
 	[179914] = "Pila d'Ossa",
 	[179915] = "Pila di Teschi",
 	[179922] = "Recipiente di Sangue Corrotto",
+	[180025] = "Misterioso Covone di Vallevante",
+	[180056] = "Ceppo Misterioso",
 	[180327] = "Braciere della Follia",
 	[180435] = "Sacca di Noggle",
 	[180436] = "Frammento di Tavoletta del Crepuscolo",
@@ -11998,6 +12014,8 @@ localize(ObjectNames, {
 	[179914] = "Pilha de Ossos",
 	[179915] = "Pilha de Crânios",
 	[179922] = "Recipiente com Sangue Maculado",
+	[180025] = "Monte de Feno Misterioso de Vale do Leste",
+	[180056] = "Toco de Árvore Misterioso",
 	[180229] = "Amontoado de Mandingas Azarentas",
 	[180248] = "Cardume de Papas-finas",
 	[180327] = "Braseiro da Loucura",
@@ -14195,6 +14213,10 @@ localize(ObjectNames, {
 	[179914] = "Груда костей",
 	[179915] = "Груда черепов",
 	[179922] = "Сосуд с порченой кровью",
+	[180024] = "Таинственный сундук с Мертвых копей",
+	[180025] = "Таинственный стог Восточной Долины",
+	[180055] = "Таинственный сундук Пещер Стенаний",
+	[180056] = "Таинственный пень",
 	[180164] = "Солнечник",
 	[180165] = "Лиловый лотос",
 	[180166] = "Горный серебряный шалфей",
@@ -15709,6 +15731,8 @@ localize(ObjectNames, {
 	[179914] = "해골 더미",
 	[179915] = "해골 더미",
 	[179922] = "얼룩진 피가 담긴 용기",
+	[180025] = "신비의 동쪽계곡 건초더미",
+	[180056] = "신비의 그루터기",
 	[180229] = "불길한 흑마술 더미",
 	[180248] = "맛둥어 떼",
 	[180327] = "광기의 화로",
@@ -17276,6 +17300,7 @@ localize(L.HEADER_NAMES, {
 	[-659] = "Ayuda Crepuscular",
 	[-660] = "Dúo Crepuscular",
 	[-661] = "Dimensión Desconocida",
+	[-694] = "Mejora de la edición del aniversario de Burning Crusade Classic™",
 	[-723] = "Incursiones elementales",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -17295,6 +17320,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-357] = "Se puede acceder a esta parte de la mazmorra desde el portal más al oeste. (lado izquierdo)",
 	[-365] = "Stratholme está dividida en dos lados.\n\nEste lado se conoce comúnmente como el lado \"Vivo\" o \"Escarlata\", que ha sido tomado por la Cruzada Escarlata.",
 	[-366] = "Stratholme está dividida en dos lados.\n\nEste lado se conoce comúnmente como el lado de los 'Muertos' o del 'Azote', que el Azote ha tomado.",
+	[-534] = "Estas recompensas están disponibles para cualquiera que compre la Edición Coleccionista de Starcraft II: Wings of Liberty.",
 	[-550] = "Este es un evento basado en Campos de batalla que coincide con el inicio de los Juegos Olímpicos de Verano. La única vez que se celebró fue en 2008 para coincidir con los Juegos Olímpicos de Pekín, y aunque parecía haber intención de repetirlo, nunca regresó.",
 	[-592] = "Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
 	[-721] = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.",
@@ -18052,6 +18078,9 @@ localize(ObjectNames, {
 	[179914] = "Montón de huesos",
 	[179915] = "Montón de cráneos",
 	[179922] = "Vasija de sangre corrupta",
+	[180025] = "Misterioso fardo de heno de la Vega del Este",
+	[180055] = "Cofre misterioso de las Cuevas de los Lamentos",
+	[180056] = "Tocón misterioso",
 	[180164] = "Solea",
 	[180165] = "Loto cárdeno",
 	[180166] = "Salviargenta de montaña",
@@ -19110,6 +19139,7 @@ localize(L.HEADER_NAMES, {
 	[-367] = "Defensores de Atal'ai",
 	[-525] = "Paquete heroico Rasganorte WotLK Classic",
 	[-526] = "Paquete heroico abrasador de Cataclysm Classic",
+	[-694] = "Mejoras de Burning Crusade Classic™ Edición Aniversario",
 	[-723] = "Invasiones elementales",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -19159,6 +19189,7 @@ L.ACCOUNT_WIDE_DEATHS_TOOLTIP = "死亡追踪实际上只存在于巫妖王之�
 L.ACCOUNT_WIDE_EXPLORATION_TOOLTIP = "探索追踪仅对每个角色都非常有用，但你真的想在所有50个角色上收藏它们吗？";
 L.ACCOUNT_WIDE_FLIGHT_PATHS_TOOLTIP = "飞行路径追踪对每个角色都非常有用，但是你真的想要在所有50个角色上收藏它们吗？";
 L.ACCOUNT_WIDE_FOLLOWERS_TOOLTIP = "随从通常是每个角色的，但是你真的想以每周1个的速度在一个角色上收藏243个随从吗？\n\n我想不行，好好先生。";
+L.ACCOUNT_WIDE_PROFESSION_NODES_TOOLTIP = "专业节点通常不会在暴雪的数据库中进行账号范围的跟踪，但我们可以做到这一点。\n\n在一个角色上收集所有节点是不可能的，所以通过这个功能，你可以赋予你的小号和他们的专业意义。";
 L.ACCOUNT_WIDE_QUESTS_TOOLTIP = "任务完成通常是每个角色的，但是如果任何一个角色完成了特定的任务，这个任务就会被认为是完成了。";
 L.ACCOUNT_WIDE_RECIPES_TOOLTIP = "在暴雪的数据库中，图纸通常不会被账号通用追踪，但我们可以这样做。\n\n在一个角色上不可能收藏到所有的东西，所以有了这个，你就可以赋予你的小号和他们的专业以意义。";
 L.ACCOUNT_WIDE_REPUTATIONS_TOOLTIP = "声望的成就现在会在暴雪的数据库中追踪账号通用，所以开启这个功能可能是个好主意。";
@@ -19674,6 +19705,9 @@ L.PRESET_UPDATE_SUCCESS = "更新预设成功。";
 L.PROFESSION = "专业";
 L.PROFESSION_LIST = "专业列表";
 L.PROFESSION_LIST_DESC = "打开你的专业来缓存它们。";
+L.PROFESSION_NODE_ID = "专业节点 ID";
+L.PROFESSION_NODES_CHECKBOX = "专业节点";
+L.PROFESSION_NODES_CHECKBOX_TOOLTIP = "启用此选项以跟踪专业节点完成情况。";
 L.PROFILE = "配置文件";
 L.PROFILE_COPY_TOOLTIP = "复制已选配置文件到当前配置文件";
 L.PROFILE_DELETE_TOOLTIP = "删除已选配置文件";
@@ -20782,6 +20816,7 @@ localize(ObjectNames, {
 	[179913] = "作战公告！",
 	[179914] = "白骨堆",
 	[179922] = "腐化之血",
+	[180025] = "神秘的东谷干草堆",
 	[180229] = "厄运巫毒堆",
 	[180248] = "可口鱼",
 	[180327] = "疯狂之缘的火盆",

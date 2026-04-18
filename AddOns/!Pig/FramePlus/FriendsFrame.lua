@@ -724,7 +724,7 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
-	--UIParentLoadAddOn("Blizzard_RaidUI");
+	UIParentLoadAddOn("Blizzard_RaidUI");
 	RaidFrame:UnregisterEvent("UNIT_NAME_UPDATE");
 	RaidFrame:UnregisterEvent("UNIT_PET");
 	Fun.IsAddOnLoaded("Blizzard_RaidUI",PIGRaidUIFrame)

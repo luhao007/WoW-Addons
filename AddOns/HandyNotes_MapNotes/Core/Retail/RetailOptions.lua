@@ -2102,7 +2102,7 @@ ns.options = {
                   disabled = function() return not ns.Addon.db.profile.activate.Capitals or not ns.Addon.db.profile.activate.CapitalsProfessions end,
                   type = "toggle",
                   name = L["Profession detection"],
-                  desc = L["Automatically detects your professions and activates the corresponding professions icons on this map"],
+                  desc = L["Automatically detects your professions and activates the corresponding professions icons on this map"] .. "\n\n" .. (ns.PROFFESSION_DETECTION[GetLocale()] or ns.PROFFESSION_DETECTION.enUS),
                   width = 1.20, 
                   order = 40.9,
                   set = function(info, v) ns.Addon.db.profile[info[#info]] = v 
@@ -3434,13 +3434,13 @@ ns.options = {
                   disabled = function() return not ns.Addon.db.profile.activate.MinimapCapitals or not ns.Addon.db.profile.activate.MinimapCapitalsProfessions or ns.Addon.db.profile.activate.SyncCapitalsAndMinimap end,
                   type = "toggle",
                   name = MINIMAP_LABEL .. " " .. L["Profession detection"],
-                  desc = L["Automatically detects your professions and activates the corresponding professions icons on this map"],
+                  desc = L["Automatically detects your professions and activates the corresponding professions icons on this map"] .. "\n\n" .. (ns.PROFFESSION_DETECTION[GetLocale()] or ns.PROFFESSION_DETECTION.enUS),
                   width = 1.20, 
                   order = 86.8,
                   set = function(info, v) ns.Addon.db.profile[info[#info]] = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
                         ns.AutomaticProfessionDetection()
-                        if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showMinimapCapitalsProfessionDetection then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Capitals"], L["Profession detection"], GUILD_ROSTER_DROPDOWN_PROFESSION, L["icons"], "|cff00ff00" .. L["are shown"]) else 
-                        if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showMinimapCapitalsProfessionDetection then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Capitals"], L["Profession detection"], GUILD_ROSTER_DROPDOWN_PROFESSION, L["icons"], "|cffff0000" .. L["are hidden"])end end end,
+                        if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showMinimapCapitalsProfessionDetection then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. MINIMAP_LABEL, L["Capitals"], L["Profession detection"], GUILD_ROSTER_DROPDOWN_PROFESSION, L["icons"], "|cff00ff00" .. L["are shown"]) else 
+                        if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showMinimapCapitalsProfessionDetection then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. MINIMAP_LABEL, L["Capitals"], L["Profession detection"], GUILD_ROSTER_DROPDOWN_PROFESSION, L["icons"], "|cffff0000" .. L["are hidden"])end end end,
                   },
                 Capitalsheader6 = {
                   type = "description",
@@ -4464,7 +4464,7 @@ ns.options = {
                   disabled = function() return not ns.Addon.db.profile.activate.ZoneMap or not ns.Addon.db.profile.activate.ZoneProfessions end,
                   type = "toggle",
                   name = L["Profession detection"],
-                  desc = L["Automatically detects your professions and activates the corresponding professions icons on this map"],
+                  desc = L["Automatically detects your professions and activates the corresponding professions icons on this map"] .. "\n\n" .. (ns.PROFFESSION_DETECTION[GetLocale()] or ns.PROFFESSION_DETECTION.enUS),
                   width = 1.20, 
                   order = 40.9,
                   set = function(info, v) ns.Addon.db.profile[info[#info]] = v 
@@ -6613,7 +6613,7 @@ ns.options = {
                   disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.MiniMap or not ns.Addon.db.profile.activate.MiniMapProfessions end,
                   type = "toggle",
                   name = L["Profession detection"],
-                  desc = L["Automatically detects your professions and activates the corresponding professions icons on this map"],
+                  desc = L["Automatically detects your professions and activates the corresponding professions icons on this map"] .. "\n\n" .. (ns.PROFFESSION_DETECTION[GetLocale()] or ns.PROFFESSION_DETECTION.enUS),
                   width = 1.20, 
                   order = 40.9,
                   set = function(info, v) ns.Addon.db.profile[info[#info]] = v 

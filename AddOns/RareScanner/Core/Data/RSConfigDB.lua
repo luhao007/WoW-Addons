@@ -1206,6 +1206,14 @@ function RSConfigDB.SetShowingMinimapIcons(value)
 	private.db.map.displayMinimapIcons = value
 end
 
+function RSConfigDB.IsIgnoringWorldMapFiltersOnMinimap()
+	return private.db.map.ignoreWmOnMinimap
+end
+
+function RSConfigDB.SetIgnoringWorldMapFiltersOnMinimap(value)
+	private.db.map.ignoreWmOnMinimap = value
+end
+
 function RSConfigDB.GetIconsMinimapScale()
 	return private.db.map.minimapscale
 end

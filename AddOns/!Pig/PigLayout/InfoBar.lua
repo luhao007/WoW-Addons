@@ -91,13 +91,15 @@ local function SetEvent_MenuList(butui)
 	butui:RegisterEvent("GROUP_ROSTER_UPDATE")
 	butui:HookScript("OnEvent", ListEventFun);
 end
+local ButDropList={}
 local MenuList = {
-	["Index"]={"LEAVE","CONVERT_TO","RESET","TIME","COMBATLOG","ROLE","READY","COUNTDOWN"},
+	["Index"]={"LEAVE","EnterExit","CONVERT_TO","RESET","TIME","COMBATLOG","ROLE","READY","COUNTDOWN"},
 	["Tips"] = {
 		["LEAVE"]=KEY_BUTTON1.."-|cffFFFFff"..PARTY_LEAVE.."|r\n"..KEY_BUTTON2.."-|cffFFFFff"..INSTANCE_PARTY_LEAVE.."|r",--"离开队伍/离开副本队伍/离开地下堡
+		["EnterExit"]="传入/传出地下城",--
 		["CONVERT_TO"]=CONVERT_TO_RAID,--"切换团队/小队"
 		["RESET"]=RESET..INSTANCE,--"重置副本"
-		["TIME"]="|cff00FFff%s|r\n"..KEY_BUTTON1.."-|cffFFFFff切换为%s|r\n"..KEY_BUTTON2.."-|cffFFFFff重置计时器|r",--"战斗时间"
+		["TIME"]="战斗计时",
 		["COMBATLOG"]=COMBATLOGDISABLED,--战斗记录
 		["ROLE"]=ROLE_POLL,--职责确认
 		["READY"]=READY_CHECK,--就位确认
@@ -105,6 +107,7 @@ local MenuList = {
 	},
 	["Icon"] = {
 		["LEAVE"]={"common-icon-rotateleft",{UpdateIcon_Coord,0,1,-0.02,0.92}},
+		["EnterExit"]={"Dungeon",{UpdateIcon_Size,HHH,HHH}},
 		["CONVERT_TO"]={"groupfinder-waitdot",{UpdateIcon_Size,HHH-6,HHH-4}},
 		["RESET"]={"common-icon-undo",{UpdateIcon_Coord,0,1,0,1}},
 		["TIME"]={"txt",30,{0,1,0},"CrossedFlagsWithTimer"},
@@ -119,16 +122,66 @@ local MenuList = {
 	},
 	["Click"] = {
 		["LEAVE"]=function(butui,button) if button=="LeftButton" then LeaveParty() else ConfirmOrLeaveLFGParty() end end,
+		["EnterExit"]=function(butui,button) 
+		if ( IsAllowedToUserTeleport() ) then
+			if ( IsInLFDBattlefield() ) then
+				local _, instanceType = IsInInstance();
+				if ( instanceType ~= "arena" and instanceType ~= "pvp" ) then
+					LFGTeleport(false);
+				end
+			elseif ( IsInLFGDungeon() ) then
+				LFGTeleport(true);
+			else
+				LFGTeleport(false);
+			end
+		end end,
 		["CONVERT_TO"]=function() if IsInRaid(LE_PARTY_CATEGORY_HOME) then ConvertToParty() elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then ConvertToRaid() end end,
 		["RESET"]=function() StaticPopup_Show("CONFIRM_RESET_INSTANCES"); end,
-		["TIME"]=function(butui,button) if button=="LeftButton" then butui:TimerModeFun() else butui:CZ_times() end end,
+		["TIME"]=function(butui,button) butui:CZ_times() end,
 		["COMBATLOG"]=function(butui,button) if button=="LeftButton" then  else butui.RClick() end end,
 		["ROLE"]=function() InitiateRolePoll() end,
 		["READY"]=function() DoReadyCheck() end,
-		["COUNTDOWN"]=function(butui,button) if button=="LeftButton" then DoCountFun(PigPulldata.morenCD) else fujiF:Show_OptionsUI() end end,
+		["COUNTDOWN"]=function(butui,button)
+			if button=="LeftButton" then
+				DoCountFun(PigPulldata.morenCD)
+			else
+				--fujiF:Show_OptionsUI()
+				local timelist={3,5,10,30,60,180,300,600}
+				local timelistCN={"倒数3秒","倒数5秒","倒数10秒","倒数30秒","倒数1分钟","倒数3分钟","倒数5分钟","倒数10分钟"}
+				local GeneratorFunction=function(dropdown, rootDescription,...)
+					rootDescription:SetTag("PIG_MENU_COUNTDOWN");
+					for ixx=1,#timelist do
+						rootDescription:CreateButton(timelistCN[ixx], function(timex) DoCountFun(timex) end, timelist[ixx]);
+					end
+				end
+				MenuUtil.CreateContextMenu(butui, GeneratorFunction);
+			end
+		end,
 	},
 	["Event"] = {
 		["LEAVE"]=SetEvent_MenuList,
+		["EnterExit"]=function(butui)
+			butui:RegisterEvent("PLAYER_ENTERING_WORLD")
+			butui:HookScript("OnEvent", function(self)
+				self.Tooltip=self.old_Tooltip
+				self:Disable();				
+				if ( IsAllowedToUserTeleport() ) then
+					if ( IsInLFDBattlefield() ) then
+						local _, instanceType = IsInInstance();
+						if ( instanceType ~= "arena" and instanceType ~= "pvp" ) then
+							self.Tooltip="传入地下城"
+							self:Enable()
+						end
+					elseif ( IsInLFGDungeon() ) then
+						self.Tooltip="传出地下城"
+						self:Enable()
+					else
+						self.Tooltip="传入地下城"
+						self:Enable()
+					end
+				end
+			end);
+		end,
 		["CONVERT_TO"]=function(butui)
 			function butui:UpdateExt_ON()
 				if IsInRaid(LE_PARTY_CATEGORY_HOME) then
@@ -144,33 +197,17 @@ local MenuList = {
 		["TIME"]=function(butui,fujiUIx,set)
 			local ChatFrame_TimeBreakDown=ChatFrame_TimeBreakDown
 			local SetFormattedText=SetFormattedText
-			butui.TimerMode=PIGA["PigLayout"]["topMenu"]["TimerMode"]
-			function butui:GetTimerModeTisp()
+			--butui.TimerMode=PIGA["PigLayout"]["topMenu"]["TimerMode"]
+			function butui:TimerMode()
+				GameTooltip:AddLine("点击重置计时器")
 				if self.inInstance then
-					if self.TimerMode==1 then
-						return "战斗计时","副本耗时"
-					elseif self.TimerMode==2 then
-						return "副本耗时","战斗计时"
-					end
+					local d, h, m, s = ChatFrame_TimeBreakDown(GetServerTime()-self.timeall);
+					GameTooltip:AddLine("本次进本时长: "..format("%02d时%02d分", h, m))
 				else
-					if self.TimerMode==1 then
-						return "战斗计时","本地时间"
-					elseif self.TimerMode==2 then
-						return "本地时间","战斗计时"
-					end
+					--GameTooltip:AddLine("本次登录时长: "..format("%02d时%02d分", h, m))
 				end
 			end
-			function butui:TimerModeFun()
-				if PIGA["PigLayout"]["topMenu"]["TimerMode"]==1 then
-					PIGA["PigLayout"]["topMenu"]["TimerMode"]=2
-				else
-					PIGA["PigLayout"]["topMenu"]["TimerMode"]=1
-				end
-				self.TimerMode = PIGA["PigLayout"]["topMenu"]["TimerMode"]
-				self.Text:SetText("00:00");
-				self.timeallUI.oldtime=0
-				PIG_OptionsUI:ErrorMsg("已切换为"..butui:GetTimerModeTisp())
-			end
+			--
 			butui.Text:SetPoint("CENTER", 0, 1.4);
 			butui.MR_TextPoint[4]=1.4
 			butui.Text:SetFont(ChatFontNormal:GetFont(), 16,PIGA["PigLayout"]["TopBar"]["FontMiaobian"])
@@ -195,36 +232,16 @@ local MenuList = {
 				self.Text:SetText("00:00");
 			end
 			butui:CZ_times()
-			butui.timeallUI = CreateFrame("Frame",nil,butui)
-			butui.timeallUI:Hide()
-			butui.timeallUI.oldtime=0
-			butui.timeallUI:HookScript("OnUpdate", function (self,elapsed)
-				self.oldtime=self.oldtime-elapsed
-				if self.oldtime<0 then
-					self.oldtime=3
-					if butui.TimerMode==2 then
-						if butui.inInstance then
-							local dd, dh, dm, ds = ChatFrame_TimeBreakDown(GetServerTime()-butui.timeall);
-							butui.Text:SetFormattedText("%02d:%02d", dh, dm);
-						else
-							local newText = GameTime_GetTime(false);
-							butui.Text:SetText(newText);
-						end
-					end
-				end
-			end)
 			butui.UpdateUI = CreateFrame("Frame",nil,butui)
 			butui.UpdateUI:Hide()
 			butui.UpdateUI.oldtime=0
 			butui.UpdateUI:HookScript("OnUpdate", function (self,elapsed)
 				butui.timedq = butui.timedq + elapsed
-				if butui.TimerMode==1 then
-					self.oldtime=self.oldtime-elapsed
-					if self.oldtime<0 then
-						self.oldtime=1
-						local dd, dh, dm, ds = ChatFrame_TimeBreakDown(butui.timedq);
-						butui.Text:SetFormattedText("%02d:%02d", dm, ds);
-					end
+				self.oldtime=self.oldtime+elapsed
+				if self.oldtime>1 then
+					self.oldtime=0
+					local dd, dh, dm, ds = ChatFrame_TimeBreakDown(butui.timedq);
+					butui.Text:SetFormattedText("%02d:%02d", dm, ds);
 				end
 			end)
 			butui:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -243,7 +260,6 @@ local MenuList = {
 				elseif event=="PLAYER_ENTERING_WORLD" then
 					local inInstance, instanceType =IsInInstance()
 					self.inInstance=inInstance
-					self.timeallUI:Show()
 					self.UpdateUI:Hide()
 					if arg1 or arg2 then
 
@@ -267,11 +283,15 @@ local MenuList = {
 		end,
 		["ROLE"]=SetEvent_MenuList,
 		["READY"]=SetEvent_MenuList,
-		["COUNTDOWN"]=function() PigPulldata.morenCD=PIGA["PigLayout"]["topMenu"]["daojishiTime"] end
+		["COUNTDOWN"]=function(butui)
+			butui:RegisterForClicks("AnyUp");
+			PigPulldata.morenCD=PIGA["PigLayout"]["topMenu"]["daojishiTime"]
+		end
 	},
 }
 if PIG_MaxTocversion(100000,true) then
 	MenuList.Tips["LEAVE"]=MenuList.Tips["LEAVE"].."\n".."shift+"..KEY_BUTTON1.."-|cffFFFFff"..INSTANCE_WALK_IN_LEAVE.."|r"
+	MenuList.Icon["EnterExit"]={"Dungeon",{UpdateIcon_Size,HHH+6,HHH+6}}
 	MenuList.Icon["CONVERT_TO"]={"groupfinder-waitdot",{UpdateIcon_Coord_Size,0,1,0,1,HHH-6,HHH-4}}
 	MenuList.Icon["RESET"]={"GM-raidMarker-reset",{UpdateIcon_Coord,0.1,0.9,0.04,0.84}}
 	MenuList.Icon["COMBATLOG"]={"Ping_SpotGlw_Assist_In",{UpdateIcon_Coord,0,1,0,1}}
@@ -461,6 +481,8 @@ local InfoList_L = {
 		end,	
 	},
 }
+ButDropList["DIFFICULTY"]="DropdownButton"
+ButDropList["LOOT_THRESHOLD"]="DropdownButton"
 if PIG_MaxTocversion(20000,true) then
 	table.insert(InfoList_L.Index,3,"DIFFICULTY")
 end
@@ -477,19 +499,29 @@ local function SetShowTXT(butui,labelTxt)
 	end
 end
 local InfoList_R = {
-	["Index"]= {"FPS","PING_B","PING_W"},
+	["Index"]= {"FPS","PING_B","PING_W","TIME"},
 	["Tips"] = {
 		["FPS"]="帧数",
 		["PING_B"]="延迟(本地)",
 		["PING_W"]="延迟(世界)",
+		["TIME"]="切换12H/24H",
 	},
 	["Icon"] = {
 		["XY"]={"txt",50},
 		["FPS"]={"txt",36},
 		["PING_B"]={"txt",40},
 		["PING_W"]={"txt",40},
+		["TIME"]={"txt",30},
 	},
-	["Click"] = {},
+	["Click"] = {
+		["TIME"]=function(butui,button)
+			if GetCVarBool("timeMgrUseMilitaryTime") then
+				SetCVar("timeMgrUseMilitaryTime","0")
+			else
+				SetCVar("timeMgrUseMilitaryTime","1")
+			end
+		end,
+	},
 	["Event"] ={
 		["FPS"]=function(butui)
 			SetShowTXT(butui,"FPS:")
@@ -534,13 +566,27 @@ local InfoList_R = {
 				end
 			end)
 		end,
+		["TIME"]=function(butui)
+			butui.Text:SetPoint("CENTER", 0, 1.4);
+			butui.MR_TextPoint[4]=1.4
+			Create.PIGSetFont(butui.Text,15,PIGA["PigLayout"]["TopBar"]["FontMiaobian"])
+			butui.timeallUI = CreateFrame("Frame",nil,butui)
+			butui.timeallUI.oldtime=0
+			butui.timeallUI:HookScript("OnUpdate", function (self,elapsed)
+				self.oldtime=self.oldtime+elapsed
+				if self.oldtime>1 then
+					self.oldtime=0
+					butui.Text:SetText(GameTime_GetLocalTime());
+				end
+			end)
+		end,
 	},
 }
 -----
 local FormatUIname="PIG_%sUI"
 local GNLsitsName={"topMenu","topInfoL","topInfoR"}
 local GNLsits={
-	["topMenu"]={["World"]=false,["name"]="快捷菜单",["barHH"]=HHH,["Data"]=MenuList,["OptionsTop"]={0,50},["PointXY"]={0,0}},
+	["topMenu"]={["World"]=false,["name"]="快捷菜单",["barHH"]=HHH,["Data"]=MenuList,["OptionsTop"]={0,46},["PointXY"]={0,0}},
 	["topInfoL"]={["World"]=false,["name"]="信息条(左)",["barHH"]=HHH,["Data"]=InfoList_L,["OptionsTop"]={210,80},["PointXY"]={-520,0}},
 	["topInfoR"]={["World"]=false,["name"]="信息条(右)",["barHH"]=HHH,["Data"]=InfoList_R,["OptionsTop"]={350,80},["PointXY"]={-260,0}},
 }
@@ -606,8 +652,7 @@ local function add_barUI(peizhiT,set)
 	barUIxx.butjiangeW=0
 	for i=1,listNum do
 		if not PIGA["PigLayout"][peizhiT]["HideBut"][ListIndex[i]] then
-			local frameType="Button"
-			if ListIndex[i]=="DIFFICULTY" or ListIndex[i]=="LOOT_THRESHOLD" then frameType="DropdownButton" end
+			local frameType=ButDropList[ListIndex[i]] or "Button"
 			local iconData = ListIcon[ListIndex[i]]
 			local listbut
 			if iconData[1]=="txt" or iconData[1]=="icontxt" then
@@ -626,6 +671,7 @@ local function add_barUI(peizhiT,set)
 			barUIxx.butnum=barUIxx.butnum+1
 			--提示
 			listbut.Tooltip=ListTips[ListIndex[i]]
+			listbut.old_Tooltip=ListTips[ListIndex[i]]
 			listbut:HookScript("OnLeave", function (self)
 				GameTooltip:ClearLines();
 				GameTooltip:Hide() 
@@ -641,15 +687,9 @@ local function add_barUI(peizhiT,set)
 						GameTooltip_SetTitle(GameTooltip, self.Tooltip);
 					end
 				else
+					GameTooltip:AddLine(self.Tooltip)
 					if self.TimerMode then
-						local motish,motish1 = self:GetTimerModeTisp()
-						GameTooltip:AddLine(format(self.Tooltip, "当前显示为"..motish, motish1))
-						if self.inInstance and self.TimerMode==1 then
-							local d, h, m, s = ChatFrame_TimeBreakDown(GetServerTime()-self.timeall);
-							GameTooltip:AddLine("本次副本已耗时: "..format("%02d时%02d分", h, m))
-						end
-					elseif self.Tooltip then
-						GameTooltip:AddLine(self.Tooltip)
+						self:TimerMode()
 					end
 				end
 				GameTooltip:Show();
@@ -795,8 +835,8 @@ local function add_Options(peizhiT)
 			PIGCloseDropDownMenus()
 		end
 		local xiayiinfoTime = {3,180,1}
-		checkbutOpen.F.daojishiTime = PIGSlider(checkbutOpen.F,{"TOPLEFT",checkbutOpen.F,"TOPLEFT",54,-110},xiayiinfoTime)
-		checkbutOpen.F.daojishiTime.T = PIGFontString(checkbutOpen.F.daojishiTime,{"RIGHT",checkbutOpen.F.daojishiTime,"LEFT",0,0},"倒数(秒)")
+		checkbutOpen.F.daojishiTime = PIGSlider(checkbutOpen.F,{"TOPLEFT",checkbutOpen.F,"TOPLEFT",86,-110},xiayiinfoTime,200)
+		checkbutOpen.F.daojishiTime.T = PIGFontString(checkbutOpen.F.daojishiTime,{"RIGHT",checkbutOpen.F.daojishiTime,"LEFT",0,0},"默认倒数(秒)")
 		function checkbutOpen.F.daojishiTime:PIGOnValueChange(arg1)
 			PigPulldata.morenCD=arg1
 			PIGA["PigLayout"][peizhiT]["daojishiTime"]=arg1;

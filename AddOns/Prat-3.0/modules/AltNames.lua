@@ -2347,7 +2347,6 @@ L["You have not yet linked any alts with their mains."] = "You have not yet link
 				end
 			end
 
-			local width = GameTooltip:GetWidth()
 			-- check if the user wants a list of alts shown on mains' tooltips
 			if self.db.profile.tooltip_showalts then
 				local alts = self:getAlts(charname)
@@ -2366,7 +2365,6 @@ L["You have not yet linked any alts with their mains."] = "You have not yet link
 			end
 
 			if tooltipaltered then
-				GameTooltip:SetWidth(width)
 				GameTooltip:Show()
 			end
 

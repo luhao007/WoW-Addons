@@ -13,13 +13,38 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 local PIGEnter=Create.PIGEnter
-local add_Bar=Create.add_Bar
 local CombatPlusfun=addonTable.CombatPlusfun
 -------------------------
-local function ADD_HPMPBarUI(fujiSetUI,setV)
+local classOK={
+	[4]=2,
+	[6]=1,
+	[7]=1,
+	[11]=2,
+}
+local CountColors={
+	[1]={147/255, 195/255, 125/255, 1},
+	[2]={1, 0.9, 0.6, 1},
+	[3]={1, 0.6, 0, 1},
+	[4]={0.88, 0.4, 0.4, 1},
+	[5]={1, 0, 0, 0.9},
+}
+local function GetFuStyleV(classId,newV)
+	if newV then
+		PIGA["CombatPlus"]["HPMPBar"]["FuStyle"][classId]=newV
+	end
+	if PIGA["CombatPlus"]["HPMPBar"]["FuStyle"][classId] then
+		if PIGA["CombatPlus"]["HPMPBar"]["FuStyle"][classId]==1 then
+			PIGA["CombatPlus"]["HPMPBar"]["FuStyle"][classId]=nil
+			return 1
+		end
+		return PIGA["CombatPlus"]["HPMPBar"]["FuStyle"][classId]
+	else
+		return 1
+	end	
+end
+local function ADD_HPMPBarUI(setV)
 	if not PIGA["CombatPlus"]["HPMPBar"]["Open"] then return end
-	if CombatPlusfun.HPMPBarOpen then return end
-	CombatPlusfun.HPMPBarOpen=true
+	if CombatPlusfun.HPMPBarOpen then CombatPlusfun.HPMPBarOpen=true return end
 	local HPMPBar = CreateFrame("Button", nil, UIParent, "SecureUnitButtonTemplate,SecureHandlerStateTemplate")
 	HPMPBar:SetHeight(1);
 	HPMPBar:SetPoint("CENTER", UIParent, "CENTER", PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"], PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]);
@@ -37,45 +62,17 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 	local _, classId = UnitClassBase("player");
 	HPMPBar.classId=classId
 	local function add_HPMPBar(fuji,ly)
-		local Bar=add_Bar(fuji,ly)
+		local Bar=Create.add_Bar(fuji,ly)
 		fuji.next=Bar
 		Bar:RegisterEvent("PLAYER_ENTERING_WORLD");
 		return Bar
 	end
 	if PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"] then
-		if HPMPBar.classId== 4 or HPMPBar.classId== 6 or HPMPBar.classId== 11 then
+		if classOK[HPMPBar.classId] then
 			HPMPBar.Fuziyuan=add_HPMPBar(HPMPBar,HPMPBar.classId)
-			HPMPBar.Fuziyuan.butListID={}
-			HPMPBar.FuStyle={}
-			HPMPBar.FuStyle[HPMPBar.classId] = PIGA["CombatPlus"]["HPMPBar"]["FuStyle"][HPMPBar.classId] or 1
-			if HPMPBar.classId == 4 or HPMPBar.classId== 11 then--盗贼
-				for index=1,MAX_COMBO_POINTS,1 do			
-					local Points = CreateFrame("Frame", nil, HPMPBar.Fuziyuan,"BackdropTemplate")
-					Points.tex  = Points:CreateTexture();
-					Points.tex:SetAtlas("ClassOverlay-ComboPoint-Off")
-					HPMPBar.Fuziyuan.butListID[index]=Points
-				end
-				HPMPBar.Fuziyuan:RegisterEvent("UNIT_POWER_UPDATE");
-				HPMPBar.Fuziyuan:HookScript("OnEvent", function(self, event, arg1, arg2)
-					local comboPoints = GetComboPoints("player", "target");
-					if HPMPBar.FuStyle[HPMPBar.classId]==1 then
-						HPMPBar.Fuziyuan:PIGBackdropColor(HPMPBar.Fuziyuan.butListID)
-						for ix=1,comboPoints do
-							HPMPBar.Fuziyuan.butListID[ix]:SetBackdropColor(1, 0, 0, 0.9);
-						end
-					else
-						for ix=1,MAX_COMBO_POINTS do
-							HPMPBar.Fuziyuan.butListID[ix].tex:SetAtlas("ClassOverlay-ComboPoint-Off")
-						end
-						for ix=1,comboPoints do
-							HPMPBar.Fuziyuan.butListID[ix].tex:SetAtlas("ClassOverlay-ComboPoint")
-						end					
-					end
-					if ( comboPoints == MAX_COMBO_POINTS ) then
-						--displayType = "crit";
-					end
-				end)
-			elseif HPMPBar.classId== 6 then--死亡骑士
+			HPMPBar.Fuziyuan.ButList={}
+			HPMPBar.FuStyle = GetFuStyleV(classId)
+			if HPMPBar.classId == 6 then--死亡骑士
 				local RuneTypeColor = {
 					[1]={1,40/255,40/255},
 					[2]={0,191/255,1},
@@ -119,9 +116,9 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 					if index==1 then
 						RuneBut:SetPoint("LEFT",HPMPBar.Fuziyuan,"LEFT",0,0);
 					else
-						RuneBut:SetPoint("LEFT",HPMPBar.Fuziyuan.butListID[index-1],"RIGHT",-1,0);
+						RuneBut:SetPoint("LEFT",HPMPBar.Fuziyuan.ButList[index-1],"RIGHT",-1,0);
 					end
-					HPMPBar.Fuziyuan.butListID[index]=RuneBut
+					HPMPBar.Fuziyuan.ButList[index]=RuneBut
 					RuneBut.bar = CreateFrame("StatusBar", nil, RuneBut,nil,Runeindex[index]);
 					RuneBut.bar:SetStatusBarTexture("interface/chatframe/chatframebackground.blp")
 					RuneBut.bar:SetPoint("TOPLEFT",RuneBut,"TOPLEFT",0,0);
@@ -130,7 +127,7 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 					RuneBut.bar:SetMinMaxValues(0, 10)
 					HPMPBar.Fuziyuan.Runebut[Runeindex[index]]=RuneBut.bar
 				end
-				HPMPBar.Fuziyuan:PIGBackdropBorderColor(HPMPBar.Fuziyuan.butListID)
+				HPMPBar.Fuziyuan:PIGBackdropBorderColor(HPMPBar.Fuziyuan.ButList)
 				HPMPBar.Fuziyuan:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED");
 				HPMPBar.Fuziyuan:RegisterEvent("RUNE_TYPE_UPDATE");
 				HPMPBar.Fuziyuan:RegisterEvent("RUNE_POWER_UPDATE");
@@ -143,6 +140,53 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 					elseif ( event == "RUNE_POWER_UPDATE") then
 						UpdateRuneCooldown(arg1, arg2);
 					end
+				end)
+			else
+				--盗贼/萨满/小德
+				for index=1,MAX_COMBO_POINTS,1 do			
+					local Points = CreateFrame("Frame", nil, HPMPBar.Fuziyuan,"BackdropTemplate")
+					Points.tex  = Points:CreateTexture();
+					Points.tex:SetAtlas("ClassOverlay-ComboPoint-Off")
+					HPMPBar.Fuziyuan.ButList[index]=Points
+				end
+				if HPMPBar.classId == 7 then
+					HPMPBar.Fuziyuan:RegisterEvent("UNIT_AURA");
+					function HPMPBar.Fuziyuan:Update_Points(event,arg1, arg2)
+						if event=="PLAYER_ENTERING_WORLD" or arg1=="player" then
+							local auraData=C_UnitAuras.GetPlayerAuraBySpellID(53817)
+							if auraData and auraData.applications then
+								for ix=1,auraData.applications do
+									self.ButList[ix]:SetBackdropColor(unpack(CountColors[auraData.applications]));
+								end
+							else
+								self:PIGBackdropColor(self.ButList)
+							end
+						end
+					end
+				else
+					HPMPBar.Fuziyuan:RegisterEvent("UNIT_POWER_UPDATE");
+					function HPMPBar.Fuziyuan:Update_Points(arg1, arg2)
+						local comboPoints = GetComboPoints("player", "target");
+						if HPMPBar.FuStyle==1 then
+							self:PIGBackdropColor(self.ButList)
+							for ix=1,comboPoints do
+								self.ButList[ix]:SetBackdropColor(unpack(CountColors[comboPoints]));
+							end
+						else
+							for ix=1,MAX_COMBO_POINTS do
+								self.ButList[ix].tex:SetAtlas("ClassOverlay-ComboPoint-Off")
+							end
+							for ix=1,comboPoints do
+								self.ButList[ix].tex:SetAtlas("ClassOverlay-ComboPoint")
+							end					
+						end
+						-- if ( comboPoints == MAX_COMBO_POINTS ) then
+						-- 	--displayType = "crit";
+						-- end
+					end
+				end
+				HPMPBar.Fuziyuan:HookScript("OnEvent", function(self, event, arg1, arg2)
+					self:Update_Points(event, arg1, arg2)
 				end)
 			end
 		end
@@ -215,19 +259,19 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 		if HPMPBar.HPBar then HPMPBar.HPBar:PIGStatusBarTexture(PIGA["CombatPlus"]["HPMPBar"]["BarTex"]) end
 		if HPMPBar.MPBar then HPMPBar.MPBar:PIGStatusBarTexture(PIGA["CombatPlus"]["HPMPBar"]["BarTex"]) end
 		if HPMPBar.Fuziyuan then
-			HPMPBar.Fuziyuan:PIGStatusBarTexture(HPMPBar.Fuziyuan.butListID,PIGA["CombatPlus"]["HPMPBar"]["BarTex"])
-			if HPMPBar.classId==4 or HPMPBar.classId==11 then
-				if HPMPBar.FuStyle[HPMPBar.classId]==1 then
-					HPMPBar.Fuziyuan:PIGBackdropBorderColor(HPMPBar.Fuziyuan.butListID)
+			HPMPBar.Fuziyuan:PIGStatusBarTexture(HPMPBar.Fuziyuan.ButList,PIGA["CombatPlus"]["HPMPBar"]["BarTex"])
+			if HPMPBar.classId~=6 then
+				if HPMPBar.FuStyle==1 then
+					HPMPBar.Fuziyuan:PIGBackdropBorderColor(HPMPBar.Fuziyuan.ButList)
 					for index=1,5 do
-						HPMPBar.Fuziyuan.butListID[index].tex:Hide()
+						HPMPBar.Fuziyuan.ButList[index].tex:Hide()
 					end
 				else
 					for index=1,5 do
-						HPMPBar.Fuziyuan.butListID[index]:SetBackdropColor(1, 1, 1, 0);
-						HPMPBar.Fuziyuan.butListID[index]:SetBackdropBorderColor(1, 1, 1, 0)
-						HPMPBar.Fuziyuan.butListID[index].tex:Show()
-						HPMPBar.Fuziyuan.butListID[index].tex:SetPoint("BOTTOM",HPMPBar.Fuziyuan.butListID[index],"BOTTOM",0,1);
+						HPMPBar.Fuziyuan.ButList[index]:SetBackdropColor(1, 1, 1, 0);
+						HPMPBar.Fuziyuan.ButList[index]:SetBackdropBorderColor(1, 1, 1, 0)
+						HPMPBar.Fuziyuan.ButList[index].tex:Show()
+						HPMPBar.Fuziyuan.ButList[index].tex:SetPoint("BOTTOM",HPMPBar.Fuziyuan.ButList[index],"BOTTOM",0,1);
 					end
 				end
 			end
@@ -243,31 +287,31 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 			v:SetHeight(hhh+v.Plus)
 		end
 		if HPMPBar.Fuziyuan then
-			if HPMPBar.classId==4 or HPMPBar.classId==11 then
-				local xxww = www*0.2
-				for index=1,5 do
-					HPMPBar.Fuziyuan.butListID[index]:SetSize(xxww,hhh);
-					if index==1 then
-						HPMPBar.Fuziyuan.butListID[index]:SetPoint("LEFT",HPMPBar.Fuziyuan,"LEFT",0,0);
-					else
-						HPMPBar.Fuziyuan.butListID[index]:SetPoint("LEFT",HPMPBar.Fuziyuan.butListID[index-1],"RIGHT",0,0);
-					end
-				end
-				if HPMPBar.FuStyle[HPMPBar.classId]==2 then
-					for index=1,5 do
-						HPMPBar.Fuziyuan.butListID[index].tex:SetSize(hhh+4,hhh+4);
-					end
-				end
-			elseif HPMPBar.classId==6 then
+			if HPMPBar.classId==6 then
 				local Runewww=www/6
 				for index=1,6 do
-					if HPMPBar.Fuziyuan.butListID[index] then
-						HPMPBar.Fuziyuan.butListID[index]:SetHeight(hhh);
+					if HPMPBar.Fuziyuan.ButList[index] then
+						HPMPBar.Fuziyuan.ButList[index]:SetHeight(hhh);
 						if index==1 then
-							HPMPBar.Fuziyuan.butListID[index]:SetWidth(Runewww);
+							HPMPBar.Fuziyuan.ButList[index]:SetWidth(Runewww);
 						else
-							HPMPBar.Fuziyuan.butListID[index]:SetWidth(Runewww+1);
+							HPMPBar.Fuziyuan.ButList[index]:SetWidth(Runewww+1);
 						end
+					end
+				end
+			else
+				local xxww = www*0.2
+				for index=1,5 do
+					HPMPBar.Fuziyuan.ButList[index]:SetSize(xxww,hhh);
+					if index==1 then
+						HPMPBar.Fuziyuan.ButList[index]:SetPoint("LEFT",HPMPBar.Fuziyuan,"LEFT",0,0);
+					else
+						HPMPBar.Fuziyuan.ButList[index]:SetPoint("LEFT",HPMPBar.Fuziyuan.ButList[index-1],"RIGHT",0,0);
+					end
+				end
+				if HPMPBar.FuStyle==2 then
+					for index=1,5 do
+						HPMPBar.Fuziyuan.ButList[index].tex:SetSize(hhh+4,hhh+4);
 					end
 				end
 			end
@@ -282,192 +326,17 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 	HPMPBar.Set_StatusBarTex()
 	HPMPBar.Set_StatusBarWH()
 	HPMPBar.Set_BarFontAll()
-	---
-	fujiSetUI.BarTex=PIGDownMenu(fujiSetUI,{"TOPLEFT",fujiSetUI,"TOPLEFT",60,-20},{150,24})
-	fujiSetUI.BarTex.T = PIGFontString(fujiSetUI.BarTex,{"RIGHT",fujiSetUI.BarTex,"LEFT",-4,0},TEXTURES_SUBHEADER)
-	function fujiSetUI.BarTex:PIGDownMenu_Update_But()
-		local info = {}
-		info.func = self.PIGDownMenu_SetValue
-		for i=1,HPMPBar.BarTexNum,1 do
-		    info.text, info.arg1 = TEXTURES_SUBHEADER..i, i
-		    info.checked = i==PIGA["CombatPlus"]["HPMPBar"]["BarTex"]
-			self:PIGDownMenu_AddButton(info)
-		end 
-	end
-	function fujiSetUI.BarTex:PIGDownMenu_SetValue(value,arg1,arg2)
-		self:PIGDownMenu_SetText(value)
-		PIGA["CombatPlus"]["HPMPBar"]["BarTex"]=arg1
-		HPMPBar.Set_StatusBarTex()
-		PIGCloseDropDownMenus()
-	end
-	fujiSetUI.CombatShow =PIGCheckbutton(fujiSetUI,{"LEFT",fujiSetUI.BarTex,"LEFT",200,0},{"脱战后隐藏","脱战后隐藏血量资源条"})
-	fujiSetUI.CombatShow:SetScript("OnClick", function (self)
-		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		if self:GetChecked() then
-			PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]=true;
-		else
-			PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]=false;
-		end
-		HPMPBar.Set_CombatShowHide()
-	end);
-	--
-	local function Set_WHXY()
-		HPMPBar:SetPoint("CENTER", UIParent, "CENTER", PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"], PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]);
-	end
-	local WowWidth=floor(GetScreenWidth()*0.5);
-	local xiayiinfo = {-WowWidth,WowWidth,1}
-	fujiSetUI.SliderX = PIGSlider(fujiSetUI,{"TOPLEFT",fujiSetUI,"TOPLEFT",60,-70},xiayiinfo)
-	fujiSetUI.SliderX.T = PIGFontString(fujiSetUI.SliderX,{"RIGHT",fujiSetUI.SliderX,"LEFT",0,0},"X偏移")
-	function fujiSetUI.SliderX:PIGOnValueChange(arg1)
-		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"]=arg1;
-		Set_WHXY()
-	end
-	local WowHeight=floor(GetScreenHeight()*0.5);
-	local xiayiinfo = {-WowHeight,WowHeight,1}
-	fujiSetUI.SliderY = PIGSlider(fujiSetUI,{"LEFT",fujiSetUI.SliderX,"RIGHT",100,0},xiayiinfo)
-	fujiSetUI.SliderY.T = PIGFontString(fujiSetUI.SliderY,{"RIGHT",fujiSetUI.SliderY,"LEFT",0,0},"Y偏移")
-	function fujiSetUI.SliderY:PIGOnValueChange(arg1)
-		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]=arg1;
-		Set_WHXY()
-	end
-	fujiSetUI.CZBUT = PIGButton(fujiSetUI,{"LEFT",fujiSetUI.SliderY,"RIGHT",60,0},{80,24},RESET_POSITION)
-	fujiSetUI.CZBUT:SetScript("OnClick", function ()
-		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"]=addonTable.Default["CombatPlus"]["HPMPBar"]["Xpianyi"]
-		PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]=addonTable.Default["CombatPlus"]["HPMPBar"]["Ypianyi"]
-		fujiSetUI.SliderX:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"])
-		fujiSetUI.SliderY:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"])
-		Set_WHXY()
-	end)
-
-	local xiayiinfo = {100,400,1}
-	fujiSetUI.BarW = PIGSlider(fujiSetUI,{"TOPLEFT",fujiSetUI,"TOPLEFT",60,-140},xiayiinfo)
-	fujiSetUI.BarW.T = PIGFontString(fujiSetUI.BarW,{"RIGHT",fujiSetUI.BarW,"LEFT",0,0},"宽度")
-	function fujiSetUI.BarW:PIGOnValueChange(arg1)
-		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		PIGA["CombatPlus"]["HPMPBar"]["BarW"]=arg1;
-		HPMPBar.Set_StatusBarWH()
-	end
-	local xiayiinfo = {10,60,1}
-	fujiSetUI.BarH = PIGSlider(fujiSetUI,{"LEFT",fujiSetUI.BarW,"RIGHT",100,0},xiayiinfo)
-	fujiSetUI.BarH.T = PIGFontString(fujiSetUI.BarH,{"RIGHT",fujiSetUI.BarH,"LEFT",0,0},"高度")
-	function fujiSetUI.BarH:PIGOnValueChange(arg1)
-		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		PIGA["CombatPlus"]["HPMPBar"]["BarH"]=arg1;
-		HPMPBar.Set_StatusBarWH()
-	end
-	fujiSetUI.CZSize = PIGButton(fujiSetUI,{"LEFT",fujiSetUI.BarH,"RIGHT",60,0},{80,24},"默认大小")
-	fujiSetUI.CZSize:SetScript("OnClick", function ()
-		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		PIGA["CombatPlus"]["HPMPBar"]["BarW"]=addonTable.Default["CombatPlus"]["HPMPBar"]["BarW"]
-		PIGA["CombatPlus"]["HPMPBar"]["BarH"]=addonTable.Default["CombatPlus"]["HPMPBar"]["BarH"]
-		fujiSetUI.BarW:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarW"])
-		fujiSetUI.BarH:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarH"])
-		HPMPBar.Set_StatusBarWH()
-	end)
-	fujiSetUI.Showshuzhi =PIGCheckbutton(fujiSetUI,{"TOPLEFT",fujiSetUI,"TOPLEFT",20,-240},{"显示数值","显示血量/资源数值"})
-	fujiSetUI.Showshuzhi:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]=true;
-			HPMPBar.Showshuzhi=true
-		else
-			PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]=false;
-			HPMPBar.Showshuzhi=false
-		end
-		HPMPBar.Set_BarFontAll()
-	end);
-	local xiayiinfo = {10,26,1}
-	fujiSetUI.FontSize = PIGSlider(fujiSetUI,{"LEFT",fujiSetUI.Showshuzhi,"LEFT",210,0},xiayiinfo)
-	fujiSetUI.FontSize.T = PIGFontString(fujiSetUI.FontSize,{"RIGHT",fujiSetUI.FontSize,"LEFT",-10,0},"字体大小")
-	function fujiSetUI.FontSize:PIGOnValueChange(arg1)
-		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		PIGA["CombatPlus"]["HPMPBar"]["FontSize"]=arg1;
-		HPMPBar.Set_BarFontAll()
-	end
-
-	fujiSetUI.HpShow =PIGCheckbutton(fujiSetUI,{"TOPLEFT",fujiSetUI.Showshuzhi,"TOPLEFT",0,-40},{"显示血量条","个人资源条显示血量"})
-	fujiSetUI.HpShow:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["CombatPlus"]["HPMPBar"]["HpShow"]=true;
-		else
-			PIGA["CombatPlus"]["HPMPBar"]["HpShow"]=false;
-		end
-		PIG_OptionsUI.RLUI:Show()
-	end);
-	fujiSetUI.MpShow =PIGCheckbutton(fujiSetUI,{"TOPLEFT",fujiSetUI.HpShow,"TOPLEFT",0,-40},{"显示资源条","个人资源条显示资源"})
-	fujiSetUI.MpShow:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["CombatPlus"]["HPMPBar"]["MpShow"]=true;
-		else
-			PIGA["CombatPlus"]["HPMPBar"]["MpShow"]=false;
-		end
-		PIG_OptionsUI.RLUI:Show()
-	end);
-	if HPMPBar.classId==4 or HPMPBar.classId==6 or HPMPBar.classId==11 then
-		fujiSetUI.Fuziyuan =PIGCheckbutton(fujiSetUI,{"TOPLEFT",fujiSetUI.MpShow,"TOPLEFT",0,-40},{"显示特殊资源条","个人资源条显示特殊资源(连击点/符文/其他)"})
-		fujiSetUI.Fuziyuan:SetScript("OnClick", function (self)
-			if self:GetChecked() then
-				PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]=true;
-			else
-				PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]=false;
-			end
-			PIG_OptionsUI.RLUI:Show()
-		end);
-		if PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]  then
-			fujiSetUI.Fuziyuan.style=PIGDownMenu(fujiSetUI.Fuziyuan,{"LEFT",fujiSetUI.Fuziyuan.Text,"RIGHT",2,0},{80,24})
-			fujiSetUI.Fuziyuan.style.listtex=1
-			if HPMPBar.classId==4 or HPMPBar.classId==11 then
-				fujiSetUI.Fuziyuan.style.listtex=2
-			end
-			function fujiSetUI.Fuziyuan.style:PIGDownMenu_Update_But()
-				local info = {}
-				info.func = self.PIGDownMenu_SetValue
-				for i=1,fujiSetUI.Fuziyuan.style.listtex,1 do
-				    info.text, info.arg1 = TEXTURES_SUBHEADER..i, i
-				   	info.checked = i==HPMPBar.FuStyle[HPMPBar.classId]
-					self:PIGDownMenu_AddButton(info)
-				end
-			end
-			function fujiSetUI.Fuziyuan.style:PIGDownMenu_SetValue(value,arg1,arg2)
-				if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-				self:PIGDownMenu_SetText(value)
-				HPMPBar.FuStyle[HPMPBar.classId]=arg1
-				PIGA["CombatPlus"]["HPMPBar"]["FuStyle"][HPMPBar.classId]=arg1
-				HPMPBar.Set_StatusBarTex()
-				HPMPBar.Set_StatusBarWH()
-				PIGCloseDropDownMenus()
-			end
-		end
-	end
-	fujiSetUI:HookScript("OnShow", function (self)
-		self.Showshuzhi:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]);
-		self.CombatShow:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]);
-		self.FontSize:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["FontSize"])
-		self.BarW:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarW"])
-		self.BarH:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarH"])
-		self.SliderX:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"])
-		self.SliderY:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"])
-		self.BarTex:PIGDownMenu_SetText(TEXTURES_SUBHEADER..PIGA["CombatPlus"]["HPMPBar"]["BarTex"])
-		self.HpShow:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["HpShow"]);
-		self.MpShow:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["MpShow"]);
-		if self.Fuziyuan then
-			self.Fuziyuan:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]);
-			if self.Fuziyuan.style then
-				self.Fuziyuan.style:PIGDownMenu_SetText(TEXTURES_SUBHEADER..HPMPBar.FuStyle[HPMPBar.classId])
-			end
-		end
-	end);
+	return HPMPBar
 end
 function CombatPlusfun.HPMPBar()
 	if PIG_MaxTocversion() then
+		local HPMPBar=ADD_HPMPBarUI()
 		local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME3"],100)
 		CombatPlusF.Open = PIGCheckbutton_R(CombatPlusF,{"启用个人资源条","在屏幕上显示个人资源条"})
 		CombatPlusF.Open:SetScript("OnClick", function (self)
 			if self:GetChecked() then			
 				PIGA["CombatPlus"]["HPMPBar"]["Open"]=true;
-				ADD_HPMPBarUI(CombatPlusF.SetF,true)
+				HPMPBar=ADD_HPMPBarUI(true)
 				CombatPlusF.SetF:Show()
 			else
 				PIGA["CombatPlus"]["HPMPBar"]["Open"]=false;
@@ -477,12 +346,190 @@ function CombatPlusfun.HPMPBar()
 		end)
 		CombatPlusF:HookScript("OnShow", function (self)
 			self.Open:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["Open"]);
+			if not CombatPlusF.SetF then
+				CombatPlusF.SetF = PIGFrame(CombatPlusF,{"TOPLEFT", CombatPlusF, "TOPLEFT", 0, -60})
+				CombatPlusF.SetF:SetPoint("BOTTOMRIGHT",CombatPlusF,"BOTTOMRIGHT",0,0);
+				CombatPlusF.SetF:PIGSetBackdrop(0)
+				local _, classId = UnitClassBase("player");
+				---
+				CombatPlusF.SetF.BarTex=PIGDownMenu(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",60,-20},{150,24})
+				CombatPlusF.SetF.BarTex.T = PIGFontString(CombatPlusF.SetF.BarTex,{"RIGHT",CombatPlusF.SetF.BarTex,"LEFT",-4,0},TEXTURES_SUBHEADER)
+				function CombatPlusF.SetF.BarTex:PIGDownMenu_Update_But()
+					local info = {}
+					info.func = self.PIGDownMenu_SetValue
+					for i=1,Create.BarTexNum,1 do
+					    info.text, info.arg1 = TEXTURES_SUBHEADER..i, i
+					    info.checked = i==PIGA["CombatPlus"]["HPMPBar"]["BarTex"]
+						self:PIGDownMenu_AddButton(info)
+					end 
+				end
+				function CombatPlusF.SetF.BarTex:PIGDownMenu_SetValue(value,arg1,arg2)
+					self:PIGDownMenu_SetText(value)
+					PIGA["CombatPlus"]["HPMPBar"]["BarTex"]=arg1
+					HPMPBar.Set_StatusBarTex()
+					PIGCloseDropDownMenus()
+				end
+				CombatPlusF.SetF.CombatShow =PIGCheckbutton(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.BarTex,"LEFT",200,0},{"脱战后隐藏","脱战后隐藏血量资源条"})
+				CombatPlusF.SetF.CombatShow:SetScript("OnClick", function (self)
+					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+					if self:GetChecked() then
+						PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]=true;
+					else
+						PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]=false;
+					end
+					HPMPBar.Set_CombatShowHide()
+				end);
+				--
+				local function Set_WHXY()
+					HPMPBar:SetPoint("CENTER", UIParent, "CENTER", PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"], PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]);
+				end
+				local WowWidth=floor(GetScreenWidth()*0.5);
+				local xiayiinfo = {-WowWidth,WowWidth,1}
+				CombatPlusF.SetF.SliderX = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",60,-70},xiayiinfo)
+				CombatPlusF.SetF.SliderX.T = PIGFontString(CombatPlusF.SetF.SliderX,{"RIGHT",CombatPlusF.SetF.SliderX,"LEFT",0,0},"X偏移")
+				function CombatPlusF.SetF.SliderX:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+					PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"]=arg1;
+					Set_WHXY()
+				end
+				local WowHeight=floor(GetScreenHeight()*0.5);
+				local xiayiinfo = {-WowHeight,WowHeight,1}
+				CombatPlusF.SetF.SliderY = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderX,"RIGHT",100,0},xiayiinfo)
+				CombatPlusF.SetF.SliderY.T = PIGFontString(CombatPlusF.SetF.SliderY,{"RIGHT",CombatPlusF.SetF.SliderY,"LEFT",0,0},"Y偏移")
+				function CombatPlusF.SetF.SliderY:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+					PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]=arg1;
+					Set_WHXY()
+				end
+				CombatPlusF.SetF.CZBUT = PIGButton(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderY,"RIGHT",60,0},{80,24},RESET_POSITION)
+				CombatPlusF.SetF.CZBUT:SetScript("OnClick", function ()
+					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+					PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"]=addonTable.Default["CombatPlus"]["HPMPBar"]["Xpianyi"]
+					PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]=addonTable.Default["CombatPlus"]["HPMPBar"]["Ypianyi"]
+					CombatPlusF.SetF.SliderX:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"])
+					CombatPlusF.SetF.SliderY:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"])
+					Set_WHXY()
+				end)
+
+				local xiayiinfo = {100,400,1}
+				CombatPlusF.SetF.BarW = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",60,-140},xiayiinfo)
+				CombatPlusF.SetF.BarW.T = PIGFontString(CombatPlusF.SetF.BarW,{"RIGHT",CombatPlusF.SetF.BarW,"LEFT",0,0},"宽度")
+				function CombatPlusF.SetF.BarW:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+					PIGA["CombatPlus"]["HPMPBar"]["BarW"]=arg1;
+					HPMPBar.Set_StatusBarWH()
+				end
+				local xiayiinfo = {10,60,1}
+				CombatPlusF.SetF.BarH = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.BarW,"RIGHT",100,0},xiayiinfo)
+				CombatPlusF.SetF.BarH.T = PIGFontString(CombatPlusF.SetF.BarH,{"RIGHT",CombatPlusF.SetF.BarH,"LEFT",0,0},"高度")
+				function CombatPlusF.SetF.BarH:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+					PIGA["CombatPlus"]["HPMPBar"]["BarH"]=arg1;
+					HPMPBar.Set_StatusBarWH()
+				end
+				CombatPlusF.SetF.CZSize = PIGButton(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.BarH,"RIGHT",60,0},{80,24},"默认大小")
+				CombatPlusF.SetF.CZSize:SetScript("OnClick", function ()
+					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+					PIGA["CombatPlus"]["HPMPBar"]["BarW"]=addonTable.Default["CombatPlus"]["HPMPBar"]["BarW"]
+					PIGA["CombatPlus"]["HPMPBar"]["BarH"]=addonTable.Default["CombatPlus"]["HPMPBar"]["BarH"]
+					CombatPlusF.SetF.BarW:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarW"])
+					CombatPlusF.SetF.BarH:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarH"])
+					HPMPBar.Set_StatusBarWH()
+				end)
+				CombatPlusF.SetF.Showshuzhi =PIGCheckbutton(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",20,-240},{"显示数值","显示血量/资源数值"})
+				CombatPlusF.SetF.Showshuzhi:SetScript("OnClick", function (self)
+					if self:GetChecked() then
+						PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]=true;
+						HPMPBar.Showshuzhi=true
+					else
+						PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]=false;
+						HPMPBar.Showshuzhi=false
+					end
+					HPMPBar.Set_BarFontAll()
+				end);
+				local xiayiinfo = {10,26,1}
+				CombatPlusF.SetF.FontSize = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.Showshuzhi,"LEFT",210,0},xiayiinfo)
+				CombatPlusF.SetF.FontSize.T = PIGFontString(CombatPlusF.SetF.FontSize,{"RIGHT",CombatPlusF.SetF.FontSize,"LEFT",-10,0},"字体大小")
+				function CombatPlusF.SetF.FontSize:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+					PIGA["CombatPlus"]["HPMPBar"]["FontSize"]=arg1;
+					HPMPBar.Set_BarFontAll()
+				end
+
+				CombatPlusF.SetF.HpShow =PIGCheckbutton(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF.Showshuzhi,"TOPLEFT",0,-40},{"显示血量条","个人资源条显示血量"})
+				CombatPlusF.SetF.HpShow:SetScript("OnClick", function (self)
+					if self:GetChecked() then
+						PIGA["CombatPlus"]["HPMPBar"]["HpShow"]=true;
+					else
+						PIGA["CombatPlus"]["HPMPBar"]["HpShow"]=false;
+					end
+					PIG_OptionsUI.RLUI:Show()
+				end);
+				CombatPlusF.SetF.MpShow =PIGCheckbutton(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF.HpShow,"TOPLEFT",0,-40},{"显示资源条","个人资源条显示资源"})
+				CombatPlusF.SetF.MpShow:SetScript("OnClick", function (self)
+					if self:GetChecked() then
+						PIGA["CombatPlus"]["HPMPBar"]["MpShow"]=true;
+					else
+						PIGA["CombatPlus"]["HPMPBar"]["MpShow"]=false;
+					end
+					PIG_OptionsUI.RLUI:Show()
+				end);
+				if classOK[classId] then
+					CombatPlusF.SetF.Fuziyuan =PIGCheckbutton(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF.MpShow,"TOPLEFT",0,-40},{"显示特殊资源条","个人资源条显示特殊资源(连击点/符文/其他)"})
+					CombatPlusF.SetF.Fuziyuan:SetScript("OnClick", function (self)
+						if self:GetChecked() then
+							PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]=true;
+						else
+							PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]=false;
+						end
+						PIG_OptionsUI.RLUI:Show()
+					end);
+					if PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]  then
+						CombatPlusF.SetF.Fuziyuan.style=PIGDownMenu(CombatPlusF.SetF.Fuziyuan,{"LEFT",CombatPlusF.SetF.Fuziyuan.Text,"RIGHT",2,0},{80,24})
+						function CombatPlusF.SetF.Fuziyuan.style:PIGDownMenu_Update_But()
+							local info = {}
+							info.func = self.PIGDownMenu_SetValue
+							for i=1,classOK[classId],1 do
+							    info.text, info.arg1 = TEXTURES_SUBHEADER..i, i
+							   	info.checked = i==GetFuStyleV(classId)
+								self:PIGDownMenu_AddButton(info)
+							end
+						end
+						function CombatPlusF.SetF.Fuziyuan.style:PIGDownMenu_SetValue(value,arg1,arg2)
+							if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+							self:PIGDownMenu_SetText(value)
+							HPMPBar.FuStyle = GetFuStyleV(classId,arg1)
+							HPMPBar.Set_StatusBarTex()
+							HPMPBar.Set_StatusBarWH()
+							PIGCloseDropDownMenus()
+						end
+					end
+				end
+				function CombatPlusF.SetF:UpdateSetF()
+					self.Showshuzhi:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]);
+					self.CombatShow:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]);
+					self.FontSize:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["FontSize"])
+					self.BarW:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarW"])
+					self.BarH:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarH"])
+					self.SliderX:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"])
+					self.SliderY:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"])
+					self.BarTex:PIGDownMenu_SetText(TEXTURES_SUBHEADER..PIGA["CombatPlus"]["HPMPBar"]["BarTex"])
+					self.HpShow:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["HpShow"]);
+					self.MpShow:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["MpShow"]);
+					if self.Fuziyuan then
+						self.Fuziyuan:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]);
+						if self.Fuziyuan.style then
+							self.Fuziyuan.style:PIGDownMenu_SetText(TEXTURES_SUBHEADER..GetFuStyleV(classId))
+						end
+					end
+				end
+				CombatPlusF.SetF:UpdateSetF()
+				CombatPlusF.SetF:HookScript("OnShow", function (self)
+					self:UpdateSetF()
+				end);
+			end
 			self.SetF:SetShown(PIGA["CombatPlus"]["HPMPBar"]["Open"])
 		end)
-		CombatPlusF.SetF = PIGFrame(CombatPlusF,{"TOPLEFT", CombatPlusF, "TOPLEFT", 0, -60})
-		CombatPlusF.SetF:SetPoint("BOTTOMRIGHT",CombatPlusF,"BOTTOMRIGHT",0,0);
-		CombatPlusF.SetF:PIGSetBackdrop(0)
-		----
-		ADD_HPMPBarUI(CombatPlusF.SetF)
+		
 	end
 end

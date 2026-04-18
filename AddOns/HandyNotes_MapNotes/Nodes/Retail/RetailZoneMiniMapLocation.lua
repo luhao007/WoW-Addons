@@ -928,13 +928,13 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
             -- Quel'Thalas Portals
             if self.db.profile.showMiniMapPortals then
-              minimap[2395][47742560] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. ZONE .. ": " .. ns.SpiresOfArak .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.Skyreach .. "\n\n" .. ZONE .. ": " .. ns.Icecrown .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.PitOfSaron .. "\n\n" .. ZONE .. ": " .. ns.Eredath .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.SeatOfTheTriumvirate .. "\n\n" .. ZONE .. ": " .. ns.Thaldraszus .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.AlgetharAcademy } --  Portal from Dornogal to the Timeways
+              minimap[2395][49442489] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. ZONE .. ": " .. ns.SpiresOfArak .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.Skyreach .. "\n\n" .. ZONE .. ": " .. ns.Icecrown .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.PitOfSaron .. "\n\n" .. ZONE .. ": " .. ns.Eredath .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.SeatOfTheTriumvirate .. "\n\n" .. ZONE .. ": " .. ns.Thaldraszus .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.AlgetharAcademy } --  Portal from Dornogal to the Timeways
               minimap[2576][64687098] = { mnID = 2393, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
               minimap[2576][61787348] = { mnID = 2405, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
               minimap[2405][51717041] = { mnID = 2413, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
               minimap[2405][51527029] = { mnID = 2405, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
-              minimap[2424][51925636] = { mnID = 2405, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
-              minimap[2405][45436377] = { mnID = 2424, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              --minimap[2424][51925636] = { mnID = 2405, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              --minimap[2405][45436377] = { mnID = 2424, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
               minimap[2413][53545571] = { mnID = 2576, name = "", TransportName = L["inside the cave"] .. ":\n" .. TextIconPortalOld:GetIconString() .. " " .. L["Portal"] .. " " .. ns.VoidTempest .. "\n" .. TextIconPortalOld:GetIconString() .. " " .. L["Portal"] .. " " .. ns.SilvermoonMN, type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 

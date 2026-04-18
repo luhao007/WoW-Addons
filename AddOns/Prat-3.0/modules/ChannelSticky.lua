@@ -51,7 +51,7 @@ Prat:AddModuleToLoad(function()
 		local L
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 L["Channel"] = true
 L["ChannelSticky"] = true
 L["Chat channel sticky options."] = true
@@ -67,7 +67,7 @@ L["Toggles sticky on and off for %s."] = true
 		PL:AddLocale("enUS",L)
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 L["Channel"] = "Canal"
 --[[Translation missing --]]
 L["ChannelSticky"] = "ChannelSticky"
@@ -91,7 +91,7 @@ L["Toggles sticky on and off for %s."] = "Toggles sticky on and off for %s."
 		PL:AddLocale("frFR",L)
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 L["Channel"] = "Kanal"
 L["ChannelSticky"] = "Kanal Sticky"
 L["Chat channel sticky options."] = "Sticky-Optionen für Chat-Kanäle."
@@ -107,7 +107,7 @@ L["Toggles sticky on and off for %s."] = "Schaltet den Sticky für %s ein und au
 		PL:AddLocale("deDE",L)
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 L["Channel"] = "채널"
 L["ChannelSticky"] = "채널 고정 [ChannelSticky]"
 L["Chat channel sticky options."] = "대화 채널 고정 옵션입니다."
@@ -123,7 +123,7 @@ L["Toggles sticky on and off for %s."] = "%s의 입력 고정을 켜거나 끕�
 		PL:AddLocale("koKR",L)
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 --[[Translation missing --]]
 L["Channel"] = "Channel"
 --[[Translation missing --]]
@@ -150,7 +150,7 @@ L["Toggles sticky on and off for %s."] = "Toggles sticky on and off for %s."
 		PL:AddLocale("esMX",L)
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 L["Channel"] = "Канал"
 L["ChannelSticky"] = "Совмещение каналов"
 L["Chat channel sticky options."] = "Настройки прилипания каналов чата."
@@ -166,7 +166,7 @@ L["Toggles sticky on and off for %s."] = "Вкл/Выкл прилипание �
 		PL:AddLocale("ruRU",L)
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 L["Channel"] = "频道"
 L["ChannelSticky"] = "频道粘连"
 L["Chat channel sticky options."] = "聊天频道粘连选项"
@@ -182,7 +182,7 @@ L["Toggles sticky on and off for %s."] = "切换%s的粘连开关"
 		PL:AddLocale("zhCN",L)
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 L["Channel"] = "Canal"
 L["ChannelSticky"] = "CanalAdhesivo"
 L["Chat channel sticky options."] = "Opciones de canal adhesivo de chat."
@@ -198,7 +198,7 @@ L["Toggles sticky on and off for %s."] = "Alterna activar adhesivo para %s."
 		PL:AddLocale("esES",L)
 
 		L = {}
--- ChannelSticky
+		-- ChannelSticky
 L["Channel"] = "頻道"
 L["ChannelSticky"] = "固定頻道"
 L["Chat channel sticky options."] = "聊天頻道固定選項"

@@ -77,8 +77,9 @@ Prat:AddModuleToLoad(function()
 	--@non-debug@
 	do
 		local L
+
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = true
 L["%s() called with blank string!"] = true
 L["%s() called with nil argument!"] = true
@@ -123,7 +124,7 @@ L["warnUser() called with zero length string!"] = true
 		PL:AddLocale("enUS", L)
 
 		L = {}
--- Alias
+		-- Alias
 --[[Translation missing --]]
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = " - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"
 --[[Translation missing --]]
@@ -208,7 +209,7 @@ L["warnUser() called with zero length string!"] = "warnUser() called with zero l
 		PL:AddLocale("itIT", L)
 
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = "- lista todos os \"apelidos\" ; forneça <palavra-chave> para procurar pelos \"apelidos\" correspondentes (cmd aliases: /listallaliases)"
 L["%s() called with blank string!"] = "%s() chamado faltando um argumento!"
 L["%s() called with nil argument!"] = "%s chamado com um argumento nulo!"
@@ -283,7 +284,7 @@ L["warnUser() called with zero length string!"] = "warnUser() chamado com uma li
 		PL:AddLocale("ptBR", L)
 
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = "- liste tous les alias ; fournissez un <mot clé> pour trouver une correspondance d'alias (cmd alias: /listallaliases)"
 L["%s() called with blank string!"] = "%s() appelé avec un argument vide !"
 L["%s() called with nil argument!"] = "%s() appelé sans argument !"
@@ -328,7 +329,7 @@ L["warnUser() called with zero length string!"] = "warnUser() appelé avec un ch
 		PL:AddLocale("frFR", L)
 
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = "- Auflisten aller Aliase; <Suchbegriff> eingeben, um nach passenden Aliasen zu suchen (cmd aliases: /listallaliases)"
 L["%s() called with blank string!"] = "%s() mit leerer Zeichenfolge aufgerufen!"
 L["%s() called with nil argument!"] = "%s() mit Null Parameter aufgerufen!"
@@ -373,7 +374,7 @@ L["warnUser() called with zero length string!"] = "Benutzerwarnung() wird mit de
 		PL:AddLocale("deDE", L)
 
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = " - 모든 대체 명령어 목록; 대체 명령어를 찾기 위한 <키워드> 지원 (명령어: /listallaliases)"
 L["%s() called with blank string!"] = "%s() 함수가 문자열없이 호출되었습니다!"
 L["%s() called with nil argument!"] = "%s() 함수가 nil 인자로 호출되었습니다!"
@@ -418,7 +419,7 @@ L["warnUser() called with zero length string!"] = "warnUser() 함수가 문자�
 		PL:AddLocale("koKR", L)
 
 		L = {}
--- Alias
+		-- Alias
 --[[Translation missing --]]
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = " - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"
 --[[Translation missing --]]
@@ -503,7 +504,7 @@ L["warnUser() called with zero length string!"] = "warnUser() called with zero l
 		PL:AddLocale("esMX", L)
 
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = " - список всех псевдонимов; источник <keyword> для поиска псевдонимов (команда: /listallaliases)"
 L["%s() called with blank string!"] = "Функция %s() вызвана с пустой строкой!"
 L["%s() called with nil argument!"] = "Функция %s() вызвана с нулевым аргументом!"
@@ -548,7 +549,7 @@ L["warnUser() called with zero length string!"] = "Функция warnUser() в�
 		PL:AddLocale("ruRU", L)
 
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = "-列出全部替换词;支持<关键字>搜索匹配的替换词(替换词命令:/listallaliases)"
 L["%s() called with blank string!"] = "%s()为空白字符!"
 L["%s() called with nil argument!"] = "%s()不能为空!"
@@ -593,7 +594,7 @@ L["warnUser() called with zero length string!"] = "您注意()为零长度字符
 		PL:AddLocale("zhCN", L)
 
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = " - lista todos los alias; proporciona una <palabra clave> para buscar alias coincidentes (cmd alias: /listallaliases)"
 L["%s() called with blank string!"] = "%s() llamado con cadena vacía! "
 L["%s() called with nil argument!"] = "%s() llamado con argumento nulo! "
@@ -643,7 +644,7 @@ L["warnUser() called with zero length string!"] = "warnUser() llamado con cadena
 		PL:AddLocale("esES", L)
 
 		L = {}
--- Alias
+		-- Alias
 L[" - list all aliases; supply <keyword> to search for matching aliases (cmd aliases: /listallaliases)"] = "- 列出所有別稱；提供 <keyword> 以搜尋所需的別稱（別稱指令：/listallaliases）"
 L["%s() called with blank string!"] = "%s() 為空白字串！"
 L["%s() called with nil argument!"] = "%s() 為無效參數！"
@@ -818,15 +819,9 @@ L["warnUser() called with zero length string!"] = "warnUser() 為零字元字串
 			self.WontAlias[string.lower(naughtyalias)] = 1
 		end
 
-		if ChatFrame1EditBox and ChatFrame1EditBox.OnPreSendText then
-			EventRegistry:RegisterCallback("ChatFrame.OnEditBoxPreSendText", function(_, editBox)
-				local success, ret = pcall(function()
-					module:ChatEdit_OnPreSendText(editBox)
-				end)
-				if not success then
-					geterrorhandler()(ret)
-				end
-			end)
+		if Prat.IsRetail then
+			self.RegisteredAliasCommands = {}
+			self:RegisterAllAliasCommands()
 		else
 			self:RawHook('ChatEdit_HandleChatType', true)
 		end
@@ -850,6 +845,37 @@ L["warnUser() called with zero length string!"] = "warnUser() 為零字元字串
 	--[[------------------------------------------------
 		Core Functions
 	------------------------------------------------]] --
+	function module:GetAliasCommandKey(alias)
+		return "PRATALIAS_" .. string.upper(alias)
+	end
+
+	function module:RegisterAliasCommand(alias)
+		alias = string.lower(alias)
+
+		if self.RegisteredAliasCommands[alias] then
+			return
+		end
+
+		local key = self:GetAliasCommandKey(alias)
+
+		_G["SLASH_" .. key .. "1"] = "/" .. alias
+		SlashCmdList[key] = function(msg)
+			module:ExecuteAlias(alias, msg or "")
+		end
+
+		self.RegisteredAliasCommands[alias] = true
+	end
+
+	function module:RegisterAllAliasCommands()
+		if not self.RegisteredAliasCommands then
+			self.RegisteredAliasCommands = {}
+		end
+
+		for alias in pairs(self.Aliases) do
+			self:RegisterAliasCommand(alias)
+		end
+	end
+
 	function module:splitAliasArgs(str)
 		local args = {
 			name = "",
@@ -922,6 +948,9 @@ L["warnUser() called with zero length string!"] = "warnUser() 為零字元字串
 			LibStub("AceConfigRegistry-3.0"):NotifyChange("Prat")
 
 			self:warnUser(string.format(PL["/%s aliased to: /%s"], clralias(alias['name']), clrexpansion(alias['value'])))
+		end
+		if Prat.IsRetail then
+			self:RegisterAliasCommand(alias['name'])
 		end
 	end
 
@@ -1013,40 +1042,28 @@ L["warnUser() called with zero length string!"] = "warnUser() 為零字元字串
 	end
 
 	-- Retail logic
-	function module:ChatEdit_OnPreSendText(editBox)
+	function module:ExecuteAlias(aliasName, msg)
 		-- We cannot perform logic while in lockdown
 		if C_ChatInfo.InChatMessagingLockdown() then
 			return
 		end
 
-		local text = editBox:GetText()
-		-- If the string is in the format "/cmd blah", command will be "/cmd"
-		local command = strmatch(text, "^(/[^%s]+)") or ""
-		local msg = ""
-
-		if command ~= text then
-			msg = strsub(text, strlen(command) + 2)
-			msg = strmatch(msg, "^%s*(.*)$") or msg
-		end
-
-		command = command or ""
-		msg = msg or ""
-		local alias = self.Aliases[string.lower(strsub(command, 2))]
-
+		local alias = self.Aliases[string.lower(aliasName)]
 		if not alias or alias == "" then
+			self:reportUndefinedAlias(aliasName)
 			return
 		end
 
 		alias = Prat:ReplaceMatches(alias, 'OUTBOUND')
+		msg = msg or ""
 
+		-- Extract target command
 		local newcmd = strmatch(alias, "^/*([^%s]+)") or ""
 		local premsg = strsub(alias, strlen(newcmd) + 2) or ""
 
 		if premsg ~= "" then
-			msg = premsg .. ' ' .. msg
+			msg = premsg .. (msg ~= "" and (" " .. msg) or "")
 		end
-
-		text = '/' .. string.lower(newcmd)
 
 		if msg and msg ~= "" then
 			local fake = {}
@@ -1055,10 +1072,52 @@ L["warnUser() called with zero length string!"] = "warnUser() 為零字元字串
 			Prat.Addon:ProcessUserEnteredChat(fake)
 
 			msg = fake.MESSAGE
-			text = text .. ' ' .. msg
 		end
 
-		editBox:SetText(text)
+		local cmd = newcmd:upper()
+
+		-- Slash command
+		local slashCmd = SlashCmdList[cmd]
+		if slashCmd then
+			slashCmd(msg)
+			return
+		end
+		-- Chat Type
+		local chatCmd = hash_ChatTypeInfoList and hash_ChatTypeInfoList['/'..cmd]
+		if chatCmd then
+			local editBox = ChatEdit_ChooseBoxForSend()
+			if editBox:ProcessChatType(msg, chatCmd, 1) then
+				local type = editBox:GetChatType();
+				local text = editBox:GetText();
+				if strfind(text, "%s*[^%s]+") then
+					text = ChatFrameUtil.SubstituteChatMessageBeforeSend(text)
+					if type == "WHISPER" then
+						local target = editBox:GetTellTarget()
+						ChatFrameUtil.SetLastToldTarget(target, type)
+						C_ChatInfo.SendChatMessage(text, type, editBox.languageID, target)
+					elseif type == "BN_WHISPER" then
+						local target = editBox:GetTellTarget();
+						local bnetIDAccount = BNet_GetBNetIDAccount(target)
+						if bnetIDAccount then
+							ChatFrameUtil.SetLastToldTarget(target, type)
+							C_BattleNet.SendWhisper(bnetIDAccount, text)
+						else
+							ChatFrameUtil.DisplaySystemMessageInPrimary(format(BN_UNABLE_TO_RESOLVE_NAME, target))
+						end
+					elseif type == "CHANNEL" then
+						C_ChatInfo.SendChatMessage(text, type, editBox.languageID, editBox:GetChannelTarget())
+					else
+						C_ChatInfo.SendChatMessage(text, type, editBox.languageID)
+					end
+				end
+				return
+			end
+		end
+		-- Emote
+		local emoteCmd = hash_EmoteTokenList and hash_EmoteTokenList['/'..cmd]
+		if emoteCmd then
+			C_ChatInfo.PerformEmote(emoteCmd, msg)
+		end
 	end
 
 	-- Classic logic
@@ -1101,6 +1160,4 @@ L["warnUser() called with zero length string!"] = "warnUser() 為零字元字串
 		end
 		return true
 	end
-
-	return
 end)

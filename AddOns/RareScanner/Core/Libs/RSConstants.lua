@@ -419,6 +419,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			showingWorldMapSearcher = true,
 			cleanWorldMapSearcherOnChange = true,
 			displayMinimapIcons = true,
+			ignoreWmOnMinimap = false,
 			waypointIngame = true,
 			waypointTomtom = false,
 			waypointWaypointUI = false,

@@ -26,9 +26,9 @@ local desaturationCurve = C_CurveUtil.CreateCurve()
 desaturationCurve:AddPoint(0, 0)
 desaturationCurve:AddPoint(0.001, 1)
 
-local notOnCDCurve = C_CurveUtil.CreateCurve()
-notOnCDCurve:AddPoint(0, 1)
-notOnCDCurve:AddPoint(0.001, 0)
+local isZeroCurve = C_CurveUtil.CreateCurve()
+isZeroCurve:AddPoint(0, 1)
+isZeroCurve:AddPoint(0.001, 0)
 
 local function GetConfiguredGlowStyle()
     local style = ns.db.profile.cooldownManager_experimental_glow_style or GLOW_STYLE_DEFAULT
@@ -285,7 +285,7 @@ local function UpdateButtonGlowState(cdmFrame, value)
             end
             local spellID = cooldownInfo.overrideSpellID or cooldownInfo.spellID
             local cooldownDuration = C_Spell.GetSpellChargeDuration(spellID)
-            local alpha = cooldownDuration:EvaluateRemainingDuration(notOnCDCurve)
+            local alpha = cooldownDuration:EvaluateRemainingDuration(isZeroCurve)
             glow:SetAlpha(alpha)
             return
         end
@@ -318,7 +318,7 @@ local function UpdateButtonGlowState(cdmFrame, value)
             return
         end
         local cooldownDuration = C_Spell.GetSpellCooldownDuration(spellID)
-        local alpha = cooldownDuration:EvaluateRemainingDuration(notOnCDCurve)
+        local alpha = cooldownDuration:EvaluateRemainingDuration(isZeroCurve)
         if glow then
             glow:SetAlpha(alpha)
         end
@@ -351,10 +351,18 @@ local function ApplyIconSettings(cdmFrame)
         shouldShowAuras = false
     end
 
+    local spellCharges = C_Spell.GetSpellCharges(spellID)
+    local hasCharges = spellCharges and spellCharges.maxCharges > 1
     if shouldShowAuras and cdmFrame.wasSetFromAura then
         cdmFrame.Cooldown:SetDrawSwipe(cdmFrame.cooldownShowSwipe == true)
         if ns.db.profile.cooldownManager_desaturate_under_aura then
-            cdmFrame.Icon:SetDesaturation(1)
+            if hasCharges then
+                -- WATCH OUT FOR INFINITE LOOP, SetDesaturated != SetDesaturation
+                cdmFrame.__self_desaturated = true
+                cdmFrame.Icon:SetDesaturated(cdmFrame.isOnActualCooldown)
+            else
+                cdmFrame.Icon:SetDesaturation(1)
+            end
         else
             cdmFrame.Icon:SetDesaturation(0)
         end
@@ -371,18 +379,7 @@ local function ApplyIconSettings(cdmFrame)
     local guesstimateThatSpellWithChargesIsOnChargeCooldown = cdmFrame.CooldownFlash
         and cdmFrame.CooldownFlash:IsShown()
     if cdmFrame.wasSetFromAura then
-        local spellCharges = C_Spell.GetSpellCharges(spellID)
-        local hasCharges = spellCharges and spellCharges.maxCharges > 1
-
         if hasCharges then
-            --[[ -- potentially simplified code, to just leave it as:
-            cdmFrame.Cooldown:SetDrawSwipe(guesstimateThatSpellWithChargesIsOnChargeCooldown)
-            cdmFrame.Cooldown:SetDrawEdge(
-                not guesstimateThatSpellWithChargesIsOnChargeCooldown
-                    or CooldownStyle.GetAlwaysShowCooldownEdge(baseSpellId)
-            )
-            ]]
-
             --[[
             TODO  check new blizzard changes:
             Action/Spell cooldown APIs now return isEnabled and maxCharges as non-secrets.
@@ -442,12 +439,21 @@ local function ApplyCooldownSettings(cdmFrame)
             cdmFrame.Cooldown:SetSwipeColor(_r, _g, _b, _a)
         end
         if ns.db.profile.cooldownManager_desaturate_under_aura then
-            cdmFrame.Icon:SetDesaturation(1)
+            local spellCharges = C_Spell.GetSpellCharges(spellID)
+
+            local hasCharges = spellCharges and spellCharges.maxCharges > 1
+            if hasCharges then
+                -- DevTool:AddData(cdmFrame)
+                -- WATCH OUT FOR INFINITE LOOP, SetDesaturated != SetDesaturation
+                cdmFrame.__self_desaturated = true
+                cdmFrame.Icon:SetDesaturated(cdmFrame.isOnActualCooldown)
+            else
+                cdmFrame.Icon:SetDesaturation(1)
+            end
         end
         return
     end
     local shouldHideAuras = not shouldShowAuras and cdmFrame.wasSetFromAura
-
     cdmFrame.Cooldown:SetReverse(false)
 
     if ns.db.profile.cooldownManager_customSwipeColor_enabled then
@@ -537,6 +543,13 @@ local function HookCooldownFrame(cdmFrame)
 
     hooksecurefunc(cdmFrame.Icon, "SetDesaturated", function(self, secretValue)
         local cdmFrame = self:GetParent()
+
+        -- IMPORTANT!! do not remove
+        if cdmFrame.__self_desaturated then
+            cdmFrame.__self_desaturated = nil
+            -- IMPORTANT avoid infinite loop when CooldownStyle forces desaturation for charges cooldown
+            return
+        end
         if cdmFrame.wasSetFromAura then
             UpdateButtonGlowState(cdmFrame)
         else
@@ -547,7 +560,6 @@ local function HookCooldownFrame(cdmFrame)
     end)
 
     -- if FIX_BLIZZARD_MISSING_DEBUFF[cooldownInfo.spellID] then
-    --     print("Applying fix for missing desaturation for spellID", cooldownInfo.spellID)
     --     hooksecurefunc(cdmFrame.Cooldown, "Clear", function(self)
     --         ApplyCooldownSettings(self:GetParent(), true)
     --     end)

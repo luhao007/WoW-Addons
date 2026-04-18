@@ -50,7 +50,7 @@ Prat:AddModuleToLoad(function()
 		local L
 
 		L = {}
--- TellTarget
+		-- TellTarget
 L["/tt"] = true
 L["Adds telltarget slash command (/tt)."] = true
 L["No target selected."] = true
@@ -62,7 +62,7 @@ L["TellTarget"] = true
 		PL:AddLocale("enUS",L)
 
 		L = {}
--- TellTarget
+		-- TellTarget
 L["/tt"] = true
 L["Adds telltarget slash command (/tt)."] = "Ajoute la commande telltarget (/tt) pour envoyer un message privé au joueur ciblé."
 L["No target selected."] = "Pas de cible sélectionnée."
@@ -74,7 +74,7 @@ L["TellTarget"] = true
 		PL:AddLocale("frFR",L)
 
 		L = {}
--- TellTarget
+		-- TellTarget
 L["/tt"] = true
 L["Adds telltarget slash command (/tt)."] = "Fügt den Slash-Befehl Ziel Sagen (/tt) hinzu."
 L["No target selected."] = "Kein Ziel ausgewählt."
@@ -86,7 +86,7 @@ L["TellTarget"] = "Ziel Sagen"
 		PL:AddLocale("deDE",L)
 
 		L = {}
--- TellTarget
+		-- TellTarget
 L["/tt"] = "/ㅅㅅ"
 L["Adds telltarget slash command (/tt)."] = "대상에게 말하기 슬래쉬 명령어를 추가합니다 (/tt)."
 L["No target selected."] = "대상이 선택되지 않았습니다."
@@ -98,7 +98,7 @@ L["TellTarget"] = "대상에게 말하기"
 		PL:AddLocale("koKR",L)
 
 		L = {}
--- TellTarget
+		-- TellTarget
 --[[Translation missing --]]
 L["/tt"] = "/tt"
 --[[Translation missing --]]
@@ -117,7 +117,7 @@ L["TellTarget"] = "TellTarget"
 		PL:AddLocale("esMX",L)
 
 		L = {}
--- TellTarget
+		-- TellTarget
 L["/tt"] = true
 L["Adds telltarget slash command (/tt)."] = "Добавляет слеш-команду 'сказать о цели' (/tt)."
 L["No target selected."] = "Нет выбранной цели."
@@ -129,7 +129,7 @@ L["TellTarget"] = "Сказать цели"
 		PL:AddLocale("ruRU",L)
 
 		L = {}
--- TellTarget
+		-- TellTarget
 L["/tt"] = true
 L["Adds telltarget slash command (/tt)."] = "添加目标告知斜杠命令(/tt)."
 L["No target selected."] = "无目标被选取"
@@ -141,7 +141,7 @@ L["TellTarget"] = "告知目标"
 		PL:AddLocale("zhCN",L)
 
 		L = {}
--- TellTarget
+		-- TellTarget
 L["/tt"] = true
 L["Adds telltarget slash command (/tt)."] = "Añade comando decir a objetivo (/tt)."
 L["No target selected."] = "Sin objetivo seleccionado."
@@ -153,7 +153,7 @@ L["TellTarget"] = "DecirObjetivo"
 		PL:AddLocale("esES",L)
 
 		L = {}
--- TellTarget
+		-- TellTarget
 L["/tt"] = true
 L["Adds telltarget slash command (/tt)."] = "新增 telltarget 快捷命令（/tt）"
 L["No target selected."] = "未選取目標"

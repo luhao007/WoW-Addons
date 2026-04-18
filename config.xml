@@ -948,8 +948,7 @@
 	</Addon>
 	<Addon name="DelveCompanion">
 		<Title>地下堡助手</Title>
-		<Notes>在冒险者日志中添加“地下堡”分页</Notes>
-		<Category>副本</Category>
+		<Category>特色</Category>
 	</Addon>
 	<Addon name="Details">
 		<Title>伤害统计</Title>
@@ -1575,6 +1574,10 @@
 	<Addon name="Plumber">
 		<Title>水管工</Title>
 		<Category>功能</Category>
+	</Addon>
+	<Addon name="Preydator">
+		<Title>狩猎助手</Title>
+		<Category>特色</Category>
 	</Addon>
 	<Addon name="Prat-3.0">
 		<Title>聊天增强</Title>

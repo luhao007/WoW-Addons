@@ -84,7 +84,7 @@ QuickButUI.ButList[6]=function()
 	--展开页
 	local Height,anniushu,NumTexCoord  = QuickButUI.butWWW, 10, QuickButUI.EquipmentPIG["NumTexCoord"]
 	local ButNum=anniushu+1
-	local ButNumC=22
+	local ButNumC=21
 	local ConfigList = PIGFrame(QkBut,{"BOTTOM",QkBut,"TOP",0,0},{Height, Height})
 	ConfigList:SetFrameLevel(23)
 	ConfigList:Hide()
@@ -442,7 +442,7 @@ QuickButUI.ButList[6]=function()
 	end
 	AdminF.List_C.CondbutList={}
 
-	AdminF.List_C.Scroll = Create.PIGScrollFrame_old(AdminF.List_C,{2,-24,0,2})
+	AdminF.List_C.Scroll = Create.PIGScrollFrame_old(AdminF.List_C,{2,-46,0,2})
 	AdminF.List_C.butList={}
 	--查找是否有依赖并全部启用
 	local function IsDepEnabled(yilaiD,onoff,name)
@@ -559,7 +559,7 @@ QuickButUI.ButList[6]=function()
 					hangL:SetSize(hangLWW,hangLHH);
 					hangL:SetBackdropColor(0.2, 0.2, 0.2, 0.2);
 					if i==1 then
-						hangL:SetPoint("TOPLEFT",AdminF.List_C,"TOPLEFT",1,-48);
+						hangL:SetPoint("TOPLEFT",AdminF.List_C,"TOPLEFT",1,-46);
 					else
 						hangL:SetPoint("TOP",AdminF.List_C.butList[i-1],"BOTTOM",0,0);
 					end

@@ -2659,7 +2659,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=3,["year"]=2027},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=3,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=19,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=19,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=26,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=26,["weekday"]=1,["year"]=2026}),
@@ -2711,7 +2710,8 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=14,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=14,["weekday"]=1,["year"]=2027}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=21,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=21,["weekday"]=1,["year"]=2027}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=28,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=28,["weekday"]=1,["year"]=2027}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=11,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=4,["monthDay"]=11,["weekday"]=1,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026}),
@@ -5767,6 +5767,10 @@ local ObjectNames = {
 	[179914] = "Pile of Bones",
 	[179915] = "Pile of Skulls",
 	[179922] = "Vessel of Tainted Blood",
+	[180024] = "Mysterious Deadmines Chest",
+	[180025] = "Mysterious Eastvale Haystack",
+	[180055] = "Mysterious Wailing Caverns Chest",
+	[180056] = "Mysterious Tree Stump",
 	[180164] = "Sungrass",
 	[180165] = "Purple Lotus",
 	[180166] = "Mountain Silversage",
@@ -12965,7 +12969,6 @@ local ObjectNames = {
 	[617163] = "Malignant Chest",
 	[617232] = "Forgotten Practice Equipment",
 	[617237] = "Sealed Twilight's Blade Cache",
-	[617245] = "Broken Armor",
 	[617375] = "Murloc-Skewered Lynxfish",
 	[617432] = "Forgotten Ink and Quill",
 	[617534] = "Gilded Armillary Sphere",
@@ -15075,6 +15078,10 @@ local ObjectModels = {
 	[179914] = 200638,
 	[179915] = 200638,
 	[179922] = 198100,
+	[180024] = 199748,
+	[180025] = 190597,
+	[180055] = 199748,
+	[180056] = 203584,
 	[180164] = 219496,
 	[180165] = 219483,
 	[180166] = 219473,
@@ -21893,7 +21900,6 @@ local ObjectModels = {
 	[617163] = 6210898,
 	[617232] = 1064189,
 	[617237] = 5975175,
-	[617245] = 1015965,
 	[617375] = 1091579,
 	[617432] = 6935639,
 	[617534] = 6033622,
@@ -25742,6 +25748,9 @@ L.QUEST_NAMES = {
 	[92125] = "Stay awhile and listen: Zul'jarra",
 	[92627] = "An Arrested Development",
 	[92651] = "Deathless Attempt Finished",
+	[92757] = "Stay awhile and listen: Grand Magister Rommath",
+	[92802] = "Stay awhile and listen: Arator",
+	[92810] = "Stay awhile and listen: Faerin Lothar",
 	[93399] = "We are all frustrated, Danath.",
 	[93466] = "Increased Spring Butterfly Droprate (Daily Accountwide)",
 	[93528] = "MID Weekly Alchemy Treasure #2",
@@ -25763,6 +25772,9 @@ L.QUEST_NAMES = {
 	[93688] = "Acquire the Oddsight Focus",
 	[93764] = "Become a Radiant Singer",
 	[93765] = "Deliver the Orb of Shadows",
+	[93819] = "Report this Quest! What Reputation did you just gain?",
+	[93820] = "Report this Quest! What Reputation did you just gain?",
+	[93822] = "Report this Quest! What Reputation did you just gain?",
 	[93872] = "Why did this trigger? #1",
 	[93873] = "Why did this trigger? #2",
 	[93874] = "Why did this trigger? #3",
@@ -26471,6 +26483,7 @@ localize(L.HEADER_NAMES, {
 	[-483] = "Das Szepter der Sandstürme",
 	[-487] = "Kopfgeld",
 	[-504] = "Gästebetreuungen",
+	[-529] = "WoW 15th Anniversary Collector’s Edition",
 	[-539] = "20. Geburtstag von Diablo",
 	[-540] = "Ein gieriger Abgesandter",
 	[-543] = "Hearthstone Söldner",
@@ -27245,6 +27258,9 @@ localize(ObjectNames, {
 	[179914] = "Knochenhaufen",
 	[179915] = "Schädelhaufen",
 	[179922] = "Gefäß mit besudeltem Blut",
+	[180025] = "Geheimnisvoller Heuhaufen des Osttals",
+	[180055] = "Geheimnisvolle Schatztruhe aus den Höhlen des Wehklagens",
+	[180056] = "Geheimnisvoller Baumstumpf",
 	[180164] = "Sonnengras",
 	[180165] = "Lila Lotus",
 	[180166] = "Bergsilbersalbei",
@@ -34162,6 +34178,7 @@ localize(L.HEADER_NAMES, {
 	[-508] = "Tour du monde d’Uuna",
 	[-521] = "Edition Collector",
 	[-524] = "Édition BC Classic Deluxe",
+	[-529] = "WoW 15th Anniversary Collector’s Edition",
 	[-539] = "20e anniversaire de Diablo",
 	[-540] = "Émissaire cupide",
 	[-543] = "Hearthstone Mercenaires",
@@ -34944,6 +34961,9 @@ localize(ObjectNames, {
 	[179914] = "Pile d'ossements",
 	[179915] = "Pile de crânes",
 	[179922] = "Calice de sang corrompu",
+	[180025] = "Meule de foin mystérieuse du Val d'est",
+	[180055] = "Coffre mystérieux des cavernes des Lamentations",
+	[180056] = "Souche mystérieuse",
 	[180164] = "Soleillette",
 	[180165] = "Lotus pourpre",
 	[180166] = "Sauge-argent des montagnes",
@@ -41457,6 +41477,7 @@ localize(L.HEADER_NAMES, {
 	[-483] = "Scettro delle Sabbie Mutevoli",
 	[-487] = "Premio",
 	[-504] = "Relazioni con gli Ospiti",
+	[-529] = "15th Anniversary Collector's Edition di WoW",
 	[-540] = "Un emissario avido",
 	[-543] = "Hearthstone Mercenari",
 	[-544] = "10° anniversario di Hearthstone",
@@ -41868,6 +41889,8 @@ localize(ObjectNames, {
 	[179914] = "Pila d'Ossa",
 	[179915] = "Pila di Teschi",
 	[179922] = "Recipiente di Sangue Corrotto",
+	[180025] = "Misterioso Covone di Vallevante",
+	[180056] = "Ceppo Misterioso",
 	[180327] = "Braciere della Follia",
 	[180435] = "Sacca di Noggle",
 	[180436] = "Frammento di Tavoletta del Crepuscolo",
@@ -48066,6 +48089,7 @@ localize(L.HEADER_NAMES, {
 	[-483] = "Cetro das Areias Cambiantes",
 	[-487] = "Recompensa",
 	[-504] = "Relacionamento com os Convidados",
+	[-529] = "WoW 15th Anniversary Collector’s Edition",
 	[-540] = "Um Emissário Ganancioso",
 	[-543] = "Hearthstone Mercenários",
 	[-544] = "10º Aniversário de Hearthstone",
@@ -48763,6 +48787,8 @@ localize(ObjectNames, {
 	[179914] = "Pilha de Ossos",
 	[179915] = "Pilha de Crânios",
 	[179922] = "Recipiente com Sangue Maculado",
+	[180025] = "Monte de Feno Misterioso de Vale do Leste",
+	[180056] = "Toco de Árvore Misterioso",
 	[180229] = "Amontoado de Mandingas Azarentas",
 	[180327] = "Braseiro da Loucura",
 	[180366] = "Caixa de Ferramentas Desgastada",
@@ -56649,6 +56675,10 @@ localize(ObjectNames, {
 	[179914] = "Груда костей",
 	[179915] = "Груда черепов",
 	[179922] = "Сосуд с порченой кровью",
+	[180024] = "Таинственный сундук с Мертвых копей",
+	[180025] = "Таинственный стог Восточной Долины",
+	[180055] = "Таинственный сундук Пещер Стенаний",
+	[180056] = "Таинственный пень",
 	[180164] = "Солнечник",
 	[180165] = "Лиловый лотос",
 	[180166] = "Горный серебряный шалфей",
@@ -63928,6 +63958,8 @@ localize(ObjectNames, {
 	[179914] = "해골 더미",
 	[179915] = "해골 더미",
 	[179922] = "얼룩진 피가 담긴 용기",
+	[180025] = "신비의 동쪽계곡 건초더미",
+	[180056] = "신비의 그루터기",
 	[180229] = "불길한 흑마술 더미",
 	[180327] = "광기의 화로",
 	[180366] = "찌그러진 낚시상자",
@@ -70555,6 +70587,7 @@ localize(L.HEADER_NAMES, {
 	[-525] = "Pack Heroic Rasganorte WotLK Classic",
 	[-526] = "Pack Heroic llameante de Cataclysm Classic",
 	[-527] = "Pack Heroic imbuido de sha",
+	[-529] = "15th Anniversary Collector’s Edition de WoW",
 	[-538] = "Eventos de Diablo",
 	[-539] = "Aniversario 20 de diablo",
 	[-540] = "Un Emisario Codicioso",
@@ -70614,6 +70647,7 @@ localize(L.HEADER_NAMES, {
 	[-674] = "Profundidades MID T1",
 	[-687] = "Conversión de equipo de banda",
 	[-691] = "Tesoros de Azeroth",
+	[-694] = "Mejora de la edición del aniversario de Burning Crusade Classic™",
 	[-696] = "Portal abisal",
 	[-709] = "|cffFF0000Ogom the Mangler parece aparecer cuando estás realizando el 'Asalto a los Sitios de Hierro' diario. Esta misión no estuvo activa desde el inicio de Legion y la misión comprable 'Misiva: Asalto a los Sitios de Hierro' tampoco funciona.|r",
 	[-710] = "|cFFFFFFFFStep 1:|r Nota llamativa",
@@ -70663,6 +70697,15 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-516] = "Estas promociones ocurrieron durante el tiempo en que The War Within fue la expansión más reciente.\n\nSe enumeran en el orden de su primera aparición.",
 	[-517] = "Promoción de la colección de edición limitada SteelSeries World of Warcraft.",
 	[-518] = "Promoción de periféricos Razer Gaming de la colección World of Warcraft. Al comprar cualquier artículo, recibirás los tres códigos promocionales.",
+	[-529] = "Estas recompensas estaban disponibles para todos aquellos que compraron una Edición de Coleccionista del 15.º Aniversario de World of Warcraft.",
+	[-530] = "Estas recompensas estaban disponibles para todos aquellos que compraron una Edición de Coleccionista de Diablo III.",
+	[-531] = "Estas recompensas estaban disponibles para todos aquellos que compraron una Edición de Coleccionista de la expansion Reaper of Souls para Diablo III.",
+	[-532] = "Otorgado a los propietarios de la versión base de Diablo IV.",
+	[-533] = "Estas recompensas están disponibles para cualquiera que compre la Edición Coleccionista de Overwatch: Origins.",
+	[-534] = "Estas recompensas están disponibles para cualquiera que compre la Edición Coleccionista de Starcraft II: Wings of Liberty.",
+	[-535] = "Estas recompensas están disponibles para cualquiera que compre la Edición Coleccionista de Starcraft II: Heart of the Swarm.",
+	[-536] = "Estas recompensas están disponibles para cualquiera que compre la Edición Coleccionista de Starcraft II: Legacy of the Void.",
+	[-537] = "Estas recompensas están disponibles para cualquiera que compre la Edición Spoils of War de Warcraft III: Reforged.",
 	[-549] = "Los siguientes conjuntos de objetos se implementaron como recompensas de mejoras de personaje para los receptores del Pergamino de la Resurrección.\n\nPosteriormente, se añadieron a los vendedores del Monte Hyjal y Vash'jir una vez que se retiró el Servicio del Pergamino de la Resurrección.",
 	[-550] = "Este es un evento basado en Campos de batalla que coincide con el inicio de los Juegos Olímpicos de Verano. La única vez que se celebró fue en 2008 para coincidir con los Juegos Olímpicos de Pekín, y aunque parecía haber intención de repetirlo, nunca regresó.",
 	[-552] = "Estos fueron recompensados por iniciar sesión al menos una vez por facción mientras la película de Warcraft aún estaba en los cines.",
@@ -70676,10 +70719,15 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-564] = "Cerca de la entrada, los visitantes reciben un mazo para golpear a unos gnolls disecados que salen de nueve barriles en la zona. Los jugadores tendrán 60 segundos para ganar 30 puntos. Los gnolls son de tres tipos: normales, Hogger y bebés, que otorgan 1 punto, 3 puntos o un derribo, respectivamente.",
 	[-565] = "Saludos, aficionados a la lucha. ¡Los villanos más malvados de Azeroth se han unido y han vuelto para vengarse! Venid a Ventormenta, Orgrimmar o Dornogal y enfrentaos a los malvados jefes del pasado de Azeroth.",
 	[-592] = "Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
+	[-669] = "Estas promociones tuvieron lugar durante el tiempo en que Midnight era la expansión más reciente.\n\nSe enumeran en el orden en que aparecieron por primera vez.",
 	[-687] = "Al transferir un Cronoaventurero a retail, cualquier botín de banda Normal+ en tus |cffFF0000bolsas o banco solamente|R otorgará las apariencias para sus variantes de Remix de dificultad BdB, N, H, y M.",
 	[-691] = "Para celebrar el lanzamiento de los servidores forjados por los titanes, los jugadores chinos pueden participar en el evento Tesoros de Azeroth, que ofrece nuevas recompensas. Estas recompensas no se comparten entre los distintos tipos de juego y deben obtenerse por separado en cada uno.",
+	[-703] = "Otorgado a los propietarios de la versión base de Diablo IV: Lord of Hatred Standard Edition.",
+	[-708] = "Sorteo de montura Razer x World of Warcraft. Comienza el 21 de enero de 2025 a las 10:00 a. m. PST y finaliza el 31 de enero de 2026 a las 11:59 p. m. PST. No es necesario realizar ninguna compra.",
 	[-721] = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.",
+	[-722] = "Otorgado a los propietarios de la versión base de Diablo IV: Lord of Hatred Standard Edition.",
 	[-723] = "Aumentan los informes de incursiones elementales en diferentes partes de Kalimdor. Cada pocos días, una nueva oleada de elementales se abre paso a la fuerza en las regiones de Silithus, el Cráter de Un'Goro, Azshara y Cuna del Invierno, aparentemente con el único propósito de ver hasta dónde pueden penetrar en estos territorios antes de ser repelidos por las fuerzas de la Horda o la Alianza. Investiga estas regiones y ayuda a tus aliados a contrarrestar estas misteriosas invasiones.",
+	[-748] = "Visita https://www.coca-cola.com/us/en/offerings/fanta/wanta-fanta/come-get-it, juega un mini juego y consigue 1 premio por semana. El sorteo comienza el 1 de abril de 2026 y finaliza a las 23:59 (hora del este) del 30 de julio de 2026 o cuando se hayan reclamado todos los premios, lo que ocurra primero. Hay 2392 premios de cada tipo disponibles por semana. Se reinicia semanalmente a las 00:00 (ET). No es necesario realizar ninguna compra.",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "Uno de estos dragones aparecerá aleatoriamente en las coordenadas asociadas en todo Azeroth.",
@@ -71393,6 +71441,9 @@ localize(ObjectNames, {
 	[179914] = "Montón de huesos",
 	[179915] = "Montón de cráneos",
 	[179922] = "Vasija de sangre corrupta",
+	[180025] = "Misterioso fardo de heno de la Vega del Este",
+	[180055] = "Cofre misterioso de las Cuevas de los Lamentos",
+	[180056] = "Tocón misterioso",
 	[180164] = "Solea",
 	[180165] = "Loto cárdeno",
 	[180166] = "Salviargenta de montaña",
@@ -77910,6 +77961,7 @@ localize(L.HEADER_NAMES, {
 	[-525] = "Paquete heroico Rasganorte WotLK Classic",
 	[-526] = "Paquete heroico abrasador de Cataclysm Classic",
 	[-527] = "Paquete heroico infundido por los sha",
+	[-529] = "Collector’s Edition del 15.° aniversario de WoW",
 	[-540] = "Un emisario avaro",
 	[-556] = "Calabozos de duelo de mascotas",
 	[-558] = "La llamada del Escarabajo",
@@ -77926,6 +77978,7 @@ localize(L.HEADER_NAMES, {
 	[-654] = "Cosechando",
 	[-656] = "Gremio de luchadores",
 	[-674] = "Abismos MID T1",
+	[-694] = "Mejoras de Burning Crusade Classic™ Edición Aniversario",
 	[-710] = "|cFFFFFFFFStep 1:|rNota sospechosa",
 	[-723] = "Invasiones elementales",
 });
@@ -77950,12 +78003,21 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-443] = "Esta misión muestra si has activado la Piedra buhogato de las Tierras del Interior.",
 	[-474] = "La Inestabilidad elemental fue un evento mundial que anunció el Cataclismo. El evento termino con el ataque de los elementales a Ventormenta, Orgrimmar, Forjaz y Cima del Trueno. Los jugadores que derrotaran a estos elementales y liberaran a los ciudadanos atrapados en toda su ciudad ganaban acceso a dos peleas especiales con jefes.",
 	[-516] = "Estas promociones ocurrieron durante el tiempo en que The War Within fue la expansión más reciente.\n\nSe listan en el orden de su primera aparición.",
+	[-529] = "Estas recompensas eran para todos aquellos que compraron una Edición de Coleccionista del 15.º Aniversario de World of Warcraft.",
+	[-530] = "Estas recompensas eran para todos aquellos que compraron una Edición de Coleccionista de Diablo III.",
+	[-531] = "Estas recompensas eran para todos aquellos que compraron una Edición de Coleccionista  de la expansion Reaper of Souls para Diablo III.",
+	[-532] = "Otorgado a los poseedores de la versión base de Diablo IV.",
 	[-553] = "Promoción del juego para celulares Warcraft Rumble.",
 	[-554] = "En lugar de comprar objetos a otros jugadores como en la Casa de Subastas normal, los objetos en el Mercado Negro son generados y listados por PNJ. Los objetos se listan solo por un día. Los artículos a la venta varían desde artículos que se volvieron inalcanzables, hasta botines raros y objetos del TCG. Todos los objetos se listan con poca frecuencia, por lo que no debe considerarse una forma confiable de obtener rarezas.\n\n Las pujas por monturas comienzan en 20,000 o, con algunas excepciones.\n Las pujas por compañeros comienzan entre 1 o y 20,000 o, dependiendo de la fuente original y lo difícil que sea obtenerlos.\n Los objetos de vanidad/varios comienzan entre 10,000 o y 15,000 o.\n\nLas pujas funcionan como en la Casa de Subastas normal. No hay precio de compra directa. El cielo (o el límite de oro) es el límite cuando compites con otros jugadores por la puja final. Con una compra exitosa, el objeto se envía al correo.\n\nLa disponibilidad de objetos depende del reino. Cada reino tendrá diferentes objetos a la venta en cualquier momento y es probable que los precios varíen enormemente de un servidor a otro.\n\nSi está vacía, la ventana de objetos mostrará \"No hay objetos disponibles en este momento. Vuelve a intentarlo más tarde.\"",
 	[-561] = "Para jugar al juego de baile de la Feria de la Luna Negra, habla con Simon Sezdans frente al Pabellón Sur. Cada intento cuesta una Ficha de Juego de la Luna Negra. Hablar con Simon también determinará la dificultad de tu juego de baile:\n ¡Algo divertido y relajado! (Fácil)\n ¡Me gustaría un pequeño desafío! (Medio)\n ¡Enséñame tus movimientos, no te contengas! (Difícil)\n\nEl Maestro de Baile de la Luna Negra no es un juego de ritmo como la mayoría de los juegos de baile, sino un juego de memoria. Tendrás un bailarín a tu lado en la pista de baile, que iniciará una secuencia de movimientos resaltados con runas frente a él. Las partidas fáciles tendrán una secuencia de 3 runas a la vez, las partidas medias, 4 runas, y las partidas difíciles, 5 runas.\n\nHay tres runas posibles: Danza de la gallina (Amarillo), Vuelta poderosa (Morado) y Agitar puño (Azul). Una vez que el oponente termine su secuencia, tienes 5 segundos para igualar la secuencia exacta utilizada por el Bailarín. No hay castigo por tomarse el tiempo para completar la secuencia, siempre y cuando lo hagas a tiempo y no te saltes ningún paso. El juego termina después de 5 rondas (si completas todos los pasos correctamente), pero puede terminar antes de tiempo si te saltas demasiados. Si no te saltas ningún paso, obtendrás una puntuación perfecta.",
 	[-565] = "Saludos, fans de la lucha. ¡Los villanos más malvados volvieron en equipos para buscar venganza! Acércate a Ventormenta, Orgrimmar o Dornogal para pelear contra jefes malignos del pasado de Azeroth.",
 	[-592] = "¡Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
+	[-669] = "Estas promociones sucedieron durante el tiempo en que Midnight era la expansión más reciente.\n\nSe listan en el orden en que aparecieron por primera vez.",
+	[-703] = "Otorgado a los poseedores de la versión base de Diablo IV: Lord of Hatred Standard Edition.",
+	[-708] = "Sorteo de montura Razer x World of Warcraft. Comienza el 21 de enero de 2025 a las 10:00 a. m. PST y finaliza el 31 de enero de 2026 a las 11:59 p. m. PST. No es necesario comprar nada.",
+	[-722] = "Otorgado a los poseedores de la versión base de Diablo IV: Lord of Hatred Standard Edition.",
 	[-723] = "Aumentan los informes de invasiones elementales en diferentes partes de Kalimdor. Cada pocos días, una nueva oleada de elementales se abre paso a la fuerza en las regiones de Silithus, el Cráter de Un'Goro, Azshara y Cuna del Invierno, aparentemente con el único propósito de ver hasta dónde pueden penetrar en estos territorios antes de ser repelidos por las fuerzas de la Horda o la Alianza. Investiga estas regiones y ayuda a tus aliados a contrarrestar estas misteriosas invasiones.",
+	[-748] = "Visita https://www.coca-cola.com/us/en/offerings/fanta/wanta-fanta/come-get-it, juega un minijuego y consigue 1 premio por semana. El sorteo empieza el 1 de abril de 2026 y acaba a las 23:59 (hora del este) del 30 de julio de 2026 o cuando se hayan reclamado todos los premios, lo que ocurra primero. Hay 2392 premios de cada tipo disponibles por semana. Se reinicia semanalmente a las 00:00 (ET). No es necesario realizar ninguna compra.",
 });
 localize(ObjectNames, {
 	[276623] = "Depósito rico en platino",
@@ -78413,6 +78475,7 @@ L.ACCOUNT_WIDE_DEATHS_TOOLTIP = "死亡追踪实际上只存在于巫妖王之�
 L.ACCOUNT_WIDE_EXPLORATION_TOOLTIP = "探索追踪仅对每个角色都非常有用，但你真的想在所有50个角色上收藏它们吗？";
 L.ACCOUNT_WIDE_FLIGHT_PATHS_TOOLTIP = "飞行路径追踪对每个角色都非常有用，但是你真的想要在所有50个角色上收藏它们吗？";
 L.ACCOUNT_WIDE_FOLLOWERS_TOOLTIP = "随从通常是每个角色的，但是你真的想以每周1个的速度在一个角色上收藏243个随从吗？\n\n我想不行，好好先生。";
+L.ACCOUNT_WIDE_PROFESSION_NODES_TOOLTIP = "专业节点通常不会在暴雪的数据库中进行账号范围的跟踪，但我们可以做到这一点。\n\n在一个角色上收集所有节点是不可能的，所以通过这个功能，你可以赋予你的小号和他们的专业意义。";
 L.ACCOUNT_WIDE_QUESTS_TOOLTIP = "任务完成通常是每个角色的，但是如果任何一个角色完成了特定的任务，这个任务就会被认为是完成了。";
 L.ACCOUNT_WIDE_RECIPES_TOOLTIP = "在暴雪的数据库中，图纸通常不会被账号通用追踪，但我们可以这样做。\n\n在一个角色上不可能收藏到所有的东西，所以有了这个，你就可以赋予你的小号和他们的专业以意义。";
 L.ACCOUNT_WIDE_REPUTATIONS_TOOLTIP = "声望的成就现在会在暴雪的数据库中追踪账号通用，所以开启这个功能可能是个好主意。";
@@ -78930,6 +78993,9 @@ L.PRESET_UPDATE_SUCCESS = "更新预设成功。";
 L.PROFESSION = "专业";
 L.PROFESSION_LIST = "专业列表";
 L.PROFESSION_LIST_DESC = "打开你的专业来缓存它们。";
+L.PROFESSION_NODE_ID = "专业节点 ID";
+L.PROFESSION_NODES_CHECKBOX = "专业节点";
+L.PROFESSION_NODES_CHECKBOX_TOOLTIP = "启用此选项以跟踪专业节点完成情况。";
 L.PROFILE = "配置文件";
 L.PROFILE_COPY_TOOLTIP = "复制已选配置文件到当前配置文件";
 L.PROFILE_DELETE_TOOLTIP = "删除已选配置文件";
@@ -79594,6 +79660,7 @@ localize(L.HEADER_NAMES, {
 	[-729] = "丰饶",
 	[-730] = "深渊钓客",
 	[-738] = "哈籁尼尔的传说",
+	[-746] = "专业节点",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-24] = "包含完成事件时奖励的事物。",
@@ -79656,6 +79723,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-550] = "这是一个以战场为基础的活动，与夏季奥运会的开始同时进行。唯一一次庆祝是在2008年，以配合北京奥运会，虽然似乎有意图重复这个活动，但它从未回归。",
 	[-552] = "这些是在《魔兽》电影仍在上映期间，每个阵营至少登入一次所获得的奖励。",
 	[-553] = "魔兽大作战手游的促销活动。",
+	[-554] = "与普通拍卖行不同，黑市拍卖行的物品由 NPC 生成并列出。物品仅列出一天。出售的物品从变得无法获得的物品到稀有掉落和 TCG 物品不等。所有物品都很少列出，因此，这不应该被视为一种可靠的刷稀有物品的方法。\n\n坐骑的起始竞价为20,000金，某些例外情况除外。\n宠物的起始竞价在1金和20,000金之间，具体取决于原始来源以及获取难度。\n外观/杂项物品的起始竞价在10,000金和15,000金之间。\n\n竞价与普通拍卖行一样工作。没有直接购买价格。当与其他玩家竞争最终竞价时，价格上不封顶（甚至可以到金币上限）。成功购买后，物品将通过邮件发送。\n\n物品供应基于服务器。每个服务器在任何时候都会有不同的出售物品，并且价格可能会因服务器而异。\n\n如果为空，物品窗口将显示“目前没有物品。请稍后再来查看。”",
 	[-555] = "此奖励在当月填满旅行点进度条后获得。",
 	[-560] = "以下小游戏每次游玩需要消耗一枚暗月游戏代币，并且每天都有一个任务可以获得奖券以及一些相关的成就。",
 	[-561] = "要玩暗月马戏团跳舞游戏，请与南部亭子前的西蒙·塞兹丹斯交谈。每次尝试暗月马戏团跳舞游戏都需要一枚暗月游戏代币。与西蒙交谈还将为您的舞蹈游戏设置难度：\n  只是一些有趣和轻松的东西！（简单）\n  我想要一些挑战！（中等）\n  展示你的动作，不要退缩！（困难）\n\n暗月舞蹈大师不是像大多数舞蹈游戏那样的节奏游戏，而是记忆游戏。你将在舞蹈竞技场旁边有一个舞者，他将开始一系列由他面前的符文突出显示的动作。简单的游戏每次有3个符文的序列，中等游戏4个符文，困难游戏5个符文。\n\n有三种可能的符文：鸡舞（黄色）、强力旋转（紫色）和拳头泵（蓝色）。一旦对手完成他们的序列，你有5秒钟的时间来匹配舞者使用的确切序列。只要你及时完成并且没有错过任何步骤，就不会因为花时间完成序列而受到惩罚。\n\n如果您成功完成所有步骤，游戏将在5轮后结束，但如果您错过太多步骤，游戏可能会提前结束。没有错过任何步骤将为您带来完美的分数。",
@@ -80302,6 +80370,7 @@ localize(ObjectNames, {
 	[179913] = "作战公告！",
 	[179914] = "白骨堆",
 	[179922] = "腐化之血",
+	[180025] = "神秘的东谷干草堆",
 	[180229] = "厄运巫毒堆",
 	[180327] = "疯狂之缘的火盆",
 	[180366] = "破碎的工具箱",

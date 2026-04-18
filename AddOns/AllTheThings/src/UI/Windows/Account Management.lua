@@ -316,6 +316,11 @@ local function SendCharacterMessage(character, detail, msg)
 		end
 	end
 end
+local function GetSyncIdentityToken()
+	local battleTag = CurrentCharacter and CurrentCharacter.battleTag;
+	if battleTag and battleTag ~= "" then return battleTag; end
+	return CurrentCharacter and CurrentCharacter.guid or UNKNOWN;
+end
 local function BroadcastMessage(detail, msg)
 	-- Update the last played timestamp. This ensures the sync process does NOT destroy unsaved progress on this character.
 	CurrentCharacter.lastPlayed = time();
@@ -922,10 +927,11 @@ MESSAGE_HANDLERS.ack = function(self, sender, content, responses)
 	pendingChunk.cooldown = 0;
 end
 MESSAGE_HANDLERS.check = function(self, sender, content, responses)
-	-- Validate inputs. Battle Tag MUST be supplied and the account must be linked!
-	local battleTag, isResponding = content[2], content[3];
-	if not battleTag then return false; end
-	if not LinkedCharacters[battleTag] then
+	-- Validate inputs. Sync identity token MUST be supplied and the account must be linked!
+	local token, isResponding = content[2], content[3];
+	if not token then return false; end
+	local senderWithoutServerName = sender and ("-"):split(sender);
+	if not LinkedCharacters[token] and not LinkedCharacters[senderWithoutServerName] then
 		return false;
 	else
 		-- White list any future communications with this sender for the rest of the session.
@@ -938,7 +944,7 @@ MESSAGE_HANDLERS.check = function(self, sender, content, responses)
 
 	-- If this wasn't sent as a response to a check request, send our own check request!
 	if not isResponding then
-		tinsert(responses, { detail = "Checking", msg = "check," .. CurrentCharacter.battleTag .. ",1" });
+		tinsert(responses, { detail = "Checking", msg = "check," .. GetSyncIdentityToken() .. ",1" });
 	end
 
 	-- Generate the sync string
@@ -967,10 +973,11 @@ MESSAGE_HANDLERS.chars = function(self, sender, content, responses)
 	end
 end
 MESSAGE_HANDLERS.link = function(self, sender, content, responses)
-	-- Validate inputs. Battle Tag MUST be supplied and the account must be linked!
-	local battleTag = content[2];
-	if not battleTag then return false; end
-	if not LinkedCharacters[battleTag] then
+	-- Validate inputs. Sync identity token MUST be supplied and the account must be linked!
+	local token = content[2];
+	if not token then return false; end
+	local senderWithoutServerName = sender and ("-"):split(sender);
+	if not LinkedCharacters[token] and not LinkedCharacters[senderWithoutServerName] then
 		return false;
 	else
 		-- White list any future communications with this sender for the rest of the session.
@@ -997,7 +1004,7 @@ MESSAGE_HANDLERS.linked = function(self, sender, content, responses)
 		-- Update Battle.net stuff.
 		UpdateBattleTags();
 		UpdateOnlineAccounts();
-		SendCharacterMessage(character, text, "check," .. CurrentCharacter.battleTag);
+		SendCharacterMessage(character, text, "check," .. GetSyncIdentityToken());
 	else
 		app.print("Already linked with " .. (character.text or guid) .. ".");
 	end
@@ -1297,9 +1304,9 @@ local function OnClickForLinkedAccount(row, button)
 		-- Now send to any explicitly linked accounts.
 		local character = characterByInfo[identifier];
 		if character then
-			SendCharacterMessage(character, character.text, "check," .. CurrentCharacter.battleTag);
+			SendCharacterMessage(character, character.text, "check," .. GetSyncIdentityToken());
 		else
-			SendAddonMessage(identifier, "Check " .. identifier, "check," .. CurrentCharacter.battleTag);
+			SendAddonMessage(identifier, "Check " .. identifier, "check," .. GetSyncIdentityToken());
 		end
 		row:GetParent():GetParent():Rebuild();
 	end
@@ -1334,6 +1341,13 @@ local function OnTooltipForCharacter(t, tooltipInfo)
 			tinsert(tooltipInfo, {
 				left = TIME_PLAYED_MSG,
 				right = GetTimePlayedString(totalTimePlayed)
+			});
+		end
+		local battleTag = character.battleTag;
+		if battleTag then
+			tinsert(tooltipInfo, {
+				left = BATTLETAG,
+				right = battleTag
 			});
 		end
 		local primeData = character.PrimeData;
@@ -1591,7 +1605,7 @@ app:CreateWindow("Account Management", {
 							-- Prevent server names.
 							cmd = ("-"):split(cmd);
 							LinkedCharacters[cmd] = true;
-							SendAddonMessage(cmd, "Link " .. cmd, "link," .. CurrentCharacter.battleTag);
+							SendAddonMessage(cmd, "Link " .. cmd, "link," .. GetSyncIdentityToken());
 							self:Rebuild();
 						end
 					end);
@@ -1629,7 +1643,7 @@ app:CreateWindow("Account Management", {
 						row.ref.saved = self.Settings.AutoSync;
 						self:Redraw();
 					else
-						BroadcastMessage(row.ref.text, "check," .. CurrentCharacter.battleTag);
+						BroadcastMessage(row.ref.text, "check," .. GetSyncIdentityToken());
 					end
 					return true;
 				end,
@@ -1804,7 +1818,7 @@ app:CreateWindow("Account Management", {
 		pcall(self.RegisterEvent, self, "BN_CHAT_MSG_ADDON");
 		self:RegisterEvent("CHAT_MSG_ADDON");
 		if settings.AutoSync then
-			BroadcastMessage("AutoSync", "check," .. CurrentCharacter.battleTag);
+			BroadcastMessage("AutoSync", "check," .. GetSyncIdentityToken());
 		else
 			-- Cache some things related to BattleNet. (this happens in the BroadcastMessage function already)
 			UpdateBattleTags();

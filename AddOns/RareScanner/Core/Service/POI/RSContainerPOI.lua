@@ -84,6 +84,7 @@ end
 
 local function IsContainerPOIFiltered(containerID, mapID, containerInfo, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	local name = RSContainerDB.GetContainerName(containerID) or AL["CONTAINER"]
+	local ignoreShowing = onMinimap and RSConfigDB.IsIgnoringWorldMapFiltersOnMinimap()
 	
 	-- Skip if part of a disabled event
 	if (RSContainerDB.IsDisabledEvent(containerID)) then
@@ -98,7 +99,7 @@ local function IsContainerPOIFiltered(containerID, mapID, containerInfo, vignett
 	end
 
 	-- Skip it it is the garrison cache and its disabled
-	if (not RSConfigDB.IsShowingGarrisonCache()) then
+	if (not RSConfigDB.IsShowingGarrisonCache() and not ignoreShowing) then
 		-- check if the container is the garrison cache
 		if (RSUtils.Contains(RSConstants.GARRISON_CACHE_IDS, containerID)) then
 			return
@@ -117,7 +118,7 @@ local function IsContainerPOIFiltered(containerID, mapID, containerInfo, vignett
 		isMinieventWithFilter = RSConstants.MINIEVENTS_WORLDMAP_FILTERS[containerInfo.minieventID].active
 		
 		-- Skip if minievent is filtered
-		if (RSConfigDB.IsMinieventFiltered(containerInfo.minieventID)) then
+		if (RSConfigDB.IsMinieventFiltered(containerInfo.minieventID) and not ignoreShowing) then
 			RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Filtrado minievento [%s].", containerID, containerInfo.minieventID))
 			return true
 		end
@@ -127,27 +128,27 @@ local function IsContainerPOIFiltered(containerID, mapID, containerInfo, vignett
 	local isNotCompletedAchievement = false
 	if (containerInfo) then
 		isNotCompletedAchievement = RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(containerID, mapID, containerInfo.achievementID, containerInfo.questID, containerInfo.criteria, true)) > 0;
-		if (not RSConfigDB.IsShowingAchievementContainers() and isNotCompletedAchievement) then
+		if (not RSConfigDB.IsShowingAchievementContainers() and not ignoreShowing and isNotCompletedAchievement) then
 			RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Filtrado contenedor con logro.", containerID))
 			return true
 		end
 	end
 	
 	-- Skip if not trackeable and filtered
-	if (not RSConfigDB.IsShowingNotTrackeableContainers() and RSUtils.Contains(RSConstants.CONTAINERS_WITHOUT_VIGNETTE, containerID)) then
+	if (not RSConfigDB.IsShowingNotTrackeableContainers() and not ignoreShowing and RSUtils.Contains(RSConstants.CONTAINERS_WITHOUT_VIGNETTE, containerID)) then
 		RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Filtrado contenedor no rastreable.", containerID))
 		return true
 	end
 	
 	-- Skip if profession and filtered
-	if (not RSConfigDB.IsShowingProfessionContainers() and containerInfo and containerInfo.prof) then
+	if (not RSConfigDB.IsShowingProfessionContainers() and not ignoreShowing and containerInfo and containerInfo.prof) then
 		RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Filtrado contenedor de profesion.", containerID))
 		return true
 	end
 	
 	-- Skip if other (trackeable and not prof) filtered
 	local isNotTrackable = RSUtils.Contains(RSConstants.CONTAINERS_WITHOUT_VIGNETTE, containerID)
-	if (not RSConfigDB.IsShowingOtherContainers() and not isNotCompletedAchievement and (not containerInfo or not containerInfo.prof) and not isMinieventWithFilter and not isNotTrackable) then
+	if (not RSConfigDB.IsShowingOtherContainers() and not ignoreShowing and not isNotCompletedAchievement and (not containerInfo or not containerInfo.prof) and not isMinieventWithFilter and not isNotTrackable) then
 		RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Filtrado otro contenedor.", containerID))
 		return true
 	end
@@ -245,8 +246,10 @@ local function IsContainerPOIFiltered(containerID, mapID, containerInfo, vignett
 end
 
 function RSContainerPOI.GetMapContainerPOI(containerID, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap, recentlySeenInfo)
+	local ignoreShowing = onMinimap and RSConfigDB.IsIgnoringWorldMapFiltersOnMinimap()
+	
 	-- Skip if not showing container icons
-	if (not RSConfigDB.IsShowingContainers()) then
+	if (not RSConfigDB.IsShowingContainers() and not ignoreShowing) then
 		RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Iconos de contenedores deshabilitado.", containerID))
 		return
 	end
@@ -254,7 +257,7 @@ function RSContainerPOI.GetMapContainerPOI(containerID, mapID, vignetteGUIDs, ar
 	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE)
 
 	-- Skip if not showing not discovered icons
-	if (not RSConfigDB.IsShowingNotDiscoveredContainers() and not alreadyFoundInfo) then
+	if (not RSConfigDB.IsShowingNotDiscoveredContainers() and not alreadyFoundInfo and not ignoreShowing) then
 		return
 	end
 

@@ -1761,7 +1761,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=3,["year"]=2027},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=3,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=19,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=19,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=26,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=26,["weekday"]=1,["year"]=2026}),
@@ -1813,7 +1812,8 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=14,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=14,["weekday"]=1,["year"]=2027}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=21,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=21,["weekday"]=1,["year"]=2027}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=28,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=28,["weekday"]=1,["year"]=2027}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=11,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=4,["monthDay"]=11,["weekday"]=1,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026}),
@@ -3822,6 +3822,10 @@ local ObjectNames = {
 	[179914] = "Pile of Bones",
 	[179915] = "Pile of Skulls",
 	[179922] = "Vessel of Tainted Blood",
+	[180024] = "Mysterious Deadmines Chest",
+	[180025] = "Mysterious Eastvale Haystack",
+	[180055] = "Mysterious Wailing Caverns Chest",
+	[180056] = "Mysterious Tree Stump",
 	[180164] = "Sungrass",
 	[180165] = "Purple Lotus",
 	[180166] = "Mountain Silversage",
@@ -7166,6 +7170,10 @@ local ObjectModels = {
 	[179914] = 200638,
 	[179915] = 200638,
 	[179922] = 198100,
+	[180024] = 199748,
+	[180025] = 190597,
+	[180055] = 199748,
+	[180056] = 203584,
 	[180164] = 219496,
 	[180165] = 219483,
 	[180166] = 219473,
@@ -11580,6 +11588,9 @@ localize(ObjectNames, {
 	[179914] = "Knochenhaufen",
 	[179915] = "Schädelhaufen",
 	[179922] = "Gefäß mit besudeltem Blut",
+	[180025] = "Geheimnisvoller Heuhaufen des Osttals",
+	[180055] = "Geheimnisvolle Schatztruhe aus den Höhlen des Wehklagens",
+	[180056] = "Geheimnisvoller Baumstumpf",
 	[180164] = "Sonnengras",
 	[180165] = "Lila Lotus",
 	[180166] = "Bergsilbersalbei",
@@ -14654,6 +14665,9 @@ localize(ObjectNames, {
 	[179914] = "Pile d'ossements",
 	[179915] = "Pile de crânes",
 	[179922] = "Calice de sang corrompu",
+	[180025] = "Meule de foin mystérieuse du Val d'est",
+	[180055] = "Coffre mystérieux des cavernes des Lamentations",
+	[180056] = "Souche mystérieuse",
 	[180164] = "Soleillette",
 	[180165] = "Lotus pourpre",
 	[180166] = "Sauge-argent des montagnes",
@@ -17018,6 +17032,8 @@ localize(ObjectNames, {
 	[179914] = "Pila d'Ossa",
 	[179915] = "Pila di Teschi",
 	[179922] = "Recipiente di Sangue Corrotto",
+	[180025] = "Misterioso Covone di Vallevante",
+	[180056] = "Ceppo Misterioso",
 	[180327] = "Braciere della Follia",
 	[180435] = "Sacca di Noggle",
 	[180436] = "Frammento di Tavoletta del Crepuscolo",
@@ -19702,6 +19718,8 @@ localize(ObjectNames, {
 	[179914] = "Pilha de Ossos",
 	[179915] = "Pilha de Crânios",
 	[179922] = "Recipiente com Sangue Maculado",
+	[180025] = "Monte de Feno Misterioso de Vale do Leste",
+	[180056] = "Toco de Árvore Misterioso",
 	[180229] = "Amontoado de Mandingas Azarentas",
 	[180327] = "Braseiro da Loucura",
 	[180366] = "Caixa de Ferramentas Desgastada",
@@ -23129,6 +23147,10 @@ localize(ObjectNames, {
 	[179914] = "Груда костей",
 	[179915] = "Груда черепов",
 	[179922] = "Сосуд с порченой кровью",
+	[180024] = "Таинственный сундук с Мертвых копей",
+	[180025] = "Таинственный стог Восточной Долины",
+	[180055] = "Таинственный сундук Пещер Стенаний",
+	[180056] = "Таинственный пень",
 	[180164] = "Солнечник",
 	[180165] = "Лиловый лотос",
 	[180166] = "Горный серебряный шалфей",
@@ -25874,6 +25896,8 @@ localize(ObjectNames, {
 	[179914] = "해골 더미",
 	[179915] = "해골 더미",
 	[179922] = "얼룩진 피가 담긴 용기",
+	[180025] = "신비의 동쪽계곡 건초더미",
+	[180056] = "신비의 그루터기",
 	[180229] = "불길한 흑마술 더미",
 	[180327] = "광기의 화로",
 	[180366] = "찌그러진 낚시상자",
@@ -28717,6 +28741,7 @@ localize(L.HEADER_NAMES, {
 	[-660] = "Dúo Crepuscular",
 	[-661] = "Dimensión Desconocida",
 	[-691] = "Tesoros de Azeroth",
+	[-694] = "Mejora de la edición del aniversario de Burning Crusade Classic™",
 	[-723] = "Incursiones elementales",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -28739,6 +28764,10 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-365] = "Stratholme está dividida en dos lados.\n\nEste lado se conoce comúnmente como el lado \"Vivo\" o \"Escarlata\", que ha sido tomado por la Cruzada Escarlata.",
 	[-366] = "Stratholme está dividida en dos lados.\n\nEste lado se conoce comúnmente como el lado de los 'Muertos' o del 'Azote', que el Azote ha tomado.",
 	[-474] = "La Inestabilidad elemental fue un evento mundial que anunció el Cataclismo. El evento culminó con el ataque de los elementales a Ventormenta, Orgrimmar, Forjaz y Cima del Trueno. Los jugadores que derrotaran a estos elementales y liberaran a los ciudadanos atrapados en toda su ciudad obtenían acceso a dos encuentros especiales con jefes.",
+	[-530] = "Estas recompensas estaban disponibles para todos aquellos que compraron una Edición de Coleccionista de Diablo III.",
+	[-531] = "Estas recompensas estaban disponibles para todos aquellos que compraron una Edición de Coleccionista de la expansion Reaper of Souls para Diablo III.",
+	[-534] = "Estas recompensas están disponibles para cualquiera que compre la Edición Coleccionista de Starcraft II: Wings of Liberty.",
+	[-535] = "Estas recompensas están disponibles para cualquiera que compre la Edición Coleccionista de Starcraft II: Heart of the Swarm.",
 	[-550] = "Este es un evento basado en Campos de batalla que coincide con el inicio de los Juegos Olímpicos de Verano. La única vez que se celebró fue en 2008 para coincidir con los Juegos Olímpicos de Pekín, y aunque parecía haber intención de repetirlo, nunca regresó.",
 	[-554] = "En lugar de comprar objetos a otros jugadores como en la Casa de Subastas normal, los objetos en el Mercado Negro son generados y listados por PNJ. Los objetos se listan solo por un día. Los artículos a la venta varían desde artículos que se volvieron inalcanzables, hasta botines raros y objetos del TCG. Todos los objetos se listan con poca frecuencia, por lo que no debe considerarse una forma confiable de obtener rarezas.\n\n Las pujas por monturas comienzan en 20,000 o, con algunas excepciones.\n Las pujas por compañeros comienzan entre 1 o y 20,000 o, dependiendo de la fuente original y lo difícil que sea obtenerlos.\n Los objetos de vanidad/varios comienzan entre 10,000 o y 15,000 o.\n\nLas pujas funcionan como en la Casa de Subastas normal. No hay precio de compra directa. El cielo (o el límite de oro) es el límite cuando compites con otros jugadores por la puja final. Con una compra exitosa, el objeto se envía por correo. Se aplican las reglas normales de \"Ligado al recoger\", por lo que debes pujar por el personaje correcto.\n\nLa disponibilidad de objetos depende del reino. Cada reino tendrá diferentes objetos a la venta en cualquier momento y es probable que los precios varíen enormemente de un servidor a otro.\n\nSi está vacía, la ventana de objetos mostrará \"No hay objetos disponibles en este momento. Vuelve a intentarlo más tarde.\"",
 	[-560] = "Los siguientes minijuegos cuestan una Ficha de Juego de la Luna Negra y tienen una misión diaria que otorga vale de premio, así como una serie de logros asociados.",
@@ -29480,6 +29509,9 @@ localize(ObjectNames, {
 	[179914] = "Montón de huesos",
 	[179915] = "Montón de cráneos",
 	[179922] = "Vasija de sangre corrupta",
+	[180025] = "Misterioso fardo de heno de la Vega del Este",
+	[180055] = "Cofre misterioso de las Cuevas de los Lamentos",
+	[180056] = "Tocón misterioso",
 	[180164] = "Solea",
 	[180165] = "Loto cárdeno",
 	[180166] = "Salviargenta de montaña",
@@ -31779,6 +31811,7 @@ localize(L.HEADER_NAMES, {
 	[-654] = "Cosechando",
 	[-655] = "Calabozos celestiales",
 	[-656] = "Gremio de luchadores",
+	[-694] = "Mejoras de Burning Crusade Classic™ Edición Aniversario",
 	[-723] = "Invasiones elementales",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -31790,6 +31823,8 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-365] = "Stratholme está dividida en dos partes.\n\nEsta parte se conoce comúnmente como la parte \"Viva\" o \"Escarlata\", que ha sido tomado por la Cruzada Escarlata.",
 	[-366] = "Stratholme está dividida en dos partes.\n\nEste lado se conoce comúnmente como la parte de los 'No Muertos' o de la 'Plaga', que la Plaga ha tomado.",
 	[-474] = "La Inestabilidad elemental fue un evento mundial que anunció el Cataclismo. El evento termino con el ataque de los elementales a Ventormenta, Orgrimmar, Forjaz y Cima del Trueno. Los jugadores que derrotaran a estos elementales y liberaran a los ciudadanos atrapados en toda su ciudad ganaban acceso a dos peleas especiales con jefes.",
+	[-530] = "Estas recompensas eran para todos aquellos que compraron una Edición de Coleccionista de Diablo III.",
+	[-531] = "Estas recompensas eran para todos aquellos que compraron una Edición de Coleccionista  de la expansion Reaper of Souls para Diablo III.",
 	[-554] = "En lugar de comprar objetos a otros jugadores como en la Casa de Subastas normal, los objetos en el Mercado Negro son generados y listados por PNJ. Los objetos se listan solo por un día. Los artículos a la venta varían desde artículos que se volvieron inalcanzables, hasta botines raros y objetos del TCG. Todos los objetos se listan con poca frecuencia, por lo que no debe considerarse una forma confiable de obtener rarezas.\n\n Las pujas por monturas comienzan en 20,000 o, con algunas excepciones.\n Las pujas por compañeros comienzan entre 1 o y 20,000 o, dependiendo de la fuente original y lo difícil que sea obtenerlos.\n Los objetos de vanidad/varios comienzan entre 10,000 o y 15,000 o.\n\nLas pujas funcionan como en la Casa de Subastas normal. No hay precio de compra directa. El cielo (o el límite de oro) es el límite cuando compites con otros jugadores por la puja final. Con una compra exitosa, el objeto se envía al correo. Se aplican las reglas normales de \"Ligado al recoger\", por lo que debes pujar por el personaje correcto.\n\nLa disponibilidad de objetos depende del reino. Cada reino tendrá diferentes objetos a la venta en cualquier momento y es probable que los precios varíen enormemente de un servidor a otro.\n\nSi está vacía, la ventana de objetos mostrará \"No hay objetos disponibles en este momento. Vuelve a intentarlo más tarde.\"",
 	[-592] = "¡Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
 	[-723] = "Aumentan los informes de invasiones elementales en diferentes partes de Kalimdor. Cada pocos días, una nueva oleada de elementales se abre paso a la fuerza en las regiones de Silithus, el Cráter de Un'Goro, Azshara y Cuna del Invierno, aparentemente con el único propósito de ver hasta dónde pueden penetrar en estos territorios antes de ser repelidos por las fuerzas de la Horda o la Alianza. Investiga estas regiones y ayuda a tus aliados a contrarrestar estas misteriosas invasiones.",
@@ -31830,6 +31865,7 @@ L.ACCOUNT_WIDE_DEATHS_TOOLTIP = "死亡追踪实际上只存在于巫妖王之�
 L.ACCOUNT_WIDE_EXPLORATION_TOOLTIP = "探索追踪仅对每个角色都非常有用，但你真的想在所有50个角色上收藏它们吗？";
 L.ACCOUNT_WIDE_FLIGHT_PATHS_TOOLTIP = "飞行路径追踪对每个角色都非常有用，但是你真的想要在所有50个角色上收藏它们吗？";
 L.ACCOUNT_WIDE_FOLLOWERS_TOOLTIP = "随从通常是每个角色的，但是你真的想以每周1个的速度在一个角色上收藏243个随从吗？\n\n我想不行，好好先生。";
+L.ACCOUNT_WIDE_PROFESSION_NODES_TOOLTIP = "专业节点通常不会在暴雪的数据库中进行账号范围的跟踪，但我们可以做到这一点。\n\n在一个角色上收集所有节点是不可能的，所以通过这个功能，你可以赋予你的小号和他们的专业意义。";
 L.ACCOUNT_WIDE_QUESTS_TOOLTIP = "任务完成通常是每个角色的，但是如果任何一个角色完成了特定的任务，这个任务就会被认为是完成了。";
 L.ACCOUNT_WIDE_RECIPES_TOOLTIP = "在暴雪的数据库中，图纸通常不会被账号通用追踪，但我们可以这样做。\n\n在一个角色上不可能收藏到所有的东西，所以有了这个，你就可以赋予你的小号和他们的专业以意义。";
 L.ACCOUNT_WIDE_REPUTATIONS_TOOLTIP = "声望的成就现在会在暴雪的数据库中追踪账号通用，所以开启这个功能可能是个好主意。";
@@ -32345,6 +32381,9 @@ L.PRESET_UPDATE_SUCCESS = "更新预设成功。";
 L.PROFESSION = "专业";
 L.PROFESSION_LIST = "专业列表";
 L.PROFESSION_LIST_DESC = "打开你的专业来缓存它们。";
+L.PROFESSION_NODE_ID = "专业节点 ID";
+L.PROFESSION_NODES_CHECKBOX = "专业节点";
+L.PROFESSION_NODES_CHECKBOX_TOOLTIP = "启用此选项以跟踪专业节点完成情况。";
 L.PROFILE = "配置文件";
 L.PROFILE_COPY_TOOLTIP = "复制已选配置文件到当前配置文件";
 L.PROFILE_DELETE_TOOLTIP = "删除已选配置文件";
@@ -32880,6 +32919,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-485] = "扎拉赞恩的陨落（也被称作夺回回音群岛之战），是沃金与暗矛部族为从邪恶的扎拉赞恩手中夺回回音群岛而发起的最终总攻。这是在下一部资料片《大地的裂变》发布之前，部落所经历的一场重大收尾事件。此外，在回音群岛解放之后创建的所有巨魔角色，其新手出生地也变更为了这里",
 	[-547] = "本板块用于收录现实中开展的各类杂项促销活动，以及与账号管理相关的内容",
 	[-550] = "这是一个以战场为基础的活动，与夏季奥运会的开始同时进行。唯一一次庆祝是在2008年，以配合北京奥运会，虽然似乎有意图重复这个活动，但它从未回归。",
+	[-554] = "与普通拍卖行不同，黑市拍卖行的物品由 NPC 生成并列出。物品仅列出一天。出售的物品从变得无法获得的物品到稀有掉落和 TCG 物品不等。所有物品都很少列出，因此，这不应该被视为一种可靠的刷稀有物品的方法。\n\n坐骑的起始竞价为20,000金，某些例外情况除外。\n宠物的起始竞价在1金和20,000金之间，具体取决于原始来源以及获取难度。\n外观/杂项物品的起始竞价在10,000金和15,000金之间。\n\n竞价与普通拍卖行一样工作。没有直接购买价格。当与其他玩家竞争最终竞价时，价格上不封顶（甚至可以到金币上限）。成功购买后，物品将通过邮件发送。正常的拾取绑定规则适用，因此您必须在正确的角色上进行竞价。\n\n物品供应基于服务器。每个服务器在任何时候都会有不同的出售物品，并且价格可能会因服务器而异。\n\n如果为空，物品窗口将显示“目前没有物品。请稍后再来查看。”",
 	[-560] = "以下小游戏每次游玩需要消耗一枚暗月游戏代币，并且每天都有一个任务可以获得奖券以及一些相关的成就。",
 	[-563] = "为了最大化你的得分，等待当前的标记消失，然后瞄准中间的目标。只要出现任何绿色标记，立即按1，在短暂的施法时间内，如果有必要，将你的枪移动到指向左侧或右侧目标的位置。",
 	[-564] = "位于入口附近，游客们会收到一个大锤，用来敲打从该区域的九个桶中弹出的填充豺狼人。玩家将有60秒的时间来获得30分。豺狼人有三种类型：普通的、霍格和婴儿，分别奖励1分、3分或一次击倒。",
@@ -33532,6 +33572,7 @@ localize(ObjectNames, {
 	[179913] = "作战公告！",
 	[179914] = "白骨堆",
 	[179922] = "腐化之血",
+	[180025] = "神秘的东谷干草堆",
 	[180229] = "厄运巫毒堆",
 	[180327] = "疯狂之缘的火盆",
 	[180366] = "破碎的工具箱",

@@ -167,7 +167,7 @@ function RSMap.GetMapPOIs(mapID, onWorldMap, onMiniMap)
 		end
 	end
 	
-	-- Add points not included in the database
+	-- Add POIs not included in the database
 	local entitiesNodb = RSGeneralDB.GetAlreadyFoundEntitiesNoDB()
 	if (entitiesNodb and entitiesNodb[mapID] and entitiesNodb[mapID][C_Map.GetMapArtID(mapID)]) then
 		for _, entityID in ipairs(entitiesNodb[mapID][C_Map.GetMapArtID(mapID)]) do

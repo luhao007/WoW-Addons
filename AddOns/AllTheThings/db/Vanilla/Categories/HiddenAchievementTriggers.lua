@@ -1,4 +1,4 @@
-﻿if not (not C_Seasons or C_Seasons.GetActiveSeason() ~= 2) then return; end 
+﻿if not (not C_Seasons or C_Seasons.GetActiveSeason() ~= 2) then return; end
 ---@diagnostic disable: deprecated
 local appName, _ = ...;
 _.AddEventHandler("OnBuildHiddenDataCache", function(categories)

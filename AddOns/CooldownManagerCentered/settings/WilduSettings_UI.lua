@@ -2084,7 +2084,6 @@ local function WilduSettings_BuildCooldown(category, layout)
             if ns.TrackerItemViewer then
                 ns.TrackerItemViewer:RefreshStyling()
             end
-            ns.API:ShowReloadUIConfirmation()
         end,
         desc = "Apply square icon styling to the Trinket, Potion & Racial Tracker. When disabled, the default cooldown manager mask (texture 6707800) is used.",
     })

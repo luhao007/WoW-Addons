@@ -1,0 +1,4 @@
+<Ui>
+	<Script file="Art.lua" />
+	<Script file="Audio.lua" />
+</Ui>

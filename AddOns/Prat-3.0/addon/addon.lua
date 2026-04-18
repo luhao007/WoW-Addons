@@ -51,7 +51,7 @@ Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff" .. "DEBUG" .. "|r)"
 --@end-debug@]==]
 
 --@non-debug@
-Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.98".."|r)"
+Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.99".."|r)"
 --@end-non-debug@
 
 local am = {}
@@ -656,15 +656,10 @@ function addon:ChatFrame_MessageEventHandler(this, event, ...)
 			local isChatLineCensored = arg11 and C_ChatInfo.IsChatLineCensored(arg11);
 			local msg = isChatLineCensored and arg1 or m.OUTPUT
 
-			if isChatLineCensored then
-				local eventLabel = event
-				local eventArgs = SafePack(...);
-				this:AddMessage(msg, r, g, b, id, m.ACCESSID, m.TYPEID, eventLabel, eventArgs, function(text)
-					return text
-				end);
-			else
-				this:AddMessage(msg, r, g, b, id, m.ACCESSID, m.TYPEID);
-			end
+			local eventArgs = SafePack(...);
+			this:AddMessage(msg, r, g, b, id, m.ACCESSID, m.TYPEID, event, eventArgs, function(text)
+				return text
+			end)
 
 			-- We have called addmessage by now, or we have skipped it
 			-- regardless, we call postaddmessage. This was changed to allow

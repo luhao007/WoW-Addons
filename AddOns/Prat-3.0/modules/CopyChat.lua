@@ -72,7 +72,7 @@ Prat:AddModuleToLoad(function()
 		local L
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = true
 L["activealpha"] = "Alpha when mouseover"
 L["BBCode"] = true
@@ -103,7 +103,7 @@ L["Wowace.com Forums"] = true
 		PL:AddLocale("enUS", L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = "Testo"
 --[[Translation missing --]]
 L["activealpha"] = "Alpha when mouseover"
@@ -159,7 +159,7 @@ L["Wowace.com Forums"] = "Wowace.com Forums"
 		PL:AddLocale("itIT", L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = "Texto"
 --[[Translation missing --]]
 L["activealpha"] = "Alpha when mouseover"
@@ -214,7 +214,7 @@ L["Wowace.com Forums"] = "Wowace.com Fóruns"
 		PL:AddLocale("ptBR", L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = "Texte"
 --[[Translation missing --]]
 L["activealpha"] = "Alpha when mouseover"
@@ -256,7 +256,7 @@ L["Wowace.com Forums"] = "Forums wowace.com"
 		PL:AddLocale("frFR",L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = "Text"
 L["activealpha"] = "Transparenz, wenn mit der Maus darüber gefahren wird"
 L["BBCode"] = true
@@ -287,7 +287,7 @@ L["Wowace.com Forums"] = "Wowace.com Foren"
 		PL:AddLocale("deDE", L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = " 텍스트"
 --[[Translation missing --]]
 L["activealpha"] = "Alpha when mouseover"
@@ -320,7 +320,7 @@ L["Wowace.com Forums"] = "Wowace.com 포럼"
 		PL:AddLocale("koKR",L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 --[[Translation missing --]]
 L[" Text"] = " Text"
 --[[Translation missing --]]
@@ -377,7 +377,7 @@ L["Wowace.com Forums"] = "Wowace.com Forums"
 		PL:AddLocale("esMX",L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = " Текст"
 --[[Translation missing --]]
 L["activealpha"] = "Alpha when mouseover"
@@ -410,7 +410,7 @@ L["Wowace.com Forums"] = "Форумы Wowace.com"
 		PL:AddLocale("ruRU",L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = "文本"
 --[[Translation missing --]]
 L["activealpha"] = "Alpha when mouseover"
@@ -445,7 +445,7 @@ L["Wowace.com Forums"] = "Wowace.com论坛"
 		PL:AddLocale("zhCN",L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = "Texto"
 --[[Translation missing --]]
 L["activealpha"] = "Alpha when mouseover"
@@ -487,7 +487,7 @@ L["Wowace.com Forums"] = "Foros Wowace.com"
 		PL:AddLocale("esES",L)
 
 		L = {}
--- CopyChat
+		-- CopyChat
 L[" Text"] = "文字"
 --[[Translation missing --]]
 L["activealpha"] = "Alpha when mouseover"

@@ -1,347 +1,7 @@
-local VERSION = 124
+local VERSION = 126
 
 --[[
-Special icons for rares, pvp or pet battle quests in list
-Better sorting for all reward types
-Quest position on general Broken Isles map
-Number of artifact power on item in list
-New quests will be marked as "new" for another 3 min
-Minor localization fixes
-
-Added Eye Of Azshara zone
-Note for BOE gear rewards
-Fix for 1k+ AP items
-Minor fixes
-
-Added helper for Kirin Tor enigma world quest
-Added minor functionality for leveling
-
-Blood of Sargeras filter
-Icon on map for hidden quests (that expires in 15min)
-Icon in list for profession quests
-Fix for Kirin-Tor helper (quest is 7x7 now instead 8x8)
-
-Added button "Show all quests"
-QOL improvements (mouseovering + shift, click on quest)
-Fixed changing order for quests with same timer while sorting by time
-Click on quest now send you to zone map
-Added ElvUI support
-Bugfixes
-
-Added icon on the flight map for recently chosen quest
-
-Added filters for pvp, pet battles & professions quests
-Added checkbox above map to disable WQL
-
-Artifact weapon color for all artifact power items
-Minor notification for artifact power items that can be earned after reaching next artifact knowledge level
-Dungeon icon for dungeons world quests
-Added options for scale, anchor and arrow
-
-Added tooltip with date for timeleft
-Enigma helper disabled ("/enigmahelper" still works)
-Added "Total AP" text
-Minor fixes
-
-Fixed highlighting faction for emissary quests (You can do Watchers or Kirin-tor quests for zone emissary)
-Added "Total gold & total order resources" text
-Minor fixes
-
-Fixed summary while filtered
-Added "Time to Complete" for marked ("**") quests
-Added 7.1 support
-Different color for elite quests
-Some pvp quests shows honor as reward if reward is only gold [filter for them gold as before]
-Minor fixes
-
-7.1 Update
-
-New option "Ignore filter for bounty quests"
-Minor fixes
-
-Last client update (not addon) broke something with world quests (updating info too frequently). I added 5 second limit for updating (so may need time for update rewards after login), dropdowns will closing every 5 sec too. Sorry for the inconvenience, it'll not be too long until I write real solution
-
-Added "Barrels o' Fun" helper
-Minor fixes
-
-Rewards updates must be faster
-Added options for enable/disabe Enigma Helper/Barrels Helper
-Added option "Ignore filter for PvP quests"
-
-Added scroll (use mouse wheel or buttons for navigate) [still in testing]
-AP numbers divided by 1000 for artifact knowledge 26 or higher
-7.2 PTR Update (Note: this version works on both clients: live 7.1.5 and ptr 7.2.0)
-
-More "Ignore filter" options
-7.2 Updates (Note: this version works on both clients: live 7.1.5 and ptr 7.2.0)
-
-7.2 toc update
-Added dalaran quests to general map
-Added option for AP number formatting
-Added header line for quick sorting (and option for disabling it)
-Added switcher to regular quests (not WQ) for max level chars
-Tooltip with icons for all factions if quest can be done for any emissary
-Added option for disabling highlight for new quests
-
-Added quests without timer to list (unlimited quests; expired quests)
-Added sorting by distance to quest
-Sorting by reward: Gear rewards had low priority for high ilvl chars
-Minor fixes
-
-Bugfixes
-
-Added invasions quests to list for low level chars
-Added faction icons for emissary quests (can be disabled in options)
-Threshold for lower priority on gear rewards was lowered to 880 ilvl
-
-7.2.5 Update
-
-7.3.0 PTR Update
-Added TomTom support
-
-Fixed debug numbers in chat
-TomTom now have higher prior if both addons for arrow enabled
-
-Added autoremoving arrow for TomTom if you completed or leaved quest area [in testing]
-Added ignoring quests [right click on quest name]
-
-Added option for changing arrow style (TomTom or ExRT)
-Minor 7.3.0 Updates
-
-7.3.0 Update
-Graphical updates
-New anchor position: inside map [experimental]
-Frame now movable if you run it via "/wql" [Use "/wql reset" if you somehow lost frame out of the screen]
-
-Added "Ignore filter" oprions for factions "Army of the Light" & "Argussian Reach"
-Added new anchor position: free outside [Use "/wql resetanchor" or "/wql reset" if you somehow lost frame out of the screen]
-Minor fixes
-
-Added Invasion Points
-
-Fixes
-
-General Argus Map were replaced with zones map [in testing, you can disable this in options]
-Readded info for AP quests that can be done with next Aknowledge level [only for EU and US servers]
-
-Fixes for ADDON_ACTION_BLOCKED errors
-Added "/wql argus" command
-
-Fixes
-
-Added option for percentage of the current level's max AP number (by Corveroth)
-Update for korean translation (by yuk6196)
-Fixes (Frame strata for free position)
-
-Minor fixes
-Update for chinese translation (by dxlmike)
-
-Added Veiled Argunite filter
-
-BfA update (8.0.1)
-added button for quick navigate between Zandalar and Kul-Tiras
-quest icons on general (continents) maps
-quick link to wowhead (right click on quest name)
-shell game helper
-new filters (azerite, reputations)
-new factions filters
-tooltip with reputation rewards for quests
-options for manipulations with list on azeroth/Broken Isles maps (i.e. include/exclude agrus/legion quests, etc)
-second icon for profession quests
-standalone arrow, no addons required
-text color for zone names
-added treasure/rares mode [beta]
-
-Added LFG (group finder) option [in testing]
-
-LFG: Less clicks to find group
-LFG: Click with shift button will try to find group by quest name
-Added tooltip for eye buttons
-LFG: Right click on map icons will start search groups for this quest
-LFG: Added popup window when you enter quest area (and option to disable it)
-LFG: Added submit with enter key
-Moved agrus rep token revards to reputation category
-Minor fixes
-
-Options dropdown menu now available all time in wq mode
-Major fixes
-
-Find party popup now uses default search for rare quests
-Added option for disabling search on rightclick on map icons
-Minor fixes
-
-Blacklisted some quests for auto popup (pet battles, supplies, work orders)
-Added "/wql options" command
-Minor fixes
-
-Added reward type on icons on map [in testmode, you can enable it in options]
-Added "Start a group" button after success search
-Bigger icons on general map in fullscreen map mode
-More blacklisted quests (kirin tor & tortollan puzzles)
-
-LFG: "Convert to raid" popup must not be displayed for non-elite quests
-Minor fixes
-
-Added "Map icons scale" option
-Hovered world quest icon will be on top
-Added reward-on-icons for the flightmap
-Autotoggle all languages for LFG fliter search
-
-Fix for wq icons scale for non-general maps in fullscreen mode
-LFG: Blizzard's group finder is broken again for elite quests, so added button "Try with Quest ID" on group creation page
-Added world quest type mini icon (pvp, profession, pet battle)
-Added option "Hide ribbon graphic"
-Added option for arrow for regular quests (via right click on map)
-LFG: added support for regular quests (via list or right click on map)
-LFG: groups for non-elite quests with 5 players will be marked as red
-Minor fixes
-
-Added option "Disable all, except LFG" ("/wql options" > "Enable LFG search"  > "Disable all, except LFG")
-TomTom arrow is back as option
-Fixed WQ icons random shifting
-WQ icons on world map will stay if list is hidden
-Minor fixes
-
-Fixed free mode anchor
-Some tweaks for fullscreen map mode
-Added option "Disable eye for quest tracker on right"
-Minor fixes
-
-LFG Hotfixes, must work as before [Report any bugs/errors]
-
-More fixes for fullscreen map mode
-Added "max lines" option
-Minor LFG updates
-
-LFG Hotfixes
-
-LFG fixes
-
-Added option to highlight quest for selected factions reputations
-Minor fixes
-
-LFG: no more 'wwwwwww' in searchbox if player is moving
-LFG: leave party popup only for quest groups
-Added shift+right click to expand azerite gear rewards
-Localizations updates by sprider00
-Minor fixes
-
-Added requeue button for current quest (replace eye in quest tracker)
-Fix for "addon blocked" error
-Minor updates
-
-Added option "Disable popup after quest completion (leave party)"
-Added "/wql way X Y" command for manual arrow
-Right click on LFG popup will hide it
-Minor fixes
-
-Update for Arathi rares
-Added "/way X Y" if no other addon found for it
-Some fixes for sorting
-Fix autoinvite for non-quest lfg groups
-
-Major fixes
-
-8.1.0 Update
-Added option to replace trinkets rewards with expulsom
-Update for quick navigation buttons
-Fixes
-
-Darkshore rares update
-LFG Fixes
-
-toc update
-Added next invasion timer (hover quick nav buttons)
-Rares update
-
-Added lfg eye for main assault quests
-Added colors for questmarks on map for emissary quests (Options > Enable reward on map icons > Enable emissary quests colors)
-Added zones names for next invasion timer
-
-Added Calligraphy game helper (horde only)
-Fixed invasion timer list for some connected realms
-Fixed lua errors when you put azerite neck into the bank
-Fixed naga quest reward
-
-Fixes
-Removed Service Medal filter
-
-Grayed out azerite rewards if azerite neck is maxed
-Updated German localization by Sunflow72
-Added seconds for time remaining (<5min)
-Added Calligraphy game helper for alliance
-8.2.0 PTR update
-
-8.2.0 Update
-Added icon for quests for achievements (can be disabled via option)
-
-8.2.5 toc update
-Fixed arrow for regular quests in Nazjatar
-Fixed Nazjatar WQs for azeroth map
-
-Added "Priority options" for rewards sorting
-Redone sorting by time (time>rewards), sorting by zone(zone>time>rewards)
-Fixed dead lock while shell game
-Fixed emissary highlights for Broken Isles map
-
-8.3 Update
-
-Shadowlands update
-
-Bugfixes
-
-Fixed Shift-clicks on quests
-Fixed TomTom arrow
-
-9.0.2 toc update
-Bugfixes
-
-LFG fixes
-Added Aspirant Training quest helper
-
-Adeed shadowlands achievements
-Updated german translation (by sunflow72)
-
-Added Tough Crowd helper
-Minor fixes
-
-9.0.5 update
-Added warmode bonus for shadowlands quests
-
-Wago update
-
-9.1.5 update
-
-Bugfixes
-
-9.2 update
-
-toc update
-
-fixes
-
-fixes
-
-toc update
-Restructured options dropdowns: now options for different expansions always visible
-Added option to hide emerald dream quest icons from main map
-
-11.0 update
-
-fixes
-
-TWW content update
-Added numbers on quest icons
-
-fixes
-Added dragonriding filter
-
-Added custom sorting: customizable list with all current rewards
-
-12.0 update
-
-Fixes
-Updated chinese localization
+Added option "Disable rewards text below icons"
 ]]
 
 local GlobalAddonName, WQLdb = ...
@@ -498,6 +158,8 @@ local LOCALE =
 		repAccAlert = "Включить стрелку награды репутации",
 		customSorting = "Включить свою сортировку",
 		customSortingTip = "Настраиваемый список со всеми текущими наградами",
+		prey = "Путь охотника",
+		disableRewardIconsText = "Отключить текст награды под иконкой",
 	} or
 	locale == "deDE" and {    --by SunnySunflow
 	        gear = "Ausrüstung",
@@ -570,78 +232,82 @@ local LOCALE =
 		repAccAlert = "Enable reputation award notification",
 		customSorting = "Enable custom sorting",
 		customSortingTip = "Customizable list with all current rewards",
+		prey = "Beutezüge",
+		disableRewardIconsText = "Disable rewards text below icons",
 	} or
 	locale == "frFR" and {
 		gear = "Équipement",
 		gold = "Or",
 		blood = "Sang de Sargeras",
-		knowledgeTooltip = "** Can be completed after reaching next artifact knowledge level",
-		disableArrow = "Disable arrow",
-		anchor = "Anchor",
-		totalap = "Total Artifact Power: ",
-		totalapdisable = 'Disable "Total AP"',
-		timeToComplete = "Time to complete: ",
-		bountyIgnoreFilter = "Emissary quests",
-		enigmaHelper = "Enable Enigma Helper",
-		barrelsHelper = "Enable Barrels Helper",
-		honorIgnoreFilter = "PvP quests",
-		ignoreFilter = "Ignore filter for",
-		epicIgnoreFilter = '"Golden" quests',
-		wantedIgnoreFilter = "WANTED quests",
-		apFormatSetup = "Artifact Power format",
-		headerEnable = "Enable header line",
-		disabeHighlightNewQuests = "Disable highlight for new quests",
+		knowledgeTooltip = "** Peut être terminé après avoir atteint le prochain niveau de connaissance d'arme prodigieuse",
+		disableArrow = "Désactiver la flèche de direction",
+		anchor = "Point d'ancrage",
+		totalap = "Puissance prodigieuse totale : ",
+		totalapdisable = 'Désactiver "PA totale"',
+		timeToComplete = "Temps pour terminer : ",
+		bountyIgnoreFilter = "Quêtes d'émissaire",
+		enigmaHelper = "Activer l'assistant des énigmes",
+		barrelsHelper = "Activer l'assistant des barils",
+		honorIgnoreFilter = "Quêtes JcJ",
+		ignoreFilter = "Ignorer le filtre pour",
+		epicIgnoreFilter = 'Quêtes "dorées"',
+		wantedIgnoreFilter = "Quêtes Recherche",
+		apFormatSetup = "Format de puissance prodigieuse",
+		headerEnable = "Activer la ligne d'en-tête",
+		disabeHighlightNewQuests = "Désactiver la mise en surbrillance des nouvelles quêtes",
 		distance = "Distance",
-		disableBountyIcon = "Disable Emissary icons for faction names",
-		arrow = "Arrow",
-		invasionPoints = "Invasion Points",
-		argusMap = "Enable Argus map",
-		ignoreList = "Ignore list",
-		addQuestsOpposite = "Add quests from the opposite continent",
-		hideLegion = "Hide quests from Legion",
-		disableArrowMove = "Disable moving",
-		shellGameHelper = "Enable Shell Game Helper",
-		iconsOnMinimap = "Enable icons on General maps",
-		addQuestsArgus = "Add quests from Argus",
-		lfgSearchOption = "Enable LFG search",
-		lfgAutoinvite = "Set autoinvite option on",
-		lfgTypeText = "Type numbers (QuestID) to edit box",
-		lfgLeftButtonClick = "Left Click - find group",
-		lfgLeftButtonClick2 = "Left Click + shift - find group by name",
-		lfgRightButtonClick = "Right Click - create group",
-		lfgDisablePopup = "Disable popup in questarea",
-		lfgDisableRightClickIcons = "Disable right click on map icons",
-		disableRewardIcons = "Enable reward on map icons",
-		mapIconsScale = "Map icons scale",
-		disableRibbon = "Disable ribbon graphic",
-		enableRibbonGeneralMap = "Enable ribbon on general maps",
-		enableArrowQuests = "Enable arrow for regular quests",
-		tryWithQuestID = "Try by quest ID",
-		lfgDisableAll = "Disable all, except LFG",
-		lfgDisableAll2 = "All addon settings will be lost. Disable all options, except LFG?",
-		lfgDisableEyeRight = "Disable eye for quest tracker on right",
-		lfgDisableEyeList = "Hide eye in list",
-		listSize = "List size",
-		topLine = "Top line",
-		bottomLine = "Bottom line",
-		unlimited = "Unlimited",
-		maxLines = "Max lines",
-		lfgDisablePopupLeave = "Disable popup after quest completion (leave party)",
+		disableBountyIcon = "Désactiver les icônes d'émissaire pour les factions",
+		arrow = "Flèche de direction",
+		invasionPoints = "Points d'invasion",
+		argusMap = "Activer la carte d'Argus",
+		ignoreList = "Liste d'ignorés",
+		addQuestsOpposite = "Ajouter les quêtes du continent opposé",
+		hideLegion = "Masquer les quêtes de Legion",
+		disableArrowMove = "Désactiver le déplacement",
+		shellGameHelper = "Activer l'assistant du jeu de la coquille",
+		iconsOnMinimap = "Activer les icônes sur les cartes",
+		addQuestsArgus = "Ajouter les quêtes d'Argus",
+		lfgSearchOption = "Activer la recherche RDG",
+		lfgAutoinvite = "Activer l'invitation automatique",
+		lfgTypeText = "Tapez les numéros (ID de quête) dans la zone de saisie",
+		lfgLeftButtonClick = "Clic gauche : chercher un groupe",
+		lfgLeftButtonClick2 = "Maj + clic gauche : chercher un groupe par nom",
+		lfgRightButtonClick = "Clic droit : créer un groupe",
+		lfgDisablePopup = "Désactiver la fenêtre popup dans la zone de quête",
+		lfgDisableRightClickIcons = "Désactiver le clic droit sur les icônes de carte",
+		disableRewardIcons = "Activer les récompenses sur les icônes de carte",
+		mapIconsScale = "Échelle des icônes de carte",
+		disableRibbon = "Désactiver le ruban d'information sous les expéditions",
+		enableRibbonGeneralMap = "Activer le ruban sur les cartes",
+		enableArrowQuests = "Activer la flèche de direction pour les quêtes normales",
+		tryWithQuestID = "Essayer avec l'ID de quête",
+		lfgDisableAll = "Tout désactiver sauf LFG",
+		lfgDisableAll2 = "Tous les paramètres de l'addon seront perdus. Tout désactiver sauf LFG ?",
+		lfgDisableEyeRight = "Désactiver l'œil du suivi de quête à droite",
+		lfgDisableEyeList = "Masquer l'œil dans la liste",
+		listSize = "Taille de la liste",
+		topLine = "Ligne supérieure",
+		bottomLine = "Ligne inférieure",
+		unlimited = "Illimité",
+		maxLines = "Nombre maximum de lignes",
+		lfgDisablePopupLeave = "Désactiver la popup après la fin de quête (quitter le groupe)",
 		expulsom = "Expulsom",
-		expulsomReplace = "Replace trinkets rewards with Expulsom",
-		enableBountyColors = "Enable bounty quests colors",
-		calligraphyGameHelper = "Enable Calligraphy Helper",
-		addQuestsNazjatar = "Add quests from Nazjatar",
-		questsForAchievements = "Show quests for achievements",
-		rewardSortOption = "Priority options",
-		rewardSortCurrOther = "Other currencies",
-		rewardSortItemOther = "Other items",
-		aspirantTraining = "Aspirant Training Helper",
-		toughCrowdHelper = "Tough Crowd Helper",
-		disableQuestNumber = "Disable numbers on quest icons",
-		repAccAlert = "Enable reputation award notification",
-		customSorting = "Enable custom sorting",
-		customSortingTip = "Customizable list with all current rewards",
+		expulsomReplace = "Remplacer les récompenses de bijoux par de l'Expulsom",
+		enableBountyColors = "Activer les couleurs des quêtes d'émissaire",
+		calligraphyGameHelper = "Activer l'assistant Calligraphie",
+		addQuestsNazjatar = "Ajouter les quêtes de Nazjatar",
+		questsForAchievements = "Afficher les quêtes pour les hauts faits",
+		rewardSortOption = "Options de priorité",
+		rewardSortCurrOther = "Autres monnaies",
+		rewardSortItemOther = "Autres objets",
+		aspirantTraining = "Assistant d'entraînement Aspirant",
+		toughCrowdHelper = "Assistant Public difficile",
+		disableQuestNumber = "Désactiver les numéros sur les icônes de quête",
+		repAccAlert = "Activer la notification de gain de réputation",
+		customSorting = "Activer le tri personnalisé",
+		customSortingTip = "Liste personnalisable avec toutes les récompenses actuelles",
+		prey = "de la Traque",
+		disableRewardIconsText = "Disable rewards text below icons",
 	} or
 	(locale == "esES" or locale == "esMX") and {
 		gear = "Equipo",
@@ -714,6 +380,8 @@ local LOCALE =
 		repAccAlert = "Enable reputation award notification",
 		customSorting = "Enable custom sorting",
 		customSortingTip = "Customizable list with all current rewards",
+		prey = "Prey",
+		disableRewardIconsText = "Disable rewards text below icons",
 	} or
 	locale == "itIT" and {
 		gear = "Equipaggiamento",
@@ -786,6 +454,8 @@ local LOCALE =
 		repAccAlert = "Enable reputation award notification",
 		customSorting = "Enable custom sorting",
 		customSortingTip = "Customizable list with all current rewards",
+		prey = "Prey",
+		disableRewardIconsText = "Disable rewards text below icons",
 	} or
 	locale == "ptBR" and {
 		gear = "Equipamento",
@@ -858,6 +528,8 @@ local LOCALE =
 		repAccAlert = "Enable reputation award notification",
 		customSorting = "Enable custom sorting",
 		customSortingTip = "Customizable list with all current rewards",
+		prey = "Prey",
+		disableRewardIconsText = "Disable rewards text below icons",
 	} or
 	locale == "koKR" and {
 		gear = "장비",
@@ -930,6 +602,8 @@ local LOCALE =
 		repAccAlert = "Enable reputation award notification",
 		customSorting = "Enable custom sorting",
 		customSortingTip = "Customizable list with all current rewards",
+		prey = "Prey",
+		disableRewardIconsText = "Disable rewards text below icons",
 	} or
 	locale == "zhCN" and {	--by sprider00; 枫聖御雷
 		gear = "装备",
@@ -1002,6 +676,8 @@ local LOCALE =
 		repAccAlert = "启用声望奖励通知",
 		customSorting = "启用自定义排序",
 		customSortingTip = "自定义当前所有奖励列表",
+		prey = "Prey",
+		disableRewardIconsText = "Disable rewards text below icons",
 	} or
 	locale == "zhTW" and {	--by sprider00
 		gear = "裝備",
@@ -1074,6 +750,8 @@ local LOCALE =
 		repAccAlert = "Enable reputation award notification",
 		customSorting = "Enable custom sorting",
 		customSortingTip = "Customizable list with all current rewards",
+		prey = "Prey",
+		disableRewardIconsText = "Disable rewards text below icons",
 	} or 
 	{
 		gear = "Gear",
@@ -1146,6 +824,8 @@ local LOCALE =
 		repAccAlert = "Enable reputation award notification",
 		customSorting = "Enable custom sorting",
 		customSortingTip = "Customizable list with all current rewards",
+		prey = "Prey",
+		disableRewardIconsText = "Disable rewards text below icons",
 	}
 
 local filters = {
@@ -1622,6 +1302,11 @@ WorldQuestList:SetScript("OnEvent",function(self,event,...)
 			VWQL.LFG_HideEyeInList = true
 		end
 
+
+		--autoreset on login
+		VWQL[charKey].TreasureMode = nil
+		VWQL[charKey].RegularQuestMode = nil
+
 		WorldQuestList.modeSwitcherCheck:AutoSetValue()
 
 		UpdateScale()
@@ -1698,6 +1383,7 @@ do
 				local name = C_TaskQuest.GetQuestInfoByQuestID(self.questID) or ""
 				WorldQuestList.AddArrowNWC(x,y,mapID,self.questID,name)
 			end
+			local stop = false
 			if x and y then
 				local continentID, worldPos = C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(x, y))
 				if worldPos then
@@ -1705,15 +1391,20 @@ do
 					if wx and wy then
 						local name = C_TaskQuest.GetQuestInfoByQuestID(self.questID) or ""
 						WorldQuestList.AddArrow(wx,wy,self.questID,name)
-						return
+						stop = true
 					end
 				end
 			end
-			local x,y = WorldQuestList:GetQuestWorldCoord(self.questID)
-			if x and y then
-				local name = C_TaskQuest.GetQuestInfoByQuestID(self.questID) or ""
-				WorldQuestList.AddArrow(x,y,self.questID,name)
+			if not stop then
+				local x,y = WorldQuestList:GetQuestWorldCoord(self.questID)
+				if x and y then
+					local name = C_TaskQuest.GetQuestInfoByQuestID(self.questID) or ""
+					WorldQuestList.AddArrow(x,y,self.questID,name)
+				end
 			end
+		end
+		if ZGV then
+			ZGV:ScheduleTimer(function() ZGV.WorldQuests:SuggestWorldQuestGuideFromMap(self) end,0)
 		end
 	end
 	local hookQuestFunc = function(self,button)
@@ -2493,6 +2184,18 @@ do
 	end
 end
 
+do
+	local g_createQuestGroupCache = {}
+	function WorldQuestList:CanCreateQuestGroup(questID)
+		local canCreate = g_createQuestGroupCache[questID]
+		if canCreate == nil then
+			canCreate = C_LFGList.CanCreateQuestGroup(questID)
+			g_createQuestGroupCache[questID] = canCreate
+		end
+		return canCreate
+	end
+end
+
 local function WorldQuestList_Line_OnEnter(self)
 	self.hl:Show()
 
@@ -2548,7 +2251,7 @@ local function WorldQuestList_LineReward_OnEnter(self)
 		GameTooltip:SetQuestLogItem("reward", 1, line.reward.ID)
 		GameTooltip:Show()
 
-		if IsShiftKeyDown() and TooltipUtil.ShouldDoItemComparison(GameTooltip) then
+		if IsShiftKeyDown() or TooltipUtil.ShouldDoItemComparison(GameTooltip) then
 			GameTooltip_ShowCompareItem(GameTooltip)
 		end
 
@@ -2940,7 +2643,6 @@ local function WorldQuestList_LFGButton_OnShow(self)
 		self.texture:Show()
 	end
 	self:SetWidth(18)
-	self:Hide()
 end
 local function WorldQuestList_LFGButton_OnHide(self)
 	self:SetWidth(1)
@@ -3274,8 +2976,6 @@ do
 
 		line.zone:SetShown(disabeZone)
 		line.zone.f:SetShown(disabeZone)
-
-		lfgIconEnabled = false
 
 		line.LFGButton:SetWidth(lfgIconEnabled and 18 or 1)
 
@@ -3613,6 +3313,9 @@ do
 		{text = GetCurrencyInfo(2815),		func = SetFilterType,	arg1 = "curr2815",				checkable = true},
 		{text = GetCurrencyInfo(3008),		func = SetFilterType,	arg1 = "curr3008",				checkable = true},
 	}}
+	list[#list+1] = {text = EXPANSION_NAME11, padding = 16, subMenu = {
+		{text = LOCALE.prey,			func = SetFilterType,	arg1 = "prey",					checkable = true},
+	}}
 
 
 	list[#list+1] = {
@@ -3669,7 +3372,8 @@ do
 	CreateFactionFilterSubmenu(list[#list].subMenu,{2594,2600,2607,2605,2601,2590,2570, 2653,2673,2669,2675,2677,2685,2658})
 
 	list[#list+1] = {text = EXPANSION_NAME11 or "MN", padding = 16, subMenu = {}}
-	CreateFactionFilterSubmenu(list[#list].subMenu,{2699,2704,2770,2710,2696,2764})
+	list[#list].subMenu[#list[#list].subMenu+1] = {text = LOCALE.prey,	func = SetIgnoreFilter,	arg1 = "preyIgnoreFilter",	checkable = true},
+	CreateFactionFilterSubmenu(list[#list].subMenu,{2699,2704,2770,2710,2696})
 
 	list[#list+1] = {text = CLOSE,			func = function() ELib.ScrollDropDown.Close() end,		padding = 16,	}
 
@@ -3696,10 +3400,21 @@ do
 	end
 end
 
+local scaleTimerUpd = nil
 function UpdateScale()
 	local scale = tonumber(VWQL.Scale) or 1
 	if VWQL.Anchor == 2 and WorldMapFrame:IsVisible() then
-		scale = scale * WorldMapButton:GetWidth() / 1002 * 0.8
+		local worldmapwidth = WorldMapButton:GetWidth()
+		if worldmapwidth < 1 then 
+			if not scaleTimerUpd then
+				scaleTimerUpd = C_Timer.NewTimer(0.1,function()
+					scaleTimerUpd = nil
+					UpdateScale()
+				end)
+			end
+			return 
+		end
+		scale = scale * worldmapwidth / 1002 * 0.8
 	end
 	WorldQuestList:SetScale(scale)
 end
@@ -3850,34 +3565,10 @@ do
 
 	local lfgSubMenu = {
 		{
-			text = LOCALE.lfgDisablePopup,
-			func = function()
-				VWQL.DisableLFG_Popup = not VWQL.DisableLFG_Popup
-			end,
-			checkable = true,
-		},
-		{
-			text = LOCALE.lfgDisablePopupLeave,
-			func = function()
-				VWQL.DisableLFG_PopupLeave = not VWQL.DisableLFG_PopupLeave
-			end,
-			checkable = true,
-		},
-		{
 			text = LOCALE.lfgDisableRightClickIcons,
 			func = function()
 				VWQL.DisableLFG_RightClickIcon = not VWQL.DisableLFG_RightClickIcon
 				WorldQuestList_Update()
-			end,
-			checkable = true,
-		},
-		{
-			text = LOCALE.lfgDisableEyeRight,
-			func = function()
-				VWQL.DisableLFG_EyeRight = not VWQL.DisableLFG_EyeRight
-				if WorldQuestList.ObjectiveTracker_Update_hook then
-					WorldQuestList.ObjectiveTracker_Update_hook(2)
-				end
 			end,
 			checkable = true,
 		},
@@ -3889,58 +3580,18 @@ do
 			end,
 			checkable = true,
 		},
-
-
-		{
-			text = LOCALE.lfgDisableAll,
-			func = function()
-				StaticPopupDialogs["WQL_LFG_DISABLE_ALL"] = {
-					text = LOCALE.lfgDisableAll2,
-					button1 = YES,
-					button2 = NO,
-					OnAccept = function()
-						VWQL.DisableLFG_Popup = nil
-						VWQL.DisableLFG = nil
-						VWQL.DisableIconsGeneral = true
-						VWQL.DisableRewardIcons = true
-						VWQL.MapIconsScale = nil
-						VWQL.EnableEnigma = nil
-						VWQL.DisableShellGame = true
-						VWQL.DisableArrow = true
-
-						VWQL[charKey].HideMap = true
-
-						WorldQuestList.IconsGeneralLastMap = -1
-						WorldQuestList_Update()
-						WorldQuestList:Hide()
-
-						WorldQuestList:WQIcons_RemoveIcons()
-						WorldQuestList:WQIcons_RemoveScale()
-					end,
-					timeout = 0,
-					whileDead = true,
-					hideOnEscape = true,
-					preferredIndex = 3,
-				}
-				ELib.ScrollDropDown.Close()
-				StaticPopup_Show("WQL_LFG_DISABLE_ALL")
-			end,
-			checkable = false,
-			padding = 16,
-		},
 	}
 
-	--[[
 	list[#list+1] = {
 		text = LOCALE.lfgSearchOption,
-		func = function()
+		func_ = function()
 			VWQL.DisableLFG = not VWQL.DisableLFG
 			WorldQuestList_Update()
 		end,
-		checkable = true,
+		checkable = false,
+		padding = 16,
 		subMenu = lfgSubMenu,
 	}
-	]]
 
 	local function SetScaleArrow(_, arg1)
 		VWQL.Arrow_Scale = arg1
@@ -4122,7 +3773,6 @@ do
 			text = LOCALE.disableRibbon,
 			func = function()
 				VWQL.DisableRibbon = not VWQL.DisableRibbon
-				--WorldMapFrame:TriggerEvent("WorldQuestsUpdate", WorldMapFrame:GetNumActivePinsByTemplate("WorldMap_WorldQuestPinTemplate"))
 				eventFrame:FireCallback("WQL_VISUAL")
 			end,
 			checkable = true,
@@ -4131,7 +3781,6 @@ do
 			text = LOCALE.enableRibbonGeneralMap,
 			func = function()
 				VWQL.EnableRibbonGeneralMaps = not VWQL.EnableRibbonGeneralMaps
-				--WorldMapFrame:TriggerEvent("WorldQuestsUpdate", WorldMapFrame:GetNumActivePinsByTemplate("WorldMap_WorldQuestPinTemplate"))
 				eventFrame:FireCallback("WQL_VISUAL")
 			end,
 			checkable = true,
@@ -4140,7 +3789,14 @@ do
 			text = LOCALE.enableBountyColors,
 			func = function()
 				VWQL.RewardIcons_DisableBountyColors = not VWQL.RewardIcons_DisableBountyColors
-				--WorldMapFrame:TriggerEvent("WorldQuestsUpdate", WorldMapFrame:GetNumActivePinsByTemplate("WorldMap_WorldQuestPinTemplate"))
+				eventFrame:FireCallback("WQL_VISUAL")
+			end,
+			checkable = true,
+		},
+		{
+			text = LOCALE.disableRewardIconsText,
+			func = function()
+				VWQL.RewardIcons_DisableRewardIconsText = not VWQL.RewardIcons_DisableRewardIconsText
 				eventFrame:FireCallback("WQL_VISUAL")
 			end,
 			checkable = true,
@@ -4274,7 +3930,7 @@ do
 		{text = EXPANSION_NAME8, padding = 16, subMenu = CreateFactionHighlightSubmenu({2465,2410,2413,2407,2478})},
 		{text = EXPANSION_NAME9, padding = 16, subMenu = CreateFactionHighlightSubmenu({2510,2507,2503,2511,2564,2615,2574})},
 		{text = EXPANSION_NAME10, padding = 16, subMenu = CreateFactionHighlightSubmenu({2594,2600,2607,2605,2601,2590,2570, 2653,2673,2669,2675,2677,2685, 2658})},
-		{text = EXPANSION_NAME11 or "MN", padding = 16, subMenu = CreateFactionHighlightSubmenu({2699,2704,2770,2710,2696,2764})},
+		{text = EXPANSION_NAME11 or "MN", padding = 16, subMenu = CreateFactionHighlightSubmenu({2699,2704,2770,2710,2696})},
 	}
 
 	list[#list+1] = {
@@ -4610,15 +4266,13 @@ do
 		for i=1,#iconsGeneralSubmenu do
 			iconsGeneralSubmenu[i].checkState = not VWQL["DisableIconsGeneralMap"..iconsGeneralSubmenu[i].arg1]
 		end
-		lfgSubMenu[1].checkState = VWQL.DisableLFG_Popup
-		lfgSubMenu[2].checkState = VWQL.DisableLFG_PopupLeave
-		lfgSubMenu[3].checkState = VWQL.DisableLFG_RightClickIcon
-		lfgSubMenu[4].checkState = VWQL.DisableLFG_EyeRight
-		lfgSubMenu[5].checkState = VWQL.LFG_HideEyeInList
+		lfgSubMenu[1].checkState = VWQL.DisableLFG_RightClickIcon
+		lfgSubMenu[2].checkState = VWQL.LFG_HideEyeInList
 		mapIconsScaleSubmenu[1].slider.val = (VWQL.MapIconsScale or 1) * 100
 		rewardsIconsSubMenu[1].checkState = VWQL.DisableRibbon
 		rewardsIconsSubMenu[2].checkState = VWQL.EnableRibbonGeneralMaps
 		rewardsIconsSubMenu[3].checkState = not VWQL.RewardIcons_DisableBountyColors
+		rewardsIconsSubMenu[4].checkState = VWQL.RewardIcons_DisableRewardIconsText
 		listSizeSubmenu[1].checkState = not VWQL.DisableHeader
 		listSizeSubmenu[2].checkState = not VWQL.DisableTotalAP
 		listSizeSubmenu[4].slider.val = (VWQL.MaxLinesShow or 9)
@@ -4721,6 +4375,10 @@ WorldQuestList.modeSwitcherCheck.s:SetScript("OnValueChanged",function(self)
 	else
 		VWQL[charKey].HolidaysMode = nil
 	end
+
+	local mapAreaID = GetCurrentMapID()
+	OpenWorldMap(1)
+	OpenWorldMap(mapAreaID)
 
 	WQL_AreaPOIDataProviderMixin:RefreshAllData()
 	WQL_HolidayDataProviderMixin:RefreshAllData()
@@ -5362,7 +5020,10 @@ if WQ_provider then
 	local hookedPins = {}
 	local function HidePin(self)
 		if 
-			(VWQL and VWQL.DisableRewardIcons)
+			(VWQL and VWQL.DisableRewardIcons) and
+			(not VWQL[charKey].TreasureMode) and
+			(not VWQL[charKey].RegularQuestMode)
+			--(VWQL[charKey].HideMap)
 		then 
 			return 
 		end
@@ -5411,7 +5072,7 @@ if WQ_provider then
 			wipe(WorldQuestList.WMF_activePins)
 		end
 
-		WorldQuestList_Update()
+		WorldQuestList_Update(nil,nil,true)
 	end
 	--WQ_provider:GetMap():RegisterCallback("WorldQuestsUpdate", function() upd() end, WQ_provider)
 	eventFrame:RegisterCallback(function() upd() end)
@@ -5442,6 +5103,10 @@ end
 function WQL_AreaPOIDataProviderMixin:RefreshAllData()
 	if not self:GetMap() then	--fix error on load
 		return
+	end
+	if not self.addedUpdateEvent then
+		EventRegistry:RegisterCallback("MapCanvas.MapSet",function() WQL_AreaPOIDataProviderMixin:RefreshAllData() end)
+		self.addedUpdateEvent = true
 	end
 	self:RemoveAllData()
 
@@ -5756,10 +5421,7 @@ local function WorldQuestList_Leveling_Update()
 		end
 	end
 
-	local lfgEyeStatus = true
-	if C_LFGList.GetActiveEntryInfo() or VWQL.DisableLFG or VWQL.LFG_HideEyeInList then
-		lfgEyeStatus = false
-	end
+	local lfgEyeStatus = false
 
 	for i=1,#result do
 		local data = result[i]
@@ -5990,11 +5652,7 @@ local function WorldQuestList_Treasure_Update()
 		end
 	end
 
-	if not WQL_AreaPOIDataProviderMixin.isAdded then
-		--WorldMapFrame:AddDataProvider(WQL_AreaPOIDataProviderMixin)
-
-		WQL_AreaPOIDataProviderMixin:RefreshAllData()
-	end
+	WQL_AreaPOIDataProviderMixin:RefreshAllData()
 	if WQ_provider then
 		WorldQuestList.IconsGeneralLastMap = nil
 		--WQ_provider:GetMap():TriggerEvent("WorldQuestsUpdate", WQ_provider:GetMap():GetNumActivePinsByTemplate(WQ_provider:GetPinTemplate()) + WQ_provider2:GetMap():GetNumActivePinsByTemplate(WQ_provider2:GetPinTemplate()) )
@@ -6461,9 +6119,12 @@ WorldQuestList.trfix_prevMapID = nil
 WorldQuestList.trfix_prevCall = 0
 WorldQuestList.trfix_prevWait = nil
 
-function WorldQuestList_Update(preMapID,forceUpdate)
+function WorldQuestList_Update(preMapID,forceUpdate,fromEvent)
 	if not WorldQuestList:IsVisible() and not VWQL[charKey].HideMap and not forceUpdate then
 	--if not WorldQuestList:IsVisible() then
+		return
+	end
+	if VWQL[charKey].HideMap and fromEvent and not WorldMapFrame:IsShown() and not WorldQuestList.IsSoloRun then
 		return
 	end
 
@@ -6474,7 +6135,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 		if not WorldQuestList.trfix_prevWait then
 			WorldQuestList.trfix_prevWait = C_Timer.NewTimer(0.2 - math.max(currTime - WorldQuestList.trfix_prevCall, 0),function()
 				WorldQuestList.trfix_prevWait = nil
-				WorldQuestList_Update(preMapID,forceUpdate)
+				WorldQuestList_Update(preMapID,forceUpdate,fromEvent)
 			end)
 		end
 		return
@@ -6905,6 +6566,11 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 
 	WAR_MODE_BONUS = C_PvP.GetWarModeRewardBonus() / 100 + 1
 
+	local lfgEyeStatus = true
+	if VWQL.LFG_HideEyeInList then
+		lfgEyeStatus = false
+	end
+
 	local noRewardCount = 0
 
 	local taskIconIndex = 1
@@ -7030,6 +6696,11 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 				elseif worldQuestType == Enum.QuestTagType.DragonRiderRacing then
 					nameicon = -11
 					if ActiveFilterType.dragonriding then 
+						isValidLine = 0 
+					end
+				elseif worldQuestType == Enum.QuestTagType.Prey then
+					nameicon = -12
+					if ActiveFilterType.prey then 
 						isValidLine = 0 
 					end
 				end
@@ -7585,6 +7256,9 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 					if VWQL[charKey].manapearlIgnoreFilter and FindInReward(VWQL.SortPrio.curr1721 or defSortPrio.curr1721) then
 						isValidLine = 1
 					end
+					if VWQL[charKey].preyIgnoreFilter and worldQuestType == Enum.QuestTagType.Prey then 
+						isValidLine = 1
+					end
 					if VWQL[charKey].legionfallIgnoreFilter and factionID == 2045 then
 						isValidLine = 1
 					elseif VWQL[charKey].aotlIgnoreFilter and factionID == 2165 then
@@ -7633,7 +7307,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 						questColor = questColor,
 						reputationList = reputationList,
 						professionIndex = tradeskillLineIndex and tradeskillLineID,
-						disableLFG = true,
+						disableLFG = not lfgEyeStatus or not WorldQuestList:CanCreateQuestGroup(questID),
 						highlightFaction = highlightFaction,
 						debugLine = debugLine,
 						showAchievement = showAchievement,
@@ -7910,11 +7584,6 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 		NUM_WORLDMAP_TASK_POIS = numTaskPOIs
 	end
 
-	local lfgEyeStatus = true
-	if C_LFGList.GetActiveEntryInfo() or VWQL.DisableLFG or VWQL.LFG_HideEyeInList then
-		lfgEyeStatus = false
-	end
-
 	for i=1,#result do
 		local data = result[i]
 		local line = WorldQuestList.l[taskIconIndex]
@@ -7959,6 +7628,8 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 				line.nameicon:SetAtlas("worldquest-icon-nzoth")
 			elseif data.nameicon == -11 then
 				line.nameicon:SetAtlas("worldquest-icon-race")
+			elseif data.nameicon == -12 then
+				line.nameicon:SetAtlas("worldquest-prey-crystal")
 			elseif type(data.nameicon) == "string" then
 				line.nameicon:SetAtlas(data.nameicon)
 			end
@@ -9643,6 +9314,9 @@ do
 			t.t:SetFont("Interface\\AddOns\\WorldQuestsList\\ariblk.ttf",10)
 			t.t:SetTextColor(.1,.1,.1,1)
 		end
+		if VWQL.RewardIcons_DisableRewardIconsText then
+			text = ""
+		end
 
 		t:SetPoint("CENTER",obj,0,0)
 		t.t:SetText(text)
@@ -10030,13 +9704,19 @@ do
 							obj.WQL_iconTopRight:SetAtlas("worldquest-icon-burninglegion")
 							obj.WQL_iconTopRight.curr = "worldquest-icon-burninglegion"
 						end
-					elseif worldQuestType == LE.LE_QUEST_TAG_TYPE_FACTION_ASSAULT  then
+					elseif worldQuestType == LE.LE_QUEST_TAG_TYPE_FACTION_ASSAULT then
 						local factionTag = UnitFactionGroup("player")
 						local icon = factionTag == "Alliance" and "worldquest-icon-horde" or "worldquest-icon-alliance"
 						if obj.WQL_iconTopRight.curr ~= icon then
 							obj.WQL_iconTopRight:SetSize(20*obj.WQL_iconTopRight.SIZE_MOD,20*obj.WQL_iconTopRight.SIZE_MOD)
 							obj.WQL_iconTopRight:SetAtlas(icon)
 							obj.WQL_iconTopRight.curr = icon
+						end
+					elseif worldQuestType == Enum.QuestTagType.Prey then
+						if obj.WQL_iconTopRight.curr ~= "worldquest-prey-crystal" then
+							obj.WQL_iconTopRight:SetSize(20*obj.WQL_iconTopRight.SIZE_MOD,20*obj.WQL_iconTopRight.SIZE_MOD)
+							obj.WQL_iconTopRight:SetAtlas("worldquest-prey-crystal")
+							obj.WQL_iconTopRight.curr = "worldquest-prey-crystal"
 						end
 					else
 						if obj.WQL_iconTopRight.curr then
@@ -10113,14 +9793,14 @@ do
 							if not obj.WQL_rewardRibbon:IsShown() then
 								obj.WQL_rewardRibbon:Show()
 							end
-							if VWQL.DisableRibbon and obj.WQL_rewardRibbon.type ~= 2 then
+							if (VWQL.DisableRibbon or VWQL.RewardIcons_DisableRewardIconsText) and obj.WQL_rewardRibbon.type ~= 2 then
 								obj.WQL_rewardRibbon.type = 2
 								if not isWorldMapFrame then
 									obj.WQL_rewardRibbonText:SetFont("Interface\\AddOns\\WorldQuestsList\\ariblk.ttf",18,"OUTLINE")
 									obj.WQL_rewardRibbonText:SetTextColor(1,1,1,1)
 								end
 								obj.WQL_rewardRibbon:SetAlpha(0)
-							elseif not VWQL.DisableRibbon and obj.WQL_rewardRibbon.type ~= 1 then
+							elseif not (VWQL.DisableRibbon or VWQL.RewardIcons_DisableRewardIconsText) and obj.WQL_rewardRibbon.type ~= 1 then
 								obj.WQL_rewardRibbon.type = 1
 								if not isWorldMapFrame then
 									obj.WQL_rewardRibbonText:SetFont("Interface\\AddOns\\WorldQuestsList\\ariblk.ttf",18)

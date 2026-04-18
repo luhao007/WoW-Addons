@@ -764,6 +764,338 @@ function TrackerInstance:Create()
                 instance:RefreshEntries()
             end,
         },
+        {
+            name = "Styling",
+            kind = LEM.SettingType.Divider,
+        },
+        {
+            name = "Square Icons",
+            kind = LEM.SettingType.Checkbox,
+            default = false,
+            get = function()
+                return ns.db.profile.trinketRacialTracker_squareIcons or false
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.trinketRacialTracker_squareIcons = value
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+        },
+        {
+            name = "Border Thickness",
+            kind = LEM.SettingType.Slider,
+            default = 1,
+            get = function()
+                return ns.db.profile.trinketRacialTracker_borderThickness or 1
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.trinketRacialTracker_borderThickness = value
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+            minValue = 0,
+            maxValue = 6,
+            valueStep = 1,
+            formatter = function(value)
+                return string.format("%dpx", value)
+            end,
+        },
+        {
+            name = "Icon Zoom",
+            kind = LEM.SettingType.Slider,
+            default = 0.3,
+            get = function()
+                return ns.db.profile.trinketRacialTracker_iconZoom or 0.3
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.trinketRacialTracker_iconZoom = value
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+            minValue = 0,
+            maxValue = 0.5,
+            valueStep = 0.01,
+            formatter = function(value)
+                return string.format("%.2f", value)
+            end,
+        },
+        {
+            name = "Stack Number",
+            kind = LEM.SettingType.Divider,
+        },
+        {
+            name = "Stack Anchor",
+            kind = LEM.SettingType.Dropdown,
+            default = "BOTTOMRIGHT",
+            get = function()
+                return ns.db.profile.trinketRacialTracker_stackAnchor or "BOTTOMRIGHT"
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.trinketRacialTracker_stackAnchor = value
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+            values = {
+                { text = "Top Left", value = "TOPLEFT" },
+                { text = "Top", value = "TOP" },
+                { text = "Top Right", value = "TOPRIGHT" },
+                { text = "Left", value = "LEFT" },
+                { text = "Center", value = "CENTER" },
+                { text = "Right", value = "RIGHT" },
+                { text = "Bottom Left", value = "BOTTOMLEFT" },
+                { text = "Bottom", value = "BOTTOM" },
+                { text = "Bottom Right", value = "BOTTOMRIGHT" },
+            },
+        },
+        {
+            name = "Stack Font Size",
+            kind = LEM.SettingType.Slider,
+            default = 14,
+            get = function()
+                return ns.db.profile.trinketRacialTracker_stackFontSize or 14
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.trinketRacialTracker_stackFontSize = value
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+            minValue = 8,
+            maxValue = 32,
+            valueStep = 1,
+            formatter = function(value)
+                return string.format("%d", value)
+            end,
+        },
+        {
+            name = "Stack X Offset",
+            kind = LEM.SettingType.Slider,
+            default = -1,
+            get = function()
+                return ns.db.profile.trinketRacialTracker_stackOffsetX or -1
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.trinketRacialTracker_stackOffsetX = value
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+            minValue = -40,
+            maxValue = 40,
+            valueStep = 1,
+            formatter = function(value)
+                return string.format("%d", value)
+            end,
+        },
+        {
+            name = "Stack Y Offset",
+            kind = LEM.SettingType.Slider,
+            default = 1,
+            get = function()
+                return ns.db.profile.trinketRacialTracker_stackOffsetY or 1
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.trinketRacialTracker_stackOffsetY = value
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+            minValue = -40,
+            maxValue = 40,
+            valueStep = 1,
+            formatter = function(value)
+                return string.format("%d", value)
+            end,
+        },
+        {
+            name = "Cooldown Numbers",
+            kind = LEM.SettingType.Divider,
+        },
+        {
+            name = "Override Cooldown Number Size",
+            kind = LEM.SettingType.Checkbox,
+            default = false,
+            get = function()
+                return ns.db.profile.cooldownManager_cooldownFontSizeTracker_enabled
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.cooldownManager_cooldownFontSizeTracker_enabled = value
+                if not value and ns.API and ns.API.ShowReloadUIConfirmation then
+                    ns.API:ShowReloadUIConfirmation()
+                end
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+        },
+        {
+            name = "Number Size",
+            kind = LEM.SettingType.Dropdown,
+            default = "NIL",
+            get = function()
+                return ns.db.profile.cooldownManager_cooldownFontSizeTracker ~= nil
+                        and tostring(ns.db.profile.cooldownManager_cooldownFontSizeTracker)
+                    or "NIL"
+            end,
+            set = function(layoutName, value)
+                if value == "NIL" then
+                    ns.db.profile.cooldownManager_cooldownFontSizeTracker = "NIL"
+                else
+                    local n = tonumber(value)
+                    ns.db.profile.cooldownManager_cooldownFontSizeTracker = n
+                end
+                if ns.TrackerItemViewer then
+                    ns.TrackerItemViewer:RefreshStyling()
+                end
+            end,
+            values = {
+                { text = "Default", value = "NIL" },
+                { text = "Hide", value = "0" },
+                { text = "10", value = "10" },
+                { text = "12", value = "12" },
+                { text = "14", value = "14" },
+                { text = "16", value = "16" },
+                { text = "18", value = "18" },
+                { text = "20", value = "20" },
+                { text = "22", value = "22" },
+                { text = "24", value = "24" },
+                { text = "26", value = "26" },
+                { text = "28", value = "28" },
+                { text = "30", value = "30" },
+                { text = "32", value = "32" },
+                { text = "34", value = "34" },
+                { text = "36", value = "36" },
+                { text = "38", value = "38" },
+            },
+        },
+        {
+            name = "Keybinds",
+            kind = LEM.SettingType.Divider,
+        },
+        {
+            name = "Show Keybinds",
+            kind = LEM.SettingType.Checkbox,
+            default = false,
+            get = function()
+                return ns.db.profile.cooldownManager_showKeybinds_CMCTracker
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.cooldownManager_showKeybinds_CMCTracker = value
+                if ns.Keybinds then
+                    ns.Keybinds:OnSettingChanged("CMCTracker1")
+                    ns.Keybinds:OnSettingChanged("CMCTracker2")
+                end
+                if not value and ns.API and ns.API.ShowReloadUIConfirmation then
+                    ns.API:ShowReloadUIConfirmation()
+                end
+            end,
+        },
+        {
+            name = "Keybind Anchor",
+            kind = LEM.SettingType.Dropdown,
+            default = "TOPRIGHT",
+            get = function()
+                return ns.db.profile.cooldownManager_keybindAnchor_CMCTracker or "TOPRIGHT"
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.cooldownManager_keybindAnchor_CMCTracker = value
+                if ns.Keybinds then
+                    ns.Keybinds:ApplyKeybindSettings("CMCTracker1")
+                    ns.Keybinds:ApplyKeybindSettings("CMCTracker2")
+                end
+            end,
+            values = {
+                { text = "Top Left", value = "TOPLEFT" },
+                { text = "Top", value = "TOP" },
+                { text = "Top Right", value = "TOPRIGHT" },
+                { text = "Left", value = "LEFT" },
+                { text = "Center", value = "CENTER" },
+                { text = "Right", value = "RIGHT" },
+                { text = "Bottom Left", value = "BOTTOMLEFT" },
+                { text = "Bottom", value = "BOTTOM" },
+                { text = "Bottom Right", value = "BOTTOMRIGHT" },
+            },
+        },
+        {
+            name = "Keybind Font Size",
+            kind = LEM.SettingType.Dropdown,
+            default = "10",
+            get = function()
+                return tostring(ns.db.profile.cooldownManager_keybindFontSize_CMCTracker or 10)
+            end,
+            set = function(layoutName, value)
+                local n = tonumber(value)
+                ns.db.profile.cooldownManager_keybindFontSize_CMCTracker = n and math.floor(n + 0.5) or 14
+                if ns.Keybinds then
+                    ns.Keybinds:ApplyKeybindSettings("CMCTracker1")
+                    ns.Keybinds:ApplyKeybindSettings("CMCTracker2")
+                end
+            end,
+            values = {
+                { text = "6", value = "6" },
+                { text = "8", value = "8" },
+                { text = "10", value = "10" },
+                { text = "12", value = "12" },
+                { text = "14", value = "14" },
+                { text = "16", value = "16" },
+                { text = "18", value = "18" },
+                { text = "20", value = "20" },
+                { text = "22", value = "22" },
+                { text = "24", value = "24" },
+                { text = "26", value = "26" },
+                { text = "28", value = "28" },
+                { text = "30", value = "30" },
+                { text = "32", value = "32" },
+            },
+        },
+        {
+            name = "Keybind X Offset",
+            kind = LEM.SettingType.Slider,
+            default = -3,
+            get = function()
+                return ns.db.profile.cooldownManager_keybindOffsetX_CMCTracker or -3
+            end,
+            set = function(layoutName, value)
+                local v = math.floor((value or 0) + 0.5)
+                ns.db.profile.cooldownManager_keybindOffsetX_CMCTracker = v
+                if ns.Keybinds then
+                    ns.Keybinds:ApplyKeybindSettings("CMCTracker1")
+                    ns.Keybinds:ApplyKeybindSettings("CMCTracker2")
+                end
+            end,
+            minValue = -40,
+            maxValue = 40,
+            valueStep = 1,
+            formatter = function(value)
+                return string.format("%d", value)
+            end,
+        },
+        {
+            name = "Keybind Y Offset",
+            kind = LEM.SettingType.Slider,
+            default = -3,
+            get = function()
+                return ns.db.profile.cooldownManager_keybindOffsetY_CMCTracker or -3
+            end,
+            set = function(layoutName, value)
+                local v = math.floor((value or 0) + 0.5)
+                ns.db.profile.cooldownManager_keybindOffsetY_CMCTracker = v
+                if ns.Keybinds then
+                    ns.Keybinds:ApplyKeybindSettings("CMCTracker1")
+                    ns.Keybinds:ApplyKeybindSettings("CMCTracker2")
+                end
+            end,
+            minValue = -40,
+            maxValue = 40,
+            valueStep = 1,
+            formatter = function(value)
+                return string.format("%d", value)
+            end,
+        },
     }
     if configKey == "tracker2" then
         tinsert(additionalSettings, {

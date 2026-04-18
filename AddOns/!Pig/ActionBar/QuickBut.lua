@@ -262,7 +262,7 @@ QuickButF.ModF:HookScript("OnShow", function(self)
 	end
 	self.QKButEquip:SetChecked(PIGA["QuickBut"]["Equip"])
 	self.AddonList:SetChecked(PIGA["QuickBut"]["AddonList"])
-	if PIG_MaxTocversion(20000) then
+	if self.QKButEquip then
 		self.QKButEquip:SetEnabled(PIGA["FramePlus"]["Character_Shuxing"])
 		self.QKButEquip.errt:SetShown(not PIGA["FramePlus"]["Character_Shuxing"])
 	end

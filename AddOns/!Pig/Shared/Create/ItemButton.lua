@@ -1,0 +1,86 @@
+local addonName, addonTable = ...;
+
+local Create=addonTable.Create
+local PIGFontString=Create.PIGFontString
+--
+local Fun=addonTable.Fun
+local _GetTooltipLevel=Fun._GetTooltipLevel
+--创建元素-染色/装等
+function Fun.CZ_ItemButtonZLVranse(framef)
+	if framef.ZLV then framef.ZLV:SetText("") end
+	if framef.ranse then framef.ranse:Hide() end
+end
+function Fun.Update_ItemButtonZLVranse(ly,framef,data1,data2,data3)
+	if PIGA["BagBank"]["wupinLV"] then
+		if not framef.ZLV then
+			framef.ZLV = PIGFontString(framef,{"TOPLEFT", framef, "TOPLEFT", -1, 0.4},nil,"THICKOUTLINE",14)
+			framef.ZLV:SetDrawLayer("OVERLAY", 7)
+			framef.ZLV:SetTextColor(0, 1, 1, 1);
+		end
+		framef.ZLV:SetText("");
+		if ly=="C" then
+			if data2~=0 and data2~=4 and data2~=19 then
+				local itemLink = GetInventoryItemLink(data1, data2)
+				if itemLink then
+					local Newquality = GetInventoryItemQuality(data1, data2)
+					local r, g, b = GetItemQualityColor(Newquality or 1);
+		    		framef.ZLV:SetTextColor(r, g, b);
+					_GetTooltipLevel(data1,{data2},function(ItemLevel)
+						framef.ZLV:SetText(ItemLevel)
+					end)
+				end
+			end
+		elseif ly=="B" then
+			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(data1,data2)
+			if itemLink then
+				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = GetItemInfoInstant(itemLink)
+				if classID==2 or classID==4 then
+					local r, g, b = GetItemQualityColor(quality or 1);
+					framef.ZLV:SetTextColor(r, g, b);
+					_GetTooltipLevel("bag",{data1,data2},function(ItemLevel)
+						framef.ZLV:SetText(ItemLevel);
+					end)
+				end
+			end
+		elseif ly=="L" or ly=="YC" then
+			if data1 then
+				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = GetItemInfoInstant(data1)
+				if classID==2 or classID==4 then
+					if ly=="L" or (ly=="YC" and data3~=0 and data3~=4 and data3~=19) then
+						local r, g, b = GetItemQualityColor(data2 or 1);
+						framef.ZLV:SetTextColor(r, g, b);
+						_GetTooltipLevel("link",{data1},function(ItemLevel)
+							framef.ZLV:SetText(ItemLevel);
+						end)
+					end
+				end
+			end
+		end
+	end
+	if PIGA["BagBank"]["wupinRanse"] then
+		if not framef.ranse then
+			local Width123=framef:GetWidth()
+			framef.ranse = framef:CreateTexture(nil, "OVERLAY");
+		    framef.ranse:SetTexture("Interface/Buttons/UI-ActionButton-Border");
+		    framef.ranse:SetBlendMode("ADD");
+		    framef.ranse:SetPoint("TOPLEFT", framef, "TOPLEFT", -Width123*0.4, Width123*0.4);
+		    framef.ranse:SetPoint("BOTTOMRIGHT", framef, "BOTTOMRIGHT", Width123*0.4, -Width123*0.4);
+		    framef.ranse:Hide()
+		end
+		framef.ranse:Hide()
+		local Newquality
+		if ly=="C" then
+			Newquality = GetInventoryItemQuality(data1, data2)
+		elseif ly=="B" then
+			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(data1, data2)
+			Newquality=quality
+		elseif ly=="L" or ly=="YC" then
+			Newquality=data2
+		end
+	    if Newquality and Newquality>1 then
+	        local r, g, b = GetItemQualityColor(Newquality);
+	        framef.ranse:SetVertexColor(r, g, b);
+			framef.ranse:Show()
+		end
+	end
+end

@@ -247,23 +247,24 @@ fuFrame.NPCID = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-220},{125,24}
 fuFrame.NPCID:SetScript("OnClick", function (self)
 	print(UnitGUID("target"))
 end);
-fuFrame.GetItem = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",230,-260},{110,24},"获取物品信息")
+fuFrame.GetItem = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",230,-260},{100,24},ITEMS..INFO)
 fuFrame.GetItem:SetScript("OnClick", function (self,button)
-	if button=="LeftButton" then
-		local itemName,itemLink = GetItemInfo(self.E:GetNumber())
-		print(itemLink)
-		--ChatFrame1:AddMessage("\124cffa335ee\124Hitem:22436:0:0:0:0:0:0:0\124h[地穴追猎者外套]\124h\124r")
-		--print(GetItemInfo(self.E:GetText()))
-		--DevTools_Dump({GetItemInfo(self.E:GetText())})
-		-- print(string.gsub(itemLink,"|","||"))
-		-- local itemLink=Fun.GetItemLinkJJ(itemLink)
-		-- print(itemLink)
-		-- local itemLink=Fun.HY_ItemLinkJJ(itemLink)
-		-- print(itemLink)
-	else
-		print(PIGGetSpellInfo(self.E:GetText()))
-	end
+	local itemName,itemLink = GetItemInfo(self.E:GetNumber())
+	print(itemLink)
+	--ChatFrame1:AddMessage("\124cffa335ee\124Hitem:22436:0:0:0:0:0:0:0\124h[地穴追猎者外套]\124h\124r")
+	--print(GetItemInfo(self.E:GetText()))
+	--DevTools_Dump({GetItemInfo(self.E:GetText())})
+	-- print(string.gsub(itemLink,"|","||"))
+	-- local itemLink=Fun.GetItemLinkJJ(itemLink)
+	-- print(itemLink)
+	-- local itemLink=Fun.HY_ItemLinkJJ(itemLink)
+	-- print(itemLink)
 end);
+fuFrame.GetSpell = PIGButton(fuFrame,{"LEFT",fuFrame.GetItem,"RIGHT",10,0},{100,24},SPELLS..INFO)
+fuFrame.GetSpell:SetScript("OnClick", function (self,button)
+	print(PIGGetSpellInfo(fuFrame.GetItem.E:GetText()))
+end);
+
 fuFrame.GetItem.E = CreateFrame("EditBox", nil, fuFrame.GetItem, "InputBoxInstructionsTemplate");
 fuFrame.GetItem.E:SetSize(200,24);
 fuFrame.GetItem.E:SetPoint("RIGHT",fuFrame.GetItem,"LEFT",-4,0);

@@ -209,6 +209,7 @@ end
 
 local function IsNpcPOIFiltered(npcID, mapID, npcInfo, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	local name = RSNpcDB.GetNpcName(npcID)
+	local ignoreShowing = onMinimap and RSConfigDB.IsIgnoringWorldMapFiltersOnMinimap()
 	
 	-- Skip if part of a disabled event
 	if (RSNpcDB.IsDisabledEvent(npcID)) then
@@ -235,7 +236,7 @@ local function IsNpcPOIFiltered(npcID, mapID, npcInfo, questTitles, vignetteGUID
 	end
 	
 	-- Skip if custom NPC group filtered
-	if (npcInfo and npcInfo.group and RSConfigDB.IsCustomNpcGroupFiltered(npcInfo.group)) then
+	if (npcInfo and npcInfo.group and RSConfigDB.IsCustomNpcGroupFiltered(npcInfo.group) and not ignoreShowing) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado grupo.", npcID))
 		return true
 	end
@@ -255,7 +256,7 @@ local function IsNpcPOIFiltered(npcID, mapID, npcInfo, questTitles, vignetteGUID
 		isMinieventWithFilter = RSConstants.MINIEVENTS_WORLDMAP_FILTERS[npcInfo.minieventID].active
 		
 		-- Skip if minievent is filtered
-		if (RSConfigDB.IsMinieventFiltered(npcInfo.minieventID)) then
+		if (RSConfigDB.IsMinieventFiltered(npcInfo.minieventID) and not ignoreShowing) then
 			RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado minievento [%s].", npcID, npcInfo.minieventID))
 			return true
 		-- Skip if Dreamsurge minievent is not up
@@ -277,26 +278,26 @@ local function IsNpcPOIFiltered(npcID, mapID, npcInfo, questTitles, vignetteGUID
 	local isNotCompletedAchievement = false
 	if (npcInfo) then
 		isNotCompletedAchievement = RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(npcID, mapID, npcInfo.achievementID, npcInfo.questID, npcInfo.criteria)) > 0;
-		if (not RSConfigDB.IsShowingAchievementRareNPCs() and isNotCompletedAchievement) then
+		if (not RSConfigDB.IsShowingAchievementRareNPCs() and not ignoreShowing and isNotCompletedAchievement) then
 			RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado NPC con logro.", npcID))
 			return true
 		end
 	end
 	
 	-- Skip if profession and filtered
-	if (npcInfo and not RSConfigDB.IsShowingProfessionRareNPCs() and npcInfo.prof) then
+	if (npcInfo and not RSConfigDB.IsShowingProfessionRareNPCs() and not ignoreShowing and npcInfo.prof) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado NPC de profesion.", npcID))
 		return true
 	end
 	
 	-- Skip if other filtered
-	if (not RSConfigDB.IsShowingOtherRareNPCs() and not isMinieventWithFilter and not isNotCompletedAchievement and (not npcInfo or not npcInfo.prof)) then
+	if (not RSConfigDB.IsShowingOtherRareNPCs() and not ignoreShowing and not isMinieventWithFilter and not isNotCompletedAchievement and (not npcInfo or not npcInfo.prof)) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado otro NPC.", npcID))
 		return true
 	end
 
 	-- Skip if not showing friendly NPCs and this one is friendly
-	if (not RSConfigDB.IsShowingFriendlyNpcs() and RSNpcDB.IsInternalNpcFriendly(npcID)) then
+	if (not RSConfigDB.IsShowingFriendlyNpcs() and not ignoreShowing and RSNpcDB.IsInternalNpcFriendly(npcID)) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Es amistoso.", npcID))
 		return true
 	end
@@ -398,7 +399,7 @@ local function IsNpcPOIFiltered(npcID, mapID, npcInfo, questTitles, vignetteGUID
 	end
 	
 	-- Skip if it doesn't drop weekly rep anymore
-	if (npcInfo and not RSConfigDB.IsShowingWeeklyRepFilterEnabled()) then
+	if (npcInfo and not RSConfigDB.IsShowingWeeklyRepFilterEnabled() and not ignoreShowing) then
 		-- If dungeons/delve/raid ignore
 		local mapInfo = C_Map.GetMapInfo(mapID)
 		
@@ -429,8 +430,10 @@ local function IsNpcPOIFiltered(npcID, mapID, npcInfo, questTitles, vignetteGUID
 end
 
 function RSNpcPOI.GetMapNpcPOI(npcID, mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap, recentlySeenInfo)
+	local ignoreShowing = onMinimap and RSConfigDB.IsIgnoringWorldMapFiltersOnMinimap()
+	
 	-- Skip if not showing NPC icons
-	if (not RSConfigDB.IsShowingNpcs()) then
+	if (not RSConfigDB.IsShowingNpcs() and not ignoreShowing) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Iconos de NPCs deshabilitado.", npcID))
 		return
 	end
@@ -438,7 +441,7 @@ function RSNpcPOI.GetMapNpcPOI(npcID, mapID, questTitles, vignetteGUIDs, areaPOI
 	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE)
 	
 	-- Skip if not showing not discovered NPC icons
-	if (not RSConfigDB.IsShowingNotDiscoveredNpcs() and not alreadyFoundInfo) then
+	if (not RSConfigDB.IsShowingNotDiscoveredNpcs() and not ignoreShowing and not alreadyFoundInfo) then
 		return
 	end
 

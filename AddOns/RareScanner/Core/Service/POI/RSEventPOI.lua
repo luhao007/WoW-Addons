@@ -144,8 +144,10 @@ local function IsEventPOIFiltered(eventID, mapID, eventInfo, vignetteGUIDs, area
 end
 
 function RSEventPOI.GetMapEventPOI(eventID, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap, recentlySeenInfo)
+	local ignoreShowing = onMinimap and RSConfigDB.IsIgnoringWorldMapFiltersOnMinimap()
+	
 	-- Skip if not showing events icons
-	if (not RSConfigDB.IsShowingEvents()) then
+	if (not RSConfigDB.IsShowingEvents() and not ignoreShowing) then
 		RSLogger:PrintDebugMessageEntityID(eventID, string.format("Saltado Evento [%s]: Iconos de eventos deshabilitado.", eventID))
 		return
 	end
@@ -153,7 +155,7 @@ function RSEventPOI.GetMapEventPOI(eventID, mapID, vignetteGUIDs, areaPOIs, onWo
 	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(eventID, RSConstants.EVENT_VIGNETTE)
 	
 	-- Skip if not showing not discovered icons
-	if (not RSConfigDB.IsShowingNotDiscoveredEvents() and not alreadyFoundInfo) then
+	if (not RSConfigDB.IsShowingNotDiscoveredEvents() and not ignoreShowing and not alreadyFoundInfo) then
 		return
 	end
 

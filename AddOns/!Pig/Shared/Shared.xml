@@ -1,0 +1,18 @@
+<Ui>
+	<Include file="API\API.xml" />
+	<Include file="Data\Data.xml" />
+	<Script file="Engraving.lua" />
+	<Script file="LFG.lua" />
+	<Script file="GetItemInfo.lua" />
+	<Include file="Create\Create.xml" />
+	<Script file="ExportImport.lua" />
+	<Script file="ActionFun.lua" />	
+	<Script file="BlizzardUI.lua" />
+	<Script file="LongInspectAla.lua" />
+	<Script file="TalentFun.lua" />
+	<Script file="ItemList.lua" />
+	<Script file="LongInspect.lua" />
+	<Script file="QuickBut.lua" />
+	<Script file="TradeRecords.lua" />
+	<Script file="GDKP_Auc.lua" />
+</Ui>
