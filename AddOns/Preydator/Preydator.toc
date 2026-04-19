@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: RagingAltoholic
-## Version: 2.2.6
+## Version: 2.2.8
 
 ## Title: Preydator
 ## Notes: Tracks Prey Hunt progress with customizable visuals and sounds.
@@ -45,4 +45,5 @@ Modules\Settings.lua
 Modules\EditMode.lua
 Modules\DebugInspect.lua
 Modules\CurrencyTracker.lua
+Modules\PreyQuestData.lua
 Modules\HuntScanner.lua

@@ -3,6 +3,7 @@
 local _, addonTable = ...
 local Preydator = _G.Preydator or addonTable
 local L = _G.PreydatorL or setmetatable({}, { __index = function(_, k) return k end })
+local addon = addonTable
 
 local HuntScannerModule = {}
 Preydator:RegisterModule("HuntScanner", HuntScannerModule)
@@ -96,6 +97,11 @@ local achievementNeedsByNameKey = {}
 local completedAchievementCache = {}
 local achievementCacheDirty = true
 local lastAchievementCacheBuildAt = 0
+local achievementRouteStats = {
+    idHits = 0,
+    fallbackHits = 0,
+    misses = 0,
+}
 local PANEL_ROW_POOL_SIZE = 20
 
 local HandleInteractionSnapshot
@@ -916,6 +922,133 @@ local function RebuildAchievementNeedsCache()
         return
     end
 
+    -- Fast-path: use static questID mappings first. This remains locale-independent
+    -- and avoids string matching for known prey achievements.
+    if type(GetAchievementCriteriaInfoByID) == "function"
+        and type(addon.PreyQuestData) == "table"
+        and type(addon.PREY_HUNT_ACHIEVEMENT_IDS) == "table" then
+        local criteriaByAchievement = {}
+
+        local function BuildCriteriaMapForAchievement(achievementID)
+            if criteriaByAchievement[achievementID] ~= nil then
+                return criteriaByAchievement[achievementID]
+            end
+
+            local map = {}
+            local okCount, criteriaCountRaw = pcall(GetAchievementNumCriteria, achievementID)
+            local criteriaCount = (okCount and SafeToNumber(criteriaCountRaw)) or 0
+            for criteriaIndex = 1, criteriaCount do
+                local okCriteria, criteriaName, criteriaTypeRaw, criteriaCompleted, _, _, _, _, assetIDRaw =
+                    pcall(GetAchievementCriteriaInfo, achievementID, criteriaIndex, true)
+                local criteriaType = SafeToNumber(criteriaTypeRaw)
+                local questID = SafeToNumber(assetIDRaw)
+                if okCriteria
+                    and criteriaType == ACHIEVEMENT_CRITERIA_TYPE_QUEST
+                    and questID and questID > 0 then
+                    local entries = map[questID]
+                    if not entries then
+                        entries = {}
+                        map[questID] = entries
+                    end
+                    entries[#entries + 1] = {
+                        completed = (criteriaCompleted == true),
+                        name = criteriaName,
+                    }
+                end
+            end
+
+            criteriaByAchievement[achievementID] = map
+            return map
+        end
+
+        local function GetQuestCriteriaLabelIfIncomplete(achievementID, questID, criteriaIDHint)
+            if criteriaIDHint then
+                local okByID, criteriaNameByID, _, criteriaCompletedByID =
+                    pcall(GetAchievementCriteriaInfoByID, achievementID, criteriaIDHint)
+                if okByID and criteriaCompletedByID ~= true then
+                    return criteriaNameByID
+                end
+                if okByID then
+                    return nil
+                end
+            end
+
+            local criteriaMap = BuildCriteriaMapForAchievement(achievementID)
+            local entries = criteriaMap and criteriaMap[questID] or nil
+            if type(entries) ~= "table" then
+                return nil
+            end
+
+            for _, entry in ipairs(entries) do
+                if type(entry) == "table" and entry.completed ~= true then
+                    return entry.name
+                end
+            end
+
+            return nil
+        end
+
+        local function TryAddMappedQuestAchievement(questID, achievementID, criteriaIDHint)
+            if type(achievementID) ~= "number" or achievementID <= 0 then
+                return
+            end
+            if IsAchievementCompletedCached(achievementID) then
+                return
+            end
+
+            local okInfo, _, achievementName, _, achievementCompleted = pcall(GetAchievementInfo, achievementID)
+            if not okInfo then
+                return
+            end
+            if achievementCompleted == true then
+                MarkAchievementCompleted(achievementID)
+                return
+            end
+
+            local criteriaName = GetQuestCriteriaLabelIfIncomplete(achievementID, questID, criteriaIDHint)
+            if not criteriaName then
+                return
+            end
+
+            local label = (type(achievementName) == "string" and achievementName ~= "" and achievementName)
+                or (type(criteriaName) == "string" and criteriaName ~= "" and criteriaName)
+                or ("Achievement " .. tostring(achievementID))
+            AddAchievementNeed(achievementNeedsByQuestID, questID, achievementID, label)
+        end
+
+        for questID, data in pairs(addon.PreyQuestData) do
+            local difficultyIndex = data[1]
+            local criteriaID = data[2]
+
+            -- Primary III-series criteria mapping from PreyQuestData.
+            local modeIIIAchievementID = addon.PREY_HUNT_ACHIEVEMENT_IDS[difficultyIndex]
+            if modeIIIAchievementID then
+                TryAddMappedQuestAchievement(questID, modeIIIAchievementID, criteriaID)
+            end
+
+            -- Include per-difficulty I/II/III progress achievements when they expose
+            -- quest criteria for this quest.
+            local modeIDsByDifficulty = addon.PREY_HUNT_MODE_ACHIEVEMENT_IDS_BY_DIFFICULTY
+            local modeIDs = type(modeIDsByDifficulty) == "table" and modeIDsByDifficulty[difficultyIndex] or nil
+            if type(modeIDs) == "table" then
+                for _, modeAchievementID in ipairs(modeIDs) do
+                    if modeAchievementID ~= modeIIIAchievementID then
+                        TryAddMappedQuestAchievement(questID, modeAchievementID, nil)
+                    end
+                end
+            end
+
+            -- Include explicit non-meta tracked achievements mapped by quest.
+            local mappedAchievementsByQuest = addon.PREY_HUNT_ACHIEVEMENTS_BY_QUEST
+            local mappedAchievements = type(mappedAchievementsByQuest) == "table" and mappedAchievementsByQuest[questID] or nil
+            if type(mappedAchievements) == "table" then
+                for _, mappedAchievementID in ipairs(mappedAchievements) do
+                    TryAddMappedQuestAchievement(questID, mappedAchievementID, nil)
+                end
+            end
+        end
+    end
+
     for _, achievementID in ipairs(TRACKED_PREY_ACHIEVEMENT_IDS) do
         if not IsAchievementCompletedCached(achievementID) then
             local okInfo, _, achievementName, _, achievementCompleted = pcall(GetAchievementInfo, achievementID)
@@ -1065,6 +1198,45 @@ local function ResolveAchievementNameBucket(title, difficulty)
     return nil, nil
 end
 
+local function MergeAchievementBuckets(primaryBucket, secondaryBucket)
+    local hasPrimary = type(primaryBucket) == "table" and (primaryBucket.count or 0) > 0
+    local hasSecondary = type(secondaryBucket) == "table" and (secondaryBucket.count or 0) > 0
+
+    if hasPrimary and not hasSecondary then
+        return primaryBucket.count or 0, primaryBucket.names
+    end
+    if hasSecondary and not hasPrimary then
+        return secondaryBucket.count or 0, secondaryBucket.names
+    end
+    if not hasPrimary and not hasSecondary then
+        return 0, nil
+    end
+
+    local mergedIDs = {}
+    local mergedNames = {}
+
+    for _, achievementID in ipairs(primaryBucket.ids or {}) do
+        AddUniqueNumber(mergedIDs, achievementID)
+    end
+    for _, achievementID in ipairs(secondaryBucket.ids or {}) do
+        AddUniqueNumber(mergedIDs, achievementID)
+    end
+
+    for _, label in ipairs(primaryBucket.names or {}) do
+        AddUniqueString(mergedNames, label)
+    end
+    for _, label in ipairs(secondaryBucket.names or {}) do
+        AddUniqueString(mergedNames, label)
+    end
+
+    SortStrings(mergedNames)
+    if #mergedIDs <= 0 then
+        return 0, nil
+    end
+
+    return #mergedIDs, mergedNames
+end
+
 local function GetQuestAchievementNeeds(questID, title, difficulty)
     local id = SafeToNumber(questID)
 
@@ -1074,19 +1246,30 @@ local function GetQuestAchievementNeeds(questID, title, difficulty)
     end
 
     EnsureAchievementNeedsCache(false)
-    local bucket = id and achievementNeedsByQuestID[id] or nil
-    if (type(bucket) ~= "table" or (bucket.count or 0) <= 0)
-        and type(title) == "string" and title ~= "" then
-        local nameBucket = ResolveAchievementNameBucket(title, difficulty)
-        if type(nameBucket) == "table" and (nameBucket.count or 0) > 0 then
-            bucket = nameBucket
-        end
+    local idBucket = id and achievementNeedsByQuestID[id] or nil
+    local hasIDBucket = type(idBucket) == "table" and (idBucket.count or 0) > 0
+
+    local nameBucket = nil
+    local hasNameBucket = false
+    if type(title) == "string" and title ~= "" then
+        nameBucket = ResolveAchievementNameBucket(title, difficulty)
+        hasNameBucket = type(nameBucket) == "table" and (nameBucket.count or 0) > 0
     end
-    if type(bucket) ~= "table" or (bucket.count or 0) <= 0 then
+
+    if hasIDBucket then
+        achievementRouteStats.idHits = (achievementRouteStats.idHits or 0) + 1
+    end
+    if hasNameBucket then
+        achievementRouteStats.fallbackHits = (achievementRouteStats.fallbackHits or 0) + 1
+    end
+
+    local mergedCount, mergedNames = MergeAchievementBuckets(idBucket, nameBucket)
+    if mergedCount <= 0 then
+        achievementRouteStats.misses = (achievementRouteStats.misses or 0) + 1
         return 0, nil
     end
 
-    return bucket.count or 0, bucket.names
+    return mergedCount, mergedNames
 end
 
 local function GetRewardScopeKey()
@@ -2989,6 +3172,22 @@ local function BuildDebugSnapshotLines(snapshot)
         .. " warming=" .. SafeToString(mapState.warming)
         .. " mapVisible=" .. SafeToString(mapState.missionVisible)
 
+    local idHits = SafeToNumber(achievementRouteStats.idHits) or 0
+    local fallbackHits = SafeToNumber(achievementRouteStats.fallbackHits) or 0
+    local misses = SafeToNumber(achievementRouteStats.misses) or 0
+    local total = idHits + fallbackHits + misses
+    local idPct = total > 0 and (idHits / total) * 100 or 0
+    local fallbackPct = total > 0 and (fallbackHits / total) * 100 or 0
+    lines[#lines + 1] = string.format(
+        "Preydator HuntDebug: achievementRoute id=%d fallback=%d miss=%d total=%d idPct=%.1f fallbackPct=%.1f",
+        idHits,
+        fallbackHits,
+        misses,
+        total,
+        idPct,
+        fallbackPct
+    )
+
     if type(mapState.difficultyCounts) == "table" then
         lines[#lines + 1] = "Preydator HuntDebug: mapDiffs normal=" .. SafeToString(mapState.difficultyCounts[DIFFICULTY_NORMAL] or 0)
             .. " hard=" .. SafeToString(mapState.difficultyCounts[DIFFICULTY_HARD] or 0)
@@ -4224,6 +4423,12 @@ function HuntScannerModule:OnSlashCommand(text, rest)
         end
 
         local lines = {}
+        local idHits = SafeToNumber(achievementRouteStats.idHits) or 0
+        local fallbackHits = SafeToNumber(achievementRouteStats.fallbackHits) or 0
+        local misses = SafeToNumber(achievementRouteStats.misses) or 0
+        local routeTotal = idHits + fallbackHits + misses
+        local idPct = routeTotal > 0 and (idHits / routeTotal) * 100 or 0
+        local fallbackPct = routeTotal > 0 and (fallbackHits / routeTotal) * 100 or 0
         lines[#lines + 1] = string.format(
             "Preydator AchInspect: questIDs=%d nameKeys=%d completed=%d dirty=%s suffixes[nightmare=%d hard=%d normal=%d none=%d]",
             questIDCount,
@@ -4234,6 +4439,15 @@ function HuntScannerModule:OnSlashCommand(text, rest)
             suffixHard,
             suffixNormal,
             suffixNone
+        )
+        lines[#lines + 1] = string.format(
+            "Preydator AchInspect: route id=%d fallback=%d miss=%d total=%d idPct=%.1f fallbackPct=%.1f",
+            idHits,
+            fallbackHits,
+            misses,
+            routeTotal,
+            idPct,
+            fallbackPct
         )
 
         if nameKeyCount == 0 and questIDCount == 0 then
@@ -4431,6 +4645,9 @@ end
 
 function HuntScannerModule:ClearAchievementCache()
     ClearCompletedAchievementCache()
+    achievementRouteStats.idHits = 0
+    achievementRouteStats.fallbackHits = 0
+    achievementRouteStats.misses = 0
     if IsOptionsPreviewVisible() then
         RenderPanel(BuildPreviewRows())
         return
@@ -4598,6 +4815,21 @@ function HuntScannerModule:GetQuestMetadata(questID)
         zoneName = zoneName,
         zoneMapID = zoneMapID,
         sourceType = sourceType,
+    }
+end
+
+function HuntScannerModule:GetAchievementRouteStats()
+    local idHits = SafeToNumber(achievementRouteStats.idHits) or 0
+    local fallbackHits = SafeToNumber(achievementRouteStats.fallbackHits) or 0
+    local misses = SafeToNumber(achievementRouteStats.misses) or 0
+    local total = idHits + fallbackHits + misses
+    return {
+        idHits = idHits,
+        fallbackHits = fallbackHits,
+        misses = misses,
+        total = total,
+        idPct = total > 0 and (idHits / total) * 100 or 0,
+        fallbackPct = total > 0 and (fallbackHits / total) * 100 or 0,
     }
 end
 

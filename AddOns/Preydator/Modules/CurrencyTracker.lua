@@ -374,26 +374,55 @@ function preyTrackerUtil.GetBestScopedAvailabilityForCharacter(charKey, level)
     return bestCounts
 end
 
-local function GetCurrencyQuantity(currencyID)
-    if not C_CurrencyInfo or not C_CurrencyInfo.GetCurrencyInfo then
-        return 0
+local function SafeToNumberLike(value)
+    local okString, asString = pcall(tostring, value)
+    if not okString or type(asString) ~= "string" then
+        return nil
     end
+
+    local numericToken = string.match(asString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
+        or string.match(asString, "^%s*([%+%-]?%d*%.%d+)%s*$")
+    if not numericToken then
+        return nil
+    end
+
+    local okNumber, result = pcall(tonumber, numericToken)
+    if okNumber and type(result) == "number" then
+        return result
+    end
+
+    return nil
+end
+
+local function GetCurrencyInfoSafe(currencyID)
+    if not C_CurrencyInfo or not C_CurrencyInfo.GetCurrencyInfo then
+        return nil
+    end
+
     local okInfo, info = pcall(C_CurrencyInfo.GetCurrencyInfo, currencyID)
     if not okInfo or type(info) ~= "table" then
-        return 0
+        return nil
     end
-    return select(2, pcall(tonumber, info.quantity)) or 0
+
+    local name = type(info.name) == "string" and info.name or nil
+    local quantity = SafeToNumberLike(info.quantity) or 0
+    local iconFileID = SafeToNumberLike(info.iconFileID)
+
+    return {
+        name = name,
+        quantity = quantity,
+        iconFileID = iconFileID,
+    }
+end
+
+local function GetCurrencyQuantity(currencyID)
+    local info = GetCurrencyInfoSafe(currencyID)
+    return (info and info.quantity) or 0
 end
 
 local function GetCurrencyIcon(currencyID)
-    if not C_CurrencyInfo or not C_CurrencyInfo.GetCurrencyInfo then
-        return nil
-    end
-    local okInfo, info = pcall(C_CurrencyInfo.GetCurrencyInfo, currencyID)
-    if not okInfo or type(info) ~= "table" then
-        return nil
-    end
-    return info.iconFileID
+    local info = GetCurrencyInfoSafe(currencyID)
+    return info and info.iconFileID or nil
 end
 
 local function EnsureDB()
@@ -2320,7 +2349,7 @@ EnsureWarbandWindow = function()
                 return
             end
 
-            local info = C_CurrencyInfo and C_CurrencyInfo.GetCurrencyInfo and C_CurrencyInfo.GetCurrencyInfo(headerData.key)
+            local info = GetCurrencyInfoSafe(headerData.key)
             local currencyName = (info and info.name) or headerData.label or ("Currency " .. tostring(headerData.key))
             GameTooltip:SetOwner(self, "ANCHOR_TOP")
             GameTooltip:SetText(currencyName, 1.0, 0.82, 0)
@@ -3185,7 +3214,7 @@ local function BuildCurrencyConfigPage(parent)
             label:SetPoint("TOPLEFT", child, "TOPLEFT", 26, -6)
             label:SetWidth(LABEL_WIDTH)
             label:SetJustifyH("LEFT")
-            local info = C_CurrencyInfo and C_CurrencyInfo.GetCurrencyInfo and C_CurrencyInfo.GetCurrencyInfo(entry.id)
+            local info = GetCurrencyInfoSafe(entry.id)
             label:SetText((info and info.name) or entry.name)
 
             CreateMatrixCheckbox(child, X_CURRENCY - X_CATEGORY, 0, function()

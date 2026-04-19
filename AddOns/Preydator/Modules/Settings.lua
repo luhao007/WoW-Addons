@@ -13,6 +13,7 @@ local constants = Preydator.Constants
 local Settings = _G.Settings
 local CreateFrame = _G.CreateFrame
 local UIParent = _G.UIParent
+local InCombatLockdown = _G.InCombatLockdown
 local UIDropDownMenu_Initialize = _G.UIDropDownMenu_Initialize
 local UIDropDownMenu_CreateInfo = _G.UIDropDownMenu_CreateInfo
 local UIDropDownMenu_SetWidth = _G.UIDropDownMenu_SetWidth
@@ -77,6 +78,8 @@ local DEFAULT_SLIDER_WIDTH = 170
 local DEFAULT_SLIDER_SCALE = 1
 local DEFAULT_SLIDER_VALUEBOX_WIDTH = 56
 local DEFAULT_SLIDER_VALUEBOX_HEIGHT = 20
+
+local pendingOpenOptionsAfterCombat = false
 
 local TEXTURE_OPTIONS = {
     default = { text = L["Default"] },
@@ -3671,15 +3674,32 @@ function SettingsModule:EnsureOptionsPanel()
 end
 
 function SettingsModule:OpenOptionsPanel()
+    if InCombatLockdown and InCombatLockdown() == true then
+        pendingOpenOptionsAfterCombat = true
+        return false
+    end
+
+    pendingOpenOptionsAfterCombat = false
     local panel, categoryID = self:EnsureOptionsPanel()
     if Settings and Settings.OpenToCategory and type(categoryID) == "number" then
         Settings.OpenToCategory(categoryID)
-        return
+        return true
     end
 
     if _G.InterfaceOptionsFrame_OpenToCategory then
         _G.InterfaceOptionsFrame_OpenToCategory("Preydator")
+        return true
     end
+
+    return false
+end
+
+function SettingsModule:OnPlayerRegenEnabled()
+    if pendingOpenOptionsAfterCombat ~= true then
+        return
+    end
+
+    self:OpenOptionsPanel()
 end
 
 function SettingsModule:BuildAdvancedContainer(parent, topOffset, bottomOffset)

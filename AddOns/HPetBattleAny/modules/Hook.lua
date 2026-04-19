@@ -58,7 +58,7 @@
 --]]
 --未完成
 -------5.2:IDtoString去掉，新版ID就是string格式
-
+-------2.3.5:宠物删除界面优化
 ----- Globals
 local _
 local _G = getfenv(0)
@@ -111,9 +111,9 @@ if HPetBattleAny.CreateLinkByInfo then
             local rarity = mpower
             local state = HPetBattleAny.GetBreedByID(mhealth)
             local health, power, speed = state[1], state[2], state[3]
-			health = format("%0.f", (health + baseState[1]) * mlevel * tonumber("1." .. mpower - 1) * 5 + 100)
-			power = format("%0.f", (power + baseState[2]) * mlevel * tonumber("1." .. mpower - 1))
-			speed = format("%0.f", (speed + baseState[3]) * mlevel * tonumber("1." .. mpower - 1))
+            health = format("%0.f", (health + baseState[1]) * mlevel * tonumber("1." .. mpower - 1) * 5 + 100)
+            power = format("%0.f", (power + baseState[2]) * mlevel * tonumber("1." .. mpower - 1))
+            speed = format("%0.f", (speed + baseState[3]) * mlevel * tonumber("1." .. mpower - 1))
             --~ 			print(health,power,speed)
             --~ 			local data={level=mlevel,health=health,power=power,speed=speed,rarity=rarity}
             print(HPetBattleAny.CreateLinkByInfo(id, nil, mlevel, health, power, speed, rarity))
@@ -151,7 +151,7 @@ local function TooltipAddOtherInfo(tooltip, speciesID)
             if (string.trim(sourceText or "") ~= "") then
                 tooltip:AddLine("|HHPET|h" .. string.trim(sourceText or ""), 1, 1, 1, true)
             end
-            tooltip:Hide()
+            tooltip:Show()
         end
     end
 end
@@ -214,11 +214,26 @@ hookPetJournal.init = function()
     StaticPopupDialogs["BATTLE_PET_RELEASE"].text = PET_RELEASE_LABEL
     StaticPopupDialogs["BATTLE_PET_RELEASE"].exclusive = nil
     StaticPopupDialogs["BATTLE_PET_RELEASE"].hasItemFrame = 1
-    -- 11.2版本API变动，访问 StaticPopup 按钮的方式由之前的key改为新的Get方法
-    -- https://warcraft.wiki.gg/wiki/Patch_11.2.0/API_changes
-    -- fixed by 狼牙月@海达希亚
     StaticPopupDialogs["BATTLE_PET_RELEASE"].OnShow = function(self)
         self.locktime = 2.5
+        local petid = self.data
+        local itemf = self:GetItemFrame()
+        local rarity = select(5, C_PetJournal.GetPetStats(petid))
+        local speciesID, customName, level, xp, maxXp, displayID, isFavorite, petName, petIcon, petType, creatureID = C_PetJournal.GetPetInfoByPetID(petid)
+        local color = ITEM_QUALITY_COLORS[rarity - 1]
+        local link = C_PetJournal.GetBattlePetLink(petid)
+        local name
+        if (customName) then
+            name = customName .. "\n" .. color.hex .. petName .. "\r"
+        else
+            name = color.hex .. petName .. "\r"
+        end
+        itemf:DisplayInfo(link, name, nil, petIcon, 1, BattlePetTooltip);
+        SetItemButtonQuality(itemf.Item, rarity - 1, link);
+        itemf:SetCustomOnEnter(function(itemFrame)
+            GameTooltip:SetOwner(itemFrame, "ANCHOR_RIGHT")
+            BattlePetToolTip_ShowLink(C_PetJournal.GetBattlePetLink(petid))
+        end);
         self:GetButton1():Disable()
     end
     StaticPopupDialogs["BATTLE_PET_RELEASE"].OnUpdate = function(self, elapsed)
@@ -231,53 +246,6 @@ hookPetJournal.init = function()
             self:GetButton1():SetText(format("%.1f", self.locktime))
         end
     end
-    -- 11.2版本API变动，全局变量 STATICPOPUP_NUMDIALOGS 被移除
-    -- https://warcraft.wiki.gg/wiki/Patch_11.2.0/API_changes
-    -- fixed by 狼牙月@海达希亚
-    StaticPopup_ForEachShownDialog(function(d)
-            d:GetItemFrame():HookScript(
-                "OnEnter",
-                function(self)
-                    if self:GetParent().which == "BATTLE_PET_RELEASE" then
-                        if self.petID then
-                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                            BattlePetToolTip_ShowLink(C_PetJournal.GetBattlePetLink(self.petID))
-                        end
-                    end
-                end
-            )
-            d:GetItemFrame():HookScript("OnLeave", GameTooltip_Hide)
-        end
-    )
-    ---需要修改，某些状态下不能继续事件
-    hooksecurefunc(
-        "StaticPopup_Show",
-        function(which, text_arg1, text_arg2, data)
-            if which == "BATTLE_PET_RELEASE" then
-                local info = StaticPopupDialogs[which]
-                local dialog = StaticPopup_FindVisible(which, data)
-                local bottomSpace = info.extraButton ~= nil and (dialog.extraButton:GetHeight() + 60) or 16
-                if (data) then
-                    local petItemFrame = dialog:GetItemFrame()      -- icon & text fixed by 狼牙月@海达希亚
-                    petItemFrame:SetPoint("BOTTOM", -60, bottomSpace + 29)
-                    local speciesID, customName, level, xp, maxXp, displayID, isFavorite, petName, petIcon, petType, creatureID =
-                        C_PetJournal.GetPetInfoByPetID(data)
-                    local rarity = select(5, C_PetJournal.GetPetStats(data))
-                    petItemFrame.petID = data       -- _G[dialog:GetName() .. "ItemFrame"].petID = data
-                    petItemFrame.Item.icon:SetTexture(petIcon)      -- _G[dialog:GetName() .. "ItemFrameIconTexture"]:SetTexture(petIcon)
-                    local nameText = petItemFrame.Text      -- _G[dialog:GetName() .. "ItemFrameText"]
-                    if (customName) then
-                        nameText:SetText(text_arg1 .. "\n" .. ITEM_QUALITY_COLORS[rarity - 1].hex .. petName .. "\r")
-                    else
-                        nameText:SetText(ITEM_QUALITY_COLORS[rarity - 1].hex .. text_arg1 .. "\r")
-                    end
-                    dialog:SetWidth(320)
-                else
-                    dialog.ItemFrame:Hide()
-                end
-            end
-        end
-    )
     ---宠物列表滚动条增加鼠标提示
     local _hook = function(button)
         button.dragButton:HookScript("OnEnter", hookPetJournal.PJSTooltip)
@@ -366,6 +334,8 @@ hookfunction.init = function()
             end
         elseif _G[a] then
             hooksecurefunc(a, b)
+        else
+            -- print("未处理", a)
         end
     end
     PetBattlePrimaryUnitTooltip:HookScript(
@@ -383,7 +353,8 @@ hookfunction.init = function()
                 return
             end
             local name, unit = tooltip:GetUnit()
-            if unit and UnitIsBattlePet and UnitIsBattlePet(unit) then
+            -- secret value 规避…… by 狼牙月@海达希亚
+            if unit and (not canaccessvalue or canaccessvalue(unit)) and UnitIsBattlePet and UnitIsBattlePet(unit) then
                 local speciesID = UnitBattlePetSpeciesID(unit)
                 local str = C_PetJournal.GetOwnedBattlePetString(speciesID)
                 if not UnitIsWildBattlePet(unit) then
@@ -525,7 +496,11 @@ hookPetJournal.PJSTooltip = function(self)
     local petID = self:GetParent().petID or self.petID
     if not IsControlKeyDown() and petID then
         ----属性提示
-        BattlePetToolTip_ShowLink(C_PetJournal.GetBattlePetLink(petID))
+        -- fixed by 狼牙月@海达希亚
+        local lnkStr = C_PetJournal.GetBattlePetLink(petID)
+        if lnkStr then
+            BattlePetToolTip_ShowLink(lnkStr)
+        end
     elseif speciesID then
         local name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique =
             C_PetJournal.GetPetInfoBySpeciesID(speciesID)
@@ -673,7 +648,7 @@ hookfunction.PetBattleUnitTooltip_UpdateForUnit = function(self, petOwner, petIn
                 BreedID = "(" .. (HPetSaves.BreedIDStyle and breedID or HPetBattleAny.GetBreedNames[breedID]) .. ")"
             end
             GameTooltip:AddDoubleLine(str, "|c" .. hex .. ghealth .. "/" .. gpower .. "/" .. gspeed .. "|r" .. BreedID)
-            GameTooltip:Hide()
+            GameTooltip:Show()
         end
     end
 

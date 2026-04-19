@@ -1389,6 +1389,19 @@ local function RefreshInPreyZoneStatus(questID, force)
             isTrackedPreyWidgetShown = function()
                 return IsAnyTrackedPreyWidgetShown()
             end,
+            isTrackedPreyWidgetPresent = function()
+                if preyHuntIconFrame ~= nil then
+                    return true
+                end
+
+                for frameRef in pairs(PREY_WIDGET_FRAMES) do
+                    if frameRef ~= nil then
+                        return true
+                    end
+                end
+
+                return false
+            end,
             getQuestZoneMapIDFromHuntScanner = function(numericQuestID)
                 if not IsValidQuestID(numericQuestID) then
                     return nil
@@ -1706,6 +1719,8 @@ local function TriggerAmbushAlert(message, source)
             local ambushPath = Preydator.API.ResolveAmbushSoundPath()
             TryPlaySound(ambushPath)
             state.lastAmbushSoundAt = now
+        else
+            AddDebugLog("Ambush", "Sound skipped by cooldown | remaining=" .. string.format("%.1f", nextSoundAt - now) .. "s", true)
         end
     end
 
@@ -3194,6 +3209,13 @@ ApplyDefaultPreyIconVisibility = function()
         return
     end
 
+    -- Gate: do not manipulate prey widget frames until the bar UI is initialized.
+    -- On reload, running this before EnsureBar() completes can corrupt frame visibility
+    -- and cascade to break bar rendering.
+    if not UI.barFrame then
+        return
+    end
+
     CaptureLivePreyHuntFrames()
 
     if settings.disableDefaultPreyIcon ~= true then
@@ -3890,7 +3912,7 @@ local function UpdatePreyState()
             if secondDone or (firstDone and secondObjectivePresent) then
                 newProgressState = PREY_PROGRESS_FINAL
             elseif firstDone then
-                newProgressState = 2
+                newProgressState = 1
             else
                 newProgressState = 0
             end
@@ -5756,6 +5778,10 @@ frame:SetScript("OnEvent", function(_, event, arg1, arg2)
             tryHandleEchoOfPredationNameplate = function(unitToken, source)
                 return TryHandleEchoOfPredationNameplate(unitToken, source)
             end,
+            clearPreyWidgetInfoCache = function()
+                preyWidgetInfoCache = nil
+                state.progressState = nil
+            end,
         })
         Preydator:SyncCorePreyRuntimeEvents()
         return
@@ -5778,6 +5804,7 @@ frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_LOGIN")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("QUEST_ACCEPTED")
+frame:RegisterEvent("PLAYER_ALIVE")
 
 Preydator:SetCorePreyRuntimeEventsRegistered(false)
 

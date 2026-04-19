@@ -739,7 +739,7 @@ function HPetAllInfoFrame:Init()
 	self.ready=true
 	self:Hide()
 
-	hooksecurefunc("PetJournal_UpdatePetCard",self.Update)
+	hooksecurefunc("PetJournal_UpdatePetCard", function() self:Update() end) -- 此处的钩子函数应忽略参数 -- fixed by 狼牙月@海达希亚
 	-- PetJournal:SetScript("OnHide",function() self:Hide() end)
 end
 

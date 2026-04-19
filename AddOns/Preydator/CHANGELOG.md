@@ -1,8 +1,37 @@
 # Changelog
 
+## 2.2.8 - 2026-04-18
+
+### Fixed
+- Fixed stage progression skipping Stage 2 during objective-inference fallback when widget progress state was unresolved. The first-objective-complete path now maps to `progressState=1` (Stage 2) instead of `progressState=2` (Stage 3), restoring correct stage flow.
+
+## 2.2.7 - 2026-04-18
+
+### Added
+- Added static prey quest data module with deterministic questID mappings for difficulty and criteria IDs (`Modules/PreyQuestData.lua`) and TOC registration before HuntScanner.
+- Added explicit tracked per-quest achievement mapping table for non-meta prey achievements using IDs curated in `issues/achievements.md`.
+- Added achievement route diagnostics counters (`id`, `fallback`, `miss`) to HuntScanner and surfaced them in `/pd inspect`, `/pd hinspect`, and `/pd ainspect` outputs.
+- Added Ambush debug instrumentation when sound playback is skipped by cooldown, so `/pd debuglog` explicitly reports the remaining cooldown instead of failing silently.
+
+### Changed
+- HuntScanner achievement signal cache now prioritizes static questID-driven ID matching for known prey quests, including mode I/II/III checks by difficulty, before legacy text fallback routes.
+
+### Fixed
+- Fixed locale-sensitive prey achievement signal drift by moving primary matching to ID-based quest criteria checks for mapped prey quests.
+- Fixed bar not resetting to Stage 1 after player death on Hard/Nightmare hunts before Stage 4. The widget cache's anti-regression guard was blocking the post-death objective rollback; `PLAYER_ALIVE` now clears the cache so the bar re-evaluates from live quest state. Stage 4 is exempt (death after reaching Stage 4 no longer causes an objective reset).
+- Fixed Shift+RightClick minimap Options opening in combat triggering `[ADDON_ACTION_BLOCKED]` on Blizzard's protected `OpenSettingsPanel()` call by deferring the panel-open request until `PLAYER_REGEN_ENABLED`.
+- Fixed Currency Tracker opening tainting Blizzard money/currency UI with a secret-number payload by sanitizing `C_CurrencyInfo.GetCurrencyInfo()` quantity and icon values before any addon-side arithmetic or UI binding.
+- Fixed `Only show in prey zone` permanent bar blocking when `preyZoneMapID` is unresolved but the Blizzard prey widget is currently visible; bar visibility now accepts the same widget-driven in-zone signal already used by stage-4 handling.
+- Added Eversong Woods (`2395`) to known prey map canonicalization so prey-zone fallback certification resolves active Eversong hunts correctly (including quest `91245`).
+- Fixed noisy-event out-of-zone gating so ambush chat processing is only suppressed when the player is explicitly out of prey zone (`inPreyZone=false`), not when zone state is temporarily unknown (`inPreyZone=nil`) during active hunts.
+
 ## 2.2.6 - 2026-04-14
 
 ### Fixed
+- Fixed `Only show in prey zone` permanentlyblocking the bar when `preyZoneMapID` is nil but the Blizzard prey widget is visible: bar visibility now treats an active prey widget as an authoritative in-zone signal (same pattern already used for stage-4 zone detection), so bars show correctly without requiring HuntScanner or zone-API resolution.
+- Added Eversong Woods (map 2395) to the known prey map table so zone-certification fallbacks can correctly resolve Eversong-based hunts (e.g. Consul Nebulor questID 91245).
+- Added a cooldown-skip debug log entry when the ambush sound is blocked by the 80-second cooldown, so blocked sounds are visible in `/pd debuglog` instead of silently dropping.
+- Added a self-contained bar-side prey-zone fallback that no longer depends on HuntScanner map cache data: when Blizzard zone APIs are unresolved, active hunts can now bootstrap zone certification from known prey maps using widget setup/bound-quest signals plus tracked-widget presence (including hidden default-icon cases) with quest-log `isOnMap` guardrails, so mid-hunt updates do not require re-picking the quest to restore `Only show in prey zone` visibility.
 - Fixed live prey progression updates stalling without reload by hardening widget-cache refresh behavior and objective fallback gating, so stage transitions continue to advance during active hunts.
 - Fixed login/bootstrap race cases where active prey state could initialize late and leave runtime polling/event flow idle until a manual refresh/reload.
 - Added queued login bootstrap refresh passes after `PLAYER_LOGIN`/`PLAYER_ENTERING_WORLD` so delayed quest/widget readiness does not require manual reload to initialize bar state.

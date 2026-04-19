@@ -34,6 +34,20 @@
 		{["petID"]=489},
 		{["petID"]=1165},
 	},
+
+    
+	["癫狂者克熙厘"]={
+		{["petID"]=1238,["abilityN"]=153},
+		{["petID"]=1180,["abilityN"]=456},
+		{["petID"]=1180,["abilityN"]=456},
+	},
+
+	["探寻者雷提努斯"]={
+		{["petID"]=1238,["abilityN"]=153},
+		{["petID"]=1180,["abilityN"]=456},
+		{["petID"]=1180,["abilityN"]=456},
+	},
+    
 }
 
 HAutoSelectPetSave={}

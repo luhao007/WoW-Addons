@@ -97,7 +97,7 @@ function HPetBattleAny:PlaySoundFile(t)
 	if t=="pvp" then
 		PlaySound(SOUNDKIT.IG_PLAYER_INVITE, "Master");	----PVP提示声
 	else
-		PlaySoundFile([[Sound\Events\scourge_horn.ogg]], "Master" ); 
+		PlaySound(SOUNDKIT.READY_CHECK, "Master" ); 
 	end
 end
 --------------------		data
@@ -542,7 +542,7 @@ function HPetBattleAny:LoadUserPetInfo(...)
 	elseif ErrorisShow.count == 4 then
 		print("因游戏缓存异常,宠物数据可能不齐全")
 	end
-	collectgarbage("collect")
+	-- collectgarbage("collect")
 	return true
 end
 function HPetBattleAny:GetPetNum(speciesID)

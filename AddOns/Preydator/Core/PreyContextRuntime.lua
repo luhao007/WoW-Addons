@@ -16,6 +16,7 @@ local MAP_ID_EQUIVALENTS = {
     [2576] = 2413,
     [2405] = 2405,
     [2444] = 2405,
+    [2395] = 2395, -- Eversong Woods
 }
 
 local function CanonicalizeMapID(mapID)
@@ -164,6 +165,76 @@ function PreyContextRuntime:IsPreyQuestOnCurrentMap(questID, ctx)
     return nil
 end
 
+local function ResolveWidgetCertifiedQuestMapID(questID, state, playerMapID, ctx)
+    if type(state) ~= "table" then
+        return nil
+    end
+
+    local numericQuestID = SafeToNumber(questID)
+    if not numericQuestID then
+        return nil
+    end
+
+    local canonicalPlayerMapID = CanonicalizeMapID(playerMapID)
+    if not canonicalPlayerMapID or not IsKnownPreyMapID(canonicalPlayerMapID) then
+        return nil
+    end
+
+    local getTime = ctx and ctx.getTime
+    local now = (type(getTime) == "function" and getTime()) or 0
+    local lastWidgetSetupAt = SafeToNumber(state.lastWidgetSetupAt) or 0
+
+    local fallbackMaxAgeSeconds = SafeToNumber(ctx and ctx.widgetZoneFallbackMaxAgeSeconds) or 8
+    if fallbackMaxAgeSeconds < 0 then
+        fallbackMaxAgeSeconds = 0
+    end
+
+    local boundQuestID = SafeToNumber(state.lastWidgetBoundQuestID)
+    if boundQuestID and boundQuestID ~= numericQuestID then
+        return nil
+    end
+
+    local hasFreshSetup = lastWidgetSetupAt > 0 and (now - lastWidgetSetupAt) <= fallbackMaxAgeSeconds
+    local hasBoundQuest = boundQuestID == numericQuestID
+
+    local hasVisibleTrackedWidget = false
+    local isTrackedPreyWidgetShown = ctx and ctx.isTrackedPreyWidgetShown
+    if type(isTrackedPreyWidgetShown) == "function" then
+        local okShown, widgetShown = pcall(isTrackedPreyWidgetShown)
+        hasVisibleTrackedWidget = okShown and widgetShown == true
+    end
+
+    local hasTrackedWidgetPresent = false
+    local isTrackedPreyWidgetPresent = ctx and ctx.isTrackedPreyWidgetPresent
+    if type(isTrackedPreyWidgetPresent) == "function" then
+        local okPresent, widgetPresent = pcall(isTrackedPreyWidgetPresent)
+        hasTrackedWidgetPresent = okPresent and widgetPresent == true
+    end
+
+    if not (hasFreshSetup or hasBoundQuest or hasVisibleTrackedWidget or hasTrackedWidgetPresent) then
+        return nil
+    end
+
+    if not hasVisibleTrackedWidget then
+        local questLog = ctx and ctx.questLog
+        if not (questLog and type(questLog.GetLogIndexForQuestID) == "function" and type(questLog.GetInfo) == "function") then
+            return nil
+        end
+
+        local logIndex = questLog.GetLogIndexForQuestID(numericQuestID)
+        if not logIndex then
+            return nil
+        end
+
+        local okInfo, info = pcall(questLog.GetInfo, logIndex)
+        if not okInfo or type(info) ~= "table" or info.isOnMap ~= true then
+            return nil
+        end
+    end
+
+    return canonicalPlayerMapID
+end
+
 function PreyContextRuntime:RefreshInPreyZoneStatus(questID, force, state, ctx)
     if type(state) ~= "table" then
         return nil
@@ -201,6 +272,14 @@ function PreyContextRuntime:RefreshInPreyZoneStatus(questID, force, state, ctx)
 
     if not questMapID then
         questMapID = CanonicalizeMapID(SafeToNumber(state.confirmedPreyZoneMapID))
+    end
+
+    if not questMapID then
+        local fallbackMapID = ResolveWidgetCertifiedQuestMapID(questID, state, playerMapID, ctx)
+        if fallbackMapID then
+            questMapID = fallbackMapID
+            state.preyZoneMapID = fallbackMapID
+        end
     end
 
     -- Do not infer quest zone from the current player map while quest-map APIs

@@ -575,7 +575,8 @@ local function UpdateBarDisplay()
     elseif state.forceShowBar or forceKillStage or forceAmbushAlert or forceBloodyCommandAlert or editModePreview then
         shouldShow = true
     elseif onlyShowInPreyZone then
-        shouldShow = (hasActiveQuest and state.inPreyZone == true) or inStageFourInZone
+        local inZoneSignal = state.inPreyZone == true or (state.inPreyZone == nil and preyWidgetVisible)
+        shouldShow = (hasActiveQuest and inZoneSignal) or inStageFourInZone
     else
         shouldShow = true
     end

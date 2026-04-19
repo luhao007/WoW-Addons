@@ -342,6 +342,7 @@ function CreateAbilityList(targetname, rpoints)
 			self:Ref()
 		end
 		local petOwner, petIndex = self:GetPetXY()
+        if not petIndex or not petIndex then return end
 		local name = C_PetBattles.GetName(petOwner, petIndex)
 		self.text:SetText(name)
 		for i = 1, (C_PetBattles.IsPlayerNPC() or petOwner == 1) and NUM_BATTLE_PET_ABILITIES or 6 do

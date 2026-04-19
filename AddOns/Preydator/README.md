@@ -2,7 +2,7 @@
 
 Preydator is a focused Prey Hunt companion addon for World of Warcraft, featuring Predator-inspired audio cues, a customizable hunt progress bar, and stage-based tracking built from Blizzard quest/widget APIs.
 
-Current release: `v2.2.6`
+Current release: `v2.2.8`
 
 Runtime safety note: In restricted instance content (`party`, `raid`, `scenario`, `delve`, `arena`, `pvp`), Preydator is intended to fail closed and keep runtime behavior inactive.
 
@@ -129,6 +129,7 @@ Bundled default files:
 - `Only show in prey zone`
 - `Show in Edit Mode preview`
 - `Disable Default Prey Icon`
+- Bar-side zone resolution includes a self-contained fallback that can certify the current prey map from a fresh tracked prey-widget setup signal when Blizzard zone APIs are unresolved (independent of Hunt Scanner cache).
 
 ## Diagnostics and debug
 

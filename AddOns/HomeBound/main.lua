@@ -12,6 +12,13 @@ local TWITCH_DROP_ITEM_ID = 265545
 local TWITCH_DROP_DECOR_ID = 16965
 local TWITCH_DROP_END_TIME = 1776981600
 local TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24271368/twitch-drop-get-the-cuddly-void-grrgle-housing-decor-item-26-march"
+if GetServerTime() >= TWITCH_DROP_END_TIME then
+	DROP_REMINDER_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\drop2"
+	TWITCH_DROP_ITEM_ID = 265394
+	TWITCH_DROP_DECOR_ID = 16818
+	TWITCH_DROP_END_TIME = 1779400800
+	TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24266872/twitch-drop-get-the-cuddly-pearl-grrgle-housing-decor-item-23-april"
+end
 
 local EXPANSION_NAMES = {
 	[1] = "Classic", [2] = "The Burning Crusade", [3] = "Wrath of the Lich King",
@@ -1816,9 +1823,13 @@ local function CreateRewardLine(parent, reward, y)
 	end, function(self, button)
 		if button == "LeftButton" then
 			if reward.type ~= "quest" then
-				if not AchievementFrame then AchievementFrame_LoadUI() end
-				if not AchievementFrame:IsShown() then AchievementFrame_ToggleAchievementFrame() end
-				AchievementFrame_SelectAchievement(primaryID)
+				if IsModifiedClick("CHATLINK") then
+					ChatEdit_InsertLink(GetAchievementLink(primaryID))
+				else
+					if not AchievementFrame then AchievementFrame_LoadUI() end
+					if not AchievementFrame:IsShown() then AchievementFrame_ToggleAchievementFrame() end
+					AchievementFrame_SelectAchievement(primaryID)
+				end
 			end
 		elseif button == "RightButton" then
 			ShowWowheadLinkPopup(primaryID, reward.type or "achievement") 
@@ -2226,7 +2237,7 @@ local function HookMerchantFrame()
 		if not hb_settings.showMerchantCheckmarks then return end
 
 		local guid = UnitGUID("npc")
-		if not guid then return end
+		if not guid or issecretvalue(guid) then return end
 		local npcID = select(6, strsplit("-", guid))
 		npcID = tonumber(npcID)
 
@@ -2484,7 +2495,7 @@ toggleHB = function()
 	end
 end
 
-SLASH_HB1 = "/hb"
-SLASH_HB2 = "/homebound"
+SLASH_HB1 = "/homebound"
+if not C_AddOns.IsAddOnLoaded("HealBot") then SLASH_HB2 = "/hb" end
 SlashCmdList["HB"] = function() toggleHB() end
 function HomeBound_OnAddonCompartmentClick() toggleHB() end

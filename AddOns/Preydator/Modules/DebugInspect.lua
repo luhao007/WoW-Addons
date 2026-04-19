@@ -387,6 +387,22 @@ local function BuildInspectReport()
         .. " | onlyShowInPreyZone=" .. tostring(settings and settings.onlyShowInPreyZone == true)
         .. " | disableDefaultPreyIcon=" .. tostring(settings and settings.disableDefaultPreyIcon == true))
 
+    local huntScanner = Preydator and Preydator.GetModule and Preydator:GetModule("HuntScanner")
+    if huntScanner and type(huntScanner.GetAchievementRouteStats) == "function" then
+        local okRouteStats, routeStats = pcall(huntScanner.GetAchievementRouteStats, huntScanner)
+        if okRouteStats and type(routeStats) == "table" then
+            add(string.format(
+                "- achievementRoute id=%d fallback=%d miss=%d total=%d idPct=%.1f fallbackPct=%.1f",
+                SafeToNumber(routeStats.idHits) or 0,
+                SafeToNumber(routeStats.fallbackHits) or 0,
+                SafeToNumber(routeStats.misses) or 0,
+                SafeToNumber(routeStats.total) or 0,
+                SafeToNumber(routeStats.idPct) or 0,
+                SafeToNumber(routeStats.fallbackPct) or 0
+            ))
+        end
+    end
+
     local suppressionDebug = nil
     if type(Preydator.GetWidgetSuppressionDebug) == "function" then
         local okSuppression, data = pcall(Preydator.GetWidgetSuppressionDebug)

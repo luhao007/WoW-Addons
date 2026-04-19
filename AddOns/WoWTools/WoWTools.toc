@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: husandro
-## Version: 1.9.69
+## Version: 1.9.73
 
 ## Title: |cffff00ffWoW|r|cff00ff00Tools|r
 ## Notes: |A:Icon-WoW:0:0|aWoW |cffff4800Plus|r|n|A:WoWShare-TwitterLogo:0:0|a|cff00ccffhttps://github.com/husandro/WoWTools|r
@@ -299,7 +299,7 @@ Plus\Unit\ClassTexture.lua
 ##Plus\Unit\PartyFrame_Compact.lua
 Plus\Unit\PartyFrame.lua
 Plus\Unit\PlayerFrame.lua
-Plus\Unit\RaidFrame.lua
+##Plus\Unit\RaidFrame.lua
 Plus\Unit\TargetFrame.lua
 Plus\Unit\PetFrame.lua
 

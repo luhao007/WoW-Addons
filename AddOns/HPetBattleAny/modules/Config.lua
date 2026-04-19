@@ -911,23 +911,23 @@ local InitSwathButton = function()
 		end
 	)
 	button:RegisterEvent("BAG_UPDATE")
-
+ 
     button:SetPoint("RIGHT", PetJournal.HealPetSpellFrame, "RIGHT",0)
 
-    hooksecurefunc(
-        button,
-        "Show",
-        function()
-            PetJournal.HealPetSpellFrame.Button:SetPoint("RIGHT", button, "LEFT")
-        end
-    )
-    hooksecurefunc(
-        button,
-        "Hide",
-        function()
-            PetJournal.HealPetSpellFrame.Button:SetPoint("RIGHT", PetJournal.HealPetSpellFrame, "RIGHT",0)
-        end
-    )
+	hooksecurefunc(
+		button,
+		"Show",
+		function()
+			PetJournal.HealPetSpellFrame.Button:SetPoint("RIGHT", button, "LEFT")
+		end
+	)
+	hooksecurefunc(
+		button,
+		"Hide",
+		function()
+			PetJournal.HealPetSpellFrame.Button:SetPoint("RIGHT", PetJournal.HealPetSpellFrame, "RIGHT",0)
+		end
+	)
 
 	if HPetSaves.ShowBandageButton then
 		button:Show()

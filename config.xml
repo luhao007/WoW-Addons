@@ -1023,7 +1023,7 @@
 	</Addon>
 	<Addon name="DragonRider">
 		<Title>龙骑士</Title>
-		<Category>功能</Category>
+		<Category>特色</Category>
 	</Addon>
 	<Addon name="EditModeExpanded">
 		<Title>编辑模式增强</Title>
@@ -1061,7 +1061,7 @@
 	<Addon name="GarrisonMissionManager">
 		<Title>要塞任务管理</Title>
 		<Notes>协助管理要塞随从任务</Notes>
-		<Category>任务</Category>
+		<Category>特色</Category>
 	</Addon>
 	<Addon name="GatherMate2">
 		<Title>采集助手</Title>
@@ -1333,7 +1333,7 @@
 	</Addon>
 	<Addon name="MasterPlan">
 		<Title>要塞助手</Title>
-		<Category>任务</Category>
+		<Category>特色</Category>
 		<SubAddons>
 			<SubAddon name="MasterPlanA">
 				<Title>额外功能</Title>
@@ -2058,7 +2058,7 @@
 	</Addon>
 	<Addon name="VenturePlan">
 		<Title>冒险助手</Title>
-		<Category>任务</Category>
+		<Category>特色</Category>
 	</Addon>
 	<Addon name="VuhDo">
 		<Title>团队面板</Title>
@@ -2082,7 +2082,7 @@
 	</Addon>
 	<Addon name="WarPlan">
 		<Title>阵营战役助手</Title>
-		<Category>任务</Category>
+		<Category>特色</Category>
 	</Addon>
 	<Addon name="WeakAuras">
 		<Title>辅助增强</Title>

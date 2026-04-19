@@ -353,13 +353,15 @@ local function ApplyIconSettings(cdmFrame)
 
     local spellCharges = C_Spell.GetSpellCharges(spellID)
     local hasCharges = spellCharges and spellCharges.maxCharges > 1
+    local cooldown = C_Spell.GetSpellCooldown(spellID)
     if shouldShowAuras and cdmFrame.wasSetFromAura then
         cdmFrame.Cooldown:SetDrawSwipe(cdmFrame.cooldownShowSwipe == true)
         if ns.db.profile.cooldownManager_desaturate_under_aura then
             if hasCharges then
-                -- WATCH OUT FOR INFINITE LOOP, SetDesaturated != SetDesaturation
-                cdmFrame.__self_desaturated = true
-                cdmFrame.Icon:SetDesaturated(cdmFrame.isOnActualCooldown)
+                local isOnActualCooldown = cooldown.isActive and not cooldown.isOnGCD
+                if isOnActualCooldown then
+                    cdmFrame.Icon:SetDesaturation(1)
+                end
             else
                 cdmFrame.Icon:SetDesaturation(1)
             end
@@ -432,6 +434,7 @@ local function ApplyCooldownSettings(cdmFrame)
         cdmFrame.Cooldown:SetDrawEdge(true)
     end
 
+    local cooldown = C_Spell.GetSpellCooldown(spellID)
     if shouldShowAuras and cdmFrame.wasSetFromAura then
         cdmFrame.Cooldown:SetReverse(CooldownStyle.GetReverseAuraSwipe(baseSpellId))
         if ns.db.profile.cooldownManager_customSwipeColor_enabled then
@@ -443,10 +446,10 @@ local function ApplyCooldownSettings(cdmFrame)
 
             local hasCharges = spellCharges and spellCharges.maxCharges > 1
             if hasCharges then
-                -- DevTool:AddData(cdmFrame)
-                -- WATCH OUT FOR INFINITE LOOP, SetDesaturated != SetDesaturation
-                cdmFrame.__self_desaturated = true
-                cdmFrame.Icon:SetDesaturated(cdmFrame.isOnActualCooldown)
+                local isOnActualCooldown = cooldown.isActive and not cooldown.isOnGCD
+                if isOnActualCooldown then
+                    cdmFrame.Icon:SetDesaturation(1)
+                end
             else
                 cdmFrame.Icon:SetDesaturation(1)
             end
@@ -463,8 +466,6 @@ local function ApplyCooldownSettings(cdmFrame)
         -- from CooldownViewerConstants.ITEM_COOLDOWN_COLOR
         cdmFrame.Cooldown:SetSwipeColor(0, 0, 0, 0.7)
     end
-
-    local cooldown = C_Spell.GetSpellCooldown(spellID)
 
     cdmFrame._CMCTracker_Desaturation = nil
 
@@ -544,12 +545,6 @@ local function HookCooldownFrame(cdmFrame)
     hooksecurefunc(cdmFrame.Icon, "SetDesaturated", function(self, secretValue)
         local cdmFrame = self:GetParent()
 
-        -- IMPORTANT!! do not remove
-        if cdmFrame.__self_desaturated then
-            cdmFrame.__self_desaturated = nil
-            -- IMPORTANT avoid infinite loop when CooldownStyle forces desaturation for charges cooldown
-            return
-        end
         if cdmFrame.wasSetFromAura then
             UpdateButtonGlowState(cdmFrame)
         else
