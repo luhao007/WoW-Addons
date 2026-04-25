@@ -433,6 +433,7 @@ function Plater.HandlePrivateAuraAnchors(plateFrame, maxIndex)
 			parent = unitFrame.privateAuraAnchorsFrame,
 			showCountdownFrame = true,
 			showCountdownNumbers = true,
+			isContainer = false,
 			iconInfo = {
 				iconAnchor = {
 					point = "CENTER",
@@ -2251,8 +2252,8 @@ end
 		if IS_WOW_PROJECT_MIDNIGHT then
 			local durationObject = C_UnitAuras.GetAuraDuration and C_UnitAuras.GetAuraDuration(self.unitFrame.namePlateUnitToken, id)
 			duration = durationObject
-			if sourceUnit ~= nil then
-				--local sourceUnitGUID = UnitGUID(name)
+			if sourceUnit ~= nil and not issecretvalue(sourceUnit) then
+				local sourceUnitGUID = UnitGUID(sourceUnit)
 				local _, class, _, race, _, name, realm --= GetPlayerInfoByGUID(sourceUnitGUID)
 				local name = UnitName(sourceUnit)
 				local classColor

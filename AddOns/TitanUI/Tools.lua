@@ -76,11 +76,27 @@ local function GeneratorFunction(owner, rootDescription)
 		function()
 			SendSlash(lua_cmd)
 		end)
+
+	Titan_Menu.AddDivider(root)
+	local etrace_cmd = "/eventtrace"
+	Titan_Menu.AddCommand(root, id, etrace_cmd,
+		function()
+			SendSlash(etrace_cmd)
+		end)
+
+	Titan_Menu.AddDivider(root)
+	local api_cmd = "/api"
+	Titan_Menu.AddCommand(root, id, api_cmd,
+		function()
+			SendSlash(api_cmd)
+		end)
 end
 
+-- PLAYER_EQUIPMENT_CHANGED
 -- Grab the button text to display
 local function GetButtonText(id)
-	local strA, strB = TITLE, ""
+	local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvp = GetAverageItemLevel()
+	local strA, strB = L["TITAN_PANEL_MENU_RELOADUI"], ""
 	return strA, strB
 end
 

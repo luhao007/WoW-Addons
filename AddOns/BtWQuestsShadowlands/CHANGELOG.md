@@ -1,3 +1,11 @@
+# v6.25
+
+- Updated for 12.0.5
+
+# v6.24
+
+- Updated for 12.0.0
+
 # v6.23
 
 - Updated for 11.2.7

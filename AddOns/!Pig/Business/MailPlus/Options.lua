@@ -23,10 +23,10 @@ local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.G
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
-local GnName = MINIMAP_TRACKING_MAILBOX.."助手"
+local GnName = L["TRADEMAIL_TABNAME"]
 ------------
-local SendTabs={"本人",FRIEND,"近期"}
-local SendTabsTisp={"本人的其他角色\n在"..L["BUSINESS_TABNAME"].."→"..CHARACTER_INFO..STATISTICS.."内删除","你的游戏好友","近期发送过的联系人\n"..KEY_BUTTON1..":选择发件人\n"..KEY_BUTTON2..":删除"}
+local SendTabs={L["TRADEMAIL_CONTACTS1"],FRIEND,L["TRADEMAIL_CONTACTS3"]}
+local SendTabsTisp={L["TRADEMAIL_CONTACTS1TISP"]..BusinessInfo.ADD_qushiError,L["TRADEMAIL_CONTACTS2TISP"],L["TRADEMAIL_CONTACTS3TISP"]}
 local function GetFriendData(linData)
 	--local numBNetTotal, numBNetOnline, numBNetFavorite, numBNetFavoriteOnline = BNGetNumFriends()
 	local numFriends = C_FriendList.GetNumFriends()
@@ -45,7 +45,7 @@ function BusinessInfo.MailPlusOptions()
 	local MailPlusF,MailPlustabbut =PIGOptionsList_R(BusinessInfo.RTabFrame,GnName,90)
 	PIG_OPEN_ALL_MAIL_MIN_DELAY=PIGA["MailPlus"]["OpenAllCD"]
 	------
-	local Tooltip = {GnName,"增强你的邮箱界面，方便你查看邮箱物品/发送邮件"};
+	local Tooltip = {GnName,L["TRADEMAIL_TABNAMETISP"]};
 	MailPlusF.MailPlus = PIGCheckbutton(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-20},Tooltip)
 	MailPlusF.MailPlus:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -57,12 +57,13 @@ function BusinessInfo.MailPlusOptions()
 		end
 		MailPlusF:Update_Set()
 	end);
-	MailPlusF.ScanSlider = PIGSlider(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-60},{0.15,10,0.01,{["Right"]="批量取件间隔%s/s"}},300)
+	MailPlusF.ScanSlider = PIGSlider(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-60},{0.15,10,0.01,{["Right"]=L["TRADEMAIL_PICKCD"]}},300)
 	function MailPlusF.ScanSlider:PIGOnValueChange(arg1)
+		print(arg1)
 		PIG_OPEN_ALL_MAIL_MIN_DELAY=arg1
 		PIGA["MailPlus"]["OpenAllCD"]=arg1
 	end
-	MailPlusF.ScanSlider.CZ = PIGButton(MailPlusF.ScanSlider,{"LEFT",MailPlusF.ScanSlider,"RIGHT",160,0},{80,24},"重置为默认")
+	MailPlusF.ScanSlider.CZ = PIGButton(MailPlusF.ScanSlider,{"LEFT",MailPlusF.ScanSlider.RightText,"RIGHT",10,0},{60,22},RESET)
 	MailPlusF.ScanSlider.CZ:HookScript("OnClick", function (self)
 		PIGA["MailPlus"]["OpenAllCD"]=addonTable.Default["MailPlus"]["OpenAllCD"]
 		MailPlusF.ScanSlider:PIGSetValue(PIGA["MailPlus"]["OpenAllCD"])
@@ -93,7 +94,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		["ElvUI"]={true},
 		["NDui"]={Fun.IsNDui("Skins","BlizzardSkins")},
 	}
-	local InboxTabs={"目录",ITEMS,MONEY}
+	local InboxTabs={MINIMAP_TRACKING_MAILBOX,ITEMS,MONEY}
 	InboxFrame.TabButList={}
 	InboxFrame.TabselectID=1
 	local isTrialOrVeteran = GameLimitedMode_IsActive();
@@ -115,7 +116,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		StaticPopup_Show("MAIL_PLUS_DELNONEMAIL");
 	end);
 	StaticPopupDialogs["MAIL_PLUS_DELNONEMAIL"] = {
-		text = "此操作将|cffff0000清理所有不包含附件(已读)|r的邮件。\n确定清理吗?",
+		text = L["TRADEMAIL_CLEAR"],
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function() OnekeyTake:StartOpening(1) end,
@@ -330,7 +331,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			TimeLeft = RED_FONT_COLOR_CODE..SecondsToTime(floor(TimeLeft * 24 * 60 * 60))..FONT_COLOR_CODE_CLOSE;
 		end
 		GameTooltip:AddLine(FROM..GREEN_FONT_COLOR_CODE..FROMname..FONT_COLOR_CODE_CLOSE..", "..TIME_REMAINING..TimeLeft)
-		GameTooltip:AddLine(wasReturned and "|cffFF0000退回邮件，到期将被删除|r")
+		GameTooltip:AddLine(wasReturned and L["TRADEMAIL_ERROR1"])
 	end
 	OnekeyTake.mailData = {}
 	function OnekeyTake.Show_ItemList()
@@ -459,7 +460,7 @@ function BusinessInfo.MailPlus_ADDUI()
 					end)
 				end
 			end
-			InboxFrame.ItemBox.quchuMV:SetText(GetMoneyString(InboxFrame.PIG_MoneyG-OnekeyTake.mailData[3]).." (|cff00FF00剩:|r"..GetMoneyString(OnekeyTake.mailData[3])..")")
+			InboxFrame.ItemBox.quchuMV:SetText(GetMoneyString(InboxFrame.PIG_MoneyG-OnekeyTake.mailData[3]).." ("..L["TRADEMAIL_TISP1"]..GetMoneyString(OnekeyTake.mailData[3])..")")
 		end
 	end
 	----
@@ -706,7 +707,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	SendMailFrame.recipients=PIGFrame(SendMailFrame,{"LEFT",SendMailFrame,"LEFT",line_W1+15,17},{line_W2,314})
 	if ElvUI or NDui then SendMailFrame.recipients:PIGSetBackdrop(0,1) end
 
-	SendMailFrame.recipients.BagOpen = PIGCheckbutton(SendMailFrame.recipients,{"BOTTOMRIGHT",SendMailFrame.recipients,"TOPRIGHT",150,34},{"发件时保持背包开启"},nil,nil,nil,0)
+	SendMailFrame.recipients.BagOpen = PIGCheckbutton(SendMailFrame.recipients,{"BOTTOMRIGHT",SendMailFrame.recipients,"TOPRIGHT",150,34},{L["TRADEMAIL_TISP2"]},nil,nil,nil,0)
 	SendMailFrame.recipients.BagOpen:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["MailPlus"]["BagOpen"]=true;
@@ -714,7 +715,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			PIGA["MailPlus"]["BagOpen"]=false
 		end
 	end);
-	SendMailFrame.recipients.lianxuMode = PIGCheckbutton(SendMailFrame.recipients,{"BOTTOMLEFT",SendMailFrame.recipients,"TOPLEFT",60,34},{"连寄","发件箱未关闭情况下会自动填入上一次收件人"},nil,nil,nil,0)
+	SendMailFrame.recipients.lianxuMode = PIGCheckbutton(SendMailFrame.recipients,{"BOTTOMLEFT",SendMailFrame.recipients,"TOPLEFT",60,34},{L["TRADEMAIL_TISP2"],L["TRADEMAIL_TISP21"]},nil,nil,nil,0)
 	SendMailFrame.recipients.lianxuMode:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["MailPlus"]["lianxuMode"]=true;
@@ -722,7 +723,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			PIGA["MailPlus"]["lianxuMode"]=false;
 		end
 	end);
-	SendMailFrame.recipients.MoneyEdit = PIGCheckbutton(SendMailFrame.recipients,{"LEFT",SendMailFrame.recipients.lianxuMode.Text,"RIGHT",6,0},{"自动标题","邮寄金币时自动填入标题"},nil,nil,nil,0)
+	SendMailFrame.recipients.MoneyEdit = PIGCheckbutton(SendMailFrame.recipients,{"LEFT",SendMailFrame.recipients.lianxuMode.Text,"RIGHT",6,0},{L["TRADEMAIL_TISP3"],L["TRADEMAIL_TISP31"]},nil,nil,nil,0)
 	SendMailFrame.recipients.MoneyEdit:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["MailPlus"]["MoneyEdit"]=true;
@@ -750,7 +751,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		end);
 	end
 	SendMailFrame.recipients._MoneyEdit()
-	SendMailFrame.recipients.ALTbatch = PIGCheckbutton(SendMailFrame.recipients,{"LEFT",SendMailFrame.recipients.MoneyEdit.Text,"RIGHT",6,0},{"快速邮寄","左键批量选择/右键单选\n选择时按住ALT则快速邮寄"},nil,nil,nil,0)
+	SendMailFrame.recipients.ALTbatch = PIGCheckbutton(SendMailFrame.recipients,{"LEFT",SendMailFrame.recipients.MoneyEdit.Text,"RIGHT",6,0},{L["TRADEMAIL_TISP4"],L["TRADEMAIL_TISP41"]},nil,nil,nil,0)
 	SendMailFrame.recipients.ALTbatch:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["MailPlus"]["ALTbatch"]=true;
@@ -936,7 +937,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	--
 	SendMailFrame.ItemList.Delbut = Create.PIGDiyBut(SendMailFrame.ItemList,{"TOPRIGHT",SendMailFrame.ItemList,"TOPRIGHT",-4,24},{20,nil,20,nil,"common-icon-undo"})
 	SendMailFrame.ItemList.Delbut:Disable()
-	PIGEnter(SendMailFrame.ItemList.Delbut,"清空已选")
+	PIGEnter(SendMailFrame.ItemList.Delbut,L["TRADEMAIL_TISP5"])
 	SendMailFrame.ItemList.Delbut:SetScript("OnClick", function (self,button)
 		for i=1, ATTACHMENTS_MAX_SEND do
 			ClickSendMailItemButton(SendMailFrame.SendMailAttachments[i]:GetID(), true);

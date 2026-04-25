@@ -92,7 +92,11 @@ function EventRuntime:HandleEvent(event, arg1, arg2, ctx)
         end
         if (event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN") then
             local runtimeState = state or {}
-            runtimeState.loginBootstrapToken = (tonumber(runtimeState.loginBootstrapToken) or 0) + 1
+            local existingToken = runtimeState.loginBootstrapToken
+            if type(existingToken) ~= "number" then
+                existingToken = 0
+            end
+            runtimeState.loginBootstrapToken = existingToken + 1
             local token = runtimeState.loginBootstrapToken
 
             local function RunBootstrapPass(applySettings)

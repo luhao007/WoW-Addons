@@ -672,8 +672,15 @@ function BarMixin:ApplyFontSettings(layoutName, data)
     local font = data.font or defaults.font
     local size = data.fontSize or defaults.fontSize
     local outline = data.fontOutline or defaults.fontOutline
+    -- Since 12.0.5, "NONE" is not valid
+    if outline == "NONE" then
+        outline = ""
+    end
 
-    self.TextValue:SetFont(font, size * scale, outline)
+    local ok = addonTable.setFontStringFont(self.TextValue, font, size * scale, outline)
+    if not ok then
+        addonTable.setFontStringFont(self.TextValue, defaults.font, size * scale, outline)
+    end
     self.TextValue:SetShadowColor(0, 0, 0, 0.8)
     self.TextValue:SetShadowOffset(1, -1)
 
@@ -682,7 +689,10 @@ function BarMixin:ApplyFontSettings(layoutName, data)
 
     color = data.fragmentedPowerBarTextColor or defaults.fragmentedPowerBarTextColor
     for _, fragmentedPowerBarText in ipairs(self.FragmentedPowerBarTexts) do
-        fragmentedPowerBarText:SetFont(font, math.max(6, size - 2) * scale, outline)
+        ok = addonTable.setFontStringFont(fragmentedPowerBarText, font, size * scale, outline)
+        if not ok then
+            addonTable.setFontStringFont(fragmentedPowerBarText, defaults.font, size * scale, outline)
+        end
         fragmentedPowerBarText:SetShadowColor(0, 0, 0, 0.8)
         fragmentedPowerBarText:SetShadowOffset(1, -1)
         fragmentedPowerBarText:SetTextColor(color.r or 1, color.g or 1, color.b or 1, color.a or 1)
@@ -1146,6 +1156,11 @@ function BarMixin:UpdateFragmentedPowerDisplay(layoutName, data, maxPower)
         local current = UnitPower("player", resource)
         local maxEssence = UnitPowerMax("player", resource)
         local regenRate = GetPowerRegenForPowerType(resource) or 0.2
+        if not issecretvalue(regenRate) then
+            self._cachedRegenRate = regenRate
+        else
+            regenRate = self._cachedRegenRate or 0.2
+        end
         local tickDuration = 5 / (5 / (1 / regenRate))
         local now = GetTime()
 

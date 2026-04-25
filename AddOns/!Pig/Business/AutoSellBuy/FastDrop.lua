@@ -32,9 +32,9 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 	
 	---
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
-	local _GN,_GNE = "丢弃","Diuqi"
+	local _GN,_GNE = L["TRADESELLBUY_DROP2"],"Diuqi"
 	local BindingName = GnUI.."_".._GNE
-	local fujiF,fujiTabBut=PIGOptionsList_R(_G[GnUI].F,"丢",50,"Left")
+	local fujiF,fujiTabBut=PIGOptionsList_R(_G[GnUI].F,L["TRADESELLBUY_DROP1"],50,"Left")
 	fujiF:Show()
 	fujiTabBut:Selected(true)
 	BusinessInfo.ADDScroll(fujiF,_GN,_GNE,17,{false,"AutoSellBuy",_GNE.."_List"})
@@ -49,13 +49,13 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 	Fun.PIGUseKeyDown(QkButAction)
 	_G["BINDING_NAME_CLICK "..BindingName..":LeftButton"]= "PIG"..GnName.._GN
 	---
-	fujiF.fuzhiCDM = PIGButton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",160,-10},{110,20},"复制".._GN.."指令");
+	fujiF.fuzhiCDM = PIGButton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",160,-10},{110,20},string.format(L["TRADESELLBUY_DROP3"],_GN));
 	fujiF.fuzhiCDM:SetScript("OnClick", function(event, button)
 		StaticPopup_Show ("AUTOSELLBUY_DROP");
 	end)
 	StaticPopupDialogs["AUTOSELLBUY_DROP"] = {
-		text = "因暴雪API改动，无法自动".._GN.."/一次".._GN.."多个物品。\n可以复制此指令到已有的宏尾部。这样在使用宏时将执行一次动作",
-		button1 = "知道了",
+		text = string.format(L["TRADESELLBUY_DROP4"],_GN,_GN),
+		button1 = OKAY,
 		OnAccept = function()
 			editBoxXX = ChatEdit_ChooseBoxForSend()
 			ChatEdit_ActivateChat(editBoxXX)
@@ -67,7 +67,7 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 		hideOnEscape = true,
 	}
 	---
-	fujiF.runFun = PIGButton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",100,-46},{90,22},"执行".._GN);
+	fujiF.runFun = PIGButton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",100,-46},{90,22},TRACKER_SORT_MANUAL.._GN);
 	fujiF.runFun:SetScript("OnClick", function(event, button)
 		Pig_DelItem()
 	end)
@@ -90,9 +90,9 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 			end
 		else
 			if ly==1 then
-				PIG_OptionsUI:ErrorMsg(_GN.."目录为空,"..KEY_BUTTON2.."设置");
+				PIG_OptionsUI:ErrorMsg(string.format(L["TRADESELLBUY_TISP4"],_GN)..","..KEY_BUTTON2..SETTINGS);
 			else
-				PIG_OptionsUI:ErrorMsg(_GN.."目录为空");
+				PIG_OptionsUI:ErrorMsg(string.format(L["TRADESELLBUY_TISP4"],_GN));
 			end
 		end
 	end
@@ -101,8 +101,7 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 		if PIGA["QuickBut"]["Open"] and PIGA["AutoSellBuy"]["Open"] and PIGA["AutoSellBuy"]["AddBut"] then
 			if QuickButUI[_GNE] then return end
 			QuickButUI[_GNE]=true
-			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF".._GN.."指定物品|r\n"..KEY_BUTTON2.."-|cff00FFFF打开"..GnName.."|r"
-			local QkBut=PIGQuickBut(nil,QuickTooltip,GnIcon,nil,FrameLevel)
+			local QkBut=PIGQuickBut(nil,string.format(L["TRADESELLBUY_TISP5"],_GN,GnName),GnIcon,nil,FrameLevel)
 			QkBut:SetScript("OnClick", function(self,button)
 				if button=="LeftButton" then
 					PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);

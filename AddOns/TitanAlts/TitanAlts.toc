@@ -1,0 +1,19 @@
+## Interface: 120001, 120005
+## Author: Titan Panel Development Team
+## Version: 9.1.5
+
+## Title: Titan Panel [|cffeda55fAlts|r] |cff00aa009.1.5|r
+## Notes: Adds Reload and select functions in a plugin
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF泰坦面板|r |cFF69CCF0小号|r
+## Notes-zhCN: 泰坦面板的小号
+
+## IconTexture: Interface\AddOns\TitanAlts\Artwork\Alts
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
+
+## Dependencies: Titan
+## DefaultState: Enabled
+
+## X-Part-Of: Titan
+
+TitanAlts.lua

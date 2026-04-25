@@ -39,16 +39,18 @@ L.Reverse = 'Inverser'
 L.ReverseDesc = 'Inverser la direction du balayage'
 L.SwipeColor = 'Couleur du balayage'
 L.SwipeColorDesc = 'Remplacer la couleur de l\'animation de balayage de recharge'
-L.UseAuraDisplayTime = 'Arrondi de durée d\'aura'
-L.UseAuraDisplayTimeDesc = 'Contrôle l\'arrondi des durées d\'aura. Toujours arrondit vers le bas, Jamais arrondit vers le haut'
 
 -- Countdown text options
+L.RoundingMode = 'Mode de arrondi'
+L.RoundingModeDesc = 'Définit la manière dont les durées sont arrondies'
 L.MinDuration = 'Durée minimale'
 L.MinDurationDesc = 'Durée minimale, en secondes, d\'un temps de recharge pour afficher le texte du compte à rebours'
 L.TenthsThreshold = 'Seuil de dixièmes'
 L.TenthsThresholdDesc = 'Afficher les dixièmes de seconde quand le temps de recharge restant est inférieur à cette valeur'
 L.AbbrevThreshold = 'Seuil MM:SS'
 L.AbbrevThresholdDesc = 'Durée, en secondes, avant que le texte passe au format MM:SS (ex. "1:30" au lieu de "90")'
+L.ShowZero = 'Afficher Zéro'
+L.ShowZeroDesc = 'Afficher "0" pour les temps de recharge arrondis à zéro au lieu d\'un texte vide'
 
 -- Font options
 L.FontFace = 'Police'
@@ -76,6 +78,11 @@ L.VerticalOffset = 'Décalage vertical'
 L.DrawState_default = 'Par défaut'
 L.DrawState_always = 'Toujours'
 L.DrawState_never = 'Jamais'
+
+-- Rounding mode values
+L.RoundingMode_Up = 'Arrondi supérieur'
+L.RoundingMode_Down = 'Arrondi inférieur'
+L.RoundingMode_Nearest = 'Au plus proche'
 
 -- Color threshold UI
 L.AddColorThreshold = 'Ajouter un seuil de couleur'

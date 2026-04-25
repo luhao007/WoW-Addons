@@ -1,4 +1,4 @@
-local MODULE_MAJOR, EXPECTED_MINOR = "LibEQOLSettingsMode-1.0", 21000001
+local MODULE_MAJOR, EXPECTED_MINOR = "LibEQOLSettingsMode-1.0", 23000001
 local _, lib = pcall(LibStub, MODULE_MAJOR)
 if not lib then
 	return
@@ -10,6 +10,7 @@ end
 LibEQOL_InputControlMixin = CreateFromMixins(SettingsControlMixin)
 
 local DEFAULT_INPUT_MAX_WIDTH = 170
+local DEFAULT_INPUT_MIN_WIDTH = 80
 
 local function formatInputValue(self, value)
 	if self.formatter then
@@ -27,6 +28,13 @@ end
 local function parseNumeric(text)
 	local cleaned = (text or ""):gsub(",", ".")
 	return tonumber(cleaned)
+end
+
+local function normalizeRange(minValue, maxValue)
+	if minValue ~= nil and maxValue ~= nil and minValue > maxValue then
+		return maxValue, minValue
+	end
+	return minValue, maxValue
 end
 
 function LibEQOL_InputControlMixin:ConfigureEditBox(editBox, multiline)
@@ -111,6 +119,8 @@ function LibEQOL_InputControlMixin:Init(initializer)
 	self.multilineHeight = data.multilineHeight or data.height
 	self.placeholder = data.placeholder
 	self.justifyH = data.justifyH
+	self.minValue, self.maxValue = normalizeRange(data.min, data.max)
+	self.clampToRange = data.clampToRange ~= false
 
 	self:ApplyLayout()
 	self:SetValue(self:GetSetting():GetValue())
@@ -152,8 +162,8 @@ function LibEQOL_InputControlMixin:ApplyLayout()
 		local rightPadding = 24
 		local leftX = totalWidth * 0.5 + leftOffset
 		local available = totalWidth - leftX - rightPadding
-		if available < 1 then
-			available = 1
+		if available < DEFAULT_INPUT_MIN_WIDTH then
+			available = DEFAULT_INPUT_MIN_WIDTH
 		end
 		if inputWidth and inputWidth > 0 then
 			local width = inputWidth
@@ -187,8 +197,8 @@ function LibEQOL_InputControlMixin:ApplyLayout()
 			local rightPadding = 24
 			local leftX = totalWidth * 0.5 + leftOffset
 			local available = totalWidth - leftX - rightPadding
-			if available < 1 then
-				available = 1
+			if available < DEFAULT_INPUT_MIN_WIDTH then
+				available = DEFAULT_INPUT_MIN_WIDTH
 			end
 			if available < maxWidth then
 				maxWidth = available
@@ -250,6 +260,24 @@ function LibEQOL_InputControlMixin:Commit(box)
 			return
 		end
 		value = num
+
+		if self.minValue ~= nil and value < self.minValue then
+			if self.clampToRange then
+				value = self.minValue
+			else
+				self:Revert(box)
+				return
+			end
+		end
+
+		if self.maxValue ~= nil and value > self.maxValue then
+			if self.clampToRange then
+				value = self.maxValue
+			else
+				self:Revert(box)
+				return
+			end
+		end
 	end
 
 	if self:ShouldInterceptSetting(value) then

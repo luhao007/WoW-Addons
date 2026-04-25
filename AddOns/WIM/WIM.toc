@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Pazza (Bronzebeard), (Updated by Sylvanaar/MysticalOS/Humfras)
-## Version: 3.16.10
+## Version: 3.16.12
 
 ## Title: WIM
 ## Notes: Give whispers an instant messenger feel.

@@ -87,9 +87,9 @@ L["Yell"] = true
   L = {}
   -- KeyBindings
 L["Channel %d"] = "Canal %d"
-L["Copy Selected Chat Frame"] = "Copier la fenêtre de chat sélectionné"
+L["Copy Selected Chat Frame"] = "Copier la fenêtre de chat sélectionnée"
 L["Guild Channel"] = "Canal de Guilde"
-L["Instance Channel"] = "Canal d'Instance"
+L["Instance Channel"] = "Canal d'instance"
 --[[Translation missing --]]
 L["module_desc"] = "Adds chat related keybindings"
 --[[Translation missing --]]

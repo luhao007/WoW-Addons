@@ -275,10 +275,8 @@ L["customGrats_desc"] = "Utiliser un message personnalisé à la place d'un mess
 L["customGrats_name"] = "Utiliser un message personnalisé de félicitations"
 L["customGratsText_desc"] = "Message de félicitations personnalisé. Tapez n'importe quel texte, vous pouvez ajouter le nom du joueur avec la variable '%s'"
 L["customGratsText_name"] = "Message de gratification"
---[[Translation missing --]]
-L["dontShowAchievements_desc"] = "Hide all achievement messages"
---[[Translation missing --]]
-L["dontShowAchievements_name"] = "Don't show achievements"
+L["dontShowAchievements_desc"] = "Masquer tous les messages des haut faits"
+L["dontShowAchievements_name"] = "Ne pas afficher les hauts faits"
 L["grats_donthave_1"] = "Félicitations %s !"
 L["grats_donthave_10"] = "Il faut aussi que je fasse ce haut fait %s"
 L["grats_donthave_2"] = "GG %s, je ne l'ai pas encore fini celui là"
@@ -304,12 +302,10 @@ L["grats_link"] = "dire gg"
 L["module_desc"] = "Achievement related customizations"
 --[[Translation missing --]]
 L["module_name"] = "Achievements"
---[[Translation missing --]]
-L["showCompletedDate_desc"] = "Show the date you completed the achievement next to the link"
---[[Translation missing --]]
-L["showCompletedDate_name"] = "Show completed date"
-L["showGratsLink_desc"] = "Montrer un lien clicable qui envoie des messages de félicitations"
-L["showGratsLink_name"] = "Montrer un lien de félicitations"
+L["showCompletedDate_desc"] = "Afficher la date à laquelle vous avez accompli le haut fait à côté du lien"
+L["showCompletedDate_name"] = "Afficher la date d'achèvement"
+L["showGratsLink_desc"] = "Afficher le lien de félicitations"
+L["showGratsLink_name"] = "Afficher le lien de félicitations"
 
   PL:AddLocale("frFR", L)
 

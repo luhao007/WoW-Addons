@@ -213,8 +213,8 @@ L["Right, Outside Frame"] = "Droite, En dehors du cadre"
 L["Set Position"] = "Définir la position"
 L["Sets position of chat menu and arrows for all chat windows."] = "Définir la position du menu de chat et des flèches pour toute les fenêtres."
 L["Show Arrows"] = "Afficher les flèches"
-L["Show Chat%d Arrows"] = "Montrer les flèches du Chat%d"
-L["Toggle showing chat arrows for each chat window."] = "Activer les flèches de chat pour chaque fenêtre de chat"
+L["Show Chat%d Arrows"] = "Afficher les flèches du chat%"
+L["Toggle showing chat arrows for each chat window."] = "Activer / désactiver l'affichage des flèches de chat pour chaque fenêtre de discussion."
 L["Toggles navigation arrows on and off."] = "Activer et désactiver les flèches de navigation"
 
   PL:AddLocale("frFR",L)

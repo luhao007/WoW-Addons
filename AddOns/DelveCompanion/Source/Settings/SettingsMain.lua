@@ -498,7 +498,7 @@ function AddonSettings:Init()
         self.optionsCategory = options
 
         self:RegisterAccountSettings(options, layout)
-        self:RegisterCharacterSettings(options, layout)
+        -- self:RegisterCharacterSettings(options, layout)
         self:RegisterDebugSettings(options, layout)
 
         Settings.RegisterAddOnCategory(options)

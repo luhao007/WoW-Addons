@@ -203,10 +203,50 @@ function SoundsRuntime:BuildSoundDropdownOptions(settings, ctx)
     local defaults = (ctx and ctx.defaultSoundFileNames) or {}
     local files = (settings and settings.soundFileNames) or defaults
     local noneLabel = (ctx and ctx.noneLabel) or "None"
-
-    options["__NONE__"] = {
-        text = noneLabel,
+    local additionalEntries = (ctx and ctx.additionalSoundEntries) or {}
+    local defaultSet = {}
+    local seenKeys = {
+        ["__NONE__"] = true,
     }
+
+    local function NormalizePathKey(value)
+        if type(value) ~= "string" or value == "" then
+            return nil
+        end
+        return string.lower(value)
+    end
+
+    local function PushOption(key, text)
+        if key == nil then
+            return
+        end
+
+        local normalizedKey = NormalizePathKey(key)
+        if normalizedKey and seenKeys[normalizedKey] then
+            return
+        end
+
+        if normalizedKey then
+            seenKeys[normalizedKey] = true
+        end
+
+        options[#options + 1] = {
+            key = key,
+            text = text,
+        }
+    end
+
+    for _, defaultName in ipairs(defaults) do
+        local normalizedDefault = self:NormalizeSoundFileName(defaultName, ctx)
+        if normalizedDefault then
+            defaultSet[normalizedDefault] = true
+        end
+    end
+
+    PushOption("__NONE__", noneLabel)
+
+    local customOptions = {}
+    local defaultOptions = {}
 
     for _, fileName in ipairs(files) do
         local normalized = self:NormalizeSoundFileName(fileName, ctx)
@@ -215,11 +255,54 @@ function SoundsRuntime:BuildSoundDropdownOptions(settings, ctx)
             local path = self:BuildAddonSoundPath(normalized, ctx)
 
             if type(path) == "string" and path ~= "" then
-                options[path] = {
+                local target = defaultSet[normalized] and defaultOptions or customOptions
+                target[#target + 1] = {
+                    key = path,
                     text = self:BuildSoundDisplayName(normalized),
                 }
             end
         end
+    end
+
+    table.sort(customOptions, function(left, right)
+        return tostring(left and left.text or "") < tostring(right and right.text or "")
+    end)
+
+    for _, entry in ipairs(customOptions) do
+        PushOption(entry.key, entry.text)
+    end
+
+    for _, defaultName in ipairs(defaults) do
+        local normalized = self:NormalizeSoundFileName(defaultName, ctx)
+        if normalized then
+            local path = self:BuildAddonSoundPath(normalized, ctx)
+            if type(path) == "string" and path ~= "" then
+                PushOption(path, self:BuildSoundDisplayName(normalized))
+            end
+        end
+    end
+
+    local sortedAdditional = {}
+    for _, entry in ipairs(additionalEntries) do
+        if type(entry) == "table" and type(entry.key) == "string" and entry.key ~= "" and type(entry.text) == "string" and entry.text ~= "" then
+            sortedAdditional[#sortedAdditional + 1] = {
+                key = entry.key,
+                text = entry.text,
+            }
+        end
+    end
+
+    table.sort(sortedAdditional, function(left, right)
+        local leftText = string.lower(tostring(left and left.text or ""))
+        local rightText = string.lower(tostring(right and right.text or ""))
+        if leftText == rightText then
+            return tostring(left and left.key or "") < tostring(right and right.key or "")
+        end
+        return leftText < rightText
+    end)
+
+    for _, entry in ipairs(sortedAdditional) do
+        PushOption(entry.key, entry.text)
     end
 
     return options

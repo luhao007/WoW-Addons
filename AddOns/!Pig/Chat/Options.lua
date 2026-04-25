@@ -666,8 +666,7 @@ for i=1,#L["CHAT_QUKBUTNAME"] do
 		PIG_OptionsUI.RLUI:Show()
 	end);
 end
-local xiayiinfo = {0.8,1.6,0.1,{["Right"]="%"}}
-QuickButF.QuickChat.Slider = PIGSlider(QuickButF.QuickChat,{"TOPLEFT",QuickButF.QuickChat,"BOTTOMLEFT",30,-50},xiayiinfo,110)
+QuickButF.QuickChat.Slider = PIGSlider(QuickButF.QuickChat,{"TOPLEFT",QuickButF.QuickChat,"BOTTOMLEFT",30,-50},{0.8,1.6,0.1,{["Right"]="%d%%"}},110)
 QuickButF.QuickChat.Slider.bt = PIGFontString(QuickButF.QuickChat.Slider,{"RIGHT", QuickButF.QuickChat.Slider, "LEFT", 0, 0},"缩放")
 function QuickButF.QuickChat.Slider:PIGOnValueChange(arg1)
 	PIGA["Chat"]["QuickChat_suofang"]=arg1;
@@ -676,8 +675,7 @@ function QuickButF.QuickChat.Slider:PIGOnValueChange(arg1)
 	end
 end
 --X偏移
-local xiayiinfoX = {-200,200,1}
-QuickButF.QuickChat.SliderX = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.Slider,"RIGHT",110,0},xiayiinfoX,110)
+QuickButF.QuickChat.SliderX = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.Slider,"RIGHT",110,0},{-200,200,1},110)
 QuickButF.QuickChat.SliderX.bt = PIGFontString(QuickButF.QuickChat.SliderX,{"RIGHT", QuickButF.QuickChat.SliderX, "LEFT", 0, 0},"X偏移")
 function QuickButF.QuickChat.SliderX:PIGOnValueChange(arg1)
 	PIGA["Chat"]["QuickChat_pianyiX"]=arg1;
@@ -686,8 +684,7 @@ function QuickButF.QuickChat.SliderX:PIGOnValueChange(arg1)
 	end
 end
 --Y偏移
-local xiayiinfoY = {-200,200,1}
-QuickButF.QuickChat.SliderY = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.SliderX,"RIGHT",96,0},xiayiinfoY,110)
+QuickButF.QuickChat.SliderY = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.SliderX,"RIGHT",96,0},{-200,200,1},110)
 QuickButF.QuickChat.SliderY.bt = PIGFontString(QuickButF.QuickChat.SliderY,{"RIGHT", QuickButF.QuickChat.SliderY, "LEFT", 0, 0},"Y偏移")
 function QuickButF.QuickChat.SliderY:PIGOnValueChange(arg1)
 	PIGA["Chat"]["QuickChat_pianyiY"]=arg1;
@@ -756,15 +753,13 @@ QuickButF.editMove:SetScript("OnClick", function (self)
 	editF_Enable_Disable()
 	Update_editBoxPoint()
 end);
-local pianyiinfoX = {-200,200,1}
-QuickButF.editPoint_X = PIGSlider(QuickButF,{"LEFT",QuickButF.editMove.Text,"RIGHT",60,0},pianyiinfoX)
+QuickButF.editPoint_X = PIGSlider(QuickButF,{"LEFT",QuickButF.editMove.Text,"RIGHT",60,0},{-200,200,1})
 QuickButF.editPoint_X.bt = PIGFontString(QuickButF.editPoint_X,{"RIGHT", QuickButF.editPoint_X, "LEFT", -10, 0},"X偏移")
 function QuickButF.editPoint_X:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["editPoint"][1]=arg1;
 	Update_editBoxPoint()
 end
-local pianyiinfoY = {-30,500,1}
-QuickButF.editPoint_Y = PIGSlider(QuickButF,{"LEFT",QuickButF.editPoint_X,"RIGHT",100,0},pianyiinfoY)
+QuickButF.editPoint_Y = PIGSlider(QuickButF,{"LEFT",QuickButF.editPoint_X,"RIGHT",100,0},{-30,500,1})
 QuickButF.editPoint_Y.bt = PIGFontString(QuickButF.editPoint_Y,{"RIGHT", QuickButF.editPoint_Y, "LEFT", -10, 0},"Y偏移")
 function QuickButF.editPoint_Y:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["editPoint"][2]=arg1;

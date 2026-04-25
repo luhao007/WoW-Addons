@@ -84,8 +84,8 @@ L["transparent_name"] = "Transparent Bubbles"
 
   L = {}
   -- Bubbles
-L["color_desc"] = "Colorie la bordure de la bulle en fonction du type de discussion."
-L["color_name"] = "Colorier les bulles"
+L["color_desc"] = "Colorer la bordure de la bulle de discussion de la même couleur que le type de discussion."
+L["color_name"] = "Colorer les bulles"
 L["font_desc"] = "Utiliser la même police que celle de la fenêtre de discussion."
 L["font_name"] = "Police du chat"
 L["fontsize_desc"] = "Définit la taille du texte dans les bulles."

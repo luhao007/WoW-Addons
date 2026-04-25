@@ -1,4 +1,4 @@
-local _, addonTable = ...;
+local addonName, addonTable = ...;
 local L=addonTable.locale
 ---
 local Fun=addonTable.Fun
@@ -76,6 +76,7 @@ function BusinessInfo.SetTooltipOfflineG(tooltip,ItemInfo)
 		end
 	end
 end
+BusinessInfo.ADD_qushiError=addonName.."→"..SETTINGS.."→"..L["TRADE_TABNAME"].."→"..L["TRADECHARDATA_TABNAME"]
 function BusinessInfo.ADD_qushi(fujiui,tishi,num)
 	local Nbaocunnum=num or baocunnum
 	local qushi=PIGFrame(fujiui)
@@ -174,8 +175,7 @@ function BusinessInfo.ADD_qushiTips(fujiui,iconPoint,iconWH)
 	else
 		qushiTips:SetAllPoints(fujiui)
 	end
-	local tishitxt = "1、缓存价格以后才能显示涨跌百分比\n2、100%表示当前价格和最后次缓存价格一样\n3、80%表示当前价格是最后次缓存价格80%(即便宜了20%)\n4、120%表示当前价格是最后次缓存价格120%(即贵了20%)"
-	PIGEnter(qushiTips,"提示：",tishitxt)
+	PIGEnter(qushiTips,L["LIB_TIPS"],L["TRADEAH_CACHEGTISP"])
 	return qushiTips
 end
 ----

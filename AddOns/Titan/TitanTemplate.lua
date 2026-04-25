@@ -768,10 +768,15 @@ function TitanPanelButton_OnLeave(self)
 		id = TitanUtils_GetButtonID(self:GetName())
 	end
 
+	local time_out = max (TitanPanelGetVar("TooltipTimeout"), 0.1)
+	TitanUtils_StartFrameCounting(TitanPanelTooltip, time_out)
+
+--[===[
 	-- The cursor has moved away from the plugin.
 	-- NOTE: !!! It is possible, especially with Short bars that the
 	-- user never mouses over the tooltip so start the Hide timer !!!
 	--
+
 	-- Let the tooltip SetScripts handle OnEnter and OnLeave if
 	-- the user mouses over.
 	if TitanPanelTooltip:IsShown() then
@@ -780,7 +785,7 @@ function TitanPanelButton_OnLeave(self)
 	else
 		-- nothing to do
 	end
-
+]===]
 	if TitanPanelGetVar("DisableTooltipFont") then
 		-- use game font & scale
 	else
@@ -1312,6 +1317,7 @@ end
 local tt_frame = TitanPanelTooltip
 local tt_init_timeout = .5
 
+--[===[
 tt_frame:SetScript("OnShow", function(self)
 	local time_out = TitanPanelGetVar("TooltipTimeout")
 	local dbg_msg = "OnShow"
@@ -1355,6 +1361,7 @@ tt_frame:SetScript("OnLeave", function(self)
 		TitanUtils_StartFrameCounting(self, time_out)
 	end
 end)
+--]===]
 
 local debug_over = false
 local debug_over_new = false

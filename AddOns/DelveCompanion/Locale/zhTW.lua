@@ -42,7 +42,9 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<點擊來顯示探究的拾�
 Lockit.UI_LOOT_INFO_DESCRIPTION = "完成探究可獲得戰利品："
 
 -- Delves Gossip
-Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Click to cancel auto entering>"
+Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER = "Auto Enter (Tier %d)" -- %d is a Tier number (1-11).
+Lockit.UI_DELVE_AUTO_ENTER_INFO = "The selected Tier can be changed in Addon Options."
+Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<點擊來取消自動進入>"
 
 -- Tooltips Extension
 
@@ -50,7 +52,7 @@ Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "寶箱裡獲取的鑰匙數量"
 
 -- Compartment (these are shown hovering over the addon in the corresponding dropdown menu)
 
-Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:Left Click|r to open the current season Delves info."
+Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:左鍵點擊|r 來開啟當前賽季探究資訊。"
 Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK = "右鍵點擊變更選項。"
 
 -- Settings
@@ -72,33 +74,33 @@ Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_MPE_NAME = "MapPinEnhanced"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_MPE_DESCRIPTION = "使用 MapPinEnhanced 路徑點。"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_CONTROL_NAME = "探究中部件"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_CONTROL_TOOLTIP = "啟用探究內顯示的小部件。它用作獎勵地圖、當季首領誘餌等的剩餘和快速施法選單。"
-Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_NAME = "Display Location"
-Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_TOOLTIP = "Where the widget is displayed."
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_NAME = "顯示位置"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_TOOLTIP = "小部件要顯示在哪。"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_LEFT_NAME = "左側"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_LEFT_DESCRIPTION = "小部件顯示在目標追踪器的左側。"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_RIGHT_NAME = "右側"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_RIGHT_DESCRIPTION = "小部件顯示在目標追踪器的右側。"
-Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_CUSTOM_NAME = "Custom"
-Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_CUSTOM_DESCRIPTION = "Widget can be freely moved around the screen. |cnGREEN_FONT_COLOR:Right Click|r and drag the widget to move it."
-Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_NAME = "Buttons Layout"
-Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_TOOLTIP = "How the widget buttons are arranged."
-Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "Vertical Layout"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_CUSTOM_NAME = "自訂"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_CUSTOM_DESCRIPTION = "小部件可以在螢幕上自由移動。|cnGREEN_FONT_COLOR:右鍵點擊|r 並拖曳小部件以移動它。"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_NAME = "按鈕布局"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_TOOLTIP = "小部件按鈕的排列方式。"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "垂直布局"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "The buttons are arranged vertically."
-Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "Horizontal Layout"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "水平布局"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "The buttons are arranged horizontally."
-Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "Story Variant Status"
-Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "Highlight whether the active Story Variant has been completed or not (required for Delve Loremaster achievements) in the window displayed entering a Delve."
-Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Show Minimap Icon"
-Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to quickly access the current season Delves info."
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Auto Enter Delves"
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "故事變體狀態"
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "在進入探究時在視窗突出顯示啟用的故事變體是否已完成 (需要探究博學大師成就)。"
+Lockit.UI_SETTING_MINIMAP_ICON_NAME = "顯示小地圖按鈕"
+Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "顯示小地圖圖示。點擊它可以快速訪問本賽季探究資訊。"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "自動進入探究"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n- The Tier has not been unlocked yet.\n- It's a Nemesis Delve.\n- It's a Bountiful Delve but you don't have a |cnITEM_EPIC_COLOR:Restored Coffer Key|r nor enough |cnITEM_SUPERIOR_COLOR:Coffer Key Shards|r to assemble the key."
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "Delve Tier to enter."
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "Enter Delay"
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "A Delve will be entered with a delay (in seconds).\n\nThere is a button in the window displayed entering a Delve. It can be clicked to cancel the auto entering before the delay countdown elapsed."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "要進入的探究層級。"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "進入延遲"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "將延遲進入探究 (以秒計)。\n\n顯示的視窗中有一個進入探究的按鈕。在延遲時間倒數結束前，可以點選取消自動進入。"
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "角色設置"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "提示的額外資訊"
-Lockit.UI_SETTING_TOOLTIP_EXTENSION_TOOLTIP = "Display additional information in tooltips (e.g., whether |cnITEM_EPIC_COLOR:Bounty Map|r has been looted this week)."
+Lockit.UI_SETTING_TOOLTIP_EXTENSION_TOOLTIP = "在提示中顯示額外資訊 (例如 本週收到的 |cnITEM_EPIC_COLOR:復原的寶庫鑰匙|r 的數量)。"
 Lockit.UI_SETTING_COMPANION_CONFIG_NAME = "夥伴設置組件"
 Lockit.UI_SETTING_COMPANION_CONFIG_TOOLTIP = "探究介面: 啟用一個組件來顯示當前夥伴的專精與技能。\n它可用於直接從探究介面修改配置。"
 Lockit.UI_SETTING_COMPANION_CONFIG_OPTION_HORIZONTAL_NAME = "水平佈局"
@@ -110,8 +112,8 @@ Lockit.UI_SETTING_GV_DETAILS_TOOLTIP = "探究介面: 直接在探究介面顯�
 Lockit.UI_SETTING_DASHBOARD_OVERVIEW_NAME = "探究總覽部分"
 Lockit.UI_SETTING_DASHBOARD_OVERVIEW_TOOLTIP = "探究介面: 顯示一個額外的總覽部分。它包含有關鍍金儲物箱，可用的豐碩探究及與探究相關的貨幣和物品的訊息。"
 
-Lockit.UI_SETTING_LOGS_NAME = "Enable Debug Logs"
-Lockit.UI_SETTING_LOGS_TOOLTIP = "Allows to print debug logs in the chat. Used for development and testing purposes."
+Lockit.UI_SETTING_LOGS_NAME = "啟用偵錯紀錄"
+Lockit.UI_SETTING_LOGS_TOOLTIP = "允許在聊天中列印偵錯日誌。用於開發和測試目的。"
 
 Lockit.UI_SETTINGS_TRANSLATION_TITLE = "特別鳴謝翻譯者："
 

@@ -75,6 +75,7 @@ L["Hallow's End"] = GetCategoryInfo(158)
 L["Love is in the Air"] = GetCategoryInfo(187)
 L["Lunar Festival"] = GetCategoryInfo(160)
 L["Midsummer Fire Festival"] = GetCategoryInfo(161)
+L["Darkspear Dash"] = "Darkspear Dash"
 L["Noblegarden"] = GetCategoryInfo(159)
 L["Pilgrim's Bounty"] = GetCategoryInfo(14981)
 L["Pirates' Day"] = "Pirates' Day"
@@ -185,6 +186,7 @@ L["SETTING_CURSOR_KEYS"] = "Aktiviere Links- und Rechtspfeiltaste zum Durchblät
 L["SETTING_SEARCH_IN_DESCRIPTION"] = "Suche auch im Beschreibungstext"
 
     -- Source
+L["Darkspear Dash"] = "Dunkelspeerrennen"
 L["Order Hall"] = "Ordenshalle"
 L["Unavailable"] = "Nicht mehr verfügbar"
 
@@ -252,6 +254,7 @@ L["SETTING_CURSOR_KEYS"] = "Activa los cursores Izquierdo y Derecho para pasar p
 L["SETTING_SEARCH_IN_DESCRIPTION"] = "Buscar también en la descripción del juguete"
 
     -- Source
+L["Darkspear Dash"] = "Carrera de los Lanza Negra"
 L["Order Hall"] = "Sede de la Orden"
 L["Unavailable"] = "Ya no está disponible"
 
@@ -292,8 +295,7 @@ elseif locale == "esMX" then
 --[[Translation missing --]]
 --[[ L["CONFIRM_FAVORITE_PROFILE_DELETION"] = [=[Are you sure you want to delete the profile "%s"?
 All current character assignments will be reset to the default profile "%s".]=]--]] 
---[[Translation missing --]]
---[[ L["Day of the Dead"] = "Day of the Dead"--]] 
+L["Day of the Dead"] = "Festividad de los Muertos"
 --[[Translation missing --]]
 --[[ L["FAVOR_AUTO"] = "Add new toys automatically"--]] 
 --[[Translation missing --]]
@@ -320,8 +322,7 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["LDB_TIP_NO_FAVORITES_RIGHT_CLICK"] = "|cffeda55fRight click|r to select different Favorite Profile."--]] 
 --[[Translation missing --]]
 --[[ L["LDB_TIP_NO_FAVORITES_TITLE"] = "You have not selected any toy as favorite yet."--]] 
---[[Translation missing --]]
---[[ L["Pirates' Day"] = "Pirates' Day"--]] 
+L["Pirates' Day"] = "Día de los Piratas"
 --[[Translation missing --]]
 --[[ L["RANDOM_TOY_DESCRIPTION"] = "The toy will be chosen randomly from your favorites."--]] 
 --[[Translation missing --]]
@@ -330,8 +331,7 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["RANDOM_TOY_TITLE"] = "Use Random Favorite Toy"--]] 
 --[[Translation missing --]]
 --[[ L["Reset filters"] = "Reset filters"--]] 
---[[Translation missing --]]
---[[ L["Secrets of Azeroth"] = "Secrets of Azeroth"--]] 
+L["Secrets of Azeroth"] = "Los Secretos de Azeroth"
 --[[Translation missing --]]
 --[[ L["SORT_FAVORITES_FIRST"] = "Favorites First"--]] 
 --[[Translation missing --]]
@@ -350,6 +350,7 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["SETTING_SEARCH_IN_DESCRIPTION"] = "Search also in toy description"--]] 
 
     -- Source
+L["Darkspear Dash"] = "Carrera Lanza Negra"
 --[[Translation missing --]]
 --[[ L["Order Hall"] = "Order Hall"--]] 
 --[[Translation missing --]]
@@ -445,6 +446,7 @@ L["SETTING_CURSOR_KEYS"] = "Activer les touches Gauche et Droite pour tourner le
 L["SETTING_SEARCH_IN_DESCRIPTION"] = "Rechercher également dans la description du jouet"
 
     -- Source
+L["Darkspear Dash"] = "Marathon des Sombrelances"
 L["Order Hall"] = "Domaine de classe"
 L["Unavailable"] = "Plus disponible"
 
@@ -485,8 +487,7 @@ elseif locale == "itIT" then
 --[[Translation missing --]]
 --[[ L["CONFIRM_FAVORITE_PROFILE_DELETION"] = [=[Are you sure you want to delete the profile "%s"?
 All current character assignments will be reset to the default profile "%s".]=]--]] 
---[[Translation missing --]]
---[[ L["Day of the Dead"] = "Day of the Dead"--]] 
+L["Day of the Dead"] = "Giorno dei Morti"
 --[[Translation missing --]]
 --[[ L["FAVOR_AUTO"] = "Add new toys automatically"--]] 
 --[[Translation missing --]]
@@ -513,8 +514,7 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["LDB_TIP_NO_FAVORITES_RIGHT_CLICK"] = "|cffeda55fRight click|r to select different Favorite Profile."--]] 
 --[[Translation missing --]]
 --[[ L["LDB_TIP_NO_FAVORITES_TITLE"] = "You have not selected any toy as favorite yet."--]] 
---[[Translation missing --]]
---[[ L["Pirates' Day"] = "Pirates' Day"--]] 
+L["Pirates' Day"] = "Giorno dei Pirati"
 --[[Translation missing --]]
 --[[ L["RANDOM_TOY_DESCRIPTION"] = "The toy will be chosen randomly from your favorites."--]] 
 --[[Translation missing --]]
@@ -542,6 +542,7 @@ L["Secrets of Azeroth"] = "Segreti di Azeroth"
 --[[ L["SETTING_SEARCH_IN_DESCRIPTION"] = "Search also in toy description"--]] 
 
     -- Source
+L["Darkspear Dash"] = "Slancio dei Lanciascura"
 --[[Translation missing --]]
 --[[ L["Order Hall"] = "Order Hall"--]] 
 --[[Translation missing --]]
@@ -658,6 +659,7 @@ L["SETTING_CURSOR_KEYS"] = "왼쪽 오른쪽 키로 페이지를 넘깁니다."
 --[[ L["SETTING_SEARCH_IN_DESCRIPTION"] = "Search also in toy description"--]] 
 
     -- Source
+L["Darkspear Dash"] = "검은창 대질주"
 L["Order Hall"] = "연맹 전당"
 --[[Translation missing --]]
 --[[ L["Unavailable"] = "No more available"--]] 
@@ -768,6 +770,7 @@ L["SETTING_CURSOR_KEYS"] = "Habilite as teclas Esquerda&Direita para virar as p�
 L["SETTING_SEARCH_IN_DESCRIPTION"] = "Pesquise também na descrição do brinquedo"
 
     -- Source
+L["Darkspear Dash"] = "Carrera Lanza Negra"
 L["Order Hall"] = "Salão de Classe"
 --[[Translation missing --]]
 --[[ L["Unavailable"] = "No more available"--]] 
@@ -851,6 +854,7 @@ L["SETTING_CURSOR_KEYS"] = "Включить использование кноп
 L["SETTING_SEARCH_IN_DESCRIPTION"] = "Искать также в описании игрушки"
 
     -- Source
+L["Darkspear Dash"] = "Забег Черного Копья"
 L["Order Hall"] = "Классовый оплот"
 --[[Translation missing --]]
 --[[ L["Unavailable"] = "No more available"--]] 
@@ -919,6 +923,7 @@ L["SETTING_CURSOR_KEYS"] = "启用左右键翻页"
 L["SETTING_SEARCH_IN_DESCRIPTION"] = "也在玩具描述中搜索"
 
     -- Source
+L["Darkspear Dash"] = "暗矛冲刺赛"
 L["Order Hall"] = "职业大厅"
 L["Unavailable"] = "不再可获取"
 
@@ -991,8 +996,7 @@ L["RANDOM_TOY_DESCRIPTION"] = "玩具將從最愛中隨機選擇。"
 --[[ L["RANDOM_TOY_LOCKED"] = "Please favor at least one collected toy to unlock."--]] 
 L["RANDOM_TOY_TITLE"] = "使用隨機最愛玩具"
 L["Reset filters"] = "重設過濾"
---[[Translation missing --]]
---[[ L["Secrets of Azeroth"] = "Secrets of Azeroth"--]] 
+L["Secrets of Azeroth"] = "艾澤拉斯秘聞"
 --[[Translation missing --]]
 --[[ L["SORT_FAVORITES_FIRST"] = "Favorites First"--]] 
 --[[Translation missing --]]
@@ -1008,6 +1012,7 @@ L["SETTING_CURSOR_KEYS"] = "啟用左右鍵可翻轉頁面"
 --[[ L["SETTING_SEARCH_IN_DESCRIPTION"] = "Search also in toy description"--]] 
 
     -- Source
+L["Darkspear Dash"] = "暗矛衝刺賽"
 L["Order Hall"] = "職業大廳"
 --[[Translation missing --]]
 --[[ L["Unavailable"] = "No more available"--]] 

@@ -7,6 +7,7 @@
 	<Script file="ItemSocketingFrame.lua" />
 	<Script file="QuestFrame.lua" />
 	<Script file="SkillFrame.lua" />
+	<Script file="PetStableFrame.lua" />
 	<Script file="ClassTrainerFrame.lua" />
 	<Script file="SpellFrame.lua" />
 	<Script file="MerchantFrame.lua" />

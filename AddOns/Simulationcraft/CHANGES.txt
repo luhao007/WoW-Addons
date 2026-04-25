@@ -1,10 +1,10 @@
-lightweight tag 2a789725ac135910b9681f07cb80f93ee1cbb88b 12.0.1-04
+lightweight tag 44f4fd555a20e96da892713f775969e4eec0a043 12.0.5-01
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Mon Mar 30 16:06:33 2026 -0700
+Date:	Tue Apr 21 08:05:30 2026 -0700
 
-commit 2a789725ac135910b9681f07cb80f93ee1cbb88b
+commit 44f4fd555a20e96da892713f775969e4eec0a043
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Mon Mar 30 16:06:33 2026 -0700
+Date:   Tue Apr 21 08:05:30 2026 -0700
 
-    Set addon category to Other
+    Bump to match WoW version
 

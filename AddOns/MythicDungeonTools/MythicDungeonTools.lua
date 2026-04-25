@@ -12,6 +12,11 @@ local tinsert, tremove, CreateFrame, tonumber, max, min, abs, pairs, ipairs, Get
 
 local sizex = 840
 local sizey = 555
+local defaultNonFullscreenScale = 1.4
+local minNonFullscreenScale = 0.9
+local sidePanelWidth = 251
+local panelHeight = 30
+local screenEdgePadding = 10
 local framesInitialized, initFrames
 MDT.externalLinks = {
   {
@@ -36,6 +41,7 @@ MDT.externalLinks = {
 
 BINDING_HEADER_MDT = "Mythic Dungeon Tools (MDT)"
 BINDING_NAME_MDTTOGGLE = L["Toggle MDT"]
+_G["BINDING_NAME_CLICK MDTFocusMarkerButton:LeftButton"] = L["MDT Set Focus Macro"]
 
 local mythicColor = "|cFFFFFFFF"
 MDT.BackdropColor = { 0.058823399245739, 0.058823399245739, 0.058823399245739, 0.9 }
@@ -54,7 +60,7 @@ end
 
 function MDT:ShowMinimapButton()
   db.minimap.hide = false
-  minimapIcon:Show("MythicDungeonTools")
+  minimapIcon:Refresh("MythicDungeonTools", db.minimap)
   -- update the checkbox in settings
   if MDT.main_frame and MDT.main_frame.minimapCheckbox then MDT.main_frame.minimapCheckbox:SetValue(true) end
 end
@@ -155,7 +161,7 @@ local defaultSavedVars = {
     toolbarExpanded = true,
     currentSeason = 11, -- not really used for anything anymore
     scale = 1,
-    nonFullscreenScale = 1.4,
+    nonFullscreenScale = defaultNonFullscreenScale,
     enemyForcesFormat = 2,
     useForcesCount = false, -- replaces percent in pull buttons with count
     enemyStyle = 1,
@@ -178,6 +184,12 @@ local defaultSavedVars = {
     currentPreset = {},
     fadeOutDuringCombat = false,
     fadeOutAlpha = 0.5,
+    focusMarker = {
+      announceReadyCheck = false,
+      useMacro = false,
+      suppressNotifications = false,
+      assignments = {},
+    },
     colorPaletteInfo = {
       autoColoring = true,
       forceColorBlindMode = false,
@@ -229,9 +241,7 @@ do
       if not db then return end
       ---@diagnostic disable-next-line: param-type-mismatch
       minimapIcon:Register("MythicDungeonTools", LDB, db.minimap)
-      if not db.minimap.hide then
-        minimapIcon:Show("MythicDungeonTools")
-      end
+      if not db.minimap.hide then MDT:ShowMinimapButton() end
       --compartment
       if not db.minimap.compartmentHide then
         minimapIcon:AddButtonToCompartment("MythicDungeonTools")
@@ -257,8 +267,14 @@ do
       local inGroup = UnitInRaid("player") or IsInGroup()
       MDT.main_frame.LinkToChatButton:SetDisabled(not inGroup)
       MDT.main_frame.LiveSessionButton:SetDisabled(not inGroup)
+      if MDT.main_frame.FocusMarkerButton then
+        MDT.main_frame.FocusMarkerButton:SetDisabled(false)
+      end
       if inGroup then
         MDT.main_frame.LinkToChatButton.text:SetTextColor(1, 0.8196, 0)
+        if MDT.main_frame.FocusMarkerButton then
+          MDT.main_frame.FocusMarkerButton.text:SetTextColor(1, 0.8196, 0)
+        end
         if MDT.liveSessionActive then
           MDT.main_frame.LiveSessionButton:SetText(L["*Live*"])
           MDT.main_frame.LiveSessionButton.text:SetTextColor(0, 1, 0)
@@ -269,6 +285,9 @@ do
       else
         MDT.main_frame.LinkToChatButton.text:SetTextColor(0.5, 0.5, 0.5)
         MDT.main_frame.LiveSessionButton.text:SetTextColor(0.5, 0.5, 0.5)
+        if MDT.main_frame.FocusMarkerButton then
+          MDT.main_frame.FocusMarkerButton.text:SetTextColor(1, 0.8196, 0)
+        end
       end
       last = now
     end
@@ -277,6 +296,9 @@ do
   function MDT.PLAYER_ENTERING_WORLD()
     --initialize Blizzard_ChallengesUI
     C_Timer.After(1, function()
+      if db and not db.minimap.hide then
+        minimapIcon:Refresh("MythicDungeonTools", db.minimap)
+      end
       if db.loadOnStartUp and db.devMode then MDT:Async(function() MDT:ShowInterfaceInternal(true) end, "showInterface") end
     end)
     eventFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
@@ -565,16 +587,34 @@ function MDT:SetScale(scale)
 end
 
 function MDT:GetFullScreenSizes()
-  local newSizey = GetScreenHeight() - 60 --top and bottom panel 30 each
+  local newSizey = GetScreenHeight() - (panelHeight * 2)
   local newSizex = newSizey * (sizex / sizey)
   local isNarrow
-  if newSizex + 251 > GetScreenWidth() then --251 sidebar
-    newSizex = GetScreenWidth() - 251
+  if newSizex + sidePanelWidth > GetScreenWidth() then
+    newSizex = GetScreenWidth() - sidePanelWidth
     newSizey = newSizex * (sizey / sizex)
     isNarrow = true
   end
   local scale = newSizey / sizey --use this for adjusting NPC / POI positions later
   return newSizex, newSizey, scale, isNarrow
+end
+
+function MDT:GetDefaultNonFullscreenScale(xoffset, yoffset)
+  xoffset = xoffset or defaultSavedVars.global.xoffset
+  yoffset = yoffset or defaultSavedVars.global.yoffset
+
+  local screenWidth = GetScreenWidth()
+  local screenHeight = GetScreenHeight()
+  if not screenWidth or not screenHeight or screenWidth <= 0 or screenHeight <= 0 then
+    return defaultNonFullscreenScale
+  end
+
+  local maxLeftScale = ((screenWidth / 2) + xoffset - screenEdgePadding) * 2 / sizex
+  local maxRightScale = ((screenWidth / 2) - sidePanelWidth - xoffset - screenEdgePadding) * 2 / sizex
+  local maxHeightScale = (screenHeight + yoffset - panelHeight - screenEdgePadding) / sizey
+  local maxScale = min(maxLeftScale, maxRightScale, maxHeightScale)
+
+  return min(defaultNonFullscreenScale, max(minNonFullscreenScale, maxScale))
 end
 
 function MDT:SkinProgressBar(progressBar)
@@ -847,7 +887,7 @@ function MDT:MakeSidePanel(frame)
   frame.sidePanel:EnableMouse(true)
 
   frame.sidePanel:ClearAllPoints()
-  frame.sidePanel:SetWidth(251)
+  frame.sidePanel:SetWidth(sidePanelWidth)
   frame.sidePanel:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, 30)
   frame.sidePanel:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 0, -30)
 
@@ -1173,6 +1213,25 @@ function MDT:MakeSidePanel(frame)
     MDT.main_frame.LiveSessionButton.text:SetTextColor(0.5, 0.5, 0.5)
   end
 
+  frame.FocusMarkerButton = AceGUI:Create("Button")
+  frame.FocusMarkerButton:SetText(L["Marks"])
+  frame.FocusMarkerButton:SetWidth(buttonWidth)
+  frame.FocusMarkerButton.frame:SetNormalFontObject(fontInstance)
+  frame.FocusMarkerButton.frame:SetHighlightFontObject(fontInstance)
+  frame.FocusMarkerButton.frame:SetDisabledFontObject(fontInstance)
+  frame.FocusMarkerButton:SetCallback("OnClick", function()
+    MDT:FocusMarker_OpenAssignments()
+  end)
+  frame.FocusMarkerButton.frame:SetScript("OnEnter", function()
+    anchorTooltip(frame.FocusMarkerButton.frame)
+    GameTooltip:AddLine(L["Focus Marker Assignments"], 1, 1, 1)
+    GameTooltip:AddLine(L["focusMarkerAssignmentsTooltip"], 1, 1, 1, 1)
+    GameTooltip:Show()
+  end)
+  frame.FocusMarkerButton.frame:SetScript("OnLeave", function()
+    GameTooltip:Hide()
+  end)
+
   frame.sidePanel.WidgetGroup:AddChild(frame.sidePanelNewButton)
   frame.sidePanel.WidgetGroup:AddChild(frame.sidePanelRenameButton)
   frame.sidePanel.WidgetGroup:AddChild(frame.sidePanelDeleteButton)
@@ -1180,6 +1239,7 @@ function MDT:MakeSidePanel(frame)
   frame.sidePanel.WidgetGroup:AddChild(frame.sidePanelExportButton)
   frame.sidePanel.WidgetGroup:AddChild(frame.sidePanelImportButton)
   frame.sidePanel.WidgetGroup:AddChild(frame.LiveSessionButton)
+  frame.sidePanel.WidgetGroup:AddChild(frame.FocusMarkerButton)
 
   --Week Dropdown
   local function makeAffixString(week, affixes, longText)
@@ -2056,6 +2116,7 @@ function MDT:HideAllDialogs()
       MDT.main_frame.settingsFrame.CustomColorFrame:Hide()
       MDT.main_frame.settingsFrame:Hide()
     end
+    if MDT.main_frame.FocusMarkerAssignmentsFrame then MDT.main_frame.FocusMarkerAssignmentsFrame:Hide() end
     if MDT.main_frame.ConfirmationFrame then MDT.main_frame.ConfirmationFrame:Hide() end
   end
   if MDT.tempConfirmationFrame then MDT.tempConfirmationFrame:Hide() end
@@ -3073,7 +3134,7 @@ function MDT:MakeSettingsFrame(frame)
   frame.settingsFrame:SetTitle(L["Settings"])
   local frameWidth = 300
   frame.settingsFrame:SetWidth(frameWidth)
-  frame.settingsFrame:SetHeight(400)
+  frame.settingsFrame:SetHeight(420)
   frame.settingsFrame:EnableResize(false)
   frame.settingsFrame:SetLayout("Flow")
   frame.settingsFrame.statustext:GetParent():Hide()
@@ -3086,7 +3147,7 @@ function MDT:MakeSettingsFrame(frame)
   frame.minimapCheckbox:SetCallback("OnValueChanged", function(widget, callbackName, value)
     db.minimap.hide = not value
     if not db.minimap.hide then
-      minimapIcon:Show("MythicDungeonTools")
+      minimapIcon:Refresh("MythicDungeonTools", db.minimap)
     else
       minimapIcon:Hide("MythicDungeonTools")
     end
@@ -4285,15 +4346,16 @@ function MDT:ResetMainFramePos(soft)
     if not framesInitialized then initFrames() end
     local f = self.main_frame
     if not soft then
-      db.nonFullscreenScale = defaultSavedVars.global.nonFullscreenScale
       db.maximized = false
       if not framesInitialized then initFrames() end
       if not framesInitialized then return end
-      f.maximizeButton:Minimize()
-      db.xoffset = 0
-      db.yoffset = -150
+      db.xoffset = defaultSavedVars.global.xoffset
+      db.yoffset = defaultSavedVars.global.yoffset
       db.anchorFrom = "TOP"
       db.anchorTo = "TOP"
+      db.nonFullscreenScale = MDT:GetDefaultNonFullscreenScale(db.xoffset, db.yoffset)
+      db.scale = db.nonFullscreenScale
+      f.maximizeButton:Minimize()
     end
     f:ClearAllPoints()
     f:SetPoint(db.anchorTo, UIParent, db.anchorFrom, db.xoffset, db.yoffset)
@@ -4504,7 +4566,10 @@ function initFrames()
     end
   end
 
-  db.nonFullscreenScale = db.nonFullscreenScale or defaultSavedVars.global.nonFullscreenScale
+  db.nonFullscreenScale = db.nonFullscreenScale or MDT:GetDefaultNonFullscreenScale(db.xoffset, db.yoffset)
+  if db.nonFullscreenScale == defaultNonFullscreenScale and db.anchorFrom == "TOP" and db.anchorTo == "TOP" then
+    db.nonFullscreenScale = MDT:GetDefaultNonFullscreenScale(db.xoffset, db.yoffset)
+  end
   if not db.maximized then db.scale = db.nonFullscreenScale end
   main_frame:SetFrameStrata(mainFrameStrata)
   main_frame:SetFrameLevel(1)

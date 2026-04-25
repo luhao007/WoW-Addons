@@ -208,7 +208,7 @@ L["Workaround a Blizzard bug which changes the font size when you open a system 
 
 		L = {}
 		-- Font
-L["Auto Restore Font Size"] = "Restauration automatique de la taille du texte"
+L["Auto Restore Font Size"] = "Restauration automatique de la taille de police"
 L["Chat window font options."] = "Options de formatage du texte."
 L["Font"] = "Police"
 L["monochrome_desc"] = "Activer/Désactiver la monochromie de la police."
@@ -224,11 +224,11 @@ L["rememberfont_name"] = "Mémoriser la police"
 L["Set ChatFrame%d Font Size"] = "Définit la taille de la police de la fenêtre de discussion %d"
 L["Set Font Face"] = "Police d'écriture"
 L["Set Font Size"] = "Taille de la police"
-L["Set Separately"] = "Configurer séparément"
+L["Set Separately"] = "Régler séparément"
 L["Set text font size for each chat window."] = "Définir la taille du texte de chaque fenêtre."
 L["Set text font size."] = "Définit la taille du texte."
 L["Set the text font face for all chat windows."] = "Définit la police du texte pour toutes les fenêtres de discussions."
-L["shadowcolor_desc"] = "Définit la couleur de l'ombre."
+L["shadowcolor_desc"] = "Définir la couleur de l’ombre."
 L["shadowcolor_name"] = "Couleur de l'ombre"
 L["Thick Outline"] = "Contour épais"
 L["Toggle setting options separately for each chat window."] = "Activer/Désactiver les options séparées pour chaque fenêtre."

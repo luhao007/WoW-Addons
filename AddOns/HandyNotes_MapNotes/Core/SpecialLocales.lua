@@ -40,17 +40,17 @@ ns.ABOUT = { -- RetailOptions.lua
 }
 
 ns.PROFFESSION_DETECTION = { -- RetailOptions.lua
-  deDE = "Solange noch keine 2 Hauptberufe und 3 Nebenberufe erlernt wurden, werden alle Symbole angezeigt, sofern diese Funktion aktiviert ist.",
-  enUS = "As long as fewer than 2 primary and 3 secondary professions are learned, all icons will be shown while this feature is enabled.",
-  frFR = "Tant que moins de 2 métiers principaux et 3 métiers secondaires sont appris, toutes les icônes seront affichées tant que cette fonction est activée.",
-  esES = "Mientras no se hayan aprendido al menos 2 profesiones principales y 3 secundarias, se mostrarán todos los iconos mientras esta función esté activada.",
-  esMX = "Mientras no se hayan aprendido al menos 2 profesiones principales y 3 secundarias, se mostrarán todos los íconos mientras esta función esté activada.",
-  itIT = "Finché non sono state apprese almeno 2 professioni principali e 3 secondarie, tutte le icone verranno mostrate finché questa funzione è attiva.",
-  ptBR = "Enquanto menos de 2 profissões principais e 3 secundárias forem aprendidas, todos os ícones serão exibidos enquanto esta função estiver ativada.",
-  ruRU = "Пока не изучены как минимум 2 основные и 3 второстепенные профессии, все значки будут отображаться, если эта функция включена.",
-  zhCN = "在学习至少2个主要专业和3个次要专业之前，只要启用此功能，所有图标都会显示。",
-  zhTW = "在學會至少2個主要專業和3個次要專業之前，只要啟用此功能，所有圖示都會顯示。",
-  koKR = "주 전문 2개와 보조 전문 3개를 배우기 전까지, 이 기능이 활성화되어 있으면 모든 아이콘이 표시됩니다.",
+  deDE = "Ist diese Funktion aktiviert und es wurden noch keine 2 Hauptberufe erlernt, werden alle möglichen Hauptberufssymbole angezeigt.\n\nDasselbe gilt für die Nebenberufe, wurden weniger als 2 Nebenberufe erlernt, werden alle möglichen Nebenberufssymbole angezeigt",
+  enUS = "If this feature is enabled and fewer than 2 primary professions are learned, all possible primary profession icons will be shown.\n\nThe same applies to secondary professions: if fewer than 2 secondary professions are learned, all possible secondary profession icons will be shown.",
+  frFR = "Si cette fonction est activée et que moins de 2 métiers principaux sont appris, toutes les icônes possibles des métiers principaux seront affichées.\n\nIl en va de même pour les métiers secondaires : si moins de 2 métiers secondaires sont appris, toutes les icônes possibles des métiers secondaires seront affichées.",
+  esES = "Si esta función está activada y se han aprendido menos de 2 profesiones principales, se mostrarán todos los iconos posibles de profesiones principales.\n\nLo mismo se aplica a las profesiones secundarias: si se han aprendido menos de 2 profesiones secundarias, se mostrarán todos los iconos posibles de profesiones secundarias.",
+  esMX = "Si esta función está activada y se han aprendido menos de 2 profesiones principales, se mostrarán todos los íconos posibles de profesiones principales.\n\nLo mismo aplica para las profesiones secundarias: si se han aprendido menos de 2 profesiones secundarias, se mostrarán todos los íconos posibles de profesiones secundarias.",
+  itIT = "Se questa funzione è attiva e sono state apprese meno di 2 professioni principali, verranno mostrate tutte le icone possibili delle professioni principali.\n\nLo stesso vale per le professioni secondarie: se sono state apprese meno di 2 professioni secondarie, verranno mostrate tutte le icone possibili delle professioni secondarie.",
+  ptBR = "Se esta função estiver ativada e menos de 2 profissões principais forem aprendidas, todos os ícones possíveis de profissões principais serão exibidos.\n\nO mesmo se aplica às profissões secundárias: se menos de 2 profissões secundárias forem aprendidas, todos os ícones possíveis de profissões secundárias serão exibidos.",
+  ruRU = "Если функция включена и изучено менее 2 основных профессий, будут отображаться все возможные значки основных профессий.\n\nТо же самое относится к дополнительным профессиям: если изучено менее 2 дополнительных профессий, будут отображаться все возможные значки дополнительных профессий.",
+  zhCN = "如果启用此功能且学习的主专业少于2个，则会显示所有可能的主专业图标。\n\n副专业也是如此：如果学习的副专业少于2个，则会显示所有可能的副专业图标。",
+  zhTW = "如果啟用此功能且學會的主要專業少於2個，將顯示所有可能的主要專業圖示。\n\n次要專業也是如此：如果學會的次要專業少於2個，將顯示所有可能的次要專業圖示。",
+  koKR = "이 기능이 활성화되어 있고 주요 전문 기술을 2개 미만으로 배운 경우 모든 가능한 주요 전문 기술 아이콘이 표시됩니다.\n\n보조 전문 기술도 동일하게, 2개 미만으로 배운 경우 모든 가능한 보조 전문 기술 아이콘이 표시됩니다.",
 }
 
 ns.CHANGE_VERSIONS_CHECK = { -- RetailVersionsCheck.lua
@@ -544,6 +544,20 @@ ns.LOCALE_FOUND_MISSING = { -- RetailNpc.lua
   koKR = "%s %s - %d 발견됨, %d 누락됨",
   zhCN = "%s %s - 已找到 %d 个，缺少 %d 个",
   zhTW = "%s %s - 已找到 %d 個，缺少 %d 個",
+}
+
+ns.LOCALE_BLOCKED_DATABASE_UPDATE = { -- RetailNpc.lua
+  enUS = [[Update not possible in instanced areas. Leave this area and update manually via the addon menu "MapNotes NPC Database -> Update"]],
+  deDE = [[Aktualisierung in instanzierten Bereichen nicht möglich. Verlasse diesen Bereich und aktualisiere manuell über das Addon-Menü "MapNotes NPC Datenbank -> Aktualisieren"]],
+  frFR = [[Mise à jour impossible dans les zones instanciées. Quittez cette zone et mettez à jour manuellement via le menu de l’addon "Base de données PNJ MapNotes -> Mettre à jour"]],
+  esES = [[No es posible actualizar en zonas de instancia. Sal de esta zona y actualiza manualmente desde el menú del addon "Base de datos de PNJ de MapNotes -> Actualizar"]],
+  esMX = [[No es posible actualizar en zonas de instancia. Sal de esta zona y actualiza manualmente desde el menú del addon "Base de datos de PNJ de MapNotes -> Actualizar"]],
+  itIT = [[Aggiornamento non possibile nelle aree istanziate. Esci da quest’area e aggiorna manualmente tramite il menu dell’addon "Database NPC MapNotes -> Aggiorna"]],
+  ptBR = [[A atualização não é possível em áreas instanciadas. Saia dessa área e atualize manualmente pelo menu do addon "Banco de dados de NPC do MapNotes -> Atualizar"]],
+  ruRU = [[Обновление невозможно в инстансных зонах. Покиньте эту зону и обновите вручную через меню аддона "База данных NPC MapNotes -> Обновить"]],
+  koKR = [[인스턴스 지역에서는 업데이트할 수 없습니다. 해당 지역을 떠난 후 애드온 메뉴 "MapNotes NPC 데이터베이스 -> 업데이트"에서 수동으로 업데이트하세요]],
+  zhCN = [[在副本区域中无法更新。请离开该区域并通过插件菜单“MapNotes NPC 数据库 -> 更新”手动更新]],
+  zhTW = [[在副本區域中無法更新。請離開該區域並透過插件選單「MapNotes NPC 資料庫 -> 更新」手動更新]],
 }
 
 ns.LOCALE_PROFILE_SWITCH_BLOCKED = {

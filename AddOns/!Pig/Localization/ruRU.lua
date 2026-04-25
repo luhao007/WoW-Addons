@@ -143,7 +143,7 @@ L["CHAT_LOOTFNRSETTIPS"]="После включения окна лута рек
 L["CHAT_LOOTFADDERR1"]="Ошибка создания! Текущее разрешение экрана слишком мало";
 L["CHAT_LOOTFADDERR2"]="Ошибка создания! Максимальное количество окон чата, разрешённых системой: 10, текущее: "..FCF_GetNumActiveChatFrames();
 --коммерция
-L["BUSINESS_TABNAME"] = "Коммерция";
+L["TRADE_TABNAME"] = "Коммерция";
 --панель действий
 L["ACTION_TABNAME"] = ACTIONBARS_LABEL;
 L["ACTION_TABNAME1"] = GENERAL;

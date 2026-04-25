@@ -1,13 +1,12 @@
-local _, addonTable = ...;
+local _, PD = ...;
 -------------
-local FramePlusfun=addonTable.FramePlusfun
-FramePlusfun.pigMacroyijiazai = nil
+local FramePlusfun=PD.FramePlusfun
 function FramePlusfun.Macro()
 	if not PIGA["FramePlus"]["Macro"] then return end
-	if FramePlusfun.pigMacroyijiazai then return end
-	local Fun=addonTable.Fun
+	if FramePlusfun.MacroOK then return end
+	FramePlusfun.MacroOK=true
+	local Fun=PD.Fun
 	local function SETMacroFrame()
-		FramePlusfun.pigMacroyijiazai=true
 		--MacroFrame.MacroSelector:SetCustomStride(10);
 		MacroFrame.MacroSelector.customStride=nil
 		MacroFrame.MacroSelector.ScrollBar:Hide()

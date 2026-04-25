@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Breen
-## Version: v3.18
+## Version: v3.19
 
 ## Title: BtWQuests: Warlords of Draenor
 ## Notes: Warlords of Draenor quest data for BtWQuests

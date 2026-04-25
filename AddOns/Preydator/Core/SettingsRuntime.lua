@@ -56,6 +56,7 @@ function SettingsRuntime:NormalizeLabelSettings(settings, ctx)
     local defaultStageLabels = (ctx and ctx.defaultStageLabels) or {}
     local defaultOutOfZoneLabel = (ctx and ctx.defaultOutOfZoneLabel) or ""
     local defaultAmbushLabel = (ctx and ctx.defaultAmbushLabel) or ""
+    local defaultBloodyCommandLabel = (ctx and ctx.defaultBloodyCommandLabel) or ""
 
     if type(settings.stageLabels) ~= "table" then
         settings.stageLabels = {}
@@ -90,19 +91,30 @@ function SettingsRuntime:NormalizeLabelSettings(settings, ctx)
     end
 
     if type(settings.ambushPrefix) ~= "string" then
-        settings.ambushPrefix = ""
+        settings.ambushPrefix = "AMBUSH: "
+    end
+
+    if type(settings.ambushSuffix) ~= "string" then
+        settings.ambushSuffix = "preyTargetName"
     end
 
     if type(settings.bloodyCommandPrefix) ~= "string" then
-        settings.bloodyCommandPrefix = ""
+        settings.bloodyCommandPrefix = "Bloody Command: "
     end
 
     if type(settings.bloodyCommandSuffix) ~= "string" then
-        settings.bloodyCommandSuffix = ""
+        settings.bloodyCommandSuffix = "bloodyCommandSourceName"
     end
 
-    if type(settings.ambushCustomText) ~= "string" then
-        settings.ambushCustomText = ""
+    -- One-way migration from legacy 2.2.7 text settings:
+    -- if both prefix/suffix were effectively empty and no new suffix marker exists,
+    -- seed the new default variable markers so alerts render as expected.
+    if settings.ambushSuffix == "preyTargetName" and settings.ambushPrefix == "" then
+        settings.ambushPrefix = "AMBUSH: "
+    end
+
+    if settings.bloodyCommandSuffix == "bloodyCommandSourceName" and settings.bloodyCommandPrefix == "" then
+        settings.bloodyCommandPrefix = "Bloody Command: "
     end
 end
 

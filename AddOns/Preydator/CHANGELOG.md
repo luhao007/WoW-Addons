@@ -1,5 +1,40 @@
 # Changelog
 
+## 2.2.10 - 2026-04-23
+
+### Fixed
+- Fixed an over-aggressive prey-zone fallback regression from 2.2.10 where unresolved quest-zone data could mark legitimate in-zone hunts as explicitly out-of-zone, causing Stage 1-3 bar updates to stop and the bar to disappear mid-hunt.
+- Tightened the `Only show in prey zone` widget-visible fallback so it only acts as an in-zone signal when Preydator has actual prey-zone map evidence, preventing wrong-zone false positives like Silvermoon City without hard-marking unresolved live hunts out of zone.
+- Fixed world-map mouseover taint path (`Blizzard_SharedXML/LayoutFrame.lua:491`, secret-number compare) by removing direct numeric coercion on raw map-ID payloads in prey-zone canonicalization and using fail-closed token parsing before map-ID comparisons.
+- Hardened minimap/flying prey-zone refresh paths against secret-value taint by sanitizing `GetBestMapForUnit` and quest-zone map payloads in-scope before any helper-call boundaries, preventing protected map values from propagating into later layout comparisons during tooltip updates.
+- Fixed `/pd inspect bs` usability when BugSack/error-handler dispatch fails. The command now prints the inspect lines to chat as a fallback instead of only reporting the dispatch failure.
+- Fixed `/pd inspect` reporting `shouldShowBar=false / onlyShowInPreyZone-block` while the bar was physically visible. The diagnostic `onlyShowInPreyZone` branch now mirrors the actual `BarRuntime` logic including the `preyWidgetVisible` fallback, so the inspect output truthfully reflects what the bar is doing.
+
+## 2.2.9 - 2026-04-19
+
+### Fixed
+- Fixed sound-selection persistence during load/update normalization so addon-local custom selections are retained when stored with legacy filename/full-path/case variants.
+- Fixed a sound migration bug where the saved Bloody Command sound was not included in the allowed custom sound set, causing custom Bloody Command selections to reset to a fallback sound on load.
+- Retired the legacy 2.2.0 audio-defaults prompt so updates can no longer accidentally replace a player's saved sound choices.
+- Silenced Luacheck's false-positive `main function has more than 200 local variables` warning for the monolithic core runtime file so style checks stop flagging the file for its chunk size alone.
+- Fixed Ambush/Bloody Command text fallback so alerts no longer render blank when legacy empty prefix values are carried forward; legacy text settings now migrate to `AMBUSH: ` + `preyTargetName` and `Bloody Command: ` + `bloodyCommandSourceName` defaults.
+- Fixed alert text behavior when both prefix and suffix are empty so Ambush/Bloody Command alerts keep the Stage label instead of showing no text.
+- Fixed Ambush trigger misses for non-name chat lines by adding a fallback phrase detector (including trap callouts) in active prey context, matching ActionSounds-style behavior while preserving prey-name matching priority.
+- Added Ambush chat gate diagnostics to debug log (`/pd debug show`) so accepted/ignored chat lines include event/sender/match-route details.
+- Fixed suffix variable-marker rendering so when `preyTargetName` or `bloodyCommandSourceName` is selected but no runtime name is available yet, the marker text remains visible instead of collapsing to prefix-only text.
+- Fixed Ambush variable-name resolution in fallback chat routes by passing sender through the trigger and using it as dynamic name fallback when `preyTargetName` is selected but quest-title parsing has not populated yet.
+- Fixed delayed Currency Tracker gain/loss updates by restoring immediate refresh on loot/currency chat signals and subscribing the currency module event frame to direct currency/update events (`CURRENCY_DISPLAY_UPDATE`, `CHAT_MSG_CURRENCY`, `QUEST_TURNED_IN`, `BAG_UPDATE_DELAYED`) while keeping deferred follow-up sweeps for late server updates.
+- Changed Hunt Table achievement matching to strict QuestID criteria only. Title/name/difficulty fallback matching is now disabled so achievements only signal when an explicit questID criteria mapping exists.
+- Removed name-based achievement fallback cache population in HuntScanner so only questID criteria mappings are built for signals.
+- Fixed strict questID achievement stacking for mode tiers by evaluating lower mode achievements (I/II) with the same quest criteriaID hint as Mode III, so rows can correctly show combined pending counts (for example `x2` when both II and III are still incomplete).
+- Extended strict questID cumulative stacking to non-I/II/III per-quest achievements by resolving same-target lower-tier questIDs through criteria-index alignment, so higher-tier hunt rows also include unmet mapped achievements from lower tiers.
+
+### Added
+- Added ordered sound catalogs so audio selectors now list `None` first, then custom addon-local sounds, bundled Preydator defaults, and finally extra registered sounds discovered from LibSharedMedia.
+- Added validation support for non-Preydator registered sound paths so selecting an external catalog sound is preserved by settings normalization instead of being reset on load.
+- Added a dedicated searchable sound picker popup (15 visible rows with scrollbar) for all sound-selection controls (Stage 1-4, Ambush, Bloody Command, Echo of Predation).
+- External LibSharedMedia sound entries are labeled with a source prefix (`LSM: Sound Name`). Preydator bundled sounds and custom user files are unlabelled.
+
 ## 2.2.8 - 2026-04-18
 
 ### Fixed

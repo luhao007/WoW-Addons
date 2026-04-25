@@ -88,8 +88,7 @@ CABarF.SetF.Lock:SetScript("OnClick", function (self)
 	CABarFLock()
 end)
 --
-local xiayiinfo = {0.6,1.4,0.01,{["Right"]="缩放%d%%"}}
-CABarF.SetF.suofang = PIGSlider(CABarF.SetF,{"LEFT",CABarF.SetF.Lock,"RIGHT",90,0},xiayiinfo)
+CABarF.SetF.suofang = PIGSlider(CABarF.SetF,{"LEFT",CABarF.SetF.Lock,"RIGHT",90,0},{0.6,1.4,0.01,{["Right"]="缩放%d%%"}})
 function CABarF.SetF.suofang:PIGOnValueChange(arg1)
 	PIGA["CABar"]["Scale"]=arg1;
 	_G[barName..index]:SetScale(arg1);

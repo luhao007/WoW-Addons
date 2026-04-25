@@ -98,7 +98,7 @@ local function Eventduihua(self,event)
 end
 local zidongduihuaFFF = CreateFrame("Frame")
 zidongduihuaFFF:SetScript("OnEvent", Eventduihua)
-function CommonInfo.Interactionfun.zidongduihua()
+function CommonInfo.Interaction_AutoDialogue()
 	if PIGA['Interaction']['AutoDialogue'] or PIGA['Interaction']['AutoJierenwu'] or PIGA['Interaction']['AutoJiaorenwu'] then
 		zidongduihuaFFF:RegisterEvent("GOSSIP_SHOW")
 		zidongduihuaFFF:RegisterEvent("QUEST_DETAIL")--显示任务详情时

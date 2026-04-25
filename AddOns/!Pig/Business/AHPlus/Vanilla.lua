@@ -33,14 +33,14 @@ function BusinessInfo.AHPlus_Vanilla()
 	if PIG_MaxTocversion(40000) and PIG_MaxTocversion(30000,true) then
 		PIGA["AHPlus"]["SimpleMode"]=true
 	end
-	local SimpleModename="简易模式(防卡)"
-	AuctionFrame.SetTopUI.SimpleMode =PIGCheckbutton(AuctionFrame.SetTopUI,{"RIGHT",AuctionFrame.SetTopUI,"RIGHT",-250,0},{SimpleModename,"如果拍卖行买卖CD很长，请开启此模式"},nil,nil,nil,0)
+	local SimpleModename=L["TRADEAH_TICLOGMODE"]
+	AuctionFrame.SetTopUI.SimpleMode =PIGCheckbutton(AuctionFrame.SetTopUI,{"RIGHT",AuctionFrame.SetTopUI,"RIGHT",-250,0},{SimpleModename,L["TRADEAH_TICLOGMODETISP"]},nil,nil,nil,0)
 	AuctionFrame.SetTopUI.SimpleMode.Text:SetTextColor(0, 1, 1, 0.8);
 	AuctionFrame.SetTopUI.SimpleMode:SetScript("OnClick", function (self)
-		StaticPopup_Show("PIG_AUCTION_SIMPLEMODE",PIGA["AHPlus"]["SimpleMode"] and "关闭" or not PIGA["AHPlus"]["SimpleMode"] and "启用");
+		StaticPopup_Show("PIG_AUCTION_SIMPLEMODE",PIGA["AHPlus"]["SimpleMode"] and DISABLE or not PIGA["AHPlus"]["SimpleMode"] and ENABLE);
 	end);
 	StaticPopupDialogs["PIG_AUCTION_SIMPLEMODE"] = {
-		text = "%s"..SimpleModename..",需要重载UI,\n确定启用?",
+		text = "%s"..string.format(L["OPTUI_OPENGN"],SimpleModename),
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
@@ -79,7 +79,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	exactMatchFun()
 	AuctionFrame.SetTopUI.exact =PIGCheckbutton(AuctionFrame.SetTopUI,{"LEFT",AuctionFrame.SetTopUI,"LEFT",280,0},{AH_EXACT_MATCH,AH_EXACT_MATCH_TOOLTIP},nil,nil,nil,0)
 	AuctionFrame.SetTopUI.exact.Text:SetTextColor(0, 1, 0, 1);
-	if PIGA["AHPlus"]["SimpleMode"] then AuctionFrame.SetTopUI.exact:Disable() AuctionFrame.SetTopUI.exact.tooltip=SimpleModename.."下不可用" end
+	if PIGA["AHPlus"]["SimpleMode"] then AuctionFrame.SetTopUI.exact:Disable() AuctionFrame.SetTopUI.exact.tooltip=SimpleModename..UNAVAILABLE end
 	AuctionFrame.SetTopUI.exact:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["AHPlus"]["exactMatch"]=true
@@ -87,7 +87,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			PIGA["AHPlus"]["exactMatch"]=false
 		end
 	end);
-	AuctionFrame.SetTopUI.fastBuy =PIGCheckbutton(AuctionFrame.SetTopUI,{"LEFT",AuctionFrame.SetTopUI,"LEFT",380,0},{"快速购买","开启后每行会增加一个购买按钮，点击后会直接购买\n已做保护，非一口单价从低到高排序将不会显示此按钮，\n|cffFF0000注意此操作存在风险，开启此功能视为你了解此风险|r"},nil,nil,nil,0)
+	AuctionFrame.SetTopUI.fastBuy =PIGCheckbutton(AuctionFrame.SetTopUI,{"LEFT",AuctionFrame.SetTopUI,"LEFT",400,0},{L["TRADEAH_FASTBUY"],L["TRADEAH_FASTBUYTISP"]},nil,nil,nil,0)
 	AuctionFrame.SetTopUI.fastBuy.Text:SetTextColor(1, 0, 1, 1);
 	AuctionFrame.SetTopUI.fastBuy:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -127,10 +127,10 @@ function BusinessInfo.AHPlus_Vanilla()
 	BrowseSearchCountText:ClearAllPoints();
 	BrowseSearchCountText:SetPoint("TOPLEFT",AuctionFrameBrowse,"TOPLEFT",400,-38);
 	BrowsePrevPageButton:ClearAllPoints();
-	BrowsePrevPageButton:SetPoint("TOPLEFT",AuctionFrameBrowse,"TOPLEFT",450,-60);
+	BrowsePrevPageButton:SetPoint("TOPLEFT",AuctionFrameBrowse,"TOPLEFT",480,-60);
 	BrowsePrevPageButton:SetScale(0.88);
 	BrowseNextPageButton:ClearAllPoints();
-	BrowseNextPageButton:SetPoint("TOPLEFT",AuctionFrameBrowse,"TOPLEFT",620,-60);
+	BrowseNextPageButton:SetPoint("TOPLEFT",AuctionFrameBrowse,"TOPLEFT",630,-60);
 	BrowseNextPageButton:SetScale(0.88);
 	C_Timer.After(0.1,function()
 		BrowsePriceOptionsButtonFrame:SetParent(AuctionFrame.SetTopUI)
@@ -141,9 +141,9 @@ function BusinessInfo.AHPlus_Vanilla()
 	local ShowBidder = PIGDiyBut(AuctionFrameBrowse,{"TOPRIGHT",AuctionFrameBrowse,"TOPRIGHT",70,-84},{16,18,16,18,"groupfinder-waitdot"})
 	ShowBidder.TooltipFun=function()
 		if ShowBidder.mode==1 then
-			GameTooltip:AddLine(DISPLAY..AUCTION_CREATOR)
+			GameTooltip:AddLine(AUCTION_CREATOR)
 		else
-			GameTooltip:AddLine(DISPLAY.."价格趋势")
+			GameTooltip:AddLine(L["TRADEAH_PRICETREND"])
 		end
 	end
 	PIGEnter(ShowBidder)
@@ -471,7 +471,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		_G["BrowseButton"..i.."BuyoutFrameMoneyCopperButtonText"]:SetTextColor(1, 1, 0, 1)
 		addhangMoneyFrame(button,"BrowseButton"..i.."AllBuyoutFrame",{0, 1, 1, 1})
 
-		button.fastBuy = PIGButton(button,nil,{28,22},"买",nil,nil,nil,nil,0,ElvUIopen);
+		button.fastBuy = PIGButton(button,nil,{28,22},L["TRADEAH_BUY"],nil,nil,nil,nil,0,ElvUIopen);
 		button.fastBuy:SetFrameLevel(8)
 		button.fastBuy:Hide()
 		button.fastBuy:HookScript("OnClick",function(self)
@@ -515,12 +515,12 @@ function BusinessInfo.AHPlus_Vanilla()
 					local hejiinfo = PIGA["AHPlus"]["Coll"]
 					for kk=1,#hejiinfo do
 						if hejiinfo[kk][1]==name then
-							PIG_OptionsUI:ErrorMsg("<|c"..hex..name.."|r>已存在","R")
+							PIG_OptionsUI:ErrorMsg("<|c"..hex..name.."|r>"..L["LIB_COLLERR1"],"R")
 							return
 						end
 					end
 					table.insert(PIGA["AHPlus"]["Coll"],{name,texture,quality})
-					PIG_OptionsUI:ErrorMsg("<|c"..hex..name.."|r>已加入关注")
+					PIG_OptionsUI:ErrorMsg("<|c"..hex..name.."|r>"..L["LIB_ADDCOLL"])
 					AuctionFrame.collTabF:UpdateAllList()
 				end
 			end
@@ -645,7 +645,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	UpdateF.RetryCount = {}
 	UpdateF.ItemIndexList = {}
 
-	AuctionFrame.SetTopUI.History = PIGButton(AuctionFrame.SetTopUI,{"LEFT",AuctionFrame.SetTopUI,"LEFT",10,0},{90,22},"缓存价格",nil,nil,nil,nil,0);
+	AuctionFrame.SetTopUI.History = PIGButton(AuctionFrame.SetTopUI,{"LEFT",AuctionFrame.SetTopUI,"LEFT",10,0},{90,22},L["TRADEAH_CACHEG"],nil,nil,nil,nil,0);
 	AuctionFrame.SetTopUI.History:HookScript("OnShow",function(self)
 		local canQuery,canQueryAll = CanSendAuctionQuery()
 		self:SetEnabled(canQueryAll)
@@ -678,7 +678,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	HCUI.jindu.t1 = PIGFontString(HCUI.jindu,{"CENTER",HCUI.jindu,"CENTER",0,0},"/","OUTLINE",13)
 	HCUI.jindu.t2 = PIGFontString(HCUI.jindu,{"RIGHT",HCUI.jindu.t1,"LEFT",0,0},0,"OUTLINE",13)
 	HCUI.jindu.t3 = PIGFontString(HCUI.jindu,{"LEFT",HCUI.jindu.t1,"RIGHT",0,0},0,"OUTLINE",13)
-	HCUI.jindu.tbiaoti = PIGFontString(HCUI.jindu,{"BOTTOM",HCUI.jindu,"TOP",0,2},"正在扫描物品...","OUTLINE",13)
+	HCUI.jindu.tbiaoti = PIGFontString(HCUI.jindu,{"BOTTOM",HCUI.jindu,"TOP",0,2},nil,"OUTLINE",13)
 	----
 	local function Save_Data_End()
 		for k,v in pairs(UpdateF.auctionsLin) do
@@ -693,7 +693,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		for k,v in pairs(UpdateF.auctionsG) do
 			BusinessInfo.ADD_Newdata(k,v[1],v[2],v[3])
 		end
-		HCUI.jindu.tbiaoti:SetText("价格缓存完毕");
+		HCUI.jindu.tbiaoti:SetText(L["TRADEAH_CACHEGEND"]);
 		HCUI.close:Show();
 	end
 	local function TryProcessIndex(index)
@@ -755,7 +755,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			UpdateF.currentTotal=currentTotal
 			HCUI.jindu.t3:SetText(currentTotal);
 			HCUI.jindu:SetMinMaxValues(0, currentTotal)
-			HCUI.jindu.tbiaoti:SetText("正在获取价格...");
+			HCUI.jindu.tbiaoti:SetText(L["TRADEAH_SCANITEMG"]);
 			for index=1,currentTotal do
 				UpdateF.ItemIndexList[index]=true
 			end
@@ -772,7 +772,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		BusinessInfo.Del_OldData()
 		HCUI:Show();
 		HCUI.close:Hide();
-		HCUI.jindu.tbiaoti:SetText("正在扫描物品...");
+		HCUI.jindu.tbiaoti:SetText(L["TRADEAH_SCANITEM"]);
 		HCUI.jindu:SetMinMaxValues(0, 100)
 		HCUI.jindu:SetValue(1);
 		HCUI.jindu.t2:SetText(0);
@@ -798,17 +798,17 @@ function BusinessInfo.AHPlus_Vanilla()
 
 
 	---时光徽章-------------------
-	BrowseWowTokenResults.qushibut = PIGButton(BrowseWowTokenResults,{"CENTER",BrowseWowTokenResults,"CENTER",3,10},{80,24},"历史价格",nil,nil,nil,nil,0,ElvUIopen)
+	BrowseWowTokenResults.qushibut = PIGButton(BrowseWowTokenResults,{"CENTER",BrowseWowTokenResults,"CENTER",3,10},{80,24},L["TRADEAH_PRICETREND"],nil,nil,nil,nil,0,ElvUIopen)
 	BrowseWowTokenResults.qushibut:HookScript("OnClick",function(self)
 		if BusinessInfo.StatsInfoUI then
 			BusinessInfo.StatsInfoUI:TabShow(AuctionFrame)
 		else
-			PIG_OptionsUI:ErrorMsg("请打开"..addonName..SETTINGS.."→"..L["BUSINESS_TABNAME"].."→"..INFO..STATISTICS)
+			PIG_OptionsUI:ErrorMsg(BusinessInfo.ADD_qushiError)
 		end
 	end)
 
 	--关注------------------------
-	AuctionFrame.SetTopUI.BrowseBag =PIGCheckbutton(AuctionFrame.SetTopUI,{"RIGHT",AuctionFrame.SetTopUI,"RIGHT",-110,0},{"关注/背包物品","打开关注/背包物品"},nil,nil,nil,0,ElvUIopen)
+	AuctionFrame.SetTopUI.BrowseBag =PIGCheckbutton(AuctionFrame.SetTopUI,{"RIGHT",AuctionFrame.SetTopUI,"RIGHT",-110,0},{L["TRADEAH_FOCUSBAG"]},nil,nil,nil,0,ElvUIopen)
 	AuctionFrame.SetTopUI.BrowseBag.Text:SetTextColor(0, 1, 0, 1);
 	AuctionFrame.SetTopUI.BrowseBag:SetScript("OnClick", function (self)
 		AuctionFrame.listR:SetShown(self:GetChecked())
@@ -836,7 +836,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	AuctionFrame.listR.tabselect=1
 	AuctionFrame.tabButList={}
 	AuctionFrame.listR.TabF={}
-	local tabList={BAGSLOT,"关注","已购"}
+	local tabList={BAGSLOT,L["TRADEAH_FOCUS"],L["TRADEAH_SHOPLIST"]}
 	local EextData={
 		["ElvUI"]={true},
 		["NDui"]={Fun.IsNDui("Skins","BlizzardSkins")},
@@ -878,7 +878,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	local fastBuyF=AuctionFrame.listR.TabF[3]
 	----
 	AuctionFrame.collTabF=collTabF
-	collTabF.title = PIGFontString(collTabF,{"BOTTOM", collTabF, "TOP", -2, 5},"关注列表","OUTLINE")
+	collTabF.title = PIGFontString(collTabF,{"BOTTOM", collTabF, "TOP", -2, 5},L["TRADEAH_FOCUS"]..ITEMS,"OUTLINE")
 	collTabF.tishi = CreateFrame("Frame", nil, collTabF);
 	collTabF.tishi:SetSize(14,14);
 	collTabF.tishi:SetPoint("RIGHT",collTabF.title,"LEFT",-2,-1);
@@ -886,7 +886,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	collTabF.tishi.Texture:SetTexture("interface/common/help-i.blp");
 	collTabF.tishi.Texture:SetSize(28,28);
 	collTabF.tishi.Texture:SetPoint("CENTER");
-	PIGEnter(collTabF.tishi,L["LIB_TIPS"]..": ","\124cff00ff001、在浏览列表"..KEY_BUTTON2.."物品名可加入关注。\n2、关注列表物品"..KEY_BUTTON1.."搜索，"..KEY_BUTTON2.."删除。\124r");
+	PIGEnter(collTabF.tishi,L["LIB_TIPS"],L["TRADEAH_FOCUSTISP"]);
 	-----
 	collTabF.ScrollF=Create.PIGScrollFrame_old(collTabF,{0,0,0,0})
 	collTabF.butList={}
@@ -939,7 +939,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			local caozuoID = self:GetID()
 			if button=="LeftButton" then
 				if PIGA["AHPlus"]["SimpleMode"] then
-					PIG_OptionsUI:ErrorMsg("当前处于"..SimpleModename..",手动输入搜索")
+					PIG_OptionsUI:ErrorMsg(string.format(L["TRADEAH_TICLOGMODETISP1"],SimpleModename))
 					return 
 				end
 				AuctionFrameBrowse_Reset(BrowseResetButton)
@@ -983,7 +983,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	end
 
 	---拍卖页==============================
-	local AucYajiaTxt="压价"
+	local AucYajiaTxt=L["TRADEAH_UNDERCUT"]
 	local EextData={
 		["ElvUI"]={true,{0,0,0,0}},
 		["NDui"]={NDuiopen,{0,0,0,0}},
@@ -1068,7 +1068,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	AuctionsLongAuctionButton:SetHitRectInsets(0,-36,0,0);
 	AuctionsLongAuctionButtonText:SetPoint("LEFT",AuctionsLongAuctionButton,"RIGHT",0,0);
 	--压价按钮
-	AuctionFrameAuctions.autoya =PIGCheckbutton(AuctionFrameAuctions,{"TOPLEFT",AuctionFrameAuctions,"TOPLEFT",24,-286},{"自动"..AucYajiaTxt,"选中后拍卖物品时将根据现售最低价自动"..AucYajiaTxt},nil,nil,nil,0)
+	AuctionFrameAuctions.autoya =PIGCheckbutton(AuctionFrameAuctions,{"TOPLEFT",AuctionFrameAuctions,"TOPLEFT",24,-286},{SELF_CAST_AUTO..AucYajiaTxt,L["TRADEAH_UNDERCUTTISP"]},nil,nil,nil,0)
 	AuctionFrameAuctions.autoya.Text:SetTextColor(0, 1, 0, 0.8);
 	AuctionFrameAuctions.autoya:SetChecked(PIGA["AHPlus"]["autoya"])
 	AuctionFrameAuctions.autoya:SetScript("OnClick", function (self)
@@ -1078,7 +1078,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			PIGA["AHPlus"]["autoya"]=false
 		end
 	end);
-	AuctionFrameAuctions.yajingbiao =PIGCheckbutton(AuctionFrameAuctions,{"LEFT",AuctionFrameAuctions.autoya.Text,"RIGHT",4,0},{"压竞标价","选中后压一口价同时压竞标价"},nil,nil,nil,0)
+	AuctionFrameAuctions.yajingbiao =PIGCheckbutton(AuctionFrameAuctions,{"LEFT",AuctionFrameAuctions.autoya.Text,"RIGHT",4,0},{L["TRADEAH_BIDG"],L["TRADEAH_BIDGTISP"]},nil,nil,nil,0)
 	AuctionFrameAuctions.yajingbiao.Text:SetTextColor(0, 1, 0, 0.8);
 	AuctionFrameAuctions.yajingbiao:SetChecked(PIGA["AHPlus"]["yajingbiao"])
 	AuctionFrameAuctions.yajingbiao:SetScript("OnClick", function (self)
@@ -1134,9 +1134,9 @@ function BusinessInfo.AHPlus_Vanilla()
 		end
 		PIGCloseDropDownMenus()
 	end
-	AuctionFrameAuctions.Stacking:PIGDownMenu_SetText("默认拍卖堆叠")
+	AuctionFrameAuctions.Stacking:PIGDownMenu_SetText(L["TRADEAH_STACKSIZE"])
 
-	AuctionFrameAuctions.oldaucG =PIGCheckbutton(AuctionFrameAuctions,{"LEFT",AuctionFrameAuctions.Stacking,"RIGHT",8,0},{"记住本次拍卖价格","本次卖出相同物品使用前一次设置拍卖价格,而不是压已有的最低价。\n(只在本次打开拍卖界面期间生效)"},nil,nil,nil,0)
+	AuctionFrameAuctions.oldaucG =PIGCheckbutton(AuctionFrameAuctions,{"LEFT",AuctionFrameAuctions.Stacking,"RIGHT",8,0},{L["TRADEAH_SAVEPRICE"],L["TRADEAH_SAVEPRICETISP"]},nil,nil,nil,0)
 	if ElvUIopen then
 		AuctionFrameAuctions.oldaucG:SetPoint("BOTTOMLEFT",AuctionFrameAuctions,"BOTTOMLEFT",230,9);
 	end
@@ -1156,7 +1156,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			self:Disable()
 		end
 	end)
-	AuctionFrameAuctions.DurationCheck =PIGCheckbutton(AuctionFrameAuctions,{"LEFT",AuctionFrameAuctions.oldaucG.Text,"RIGHT",4,0},{SAVE..AUCTION_DURATION,SAVE..AUCTION_DURATION..SETTINGS},nil,nil,nil,0)
+	AuctionFrameAuctions.DurationCheck =PIGCheckbutton(AuctionFrameAuctions,{"LEFT",AuctionFrameAuctions.oldaucG.Text,"RIGHT",4,0},{L["TRADEAH_SAVETIME"]},nil,nil,nil,0)
 	AuctionFrameAuctions.DurationCheck.Text:SetTextColor(0, 1, 0, 0.8);
 	if ElvUIopen then
 		AuctionFrameAuctions.DurationCheck:SetPoint("BOTTOMLEFT",AuctionFrameAuctions,"BOTTOMLEFT",380,9);
@@ -1311,18 +1311,16 @@ function BusinessInfo.AHPlus_Vanilla()
 		end
 		CZ_BrowseSearchButton()
 		if PIGA["AHPlus"]["oldaucG"] and AuctionsItemButton.OldGlist[AuctionsItemButton.OldName] then
-			SellListF.tishibut_txt:SetText("<"..AuctionsItemButton.OldName..">使用上次拍卖价格，本次不搜索/"..SellxulieID[1])
+			SellListF.tishibut_txt:SetText("<"..AuctionsItemButton.OldName..">"..L["TRADEAH_SAVEPRICETISP1"].."/"..SellxulieID[1])
 			local count,minBid,buyoutPrice,owner=unpack(AuctionsItemButton.OldGlist[AuctionsItemButton.OldName])
 			SellListF:SetAHPriceFun(count,minBid,buyoutPrice,owner)
 		else
 			if PIGA["AHPlus"]["SimpleMode"] then
 				if '"'..AuctionsItemButton.OldName..'"'==BrowseName:GetText() then
-					SellListF.tishibut_txt:SetText("点击搜索并"..SellxulieID[1])
+					SellListF.tishibut_txt:SetText(SEARCHING_FOR_ITEMS)
 					BrowseSearchButton:SetPoint("CENTER", SellListF, "CENTER", 0,10);
 				else
-					--ClickAuctionSellItemButton(AuctionsItemButton, "LeftButton");
-					--ClearCursor();
-					SellListF.tishibut_txt:SetText("|cffFFFF00自动查价失败\n当前处于"..SimpleModename.."\n按住Shift左键点击右侧物品→|r\n|cffFF0000(注意不是点击背包物品)|r")
+					SellListF.tishibut_txt:SetText(L["TRADEAH_TICLOGMODETISP2"])
 				end
 			else
 				Query_Search()
@@ -1365,7 +1363,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			end
 			local numBatchAuctions = GetNumAuctionItems("list");
 			if numBatchAuctions>0 then
-				if AuctionFrameBrowse.page~=0 then SellListF.tishibut_txt:SetText("浏览页请翻到第一页");return end
+				if AuctionFrameBrowse.page~=0 then SellListF.tishibut_txt:SetText(L["TRADEAH_UNDERCUTERR1"]);return end
 				--提取不同价格
 				wipe(self.NewbuyPriceG)
 				local numBatchAuctions=numBatchAuctions>NUM_AUCTION_ITEMS_PER_PAGE and NUM_AUCTION_ITEMS_PER_PAGE or numBatchAuctions
@@ -1378,7 +1376,7 @@ function BusinessInfo.AHPlus_Vanilla()
 						end
 					end
 				end
-				if #self.NewbuyPriceG==0 then SellListF.tishibut_txt:SetText("没有"..biaotiLsitName[7].."参考"); return end
+				if #self.NewbuyPriceG==0 then SellListF.tishibut_txt:SetText(L["TRADEAH_UNDERCUTERR2"]); return end
 				CZ_BrowseSearchButton()
 				SellListF.tishibut_txt:SetText("")
 				for i = 1, spellhangnum do
@@ -1466,9 +1464,9 @@ function BusinessInfo.AHPlus_Vanilla()
 
 	-----背包物品==========
 	if PIGA["AHPlus"]["SimpleMode"] then
-		tabBagF.tishitxt="背包物品(按住Shift左键点击)"
+		tabBagF.tishitxt=L["TRADEAH_BAGTISP2"]
 	else
-		tabBagF.tishitxt="背包物品(右键点击查询)"
+		tabBagF.tishitxt=L["TRADEAH_BAGTISP1"]
 	end
 	tabBagF.bagitemtxt = PIGFontString(tabBagF,{"BOTTOMLEFT", tabBagF, "TOPLEFT", 6,0},tabBagF.tishitxt,"OUTLINE",nil,nil,"OVERLAY")
 	tabBagF.bagitemtxt:SetTextColor(1, 1, 0, 1)
@@ -1537,7 +1535,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			itemButton:HookScript("OnMouseUp", function(self, button)
 				if button== "LeftButton" and IsModifiedClick() then
 				else
-					PIG_OptionsUI:ErrorMsg("按住Shift左键点击")
+					PIG_OptionsUI:ErrorMsg(L["TRADEAH_BAGTISP2"])
 				end
 			end)
 		else
@@ -1668,7 +1666,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		self:UpdateAllList()
 	end)
 	--快速购买===============
-	fastBuyF.t1 = PIGFontString(fastBuyF,{"BOTTOMLEFT",fastBuyF,"TOPLEFT",4,3},"本次购买清单","OUTLINE")
+	fastBuyF.t1 = PIGFontString(fastBuyF,{"BOTTOMLEFT",fastBuyF,"TOPLEFT",4,3},L["TRADEAH_SHOPLIST1"],"OUTLINE")
 	fastBuyF.hejit = PIGFontString(fastBuyF,{"BOTTOMLEFT",fastBuyF,"BOTTOMLEFT",4,8},TOTAL..COSTS_LABEL,"OUTLINE")
 	fastBuyF.hejitG = PIGFontString(fastBuyF,{"LEFT",fastBuyF.hejit,"RIGHT",4,0},0,"OUTLINE")
 	fastBuyF.ButList={}

@@ -11,8 +11,6 @@ for k,v in pairs(RAID_CLASS_COLORS) do
     PIG_CLASS_COLORS[k] = {r = v.r, g = v.g, b = v.b, colorStr = v.colorStr}
 end
 PIG_CLASS_COLORS[NONE]={r = 1, g = 0.843, b = 0, colorStr = "ffFFD700"}
-
-local cl_Name={};
 local cl_Name_Role={
 	["WARRIOR"] = {"TANK","DAMAGER"},
 	["PALADIN"] = {"TANK", "HEALER","DAMAGER"},
@@ -28,27 +26,15 @@ local cl_Name_Role={
 	["DEMONHUNTER"] = {"TANK","DAMAGER"},
 	["EVOKER"] = {"HEALER","DAMAGER"}, 
 }
+local cl_Name={};
 local ClasseID={};
 local ClasseNameID={}
 local ClassFile_Name={};
-local expansionLevel = GetClassicExpansionLevel()
-local classIDs
-if expansionLevel == 0 or expansionLevel == 1 then
-    classIDs = {1,2,3,4,5,7,8,9,11}
-elseif expansionLevel == 2 then
-    classIDs = {1,2,3,4,5,6,7,8,9,11}
-elseif expansionLevel == 4 then
-    classIDs = {1,2,3,4,5,6,7,8,9,10,11} 
--- elseif expansionLevel == 6 then
--- 	classIDs = {1,2,3,4,5,6,7,8,9,10,11,12} 
-else
-	classIDs = {1,2,3,4,5,6,7,8,9,10,11,12,13} 
-end
-for index=1,#classIDs do
-	local classID=classIDs[index]
+for index=1,13 do
+	local classID=index
 	local className, classFile, classID = PIGGetClassInfo(classID)
 	if classFile then
-		table.insert(cl_Name,{classFile,cl_Name_Role[classFile],className, classID})
+		table.insert(cl_Name,{classFile, cl_Name_Role[classFile], className, classID})
 		ClasseID[classFile]= classID
 		ClasseNameID[className]= classFile
 		ClassFile_Name[classFile]= className
@@ -57,8 +43,8 @@ end
 Data.cl_Name=cl_Name
 Data.ClasseID=ClasseID
 Data.ClasseNameID=ClasseNameID
-Data.cl_Name_Role=cl_Name_Role
 Data.ClassFile_Name=ClassFile_Name
+Data.cl_Name_Role=cl_Name_Role
 
 --职责
 --local zhizeIcon = {{0.01,0.26,0.26,0.51},{0.27,0.52,0,0.25},{0.27,0.52,0.25,0.5},{0.01,0.26,0,0.25}}
@@ -125,7 +111,7 @@ Data.bagData = {
 	["bankID"]={-1,5,6,7,8,9,10},
 	["bankmun"]=24,
 	["bankbag"]=6,
-	["ItemWH"]=42,
+	["ItemWH"]=42,--37
 }
 if PIG_MaxTocversion(20000,true) then
 	Data.bagData["bankmun"]=28;
@@ -136,10 +122,6 @@ if PIG_MaxTocversion(100000,true) then
 	Data.bagData["bagIDMax"]= NUM_TOTAL_BAG_FRAMES
 	Data.bagData["bagID"]={0,1,2,3,4,5}
 	Data.bagData["bankID"]={-1,6,7,8,9,10,11,12}
-elseif PIG_MaxTocversion(110200) then
-	Data.bagData.ItemWH=_G["BankFrameItem1"]:GetWidth()+5
-else
-	Data.bagData.ItemWH=ContainerFrameCombinedBags.Items[1]:GetWidth()+5
 end
 --物品类型
 local ItemTypeLsit = {

@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Breen
-## Version: v1.20
+## Version: v1.21
 
 ## Title: BtWQuests: Shadowlands Prologue
 ## Notes: Shadowlands Prologue quest data for BtWQuests
@@ -11,6 +11,7 @@
 
 ## Dependencies: BtWQuests
 ## LoadOnDemand: 1
+## DefaultState: disabled
 
 ## X-BtWQuests: Shadowlands Prologue
 ## X-BtWQuests-Expansion: 8

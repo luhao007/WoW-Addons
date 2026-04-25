@@ -1,6 +1,6 @@
-local _, addonTable = ...;
+local _, PD = ...;
 -------------
-local FramePlusfun=addonTable.FramePlusfun
+local FramePlusfun=PD.FramePlusfun
 function FramePlusfun.Merchant()
 	if not PIGA["FramePlus"]["Merchant"] then return end
 	if MerchantItem13 then return end

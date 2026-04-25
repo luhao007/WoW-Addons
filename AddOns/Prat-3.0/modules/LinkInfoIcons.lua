@@ -144,8 +144,7 @@ L["Spell Links"] = "Spell Links"
 
   L = {}
   -- LinkInfoIcons
---[[Translation missing --]]
-L["Achievement Links"] = "Achievement Links"
+L["Achievement Links"] = "Liens vers les hauts faits"
 --[[Translation missing --]]
 L["Class Icon"] = "Class Icon"
 --[[Translation missing --]]

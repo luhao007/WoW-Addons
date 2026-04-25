@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Breen
-## Version: v1.24
+## Version: v1.25
 
 ## Title: BtWQuests: Wrath of the Lich King
 ## Notes: Wrath of the Lich King quest data for BtWQuests

@@ -1678,7 +1678,7 @@ end
 ---@param profile string A player name to look up
 ---@param attrib string Specific data to look up
 ---@param create boolean If true and no data table, create an empty table
----@return string result is_custom | found | not_found | created
+---@return string result is_custom | found | not_found or created
 ---@return table? data nil or table of data found/created
 function TitanUtils_GetProfileInfo(profile, attrib, create)
 	local _, server, is_custom = TitanUtils_ParseName(profile)

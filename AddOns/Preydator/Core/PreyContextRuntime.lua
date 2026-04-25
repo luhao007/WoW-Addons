@@ -20,7 +20,19 @@ local MAP_ID_EQUIVALENTS = {
 }
 
 local function CanonicalizeMapID(mapID)
-    mapID = tonumber(mapID)
+    local okString, asString = pcall(tostring, mapID)
+    if not okString or type(asString) ~= "string" then
+        return nil
+    end
+
+    local numericToken = string.match(asString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
+        or string.match(asString, "^%s*([%+%-]?%d*%.%d+)%s*$")
+    if not numericToken then
+        return nil
+    end
+
+    local okNumber, parsedMapID = pcall(tonumber, numericToken)
+    mapID = okNumber and parsedMapID or nil
     if not mapID or mapID < 1 then
         return nil
     end
@@ -66,7 +78,20 @@ local function ResolveExpectedQuestMapID(questID, ctx)
     if taskQuestApi and type(taskQuestApi.GetQuestZoneID) == "function" then
         local okZoneMapID, rawZoneMapID = pcall(taskQuestApi.GetQuestZoneID, numericQuestID)
         if okZoneMapID then
-            local zoneMapID = CanonicalizeMapID(SafeToNumber(rawZoneMapID))
+            local parsedZoneMapID = nil
+            local okZoneString, zoneAsString = pcall(tostring, rawZoneMapID)
+            if okZoneString and type(zoneAsString) == "string" then
+                local numericToken = string.match(zoneAsString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
+                    or string.match(zoneAsString, "^%s*([%+%-]?%d*%.%d+)%s*$")
+                if numericToken then
+                    local okNumber, numericValue = pcall(tonumber, numericToken)
+                    if okNumber and type(numericValue) == "number" then
+                        parsedZoneMapID = numericValue
+                    end
+                end
+            end
+
+            local zoneMapID = CanonicalizeMapID(parsedZoneMapID)
             if zoneMapID then
                 return zoneMapID
             end
@@ -91,7 +116,20 @@ local function ResolveExpectedQuestMapID(questID, ctx)
     if type(getQuestZoneMapIDFromHuntScanner) == "function" then
         local okScannerMapID, rawScannerMapID = pcall(getQuestZoneMapIDFromHuntScanner, numericQuestID)
         if okScannerMapID then
-            local scannerMapID = CanonicalizeMapID(SafeToNumber(rawScannerMapID))
+            local parsedScannerMapID = nil
+            local okScannerString, scannerAsString = pcall(tostring, rawScannerMapID)
+            if okScannerString and type(scannerAsString) == "string" then
+                local numericToken = string.match(scannerAsString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
+                    or string.match(scannerAsString, "^%s*([%+%-]?%d*%.%d+)%s*$")
+                if numericToken then
+                    local okNumber, numericValue = pcall(tonumber, numericToken)
+                    if okNumber and type(numericValue) == "number" then
+                        parsedScannerMapID = numericValue
+                    end
+                end
+            end
+
+            local scannerMapID = CanonicalizeMapID(parsedScannerMapID)
             if scannerMapID then
                 return scannerMapID
             end
@@ -146,7 +184,21 @@ function PreyContextRuntime:IsPreyQuestOnCurrentMap(questID, ctx)
     local playerMapID = nil
     if mapApi and type(mapApi.GetBestMapForUnit) == "function" then
         local okMapID, rawMapID = pcall(mapApi.GetBestMapForUnit, "player")
-        playerMapID = okMapID and CanonicalizeMapID(SafeToNumber(rawMapID)) or nil
+        if okMapID then
+            local parsedMapID = nil
+            local okMapString, mapAsString = pcall(tostring, rawMapID)
+            if okMapString and type(mapAsString) == "string" then
+                local numericToken = string.match(mapAsString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
+                    or string.match(mapAsString, "^%s*([%+%-]?%d*%.%d+)%s*$")
+                if numericToken then
+                    local okNumber, numericValue = pcall(tonumber, numericToken)
+                    if okNumber and type(numericValue) == "number" then
+                        parsedMapID = numericValue
+                    end
+                end
+            end
+            playerMapID = CanonicalizeMapID(parsedMapID)
+        end
     end
 
     if expectedMapID ~= nil then
@@ -260,7 +312,21 @@ function PreyContextRuntime:RefreshInPreyZoneStatus(questID, force, state, ctx)
     local playerMapID = nil
     if mapApi and type(mapApi.GetBestMapForUnit) == "function" then
         local okMapID, rawMapID = pcall(mapApi.GetBestMapForUnit, "player")
-        playerMapID = okMapID and CanonicalizeMapID(SafeToNumber(rawMapID)) or nil
+        if okMapID then
+            local parsedMapID = nil
+            local okMapString, mapAsString = pcall(tostring, rawMapID)
+            if okMapString and type(mapAsString) == "string" then
+                local numericToken = string.match(mapAsString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
+                    or string.match(mapAsString, "^%s*([%+%-]?%d*%.%d+)%s*$")
+                if numericToken then
+                    local okNumber, numericValue = pcall(tonumber, numericToken)
+                    if okNumber and type(numericValue) == "number" then
+                        parsedMapID = numericValue
+                    end
+                end
+            end
+            playerMapID = CanonicalizeMapID(parsedMapID)
+        end
     end
 
     local questMapID = ResolveExpectedQuestMapID(questID, ctx)

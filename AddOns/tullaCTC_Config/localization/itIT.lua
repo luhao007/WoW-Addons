@@ -39,16 +39,18 @@ L.Reverse = 'Inverti'
 L.ReverseDesc = 'Inverti la direzione dello scorrimento'
 L.SwipeColor = 'Colore scorrimento'
 L.SwipeColorDesc = 'Sostituisci il colore dell\'animazione di scorrimento del recupero'
-L.UseAuraDisplayTime = 'Arrotondamento durata aura'
-L.UseAuraDisplayTimeDesc = 'Controlla l\'arrotondamento delle durate dell\'aura. Sempre arrotonda per difetto, Mai arrotonda per eccesso'
 
 -- Countdown text options
+L.RoundingMode = 'Modalità arrotondamento'
+L.RoundingModeDesc = 'Controlla il modo in cui vengono arrotondati i valori di durata'
 L.MinDuration = 'Durata minima'
 L.MinDurationDesc = 'Quanto deve durare, in secondi, un tempo di recupero per mostrare il testo del conto alla rovescia'
 L.TenthsThreshold = 'Soglia decimi'
 L.TenthsThresholdDesc = 'Mostra i decimi di secondo quando il tempo di recupero rimanente è inferiore a questo valore'
 L.AbbrevThreshold = 'Soglia MM:SS'
 L.AbbrevThresholdDesc = 'Quanto tempo, in secondi, prima che il testo passi al formato MM:SS (es. "1:30" invece di "90")'
+L.ShowZero = 'Mostra Zero'
+L.ShowZeroDesc = 'Mostra "0" per i tempi di ricarica arrotondati a zero invece del testo vuoto'
 
 -- Font options
 L.FontFace = 'Carattere'
@@ -76,6 +78,11 @@ L.VerticalOffset = 'Spostamento verticale'
 L.DrawState_default = 'Predefinito'
 L.DrawState_always = 'Sempre'
 L.DrawState_never = 'Mai'
+
+-- Rounding mode values
+L.RoundingMode_Up = 'Per eccesso'
+L.RoundingMode_Down = 'Per difetto'
+L.RoundingMode_Nearest = 'Al più vicino'
 
 -- Color threshold UI
 L.AddColorThreshold = 'Aggiungi soglia di colore'

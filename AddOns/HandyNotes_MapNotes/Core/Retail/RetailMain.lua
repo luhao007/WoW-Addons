@@ -2503,6 +2503,36 @@ local function updateStuff()
   HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
 end
 
+local bossKillUpdateFrame = CreateFrame("Frame")
+bossKillUpdateFrame:RegisterEvent("ENCOUNTER_END")
+bossKillUpdateFrame:RegisterEvent("UPDATE_INSTANCE_INFO")
+
+local bossKillUpdatePending = false
+
+local function MN_UpdateInstanceIconsAfterBossKill()
+  if bossKillUpdatePending then return end
+  bossKillUpdatePending = true
+
+  C_Timer.After(1, function()
+    bossKillUpdatePending = false
+    RequestRaidInfo()
+    updateStuff()
+  end)
+end
+
+bossKillUpdateFrame:SetScript("OnEvent", function(_, event, encounterID, encounterName, difficultyID, groupSize, success)
+  if event == "ENCOUNTER_END" then
+    if success == 1 then
+      MN_UpdateInstanceIconsAfterBossKill()
+    end
+    return
+  end
+
+  if event == "UPDATE_INSTANCE_INFO" then
+    updateStuff()
+  end
+end)
+
 function Addon:ZONE_CHANGED_NEW_AREA()
   local PlayerMapID = C_Map.GetBestMapForUnit("player")
   if PlayerMapID then
@@ -2723,6 +2753,7 @@ end
 
 function Addon:PLAYER_LOGIN() -- OnInitialize()
   ns.Addon = Addon
+  ns.RebuildMapNotesInfoCache() -- MapNotesInfosfromNpcIDsAndMapIDs.lua
   ns.LoadOptions(self) -- RetailOptions.lua
   ns.BlizzardDelvesAddFunction() -- RetailDelves.lua
   ns.ChangingMapToPlayerZone() -- RetailWorldMap.lua

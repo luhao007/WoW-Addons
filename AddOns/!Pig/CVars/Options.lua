@@ -1,5 +1,7 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
+local Data=addonTable.Data
+local ClassFile_Name=Data.ClassFile_Name
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -62,7 +64,6 @@ local function ChatClassColor(CVarName,CVarVON,CVarVOFF)
         end 
     end
 end
-local ClassFile_Name=addonTable.Data.ClassFile_Name
 local CVarsVData = {
     {"alwaysCompareItems","1","0","自动比较装备","开启后在查看装备时会自动和身上装备对比"},
     {"chatClassColorOverride","0","1","聊天栏显示职业颜色","聊天框发言的玩家姓名会根据职业染色",ChatClassColor},
@@ -346,21 +347,97 @@ for i=1,#CVarsList1 do
 end
 ------
 ADD_DownMenu(CVarsF,1,3,{["1"]="默认",["2"]="所有PVP目标",["3"]="仅限玩家"},"TargetPriorityPvp","TAB优先级",{"TOPLEFT",CVarsF,"TOPLEFT",100,-360},130)
---
-CVarsF.SpellQueue = PIGSlider(CVarsF,{"TOPLEFT",CVarsF,"TOPLEFT",120,-398},{10,400,1,{["Right"]="%sms"}})
-CVarsF.SpellQueue.t = PIGFontString(CVarsF.SpellQueue,{"RIGHT",CVarsF.SpellQueue,"LEFT",-4,0},"施法延迟容限");
-function CVarsF.SpellQueue:PIGOnValueChange(arg1)
-	SetCVar("SpellQueueWindow",arg1)
-end
-CVarsF:HookScript("OnShow", function (self)
-	self.SpellQueue:PIGSetValue(GetCVar("SpellQueueWindow"))
-end);
 ---
 local tianqiName = {["0"]="小雨",["1"]="中雨",["2"]="大雨",["3"]="暴雨"}
 ADD_DownMenu(CVarsF,0,3,tianqiName,"weatherDensity","天气效果",{"TOPLEFT",CVarsF,"TOPLEFT",400,-360},100)
 ---
 local xueyeLVName = {["0"]="无",["1"]="略微",["2"]="少量",["3"]="普通",["4"]="暴力",["5"]="很暴力"}
 ADD_DownMenu(CVarsF,0,5,xueyeLVName,"violenceLevel","血液效果",{"TOPLEFT",CVarsF,"TOPLEFT",400,-400},100,true)
+
+--施法延迟容限====
+local toleranceF =PIGOptionsList_R(RTabFrame,LAG_TOLERANCE,90)
+toleranceF.wt = PIGFontString(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-10},"警告: 如果你不理解此功能作用，请不要随意更改此选项，保持默认值(400ms)即可");
+toleranceF.wt:SetTextColor(1, 0, 0, 1)
+toleranceF.SpellQueue = PIGSlider(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-30},{10,400,1,{["Right"]=REDUCED_LAG_TOLERANCE}})
+function toleranceF.SpellQueue:PIGOnValueChange(arg1)
+	SetCVar("SpellQueueWindow",arg1)
+end
+toleranceF.err = PIGFontString(toleranceF,{"LEFT",toleranceF.SpellQueue.RightText,"RIGHT",0,0},"根据职业动态调整");
+toleranceF.err:SetTextColor(1, 0, 0, 1)
+toleranceF.err:Hide()
+toleranceF.wt1 = PIGFontString(toleranceF,{"TOPLEFT",toleranceF.SpellQueue,"BOTTOMLEFT",0,0},"|cff00FF00"..OPTION_TOOLTIP_REDUCED_LAG_TOLERANCE.."|r\n|cffFFFF00Pig作者备注:以上为暴雪官方提示，根据玩家实践建议在你平均世界延迟基础上+150|r");
+toleranceF.wt1:SetWidth(toleranceF:GetWidth()-40)
+toleranceF.wt1:SetJustifyH("LEFT")
+toleranceF.classOpen = PIGCheckbutton(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-130},{"根据职业动态调整"})
+toleranceF.classOpen:SetScript("OnClick", function (self)
+    if self:GetChecked() then
+        PIGA["CVars"]["SpellQueueClass"]=true;
+    else
+        PIGA["CVars"]["SpellQueueClass"]=nil;
+    end
+    CVarsfun.Update_SpellQueueClass()
+end)
+toleranceF.butlist={}
+local jishuxi=0
+for i=1,#Data.cl_Name do
+	local classFile, cl_Name_Role, className, classID = unpack(Data.cl_Name[i])
+	if classFile then
+		local hang = CreateFrame("Frame", nil, toleranceF);
+		hang:SetSize(20,20);
+		if jishuxi>10 then
+			hang:SetPoint("TOPLEFT",toleranceF,"TOPLEFT",340,-160-((jishuxi-11)*30));
+		else
+			hang:SetPoint("TOPLEFT",toleranceF,"TOPLEFT",40,-160-(jishuxi*30));
+		end
+		hang.classID=classID
+		jishuxi=jishuxi+1
+		hang.iconx = hang:CreateTexture()
+		hang.iconx:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
+		hang.iconx:SetSize(20,20);
+		hang.iconx:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
+		hang.iconx:SetPoint("LEFT",hang,"LEFT",0,0);
+		hang.DQ = hang:CreateTexture();
+		hang.DQ:SetTexture("interface/common/indicator-green.blp")
+		hang.DQ:SetPoint("RIGHT", hang.iconx, "LEFT", -1,0);
+		hang.DQ:SetSize(20,20);
+		
+		hang.namex  = PIGFontString(hang,{"LEFT",hang.iconx,"RIGHT",2,0});
+		hang.namex:SetText(className);
+		local color = PIG_CLASS_COLORS[classFile];
+		hang.namex:SetTextColor(color.r, color.g, color.b,1);
+		hang.setvv  = PIGSlider(hang,{"LEFT",hang.iconx,"RIGHT",70,0},{10,400,1})
+		function hang.setvv:PIGOnValueChange(arg1)
+			PIGA["CVars"]["SpellQueueData"]=PIGA["CVars"]["SpellQueueData"] or {}
+			if arg1==400 then
+				PIGA["CVars"]["SpellQueueData"][classID]=nil
+			else
+				PIGA["CVars"]["SpellQueueData"][classID]=arg1
+			end
+			CVarsfun.Update_SpellQueueClass()
+		end
+		toleranceF.butlist[jishuxi]=hang
+	end
+end
+toleranceF:HookScript("OnShow", function (self)
+	self.SpellQueue:PIGSetValue(GetCVar("SpellQueueWindow"))
+	self.classOpen:SetChecked(PIGA["CVars"]["SpellQueueClass"])
+	local datax=PIGA["CVars"]["SpellQueueData"]
+	for index,hang in pairs(toleranceF.butlist) do
+		local vvvv=datax and datax[hang.classID] or 400
+		hang.setvv:PIGSetValue(vvvv)
+		hang.DQ:SetShown(PIG_OptionsUI.ClassData.classId==hang.classID)
+	end
+end);
+function CVarsfun.Update_SpellQueueClass()
+	toleranceF.err:SetShown(PIGA["CVars"]["SpellQueueClass"])
+	toleranceF.SpellQueue:SetEnabled(not PIGA["CVars"]["SpellQueueClass"])
+	if PIGA["CVars"]["SpellQueueClass"] then
+		local datax=PIGA["CVars"]["SpellQueueData"]
+		local vvvv=datax and datax[PIG_OptionsUI.ClassData.classId] or 400
+		SetCVar("SpellQueueWindow",vvvv)
+		toleranceF.SpellQueue:PIGSetValue(GetCVar("SpellQueueWindow"))
+	end
+end
 
 ---浮动战斗信息====================
 local combattextF =PIGOptionsList_R(RTabFrame,FLOATING_COMBATTEXT_LABEL,100)
@@ -451,8 +528,7 @@ end)
 local fudongModeName = {["1"]=COMBAT_TEXT_SCROLL_UP,["2"]=COMBAT_TEXT_SCROLL_DOWN,["3"]=COMBAT_TEXT_SCROLL_ARC}
 ADD_DownMenu(combattextF.RF,1,3,fudongModeName,floatingCombatTextFloatMode,COMBAT_TEXT_FLOAT_MODE_LABEL,{"TOPLEFT",combattextF.RF,"TOPLEFT",170,-60},100)
 ---
-combattextF.RF.fudongScale = PIGSlider(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",170,-100},{1,3,0.1,{["Right"]="%"}})
-combattextF.RF.fudongScale.t = PIGFontString(combattextF.RF.fudongScale,{"RIGHT",combattextF.RF.fudongScale,"LEFT",-4,0},FLOATING_COMBATTEXT_LABEL.."缩放");
+combattextF.RF.fudongScale = PIGSlider(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",40,-100},{1,3,0.1,{["Right"]=FLOATING_COMBATTEXT_LABEL.."缩放%d%%"}})
 function combattextF.RF.fudongScale:PIGOnValueChange(arg1)
 	SetCVar(WorldTextScale,arg1)
 end
@@ -509,46 +585,46 @@ if PIG_MaxTocversion(110000) then
 	end);
 
 	--自身高亮
-	local gaoliangF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME3"],90)
-	local gaoliangmoshiName = {
-	    [0]=OFF,
-	    [1]=SELF_HIGHLIGHT_MODE_CIRCLE,
-	    [2]=SELF_HIGHLIGHT_MODE_ICON,
-	    [3]=SELF_HIGHLIGHT_MODE_CIRCLE_AND_ICON,
-	}
-	gaoliangF.findYourMode =PIGDownMenu(gaoliangF,{"TOPLEFT",gaoliangF,"TOPLEFT",20,-20},{150,nil})
-	local function findGetValue()
-	    local circleOn = GetCVarBool("findYourselfModeCircle");
-	    local iconOn = GetCVarBool("findYourselfModeIcon");
-	    local value = (circleOn and 1 or 0) + (iconOn and 2 or 0); 
-	    return value;
-	end
-	local function findSetValue(value)
-	    local NUM_COMBINATIONS = 4;
-	    SetCVar("findYourselfAnywhere", value > 0 and value < NUM_COMBINATIONS)
-	    SetCVar("findYourselfModeIcon", value >= 2);
-	    if (value >= 2) then
-	        value = value - 2;
-	    end
-	    SetCVar("findYourselfModeCircle", value >= 1);
-	end
-	function gaoliangF.findYourMode:PIGDownMenu_Update_But()
-	    local info = {}
-	    info.func = self.PIGDownMenu_SetValue
-	    for i=0,3 do
-	        info.text, info.arg1 = gaoliangmoshiName[i],i
-	        info.checked = i == findGetValue()
-	        self:PIGDownMenu_AddButton(info)
-	    end
-	end
-	function gaoliangF.findYourMode:PIGDownMenu_SetValue(value,arg1)
-	    self:PIGDownMenu_SetText(gaoliangmoshiName[arg1]) 
-	    findSetValue(arg1)
-	    PIGCloseDropDownMenus()
-	end
-	gaoliangF:HookScript("OnShow", function (self)
-	    self.findYourMode:PIGDownMenu_SetText(gaoliangmoshiName[findGetValue()])
-	end);
+	-- local gaoliangF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME3"],90)
+	-- local gaoliangmoshiName = {
+	--     [0]=OFF,
+	--     [1]=SELF_HIGHLIGHT_MODE_CIRCLE,
+	--     [2]=SELF_HIGHLIGHT_MODE_ICON,
+	--     [3]=SELF_HIGHLIGHT_MODE_CIRCLE_AND_ICON,
+	-- }
+	-- gaoliangF.findYourMode =PIGDownMenu(gaoliangF,{"TOPLEFT",gaoliangF,"TOPLEFT",20,-20},{150,nil})
+	-- local function findGetValue()
+	--     local circleOn = GetCVarBool("findYourselfModeCircle");
+	--     local iconOn = GetCVarBool("findYourselfModeIcon");
+	--     local value = (circleOn and 1 or 0) + (iconOn and 2 or 0); 
+	--     return value;
+	-- end
+	-- local function findSetValue(value)
+	--     local NUM_COMBINATIONS = 4;
+	--     SetCVar("findYourselfAnywhere", value > 0 and value < NUM_COMBINATIONS)
+	--     SetCVar("findYourselfModeIcon", value >= 2);
+	--     if (value >= 2) then
+	--         value = value - 2;
+	--     end
+	--     SetCVar("findYourselfModeCircle", value >= 1);
+	-- end
+	-- function gaoliangF.findYourMode:PIGDownMenu_Update_But()
+	--     local info = {}
+	--     info.func = self.PIGDownMenu_SetValue
+	--     for i=0,3 do
+	--         info.text, info.arg1 = gaoliangmoshiName[i],i
+	--         info.checked = i == findGetValue()
+	--         self:PIGDownMenu_AddButton(info)
+	--     end
+	-- end
+	-- function gaoliangF.findYourMode:PIGDownMenu_SetValue(value,arg1)
+	--     self:PIGDownMenu_SetText(gaoliangmoshiName[arg1]) 
+	--     findSetValue(arg1)
+	--     PIGCloseDropDownMenus()
+	-- end
+	-- gaoliangF:HookScript("OnShow", function (self)
+	--     self.findYourMode:PIGDownMenu_SetText(gaoliangmoshiName[findGetValue()])
+	-- end);
 	--旧版高亮
 	-- local gaoliangmoshiName = {["-1"]=CLOSE,["0"]=SELF_HIGHLIGHT_MODE_CIRCLE,["1"]=SELF_HIGHLIGHT_MODE_CIRCLE_AND_OUTLINE,["2"]=SELF_HIGHLIGHT_MODE_OUTLINE}
 	-- ADD_DownMenu(gaoliangF,-1,2,gaoliangmoshiName,"findYourselfMode","高亮模式",{"TOPLEFT",gaoliangF,"TOPLEFT",90,-20},150)
@@ -630,6 +706,7 @@ gaojiF.CZCVarsSET:SetScript("OnEditFocusLost", function(self) self:SetTextpig() 
 --==============================
 addonTable.CVars = function()
     CVarsfun.EaseUseCVars()
+    CVarsfun.Update_SpellQueueClass()
     CVarsfun.Fast_Loot()
     if CVarsfun.Shaman_Blue then CVarsfun.Shaman_Blue() end
 	if PIGA["CVars"]["MaxZoom"] then

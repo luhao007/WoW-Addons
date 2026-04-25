@@ -47,7 +47,7 @@ local listNameFun={
 }
 PD.Fun.RightlistNameFun=listNameFun
 --------------------
-function CommonInfo.Interactionfun.RightPlus()
+function CommonInfo.Interaction_RightPlus()
 	if not PIGA["Interaction"]["RightPlus"] then return end
 	if CommonInfo.RightPlusOpen then return end
 	CommonInfo.RightPlusOpen=true

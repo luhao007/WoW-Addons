@@ -69,12 +69,12 @@ L["show_name"] = "Show Event Names"
   -- EventNames
 L["allevents_desc"] = "Activer le traitement par Prat de tous les événements de discussion."
 L["allevents_name"] = "Traiter tous les événements"
-L["Chat window event name options."] = "Options des évènements de la fenêtre de chat"
-L["EventNames"] = "Nom des évènements"
-L["Show"] = "Montrer"
-L["Show events on chatframes"] = "Montrer les évènements dans le cadre du chat"
-L["show_desc"] = "Activer l'affichage des noms d'évènements dans chaque fenêtre"
-L["show_name"] = "Montrer les noms d'évènements"
+L["Chat window event name options."] = "Options des noms d’événements de la fenêtre de chat."
+L["EventNames"] = "nomsÉvénements"
+L["Show"] = "Afficher"
+L["Show events on chatframes"] = "Afficher les événements dans les fenêtres de chat"
+L["show_desc"] = "Afficher / masquer les noms des événements dans chaque fenêtre."
+L["show_name"] = "Afficher les noms des événements"
 
 
 	 PL:AddLocale("frFR",L)

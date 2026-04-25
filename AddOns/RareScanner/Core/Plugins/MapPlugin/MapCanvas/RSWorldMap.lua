@@ -269,7 +269,7 @@ end
 
 function RSWorldMap:WaitForCanvasReady(callback)
     local attempts = 0
-    local maxAttempts = 30
+    local maxAttempts = 300
 
     local function Check()
         local canvas = WorldMapFrame and WorldMapFrame:GetCanvasContainer()

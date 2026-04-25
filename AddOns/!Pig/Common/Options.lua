@@ -18,10 +18,11 @@ CommonInfo.LlistTabBut=LlistTabBut
 CommonInfo.NR=NR
 --==================================
 addonTable.Common=function()
-	for _,v in pairs(CommonInfo.Commonfun) do
-		v()
-	end
-	for _,v in pairs(CommonInfo.Interactionfun) do
-		v()
-	end
+	CommonInfo.Common_ErrorsHide()
+	CommonInfo.Common_Pig_AFK()
+	CommonInfo.Common_Updata_addonProfilerEnabled()
+	CommonInfo.Interaction_AutoDialogue()
+	CommonInfo.Interaction_AutoDown()
+	CommonInfo.Interaction_YaoqingFuhuo()
+	CommonInfo.Interaction_RightPlus()
 end

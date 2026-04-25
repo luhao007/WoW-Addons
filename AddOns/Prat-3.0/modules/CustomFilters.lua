@@ -139,12 +139,9 @@ L["Your name for this filter"] = true
 
   L = {}
   -- CustomFilters
---[[Translation missing --]]
-L["<string>"] = "<string>"
---[[Translation missing --]]
-L["Add a pattern to search for."] = "Add a pattern to search for."
---[[Translation missing --]]
-L["Add Pattern"] = "Add Pattern"
+L["<string>"] = "<chaîne>"
+L["Add a pattern to search for."] = "Ajouter un modèle de recherche."
+L["Add Pattern"] = "Ajouter un modèle"
 --[[Translation missing --]]
 L["Block Message"] = "Block Message"
 --[[Translation missing --]]

@@ -96,7 +96,7 @@ local MenuList = {
 	["Index"]={"LEAVE","EnterExit","CONVERT_TO","RESET","TIME","COMBATLOG","ROLE","READY","COUNTDOWN"},
 	["Tips"] = {
 		["LEAVE"]=KEY_BUTTON1.."-|cffFFFFff"..PARTY_LEAVE.."|r\n"..KEY_BUTTON2.."-|cffFFFFff"..INSTANCE_PARTY_LEAVE.."|r",--"离开队伍/离开副本队伍/离开地下堡
-		["EnterExit"]="传入/传出地下城",--
+		["EnterExit"]=TELEPORT_OUT_OF_DUNGEON.."/"..TELEPORT_TO_DUNGEON,
 		["CONVERT_TO"]=CONVERT_TO_RAID,--"切换团队/小队"
 		["RESET"]=RESET..INSTANCE,--"重置副本"
 		["TIME"]="战斗计时",
@@ -169,14 +169,14 @@ local MenuList = {
 					if ( IsInLFDBattlefield() ) then
 						local _, instanceType = IsInInstance();
 						if ( instanceType ~= "arena" and instanceType ~= "pvp" ) then
-							self.Tooltip="传入地下城"
+							self.Tooltip=TELEPORT_TO_DUNGEON
 							self:Enable()
 						end
 					elseif ( IsInLFGDungeon() ) then
-						self.Tooltip="传出地下城"
+						self.Tooltip=TELEPORT_OUT_OF_DUNGEON
 						self:Enable()
 					else
-						self.Tooltip="传入地下城"
+						self.Tooltip=TELEPORT_TO_DUNGEON
 						self:Enable()
 					end
 				end
@@ -750,9 +750,7 @@ local function add_Options(peizhiT)
 		end
 		SetLookUI(peizhiT)
 	end);
-	local xiayiinfo = {0.6,2,0.01,{["Right"]="%"}}
-	checkbutOpen.F.Scale = PIGSlider(checkbutOpen.F,{"LEFT",checkbutOpen.F.Lock.Text,"RIGHT",80,0},xiayiinfo)
-	checkbutOpen.F.Scale.T = PIGFontString(checkbutOpen.F.Scale,{"RIGHT",checkbutOpen.F.Scale,"LEFT",-10,0},"缩放")
+	checkbutOpen.F.Scale = PIGSlider(checkbutOpen.F,{"LEFT",checkbutOpen.F.Lock.Text,"RIGHT",80,0},{0.6,2,0.01,{["Right"]="缩放%d%%"}})
 	function checkbutOpen.F.Scale:PIGOnValueChange(arg1)
 		PIGA["PigLayout"][peizhiT]["Scale"]=arg1;
 		SetScaleUI(peizhiT)

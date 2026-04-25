@@ -43,8 +43,7 @@ fujiF.AutoCVars.CZ=PIGButton(fujiF.AutoCVars,{"LEFT", fujiF.AutoCVars.Text, "RIG
 fujiF.AutoCVars.CZ:SetScript("OnClick", function (self)
     HardcoreModeF.defaultFun("0")
 end);
-local NameMininfo = {0,64,1}
-fujiF.AutoCVars.NameMin = PIGSlider(fujiF.AutoCVars,{"TOPLEFT",fujiF.AutoCVars,"BOTTOMLEFT",20,-40},NameMininfo)
+fujiF.AutoCVars.NameMin = PIGSlider(fujiF.AutoCVars,{"TOPLEFT",fujiF.AutoCVars,"BOTTOMLEFT",20,-40},{0,64,1})
 fujiF.AutoCVars.NameMin.T = PIGFontString(fujiF.AutoCVars.NameMin,{"BOTTOMLEFT",fujiF.AutoCVars.NameMin,"TOPLEFT",10,0},"休息区角色名尺寸")
 function fujiF.AutoCVars.NameMin:PIGOnValueChange(arg1)
     PIGA["Hardcore"]["CVars"]["NameMinV"]=arg1;
@@ -126,8 +125,7 @@ function fujiF.AutoCVars.NameMinSelect:PIGDownMenu_SetValue(value,arg1)
 	HardcoreModeF.NameMinSelect=arg1
 	PIGCloseDropDownMenus()
 end
-local NameMaxinfo = {0,64,1}
-fujiF.AutoCVars.NameMax = PIGSlider(fujiF.AutoCVars,{"TOPLEFT",fujiF.AutoCVars,"BOTTOMLEFT",20,-100},NameMaxinfo)
+fujiF.AutoCVars.NameMax = PIGSlider(fujiF.AutoCVars,{"TOPLEFT",fujiF.AutoCVars,"BOTTOMLEFT",20,-100},{0,64,1})
 fujiF.AutoCVars.NameMax.T = PIGFontString(fujiF.AutoCVars.NameMax,{"BOTTOMLEFT",fujiF.AutoCVars.NameMax,"TOPLEFT",10,0},"非休息区角色名尺寸")
 function fujiF.AutoCVars.NameMax:PIGOnValueChange(arg1)
     PIGA["Hardcore"]["CVars"]["NameMaxV"]=arg1;
@@ -210,15 +208,13 @@ fujiF.Deaths:SetScript("OnClick", function (self)
     fujiF.Deaths.SetONOFF(true)
 end);
 
-local Tgminlevelinfo = {1,59,1,{["Right"]="%s级"}}
-fujiF.Deaths.Tgminlevel = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths,"BOTTOMLEFT",20,-40},Tgminlevelinfo)
+fujiF.Deaths.Tgminlevel = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths,"BOTTOMLEFT",20,-40},{1,59,1,{["Right"]="%d级"}})
 fujiF.Deaths.Tgminlevel.T = PIGFontString(fujiF.Deaths.Tgminlevel,{"BOTTOMLEFT",fujiF.Deaths.Tgminlevel,"TOPLEFT",10,0},"桌面提示最低等级")
 function fujiF.Deaths.Tgminlevel:PIGOnValueChange(arg1)
 	PIGA["Hardcore"]["Deaths"]["Tgminlevel"]=arg1;
 	fujiF.Deaths.Set_config()
 end
-local UIScaleinfo = {0.8,2,0.1,{["Right"]="%"}}
-fujiF.Deaths.UIScale = PIGSlider(fujiF.Deaths,{"LEFT",fujiF.Deaths.Tgminlevel,"RIGHT",60,0},UIScaleinfo)
+fujiF.Deaths.UIScale = PIGSlider(fujiF.Deaths,{"LEFT",fujiF.Deaths.Tgminlevel,"RIGHT",60,0},{0.8,2,0.1,{["Right"]="%d%%"}})
 fujiF.Deaths.UIScale.T = PIGFontString(fujiF.Deaths.UIScale,{"BOTTOMLEFT",fujiF.Deaths.UIScale,"TOPLEFT",10,0},"桌面提示缩放")
 function fujiF.Deaths.UIScale:PIGOnValueChange(arg1)
 	PIGA["Hardcore"]["Deaths"]["UIScale"]=arg1;
@@ -233,9 +229,7 @@ fujiF.Deaths.tipsmap:HookScript("OnClick", function (self)
 	end
 	fujiF.Deaths.Set_config()
 end);
-
-local BigTgminlevelinfo = {30,60,1,{["Right"]="%s级"}}
-fujiF.Deaths.BigTgminlevel = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths.Tgminlevel,"BOTTOMLEFT",0,-40},BigTgminlevelinfo)
+fujiF.Deaths.BigTgminlevel = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths.Tgminlevel,"BOTTOMLEFT",0,-40},{30,60,1,{["Right"]="%d级"}})
 fujiF.Deaths.BigTgminlevel.T = PIGFontString(fujiF.Deaths.BigTgminlevel,{"BOTTOMLEFT",fujiF.Deaths.BigTgminlevel,"TOPLEFT",10,0},"大席提示最低等级")
 function fujiF.Deaths.BigTgminlevel:PIGOnValueChange(arg1)
 	PIGA["Hardcore"]["Deaths"]["BigTgminlevel"]=arg1;
@@ -262,9 +256,7 @@ fujiF.Deaths.PlayBut =PIGDiyBut(fujiF.Deaths,{"LEFT",fujiF.Deaths.xiala,"RIGHT",
 fujiF.Deaths.PlayBut:HookScript("OnClick", function()
 	PIG_PlaySoundFile(AudioData[_G[UIname].AudioID])
 end)
-
-local savedaysinfo = {1,7,1,{["Right"]="%s天"}}
-fujiF.Deaths.savedays = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths.BigTgminlevel,"BOTTOMLEFT",0,-40},savedaysinfo)
+fujiF.Deaths.savedays = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths.BigTgminlevel,"BOTTOMLEFT",0,-40},{1,7,1,{["Right"]="%d天"}})
 fujiF.Deaths.savedays.T = PIGFontString(fujiF.Deaths.savedays,{"BOTTOMLEFT",fujiF.Deaths.savedays,"TOPLEFT",10,0},"保存时间")
 function fujiF.Deaths.savedays:PIGOnValueChange(arg1)
 	PIGA["Hardcore"]["Deaths"]["savedays"]=arg1;

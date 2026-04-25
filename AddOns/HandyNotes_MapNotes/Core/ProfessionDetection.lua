@@ -165,11 +165,11 @@ function ns.AutomaticProfessionDetection()
     if fishing then detectedSecondaryProfessionCount = detectedSecondaryProfessionCount + 1 end
 
     if ns.Addon.db.profile.showCapitalsProfessionDetection then
-        local showAllCapitalsProfessions = detectedMainProfessionCount < 2 or detectedSecondaryProfessionCount < 3
+        local showAllCapitalsMainProfessions = detectedMainProfessionCount < 2
+        local showAllCapitalsSecondaryProfessions = detectedSecondaryProfessionCount < 2
 
-        if showAllCapitalsProfessions then
+        if showAllCapitalsMainProfessions then
             ns.Addon.db.profile.showCapitalsAlchemy = true
-            ns.Addon.db.profile.showCapitalsArchaeology = true
             ns.Addon.db.profile.showCapitalsBlacksmith = true
             ns.Addon.db.profile.showCapitalsEnchanting = true
             ns.Addon.db.profile.showCapitalsEngineer = true
@@ -180,22 +180,12 @@ function ns.AutomaticProfessionDetection()
             ns.Addon.db.profile.showCapitalsLeatherworking = true
             ns.Addon.db.profile.showCapitalsSkinning = true
             ns.Addon.db.profile.showCapitalsTailoring = true
-            ns.Addon.db.profile.showCapitalsCooking = true
-            ns.Addon.db.profile.showCapitalsFirstAid = true
-            ns.Addon.db.profile.showCapitalsFishing = true
         else
             if alchemy and ns.Addon.db.profile.showCapitalsAlchemy == false then
                 ns.Addon.db.profile.showCapitalsAlchemy = true
             end
             if not alchemy then
                 ns.Addon.db.profile.showCapitalsAlchemy = false
-            end
-
-            if archaeology and ns.Addon.db.profile.showCapitalsArchaeology == false then
-                ns.Addon.db.profile.showCapitalsArchaeology = true
-            end
-            if not archaeology then
-                ns.Addon.db.profile.showCapitalsArchaeology = false
             end
 
             if blacksmith and ns.Addon.db.profile.showCapitalsBlacksmith == false then
@@ -267,6 +257,20 @@ function ns.AutomaticProfessionDetection()
             if not tailoring then
                 ns.Addon.db.profile.showCapitalsTailoring = false
             end
+        end
+
+        if showAllCapitalsSecondaryProfessions then
+            ns.Addon.db.profile.showCapitalsArchaeology = true
+            ns.Addon.db.profile.showCapitalsCooking = true
+            ns.Addon.db.profile.showCapitalsFirstAid = true
+            ns.Addon.db.profile.showCapitalsFishing = true
+        else
+            if archaeology and ns.Addon.db.profile.showCapitalsArchaeology == false then
+                ns.Addon.db.profile.showCapitalsArchaeology = true
+            end
+            if not archaeology then
+                ns.Addon.db.profile.showCapitalsArchaeology = false
+            end
 
             if cooking and ns.Addon.db.profile.showCapitalsCooking == false then
                 ns.Addon.db.profile.showCapitalsCooking = true
@@ -291,13 +295,12 @@ function ns.AutomaticProfessionDetection()
         end
     end
 
-
     if ns.Addon.db.profile.showMinimapCapitalsProfessionDetection then
-        local showAllMinimapCapitalsProfessions = detectedMainProfessionCount < 2 or detectedSecondaryProfessionCount < 3
+        local showAllMinimapCapitalsMainProfessions = detectedMainProfessionCount < 2
+        local showAllMinimapCapitalsSecondaryProfessions = detectedSecondaryProfessionCount < 2
 
-        if showAllMinimapCapitalsProfessions then
+        if showAllMinimapCapitalsMainProfessions then
             ns.Addon.db.profile.showMinimapCapitalsAlchemy = true
-            ns.Addon.db.profile.showMinimapCapitalsArchaeology = true
             ns.Addon.db.profile.showMinimapCapitalsBlacksmith = true
             ns.Addon.db.profile.showMinimapCapitalsEnchanting = true
             ns.Addon.db.profile.showMinimapCapitalsEngineer = true
@@ -308,22 +311,12 @@ function ns.AutomaticProfessionDetection()
             ns.Addon.db.profile.showMinimapCapitalsLeatherworking = true
             ns.Addon.db.profile.showMinimapCapitalsSkinning = true
             ns.Addon.db.profile.showMinimapCapitalsTailoring = true
-            ns.Addon.db.profile.showMinimapCapitalsCooking = true
-            ns.Addon.db.profile.showMinimapCapitalsFirstAid = true
-            ns.Addon.db.profile.showMinimapCapitalsFishing = true
         else
             if alchemy and ns.Addon.db.profile.showMinimapCapitalsAlchemy == false then
                 ns.Addon.db.profile.showMinimapCapitalsAlchemy = true
             end
             if not alchemy then
                 ns.Addon.db.profile.showMinimapCapitalsAlchemy = false
-            end
-
-            if archaeology and ns.Addon.db.profile.showMinimapCapitalsArchaeology == false then
-                ns.Addon.db.profile.showMinimapCapitalsArchaeology = true
-            end
-            if not archaeology then
-                ns.Addon.db.profile.showMinimapCapitalsArchaeology = false
             end
 
             if blacksmith and ns.Addon.db.profile.showMinimapCapitalsBlacksmith == false then
@@ -395,6 +388,20 @@ function ns.AutomaticProfessionDetection()
             if not tailoring then
                 ns.Addon.db.profile.showMinimapCapitalsTailoring = false
             end
+        end
+
+        if showAllMinimapCapitalsSecondaryProfessions then
+            ns.Addon.db.profile.showMinimapCapitalsArchaeology = true
+            ns.Addon.db.profile.showMinimapCapitalsCooking = true
+            ns.Addon.db.profile.showMinimapCapitalsFirstAid = true
+            ns.Addon.db.profile.showMinimapCapitalsFishing = true
+        else
+            if archaeology and ns.Addon.db.profile.showMinimapCapitalsArchaeology == false then
+                ns.Addon.db.profile.showMinimapCapitalsArchaeology = true
+            end
+            if not archaeology then
+                ns.Addon.db.profile.showMinimapCapitalsArchaeology = false
+            end
 
             if cooking and ns.Addon.db.profile.showMinimapCapitalsCooking == false then
                 ns.Addon.db.profile.showMinimapCapitalsCooking = true
@@ -420,11 +427,11 @@ function ns.AutomaticProfessionDetection()
     end
 
     if ns.Addon.db.profile.showZoneProfessionDetection then
-        local showAllZoneProfessions = detectedMainProfessionCount < 2 or detectedSecondaryProfessionCount < 3
+        local showAllZoneMainProfessions = detectedMainProfessionCount < 2
+        local showAllZoneSecondaryProfessions = detectedSecondaryProfessionCount < 2
         
-        if showAllZoneProfessions then
+        if showAllZoneMainProfessions then
             ns.Addon.db.profile.showZoneAlchemy = true
-            ns.Addon.db.profile.showZoneArchaeology = true
             ns.Addon.db.profile.showZoneBlacksmith = true
             ns.Addon.db.profile.showZoneEnchanting = true
             ns.Addon.db.profile.showZoneEngineer = true
@@ -435,22 +442,12 @@ function ns.AutomaticProfessionDetection()
             ns.Addon.db.profile.showZoneLeatherworking = true
             ns.Addon.db.profile.showZoneSkinning = true
             ns.Addon.db.profile.showZoneTailoring = true
-            ns.Addon.db.profile.showZoneCooking = true
-            ns.Addon.db.profile.showZoneFirstAid = true
-            ns.Addon.db.profile.showZoneFishing = true
         else
             if alchemy and ns.Addon.db.profile.showZoneAlchemy == false then
                 ns.Addon.db.profile.showZoneAlchemy = true
             end
             if not alchemy then
                 ns.Addon.db.profile.showZoneAlchemy = false
-            end
-
-            if archaeology and ns.Addon.db.profile.showZoneArchaeology == false then
-                ns.Addon.db.profile.showZoneArchaeology = true
-            end
-            if not archaeology then
-                ns.Addon.db.profile.showZoneArchaeology = false
             end
 
             if blacksmith and ns.Addon.db.profile.showZoneBlacksmith == false then
@@ -522,6 +519,20 @@ function ns.AutomaticProfessionDetection()
             if not tailoring then
                 ns.Addon.db.profile.showZoneTailoring = false
             end
+        end
+
+        if showAllZoneSecondaryProfessions then
+            ns.Addon.db.profile.showZoneArchaeology = true
+            ns.Addon.db.profile.showZoneCooking = true
+            ns.Addon.db.profile.showZoneFirstAid = true
+            ns.Addon.db.profile.showZoneFishing = true
+        else
+            if archaeology and ns.Addon.db.profile.showZoneArchaeology == false then
+                ns.Addon.db.profile.showZoneArchaeology = true
+            end
+            if not archaeology then
+                ns.Addon.db.profile.showZoneArchaeology = false
+            end
 
             if cooking and ns.Addon.db.profile.showZoneCooking == false then
                 ns.Addon.db.profile.showZoneCooking = true
@@ -547,11 +558,11 @@ function ns.AutomaticProfessionDetection()
     end
 
     if ns.Addon.db.profile.showMiniMapProfessionDetection then
-        local showAllMiniMapProfessions = detectedMainProfessionCount < 2 or detectedSecondaryProfessionCount < 3
+        local showAllMiniMapMainProfessions = detectedMainProfessionCount < 2
+        local showAllMiniMapSecondaryProfessions = detectedSecondaryProfessionCount < 2
         
-        if showAllMiniMapProfessions then
+        if showAllMiniMapMainProfessions then
             ns.Addon.db.profile.showMiniMapAlchemy = true
-            ns.Addon.db.profile.showMiniMapArchaeology = true
             ns.Addon.db.profile.showMiniMapBlacksmith = true
             ns.Addon.db.profile.showMiniMapEnchanting = true
             ns.Addon.db.profile.showMiniMapEngineer = true
@@ -562,22 +573,12 @@ function ns.AutomaticProfessionDetection()
             ns.Addon.db.profile.showMiniMapLeatherworking = true
             ns.Addon.db.profile.showMiniMapSkinning = true
             ns.Addon.db.profile.showMiniMapTailoring = true
-            ns.Addon.db.profile.showMiniMapCooking = true
-            ns.Addon.db.profile.showMiniMapFirstAid = true
-            ns.Addon.db.profile.showMiniMapFishing = true
         else
             if alchemy and ns.Addon.db.profile.showMiniMapAlchemy == false then
                 ns.Addon.db.profile.showMiniMapAlchemy = true
             end
             if not alchemy then
                 ns.Addon.db.profile.showMiniMapAlchemy = false
-            end
-
-            if archaeology and ns.Addon.db.profile.showMiniMapArchaeology == false then
-                ns.Addon.db.profile.showMiniMapArchaeology = true
-            end
-            if not archaeology then
-                ns.Addon.db.profile.showMiniMapArchaeology = false
             end
 
             if blacksmith and ns.Addon.db.profile.showMiniMapBlacksmith == false then
@@ -649,6 +650,20 @@ function ns.AutomaticProfessionDetection()
             if not tailoring then
                 ns.Addon.db.profile.showMiniMapTailoring = false
             end
+        end
+
+        if showAllMiniMapSecondaryProfessions then
+            ns.Addon.db.profile.showMiniMapArchaeology = true
+            ns.Addon.db.profile.showMiniMapCooking = true
+            ns.Addon.db.profile.showMiniMapFirstAid = true
+            ns.Addon.db.profile.showMiniMapFishing = true
+        else
+            if archaeology and ns.Addon.db.profile.showMiniMapArchaeology == false then
+                ns.Addon.db.profile.showMiniMapArchaeology = true
+            end
+            if not archaeology then
+                ns.Addon.db.profile.showMiniMapArchaeology = false
+            end
 
             if cooking and ns.Addon.db.profile.showMiniMapCooking == false then
                 ns.Addon.db.profile.showMiniMapCooking = true
@@ -694,7 +709,6 @@ function ns.AutomaticProfessionDetection()
     ns.Addon:FullUpdate()
     HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
 end
-
 
 local function ProfessionDetectionHook()
     C_Timer.After(0.2, ns.AutomaticProfessionDetection)

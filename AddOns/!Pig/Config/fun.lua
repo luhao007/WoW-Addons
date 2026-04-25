@@ -98,6 +98,7 @@ local function Clear_FailureData()
 	PIGA["FramePlus"]["Character_naijiu"]=nil
 	PIGA["FramePlus"]["Character_ItemLevel"]=nil
 	PIGA["FramePlus"]["Character_ItemColor"]=nil
+	PIGA["FramePlus"]["AddonList"]=nil
 	PIGA["Tooltip"]["SpellID"]=nil
 	PIGA["QuickBut"]["Point"]=nil
 	PIGA["QuickBut"]["AutoEquip"]=nil

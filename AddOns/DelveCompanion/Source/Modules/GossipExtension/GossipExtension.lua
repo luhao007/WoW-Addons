@@ -88,14 +88,22 @@ function GossipExtension:ProcessEvent(eventName, arg1, ...)
         if DelveCompanionAccountData.displayStoryStatusInGossip and not isNemesis then
             self:DisplayStoryStatus(isCompleted)
         end
-        self.LootInfoButton:SetShown(not isNemesis)
-        self.AutoEnterCheckbox:SetShown(not isNemesis)
-        self.AutoEnterCheckbox:SetChecked(DelveCompanionAccountData.delveAutoEnterEnabled)
+
+        do
+            local cbText = string.format(Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER,
+                DelveCompanionAccountData.delveAutoEnterTier)
+            self.AutoEnterCheckbox.Text:SetText(cbText)
+            self.AutoEnterCheckbox:SetShown(not isNemesis)
+            self.AutoEnterCheckbox:SetChecked(DelveCompanionAccountData.delveAutoEnterEnabled)
+        end
         self:UpdateEnterButton(0)
+        self.LootInfoButton:SetShown(not isNemesis)
 
         if DelveCompanionAccountData.delveAutoEnterEnabled then
-            local tier = C_DelvesUI.HasActiveDelve() and self:GetDelveInProgressTier()
-                or DelveCompanionAccountData.delveAutoEnterTier
+            local tier = DelveCompanionAccountData.delveAutoEnterTier
+            if C_DelvesUI.HasActiveDelve() then
+                tier = self:GetDelveInProgressTier()
+            end
 
             if tier < 1 or tier > DelveCompanion:GetDelvesMaxTier() then
                 return
@@ -191,19 +199,6 @@ function GossipExtension:GetHighestUnlockedTier()
     local defaultTier = 0
 
     return GetCVarTableValue(HIGHEST_TIER_UNLOCKED_CVAR, pdeID, defaultTier)
-
-    -- TODO: Brutforce check. Remove it if the CVar way works fine.
-    -- local options = C_GossipInfo.GetOptions()
-    -- if options then
-    --     local optionIndex = tier - 1
-    --     for _, optionInfo in ipairs(options) do
-    --         if optionInfo.orderIndex == optionIndex and optionInfo.status == Enum.GossipOptionStatus.Available then
-    --             Logger:Log("[GossipExtension] Required Tier %d is Available.", tier)
-    --             canEnter = true
-    --             break
-    --         end
-    --     end
-    -- end
 end
 
 -- Helper function to check that auto enter request is valid. Required primarly for the delayed entering.
@@ -226,33 +221,11 @@ function GossipExtension:CanAutoEnter(tier, isBountiful)
     local highestTier = self:GetHighestUnlockedTier()
     -- Logger:Log("[GossipExtension] Highest unlocked: Tier %d.", highestTier)
 
-    -- if C_DelvesUI.HasActiveDelve() then
-    --     local optionInfo = C_GossipInfo.GetActiveDelveGossip()
-    --     if not optionInfo then
-    --         return false
-    --     end
-
-    --     local activeTier = optionInfo.orderIndex + 1
-    --     -- Logger:Log("[GossipExtension] Tier %d is already in progress.", activeTier)
-
-    --     -- TODO: need to decide whether it's a good decision. For now seems not.
-    --     -- if activeTier ~= tier then
-    --     --     Logger:Log("[GossipExtension] Cannot enter: the active Tier %d doesn't match the desired Tier %d.",
-    --     --         activeTier, tier)
-    --     --     return false
-    --     -- end
-
-    --     if highestTier >= activeTier then
-    --         return true
-    --     end
-    -- end
-
     -- Check that the desired Tier is available.
     if highestTier < tier then
         -- Logger:Log("[GossipExtension] Cannot enter: the desired Tier %d is unavailable.", tier)
         return false
     end
-
 
     -- Do not enter if no key for a Bountiful Delve.
     if isBountiful then
@@ -376,7 +349,6 @@ function GossipExtension:CreateAutoEnterCheckbox()
     self.AutoEnterCheckbox = cb
     cb:SetPoint("BOTTOMLEFT", DelvesDifficultyPickerFrame, "BOTTOMLEFT", 0, 0)
     cb.Text:SetWidth(75)
-    cb.Text:SetText(Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME)
 
     cb:HookScript("OnShow", function()
         cb:SetChecked(DelveCompanionAccountData.delveAutoEnterEnabled)
@@ -385,9 +357,9 @@ function GossipExtension:CreateAutoEnterCheckbox()
         local tooltip = GameTooltip
         tooltip:SetOwner(cb, "ANCHOR_TOP")
         GameTooltip_SetTitle(tooltip,
-            Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME,
+            string.format(Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER, DelveCompanionAccountData.delveAutoEnterTier),
             HIGHLIGHT_FONT_COLOR)
-        GameTooltip_AddNormalLine(tooltip, Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP, true)
+        GameTooltip_AddNormalLine(tooltip, Lockit.UI_DELVE_AUTO_ENTER_INFO, true)
 
         tooltip:Show()
     end)
@@ -416,6 +388,8 @@ function GossipExtension:DisplayStoryStatus(isCompleted)
     local statusText = string.format("|cnHIGHLIGHT_FONT_COLOR:%s:|r\n%s", _G["STORY_PROGRESS"], sequence)
     local descriptionText = string.format("%s\n\n%s", C_GossipInfo.GetCustomGossipDescriptionString(), statusText)
 
+    local newHeight = DelvesDifficultyPickerFrame.Description:GetHeight() + 50
+    DelvesDifficultyPickerFrame.Description:SetHeight(newHeight)
     DelvesDifficultyPickerFrame.Description:SetText(descriptionText)
 end
 

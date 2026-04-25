@@ -171,9 +171,7 @@ for i=1,#BAG_SetList do
 	end)
 end
 --每行格数
-BagBankF.SetListF.hangNUMTXT = PIGFontString(BagBankF.SetListF,{"TOPLEFT",BagBankF.SetListF,"TOPLEFT",20,-220},"背包每行格数")
-local BagmeihangN= {8,16,1}
-BagBankF.SetListF.hangNUM = PIGSlider(BagBankF.SetListF,{"LEFT", BagBankF.SetListF.hangNUMTXT,"RIGHT",4,0},BagmeihangN)	
+BagBankF.SetListF.hangNUM = PIGSlider(BagBankF.SetListF,{"TOPLEFT",BagBankF.SetListF,"TOPLEFT",20,-220},{8,16,1,{["Right"]="背包每行格数%d"}})	
 function BagBankF.SetListF.hangNUM:PIGOnValueChange(arg1)
 	PIGA["BagBank"]["BAGmeihangshu"] = arg1-BagBankfun.BAGmeihangshu
 	if PIG_MaxTocversion() then
@@ -187,9 +185,7 @@ function BagBankF.SetListF.hangNUM:PIGOnValueChange(arg1)
 	end
 end
 --缩放
-BagBankF.SetListF.suofangTXT = PIGFontString(BagBankF.SetListF,{"TOPLEFT",BagBankF.SetListF.hangNUMTXT,"BOTTOMLEFT",0,-20},"背包缩放比例")
-local BAGsuofangbili = {0.8,1.4,0.01,{["Right"]="%"}}
-BagBankF.SetListF.suofang = PIGSlider(BagBankF.SetListF,{"LEFT", BagBankF.SetListF.suofangTXT,"RIGHT",4,0},BAGsuofangbili)	
+BagBankF.SetListF.suofang = PIGSlider(BagBankF.SetListF,{"TOPLEFT",BagBankF.SetListF.hangNUM,"BOTTOMLEFT",0,-20},{0.8,1.4,0.01,{["Right"]="背包缩放比例%d%%"}})	
 function BagBankF.SetListF.suofang:PIGOnValueChange(arg1)
 	PIGA["BagBank"]["BAGsuofangBili"] = arg1;
 	if PIG_MaxTocversion() then

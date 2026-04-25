@@ -13,7 +13,7 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 ------
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
-local GnName,GnUI,FrameLevel = "售卖助手","PIG_AutoSellBuy",20
+local GnName,GnUI,FrameLevel = L["TRADESELLBUY_TABNAME"],"PIG_AutoSellBuy",20
 local GnIcon =PIG_MaxTocversion(30000) and PIG_MaxTocversion(20000,true) and 132836 or 134152
 BusinessInfo.AutoSellBuyData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
@@ -28,7 +28,7 @@ function BusinessInfo.AutoSellBuyOptions()
 		QuickButUI.ButList[QuickButUI_index+2]()
 		QuickButUI.ButList[QuickButUI_index+3]()
 	end
-	local Tooltip = {GnName,"包含一键丢弃/自动卖出/自动购买/快捷开箱盒蚌/快捷分解,一键拿取存储物品到银行"};
+	local Tooltip = {GnName,L["TRADESELLBUY_TISP"]};
 	AutoSellBuyF.AutoSellBuy = PIGModCheckbutton(AutoSellBuyF,Tooltip,{"TOPLEFT",AutoSellBuyF,"TOPLEFT",20,-30})
 	AutoSellBuyF.AutoSellBuy:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -52,11 +52,11 @@ function BusinessInfo.AutoSellBuyOptions()
 	end);
 	AutoSellBuyF.AutoSellBuy.CZ = Create.PIGButton(AutoSellBuyF.AutoSellBuy,{"LEFT",AutoSellBuyF.AutoSellBuy.QKBut,"RIGHT",260,0},{60,22},RESET);  
 	AutoSellBuyF.AutoSellBuy.CZ:SetScript("OnClick", function (self,button)
-		StaticPopup_Show ("AUTOSELLBUY_CZQIANGKONGINFO");
+		StaticPopup_Show ("PIG_AUTOSELLBUY_CZQIANGKONGINFO");
 	end);
-	PIGEnter(AutoSellBuyF.AutoSellBuy.CZ,"|cffff0000重置|r"..GnName.."所有配置")
-	StaticPopupDialogs["AUTOSELLBUY_CZQIANGKONGINFO"] = {
-		text = "此操作将\124cffff0000重置\124r"..GnName.."所有配置，需重载界面。\n确定重置?",
+	PIGEnter(AutoSellBuyF.AutoSellBuy.CZ,string.format(L["OPTUI_RESETDEFAULTRL"],GnName))
+	StaticPopupDialogs["PIG_AUTOSELLBUY_CZQIANGKONGINFO"] = {
+		text = string.format(L["OPTUI_RESETDEFAULTRL"],GnName),
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()

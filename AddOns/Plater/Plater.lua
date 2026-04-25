@@ -1649,8 +1649,11 @@ Plater.AnchorNamesByPhraseId = {
 	
 	local canSaveCVars = false --only allow storing after plater has restored
 	--on logout or on profile change, or when they are actually set, save some important cvars inside the profile
-	function Plater.SaveConsoleVariables(cvar, value) --private
+	function Plater.SaveConsoleVariables(cvar, value, enumValue) --private
 		if not canSaveCVars then return end
+		if cvar and value and enumValue ~= nil then
+			value = C_CVar.GetCVar(cvar)
+		end
 		
 		--print("save cvars", cvar, value, debugstack())
 		local cvarTable = Plater.db.profile.saved_cvars
@@ -2644,6 +2647,9 @@ Plater.AnchorNamesByPhraseId = {
 			hooksecurefunc('SetCVar', Plater.SaveConsoleVariables)
 			if C_CVar and C_CVar.SetCVar then
 				hooksecurefunc(C_CVar, 'SetCVar', Plater.SaveConsoleVariables)
+			end
+			if C_CVar and C_CVar.SetCVarBitfield then
+				hooksecurefunc(C_CVar, 'SetCVarBitfield', Plater.SaveConsoleVariables)
 			end
 			hooksecurefunc('ConsoleExec', function(console)
 				local par1, par2, par3 = console:match('^(%S+)%s+(%S+)%s*(%S*)')
@@ -5313,14 +5319,16 @@ function Plater.OnInit() --private --~oninit ~init
 		Plater.UpdateBaseNameplateOptions()
 		
 		--this function is declared inside 'NamePlateDriverMixin' at Blizzard_NamePlates.lua
-		hooksecurefunc (NamePlateDriverFrame, "UpdateNamePlateOptions", function()
-			Plater.UpdateSelfPlate()
-			Plater.UpdateBaseNameplateOptions()
-			Plater.UpdatePlateClickSpace()
-			C_Timer.After(0.1, function ()
-				Plater.UpdateBlizzardNameplateFonts(true)
+		if NamePlateDriverFrame and NamePlateDriverFrame.UpdateNamePlateOptions then
+			hooksecurefunc (NamePlateDriverFrame, "UpdateNamePlateOptions", function()
+				Plater.UpdateSelfPlate()
+				Plater.UpdateBaseNameplateOptions()
+				Plater.UpdatePlateClickSpace()
+				C_Timer.After(0.1, function ()
+					Plater.UpdateBlizzardNameplateFonts(true)
+				end)
 			end)
-		end)
+		end
 		
 		--this might come in useful
 		function Plater.SetNamePlatePreferredClickInsets(nameplateType, left, right, top, bottom)
@@ -5932,10 +5940,10 @@ function Plater.OnInit() --private --~oninit ~init
 					
 					--cut the spell name text to fit within the castbar
 					local plateConfig = DB_PLATE_CONFIG [unitFrame.ActorType] or {}
-					Plater.UpdateTextSize (self.SpellNameRenamed or "", self.Text, plateConfig.spellname_text_max_width or 0, nil)
+					Plater.UpdateTextSize (self.SpellNameRenamed or "", self.Text, plateConfig.spellname_text_max_width or 0, nil, plateConfig.spellname_text_wrap)
 					
 					-- in some occasions channeled casts don't have a CLEU entry... check this here
-					if (unitFrame.ActorType == "enemynpc" and event == "UNIT_SPELLCAST_CHANNEL_START" and (not DB_CAPTURED_SPELLS[spellID] or DB_CAPTURED_SPELLS[spellID].isChanneled == nil or not DB_CAPTURED_CASTS[spellID] or DB_CAPTURED_CASTS[spellID].isChanneled == nil)) then
+					if not IS_WOW_PROJECT_MIDNIGHT and (unitFrame.ActorType == "enemynpc" and event == "UNIT_SPELLCAST_CHANNEL_START" and (not DB_CAPTURED_SPELLS[self.spellID] or DB_CAPTURED_SPELLS[self.spellID].isChanneled == nil or not DB_CAPTURED_CASTS[self.spellID] or DB_CAPTURED_CASTS[self.spellID].isChanneled == nil)) then
 						parserFunctions.SPELL_CAST_SUCCESS (nil, "SPELL_CAST_SUCCESS", nil, unitFrame[MEMBER_GUID], unitFrame.unitNameInternal, 0x00000040, nil, nil, nil, nil, nil, self.spellID, nil, nil, nil, nil, nil, nil, nil, nil, nil)
 					end
 
@@ -6017,7 +6025,7 @@ function Plater.OnInit() --private --~oninit ~init
 						if IS_WOW_PROJECT_MIDNIGHT then
 							local targetName = UnitSpellTargetName(self.unit)
 							if targetName then
-								local targetNameShort = UnitName(targetName)
+								local targetNameShort = Ambiguate(targetName, "none")
 								if targetNameShort then
 									targetName = targetNameShort
 								end
@@ -6027,7 +6035,7 @@ function Plater.OnInit() --private --~oninit ~init
 									targetName = C_ColorUtil.WrapTextInColor(targetName, color)
 								end
 								
-								targetName = Plater.UpdateTextSize (targetName or "", self.FrameOverlay.TargetName, Plater.db.profile.castbar_target_text_max_width or 0, nil)
+								targetName = Plater.UpdateTextSize (targetName or "", self.FrameOverlay.TargetName, Plater.db.profile.castbar_target_text_max_width or 0, nil, Plater.db.profile.castbar_target_text_wrap)
 								
 							else
 								self.FrameOverlay.TargetName:SetText(nil)
@@ -6049,7 +6057,7 @@ function Plater.OnInit() --private --~oninit ~init
 										targetName = LibTranslit:Transliterate(targetName, TRANSLIT_MARK)
 									end
 									
-									targetName = Plater.UpdateTextSize (targetName or "", self.FrameOverlay.TargetName, Plater.db.profile.castbar_target_text_max_width or 0, nil)
+									targetName = Plater.UpdateTextSize (targetName or "", self.FrameOverlay.TargetName, Plater.db.profile.castbar_target_text_max_width or 0, nil, Plater.db.profile.castbar_target_text_wrap)
 
 									local _, class = UnitClass (self.unit .. "target")
 									if (class) then 
@@ -6973,7 +6981,7 @@ end
 		end
 		if not IS_WOW_PROJECT_MAINLINE then
 			for _, plateFrame in pairs(C_NamePlate.GetNamePlates(true)) do
-				if (plateFrame) then
+				if (plateFrame and plateFrame.UnitFrame and plateFrame.UnitFrame.CastBar) then
 					if GetCVarBool ("nameplateShowOnlyNames") or Plater.db.profile.saved_cvars.nameplateShowOnlyNames == "1" then
 						TextureLoadingGroupMixin.RemoveTexture({ textures = plateFrame.UnitFrame.CastBar }, "showCastbar")
 					else
@@ -8725,7 +8733,7 @@ end
 		end
 		
 		if IS_WOW_PROJECT_MIDNIGHT then
-			Plater.UpdateTextSize (spellName, nameString, maxWidth, maxLength)
+			Plater.UpdateTextSize (spellName, nameString, maxLength, nil)
 		else		
 			while (nameString:GetUnboundedStringWidth() > maxLength) do
 				spellName = strsub (spellName, 1, #spellName - 1)
@@ -8751,9 +8759,12 @@ end
 	function Plater.UpdateUnitName (plateFrame)
 		local nameString = plateFrame.CurrentUnitNameString
 
-		local maxWidth = DB_PLATE_CONFIG [plateFrame.actorType].actorname_text_max_width or 0
+		local plateConfig = DB_PLATE_CONFIG [plateFrame.actorType]
+		local maxWidth = plateConfig.actorname_text_max_width or 0
+		local wrap = plateConfig.actorname_text_wrap
 		if plateFrame.IsFriendlyPlayerWithoutHealthBar or plateFrame.IsNpcWithoutHealthBar then
 			maxWidth = 0
+			wrap = true
 		end
 		local name = plateFrame [MEMBER_NAME] or plateFrame.unitFrame [MEMBER_NAME] or ""
 		if IS_WOW_PROJECT_MIDNIGHT and issecretvalue(name) then
@@ -8763,7 +8774,7 @@ end
 			Plater.UpdateNameOnRenamedUnit(plateFrame)
 			name = plateFrame [MEMBER_NAME] or plateFrame.unitFrame [MEMBER_NAME] or ""
 		end
-		Plater.UpdateTextSize (name, nameString, maxWidth, nil)
+		Plater.UpdateTextSize (name, nameString, maxWidth, nil, wrap)
 		
 		--check if the player has a guild, this check is done when the nameplate is added
 		if (plateFrame.playerGuildName) then
@@ -8773,7 +8784,7 @@ end
 		end
 	end
 
-	function Plater.UpdateTextSize (text, fontString, maxWidth, maxLength)
+	function Plater.UpdateTextSize (text, fontString, maxWidth, maxLength, wordWrap)
 		if not text then return end
 		--if maxWidth and type(fontSize) == "number" then
 		--	local textLength = floor(maxWidth / fontSize * 2)
@@ -8795,12 +8806,12 @@ end
 		--else
 		if fontString and maxWidth then
 			if maxWidth == 0 then
-				fontString:SetWordWrap(true)
-				fontString:SetNonSpaceWrap(true)
+				fontString:SetWordWrap(wordWrap == nil or wordWrap)
+				fontString:SetNonSpaceWrap(wordWrap == nil or wordWrap)
 				fontString:SetSpacing(0)
 			else
-				fontString:SetWordWrap(false)
-				fontString:SetNonSpaceWrap(false)
+				fontString:SetWordWrap(wordWrap or false)
+				fontString:SetNonSpaceWrap(wordWrap or false)
 				fontString:SetSpacing(0)
 			end
 			fontString:SetWidth(maxWidth)
@@ -9033,12 +9044,12 @@ end
 		
 			if IS_WOW_PROJECT_MIDNIGHT then
 				if not issecretvalue(plateFrame [MEMBER_GUID]) then
-					Plater.ForceFindPetOwner (plateFrame [MEMBER_GUID])
+					Plater.ForceFindPetOwner (plateFrame [MEMBER_GUID], unitFrame [MEMBER_UNITID])
 				elseif not issecretvalue(unitFrame [MEMBER_GUID]) then
-					Plater.ForceFindPetOwner (unitFrame [MEMBER_GUID])
+					Plater.ForceFindPetOwner (unitFrame [MEMBER_GUID], unitFrame [MEMBER_UNITID])
 				end
 			else
-				Plater.ForceFindPetOwner (plateFrame [MEMBER_GUID])
+				Plater.ForceFindPetOwner (plateFrame [MEMBER_GUID], unitFrame [MEMBER_UNITID])
 			end
 		
 			-- handle own pets separately, including nazjatar guardians
@@ -9175,12 +9186,12 @@ end
 					-- could be a pet
 					if IS_WOW_PROJECT_MIDNIGHT then
 						if not issecretvalue(plateFrame [MEMBER_GUID]) then
-							Plater.ForceFindPetOwner (plateFrame [MEMBER_GUID])
+							Plater.ForceFindPetOwner (plateFrame [MEMBER_GUID], unitFrame [MEMBER_UNITID])
 						elseif not issecretvalue(unitFrame [MEMBER_GUID]) then
-							Plater.ForceFindPetOwner (unitFrame [MEMBER_GUID])
+							Plater.ForceFindPetOwner (unitFrame [MEMBER_GUID], unitFrame [MEMBER_UNITID])
 						end
 					else
-						Plater.ForceFindPetOwner (plateFrame [MEMBER_GUID])
+						Plater.ForceFindPetOwner (plateFrame [MEMBER_GUID], unitFrame [MEMBER_UNITID])
 					end
 				end
 			end
@@ -10941,7 +10952,7 @@ end
 	end)
 
 	Plater.NpcBlackList = {} 
-	function Plater.ForceFindPetOwner (serial) --private
+	function Plater.ForceFindPetOwner (serial, unitID) --private
 		Plater.StartLogPerformanceCore("Plater-Core", "Update", "ForceFindPetOwner")
 		
 		local petName,text1
@@ -10988,7 +10999,7 @@ end
 		
 		if IS_WOW_PROJECT_MIDNIGHT and issecretvalue(petName) then return end
 		if (isPlayerPet or isOtherPet) and petName then
-			local entry = {ownerGUID = ownerName and UnitExists(ownerName) and UnitGUID(ownerName) or nil, ownerName = ownerName, petName = petName, time = time()}
+			local entry = {ownerGUID = IS_WOW_PROJECT_MIDNIGHT and UnitOwnerGUID(unitID) or isPlayerPet and UnitGUID("player") or ownerName and UnitExists(ownerName) and UnitGUID(ownerName) or nil, ownerName = ownerName, petName = petName, time = time()}
 			
 			if (isPlayerPet) then
 				PET_CACHE [serial] = entry

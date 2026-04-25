@@ -232,6 +232,7 @@ local function add_barUI(peizhiT)
 				self.bgX:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 			end)
 			if i<9 then
+				listbut.bgX:SetBackdropColor(WmarkerIndex[i][2], WmarkerIndex[i][3], WmarkerIndex[i][4], 1);
 				listbut:SetAttribute("type1","worldmarker")
 				listbut:SetAttribute("marker1",WmarkerIndex[i][1])
 				listbut:SetAttribute("type2","worldmarker")
@@ -313,8 +314,7 @@ local function add_Options(peizhiT,topHV)
 		end
 		SetLookUI(peizhiT)
 	end);
-	local xiayiinfo = {0.6,2,0.01,{["Right"]="%"}}
-	checkbutOpen.F.Slider = PIGSlider(checkbutOpen.F,{"LEFT",checkbutOpen.F.Lock.Text,"RIGHT",80,0},xiayiinfo)
+	checkbutOpen.F.Slider = PIGSlider(checkbutOpen.F,{"LEFT",checkbutOpen.F.Lock.Text,"RIGHT",80,0},{0.6,2,0.01,{["Right"]="%d%%"}})
 	checkbutOpen.F.Slider.T = PIGFontString(checkbutOpen.F.Slider,{"RIGHT",checkbutOpen.F.Slider,"LEFT",-10,0},"缩放")
 	function checkbutOpen.F.Slider:PIGOnValueChange(arg1)
 		PIGA["CombatPlus"][peizhiT]["Scale"]=arg1;

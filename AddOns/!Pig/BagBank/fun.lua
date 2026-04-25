@@ -406,14 +406,14 @@ else
 end
 local function add_Eqicon(fujiui)
 	if fujiui.Eqicon then return end
-	local BagdangeW=fujiui:GetWidth()*0.5
+	local iconww=fujiui:GetWidth()*0.5
 	fujiui.Eqicon = fujiui:CreateTexture();
-	fujiui.Eqicon:SetSize(BagdangeW,BagdangeW);
+	fujiui.Eqicon:SetSize(iconww,iconww);
 	fujiui.Eqicon:SetPoint("BOTTOMLEFT", 0, -1);
 	fujiui.Eqicon:SetTexture("interface/timer/bigtimernumbers.blp");
 	fujiui.Eqicon1 = fujiui:CreateTexture();
 	fujiui.Eqicon1:SetTexture("interface/timer/bigtimernumbers.blp");
-	fujiui.Eqicon1:SetSize(BagdangeW,BagdangeW);
+	fujiui.Eqicon1:SetSize(iconww,iconww);
 	fujiui.Eqicon1:SetPoint("LEFT",fujiui.Eqicon,"RIGHT", 0, 0);
 	fujiui.Eqname = fujiui:CreateFontString();
 	fujiui.Eqname:SetPoint("LEFT", fujiui.Eqicon, "RIGHT", 0, 0);

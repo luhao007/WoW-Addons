@@ -2,7 +2,7 @@
 
 Preydator is a focused Prey Hunt companion addon for World of Warcraft, featuring Predator-inspired audio cues, a customizable hunt progress bar, and stage-based tracking built from Blizzard quest/widget APIs.
 
-Current release: `v2.2.8`
+Current release: `v2.2.10`
 
 Runtime safety note: In restricted instance content (`party`, `raid`, `scenario`, `delve`, `arena`, `pvp`), Preydator is intended to fail closed and keep runtime behavior inactive.
 
@@ -40,6 +40,8 @@ Important: Blizzard does not expose a true percent completion for Prey Hunts. Pr
 - New Warband currency table with sortable columns and realm grouping
 - Hunt Table tracker with grouping/sorting, reward icons, collapsible headers, and direct accept/open actions
 - Warband `Prey Track (Alts)` with `N/H/Ni` available/completed modes and weekly-aware tracking snapshots
+- Hunt Table achievement signals resolve from explicit questID criteria mappings only (no title/name fallback matching)
+- Hunt Table achievement signals on higher-tier rows can cumulatively include unmet lower-tier mapped achievements for the same prey target while remaining questID/criteria anchored
 - Session delta tracking for approved Prey currencies
 - Theme support in currency windows: `Light`, `Brown`, `Dark`
 - One-time What's New splash for currency launch (with Show Again in Advanced tab)
@@ -80,7 +82,7 @@ Important: Blizzard does not expose a true percent completion for Prey Hunts. Pr
 - Full stage label editing for all 4 stages
 - Prefix + suffix label system
 - Dedicated `Out of Zone Prefix` and `Ambush Prefix`
-- Ambush custom override text
+- Ambush/Bloody suffix fields support exact variable markers (`preyTargetName`, `bloodyCommandSourceName`) or literal custom text
 - Label modes:
 	- Centered
 	- Left (Prefix only)
@@ -100,8 +102,12 @@ Important: Blizzard does not expose a true percent completion for Prey Hunts. Pr
 - Stage sound test buttons (1-4), Ambush test, Bloody Command test, and Echo of Predation test button
 - Custom sound file add/remove in settings UI
 - Protected default sound files cannot be removed
+- Sound selection uses a dedicated searchable picker popup (15 visible rows with scrollbar) for Stage 1-4, Ambush, Bloody Command, and Echo of Predation
+- Sound list order is stable: `None`, custom addon-local sounds, bundled Preydator defaults, then extra registered sounds from LibSharedMedia when available
+- Ambush alert trigger supports prey-name matching plus fallback ambush phrase matching (including trap callouts) while an active prey hunt context is valid
 - Bloody Command alert trigger: Nightmare prey only, stages 1-3
-- One-time 2.2.0 audio migration prompt with `New Defaults` button; close keeps your current sounds
+- Existing custom/addon-local sound selections are preserved across updates, including migrated addon-local path casing/format variants
+- The legacy 2.2.0 audio migration prompt is retired so updates cannot accidentally replace saved sound choices
 
 Bundled default files:
 

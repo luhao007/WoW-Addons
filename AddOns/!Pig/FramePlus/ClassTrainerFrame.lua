@@ -6,6 +6,8 @@ function FramePlusfun.Trainer()
 	if PIG_MaxTocversion(60000,true) then return end
 	if NDui then return end
 	addonTable.Fun.IsAddOnLoaded("Blizzard_TrainerUI",function()
+		if FramePlusfun.TrainerOK then return end
+		FramePlusfun.TrainerOK=true
 		UIPanelWindows["ClassTrainerFrame"].width = 713
 		ClassTrainerFrame:SetWidth(713)
 		ClassTrainerFrame:SetHeight(487)

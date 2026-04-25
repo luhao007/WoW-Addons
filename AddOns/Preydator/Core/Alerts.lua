@@ -9,6 +9,11 @@ Preydator:RegisterModule("Alerts", Alerts)
 local BLOODY_COMMAND_CHAT_PHRASE = "kill for me. now!"
 local BLOODY_COMMAND_CHAT_PHRASE_2 = "drain their anguish!"
 local BLOODY_COMMAND_CHAT_SOURCE = "astalor bloodsworn"
+local AMBUSH_CHAT_FALLBACK_PHRASES = {
+    "ambush",
+    "you've stumbled right into my trap",
+    "a momentary setback",
+}
 
 local function IsAmbushRuntimeEnabled(api)
     local runtime = type(api.GetModuleRuntimeState) == "function" and api.GetModuleRuntimeState() or nil
@@ -88,6 +93,12 @@ local function AddAlertsDebugLog(api, message)
     end
 end
 
+local function AddAmbushLog(api, message, forcePrint)
+    if type(api.AddDebugLog) == "function" then
+        api.AddDebugLog("Ambush", tostring(message), forcePrint == true)
+    end
+end
+
 local function IsBloodyVerboseDebugEnabled(api)
     if type(api.GetSettings) ~= "function" then
         return false
@@ -117,6 +128,21 @@ local function IsAmbushSystemMessage(ctx, message, sender)
         end
 
         if IsAmbushPreyNameTokenMatch(preyName, message, sender) then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function IsAmbushFallbackMessage(message)
+    if type(message) ~= "string" then
+        return false
+    end
+
+    local loweredMessage = string.lower(message)
+    for _, phrase in ipairs(AMBUSH_CHAT_FALLBACK_PHRASES) do
+        if string.find(loweredMessage, phrase, 1, true) then
             return true
         end
     end
@@ -176,10 +202,34 @@ local function HandleAmbushChat(api, event, message, sender)
         return
     end
 
-    if ShouldScanAmbushChat(ctx) and IsAmbushSystemMessage(ctx, message, sender) then
-        if type(api.TriggerAmbushAlert) == "function" then
-            api.TriggerAmbushAlert(message, event)
-        end
+    if not ShouldScanAmbushChat(ctx) then
+        return
+    end
+
+    local matchedByPreyName = IsAmbushSystemMessage(ctx, message, sender)
+    local matchedByFallbackPhrase = IsAmbushFallbackMessage(message)
+    if not matchedByPreyName and not matchedByFallbackPhrase then
+        AddAmbushLog(api,
+            "chat ignored: no ambush match"
+                .. " | event=" .. tostring(event)
+                .. " | sender=" .. tostring(sender)
+                .. " | message=" .. tostring(message),
+            false
+        )
+        return
+    end
+
+    AddAmbushLog(api,
+        "chat matched"
+            .. " | event=" .. tostring(event)
+            .. " | sender=" .. tostring(sender)
+            .. " | matchedByPreyName=" .. tostring(matchedByPreyName)
+            .. " | matchedByFallbackPhrase=" .. tostring(matchedByFallbackPhrase),
+        true
+    )
+
+    if type(api.TriggerAmbushAlert) == "function" then
+        api.TriggerAmbushAlert(message, event, sender)
     end
 end
 

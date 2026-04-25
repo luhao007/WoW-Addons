@@ -198,7 +198,7 @@ C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up so
 ---@field AddContextMenu function Titan ONLY to create root menu
 
 --====== New Dec 2025 Collect info on each toon for Profile Config
--- Also used by plugins Gold and Post
+-- Also used by plugins such as Gold and Post
 ---@class CharInfo
 ---@field name string
 ---@field server string
@@ -216,6 +216,11 @@ C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up so
 ---@field itemLevelAve number
 ---@field itemLevelEquipped number
 ---@field itemLevelPvp number
+---@field played_start number
+---@field played_total number
+---@field played_this_level number
+---@field unit_xp number
+---@field unit_xp_max number
 
 --====== Profile output from Utils
 ---@class Get_Profile_Result

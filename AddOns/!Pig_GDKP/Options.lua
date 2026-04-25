@@ -15,7 +15,6 @@ local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInst
 ------
 local GDKPInfo = {}
 addonTable.GDKPInfo=GDKPInfo
-if PIGIsHardcore() then return end
 local fuFrame,fuFrameBut,adddata = unpack(Data.Ext[addonName])
 if not adddata.open then return end
 fuFrame.IsOpenUpdate=nil

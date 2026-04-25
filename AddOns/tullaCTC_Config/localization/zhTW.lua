@@ -39,16 +39,18 @@ L.Reverse = '反轉'
 L.ReverseDesc = '反轉掃過方向'
 L.SwipeColor = '掃過顏色'
 L.SwipeColorDesc = '覆蓋冷卻掃過動畫的顏色'
-L.UseAuraDisplayTime = '光環持續時間取整'
-L.UseAuraDisplayTimeDesc = '控制光環持續時間的取整方式。始終向下取整，從不向上取整'
 
 -- Countdown text options
+L.RoundingMode = '進位模式'
+L.RoundingModeDesc = '控制持續時間數值的進位方式'
 L.MinDuration = '最短持續時間'
 L.MinDurationDesc = '冷卻時間需要多長（秒）才會顯示倒數文字'
 L.TenthsThreshold = '小數門檻'
 L.TenthsThresholdDesc = '當剩餘冷卻時間低於此值時顯示十分之一秒'
 L.AbbrevThreshold = 'MM:SS門檻'
 L.AbbrevThresholdDesc = '冷卻文字切換到MM:SS格式之前的時間（秒）（例如用「1:30」代替「90」）'
+L.ShowZero = '顯示零'
+L.ShowZeroDesc = '對向下/趨近於零的冷卻時間顯示「0」而非空白'
 
 -- Font options
 L.FontFace = '字型'
@@ -76,6 +78,11 @@ L.VerticalOffset = '垂直偏移'
 L.DrawState_default = '預設'
 L.DrawState_always = '始終'
 L.DrawState_never = '從不'
+
+-- Rounding mode values
+L.RoundingMode_Up = '無條件進位'
+L.RoundingMode_Down = '無條件舍去'
+L.RoundingMode_Nearest = '四捨五入'
 
 -- Color threshold UI
 L.AddColorThreshold = '新增顏色門檻'

@@ -241,32 +241,21 @@ L["You have not yet linked any alts with their mains."] = true
 
   L = {}
   -- AltNames
---[[Translation missing --]]
-L["%d alts found for %s: %s"] = "%d alts found for %s: %s"
---[[Translation missing --]]
-L["%s alts imported from LOKWhoIsWho"] = "%s alts imported from LOKWhoIsWho"
-L["%s total alts linked to mains"] = "%s nb total de reroll liés au personnage principal"
---[[Translation missing --]]
-L["(.-)'s? [Aa]lt"] = "%f[%aÀ-ÿ]([%aÀ-ÿ]+)%f[^%a-ÿ]'s [Aa]lt"
---[[Translation missing --]]
-L["([^%s%p%d%c%z]+)'s alt"] = "%f[%aÀ-ÿ]([%aÀ-ÿ]+)%f[^%a-ÿ]'s [Aa]lt"
+L["%d alts found for %s: %s"] = "%d rerolls trouvés pour %s : %s"
+L["%s alts imported from LOKWhoIsWho"] = "%s rerolls importés de LOKWhoIsWho"
+L["%s total alts linked to mains"] = "%s nombre total de comptes secondaires liés aux comptes principaux"
+L["(.-)'s? [Aa]lt"] = "%f[%aÀ-ÿ]([%aÀ-ÿ]+)%[^%a-ÿ]'s [Aa]lt"
+L["([^%s%p%d%c%z]+)'s alt"] = "%f[%aÀ-ÿ]([%aÀ-ÿ]+)%f[^%a-ÿ]'s [Aa]lt"
 L[".*[Aa]lts?$"] = ".*[Rr]erolls?$"
---[[Translation missing --]]
-L[".*[Tt]wink.*$"] = ".*[Tt]wink.*$"
---[[Translation missing --]]
-L["<alt name> (eg, /altnames del Personyouthoughtwassomeonesaltbutreallyisnt)"] = "<alt name> (eg, /altnames del Personyouthoughtwassomeonesaltbutreallyisnt)"
---[[Translation missing --]]
-L["<main> (eg /altnames listalts Fin)"] = "<main> (eg /altnames listalts Fin)"
---[[Translation missing --]]
-L["<search term> (eg, /altnames find fin)"] = "<search term> (eg, /altnames find fin)"
+L[".*[Tt]wink.*$"] = true
+L["<alt name> (eg, /altnames del Personyouthoughtwassomeonesaltbutreallyisnt)"] = "<nom du personnage secondaire> (ex. : /altnames del Personyouthoughtwassomeonesaltbutreallyisnt)"
+L["<main> (eg /altnames listalts Fin)"] = "<personnage principal> (ex. : /altnames listalts Fin)"
+L["<search term> (eg, /altnames find fin)"] = "<terme de recherche> (ex. : /altnames find fin)"
 L["Alt"] = "Reroll"
 L["alt"] = "reroll"
---[[Translation missing --]]
-L["alt name exists: %s -> %s; not overwriting as set in preferences"] = "alt name exists: %s -> %s; not overwriting as set in preferences"
---[[Translation missing --]]
-L["alt of ([^%s%p%d%c%z]+)"] = "[Aa]lt of %f[%aÀ-ÿ]([%aÀ-ÿ]+)%f[^%a-ÿ]"
---[[Translation missing --]]
-L["AltNames"] = "AltNames"
+L["alt name exists: %s -> %s; not overwriting as set in preferences"] = "Personnage secondaire existant : %s -> %s ; aucune modification, car ce nom est déjà défini dans les préférences"
+L["alt of ([^%s%p%d%c%z]+)"] = "[Pp]ersonnage secondaire de %f[%aÀ-ÿ]([%aÀ-ÿ]+)%f[^%a-ÿ]"
+L["AltNames"] = "<nomPersonnagesSecondaires"
 L["Alts:"] = "Rerolls:"
 --[[Translation missing --]]
 L["autoguildalts_desc"] = "Automatically run the import from guild roster command silently"
@@ -289,14 +278,14 @@ L["Display a player's main name in the tooltip"] = "Affiche le nom principale d'
 L["Display main names in the same colour as that of the alt's class (taking the data from the PlayerNames module if it is enabled)"] = "Display main names in the same colour as that of the alt's class (taking the data from the PlayerNames module if it is enabled)"
 --[[Translation missing --]]
 L["Display main names in the same colour as that of the main's class (taking the data from the PlayerNames module if it is enabled)"] = "Display main names in the same colour as that of the main's class (taking the data from the PlayerNames module if it is enabled)"
-L["Don't overwrite existing alt <-> main links when importing or adding new alts."] = "Ne pas écraser les liens principal <-> Alternatif lors d'un import ou d'un ajout de nouveaux personnages Alternatifs"
+L["Don't overwrite existing alt <-> main links when importing or adding new alts."] = "Ne pas écraser les liens existants entre personnage secondaire et personnage principal lors de l’importation ou de l’ajout de nouveaux personnages secondaires."
 L["Don't overwrite existing links"] = "Ne pas écraser les liens existant"
 L["don't use"] = "Ne pas utiliser"
 L["Don't use data from the PlayerNames module at all"] = "Ne pas utiliser les donnée du module \"PlayerNames\" du tout"
 L["ERROR: some function sent a blank message!"] = "ERREUR: une fonction a envoyé un message blanc !"
 L["Find characters"] = "Trouver des personnages"
 L["Fix alts"] = "Réparer les personnages secondaires"
-L["Fix corrupted entries in your list of alt names."] = "Réparer les entrées corrompues dans votre liste de noms alternatifs."
+L["Fix corrupted entries in your list of alt names."] = "Corriger les entrées corrompues dans votre liste de noms de personnages secondaires."
 --[[Translation missing --]]
 L["Found alt: %s => main: %s"] = "Found alt: %s => main: %s"
 --[[Translation missing --]]
@@ -307,22 +296,17 @@ L["Import from Guild Greet database"] = "Import from Guild Greet database"
 L["Import from guild roster"] = "Import from guild roster"
 --[[Translation missing --]]
 L["Import options"] = "Import options"
---[[Translation missing --]]
-L["Imports alt names from a Guild Greet database, if present"] = "Imports alt names from a Guild Greet database, if present"
---[[Translation missing --]]
-L["Imports alt names from the guild roster by checking for members with the rank \"alt\" or \"alts\", or guild / officer notes like \"<name>'s alt\""] = "Imports alt names from the guild roster by checking for members with the rank \"alt\" or \"alts\", or guild / officer notes like \"<name>'s alt\""
+L["Imports alt names from a Guild Greet database, if present"] = "Importe les noms de personnages secondaires depuis une base de données de World of Warcraft Guild Greet, si elle est présente."
+L["Imports alt names from the guild roster by checking for members with the rank \"alt\" or \"alts\", or guild / officer notes like \"<name>'s alt\""] = "Importer les noms de personnages secondaires depuis la liste de guilde en recherchant les membres ayant le rang « reroll » ou « rerolls », ou des notes de guilde / d’officier du type « personnage secondaire de <nom> »."
 --[[Translation missing --]]
 L["Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this)."] = "Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this)."
 --[[Translation missing --]]
 L["Left"] = "Left"
---[[Translation missing --]]
-L["link <alt name> <main name> (eg, /altnames link Fin Finjathealtoffin)"] = "link <alt name> <main name> (eg, /altnames link Fin Finjathealtoffin)"
+L["link <alt name> <main name> (eg, /altnames link Fin Finjathealtoffin)"] = "lier <nom du personnage secondaire> <nom du personnage principal> (ex. : /altnames link Fin Finjathealtoffin)"
 --[[Translation missing --]]
 L["Link alt"] = "Link alt"
---[[Translation missing --]]
-L["Link someone's alt character with the name of their main."] = "Link someone's alt character with the name of their main."
---[[Translation missing --]]
-L["linked alt %s => %s"] = "linked alt %s => %s"
+L["Link someone's alt character with the name of their main."] = "Associer le nom du personnage secondaire d'un joueur à celui de son personnage principal."
+L["linked alt %s => %s"] = "personnage secondaire lié %s => %s"
 --[[Translation missing --]]
 L["List all"] = "List all"
 --[[Translation missing --]]
@@ -374,12 +358,10 @@ L["quiet_desc"] = "Whether to report to the chat frame or not."
 --[[Translation missing --]]
 L["quiet_name"] = "quiet_name"
 L["Right"] = "Droite"
---[[Translation missing --]]
-L["Search the list of linked characters for matching main or alt names."] = "Search the list of linked characters for matching main or alt names."
+L["Search the list of linked characters for matching main or alt names."] = "Rechercher dans la liste des personnages liés les noms correspondants de personnages principaux ou secondaires."
 --[[Translation missing --]]
 L["searched for: %s - total matches: %s"] = "searched for: %s - total matches: %s"
---[[Translation missing --]]
-L["Show alts in tooltip"] = "Show alts in tooltip"
+L["Show alts in tooltip"] = "Afficher les rerolls dans l'infobulle"
 --[[Translation missing --]]
 L["Show main in tooltip"] = "Show main in tooltip"
 --[[Translation missing --]]
@@ -394,12 +376,10 @@ L["use class colour of alt"] = "use class colour of alt"
 L["use class colour of main"] = "use class colour of main"
 --[[Translation missing --]]
 L["Use LibAlts Data"] = "Use LibAlts Data"
---[[Translation missing --]]
-L["Use the data available via the shared alt information library."] = "Use the data available via the shared alt information library."
+L["Use the data available via the shared alt information library."] = "Utiliser les données disponibles via la bibliothèque d'informations alternatives partagée."
 --[[Translation missing --]]
 L["Various ways to import a main's alts from other addons"] = "Various ways to import a main's alts from other addons"
---[[Translation missing --]]
-L["warning: alt %s already linked to %s"] = "warning: alt %s already linked to %s"
+L["warning: alt %s already linked to %s"] = "attention : le personnage secondaire %s est déjà lié à %s"
 --[[Translation missing --]]
 L["Where to display a character's main name when on their alt."] = "Where to display a character's main name when on their alt."
 --[[Translation missing --]]

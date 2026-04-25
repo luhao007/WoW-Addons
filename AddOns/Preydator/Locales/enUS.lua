@@ -106,7 +106,7 @@
   L["Out of Zone Prefix"]    = ""
   L["Ambush Prefix"]         = ""
   L["Out of Zone Label"]     = ""
-  L["Ambush Override Text"]  = ""
+  L["Ambush Suffix"]         = ""
   L["Custom Sound File"]     = ""
 
 ---- Color buttons

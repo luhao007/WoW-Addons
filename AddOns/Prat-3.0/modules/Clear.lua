@@ -90,9 +90,9 @@ L["Clears the current chat frame."] = "Clears the current chat frame."
 
 		L = {}
 		-- Clear
-L["Adds clear text slash commands (/clear)(/cls)(/clearall)(/clsall)."] = "Ajoute les commandes slash de nettoyage du texte (/clear)(/cls)(/clearall)(/clsall)."
+L["Adds clear text slash commands (/clear)(/cls)(/clearall)(/clsall)."] = "Ajouter des commandes slash de réinitialisation explicites (/clear)(/cls)(/clearall)(/clsall)."
 L["Clear"] = "Effacer"
-L["Clearall"] = "EffacerTout"
+L["Clearall"] = "Tout effacer"
 L["Clears all chat frames."] = "Efface toutes les fenêtres de discussion."
 L["Clears the current chat frame."] = "Efface la fenêtre de discussion actuelle."
 

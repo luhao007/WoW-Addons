@@ -6,7 +6,6 @@ local PIGFrame=Create.PIGFrame
 local PIGDownMenu=Create.PIGDownMenu
 local PIGFontString=Create.PIGFontString
 local PIGButton = Create.PIGButton
-local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList_R=Create.PIGOptionsList_R
 ---

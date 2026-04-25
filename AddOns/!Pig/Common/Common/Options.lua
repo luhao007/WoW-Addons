@@ -16,7 +16,6 @@ local PIGModCheckbutton=Create.PIGModCheckbutton
 --
 local Data=addonTable.Data
 local CommonInfo=addonTable.CommonInfo
-CommonInfo.Commonfun={}
 ----常用
 local fujiF,fujiTabBut =PIGOptionsList_R(CommonInfo.NR,GENERAL,70)
 fujiF:Show()
@@ -36,7 +35,7 @@ fujiF.xitongF.Scale:SetScript("OnClick", function (self)
 		SetCVar("useUIScale","0")
 	end
 end);
-fujiF.xitongF.ScaleSlider = PIGSlider(fujiF.xitongF,{"LEFT",fujiF.xitongF.Scale.Text,"RIGHT",10,0}, {0.65, 1.15, 0.01,{["Right"]="%"}})
+fujiF.xitongF.ScaleSlider = PIGSlider(fujiF.xitongF,{"LEFT",fujiF.xitongF.Scale.Text,"RIGHT",10,0}, {0.65, 1.15, 0.01,{["Right"]="%d%%"}})
 function fujiF.xitongF.ScaleSlider:PIGOnValueChange(arg1)
 	if self.Ticker1 then self.Ticker1:Cancel() end
 	self.Ticker1=C_Timer.NewTimer(1,function()
@@ -47,7 +46,7 @@ end
 --主音量
 fujiF.xitongF.Volume =PIGFontString(fujiF.xitongF,{"TOPLEFT",fujiF.xitongF,"TOPLEFT",340,-20},MASTER_VOLUME)
 fujiF.xitongF.Volume:SetTextColor(1, 1, 1, 1)
-fujiF.xitongF.VolumeSlider = PIGSlider(fujiF.xitongF,{"LEFT",fujiF.xitongF.Volume,"RIGHT",10,0},{0, 1, 0.01,{["Right"]="%"}})
+fujiF.xitongF.VolumeSlider = PIGSlider(fujiF.xitongF,{"LEFT",fujiF.xitongF.Volume,"RIGHT",10,0},{0, 1, 0.01,{["Right"]="%d%%"}})
 function fujiF.xitongF.VolumeSlider:PIGOnValueChange(arg1)
 	SetCVar("Sound_MasterVolume",arg1)
 end
@@ -58,7 +57,7 @@ fujiF.xingnengF:SetPoint("BOTTOMRIGHT", fujiF.xitongF, "TOPRIGHT", 0, -1);
 fujiF.xingnengF:SetHeight(154)
 fujiF.xingnengF:PIGSetBackdrop(0,0.6)
 ---关闭新版字体
-fujiF.xingnengF.offnewfont =PIGCheckbutton_R(fujiF.xingnengF,{"关闭Slug字体特效","关闭10.0之后增加的Slug字体特效。一种新的字体渲染引擎，主要为了改善浮动信息以及姓名板名字效果。但是此功能会导致额外加载时间，某些情况还会导致第一次进战斗卡顿一下"},true)
+fujiF.xingnengF.offnewfont =PIGCheckbutton_R(fujiF.xingnengF,{L["COMMON_SLUGOFF"],L["COMMON_SLUGOFFTISP"]},true)
 fujiF.xingnengF.offnewfont:HookScript("OnClick", function (self)
 	if self:GetChecked() then
 		SetCVar("UseSlug","0")
@@ -69,23 +68,30 @@ fujiF.xingnengF.offnewfont:HookScript("OnClick", function (self)
 	end
 end);
 --关闭11.0CPU监控
-fujiF.xingnengF.addonProfilerEnabled =PIGCheckbutton(fujiF.xingnengF.offnewfont,{"LEFT",fujiF.xingnengF.offnewfont,"RIGHT",280,0},{"关闭插件占用分析功能","关闭11.0之后增加的插件占用分析功能。此功能会导致额外性能消耗，会导致帧率下降！"})
-fujiF.xingnengF.addonProfilerEnabled:HookScript("OnClick", function (self)
-	if self:GetChecked() then
+function CommonInfo.Common_Updata_addonProfilerEnabled()
+	local oldfun=C_AddOnProfiler.IsEnabled
+	if PIGA["Common"]["addonProfilerEnabled"] then
 		C_AddOnProfiler.IsEnabled = function() return false end
 		C_CVar.RegisterCVar("addonProfilerEnabled", "1"); C_CVar.SetCVar("addonProfilerEnabled", "0")
+	else
+		C_AddOnProfiler.IsEnabled = oldfun
+	end
+end
+fujiF.xingnengF.addonProfilerEnabled =PIGCheckbutton(fujiF.xingnengF.offnewfont,{"LEFT",fujiF.xingnengF.offnewfont,"RIGHT",280,0},{L["COMMON_ADDONPROFILER"],L["COMMON_ADDONPROFILERTISP"]})
+fujiF.xingnengF.addonProfilerEnabled:HookScript("OnClick", function (self)
+	if self:GetChecked() then
 		PIGA["Common"]["addonProfilerEnabled"]=true
 	else
-		C_AddOnProfiler.IsEnabled = function() return false end
-		C_CVar.RegisterCVar("addonProfilerEnabled", "1"); C_CVar.SetCVar("addonProfilerEnabled", "1")
 		PIGA["Common"]["addonProfilerEnabled"]=false
 	end
+	CommonInfo.Common_Updata_addonProfilerEnabled()
 end);
 -----战斗日志
-local Opentiaojian = {[1]="只在"..GUILD_CHALLENGE_TYPE2.."记录",[2]="只在"..DUNGEONS.."记录",[3]="只在"..DUNGEONS.."/"..GUILD_CHALLENGE_TYPE2.."记录"}
-function CommonInfo.Commonfun.CombatLog_tjian()
-	if PIGA["Common"]["AutoCombatLogTJ"]==4 then PIGA["Common"]["AutoCombatLogTJ"]=1 end
-end
+local Opentiaojian = {
+	[1]=string.format(LFG_LIST_CROSS_FACTION,GUILD_CHALLENGE_TYPE2),
+	[2]=string.format(LFG_LIST_CROSS_FACTION,DUNGEONS),
+	[3]=string.format(LFG_LIST_CROSS_FACTION,DUNGEONS.."/"..GUILD_CHALLENGE_TYPE2),
+}
 local function CombatLog_Open()
 	if ( not LoggingCombat() ) then
 		LoggingCombat(true)
@@ -126,10 +132,10 @@ function CombatLogF:IsAutoOpen(set)
 end
 function CombatLogF:topMenuUIWCLButIcon()
 	if self.OpenX then
-		fujiF.xingnengF.CombatLog.Opentj.on:SetText("正在记录")
+		fujiF.xingnengF.CombatLog.Opentj.on:SetText(SLASH_TEXTTOSPEECH_ON)
 		fujiF.xingnengF.CombatLog.Opentj.on:SetTextColor(0, 1, 0, 1)
 	else
-		fujiF.xingnengF.CombatLog.Opentj.on:SetText("未记录")
+		fujiF.xingnengF.CombatLog.Opentj.on:SetText(SLASH_TEXTTOSPEECH_OFF)
 		fujiF.xingnengF.CombatLog.Opentj.on:SetTextColor(1, 0, 0, 1)
 	end
 	if Data.topMenuUIWCLBut then
@@ -153,7 +159,7 @@ function CombatLogF:ExecuteOpen(set)
 		if GetServerTime()-self.CD<10 then
 			self.Count=self.Count+1
 			if self.Count>4 then
-				PIG_OptionsUI:ErrorMsg(ADVANCED_COMBAT_LOGGING.."更改过于频繁","R")
+				PIG_OptionsUI:ErrorMsg(ADVANCED_COMBAT_LOGGING..L["COMMON_ADVANCEDCOMBATTISP"],"R")
 			end
 		else
 			self.Count=0
@@ -179,9 +185,7 @@ function CombatLogF:UpdateWCL_Checkbut()
 	fujiF.xingnengF.CombatLog:SetChecked(PIGA["Common"]["AutoCombatLog"]);
 	fujiF.xingnengF.CombatLog.Opentj:PIGDownMenu_SetText(Opentiaojian[PIGA["Common"]["AutoCombatLogTJ"]])
 end
-fujiF.xingnengF.Advanced_CombatLog =PIGCheckbutton_R(fujiF.xingnengF,{ENABLE..ADVANCED_COMBAT_LOGGING,ENABLE..ADVANCED_COMBAT_LOGGING},true)
-fujiF.xingnengF.Advanced_CombatLog.tt = PIGFontString(fujiF.xingnengF.Advanced_CombatLog,{"LEFT",fujiF.xingnengF.Advanced_CombatLog.Text,"RIGHT",2,0},"《"..ENABLE..ADVANCED_COMBAT_LOGGING.."才可"..ENABLE..COMBAT_LOG.."》");
-fujiF.xingnengF.Advanced_CombatLog.tt:SetTextColor(1, 0, 0, 1)
+fujiF.xingnengF.Advanced_CombatLog =PIGCheckbutton_R(fujiF.xingnengF,{ADVANCED_COMBAT_LOGGING,OPTION_TOOLTIP_ADVANCED_COMBAT_LOGGING},true)
 fujiF.xingnengF.Advanced_CombatLog:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		SetCVar("advancedCombatLogging", "1")
@@ -190,7 +194,7 @@ fujiF.xingnengF.Advanced_CombatLog:SetScript("OnClick", function (self)
 	end
 	CombatLogF:ExecuteOpen(true)
 end);
-fujiF.xingnengF.CombatLog =PIGCheckbutton_R(fujiF.xingnengF,{"自动"..START..COMBAT_LOG,"根据预设条件自动"..START..COMBAT_LOG},true)
+fujiF.xingnengF.CombatLog =PIGCheckbutton_R(fujiF.xingnengF,{L["COMMON_COMBATSTART"]},true)
 fujiF.xingnengF.CombatLog:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Common"]["AutoCombatLog"]=true
@@ -200,7 +204,7 @@ fujiF.xingnengF.CombatLog:SetScript("OnClick", function (self)
 	CombatLogF:ExecuteOpen(true)
 end);
 fujiF.xingnengF.CombatLog.Opentj=PIGDownMenu(fujiF.xingnengF.CombatLog,{"LEFT",fujiF.xingnengF.CombatLog.Text,"RIGHT",4,0},{210,nil})
-fujiF.xingnengF.CombatLog.Opentj.tt = PIGFontString(fujiF.xingnengF.CombatLog.Opentj,{"LEFT",fujiF.xingnengF.CombatLog.Opentj,"RIGHT",10,0},"当前状态:");
+fujiF.xingnengF.CombatLog.Opentj.tt = PIGFontString(fujiF.xingnengF.CombatLog.Opentj,{"LEFT",fujiF.xingnengF.CombatLog.Opentj,"RIGHT",10,0},STATS_LABEL);
 fujiF.xingnengF.CombatLog.Opentj.on = PIGFontString(fujiF.xingnengF.CombatLog.Opentj,{"LEFT",fujiF.xingnengF.CombatLog.Opentj.tt,"RIGHT",4,0},"","OUTLINE",15);
 function fujiF.xingnengF.CombatLog.Opentj:PIGDownMenu_Update_But()
 	local info = {}
@@ -225,25 +229,25 @@ fujiF.OtherF:SetPoint("BOTTOMRIGHT", fujiF.xingnengF, "TOPRIGHT", 0, -1);
 fujiF.OtherF:SetHeight(150)
 fujiF.OtherF:PIGSetBackdrop(0,0.6)
 
-fujiF.OtherF.ErrorsHide = PIGCheckbutton_R(fujiF.OtherF,{IGNORE..RED_GEM..ERRORS..INFO})
+fujiF.OtherF.ErrorsHide = PIGCheckbutton_R(fujiF.OtherF,{L["COMMON_HIDEYELLOWINFO"]})
 fujiF.OtherF.ErrorsHide:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Other"]["ErrorsHide"]=true;
     else
         PIGA["Other"]["ErrorsHide"]=false;
     end
-    CommonInfo.Commonfun.ErrorsHide()
+    CommonInfo.Common_ErrorsHide()
 end)
-fujiF.OtherF.ErrorsHide_Y = PIGCheckbutton_R(fujiF.OtherF,{IGNORE..YELLOW_GEM..ERRORS..INFO})
+fujiF.OtherF.ErrorsHide_Y = PIGCheckbutton_R(fujiF.OtherF,{L["COMMON_HIDEREDERROR"]})
 fujiF.OtherF.ErrorsHide_Y:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Other"]["ErrorsHide_Y"]=true;
     else
         PIGA["Other"]["ErrorsHide_Y"]=false;
     end
-    CommonInfo.Commonfun.ErrorsHide()
+    CommonInfo.Common_ErrorsHide()
 end)
-function CommonInfo.Commonfun.ErrorsHide()
+function CommonInfo.Common_ErrorsHide()
 	if PIGA["Other"]["ErrorsHide"] then
         UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
 	else
@@ -255,7 +259,7 @@ function CommonInfo.Commonfun.ErrorsHide()
 		UIErrorsFrame:RegisterEvent("UI_INFO_MESSAGE")
 	end
 end
-fujiF.OtherF.PigLoad = PIGCheckbutton_R(fujiF.OtherF,{IGNORE..addonName..LOAD_ADDON..L["LIB_TIPS"],IGNORE..addonName.."插件的载入提示"})
+fujiF.OtherF.PigLoad = PIGCheckbutton_R(fujiF.OtherF,{L["COMMON_HIDEPIGLOAD"]})
 fujiF.OtherF.PigLoad:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Other"]["PigLoad"]=true;
@@ -270,11 +274,11 @@ fujiF.TopF:SetHeight(120)
 fujiF.TopF:PIGSetBackdrop(0,0.6)
 --AFK
 local QuickButUI=_G[Data.QuickButUIname]
-fujiF.TopF.AFK = PIGModCheckbutton(fujiF.TopF,{"离开屏保","启用离开屏保后,离开自动进入屏保功能"},{"TOPLEFT",fujiF.TopF,"TOPLEFT",20,-20})
+fujiF.TopF.AFK = PIGModCheckbutton(fujiF.TopF,{L["COMMON_AFK"],L["COMMON_AFKTISP"]},{"TOPLEFT",fujiF.TopF,"TOPLEFT",20,-20})
 fujiF.TopF.AFK:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Other"]["AFK"]["Open"]=true;
-        CommonInfo.Commonfun.Pig_AFK()
+        CommonInfo.Common_Pig_AFK()
         QuickButUI.ButList[19]()
     else
         PIGA["Other"]["AFK"]["Open"]=false
@@ -291,8 +295,8 @@ fujiF.TopF.AFK.QKBut:SetScript("OnClick", function (self)
         PIG_OptionsUI.RLUI:Show()
     end
 end)
-local TispTXT = "临时离开，勿动!!!"
-function CommonInfo.Commonfun.GetAFKTispTXT(lytxt)
+local TispTXT = L["COMMON_AFKTISPTXT"]
+function CommonInfo.GetAFKTispTXT(lytxt)
 	if lytxt then
 		if lytxt=="" or lytxt==" " then
 	        PIGA["Other"]["AFK"]["TispTXT"]=nil
@@ -305,7 +309,7 @@ function CommonInfo.Commonfun.GetAFKTispTXT(lytxt)
 	end
 	return PIGA["Other"]["AFK"]["TispTXT"] or TispTXT
 end
-fujiF.TopF.AFK.TispTXTt = PIGFontString(fujiF.TopF.AFK,{"TOPLEFT", fujiF.TopF.AFK, "BOTTOMLEFT", 20,-10},"屏保提示:");
+fujiF.TopF.AFK.TispTXTt = PIGFontString(fujiF.TopF.AFK,{"TOPLEFT", fujiF.TopF.AFK, "BOTTOMLEFT", 20,-10},L["LIB_TIPS"]..": ");
 fujiF.TopF.AFK.TispTXT = CreateFrame("EditBox", nil, fujiF.TopF.AFK,"InputBoxInstructionsTemplate");
 fujiF.TopF.AFK.TispTXT:SetSize(300,26);
 fujiF.TopF.AFK.TispTXT:SetPoint("LEFT",fujiF.TopF.AFK.TispTXTt,"RIGHT",6,0);
@@ -318,19 +322,19 @@ fujiF.TopF.AFK.TispTXT:SetScript("OnEditFocusGained", function(self)
 end);
 fujiF.TopF.AFK.TispTXT:SetScript("OnEditFocusLost", function(self)
     self:SetTextColor(0.7, 0.7, 0.7, 1);
-    self:SetText(CommonInfo.Commonfun.GetAFKTispTXT())
+    self:SetText(CommonInfo.GetAFKTispTXT())
 end);
 fujiF.TopF.AFK.TispTXT:SetScript("OnEscapePressed", function(self) 
     self:ClearFocus()
 end);
 fujiF.TopF.AFK.TispTXT:SetScript("OnEnterPressed", function(self)
-    CommonInfo.Commonfun.GetAFKTispTXT(self:GetText())
+    CommonInfo.GetAFKTispTXT(self:GetText())
     self:ClearFocus()
 end);
-fujiF.TopF.AFK.TispTXT.CZ=PIGButton(fujiF.TopF.AFK.TispTXT,{"LEFT", fujiF.TopF.AFK.TispTXT, "RIGHT", 6, 0},{70,20},"恢复默认")
+fujiF.TopF.AFK.TispTXT.CZ=PIGButton(fujiF.TopF.AFK.TispTXT,{"LEFT", fujiF.TopF.AFK.TispTXT, "RIGHT", 6, 0},{120,20},RESET_TO_DEFAULT)
 fujiF.TopF.AFK.TispTXT.CZ:SetScript("OnClick", function (self)
 	PIGA["Other"]["AFK"]["TispTXT"]=nil
-	fujiF.TopF.AFK.TispTXT:SetText(CommonInfo.Commonfun.GetAFKTispTXT())
+	fujiF.TopF.AFK.TispTXT:SetText(CommonInfo.GetAFKTispTXT())
 end);
 -------
 fujiF:HookScript("OnShow", function (self)
@@ -340,15 +344,11 @@ fujiF:HookScript("OnShow", function (self)
 	self.xingnengF.offnewfont:SetChecked(PIGA["Common"]["Offnewfont"])
 	if PIGA["Common"]["Offnewfont"] then SetCVar("UseSlug","0") end
 	self.xingnengF.addonProfilerEnabled:SetChecked(PIGA["Common"]["addonProfilerEnabled"])
-	if PIGA["Common"]["addonProfilerEnabled"] then
-		C_AddOnProfiler.IsEnabled = function() return false end
-		C_CVar.RegisterCVar("addonProfilerEnabled", "1"); C_CVar.SetCVar("addonProfilerEnabled", "0")
-	end
 	CombatLogF:UpdateWCL_Checkbut()
 	self.OtherF.ErrorsHide:SetChecked(PIGA["Other"]["ErrorsHide"]);
 	self.OtherF.ErrorsHide_Y:SetChecked(PIGA["Other"]["ErrorsHide_Y"]);
     self.OtherF.PigLoad:SetChecked(PIGA["Other"]["PigLoad"]);
     self.TopF.AFK:SetChecked(PIGA["Other"]["AFK"]["Open"]);
     self.TopF.AFK.QKBut:SetChecked(PIGA["Other"]["AFK"]["QuickBut"]);
-    self.TopF.AFK.TispTXT:SetText(CommonInfo.Commonfun.GetAFKTispTXT())
+    self.TopF.AFK.TispTXT:SetText(CommonInfo.GetAFKTispTXT())
 end);

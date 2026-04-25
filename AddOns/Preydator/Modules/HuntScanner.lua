@@ -1016,6 +1016,75 @@ local function RebuildAchievementNeedsCache()
             AddAchievementNeed(achievementNeedsByQuestID, questID, achievementID, label)
         end
 
+        local modeSeriesQuestSlotsByDifficulty = {}
+
+        local function BuildModeSeriesQuestSlotsForDifficulty(difficultyIndex)
+            if modeSeriesQuestSlotsByDifficulty[difficultyIndex] ~= nil then
+                return modeSeriesQuestSlotsByDifficulty[difficultyIndex]
+            end
+
+            local slots = { byQuestID = {}, byCriteriaIndex = {} }
+            local modeIIIAchievementID = type(addon.PREY_HUNT_ACHIEVEMENT_IDS) == "table"
+                and addon.PREY_HUNT_ACHIEVEMENT_IDS[difficultyIndex]
+                or nil
+
+            if type(modeIIIAchievementID) ~= "number" or modeIIIAchievementID <= 0 then
+                modeSeriesQuestSlotsByDifficulty[difficultyIndex] = slots
+                return slots
+            end
+
+            local okCount, criteriaCountRaw = pcall(GetAchievementNumCriteria, modeIIIAchievementID)
+            local criteriaCount = (okCount and SafeToNumber(criteriaCountRaw)) or 0
+            for criteriaIndex = 1, criteriaCount do
+                local okCriteria, _, criteriaTypeRaw, _, _, _, _, _, assetIDRaw =
+                    pcall(GetAchievementCriteriaInfo, modeIIIAchievementID, criteriaIndex, true)
+                local criteriaType = SafeToNumber(criteriaTypeRaw)
+                local mappedQuestID = SafeToNumber(assetIDRaw)
+                if okCriteria
+                    and criteriaType == ACHIEVEMENT_CRITERIA_TYPE_QUEST
+                    and mappedQuestID and mappedQuestID > 0 then
+                    slots.byQuestID[mappedQuestID] = criteriaIndex
+                    if slots.byCriteriaIndex[criteriaIndex] == nil then
+                        slots.byCriteriaIndex[criteriaIndex] = mappedQuestID
+                    end
+                end
+            end
+
+            modeSeriesQuestSlotsByDifficulty[difficultyIndex] = slots
+            return slots
+        end
+
+        local function GetCumulativeQuestIDsForDifficulty(questID, difficultyIndex)
+            local result = { questID }
+            if type(difficultyIndex) ~= "number" or difficultyIndex <= 1 then
+                return result
+            end
+
+            local currentSlots = BuildModeSeriesQuestSlotsForDifficulty(difficultyIndex)
+            local criteriaIndex = type(currentSlots) == "table"
+                and type(currentSlots.byQuestID) == "table"
+                and currentSlots.byQuestID[questID]
+                or nil
+            if type(criteriaIndex) ~= "number" then
+                return result
+            end
+
+            local seen = { [questID] = true }
+            for lowerDifficulty = 1, (difficultyIndex - 1) do
+                local lowerSlots = BuildModeSeriesQuestSlotsForDifficulty(lowerDifficulty)
+                local lowerQuestID = type(lowerSlots) == "table"
+                    and type(lowerSlots.byCriteriaIndex) == "table"
+                    and SafeToNumber(lowerSlots.byCriteriaIndex[criteriaIndex])
+                    or nil
+                if lowerQuestID and lowerQuestID > 0 and not seen[lowerQuestID] then
+                    seen[lowerQuestID] = true
+                    result[#result + 1] = lowerQuestID
+                end
+            end
+
+            return result
+        end
+
         for questID, data in pairs(addon.PreyQuestData) do
             local difficultyIndex = data[1]
             local criteriaID = data[2]
@@ -1033,17 +1102,26 @@ local function RebuildAchievementNeedsCache()
             if type(modeIDs) == "table" then
                 for _, modeAchievementID in ipairs(modeIDs) do
                     if modeAchievementID ~= modeIIIAchievementID then
-                        TryAddMappedQuestAchievement(questID, modeAchievementID, nil)
+                        -- Use the same quest-specific criteria hint for lower mode tiers
+                        -- so Mode II/III (or I/II/III) can stack on the same hunt row.
+                        TryAddMappedQuestAchievement(questID, modeAchievementID, criteriaID)
                     end
                 end
             end
 
             -- Include explicit non-meta tracked achievements mapped by quest.
             local mappedAchievementsByQuest = addon.PREY_HUNT_ACHIEVEMENTS_BY_QUEST
-            local mappedAchievements = type(mappedAchievementsByQuest) == "table" and mappedAchievementsByQuest[questID] or nil
-            if type(mappedAchievements) == "table" then
-                for _, mappedAchievementID in ipairs(mappedAchievements) do
-                    TryAddMappedQuestAchievement(questID, mappedAchievementID, nil)
+            local cumulativeQuestIDs = GetCumulativeQuestIDsForDifficulty(questID, difficultyIndex)
+            if type(mappedAchievementsByQuest) == "table" and type(cumulativeQuestIDs) == "table" then
+                for _, mappedQuestID in ipairs(cumulativeQuestIDs) do
+                    local mappedAchievements = mappedAchievementsByQuest[mappedQuestID]
+                    if type(mappedAchievements) == "table" then
+                        local mappedQuestData = type(addon.PreyQuestData) == "table" and addon.PreyQuestData[mappedQuestID] or nil
+                        local mappedCriteriaID = type(mappedQuestData) == "table" and SafeToNumber(mappedQuestData[2]) or nil
+                        for _, mappedAchievementID in ipairs(mappedAchievements) do
+                            TryAddMappedQuestAchievement(questID, mappedAchievementID, mappedCriteriaID)
+                        end
+                    end
                 end
             end
         end
@@ -1071,17 +1149,6 @@ local function RebuildAchievementNeedsCache()
                         or (type(criteriaName) == "string" and criteriaName ~= "" and criteriaName)
                         or ("Achievement " .. tostring(achievementID))
                     AddAchievementNeed(achievementNeedsByQuestID, questID, achievementID, label)
-                    -- Keep name matching available even when quest IDs are present.
-                    -- Hunt Table offer quest IDs can drift from achievement criteria
-                    -- asset IDs across data updates, so title/difficulty fallback is
-                    -- required to keep signals visible.
-                    AddAchievementNameMatch(achievementID, achievementName, criteriaName, label)
-                elseif okCriteria
-                    and criteriaCompleted ~= true then
-                    local label = (type(achievementName) == "string" and achievementName ~= "" and achievementName)
-                        or (type(criteriaName) == "string" and criteriaName ~= "" and criteriaName)
-                        or ("Achievement " .. tostring(achievementID))
-                    AddAchievementNameMatch(achievementID, achievementName, criteriaName, label)
                 end
             end
             end
@@ -1249,27 +1316,13 @@ local function GetQuestAchievementNeeds(questID, title, difficulty)
     local idBucket = id and achievementNeedsByQuestID[id] or nil
     local hasIDBucket = type(idBucket) == "table" and (idBucket.count or 0) > 0
 
-    local nameBucket = nil
-    local hasNameBucket = false
-    if type(title) == "string" and title ~= "" then
-        nameBucket = ResolveAchievementNameBucket(title, difficulty)
-        hasNameBucket = type(nameBucket) == "table" and (nameBucket.count or 0) > 0
-    end
-
     if hasIDBucket then
         achievementRouteStats.idHits = (achievementRouteStats.idHits or 0) + 1
-    end
-    if hasNameBucket then
-        achievementRouteStats.fallbackHits = (achievementRouteStats.fallbackHits or 0) + 1
+        return idBucket.count or 0, idBucket.names
     end
 
-    local mergedCount, mergedNames = MergeAchievementBuckets(idBucket, nameBucket)
-    if mergedCount <= 0 then
-        achievementRouteStats.misses = (achievementRouteStats.misses or 0) + 1
-        return 0, nil
-    end
-
-    return mergedCount, mergedNames
+    achievementRouteStats.misses = (achievementRouteStats.misses or 0) + 1
+    return 0, nil
 end
 
 local function GetRewardScopeKey()

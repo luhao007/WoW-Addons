@@ -24,10 +24,14 @@ Database:AddChain(Chain.DarkIronDwarves, {
     },
     prerequisites = {
         {
-            type = "achievement",
-            id = 12510,
-            anyone = true,
+            type = "level",
+            level = 40,
         },
+        -- {
+        --     type = "achievement",
+        --     id = 12510,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -127,10 +131,14 @@ Database:AddChain(Chain.MagharOrc, {
     },
     prerequisites = {
         {
-            type = "achievement",
-            id = 12509,
-            anyone = true,
+            type = "level",
+            level = 40,
         },
+        -- {
+        --     type = "achievement",
+        --     id = 12509,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -264,15 +272,19 @@ Database:AddChain(Chain.KulTiran, {
     },
     prerequisites = {
         {
-            type = "achievement",
-            id = 12891,
-            anyone = true,
+            type = "level",
+            level = 40,
         },
-        {
-            type = "achievement",
-            id = 13467,
-            anyone = true,
-        },
+        -- {
+        --     type = "achievement",
+        --     id = 12891,
+        --     anyone = true,
+        -- },
+        -- {
+        --     type = "achievement",
+        --     id = 13467,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -472,15 +484,19 @@ Database:AddChain(Chain.ZandalariTroll, {
     },
     prerequisites = {
         {
-            type = "achievement",
-            id = 12479,
-            anyone = true,
+            type = "level",
+            level = 40,
         },
-        {
-            type = "achievement",
-            id = 13466,
-            anyone = true,
-        },
+        -- {
+        --     type = "achievement",
+        --     id = 12479,
+        --     anyone = true,
+        -- },
+        -- {
+        --     type = "achievement",
+        --     id = 13466,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -651,10 +667,14 @@ Database:AddChain(Chain.Vulpera, {
     restrictions = HORDE_RESTRICTIONS,
     prerequisites = {
         {
-            type = "achievement",
-            id = 12478,
-            anyone = true,
+            type = "level",
+            level = 40,
         },
+        -- {
+        --     type = "achievement",
+        --     id = 12478,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -896,10 +916,14 @@ Database:AddChain(Chain.Mechagnomes, {
     restrictions = ALLIANCE_RESTRICTIONS,
     prerequisites = {
         {
-            type = "achievement",
-            id = 13553,
-            anyone = true,
+            type = "level",
+            level = 40,
         },
+        -- {
+        --     type = "achievement",
+        --     id = 13553,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -913,7 +937,7 @@ Database:AddChain(Chain.Mechagnomes, {
     },
     active = {
         type = "quest",
-        id = 57497,
+        ids = { 58214, 57486, },
         status = {'active', 'completed'},
     },
     completed = {

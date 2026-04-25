@@ -8,4 +8,4 @@ Create.FontUrl="Fonts/ARHei.ttf"
 Create.bgFile = "interface/chatframe/chatframebackground.blp"
 --Create.edgeFile = "Interface/Buttons/WHITE8X8"
 Create.edgeFile = "Interface/AddOns/"..addonName.."/Media/Border256.blp"
-Create.edgeSize = 10
+Create.edgeSize = 6

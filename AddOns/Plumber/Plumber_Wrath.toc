@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Peterodox
-## Version: 1.9.0
+## Version: 1.9.1
 
 ## Title: Plumber
 ## Notes: Provides a variety of quality-of-life features.|n|nOpen Settings with Slash Command:|n/plumber

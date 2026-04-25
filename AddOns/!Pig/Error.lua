@@ -9,14 +9,17 @@ local NewErrorInfo = false
 local WWW,HHH,biaotiW = 600,380,25
 local GNNameE="PIG_BugcollectUI"
 local Backdropinfo={bgFile = Create.bgFile,edgeFile = Create.edgeFile, edgeSize = Create.edgeSize}
+local BGColor={0.1, 0.1, 0.1, 0.8}
+local BorderColor={0.2, 0.2, 0.2, 0.9}
+local BorderColor_OnEnter={0, 0.8, 1, 0.9}
 local function PIGSetBackdrop(self,but)
 	self:SetBackdrop(Backdropinfo)
 	if but then
-		self:SetBackdropColor(0.2, 0.2, 0.2, 1);
+		self:SetBackdropColor(unpack(BGColor));
 	else
-		self:SetBackdropColor(0.08, 0.08, 0.08, 0.9);
+		self:SetBackdropColor(unpack(BGColor));
 	end
-	self:SetBackdropBorderColor(0, 0, 0, 1);
+	self:SetBackdropBorderColor(unpack(BorderColor));
 end
 local function ADD_Button(Text,fuF,WH,Point)
 	local But = CreateFrame("Button", nil, fuF,"BackdropTemplate");
@@ -41,7 +44,7 @@ local function ADD_Button(Text,fuF,WH,Point)
 	end);
 	But:HookScript("OnLeave", function(self)
 		if self:IsEnabled() then
-			self:SetBackdropBorderColor(0, 0, 0, 1);
+			self:SetBackdropBorderColor(unpack(BorderColor));
 		end
 	end);
 	But:HookScript("OnMouseDown", function(self)
@@ -89,7 +92,7 @@ local function ADD_TabBut(Text,fuF,WH,Point,id)
 	end);
 	But:HookScript("OnLeave", function(self)
 		if self:IsEnabled() and not self.Show then
-			self:SetBackdropBorderColor(0, 0, 0, 1);
+			self:SetBackdropBorderColor(unpack(BorderColor));
 		end
 	end);
 	But:HookScript("OnMouseDown", function(self)
@@ -117,8 +120,8 @@ local function ADD_TabBut(Text,fuF,WH,Point,id)
 		else
 			self.Show=false;
 			self.Text:SetTextColor(1, 0.843, 0, 1);
-			self:SetBackdropColor(0.2, 0.2, 0.2, 1);
-			self:SetBackdropBorderColor(0, 0, 0, 1);
+			self:SetBackdropColor(unpack(BGColor));
+			self:SetBackdropBorderColor(unpack(BorderColor));
 		end	
 	end
 	return But
@@ -199,7 +202,7 @@ end);
 Bugcollect.NR = CreateFrame("Frame", nil, Bugcollect,"BackdropTemplate");
 Bugcollect.NR:SetBackdrop(Backdropinfo)
 Bugcollect.NR:SetBackdropColor(0.14, 0.14, 0.14, 0.8);
-Bugcollect.NR:SetBackdropBorderColor(0, 0, 0, 1);
+Bugcollect.NR:SetBackdropBorderColor(0.2, 0.2, 0.2, 0.8);
 Bugcollect.NR:SetSize(WWW,HHH-biaotiW*2);
 Bugcollect.NR:SetPoint("TOP",Bugcollect,"TOP",0,-biaotiW);
 ----------

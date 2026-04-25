@@ -7,7 +7,7 @@ local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local BusinessInfo = {}
 addonTable.BusinessInfo=BusinessInfo
 ------------
-local fuFrame,fuFrameBut = PIGOptionsList(L["BUSINESS_TABNAME"],"TOP")
+local fuFrame,fuFrameBut = PIGOptionsList(L["TRADE_TABNAME"],"TOP")
 BusinessInfo.fuFrame,BusinessInfo.fuFrameBut=fuFrame,fuFrameBut
 BusinessInfo.RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 

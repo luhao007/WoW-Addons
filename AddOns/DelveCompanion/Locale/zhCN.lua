@@ -34,7 +34,7 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S1 = "宿敌：|cnHIGHL
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "在卡兹阿加地区时可知晓鎏金藏匿物进度"
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "在奎尔萨拉斯地区时可知晓鎏金藏匿物进度"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "仅出现在 |cnNORMAL_FONT_COLOR:难度 11|r 丰裕地下堡|A:delves-bountiful:16:16|a。"
-Lockit.UI_NO_ACTIVE_BOUNTIFUL = "今日暂无丰裕地下堡"
+Lockit.UI_NO_ACTIVE_BOUNTIFUL = "暂无可用丰裕地下堡"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<左键：显示地下堡战利品信息>"
 
 -- Loot Info
@@ -42,7 +42,9 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<左键：显示地下堡战�
 Lockit.UI_LOOT_INFO_DESCRIPTION = "完成地下堡获取战利品："
 
 -- Delves Gossip
-Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Click to cancel auto entering>"
+Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER = "Auto Enter (Tier %d)" -- %d is a Tier number (1-11).
+Lockit.UI_DELVE_AUTO_ENTER_INFO = "The selected Tier can be changed in Addon Options."
+Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<点击取消自动进入>"
 
 -- Tooltips Extension
 
@@ -86,15 +88,15 @@ Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "垂直排列"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "按钮垂直排列。"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "水平排列"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "按钮水平排列。"
-Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "Story Variant Status"
-Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "Highlight whether the active Story Variant has been completed or not (required for Delve Loremaster achievements) in the window displayed entering a Delve."
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "故事变种的进度"
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "在进入地下堡时弹出的窗口中，高亮提示当前激活的故事变种是否已完成（地下堡博学者成就所需）。"
 Lockit.UI_SETTING_MINIMAP_ICON_NAME = "显示小地图图标"
 Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "显示小地图图标。点击该图标可快速访问当前赛季地下堡面板。"
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Auto Enter Delves"
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n- The Tier has not been unlocked yet.\n- It's a Nemesis Delve.\n- It's a Bountiful Delve but you don't have a |cnITEM_EPIC_COLOR:Restored Coffer Key|r nor enough |cnITEM_SUPERIOR_COLOR:Coffer Key Shards|r to assemble the key."
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "Delve Tier to enter."
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "Enter Delay"
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "A Delve will be entered with a delay (in seconds).\n\nThere is a button in the window displayed entering a Delve. It can be clicked to cancel the auto entering before the delay countdown elapsed."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "自动进入地下堡"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "抵达地下堡入口时自动进入。\n\n以下情形不会自动进入：\n- 该难度尚未解锁。\n- 这是宿敌地下堡。\n- 这是丰裕地下堡，但是你没有 |cnITEM_EPIC_COLOR:修复的宝匣钥匙|r 也没有足够的 |cnITEM_SUPERIOR_COLOR:宝匣钥匙碎片|r 来组合成钥匙。"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "自动进入的地下堡难度"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "延时"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "地下堡将在延迟时间后进入（单位：秒）。\n\n在进入地下堡时弹出的窗口中，会出现一个按钮。点击该按钮，可以在延迟倒计时结束前取消自动进入。"
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "角色设置"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "额外提示信息"

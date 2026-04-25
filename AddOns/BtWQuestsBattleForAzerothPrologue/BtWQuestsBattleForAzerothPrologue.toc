@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Breen
-## Version: v15.18
+## Version: v15.19
 
 ## Title: BtWQuests: Battle for Azeroth Prologue
 ## Notes: Battle for Azeroth Prologue quest data for BtWQuests
@@ -11,6 +11,7 @@
 
 ## Dependencies: BtWQuests
 ## LoadOnDemand: 1
+## DefaultState: disabled
 
 ## X-BtWQuests: Battle for Azeroth Prologue
 ## X-BtWQuests-Expansion: 7

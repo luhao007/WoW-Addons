@@ -103,7 +103,7 @@ L["Select the font to use for the edit box"] = "Définit la police du texte dans
 L["Sets the frame's border color to the color of your currently active channel"] = "Définit la couleur de la bordure avec la couleur du canal actif."
 L["Tile Size"] = "Taille du fond"
 L["Top"] = "Haut"
-L["Use Alt key for cursor movement"] = "Curseur avec Alt"
+L["Use Alt key for cursor movement"] = "Utiliser la touche Alt pour déplacer le curseur."
 
 
   PL:AddLocale("frFR",L)
@@ -774,7 +774,7 @@ L["Use Alt key for cursor movement"] = "使用 Alt 鍵游標移動"
 				self:SecureHook("ChatEdit_UpdateHeader", "SetBorderByChannel", true)
 			end
 		end
-		self:SecureHook("FCF_Tab_OnClick")
+		self:SecureHook("FCF_FadeInChatFrame")
 
 		Prat.RegisterChatEvent(self, Prat.Events.FRAMES_UPDATED)
 	end
@@ -787,7 +787,7 @@ L["Use Alt key for cursor movement"] = "使用 Alt 鍵游標移動"
 		end
 	end
 
-	function module:FCF_Tab_OnClick(frame)
+	function module:FCF_FadeInChatFrame(frame)
 		if self.db.profile.attach == "TOP" and GetCVar("chatStyle") ~= "classic" then
 			local chatFrame = _G["ChatFrame" .. frame:GetID()];
 			ChatEdit_DeactivateChat(chatFrame.editBox)

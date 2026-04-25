@@ -142,9 +142,7 @@ if PIG_MaxTocversion("old") then
 			end
 			PIGCloseDropDownMenus()
 		end
-		Checkbut.suofang_t = PIGFontString(Checkbut,{"LEFT",Checkbut.AnniuNum,"RIGHT",30,-2},"缩放:")
-		local xiayiinfo = {0.6,1.4,0.01,{["Right"]="%"}}
-		Checkbut.suofang = PIGSlider(Checkbut,{"LEFT",Checkbut.suofang_t,"RIGHT",10,0},xiayiinfo)
+		Checkbut.suofang = PIGSlider(Checkbut,{"LEFT",Checkbut.AnniuNum,"RIGHT",30,-2},{0.6,1.4,0.01,{["Right"]="缩放%d%%"}})
 		function Checkbut.suofang:PIGOnValueChange(arg1)
 			if InCombatLockdown()  then 
 				PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT)
@@ -169,7 +167,6 @@ if PIG_MaxTocversion("old") then
 			self.Pailie:SetShown(PIGA_Per["PigAction"]["Open"][index])
 			self.AnniuNumT:SetShown(PIGA_Per["PigAction"]["Open"][index])
 			self.AnniuNum:SetShown(PIGA_Per["PigAction"]["Open"][index])
-			self.suofang_t:SetShown(PIGA_Per["PigAction"]["Open"][index])
 			self.suofang:SetShown(PIGA_Per["PigAction"]["Open"][index])
 			self.Bindings:SetShown(PIGA_Per["PigAction"]["Open"][index])
 			self.CZBUT:SetShown(PIGA_Per["PigAction"]["Open"][index])

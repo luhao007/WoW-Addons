@@ -130,11 +130,11 @@ L["Set the line spacing for all chat windows."] = "Set the line spacing for all 
 
   L = {}
   -- Paragraph
-L["adjustlinks_desc"] = "Ajuster les liens pour pouvoir cliquer dessus si ils sont centrés ou alignés à droite."
-L["adjustlinks_name"] = "Répare la position des liens des joueurs/objets"
+L["adjustlinks_desc"] = "Ajuster les liens pour rétablir la possibilité de cliquer sur un texte centré ou aligné à droite."
+L["adjustlinks_name"] = "Correction de l'emplacement des liens joueur / objet"
 L["Center"] = "Centrer"
 L["Chat window paragraph options."] = "Options de paragraphe."
-L["justification_desc"] = "Défiinr l'alignement horizontale pour chaque fenêtre de chat"
+L["justification_desc"] = "Définir l’alignement horizontal de chaque fenêtre de chat"
 L["justification_name"] = "Définir l'alignement"
 L["Left"] = "Gauche"
 L["Line Spacing"] = "Espacement des lignes"

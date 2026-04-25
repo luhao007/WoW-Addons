@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Nnoggie
-## Version: 6.0.11
+## Version: 6.0.17
 
 ## Title: Mythic Dungeon Tools
 ## Notes: Tool for planning and optimizing Mythic+ dungeon runs
@@ -18,6 +18,7 @@
 ## X-Curse-Project-ID: 288981
 ## X-Wago-ID: rN4VrAKD
 
+# WOW_INTERFACE_TARGETS: mainline-beta, mainline-test, mainline, mists
 libs\load_libs.xml
 BuildCheck.lua
 init.lua

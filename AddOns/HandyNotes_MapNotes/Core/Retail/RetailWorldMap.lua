@@ -65,15 +65,18 @@ do
 
   function ns.ApplyWorldMapArrowSize()
     if not EnsureArrowData() then return end
-
-    if ns.Addon.db.profile.activate.HideMapNote then
+  
+    local db = ns.Addon and ns.Addon.db and ns.Addon.db.profile
+    local activate = db and db.activate
+  
+    if activate and activate.HideMapNote then
       ArrowSizesTable.player = 27
       GroupMembersPin:SynchronizePinSizes()
       return
     end
-
-    if ns.Addon.db.profile.activate.WorldMapArrow then
-      ArrowSizesTable.player = 27 * (ns.Addon.db.profile.activate.WorldMapArrowScale or 1)
+  
+    if activate and activate.WorldMapArrow then
+      ArrowSizesTable.player = 27 * (activate.WorldMapArrowScale or 1)
     else
       ArrowSizesTable.player = 27
     end

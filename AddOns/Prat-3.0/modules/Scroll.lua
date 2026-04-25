@@ -190,7 +190,7 @@ L["Set number of lines mousewheel will scroll when ctrl is pressed."] = "Défini
 L["Set number of lines mousewheel will scroll."] = "Définit le nombre de lignes qui défilent lors d'un coup de molette avec la souris."
 --[[Translation missing --]]
 L["Set TheLowDown Delay"] = "Set TheLowDown Delay"
-L["Set time to wait before jumping to the bottom of chat windows."] = "Régler le temps d'attente avant de sauter au bas de la fenêtre de chat."
+L["Set time to wait before jumping to the bottom of chat windows."] = "Définir le délai d’attente avant de revenir en bas des fenêtres de chat."
 L["Text scroll direction"] = "Direction du texte"
 L["Top"] = "Haut en bas"
 

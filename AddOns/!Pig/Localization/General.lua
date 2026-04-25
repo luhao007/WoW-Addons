@@ -8,3 +8,4 @@ local function removeColons(s)
     return s
 end
 L["RECORD"] = removeColons(PVP_RECORD)
+L["RELOADUI"] = string.format(ERR_USE_LOCKED_WITH_ITEM_S,RELOADUI)

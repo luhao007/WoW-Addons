@@ -1908,19 +1908,17 @@ function FramePlusfun.Character_Shuxing()
 			if CharacterFrame.backdrop then CharacterFrame.backdrop:SetPoint("BOTTOMRIGHT", CharacterFrame,"BOTTOMRIGHT", -32, 76);end
 			CharacterFrameCloseButton:SetPoint("CENTER",CharacterFrame,"TOPRIGHT",-44,-25)
 		end)
-		--内存占用
-		-- PaperDollFrame:RegisterEvent("UNIT_AURA");--获得BUFF时
-		-- PaperDollFrame:RegisterEvent("UNIT_DISPLAYPOWER");--当单位的魔法类型改变时触发，例如德鲁伊变形
-		-- PaperDollFrame:RegisterEvent("CHARACTER_POINTS_CHANGED");--分配天赋点触发
-		-- PaperDollFrame:RegisterEvent("PLAYER_TALENT_UPDATE");--天赋改变
-		-- if PIG_MaxTocversion(20000) then
-		-- 	PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
-		-- end
-		-- PaperDollFrame:HookScript("OnEvent", function(self,event,arg1)
-		-- 	if self:IsVisible() then
-		-- 		PaperDollFrameUpdate()
-		-- 	end
-		-- end);
+		--内存占用优化
+		PaperDollFrame:RegisterEvent("UNIT_AURA");--获得BUFF时
+		PaperDollFrame:RegisterEvent("UNIT_DISPLAYPOWER");--当单位的魔法类型改变时触发，例如德鲁伊变形
+		PaperDollFrame:RegisterEvent("CHARACTER_POINTS_CHANGED");--分配天赋点触发
+		PaperDollFrame:RegisterEvent("PLAYER_TALENT_UPDATE");--天赋改变
+		if PIG_MaxTocversion(20000) then
+			PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
+		end
+		hooksecurefunc("PaperDollFrame_UpdateStats", function()
+			PaperDollFrameUpdate()
+		end)
 
 		--称号
 		if PIG_MaxTocversion(40000) then

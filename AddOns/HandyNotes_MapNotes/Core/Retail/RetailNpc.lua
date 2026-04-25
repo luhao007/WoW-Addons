@@ -7,7 +7,7 @@ ns.npcNameCache = npcNameCache
 
 local retryQueue = {}
 local retryTimer
-local maxRetries = 15
+local maxRetries = 10
 local retryInterval = 0.2
 local maxPerTickBase = 50
 local timeBudgetMs = 10
@@ -122,7 +122,16 @@ function ns.GetNpcInfo(npcID)
 
   local npcName  = tooltipData.lines[1] and tooltipData.lines[1].leftText or nil
   local npcTitle = tooltipData.lines[2] and tooltipData.lines[2].leftText or nil
-  if not npcName or npcName == "" or npcName == _G.RETRIEVING_DATA or npcName == _G.UNKNOWNOBJECT then
+  
+  if type(npcName) ~= "string" then
+    return nil, nil
+  end
+  
+  local ok, invalid = pcall(function()
+    return npcName == "" or npcName == _G.RETRIEVING_DATA or npcName == _G.UNKNOWNOBJECT
+  end)
+  
+  if not ok or invalid then
     return nil, nil
   end
 
@@ -319,12 +328,15 @@ function ns.RebuildNpcNameCache(opts)
     ns.Addon:FullUpdate()
   end
 
+  if ns.RebuildMapNotesInfoCache then
+    ns.RebuildMapNotesInfoCache()
+  end
+
   ns.SilenceHN(false)
   if HandyNotes and HandyNotes.SendMessage then
     HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
   end
 end
-
 
 function ns.GetNpcCacheStats()
   local loc = ns.locale or GetLocale() or "enUS"
@@ -358,6 +370,7 @@ function ns.StartRetryQueue()
     for npcID, data in pairs(retryQueue) do
       local name = ns.GetNpcInfo(npcID)
       if name then
+        ns.MN_InstanceRetryFailCount = 0
         retryQueue[npcID] = nil
 
         ns.npcCacheSuccess = (ns.npcCacheSuccess or 0) + 1
@@ -370,6 +383,24 @@ function ns.StartRetryQueue()
         end
 
       else
+        if IsInInstance() then
+          ns.MN_InstanceRetryFailCount = (ns.MN_InstanceRetryFailCount or 0) + 1
+
+          if ns.MN_InstanceRetryFailCount >= 150 then
+            wipe(retryQueue)
+
+            if retryTimer then
+              retryTimer:Cancel()
+              retryTimer = nil
+            end
+
+            local blockedText = ns.LOCALE_BLOCKED_DATABASE_UPDATE[ns.locale] or ns.LOCALE_BLOCKED_DATABASE_UPDATE["enUS"]
+            print(ns.COLORED_ADDON_NAME .. " " .. blockedText)
+            ns.MN_InstanceRetryFailCount = 0
+            return
+          end
+        end
+
         data.attempts = (data.attempts or 0) + 1
         if data.attempts >= maxRetries then
           retryQueue[npcID] = nil
@@ -377,7 +408,6 @@ function ns.StartRetryQueue()
           if ns.DevMode() then
             print(("%s Failed to cache: %d after %d tries (mapID: %d, coord: %.2f, file: %s)"):format(ns.COLORED_ADDON_NAME, npcID, maxRetries, data.mapID or 0, data.coord or 0, data.sourceFile or "?"))
           end
-
         end
       end
 

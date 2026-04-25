@@ -24,7 +24,7 @@ function BusinessInfo.Time(StatsInfo)
 				Create.Show_TabBut_R(self.F,fujiF,fujiTabBut)
 			end
 		else
-			PIG_OptionsUI:ErrorMsg("请打开"..addonName..SETTINGS.."→"..L["BUSINESS_TABNAME"].."→"..INFO..STATISTICS)
+			PIG_OptionsUI:ErrorMsg("请打开"..addonName..SETTINGS.."→"..L["TRADE_TABNAME"].."→"..INFO..STATISTICS)
 		end
 	end
 	function fujiF.add_uifun()

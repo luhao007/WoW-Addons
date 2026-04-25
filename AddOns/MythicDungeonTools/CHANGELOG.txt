@@ -1,3 +1,5 @@
-## 6.0.11 (2026-04-06)
+## 6.0.17 (2026-04-23)
 
-- Fix Magisters' Terrace enemy count values for Animated Codex and Spellwoven Familiar.
+- Fixed missing localization in the CurseForge release package.
+- Clamp the default MDT window size after `/mdt reset` so it fits smaller screens.
+- Show a clear focus marker macro warning when account macro slots are full.

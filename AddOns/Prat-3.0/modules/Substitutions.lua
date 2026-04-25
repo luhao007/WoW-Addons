@@ -516,8 +516,7 @@ L["usersub_"] = true
   L = {}
   -- Substitutions
 L["%d total user defined substitutions"] = "%s substitutions personnalisées totales"
---[[Translation missing --]]
-L["|cffff0000warning:|r subtitution \"%s\" already defined as \"%s\", overwriting"] = "|cffff0000warning:|r subtitution \"%s\" already defined as \"%s\", overwriting"
+L["|cffff0000warning:|r subtitution \"%s\" already defined as \"%s\", overwriting"] = "|cffff0000avertissement:|r substitution \"%s\" déjà définie comme \"%s\", écrasement"
 L["<noguild>"] = "<pas de guilde>"
 L["<notarget>"] = "<pas de cible>"
 L["A module to provide basic chat substitutions."] = "Un module qui propose quelques substitutions basiques."
@@ -570,7 +569,7 @@ L["no substitution name supplied for deletion"] = "no substitution name supplied
 L["no user defined subs found"] = "no user defined subs found"
 --[[Translation missing --]]
 L["no value given for subtitution \"%s\""] = "no value given for subtitution \"%s\""
-L["Options for setting and removing user defined substitutions. (NB: users may define custom values for existing substitutions, but they will revert to the default value if the user definition is deleted.)"] = "Options pour ajouter ou enlever les substitutions définies par l'utilisateur. (NB: les utilisateurs peuvent changer la valeur des substitutions existantes, mais elles seront remisent à leur valeur par défaut si les préférences de l'utilisateur sont supprimés.)"
+L["Options for setting and removing user defined substitutions. (NB: users may define custom values for existing substitutions, but they will revert to the default value if the user definition is deleted.)"] = "Options pour définir et supprimer les substitutions personnalisées par l’utilisateur. (NB : les utilisateurs peuvent définir des valeurs personnalisées pour des substitutions existantes, mais elles reviendront à la valeur par défaut si la définition utilisateur est supprimée.)"
 --[[Translation missing --]]
 L["PlayerAverageItemLevel"] = "PlayerAverageItemLevel"
 L["PlayerCurrentMana"] = "Mana actuelle"
@@ -585,7 +584,7 @@ L["PlayerPercentMana"] = "Pourcentage Mana"
 L["RandNum"] = "Nombre aléatoire"
 --[[Translation missing --]]
 L["removing user defined substitution \"%s\"; previously expanded to => \"%s\""] = "removing user defined substitution \"%s\"; previously expanded to => \"%s\""
-L["Set substitution"] = "Paramétrer une substitution"
+L["Set substitution"] = "Définir une substitution"
 --[[Translation missing --]]
 L["Set the value of a user defined substitution (NB: this may be the same as an existing default substitution; to reset it to the default, just remove the user created definition)."] = "Set the value of a user defined substitution (NB: this may be the same as an existing default substitution; to reset it to the default, just remove the user created definition)."
 --[[Translation missing --]]

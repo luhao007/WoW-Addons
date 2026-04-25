@@ -1,190 +1,295 @@
-tag 1d3a190e753b5ffd87c42a384a3e6ef8536ce4c5 v12.0.1.679
+tag 7ab093d4541aa802e8e036fce87aadb9a322c977 v12.0.5.717
 Author:	Tercio Jose <terciob19@hotmail.com>
-Date:	Sat Feb 28 10:29:20 2026 -0300
+Date:	Wed Apr 22 12:14:35 2026 -0300
 
-commit d3f92b7f0f76facb904b060cc148540ccb89917c
+commit 8d2401a0853996bdc702f55a33a5a13376ab8904
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Feb 28 10:28:36 2026 -0300
+Date:   Wed Apr 22 12:03:29 2026 -0300
 
-    Fix escape sequence image
+    Check for valid outline
 
-commit 097683a77fcecc8644cc2ccfd4001ca98c3963e9
+commit 89f8ded358838fb2430ad8fcbc295e0b394fb8ac
+Author: cont1nuity <continuity@gmx.net>
+Date:   Wed Apr 22 09:24:06 2026 +0200
+
+    - more 12.0.5 fixes
+
+commit 1f150a978eaf8f2cc0f07caf25311c6b7471957a
+Author: cont1nuity <continuity@gmx.net>
+Date:   Wed Apr 22 02:21:25 2026 +0200
+
+    - fix for real
+
+commit c928a5fb51e84d66e3aea6956c7e3ae33e4c6a64
+Author: cont1nuity <continuity@gmx.net>
+Date:   Wed Apr 22 01:10:11 2026 +0200
+
+    - font fix
+    
+    12.0.5: FontString:SetFont(): Invalid font file asset (asset not found)
+    Just fail silently, as before...
+
+commit c8e71c356ba533dd8336c51dc3c4323c12a2f5a4
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Feb 27 20:38:22 2026 -0300
-
-    Add BuildMenu option: disableif = function() return true end, if the function return true, the option is disabled.
-
-commit 0dbeda5ef3732772ca988ba30cb78194f162e3fb
-Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Feb 26 10:26:20 2026 -0300
+Date:   Tue Apr 21 19:50:15 2026 -0300
 
     Documentation
 
-commit 9ab9ff9d06217d0723edda335048ab8f285de6fa
+commit 06aecd444053ed16c66aeaf23f35c75478499bea
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Tue Feb 24 16:46:17 2026 -0300
+Date:   Tue Apr 21 15:25:23 2026 -0300
 
-    Fix error on timeline
+    Ensure profile table exists in case the table was already created.
 
-commit 7a2674fffa2955ea85334b7d768da90d206d9a8f
-Author: cont1nuity <continuity@gmx.net>
-Date:   Tue Feb 24 11:14:13 2026 +0100
-
-    - option for empowered color
-
-commit aea4eaf72c7b234ec37076a2d3554e1bb338ab0a
-Author: cont1nuity <continuity@gmx.net>
-Date:   Mon Feb 23 14:20:25 2026 +0100
-
-    - empower stage coloring
-
-commit 8bf0316bfd4c56bd670788bc80c74b272f5b42fb
+commit 452c24ddbae8aae15ce53d50e7362c4742f5efb6
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sun Feb 22 19:35:08 2026 -0300
+Date:   Mon Apr 20 10:44:17 2026 -0300
 
-    Documentation
+    Add documentation files; Rename documentation files.
 
-commit 19b9dfa0f4028ecc3c9cdcb79a1af734ef457646
+commit b975d2d86366569cc1aabfd16483b6d3e1ab3119
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sun Feb 22 16:47:40 2026 -0300
+Date:   Mon Apr 20 10:43:53 2026 -0300
 
-    Documentation and examples
+    Add AnchorSystem; Move scroll logic from panel.lua to scrollbox.lua
 
-commit 41ef2d156ceab9c47622594ad54ec15b14f94c80
+commit 33a4f3af4ff5b5a45f4121a5fd82df9ae262b4ce
+Author: cont1nuity <continuity@gmx.net>
+Date:   Tue Apr 14 21:31:31 2026 +0200
+
+    - fixing issue with hiding CD timer
+
+commit b1fd6536e61ee36f520e82327c5010df9735d2d6
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Feb 21 16:53:15 2026 -0300
+Date:   Fri Apr 10 16:25:36 2026 -0300
 
-    Better error lines
+    Helper functions to remove |c |r |T |t
 
-commit 71177d6a51917343e464d7250fb92a255e189144
+commit 49edbf2174e676d144280ed1bc1736efa92a5475
+Author: cont1nuity <continuity@gmx.net>
+Date:   Thu Apr 9 09:50:19 2026 +0200
+
+    - power needs to show again here
+
+commit 8d765c436c3b89632483ecacb082a24871f0158a
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Feb 21 14:37:21 2026 -0300
+Date:   Wed Apr 8 14:51:57 2026 -0300
 
-    ignore
+    Rounded corners documentation
 
-commit de70f957f97e3fe7557befb283498c4141b034fc
+commit 888a01e84c44d6e3d135dd9a47bb1e2a729906c5
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Feb 21 14:34:57 2026 -0300
+Date:   Wed Apr 8 13:59:32 2026 -0300
 
-    change
+    Fix split_bar, add SetFontOptions to elapsedtime
 
-commit 966ee9c857b9cb06faf6aa20c67d2fe99c3f8a94
-Author: cont1nuity <continuity@gmx.net>
-Date:   Thu Feb 19 20:09:08 2026 +0100
-
-    - cast icon should be more consistent
-
-commit c5b2b57cc71a8b08fb0a20fbfd6bfc10ee1be9d1
+commit 9131a30dcd6d8ae28501f446186c09ab49a8e6a4
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Wed Feb 18 15:31:00 2026 -0300
+Date:   Sat Apr 4 00:47:01 2026 -0300
 
-    Add variable checks and error if they are incorrect
+    Add groups to BuildMenu()
 
-commit b4b2993d91485f220243c311c890569394e027d9
-Author: cont1nuity <continuity@gmx.net>
-Date:   Thu Feb 12 23:09:53 2026 +0100
-
-    - should fix secret issues
-
-commit 5e85921150a2eab178985aecb245caced65fac2c
+commit 67bd41d6ea4c7a0b5106e62c39f95ece50d7ccee
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Feb 12 14:21:37 2026 -0300
+Date:   Wed Apr 1 00:04:49 2026 -0300
 
-    Add specId into the spec information
+    More documentation
 
-commit d7acde9030af5b51d631856dd1fc64d17a50f579
+commit 4d1e85c65d4ed2e9167cb94d3059ea1d8bc7f031
 Author: cont1nuity <continuity@gmx.net>
-Date:   Wed Feb 11 23:36:59 2026 +0100
+Date:   Wed Apr 1 00:01:00 2026 +0200
 
-    - buff special midnight support + adjustments
+    - small adjustment
 
-commit 63cd0170720477c97e8f54189b8ce4ad6d9de572
+commit 8ddc61d02d3cdef49069c59b08bfa11dda9e3fb8
+Author: cont1nuity <continuity@gmx.net>
+Date:   Tue Mar 31 09:05:02 2026 +0200
+
+    - update doc
+
+commit c36c50a75270b226c4662b982a5e0ba20ce8045f
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Sat Feb 7 17:19:58 2026 -0300
+Date:   Mon Mar 30 23:04:30 2026 -0300
 
-    Add GetSpecInfoFromSpecId and GetSpecInfoFromSpecIcon both return a table containing information about the spec.
+    Fix wrong specIcon for Devourer
 
-commit 435d666b6edbeb7f448123b10c83d05cd41674ac
-Author: cont1nuity <continuity@gmx.net>
-Date:   Wed Feb 4 15:19:58 2026 +0100
-
-    - fix secret issue
-
-commit 08bfb8b4e09ea9819cd9d5ed17cf066477539e80
-Author: cont1nuity <continuity@gmx.net>
-Date:   Tue Feb 3 08:43:32 2026 +0100
-
-    - another fix required
-
-commit cac09e4c454dfcea610bf0a6d0ba13af32ad5262
-Author: cont1nuity <continuity@gmx.net>
-Date:   Mon Feb 2 16:03:08 2026 +0100
-
-    - broke some more
-
-commit 8ecdee19ef7b37fe029a82755025ab58dc8023ee
-Author: cont1nuity <continuity@gmx.net>
-Date:   Mon Feb 2 15:26:29 2026 +0100
-
-    - unfortunately broke
-
-commit 6c84f507d09526631311769edf1e81eacab9fb53
-Author: cont1nuity <continuity@gmx.net>
-Date:   Mon Feb 2 13:25:02 2026 +0100
-
-    - midnight cast bar updates
-
-commit 35f72c3badaaa7c7e89162e030ab2e954a1d181c
+commit c5c7a0c9b986bfb73a48a66a5a9ccad19d950090
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Fri Jan 30 14:51:42 2026 -0300
+Date:   Mon Mar 30 19:21:46 2026 -0300
 
-    Missing definitions
+    BuildMenu documentation
 
-commit 255c3f2f902712f035959d9b0ba29d1cece168a3
+commit 2d2353b695e2ab73d48d34217fee2beb71861bf7
+Author: Riku <rx66cnp9w72@protonmail.ch>
+Date:   Wed Mar 25 11:18:41 2026 +0100
+
+    Updated encounter IDs for Midnight season 1 (#26)
+
+commit 24dafe51f42a0cbb939b8c77562bdb64e5185d7f
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Thu Jan 29 17:50:07 2026 -0300
+Date:   Tue Mar 24 16:13:39 2026 -0300
 
-    SavedVars definitions
+    Ptr
 
-commit 050053efba353924e107065bd63ceb94efdb496f
+commit e7e428527ddb8e2b1f998129f5149245f202857b
 Author: cont1nuity <continuity@gmx.net>
-Date:   Thu Jan 29 14:23:16 2026 +0100
+Date:   Tue Mar 24 12:19:03 2026 +0100
 
-    - fixing spark and absorb stuff
+    - fixing load conditions
 
-commit 0977913fa38d319f35b3baa875cab88836a0bc42
-Author: cont1nuity <continuity@gmx.net>
-Date:   Wed Jan 28 10:16:44 2026 +0100
-
-    - health animation
-
-commit b924dc8df2a49c2caf00cce279e68ba669a2dc47
-Author: cont1nuity <continuity@gmx.net>
-Date:   Sun Jan 25 00:31:13 2026 +0100
-
-    - fixing cast spark
-
-commit c39c2dafe238c18756566026be92b9aef848ecfb
-Author: cont1nuity <continuity@gmx.net>
-Date:   Sun Jan 25 00:14:54 2026 +0100
-
-    - fixing issues with casts
-
-commit 32002e4d502f4853d07a3d622f8827707055c5ec
-Author: cont1nuity <continuity@gmx.net>
-Date:   Thu Jan 22 22:28:27 2026 +0100
-
-    - fix for health shields visibility
-
-commit 4d30c2465d1d6a1efdb1f91ff86f30d768cd9819
+commit b599b67b03c67cc172bae132171ebfc5eefd756f
 Author: Tercio Jose <terciob19@hotmail.com>
-Date:   Mon Jan 19 15:29:51 2026 -0300
+Date:   Sun Mar 22 20:41:37 2026 -0300
 
-    Editor frame levels goes bottom first registered to top latest registered
+    Implementing detailsFramework:ClampToScreen(frame, offsetX, offsetY)
 
-commit 53943b3d154fbd531912aa28e2da08a73b2558f6
+commit 84fe13dd7ca30f5eb8b68c0649d4834fc6f08fde
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Mar 20 20:12:19 2026 -0300
+
+    Add container resize grips
+
+commit 3541f730e974958e1c089bd9af85d9e88bc1b42c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Mar 20 20:11:53 2026 -0300
+
+    Fix headers alignment
+
+commit bf7e33f6fe9d61bf86f1d9076b03601d97b593fe
 Author: cont1nuity <continuity@gmx.net>
-Date:   Sun Jan 18 21:54:10 2026 +0100
+Date:   Fri Mar 20 18:36:04 2026 +0100
 
-    - fixing cast borer shield
+    - this is needed as well
+
+commit d26e74cf3a52eb00db2d26f3743af044b4af2b93
+Author: cont1nuity <continuity@gmx.net>
+Date:   Fri Mar 20 17:01:37 2026 +0100
+
+    - fix cascading disable/enable
+
+commit e8f20866591ce880be5c2b8ad695013b3813a311
+Author: cont1nuity <continuity@gmx.net>
+Date:   Thu Mar 19 21:42:32 2026 +0100
+
+    - smoothe out
+
+commit dcf8cf50499e375d8a7bd5508b552f719300d805
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Mar 19 13:32:59 2026 -0300
+
+    Back compat
+
+commit dcf8cf50499e375d8a7bd5508b552f719300d805
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Mar 19 13:32:59 2026 -0300
+
+    Back compat
+
+commit bbe1353bf1b1dcabc8d96a5f643af5a5d8ecb06c
+Author: cont1nuity <continuity@gmx.net>
+Date:   Thu Mar 19 16:37:24 2026 +0100
+
+    - fix health display
+
+commit 6901c9a79141b02b542ac5b30c91709ec3f52d63
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Mar 19 10:58:42 2026 -0300
+
+    Containers cleanup
+
+commit 14d717fddba4a8e79403fa51716f9a27a21ee176
+Author: cont1nuity <continuity@gmx.net>
+Date:   Sun Mar 15 21:55:38 2026 +0100
+
+    - correct max health values
+
+commit 9b93e2129ae3fbd6e1426f5da4c1183249345364
+Author: cont1nuity <continuity@gmx.net>
+Date:   Fri Mar 13 15:25:45 2026 +0100
+
+    - fix absorb
+
+commit 24e5bf5ae9ef2a77aa24d1e6bfaafb8e1d248881
+Author: cont1nuity <continuity@gmx.net>
+Date:   Wed Mar 11 23:01:52 2026 +0100
+
+    - update to cast behavior
+
+commit 29aeb511a97f5b08e00853b17580a7ab0a214d9c
+Author: cont1nuity <continuity@gmx.net>
+Date:   Wed Mar 11 10:11:13 2026 +0100
+
+    - cast cleanup
+
+commit b5c4f8cbec4483f8fe891038362b02311b457ee7
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Mar 10 19:16:31 2026 -0300
+
+    Bump Version
+
+commit 003c552515a024c8bea1a3c53e5c2c67d55e1f29
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Mar 10 19:15:53 2026 -0300
+
+    Add wheel menus
+
+commit cd97eca34f912e21affe6171a81059b654c2e051
+Author: cont1nuity <continuity@gmx.net>
+Date:   Tue Mar 10 15:32:32 2026 +0100
+
+    - animate power bar
+
+commit 70e7cd2879b4c6f03ab638f1cb0804caace9e06a
+Author: cont1nuity <continuity@gmx.net>
+Date:   Tue Mar 10 00:48:21 2026 +0100
+
+    - make cast colors more consistent
+
+commit af32459728f90b67f60ce73f3c280e496f2eb42e
+Author: cont1nuity <continuity@gmx.net>
+Date:   Sat Mar 7 21:22:39 2026 +0100
+
+    - fix an issue with updating widgets
+
+commit a84811dae414d89d12065648c99ab6aabe45f8a7
+Author: cont1nuity <continuity@gmx.net>
+Date:   Thu Mar 5 10:37:32 2026 +0100
+
+    - fixing shield indicator
+
+commit c76f8e46767803ed3856991f156cbcee300f972f
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Wed Mar 4 19:04:49 2026 -0300
+
+    Fix editor
+
+commit e0f70d708a0d7544465ebbc6550e159f237bb350
+Author: cont1nuity <continuity@gmx.net>
+Date:   Tue Mar 3 22:01:20 2026 +0100
+
+    - absorb and heal inc adjustments
+
+commit 9ccbf97c34ec213d5ed7b30344d5025d55ee0bdf
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun Mar 1 16:06:52 2026 -0300
+
+    Bump framework version.
+
+commit e606f5040b478a0506fa405e703335a41531e94c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun Mar 1 16:02:20 2026 -0300
+
+    Fix containers bugs, add keybind example file
+
+commit 657c06803f06d03297075e3fb9cb57378f7f6069
+Author: cont1nuity <continuity@gmx.net>
+Date:   Sun Mar 1 12:58:53 2026 +0100
+
+    - absorb bar clamped. weird but sligthtly better
+
+commit f0395c1705d59f7d69c73e00c7b0bff270b2070b
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat Feb 28 12:39:56 2026 -0300
+
+    BuildMenu() widgetTable now supports icons within the option name, values: 'icontexture', 'iconcoords'{l, r, t, b}, 'iconsize'{width, height}, 'iconfilesize'{width, height}
 

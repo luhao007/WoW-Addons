@@ -13,7 +13,7 @@ end
 function Create.PIGFontString(fuF,Point,Text,Miaobian,Zihao,UIName,Level,OnEnter)
 	local Text = Text or ""
 	local Font = fuF:CreateFontString(UIName,Level);
-	if Point then Font:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]); end	
+	if Point then Font:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]); end
 	Create.PIGSetFont(Font,Zihao,Miaobian)
 	Font:SetTextColor(1, 0.843, 0, 1);
 	Font:SetText(Text);

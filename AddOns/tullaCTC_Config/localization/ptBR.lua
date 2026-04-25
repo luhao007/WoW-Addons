@@ -39,16 +39,18 @@ L.Reverse = 'Inverter'
 L.ReverseDesc = 'Inverter a direção da varredura'
 L.SwipeColor = 'Cor da varredura'
 L.SwipeColorDesc = 'Substituir a cor da animação de varredura da recarga'
-L.UseAuraDisplayTime = 'Arredondamento de duração de aura'
-L.UseAuraDisplayTimeDesc = 'Controla o arredondamento das durações de aura. Sempre arredonda para baixo, Nunca arredonda para cima'
 
 -- Countdown text options
+L.RoundingMode = 'Modo de arredondamento'
+L.RoundingModeDesc = 'Controla como os valores de duração são arredondados'
 L.MinDuration = 'Duração mínima'
 L.MinDurationDesc = 'Quanto tempo, em segundos, uma recarga deve ter para exibir o texto de contagem regressiva'
 L.TenthsThreshold = 'Limite de décimos'
 L.TenthsThresholdDesc = 'Mostrar décimos de segundo quando a recarga restante for menor que este valor'
 L.AbbrevThreshold = 'Limite MM:SS'
 L.AbbrevThresholdDesc = 'Quanto tempo, em segundos, antes do texto mudar para formato MM:SS (ex. "1:30" em vez de "90")'
+L.ShowZero = 'Mostrar Zero'
+L.ShowZeroDesc = 'Mostrar "0" para tempos de recarga arredondados para zero em vez de texto vazio'
 
 -- Font options
 L.FontFace = 'Fonte'
@@ -76,6 +78,11 @@ L.VerticalOffset = 'Deslocamento vertical'
 L.DrawState_default = 'Padrão'
 L.DrawState_always = 'Sempre'
 L.DrawState_never = 'Nunca'
+
+-- Rounding mode values
+L.RoundingMode_Up = 'Para cima'
+L.RoundingMode_Down = 'Para baixo'
+L.RoundingMode_Nearest = 'Mais próximo'
 
 -- Color threshold UI
 L.AddColorThreshold = 'Adicionar limite de cor'

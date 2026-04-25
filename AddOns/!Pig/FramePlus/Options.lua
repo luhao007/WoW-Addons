@@ -38,7 +38,7 @@ FramePlusF.QuestsEnd:SetScript("OnClick", function (self)
 	else
 		PIGA["Common"]["QuestsEnd"]=false;
 	end
-	CommonInfo.Commonfun.QuestsEnd()
+	FramePlusfun.QuestsEnd()
 end);
 FramePlusF.QuestsEnd.xiala=PIGDownMenu(FramePlusF.QuestsEnd,{"LEFT",FramePlusF.QuestsEnd.Text, "RIGHT", 4,0},{180,24})
 function FramePlusF.QuestsEnd.xiala:PIGDownMenu_Update_But()
@@ -213,6 +213,18 @@ FrameExtF.Macro:SetScript("OnClick", function (self)
 	PIG_OptionsUI.RLUI:Show()
 end)
 ---
+if PIG_MaxTocversion(50000,true) then
+	FrameExtF.PetStable = PIGCheckbutton_R(FrameExtF,{"兽栏界面扩展","扩展兽栏界面"},true)
+	FrameExtF.PetStable:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["FramePlus"]["PetStable"]=true;
+			FramePlusfun.PetStable()
+		else
+			PIGA["FramePlus"]["PetStable"]=false
+			PIG_OptionsUI.RLUI:Show()
+		end
+	end)
+end
 if PIG_MaxTocversion() then
 	FrameExtF.Skill = PIGCheckbutton_R(FrameExtF,{TRADE_SKILLS.."界面扩展","扩展"..TRADE_SKILLS.."界面为两列"},true)
 	FrameExtF.Skill:SetScript("OnClick", function (self)
@@ -271,6 +283,7 @@ FrameExtF:HookScript("OnShow", function(self)
 	self.Merchant:SetChecked(PIGA["FramePlus"]["Merchant"])
 	self.Friends:SetChecked(PIGA["FramePlus"]["Friends"])
 	self.Macro:SetChecked(PIGA["FramePlus"]["Macro"])
+	if self.PetStable then self.PetStable:SetChecked(PIGA["FramePlus"]["PetStable"]) end
 	if self.Quest then self.Quest:SetChecked(PIGA["FramePlus"]["Quest"]) end
 	if self.Skill then self.Skill:SetChecked(PIGA["FramePlus"]["Skill"]) end
 	if self.Trainer then self.Trainer:SetChecked(PIGA["FramePlus"]["Trainer"]) end
@@ -370,12 +383,10 @@ if PIG_MaxTocversion() then
 			PIG_OptionsUI.RLUI:Show()
 		end
 	end)
-	local Scaleinfo = {0.8,2,0.01,{["Right"]="%"}}
 	local function ISopenUI(Funx)
 		if _G[FramePlusfun.RollListUIname] then Funx() end
 	end
-	LootRollF.Roll.SliderT = PIGFontString( LootRollF.Roll,{"LEFT", LootRollF.Roll.Text,"RIGHT",20,0},"缩放")
-	LootRollF.Roll.Slider = PIGSlider(LootRollF.Roll,{"LEFT", LootRollF.Roll.SliderT,"RIGHT",4,0},Scaleinfo)	
+	LootRollF.Roll.Slider = PIGSlider(LootRollF.Roll,{"LEFT", LootRollF.Roll.Text,"RIGHT",20,0},{0.8,2,0.01,{["Right"]="缩放%d%%"}})	
 	function LootRollF.Roll.Slider:PIGOnValueChange(arg1)
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		PIGA["FramePlus"]["RollScale"]=arg1;
@@ -606,6 +617,7 @@ PD.FramePlus = function()
 	FramePlusfun.LootMasterErr()
 	FramePlusfun.Roll()
 	FramePlusfun.Merchant()
+	FramePlusfun.PetStable()
 	FramePlusfun.Friends()
 	FramePlusfun.Macro()
 	FramePlusfun.Quest()

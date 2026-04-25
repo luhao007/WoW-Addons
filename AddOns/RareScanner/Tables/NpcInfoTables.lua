@@ -4143,4 +4143,13 @@ private.NPC_INFO = {
 				[2580] = { x = 6508, y = 6544, artID = { 2084 }, overlay = { "6508-6544" } };
 				[2582] = { x = 4761, y = 3743, artID = { 2086 }, overlay = { "4761-3743" } };
 			  }, displayID = 128490, reset = true }; --Treasure Dundun
+	[259971] = { zoneID = 0, displayID = 142415 }; --Mana-Gorged Greatwyrm
+	[260203] = { zoneID = 0, displayID = 84029 }; --Venomscale Mar'grita
+	[260204] = { zoneID = 0, displayID = 124016 }; --Embertalon <Clutch of Emberdawn>
+	[260209] = { zoneID = 0, displayID = 62045 }; --The Enraged Tides
+	[263361] = { zoneID = 0, displayID = 143680 }; --Voidcaller Ozi'rug
+	[263463] = { zoneID = 0, displayID = 125076 }; --Disturbed Horror
+	[263490] = { zoneID = 0, displayID = 144072 }; --Warlord Heth
+	[263897] = { zoneID = 0, displayID = 125029 }; --Condemned Beast
+	[263921] = { zoneID = 0, displayID = 125029 }; --Desperate Beast
 }

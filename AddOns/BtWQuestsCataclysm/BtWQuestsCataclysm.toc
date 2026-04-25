@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Breen
-## Version: v2.19
+## Version: v2.20
 
 ## Title: BtWQuests: Cataclysm
 ## Notes: Cataclysm quest data for BtWQuests

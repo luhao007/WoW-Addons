@@ -367,6 +367,8 @@ local function TalentFrame_Update_Pig(TFID)
 	end
 end
 local function Uptate_FrameX()
+	if FramePlusfun.TalentOK then return end
+	FramePlusfun.TalentOK=true
 	UIPanelWindows["PlayerTalentFrame"].width=UIdataWHXY.allwww
 	local old_SetTalentButtonLocation=SetTalentButtonLocation
 	SetTalentButtonLocation=function(button, tier, column)

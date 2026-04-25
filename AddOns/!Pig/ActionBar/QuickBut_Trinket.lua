@@ -355,9 +355,7 @@ QuickButUI.ButList[3]=function()
 		if fujiF.UpdataFenliPailie then fujiF.UpdataFenliPailie() end
 		PIGCloseDropDownMenus()
 	end
-	SetfujiF.Scale_t = PIGFontString(SetfujiF,{"TOPLEFT",SetfujiF.PailieT,"BOTTOMLEFT",0,-20},"缩放:")
-	local xiayiinfo = {0.8,1.8,0.01,{["Right"]="%"}}
-	SetfujiF.Scale = PIGSlider(SetfujiF,{"LEFT",SetfujiF.Scale_t,"RIGHT",10,0},xiayiinfo)
+	SetfujiF.Scale = PIGSlider(SetfujiF,{"TOPLEFT",SetfujiF.PailieT,"BOTTOMLEFT",0,-20},{0.8,1.8,0.01,{["Right"]="缩放%d%%"}})
 	function SetfujiF.Scale:PIGOnValueChange(arg1)
 		PIGA["QuickBut"]["TrinketScale"]=arg1;
 		if fujiF.UpdataFenliScale then fujiF.UpdataFenliScale() end
@@ -379,7 +377,6 @@ QuickButUI.ButList[3]=function()
 	end)
 	SetfujiF:SetScript("OnShow", function (self)
 		SetfujiF.PailieT:SetShown(PIGA["QuickBut"]["TrinketFenli"])
-		SetfujiF.Scale_t:SetShown(PIGA["QuickBut"]["TrinketFenli"])
 		SetfujiF.Pailie:SetShown(PIGA["QuickBut"]["TrinketFenli"])
 		SetfujiF.lock:SetShown(PIGA["QuickBut"]["TrinketFenli"])
 		SetfujiF.Scale:SetShown(PIGA["QuickBut"]["TrinketFenli"])

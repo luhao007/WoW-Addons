@@ -180,7 +180,7 @@ local function zhegnheBANK()
 			end
 		end
 	end
-	BankFramePurchaseButton:SetWidth(90)
+	BankFramePurchaseButton:SetWidth(120)
 	BankFramePurchaseButton:ClearAllPoints();
 	BankFramePurchaseButtonText:SetPoint("RIGHT", BankFramePurchaseButton, "RIGHT", -8, 0);
 	BankFrameDetailMoneyFrame:ClearAllPoints();

@@ -10,6 +10,62 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
+      version = "9.2.1",
+      when = "2026/04/23",
+      topics = {
+         {
+            topic = "Titan",
+            lines = {
+               "Update : Dur to a git hitch, tooltip, an Alts fix, and History were not included in 9.2.0.",
+            },
+         },
+      },
+   },
+   {
+      version = "9.2.0",
+      when = "2026/04/20",
+      topics = {
+         {
+            topic = "Alts",
+            lines = {
+               "New built-in plugin to display profile info on Alts in tooltip format.",
+            },
+         },
+         {
+            topic = "TitanUI",
+            lines = {
+               "Tools : Added /eventtrace and /api",
+            },
+         },
+         {
+            topic = "Titan",
+            lines = {
+               "Tooltip : Change to revert behavior to be same as GameTooltip - cursor over plugin controls tooltip show / hide.",
+               "Core : TOC retail to 12.0.5; Foundational for Alts profile info",
+               "Config : Fixed string in Import / Export text",
+            },
+         },
+      },
+   },
+   {
+      version = "9.1.7",
+      when = "2026/04/05",
+      topics = {
+         {
+            topic = "Gold",
+            lines = {
+               "Delete Database is back.",
+            },
+         },
+         {
+            topic = "Titan",
+            lines = {
+               "Profile : deletes allowed when using Sync (All) - as long it is not a sync 'source' for any other profile",
+            },
+         },
+      },
+   },
+   {
       version = "9.1.6",
       when = "2026/03/25",
       topics = {
@@ -18,73 +74,6 @@ local recent_changes = {
             lines = {
                "Scaling : Plugins should properly scale.",
                "Tooltip : New registry .tooltipTemplateFunction; prevent 'secret' errors.",
-            },
-         },
-      },
-   },
-   {
-      version = "9.1.5",
-      when = "2026/03/25",
-      topics = {
-         {
-            topic = "Titan Repair",
-            lines = {
-               "Fix for Auto repair not working.",
-               "Durability and cost should update after merchant repair.",
-            },
-         },
-         {
-            topic = "Titan",
-            lines = {
-               "LDB : Fix for LDB tooltips (OnTooltipShow)",
-               "Config Bars : plugins can be adjusted vertically",
-               "Locale : Several strings added.",
-            },
-         },
-      },
-   },
-   {
-      version = "9.1.4",
-      when = "2026/03/15",
-      topics = {
-         {
-            topic = "Titan Gold",
-            lines = {
-               "On Show / Hide update button to reflect new total.",
-               "Show / Hide Menu cleanup: sort alpha and add server to names.",
-            },
-         },
-         {
-            topic = "Titan",
-            lines = {
-               "Config : Open config from menu should work (again)",
-               "Config : Titan in Addon Compartment should work (again)",
-               "Config : Refactor code, partly in response to above.",
-            },
-         },
-      },
-   },
-   {
-      version = "9.1.3",
-      when = "2026/03/08",
-      topics = {
-         {
-            topic = "Titan Gold",
-            lines = {
-               "Added sort descending option.",
-            },
-         },
-         {
-            topic = "Titan XP",
-            lines = {
-               "Removed Kill to Level if secret values [Retail-only for now].",
-            },
-         },
-         {
-            topic = "Titan",
-            lines = {
-               "Menu : Added open Edit Mode OR Config Bars All to hopefully be clearer as Blizzard migrates Edit Mode",
-               "LDB : Fix for when LDB uses Blizzard_Menu scheme. [#1453].",
             },
          },
       },

@@ -140,14 +140,14 @@ L["Toggle combat log on and off."] = "Toggle combat log on and off."
 
 		L = {}
 		-- ChatLog
-L["A module to automaticaly enable chat and combat logging."] = "Un module pour activer automatiquement la journalisation du chat et des combats"
-L["Chat log recorded to <WoW Installation>\\Logs\\WoWChatLog.txt only upon logout."] = "Journalisation du chat enregistré dans <WoW Installation>\\Logs\\WoWChatLog.txt jusqu'à la prochaine déconnexion"
-L["Chat Log: Disabled"] = "Journalisation Chat : Désactivé"
-L["Chat Log: Enabled"] = "Journalisation Chat : Activé"
-L["ChatLog"] = true
-L["Combat log recorded to <WoW Installation>\\Logs\\WoWCombatLog.txt only upon logout."] = "Journalisation des combats enregistré dans <WoW Installation>\\Logs\\WoWChatLog.txt jusqu'à la prochaine déconnexion"
-L["Combat Log: Disabled"] = "Journalisation des combats : Désactivé"
-L["Combat Log: Enabled"] = "Journalisation des combats : Activé"
+L["A module to automaticaly enable chat and combat logging."] = "Un module permettant d'activer automatiquement le chat et l'enregistrement des combats."
+L["Chat log recorded to <WoW Installation>\\Logs\\WoWChatLog.txt only upon logout."] = "Le journal de discussion est enregistré dans <Installation WoW>\\Logs\\WoWChatLog.txt uniquement lors de la déconnexion."
+L["Chat Log: Disabled"] = "Journalisation de la discussion : désactivé"
+L["Chat Log: Enabled"] = "Journalisation de la discussion : activé"
+L["ChatLog"] = "Journalisation de la discussion"
+L["Combat log recorded to <WoW Installation>\\Logs\\WoWCombatLog.txt only upon logout."] = "Le journal de combat est enregistré dans <Installation WoW>\\Logs\\WoWCombatLog.txt uniquement lors de la déconnexion."
+L["Combat Log: Disabled"] = "Journalisation de combat : désactivé"
+L["Combat Log: Enabled"] = "Journalisation de combat : aésactivé"
 L["quiet_desc"] = "N'afficher aucun messages quand ce mod est activé ou quand il change les paramètres de journalisation"
 L["quiet_name"] = "Supprimer les messages de feedback"
 L["Toggle Chat Log"] = "Activer la journalisation du chat"

@@ -204,24 +204,20 @@ if PIG_MaxTocversion() then
 				end
 			end
 		end);
-
-		local xiayiinfo = {0.6,2,0.01,{["Right"]="%"}}
-		CombatPlusF.SetF.Slider = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",70,-80},xiayiinfo)
+		CombatPlusF.SetF.Slider = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",70,-80},{0.6,2,0.01,{["Right"]="%d%%"}})
 		CombatPlusF.SetF.Slider.T = PIGFontString(CombatPlusF.SetF.Slider,{"RIGHT",CombatPlusF.SetF.Slider,"LEFT",-10,0},"缩放")
 		function CombatPlusF.SetF.Slider:PIGOnValueChange(arg1)
 			PIGA["CombatPlus"]["AttackBar"]["Scale"]=arg1;
 			OpSetSetScaleXY()
 		end
 		local WowWidth=floor(GetScreenWidth()*0.5);
-		local xiayiinfo = {-WowWidth,WowWidth,1}
-		CombatPlusF.SetF.SliderX = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",70,-140},xiayiinfo)
+		CombatPlusF.SetF.SliderX = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",70,-140},{-WowWidth,WowWidth,1})
 		CombatPlusF.SetF.SliderX.T = PIGFontString(CombatPlusF.SetF.SliderX,{"RIGHT",CombatPlusF.SetF.SliderX,"LEFT",0,0},"X偏移")
 		function CombatPlusF.SetF.SliderX:PIGOnValueChange(arg1)
 			PIGA["CombatPlus"]["AttackBar"]["Xpianyi"]=arg1;
 			OpSetSetScaleXY()
 		end
-		local xiayiinfo = {-800,800,1}
-		CombatPlusF.SetF.SliderY = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderX,"RIGHT",100,0},xiayiinfo)
+		CombatPlusF.SetF.SliderY = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderX,"RIGHT",100,0},{-800,800,1})
 		CombatPlusF.SetF.SliderY.T = PIGFontString(CombatPlusF.SetF.SliderY,{"RIGHT",CombatPlusF.SetF.SliderY,"LEFT",0,0},"Y偏移")
 		function CombatPlusF.SetF.SliderY:PIGOnValueChange(arg1)
 			PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]=arg1;

@@ -637,7 +637,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	fujiF.tishiUI.nr.auc:PIGSetBackdrop(1,0)
 	fujiF.tishiUI.nr.auc:SetPoint("BOTTOMRIGHT", fujiF.tishiUI.nr, "BOTTOMRIGHT", -1,1);
 	fujiF.tishiUI.nr.auc:SetFrameLevel(fujiF.tishiUI.nr.auc:GetFrameLevel()+10)
-	fujiF.tishiUI.nr.auc.qpt = PIGFontString(fujiF.tishiUI.nr.auc,{"TOPLEFT", fujiF.tishiUI.nr.auc, "TOPLEFT", 44,-10},"起拍价:",16);
+	fujiF.tishiUI.nr.auc.qpt = PIGFontString(fujiF.tishiUI.nr.auc,{"TOPLEFT", fujiF.tishiUI.nr.auc, "TOPLEFT", 44,-10},"起拍价:",nil,16);
 	---起拍价
 	local jiagelist = {1,2,3,4,5,6,7,8,9}
 	fujiF.tishiUI.nr.auc.qipaijia0=PIGDownMenu(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.qpt,"RIGHT", 2,0},{70,22})
@@ -677,7 +677,7 @@ function GDKPInfo.ADD_Item(RaidR)
 		PIGCloseDropDownMenus()
 	end
 	--单次加价----------------------------------------
-	fujiF.tishiUI.nr.auc.dct = PIGFontString(fujiF.tishiUI.nr.auc,{"TOPLEFT", fujiF.tishiUI.nr.auc, "TOPLEFT", 29,-38},"最低加价:",16);
+	fujiF.tishiUI.nr.auc.dct = PIGFontString(fujiF.tishiUI.nr.auc,{"TOPLEFT", fujiF.tishiUI.nr.auc, "TOPLEFT", 29,-38},"最低加价:",nil,16);
 	fujiF.tishiUI.nr.auc.dancijia0=PIGDownMenu(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.dct,"RIGHT", 2,0},{70,22})
 	fujiF.tishiUI.nr.auc.dancijia0.morenqiV=1
 	function fujiF.tishiUI.nr.auc.dancijia0:PIGDownMenu_Update_But()
@@ -1118,6 +1118,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	fujiF:RegisterEvent("CHAT_MSG_LOOT");
 	fujiF:SetScript("OnEvent",function (self,event,arg1,arg2,arg3,arg4,arg5)
 		if RaidR.shiqulinshiStop then return end
+		if PIGisSecret(arg1) then return end
 		if not arg1:match(bendiT_1) and not arg1:match(bendiT_2) and not arg1:match(bendiT_3) and not arg1:match(bendiT_4) then return end
 		local name, instanceType, difficultyID, difficultyName, maxPlayers = GetInstanceInfo()
 		if instanceType=="raid" or maxPlayers>5 then

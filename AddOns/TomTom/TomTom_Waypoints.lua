@@ -96,7 +96,91 @@ local function getWorldMapDotTexture()
 end
 
 local waypointMap = {}
+local waypointsWithCallbacks = {}
 local idx = 0
+
+-- Distance callback ticker. Dispatches `callbacks.distance` entries for all
+-- waypoints that have them, independent of whether the waypoint's minimap pin
+-- is registered with HBDP or visible. Shown only while at least one waypoint
+-- is being tracked; hidden otherwise so OnUpdate stops firing.
+local distanceFrame = CreateFrame("Frame", nil, UIParent)
+distanceFrame:Hide()
+
+local distance_throttle = 0
+local function Distance_OnUpdate(self, elapsed)
+    distance_throttle = distance_throttle + elapsed
+    if distance_throttle < 0.1 then return end
+    distance_throttle = 0
+
+    local px, py, pInstance = hbd:GetPlayerWorldPosition()
+    if not px or not py then return end
+
+    -- Snapshot uids so callback reentrancy (e.g. Routes removing the current
+    -- waypoint and adding a new one from inside its callback) cannot corrupt
+    -- the iteration. New waypoints added mid-tick first run next tick.
+    local snapshot, n = {}, 0
+    for uid in pairs(waypointsWithCallbacks) do
+        n = n + 1
+        snapshot[n] = uid
+    end
+
+    for i = 1, n do
+        local uid = snapshot[i]
+        local data = waypointsWithCallbacks[uid]
+        if data then
+            local pointX, pointY, pointInstance = hbd:GetWorldCoordinatesFromZone(data.x, data.y, data.m)
+            if pointX and pointInstance == pInstance then
+                local _, dist = hbd:GetWorldVector(pInstance, px, py, pointX, pointY)
+                if dist then
+                    local callbacks = data.callbacks
+                    local list = data.dlist
+
+                    local state = data.state
+                    local newstate
+
+                    if not state then
+                        for j=1,#list do
+                            if dist <= list[j] then
+                                state = j
+                                break
+                            end
+                        end
+
+                        if not state then state = -1 end
+
+                        data.state = state
+                    else
+                        for j=1,#list do
+                            if dist <= list[j] then
+                                newstate = j
+                                break
+                            end
+                        end
+
+                        if not newstate then newstate = -1 end
+                    end
+
+                    if state ~= newstate then
+                        newstate = newstate or state
+                        local distance = list[newstate]
+                        local callback = callbacks.distance[distance]
+                        if callback then
+                            xpcall(callback, errorHandler, "distance", data.uid, distance, dist, data.lastdist)
+                        end
+                        -- TODO: if the callback self-clears this uid and SetWaypoint reuses
+                        -- the pooled point for a new waypoint, this writes a stale state onto
+                        -- the fresh point. Preserved from v4.2.4 behavior; benign because the
+                        -- next tick transitions to -1 with list[-1]=nil, so no spurious callback.
+                        data.state = newstate
+                    end
+
+                    data.lastdist = dist
+                end
+            end
+        end
+    end
+end
+distanceFrame:SetScript("OnUpdate", Distance_OnUpdate)
 
 function TomTom:SetWaypoint(waypoint, callbacks, show_minimap, show_world)
     local m, x, y = unpack(waypoint)
@@ -205,6 +289,8 @@ function TomTom:SetWaypoint(waypoint, callbacks, show_minimap, show_world)
         end
 
         table.sort(point.dlist)
+    else
+        point.dlist = nil
     end
 
 	-- Clear the state for callbacks
@@ -215,6 +301,16 @@ function TomTom:SetWaypoint(waypoint, callbacks, show_minimap, show_world)
     point.minimap.point = point
     point.worldmap.point = point
     point.uid = waypoint
+
+    if point.dlist then
+        waypointsWithCallbacks[waypoint] = point
+        distanceFrame:Show()
+    elseif waypointsWithCallbacks[waypoint] then
+        waypointsWithCallbacks[waypoint] = nil
+        if not next(waypointsWithCallbacks) then
+            distanceFrame:Hide()
+        end
+    end
 
     if show_world then
         -- show worldmap pin on its parent zone map (if any)
@@ -295,6 +391,13 @@ function TomTom:ClearWaypoint(uid)
         point.uid = nil
         table.insert(pool, point)
         waypointMap[uid] = nil
+
+        if waypointsWithCallbacks[uid] then
+            waypointsWithCallbacks[uid] = nil
+            if not next(waypointsWithCallbacks) then
+                distanceFrame:Hide()
+            end
+        end
     end
 end
 
@@ -400,8 +503,6 @@ do
         minimap_count = 0
 
         local edge = hbdp:IsMinimapIconOnEdge(self)
-        local data = self.point
-        local callbacks = data.callbacks
 
         if edge then
             -- Check to see if this is a transition
@@ -427,62 +528,12 @@ do
                 self.arrow:Hide()
             end
         end
-
-        if callbacks and callbacks.distance then
-            local list = data.dlist
-
-            local state = data.state
-            local newstate
-
-            -- Calculate the initial state
-            if not state then
-                for i=1,#list do
-                    if dist <= list[i] then
-                        state = i
-                        break
-                    end
-                end
-
-                -- Handle the case where we're outside the largest circle
-                if not state then state = -1 end
-
-                data.state = state
-            else
-                -- Calculate the new state
-                for i=1,#list do
-                    if dist <= list[i] then
-                        newstate = i
-                        break
-                    end
-                end
-
-                -- Handle the case where we're outside the largest circle
-                if not newstate then newstate = -1 end
-            end
-
-            -- If newstate is set, then this is a transition
-            -- If only state is set, this is the initial state
-
-            if state ~= newstate then
-                -- Handle the initial state
-                newstate = newstate or state
-                local distance = list[newstate]
-                local callback = callbacks.distance[distance]
-                if callback then
-                    xpcall(callback, errorHandler, "distance", data.uid, distance, dist, data.lastdist)
-                end
-                data.state = newstate
-            end
-
-            -- Update the last distance with the current distance
-            data.lastdist = dist
-        end
     end
 
     function Minimap_OnEvent(self, event, ...)
         if event == "PLAYER_ENTERING_WORLD" then
             local data = self.point
-            if data and data.uid and waypointMap[data.uid] then
+            if data and data.uid and waypointMap[data.uid] and data.show_minimap then
                 if not data.addedToMinimap then
                     -- Prevent duplicate registration
                     hbdp:AddMinimapIconMap(TomTom, self, data.m, data.x, data.y, true)

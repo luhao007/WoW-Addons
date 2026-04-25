@@ -237,13 +237,12 @@ GnUI:HookScript("OnShow", function (self)
 end);
 if GetCVar("scriptProfile")=="1" then
 	GnUI:Show()
-	local masg = "你开启了CPU性能分析，请在测试后关闭此选项"
-	UIErrorsFrame:AddMessage(masg, 1, 1, 0, 1.0);
-	PIGprint(masg)
+	PIG_OptionsUI:ErrorMsg(L["DEBUG_CPUUSAGEWARNING"], "R")
+	PIGprint("|cffFF0000"..L["DEBUG_CPUUSAGEWARNING"].."|r")
 end
 
 --获取NPC物品
-fuFrame.NPCID = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-220},{125,24},L["DEBUG_GETGUIDBUT"])
+fuFrame.NPCID = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-220},{125,24},L["DEBUG_GETGUID"])
 fuFrame.NPCID:SetScript("OnClick", function (self)
 	print(UnitGUID("target"))
 end);
@@ -309,7 +308,7 @@ fuFrame:SetScript("OnShow", function()
 	fuFrame.taintLog:PIGDownMenu_SetText(taintlistmenu[GetCVar("taintLog")])
 end);
 --屏幕网格
-fuFrame.GridLine = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-380},{100,24},HUD_EDIT_MODE_SHOW_GRID)
+fuFrame.GridLine = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-380},{100,24},L["DEBUG_SHOWGRID"])
 fuFrame.GridLine:SetScript("OnClick", function (self)
 	if not self.addyes then
 		self.addyes=true
@@ -350,19 +349,16 @@ fuFrame.tiaoshipeizhi = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",420,-380}
 fuFrame.tiaoshipeizhi:SetScript("OnClick", function ()
 	StaticPopup_Show("TIAOSHIPEIZHIQIYONG",L["DEBUG_CONFIG"]);
 end)
-local function zairutiaoshiFUN()
-	PIGA=addonTable.Default;
-	Fun.Set_ConfigValue(PIGA,false,0)
-	PIGA_Per=addonTable.Default_Per;
-	Fun.Set_ConfigValue(PIGA_Per,false,0)
-	PIG_OptionsUI.RLUI:Show()
-end
 StaticPopupDialogs["TIAOSHIPEIZHIQIYONG"] = {
 	text = L["CONFIG_LOADTIPS"].."\n"..L["DEBUG_CONFIGTIPS"],
 	button1 = YES,
 	button2 = NO,
 	OnAccept = function()
-		zairutiaoshiFUN()
+		PIGA=addonTable.Default;
+		Fun.Set_ConfigValue(PIGA,false,0)
+		PIGA_Per=addonTable.Default_Per;
+		Fun.Set_ConfigValue(PIGA_Per,false,0)
+		PIG_OptionsUI.RLUI:Show()
 	end,
 	timeout = 0,
 	whileDead = true,
@@ -417,7 +413,7 @@ for p=1,8 do
 		DuiwuF_P.verlist[3] = PIGFontString(DuiwuF_P,{"LEFT", DuiwuF_P, "LEFT", addonspoint[4]+2, 0})
 	end
 end
-PIG_Version.getinfo = PIGButton(PIG_Version,{"TOPLEFT",PIG_Version,"TOPLEFT",40,-2.4},{80,20},"发起查询")
+PIG_Version.getinfo = PIGButton(PIG_Version,{"TOPLEFT",PIG_Version,"TOPLEFT",40,-2.4},{80,20},L["LIB_QUERY"])
 PIG_Version.getinfo:SetScript("OnClick", function (self)
 	self:Disable()
 	PIG_Version.UpdateBut:Disable()
@@ -460,7 +456,7 @@ PIG_Version.getinfo:SetScript("OnClick", function (self)
 		end
 	end
 end)
-PIG_Version.UpdateBut = PIGButton(PIG_Version,{"LEFT",PIG_Version.getinfo,"RIGHT",20,0},{80,20},"刷新结果")
+PIG_Version.UpdateBut = PIGButton(PIG_Version,{"LEFT",PIG_Version.getinfo,"RIGHT",20,0},{80,20},REFRESH)
 PIG_Version.UpdateBut:Disable()
 PIG_Version.UpdateBut:SetScript("OnClick", function (self)
 	PIG_Version.Update_hang()
@@ -504,7 +500,7 @@ function PIG_Version.GetExtVer(name)
 	end
 end
 --
-fuFrame.GETVER = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame,"BOTTOMLEFT",20,20},{60,22},L["ABOUT_QUERY"])
+fuFrame.GETVER = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame,"BOTTOMLEFT",20,20},{60,22},L["LIB_QUERY"])
 fuFrame.GETVER:SetScript("OnClick", function ()
 	if PIG_Version:IsShown() then
 		PIG_Version:Hide()

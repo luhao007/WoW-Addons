@@ -15,18 +15,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_LIGHTFORGED_DRAEN
     prerequisites = {
         {
             type = "level",
-            level = 45,
+            level = 40,
         },
         -- {
         --     type = "expansion",
         --     id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
         --     visible = false,
         -- },
-        {
-            type = "achievement",
-            id = 12066,
-            anyone = true,
-        },
+        -- {
+        --     type = "achievement",
+        --     id = 12066,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -87,18 +87,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_VOID_ELF, {
     prerequisites = {
         {
             type = "level",
-            level = 45,
+            level = 40,
         },
         -- {
         --     type = "expansion",
         --     id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
         --     visible = false,
         -- },
-        {
-            type = "achievement",
-            id = 12066,
-            anyone = true,
-        },
+        -- {
+        --     type = "achievement",
+        --     id = 12066,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -150,18 +150,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_NIGHTBORNE, {
     prerequisites = {
         {
             type = "level",
-            level = 45,
+            level = 40,
         },
         -- {
         --     type = "expansion",
         --     id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
         --     visible = false,
         -- },
-        {
-            type = "achievement",
-            id = 11340,
-            anyone = true,
-        },
+        -- {
+        --     type = "achievement",
+        --     id = 11340,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",
@@ -231,18 +231,18 @@ BtWQuestsDatabase:AddChain(BTWQUESTS_CHAIN_LEGION_ALLIED_RACES_HIGHMOUNTAIN_TAUR
     prerequisites = {
         {
             type = "level",
-            level = 45,
+            level = 40,
         },
         -- {
         --     type = "expansion",
         --     id = BTWQUESTS_EXPANSION_BATTLE_FOR_AZEROTH,
         --     visible = false,
         -- },
-        {
-            type = "achievement",
-            id = 10059,
-            anyone = true,
-        },
+        -- {
+        --     type = "achievement",
+        --     id = 10059,
+        --     anyone = true,
+        -- },
         -- {
         --     name = {
         --         type = "reputation",

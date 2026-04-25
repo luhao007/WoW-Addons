@@ -20,11 +20,11 @@ local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInst
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 
-local GnName,GnUI,GnIcon,FrameLevel = CHARACTER_INFO..STATISTICS,"PIG_StatsInfoUI",134149,10
+local GnName,GnUI,GnIcon,FrameLevel = L["TRADECHARDATA_TABNAME"],"PIG_StatsInfoUI",134149,10
 BusinessInfo.StatsInfoData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
 function BusinessInfo.StatsInfoOptions()
-	local StatsInfoF,StatsInfotabbut =PIGOptionsList_R(BusinessInfo.RTabFrame,GnName,110)
+	local StatsInfoF,StatsInfotabbut =PIGOptionsList_R(BusinessInfo.RTabFrame,GnName,100)
 
 	local QuickButUI_index=9
 	local QuickButUI=_G[Data.QuickButUIname]

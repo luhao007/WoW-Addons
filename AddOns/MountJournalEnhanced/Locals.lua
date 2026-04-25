@@ -123,6 +123,7 @@ L["Armoredon"] = "Armoredon"
 L["Basilisks"] = "Basilisks"
 L["Bats"] = "Bats"
 L["Bears"] = "Bears"
+L["Bee"] = "Bee"
 L["Beetle"] = "Beetle"
 L["Bipedal Cat"] = "Bipedal Cat"
 L["Birds"] = "Birds"
@@ -236,6 +237,7 @@ L["Peafowl"] = "Peafowl"
 L["Petalwing"] = "Petalwing"
 L["Phoenixes"] = "Phoenixes"
 L["Plant"] = "Plant"
+L["Primate"] = "Primate"
 L["Proto-Drakes"] = "Proto-Drakes"
 L["Pterrordaxes"] = "Pterrordaxes"
 L["Quilen"] = "Quilen"
@@ -429,6 +431,7 @@ L["Armoredon"] = "Panzerdon"
 L["Basilisks"] = "Basilisken"
 L["Bats"] = "Fledermäuse"
 L["Bears"] = "Bären"
+L["Bee"] = "Biene"
 L["Beetle"] = "Käfer"
 L["Bipedal Cat"] = [=[Zweibeinige Katze
 ]=]
@@ -545,6 +548,7 @@ L["Peafowl"] = "Pfau"
 L["Petalwing"] = "Flügelblatt"
 L["Phoenixes"] = "Phönixe"
 L["Plant"] = "Pflanze"
+L["Primate"] = "Primat"
 L["Proto-Drakes"] = "Protodrachen"
 L["Pterrordaxes"] = "Pterrordaxe"
 L["Quilen"] = "Qilen"
@@ -735,6 +739,7 @@ L["Armoredon"] = "Rinoceronte Blindado"
 L["Basilisks"] = "Basiliscos"
 L["Bats"] = "Murciélagos"
 L["Bears"] = "Osos"
+L["Bee"] = "Abejas"
 L["Beetle"] = "Escarabajos"
 L["Bipedal Cat"] = "Raptors dientes de sable"
 L["Birds"] = "Pájaros"
@@ -848,6 +853,7 @@ L["Peafowl"] = "Pavo real"
 L["Petalwing"] = "Alapétalo"
 L["Phoenixes"] = "Fénix"
 L["Plant"] = "Planta"
+L["Primate"] = "Primates"
 L["Proto-Drakes"] = "Protodracos"
 L["Pterrordaxes"] = "Pterrordáctilos"
 L["Quilen"] = "Quilens"
@@ -1146,6 +1152,8 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[Translation missing --]]
 --[[ L["Bears"] = "Bears"--]] 
 --[[Translation missing --]]
+--[[ L["Bee"] = "Bee"--]] 
+--[[Translation missing --]]
 --[[ L["Beetle"] = "Beetle"--]] 
 --[[Translation missing --]]
 --[[ L["Bipedal Cat"] = "Bipedal Cat"--]] 
@@ -1370,6 +1378,8 @@ L["Lynx"] = "Lince"
 --[[ L["Phoenixes"] = "Phoenixes"--]] 
 --[[Translation missing --]]
 --[[ L["Plant"] = "Plant"--]] 
+--[[Translation missing --]]
+--[[ L["Primate"] = "Primate"--]] 
 --[[Translation missing --]]
 --[[ L["Proto-Drakes"] = "Proto-Drakes"--]] 
 --[[Translation missing --]]
@@ -1630,6 +1640,8 @@ L["Armoredon"] = "Armoredon"
 L["Basilisks"] = "Basilics"
 L["Bats"] = "Chauves-souris"
 L["Bears"] = "Ours"
+--[[Translation missing --]]
+--[[ L["Bee"] = "Bee"--]] 
 L["Beetle"] = "Scarabées"
 L["Bipedal Cat"] = "Chats bipèdes"
 L["Birds"] = "Oiseaux"
@@ -1747,6 +1759,8 @@ L["Peafowl"] = "Paon"
 L["Phoenixes"] = "Phénix"
 --[[Translation missing --]]
 --[[ L["Plant"] = "Plant"--]] 
+--[[Translation missing --]]
+--[[ L["Primate"] = "Primate"--]] 
 L["Proto-Drakes"] = "Proto-drakes"
 L["Pterrordaxes"] = "Pterreurdactyles"
 L["Quilen"] = "Quilens"
@@ -1988,6 +2002,8 @@ L["Armoredon"] = "Coraceronte"
 L["Basilisks"] = "Basilischi"
 L["Bats"] = "Pipistrelli"
 L["Bears"] = "Orso"
+--[[Translation missing --]]
+--[[ L["Bee"] = "Bee"--]] 
 L["Beetle"] = "Scarabeo"
 L["Bipedal Cat"] = "Sognartigli"
 L["Birds"] = "Uccelli"
@@ -2114,6 +2130,8 @@ L["Peafowl"] = "Pavone"
 --[[ L["Phoenixes"] = "Phoenixes"--]] 
 --[[Translation missing --]]
 --[[ L["Plant"] = "Plant"--]] 
+--[[Translation missing --]]
+--[[ L["Primate"] = "Primate"--]] 
 L["Proto-Drakes"] = "Proto-Draco"
 L["Pterrordaxes"] = "Pterrordattilo"
 L["Quilen"] = "Quilen"
@@ -2310,6 +2328,8 @@ L["Armoredon"] = "장갑무소"
 L["Basilisks"] = "바실리스크"
 L["Bats"] = "박쥐"
 L["Bears"] = "곰"
+--[[Translation missing --]]
+--[[ L["Bee"] = "Bee"--]] 
 L["Beetle"] = "딱정벌레"
 L["Bipedal Cat"] = "꿈갈퀴"
 L["Birds"] = "새"
@@ -2427,6 +2447,8 @@ L["Peafowl"] = "공작새"
 L["Phoenixes"] = "불사조"
 --[[Translation missing --]]
 --[[ L["Plant"] = "Plant"--]] 
+--[[Translation missing --]]
+--[[ L["Primate"] = "Primate"--]] 
 L["Proto-Drakes"] = "원시 비룡"
 L["Pterrordaxes"] = "테러닥스"
 L["Quilen"] = "기렌"
@@ -2616,6 +2638,8 @@ L["Armoredon"] = "Armadurados"
 L["Basilisks"] = "Basiliscos"
 L["Bats"] = "Morcegos"
 L["Bears"] = "Ursos"
+--[[Translation missing --]]
+--[[ L["Bee"] = "Bee"--]] 
 L["Beetle"] = "Besouros"
 L["Bipedal Cat"] = "Gatos Bípedes"
 L["Birds"] = "Aves"
@@ -2733,6 +2757,8 @@ L["Peafowl"] = "Pavões"
 L["Phoenixes"] = "Fênix"
 --[[Translation missing --]]
 --[[ L["Plant"] = "Plant"--]] 
+--[[Translation missing --]]
+--[[ L["Primate"] = "Primate"--]] 
 L["Proto-Drakes"] = "Protodracos"
 L["Pterrordaxes"] = "Pterrordaxes"
 L["Quilen"] = "Quílen"
@@ -2921,6 +2947,8 @@ L["Armoredon"] = "Бронедоны"
 L["Basilisks"] = "Василиски"
 L["Bats"] = "Летучие мыши"
 L["Bears"] = "Медведи"
+--[[Translation missing --]]
+--[[ L["Bee"] = "Bee"--]] 
 L["Beetle"] = "Жуки"
 L["Bipedal Cat"] = "Ящеры из Сна"
 L["Birds"] = "Птицы"
@@ -3038,6 +3066,8 @@ L["Peafowl"] = "Павлины"
 L["Phoenixes"] = "Фениксы"
 --[[Translation missing --]]
 --[[ L["Plant"] = "Plant"--]] 
+--[[Translation missing --]]
+--[[ L["Primate"] = "Primate"--]] 
 L["Proto-Drakes"] = "Протодраконы"
 L["Pterrordaxes"] = "Терродактили"
 L["Quilen"] = "Цийлини"
@@ -3226,6 +3256,8 @@ L["Armoredon"] = "厚甲龙"
 L["Basilisks"] = "蜥蜴"
 L["Bats"] = "蝙蝠"
 L["Bears"] = "熊"
+--[[Translation missing --]]
+--[[ L["Bee"] = "Bee"--]] 
 L["Beetle"] = "甲虫"
 L["Bipedal Cat"] = "梦爪獍"
 L["Birds"] = "鸟类"
@@ -3339,6 +3371,8 @@ L["Peafowl"] = "孔雀"
 L["Petalwing"] = "瓣翼鸟"
 L["Phoenixes"] = "凤凰"
 L["Plant"] = "植物"
+--[[Translation missing --]]
+--[[ L["Primate"] = "Primate"--]] 
 L["Proto-Drakes"] = "始祖幼龙"
 L["Pterrordaxes"] = "啸天龙"
 L["Quilen"] = "魁麟"
@@ -3374,8 +3408,7 @@ L["Snapdragons"] = "毒鳍龙"
 L["Spider Tanks"] = "蜘蛛坦克"
 L["Spiders"] = "蜘蛛"
 L["Sporebat"] = "孢子蝠"
---[[Translation missing --]]
---[[ L["Squirrel"] = "Squirrel"--]] 
+L["Squirrel"] = "松鼠"
 L["Stag"] = "牡鹿"
 L["Steeds"] = "马"
 L["Stingrays"] = "鳐鱼"
@@ -3639,6 +3672,8 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[Translation missing --]]
 --[[ L["Bears"] = "Bears"--]] 
 --[[Translation missing --]]
+--[[ L["Bee"] = "Bee"--]] 
+--[[Translation missing --]]
 --[[ L["Beetle"] = "Beetle"--]] 
 --[[Translation missing --]]
 --[[ L["Bipedal Cat"] = "Bipedal Cat"--]] 
@@ -3864,6 +3899,8 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["Phoenixes"] = "Phoenixes"--]] 
 --[[Translation missing --]]
 --[[ L["Plant"] = "Plant"--]] 
+--[[Translation missing --]]
+--[[ L["Primate"] = "Primate"--]] 
 --[[Translation missing --]]
 --[[ L["Proto-Drakes"] = "Proto-Drakes"--]] 
 --[[Translation missing --]]

@@ -3468,7 +3468,13 @@ eventFrame:SetScript("OnEvent", function(_, event, ...)
         RecordPreyTurnIn(questID)
     end
 
-    if event == "CHAT_MSG_CURRENCY" or event == "CHAT_MSG_LOOT" or event == "QUEST_TURNED_IN" or event == "BAG_UPDATE_DELAYED" then
+    if event == "CHAT_MSG_LOOT" or event == "CHAT_MSG_CURRENCY" then
+        -- Loot/currency chat should feel immediate in the tracker UI.
+        CurrencyTrackerModule:QueueRefreshSweep(event, true)
+        return
+    end
+
+    if event == "QUEST_TURNED_IN" or event == "BAG_UPDATE_DELAYED" then
         CurrencyTrackerModule:QueueRefreshSweep(event, false)
     elseif event == "PLAYER_ENTERING_WORLD" then
         -- Re-apply instance-hide state every time the player crosses a loading screen.
@@ -3493,7 +3499,12 @@ function CurrencyTrackerModule:OnAddonLoaded()
     EnsureTrackerSettings()
     CheckAndProcessWeeklyReset()
     eventFrame:RegisterEvent("CHAT_MSG_LOOT")
-    -- Idle mode is loot-driven: keep only loot currency refresh on the dedicated frame.
+    eventFrame:RegisterEvent("CHAT_MSG_CURRENCY")
+    eventFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
+    eventFrame:RegisterEvent("QUEST_TURNED_IN")
+    eventFrame:RegisterEvent("BAG_UPDATE_DELAYED")
+    -- Keep refresh event-driven (no polling), but include direct currency signals
+    -- so gains/losses are reflected immediately.
     sessionStart = {}
     sessionBaselineReady = false
     UpdateLastKnownQuantities()

@@ -3516,4 +3516,13 @@ private.NPC_LOOT = {
 	[253304] = {242639,260665,260691}; --Paingolin
 	[253249] = {242640,255826,260618,260660}; --Clever Saptor
 	[250534] = {}; --Treasure Dundun
+	[259971] = {}; --Mana-Gorged Greatwyrm
+	[260203] = {}; --Venomscale Mar'grita
+	[260204] = {}; --Embertalon <Clutch of Emberdawn>
+	[260209] = {}; --The Enraged Tides
+	[263361] = {}; --Voidcaller Ozi'rug
+	[263463] = {}; --Disturbed Horror
+	[263490] = {}; --Warlord Heth
+	[263897] = {}; --Condemned Beast
+	[263921] = {}; --Desperate Beast
 }

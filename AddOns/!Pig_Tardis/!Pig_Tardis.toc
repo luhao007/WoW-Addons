@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: geligasi
-## Version: 1.87
+## Version: 1.88
 
 ## Title: !Pig_Tardis
 ## Notes: Invite enhancement

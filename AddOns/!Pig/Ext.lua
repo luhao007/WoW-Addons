@@ -51,12 +51,10 @@ if Locale == "zhCN" or Locale == "zhTW" then
 	local DOWN_url1 = "网易DD(dd.163.com)|cff00FFFF插件库|r搜索"
 	local DOWN_url2 = "新手盒子(wclbox.com)|cff00FFFF插件库|r搜索"
 	local DOWN_url3 = "新手盒子(wclbox.com)|cffFF00FF配置分享改为按标题&作者搜索"
-	for i=1,#L.addnames-1 do
+	for i=1,#L.addnames do
 		addData[L.addnames[i]].down_1 = DOWN_url1
 		addData[L.addnames[i]].down_2 = DOWN_url2
 	end
-	addData[L.addnames[4]].down_1 = DOWN_url1
-	addData[L.addnames[4]].down_2 = DOWN_url3
 	for i=1,#L.audioName do
 		addData[L.audioName[i]].down_1 = DOWN_url1
 		addData[L.audioName[i]].down_2 = DOWN_url2

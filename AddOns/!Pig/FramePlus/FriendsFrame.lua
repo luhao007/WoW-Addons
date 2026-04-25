@@ -10,6 +10,8 @@ local PIGFontString=Create.PIGFontString
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Friends()
 	if not PIGA["FramePlus"]["Friends"] then return end
+	if FramePlusfun.FriendsOK then return end
+	FramePlusfun.FriendsOK=true
 	FriendsFrame:Hide()
 	local www = FriendsFrame:GetWidth()
 	local butWidthall = www*1.64

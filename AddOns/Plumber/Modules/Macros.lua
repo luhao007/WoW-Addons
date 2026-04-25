@@ -69,9 +69,6 @@ local ModifyType = {
 	Overwrite = 2,
 };
 
-local SlashCmd = {};
---SlashCmd.DrawerMacro = API.GetSlashSubcommand("DrawerMacro");
-
 
 local function AddExtraLineToMacroBody(extraLine, body)
 	extraLine = "\n\n"..extraLine;
@@ -432,6 +429,7 @@ function EL:UpdateDrawers()
 			name, icon, body = GetMacroInfo(macroIndex);
 			drawerInfo = MacroInterpreter:GetDrawerInfo(body, checkUsability, hideUnusable, alwaysShowConsumables);
 			if drawerInfo then
+				--print(name, #drawerInfo)
 				handlerName = SecureSpellFlyout:AddActionsAndGetHandler(drawerInfo);
 				if handlerName then
 					body, anyChange = SecureSpellFlyout:RemoveClickHandlerFromMacro(body);
@@ -949,7 +947,7 @@ do  --MacroInterpreter
 		end
 	end
 
-	function MacroInterpreter:GetDrawerInfo(body, checkUsability, hideUnusable, alwaysShowConsumables)
+	function MacroInterpreter:GetDrawerInfo(body, checkUsability, hideUnusable, alwaysShowConsumables, forEditor)
 		if not body then return end;
 		if not find(body, "#plumber:drawer") then return end;
 
@@ -1058,12 +1056,50 @@ do  --MacroInterpreter
 
 			if not processed then
 				if find(line, "/home") then
-					if addon.Housing then
-						processed = true;
-						icon, macroText, name = addon.Housing.GetDynamicTeleportAction();
-						id = -1;
-						actionType = "teleportHome";
-						usable = true;
+					local h = addon.Housing;
+					if h then
+						if h.DoesPlayerHaveMultipleHomes() and not forEditor then
+							-- Avoid showing two teleportHome buttons if it's the editor that requires the drawerInfo
+							processed = true;
+							actionType = "teleportHome";
+							usable = true;
+
+							if not tbl then
+								tbl = {};
+							end
+
+							icon, macroText, name = h.GetDynamicTeleportAllianceAction();
+							n = n + 1;
+							tbl[n] = {
+								tooltipLineText = name,
+								icon = icon,
+								actionType = actionType,
+								id = 1,
+								usable = usable,
+								macroText = macroText,
+								rawMacroText = line,
+							};
+
+							icon, macroText, name = h.GetDynamicTeleportHordeAction();
+							n = n + 1;
+							tbl[n] = {
+								tooltipLineText = name,
+								icon = icon,
+								actionType = actionType,
+								id = 2,
+								usable = usable,
+								macroText = macroText,
+								rawMacroText = line,
+							};
+
+							actionType = nil; -- so the action won't be duplicated by the end
+						else
+							processed = true;
+							icon, macroText, name = h.GetDynamicTeleportAction();
+							id = -1;
+							actionType = "teleportHome";
+							usable = true;
+						end
 					end
 				end
 			end
@@ -1126,10 +1162,11 @@ do  --MacroInterpreter
 						macroText = "/run C_MountJournal.SummonByID(0)";
 						id = _spellID;
 					else
-						local  _name, _spellID, _icon, _isActive, _isUsable, _sourceType, _isFavorite, _isFactionSpecific, _faction, _shouldHideOnChar, _isCollected = GetMountInfoByID(id);
+						local factionIndex = API.GetPlayerFactionIndex();
+						local _name, _spellID, _icon, _isActive, _isUsable, _sourceType, _isFavorite, _isFactionSpecific, _faction, _shouldHideOnChar, _isCollected = GetMountInfoByID(id);
 						name = GetSpellName(_spellID) or _name;
 						icon = _icon;
-						usable = _isCollected;
+						usable = _isCollected and (_faction == nil or _faction == factionIndex);
 						macroText = format("/run C_MountJournal.SummonByID(%d)", id);
 						id = _spellID;
 					end
@@ -1619,7 +1656,8 @@ do  --Editor Setup
 		EditorSetup.ReceptorFrame:Hide();
 		EditorSetup.IconButtonFrame:Show();
 
-		local drawerInfo = MacroInterpreter:GetDrawerInfo(body);
+		local forEditor = true;
+		local drawerInfo = MacroInterpreter:GetDrawerInfo(body, nil, nil, nil, forEditor);
 		if drawerInfo and #drawerInfo > 0 then
 			local refresh = false;
 
@@ -1840,6 +1878,8 @@ do  --DrawerUpdator
 		SecureSpellFlyout:Close();
 		--print("DRAWER UPDATED")
 	end
+
+	CallbackRegistry:Register("Macro.UpdateDrawers", DrawerUpdator.RequestUpdate, DrawerUpdator);
 end
 
 

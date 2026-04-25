@@ -5,6 +5,7 @@ local _, Addon = ...
 local MINUTE = 60
 local HOUR = MINUTE * 60
 local DAY = HOUR * 24
+local WEEK = DAY * 7
 local NOOP = function() end
 
 -- converts draw state enum values into a bool|nil
@@ -23,57 +24,135 @@ end
 
 -- converts a tullaCTC config into a sorted array of formatter breakpoints
 local function getFormatBreakpoints(config)
-    local points = {}
+    local roundingMode = Enum.NumericRuleFormatRounding[config.roundingMode]
+    if roundingMode == nil then
+        roundingMode = Enum.NumericRuleFormatRounding.Nearest
+    end
 
-    if (config.tenthsThreshold or -1) > 0 then
+    local points = {}
+    if (config.tenthsThreshold or 0) > 0 then
         tinsert(points, {
             threshold = 0,
             format = '%.1f',
+            rounding = roundingMode,
+            step = 1
         })
 
         tinsert(points, {
             threshold = config.tenthsThreshold,
             format = '%d',
+            rounding = roundingMode,
+            step = 1
         })
-    else
+    elseif roundingMode == Enum.NumericRuleFormatRounding.Up then
         tinsert(points, {
             threshold = 0,
             format = '%d',
+            rounding = roundingMode,
+            step = 1
         })
+    elseif roundingMode == Enum.NumericRuleFormatRounding.Down then
+        if config.showZero then
+            tinsert(points, {
+                threshold = 0,
+                format = '%d',
+                rounding = roundingMode,
+                step = 1
+            })
+        else
+            tinsert(points, {
+                threshold = 0,
+                format = '',
+                rounding = roundingMode,
+                step = 1
+            })
+
+            tinsert(points, {
+                threshold = 1,
+                format = '%d',
+                rounding = roundingMode,
+                step = 1
+            })
+        end
+    else
+        if config.showZero then
+            tinsert(points, {
+                threshold = 0,
+                format = '%d',
+                rounding = roundingMode,
+                step = 1
+            })
+        else
+            tinsert(points, {
+                threshold = 0,
+                format = '',
+                rounding = roundingMode,
+                step = 1
+            })
+
+            tinsert(points, {
+                threshold = 0.5,
+                format = '%d',
+                rounding = roundingMode,
+                step = 1
+            })
+        end
     end
 
-    local mmssThreshold = config.abbrevThreshold
-    if mmssThreshold > 0 then
-        tinsert(points, {
-            threshold = MINUTE,
-            format = '%d:%02d',
-            components = { { div = MINUTE} , { mod = MINUTE } },
-        })
+    local prevThreshold = points[#points].threshold
 
+    local mmssThreshold = config.abbrevThreshold or 0
+    if mmssThreshold > prevThreshold then
         tinsert(points, {
             threshold = mmssThreshold,
-            format = '%dm',
-            components = { { div = MINUTE } },
+            format = '%d:%02d',
+            components = { { div = MINUTE } , { mod = MINUTE, rounding = roundingMode, step = 1 } },
         })
-    else
-        tinsert(points, {
-            threshold = MINUTE,
-            format = '%dm',
-            components = { { div = MINUTE } },
-        })
+
+        prevThreshold = points[#points].threshold
     end
 
-    tinsert(points, {
-        threshold = HOUR,
-        format = '%dh',
-        components = { { div = HOUR } }
-    })
+    local minutesThreshold = config.minutesThreshold or 0
+    if minutesThreshold > prevThreshold then
+        tinsert(points, {
+            threshold = minutesThreshold,
+            format = '%dm',
+            components = { { div = MINUTE, rounding = roundingMode, step = 1 } },
+        })
 
-    tinsert(points, {
-        threshold = DAY,
-        format = '%dd',
-        components = { { div = DAY } },
-    })
+        prevThreshold = points[#points].threshold
+    end
+
+    local hoursThreshold = config.hoursThreshold or 0
+    if hoursThreshold > prevThreshold then
+        tinsert(points, {
+            threshold = hoursThreshold,
+            format = '%dh',
+            components = { { div = HOUR, rounding = roundingMode, step = 1 } },
+        })
+
+        prevThreshold = points[#points].threshold
+    end
+
+    local daysThreshold = config.daysThreshold or 0
+    if daysThreshold > prevThreshold then
+        tinsert(points, {
+            threshold = daysThreshold,
+            format = '%dd',
+            components = { { div = DAY, rounding = roundingMode, step = 1 } },
+        })
+
+        prevThreshold = points[#points].threshold
+    end
+
+    local weeksThreshold = config.weeksThreshold or 0
+    if weeksThreshold > prevThreshold then
+        tinsert(points, {
+            threshold = weeksThreshold,
+            format = '%dw',
+            components = { { div = WEEK, rounding = roundingMode, step = 1 } },
+        })
+    end
 
     return points
 end
@@ -119,40 +198,36 @@ end
 -- precondition: both colors and formats need to be sorted by threshold values
 local function createBreakpoints(colors, formats)
     local breakpoints = {}
-    local i = 1
-    local j = 1
-    local color, format, components
+    local i, j = 1, 1
+    local state = { format = "" } -- Persistent "current" values
 
-    while (i <= #colors or j <= #formats) do
-        local c = colors[i]
-        local f = formats[j]
+    while colors[i] or formats[j] do
+        local c, f = colors[i], formats[j]
         local threshold
 
-        if c and (not f or c.threshold < f.threshold) then
+        -- 1. Process Color if it's next (or ties with format)
+        if c and (not f or c.threshold <= f.threshold) then
             threshold = c.threshold
-            color = c.color
-
+            state.color = c.color
             i = i + 1
-        elseif f and (not c or f.threshold < c.threshold) then
+        end
+
+        -- 2. Process Format if it's next (or ties with color)
+        if f and (not threshold or f.threshold <= threshold) then
             threshold = f.threshold
-            format = f.format
-            components = f.components
-
-            j = j + 1
-        else
-            threshold = c.threshold
-            color = c.color
-            format = f.format
-            components = f.components
-
-            i = i + 1
+            for k, v in pairs(f) do state[k] = v end -- Update all format keys
             j = j + 1
         end
 
+        -- 3. Save a "snapshot" of the current state
         breakpoints[#breakpoints + 1] = {
-            threshold = threshold,
-            format = color and color:WrapTextInColorCode(format) or format,
-            components = components
+            threshold  = threshold,
+            step       = state.step,
+            rounding   = state.rounding,
+            min        = state.min,
+            max        = state.max,
+            format     = state.color and state.color:WrapTextInColorCode(state.format) or state.format,
+            components = state.components
         }
     end
 

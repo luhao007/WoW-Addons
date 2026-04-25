@@ -1,9 +1,12 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.4.5"
-ns.PreviousAddonVersion = "3.4.4" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.4.8"
+ns.PreviousAddonVersion = "3.4.7" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.4.8", table = "smallChanges" },
+  { version = "3.4.7", table = ns.LOCALE_CHANGELOG_3_4_7 },
+  { version = "3.4.6", table = "smallChanges" },
   { version = "3.4.5", table = ns.LOCALE_CHANGELOG_3_4_5 },
   { version = "3.4.4", table = "smallChanges" },
   { version = "3.4.3", table = ns.LOCALE_CHANGELOG_3_4_3 },
@@ -74,69 +77,115 @@ ns.LOCALE_CHANGELOG_3_4_ = { -- empty backup file
 ]],
 }
 
+ns.LOCALE_CHANGELOG_3_4_7 = {
+  deDE = [[
+• Fehlerbehebung nicht gefundenes Profil für die Nebel-, Weltkarten- und Koordinaten-Funktion
+]],
+
+  enUS = [[
+• Bugfix for missing profile for fog, world map, and coordinate function
+]],
+
+  frFR = [[
+• Correction d’un profil introuvable pour le brouillard, la carte du monde et la fonction de coordonnées
+]],
+
+  itIT = [[
+• Correzione di un profilo non trovato per la nebbia, la mappa del mondo e la funzione delle coordinate
+]],
+
+  esES = [[
+• Corrección de un perfil no encontrado para la niebla, el mapa del mundo y la función de coordenadas
+]],
+
+  esMX = [[
+• Corrección de un perfil no encontrado para la niebla, el mapa del mundo y la función de coordenadas
+]],
+
+  ptBR = [[
+• Correção de perfil não encontrado para a névoa, o mapa-múndi e a função de coordenadas
+]],
+
+  ruRU = [[
+• Исправлена ошибка отсутствующего профиля для тумана, карты мира и функции координат
+]],
+
+  zhCN = [[
+• 修复了雾效、世界地图和坐标功能中未找到配置文件的问题
+]],
+
+  zhTW = [[
+• 修復了霧效、世界地圖與座標功能中未找到設定檔的問題
+]],
+
+  koKR = [[
+• 안개, 월드맵 및 좌표 기능에서 프로필을 찾을 수 없는 문제 수정
+]],
+}
+
 ns.LOCALE_CHANGELOG_3_4_5 = {
   deDE = [[
-• Berufserkennung: Wurde geändert. Wenn die Funktion aktiviert ist und ein Charakter noch keine „2“ Hauptberufe und „3“ Nebenberufe erlernt hat, werden automatisch alle Symbole angezeigt. Sobald „2“ Haupt- und „3“ Nebenberufe erlernt wurden, werden nicht erlernte Symbole ausgeblendet.
+• Berufserkennung: Wurde geändert. Ist diese Funktion aktiviert und es wurden noch keine 2 Hauptberufe erlernt, werden alle möglichen Hauptberufssymbole angezeigt. Dasselbe gilt für die Nebenberufe, wurden weniger als 2 Nebenberufe erlernt, werden alle möglichen Nebenberufssymbole angezeigt.
 
 • Das Symbol für die Ruhm-Rüstmeister wurde angepasst und entspricht nun der Optik des Blizzard-Interfaces.
 ]],
 
   enUS = [[
-• Profession detection: Updated. If the feature is enabled and a character has not yet learned "2" primary professions and "3" secondary professions, all icons will be shown automatically. Once "2" primary and "3" secondary professions are learned, unlearned icons will be hidden.
+• Profession detection: Updated. If this feature is enabled and fewer than 2 primary professions are learned, all possible primary profession icons will be shown. The same applies to secondary professions: if fewer than 2 secondary professions are learned, all possible secondary profession icons will be shown.
 
 • The icon for Renown Quartermasters has been updated and now matches the Blizzard interface style.
 ]],
 
   frFR = [[
-• Détection des métiers : mise à jour. Si la fonction est activée et qu’un personnage n’a pas encore appris « 2 » métiers principaux et « 3 » métiers secondaires, toutes les icônes seront affichées automatiquement. Une fois « 2 » métiers principaux et « 3 » métiers secondaires appris, les icônes non apprises seront masquées.
+• Détection des métiers : mise à jour. Si cette fonction est activée et que moins de 2 métiers principaux sont appris, toutes les icônes possibles des métiers principaux seront affichées. Il en va de même pour les métiers secondaires : si moins de 2 métiers secondaires sont appris, toutes les icônes possibles des métiers secondaires seront affichées.
 
 • L’icône des intendants de renom a été mise à jour et correspond désormais au style de l’interface Blizzard.
 ]],
 
   itIT = [[
-• Rilevamento delle professioni: aggiornato. Se la funzione è attiva e un personaggio non ha ancora appreso "2" professioni principali e "3" secondarie, tutte le icone verranno mostrate automaticamente. Una volta apprese "2" professioni principali e "3" secondarie, le icone non apprese verranno nascoste.
+• Rilevamento delle professioni: aggiornato. Se questa funzione è attiva e sono state apprese meno di 2 professioni principali, verranno mostrate tutte le icone possibili delle professioni principali. Lo stesso vale per le professioni secondarie: se sono state apprese meno di 2 professioni secondarie, verranno mostrate tutte le icone possibili delle professioni secondarie.
 
 • L’icona dei Quartiermastri della Fama è stata aggiornata e ora corrisponde allo stile dell’interfaccia Blizzard.
 ]],
 
   esES = [[
-• Detección de profesiones: actualizada. Si la función está activada y un personaje aún no ha aprendido "2" profesiones principales y "3" secundarias, todos los iconos se mostrarán automáticamente. Una vez aprendidas "2" profesiones principales y "3" secundarias, los iconos no aprendidos se ocultarán.
+• Detección de profesiones: actualizada. Si esta función está activada y se han aprendido menos de 2 profesiones principales, se mostrarán todos los iconos posibles de profesiones principales. Lo mismo se aplica a las profesiones secundarias: si se han aprendido menos de 2 profesiones secundarias, se mostrarán todos los iconos posibles de profesiones secundarias.
 
 • El icono de los intendentes de Renombre ha sido actualizado y ahora coincide con el estilo de la interfaz de Blizzard.
 ]],
 
   esMX = [[
-• Detección de profesiones: actualizada. Si la función está activada y un personaje aún no ha aprendido "2" profesiones principales y "3" secundarias, todos los íconos se mostrarán automáticamente. Una vez aprendidas "2" profesiones principales y "3" secundarias, los íconos no aprendidos se ocultarán.
+• Detección de profesiones: actualizada. Si esta función está activada y se han aprendido menos de 2 profesiones principales, se mostrarán todos los íconos posibles de profesiones principales. Lo mismo aplica para las profesiones secundarias: si se han aprendido menos de 2 profesiones secundarias, se mostrarán todos los íconos posibles de profesiones secundarias.
 
 • El ícono de los intendentes de Renombre ha sido actualizado y ahora coincide con el estilo de la interfaz de Blizzard.
 ]],
 
   ptBR = [[
-• Detecção de profissões: atualizada. Se a função estiver ativada e um personagem ainda não tiver aprendido "2" profissões principais e "3" secundárias, todos os ícones serão exibidos automaticamente. Assim que "2" profissões principais e "3" secundárias forem aprendidas, os ícones não aprendidos serão ocultados.
+• Detecção de profissões: atualizada. Se esta função estiver ativada e menos de 2 profissões principais forem aprendidas, todos os ícones possíveis de profissões principais serão exibidos. O mesmo se aplica às profissões secundárias: se menos de 2 profissões secundárias forem aprendidas, todos os ícones possíveis de profissões secundárias serão exibidos.
 
 • O ícone dos intendentes de Renome foi atualizado e agora corresponde ao estilo da interface da Blizzard.
 ]],
 
   ruRU = [[
-• Обнаружение профессий: обновлено. Если функция включена и персонаж ещё не изучил «2» основные и «3» дополнительные профессии, все значки будут отображаться автоматически. После изучения «2» основных и «3» дополнительных профессий не изученные значки будут скрыты.
+• Обнаружение профессий: обновлено. Если функция включена и изучено менее 2 основных профессий, будут отображаться все возможные значки основных профессий. То же самое относится к дополнительным профессиям: если изучено менее 2 дополнительных профессий, будут отображаться все возможные значки дополнительных профессий.
 
 • Значок интендантов известности был обновлён и теперь соответствует стилю интерфейса Blizzard.
 ]],
 
   zhCN = [[
-• 专业检测：已更新。如果启用该功能且角色尚未学习“2”个主专业和“3”个副专业，则会自动显示所有图标。一旦学习了“2”个主专业和“3”个副专业，未学习的图标将被隐藏。
+• 专业检测：已更新。如果启用此功能且学习的主专业少于2个，则会显示所有可能的主专业图标。副专业也是如此：如果学习的副专业少于2个，则会显示所有可能的副专业图标。
 
 • 名望军需官的图标已更新，现在与暴雪界面风格一致。
 ]],
 
   zhTW = [[
-• 專業偵測：已更新。如果啟用此功能且角色尚未學習「2」個主要專業與「3」個次要專業，將自動顯示所有圖示。一旦學習了「2」個主要專業與「3」個次要專業，未學習的圖示將被隱藏。
+• 專業偵測：已更新。如果啟用此功能且學會的主要專業少於2個，將顯示所有可能的主要專業圖示。次要專業也是如此：如果學會的次要專業少於2個，將顯示所有可能的次要專業圖示。
 
 • 名望軍需官的圖示已更新，現在與暴雪介面風格一致。
 ]],
 
   koKR = [[
-• 전문 기술 감지: 업데이트됨. 기능이 활성화되어 있고 캐릭터가 아직 "2"개의 주요 전문 기술과 "3"개의 보조 전문 기술을 배우지 않았다면 모든 아이콘이 자동으로 표시됩니다. "2"개의 주요 및 "3"개의 보조 전문 기술을 배우면 배우지 않은 아이콘은 숨겨집니다.
+• 전문 기술 감지: 업데이트됨. 이 기능이 활성화되어 있고 주요 전문 기술을 2개 미만으로 배운 경우 모든 가능한 주요 전문 기술 아이콘이 표시됩니다. 보조 전문 기술도 동일하게, 2개 미만으로 배운 경우 모든 가능한 보조 전문 기술 아이콘이 표시됩니다.
 
 • 평판 병참장교 아이콘이 업데이트되어 이제 블리자드 인터페이스 스타일과 일치합니다.
 ]],

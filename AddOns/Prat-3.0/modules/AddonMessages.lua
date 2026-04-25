@@ -106,16 +106,11 @@ L["show_perframename"] = "ChatFrame%d AddonMsgsShow"
 
   L = {}
   -- AddonMsgs
---[[Translation missing --]]
-L["Addon message options."] = "Addon message options."
---[[Translation missing --]]
-L["AddonMsgs"] = "AddonMsgs"
---[[Translation missing --]]
-L["show_desc"] = "Toggle showing hidden addon messages in each chat window."
---[[Translation missing --]]
-L["show_name"] = "Show Addon Messages"
---[[Translation missing --]]
-L["show_perframedesc"] = "Toggle showing hidden addon messages on and off."
+L["Addon message options."] = "Options des messages complémentaires."
+L["AddonMsgs"] = "MsgsAddon"
+L["show_desc"] = "Activer / désactiver l'affichage des messages des addons cachés dans chaque fenêtre de discussion."
+L["show_name"] = "Afficher les messages de l'addon"
+L["show_perframedesc"] = "Activer / désactiver l'affichage des messages cachés des modules complémentaires."
 --[[Translation missing --]]
 L["show_perframename"] = "ChatFrame%d AddonMsgsShow"
 

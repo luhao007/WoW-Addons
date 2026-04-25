@@ -179,10 +179,10 @@ function BusinessInfo.AHPlus_Mainline()
 		local daojishitt = 900-(GetServerTime()-PIGA["AHPlus"]["DaojiTime"])
 		if daojishitt<0 then
 			self:Enable()
-			self:SetText("缓存价格");
+			self:SetText(L["TRADEAH_CACHEG"]);
 		else
 			self:Disable()
-			self:SetText("缓存价格("..daojishitt..")");
+			self:SetText(L["TRADEAH_CACHEG"].."("..daojishitt..")");
 		end
 	end
 	AuctionHouseFrame.History:HookScript("OnClick", function(self, button)
@@ -228,7 +228,7 @@ function BusinessInfo.AHPlus_Mainline()
 		for k,v in pairs(UpdateF.auctionsG) do
 			BusinessInfo.ADD_Newdata(k,v[1],v[2],v[3])
 		end
-		HCUI.jindu.tbiaoti:SetText("价格缓存完毕");
+		HCUI.jindu.tbiaoti:SetText(L["TRADEAH_CACHEGEND"]);
 		HCUI.close:Show();
 	end
 	local function TryProcessIndex(index)
@@ -291,7 +291,7 @@ function BusinessInfo.AHPlus_Mainline()
 			UpdateF.currentTotal=currentTotal
 			HCUI.jindu.t3:SetText(currentTotal);
 			HCUI.jindu:SetMinMaxValues(0, currentTotal)
-			HCUI.jindu.tbiaoti:SetText("正在获取价格...");
+			HCUI.jindu.tbiaoti:SetText(L["TRADEAH_SCANITEMG"]);
 			for index=1,currentTotal do
 				UpdateF.ItemIndexList[index]=true
 			end
@@ -306,7 +306,7 @@ function BusinessInfo.AHPlus_Mainline()
 		BusinessInfo.Del_OldData()
 		HCUI:Show();
 		HCUI.close:Hide();
-		HCUI.jindu.tbiaoti:SetText("正在扫描物品...");
+		HCUI.jindu.tbiaoti:SetText(L["TRADEAH_SCANITEM"]);
 		HCUI.jindu:SetMinMaxValues(0, 100)
 		HCUI.jindu:SetValue(1);
 		HCUI.jindu.t2:SetText(0);
@@ -338,12 +338,12 @@ function BusinessInfo.AHPlus_Mainline()
 		end
 	end)
 	---------------------
-	AuctionHouseFrame.WoWTokenResults.qushibut = PIGButton(AuctionHouseFrame.WoWTokenResults,{"CENTER",AuctionHouseFrame.WoWTokenResults,"CENTER",3,-100},{80,24},"历史价格",nil,nil,nil,nil,0)
+	AuctionHouseFrame.WoWTokenResults.qushibut = PIGButton(AuctionHouseFrame.WoWTokenResults,{"CENTER",AuctionHouseFrame.WoWTokenResults,"CENTER",3,-100},{80,24},L["TRADEAH_PRICETREND"],nil,nil,nil,nil,0)
 	AuctionHouseFrame.WoWTokenResults.qushibut:HookScript("OnClick",function(self)
 		if BusinessInfo.StatsInfoUI then
 			BusinessInfo.StatsInfoUI:TabShow(AuctionHouseFrame)
 		else
-			PIG_OptionsUI:ErrorMsg("请打开"..addonName..SETTINGS.."→"..L["BUSINESS_TABNAME"].."→"..INFO..STATISTICS)
+			PIG_OptionsUI:ErrorMsg(BusinessInfo.ADD_qushiError)
 		end
 	end)
 end

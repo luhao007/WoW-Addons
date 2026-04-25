@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Breen
-## Version: v4.19
+## Version: v4.20
 
 ## Title: BtWQuests: Mists of Pandaria
 ## Notes: Mists of Pandaria quest data for BtWQuests

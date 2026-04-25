@@ -1,4 +1,4 @@
----@diagnostic disable: undefined-field, inject-field, param-type-mismatch
+---@diagnostic disable
 
 local _, addonTable = ...
 local Preydator = _G.Preydator or addonTable
@@ -42,7 +42,20 @@ local function ApplyDropdownListScale(level, dropDownFrame)
     listFrame:SetScale(desiredScale)
 end
 
-local function BindDropdownScale(dropdown)
+local function ApplyDropdownListLimit(maxScrollItems)
+    if type(maxScrollItems) ~= "number" or maxScrollItems <= 0 then
+        return
+    end
+
+    local listFrame = _G.DropDownList1
+    if not listFrame then
+        return
+    end
+
+    listFrame.maxScrollItems = math.floor(maxScrollItems)
+end
+
+local function BindDropdownScale(dropdown, maxScrollItems)
     if not dropdown or dropdown.PreydatorScaleHookBound then
         return
     end
@@ -57,11 +70,13 @@ local function BindDropdownScale(dropdown)
         local timer = _G.C_Timer
         if timer and type(timer.After) == "function" then
             timer.After(0, function()
+                ApplyDropdownListLimit(maxScrollItems)
                 ApplyDropdownListScale(1, dropdown)
             end)
             return
         end
 
+        ApplyDropdownListLimit(maxScrollItems)
         ApplyDropdownListScale(1, dropdown)
     end)
 end
@@ -408,14 +423,290 @@ local function CreateSlider(parent, x, y, label, minValue, maxValue, step, gette
     })
 end
 
-local function CreateDropdown(parent, x, y, label, width, options, getter, setter)
+local SOUND_PICKER_VISIBLE_ROWS = 15
+local SOUND_PICKER_ROW_HEIGHT = 22
+
+local function BuildDropdownOptionList(optionSource)
+    local optionList = {}
+    if type(optionSource) == "table" and #optionSource > 0 then
+        for _, entry in ipairs(optionSource) do
+            if type(entry) == "table" and entry.key ~= nil then
+                optionList[#optionList + 1] = { key = entry.key, entry = entry }
+            end
+        end
+    else
+        for key, entry in pairs(optionSource or {}) do
+            optionList[#optionList + 1] = { key = key, entry = entry }
+        end
+
+        table.sort(optionList, function(left, right)
+            return tostring(left.entry and left.entry.text or "") < tostring(right.entry and right.entry.text or "")
+        end)
+    end
+
+    return optionList
+end
+
+local function EnsureSoundPickerFrame()
+    local soundPickerFrame = _G.PreydatorSoundPickerFrame
+    if soundPickerFrame then
+        return soundPickerFrame
+    end
+
+    local frame = CreateFrame("Frame", "PreydatorSoundPickerFrame", UIParent, "BasicFrameTemplateWithInset")
+    frame:SetSize(520, 500)
+    frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+    frame:SetFrameStrata("DIALOG")
+    frame:Hide()
+    frame:SetMovable(true)
+    frame:EnableMouse(true)
+    frame:RegisterForDrag("LeftButton")
+    frame:SetScript("OnDragStart", function(self)
+        self:StartMoving()
+    end)
+    frame:SetScript("OnDragStop", function(self)
+        self:StopMovingOrSizing()
+    end)
+
+    if frame.TitleText then
+        frame.TitleText:SetText(L["Sound Picker"] or "Sound Picker")
+    end
+
+    if type(_G.UISpecialFrames) == "table" then
+        _G.UISpecialFrames[#_G.UISpecialFrames + 1] = "PreydatorSoundPickerFrame"
+    end
+
+    local searchLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    searchLabel:SetPoint("TOPLEFT", frame, "TOPLEFT", 16, -34)
+    searchLabel:SetText(L["Search"] or "Search")
+
+    local searchBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+    searchBox:SetAutoFocus(false)
+    searchBox:SetSize(330, 22)
+    searchBox:SetPoint("TOPLEFT", searchLabel, "BOTTOMLEFT", 0, -6)
+    searchBox:SetTextInsets(6, 6, 0, 0)
+    frame.searchBox = searchBox
+
+    local listContainer = CreateFrame("Frame", nil, frame, "InsetFrameTemplate")
+    listContainer:SetPoint("TOPLEFT", searchBox, "BOTTOMLEFT", -4, -8)
+    listContainer:SetSize(488, 380)
+    listContainer:EnableMouseWheel(true)
+    frame.listContainer = listContainer
+
+    local scrollProxy = CreateFrame("ScrollFrame", nil, frame)
+    scrollProxy:SetPoint("TOPLEFT", listContainer, "TOPLEFT", 0, 0)
+    scrollProxy:SetPoint("BOTTOMRIGHT", listContainer, "BOTTOMRIGHT", 0, 0)
+
+    local scrollSlider = CreateFrame("Slider", nil, scrollProxy, "OptionsSliderTemplate")
+    scrollSlider:SetOrientation("VERTICAL")
+    scrollSlider:SetPoint("TOPLEFT", listContainer, "TOPRIGHT", -18, -18)
+    scrollSlider:SetPoint("BOTTOMLEFT", listContainer, "BOTTOMRIGHT", -18, 18)
+    scrollSlider:SetWidth(16)
+    scrollSlider:SetMinMaxValues(0, 0)
+    scrollSlider:SetValueStep(1)
+    scrollSlider:SetObeyStepOnDrag(true)
+    scrollSlider:SetValue(0)
+    if scrollSlider.Low then scrollSlider.Low:Hide() end
+    if scrollSlider.High then scrollSlider.High:Hide() end
+    if scrollSlider.Text then scrollSlider.Text:Hide() end
+    frame.scrollSlider = scrollSlider
+
+    local clearButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+    clearButton:SetSize(70, 22)
+    clearButton:SetPoint("LEFT", searchBox, "RIGHT", 8, 0)
+    clearButton:SetText(L["Clear"] or "Clear")
+    clearButton:SetScript("OnClick", function()
+        searchBox:SetText("")
+    end)
+
+    local closeButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+    closeButton:SetSize(80, 22)
+    closeButton:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -14, 12)
+    closeButton:SetText(L["Close"] or "Close")
+    closeButton:SetScript("OnClick", function()
+        frame:Hide()
+    end)
+
+    local statusText = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    statusText:SetPoint("LEFT", closeButton, "RIGHT", -340, 0)
+    statusText:SetJustifyH("LEFT")
+    frame.statusText = statusText
+
+    frame.optionRows = {}
+    frame.filteredOptions = {}
+    frame.currentOffset = 0
+    frame.context = nil
+
+    local function RefreshRows()
+        local total = #frame.filteredOptions
+        local maxOffset = math.max(0, total - SOUND_PICKER_VISIBLE_ROWS)
+        frame.currentOffset = math.max(0, math.min(frame.currentOffset or 0, maxOffset))
+
+        scrollSlider:SetMinMaxValues(0, maxOffset)
+        scrollSlider:SetValue(frame.currentOffset)
+        scrollSlider:SetShown(maxOffset > 0)
+
+        local selectedKey = nil
+        if frame.context and type(frame.context.getter) == "function" then
+            selectedKey = frame.context.getter()
+        end
+
+        for rowIndex = 1, SOUND_PICKER_VISIBLE_ROWS do
+            local optionIndex = frame.currentOffset + rowIndex
+            local option = frame.filteredOptions[optionIndex]
+            local row = frame.optionRows[rowIndex]
+            if not row then
+                break
+            end
+
+            if option then
+                row.option = option
+                row.text:SetText(tostring(option.entry and option.entry.text or ""))
+                row:Show()
+                if selectedKey ~= nil and selectedKey == option.key then
+                    row.text:SetTextColor(1.00, 0.82, 0.00)
+                else
+                    row.text:SetTextColor(1.00, 1.00, 1.00)
+                end
+            else
+                row.option = nil
+                row:Hide()
+            end
+        end
+
+        if total > 0 then
+            statusText:SetText(string.format("%d %s", total, (L["sounds"] or "sounds")))
+        else
+            statusText:SetText(L["No matching sounds"] or "No matching sounds")
+        end
+    end
+
+    local function ApplyFilter()
+        local query = string.lower((searchBox:GetText() or ""):match("^%s*(.-)%s*$") or "")
+        frame.filteredOptions = {}
+
+        local source = frame.context and frame.context.optionList or {}
+        for _, option in ipairs(source) do
+            local text = tostring(option.entry and option.entry.text or "")
+            if query == "" or string.find(string.lower(text), query, 1, true) then
+                frame.filteredOptions[#frame.filteredOptions + 1] = option
+            end
+        end
+
+        frame.currentOffset = 0
+        RefreshRows()
+    end
+
+    frame.ApplyFilter = ApplyFilter
+    frame.RefreshRows = RefreshRows
+
+    scrollSlider:SetScript("OnValueChanged", function(_, value)
+        frame.currentOffset = math.floor((value or 0) + 0.5)
+        RefreshRows()
+    end)
+
+    listContainer:SetScript("OnMouseWheel", function(_, delta)
+        local minValue, maxValue = scrollSlider:GetMinMaxValues()
+        if (maxValue or 0) <= (minValue or 0) then
+            return
+        end
+
+        local currentValue = scrollSlider:GetValue() or 0
+        local nextValue = Clamp(currentValue - delta, minValue or 0, maxValue or 0)
+        scrollSlider:SetValue(nextValue)
+    end)
+
+    searchBox:SetScript("OnTextChanged", function()
+        ApplyFilter()
+    end)
+    searchBox:SetScript("OnEnterPressed", function(self)
+        self:ClearFocus()
+    end)
+
+    for rowIndex = 1, SOUND_PICKER_VISIBLE_ROWS do
+        local row = CreateFrame("Button", nil, listContainer)
+        row:SetPoint("TOPLEFT", listContainer, "TOPLEFT", 10, -(12 + (rowIndex - 1) * SOUND_PICKER_ROW_HEIGHT))
+        row:SetPoint("TOPRIGHT", listContainer, "TOPRIGHT", -22, -(12 + (rowIndex - 1) * SOUND_PICKER_ROW_HEIGHT))
+        row:SetHeight(SOUND_PICKER_ROW_HEIGHT)
+
+        local rowHighlight = row:CreateTexture(nil, "HIGHLIGHT")
+        rowHighlight:SetAllPoints(true)
+        rowHighlight:SetColorTexture(1, 1, 1, 0.08)
+
+        local normalBg = row:CreateTexture(nil, "BACKGROUND")
+        normalBg:SetAllPoints(true)
+        normalBg:SetColorTexture(0, 0, 0, 0.18)
+
+        local text = row:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+        text:SetPoint("LEFT", row, "LEFT", 6, 0)
+        text:SetPoint("RIGHT", row, "RIGHT", -6, 0)
+        text:SetJustifyH("LEFT")
+        row.text = text
+
+        row:SetScript("OnClick", function(self)
+            if not self.option or not frame.context then
+                return
+            end
+
+            if type(frame.context.setter) == "function" then
+                frame.context.setter(self.option.key)
+            end
+            if type(frame.context.refresh) == "function" then
+                frame.context.refresh()
+            end
+
+            frame:Hide()
+        end)
+
+        frame.optionRows[rowIndex] = row
+    end
+
+    _G.PreydatorSoundPickerFrame = frame
+    return frame
+end
+
+local function OpenSoundPicker(context)
+    if type(context) ~= "table" then
+        return
+    end
+
+    local frame = EnsureSoundPickerFrame()
+    local titleText = context.pickerTitle or context.label or (L["Sound Picker"] or "Sound Picker")
+    if frame.TitleText then
+        frame.TitleText:SetText(titleText)
+    end
+
+    frame.context = {
+        optionList = BuildDropdownOptionList((type(context.getOptions) == "function" and context.getOptions()) or {}),
+        getter = context.getter,
+        setter = context.setter,
+        refresh = context.refresh,
+    }
+
+    frame.searchBox:SetText("")
+    frame.currentOffset = 0
+    frame:Show()
+    frame:Raise()
+    frame.searchBox:SetFocus()
+    frame:ApplyFilter()
+end
+
+local function CreateDropdown(parent, x, y, label, width, options, getter, setter, maxScrollItems)
     local title = parent:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     title:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
     title:SetText(label)
 
     local dropdown = CreateFrame("Frame", nil, parent, "UIDropDownMenuTemplate")
     dropdown:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -16, -4)
-    BindDropdownScale(dropdown)
+
+    local dropdownConfig = nil
+    local scrollLimit = maxScrollItems
+    if type(maxScrollItems) == "table" then
+        dropdownConfig = maxScrollItems
+        scrollLimit = maxScrollItems.maxScrollItems
+    end
+
+    BindDropdownScale(dropdown, scrollLimit)
 
     local function GetOptions()
         if type(options) == "function" then
@@ -440,24 +731,14 @@ local function CreateDropdown(parent, x, y, label, width, options, getter, sette
     end
 
     UIDropDownMenu_SetWidth(dropdown, width)
-    UIDropDownMenu_Initialize(dropdown, function()
-        local optionList = {}
-        local optionSource = GetOptions()
-        if type(optionSource) == "table" and #optionSource > 0 then
-            for _, entry in ipairs(optionSource) do
-                if type(entry) == "table" and entry.key ~= nil then
-                    optionList[#optionList + 1] = { key = entry.key, entry = entry }
-                end
-            end
-        else
-            for key, entry in pairs(optionSource) do
-                optionList[#optionList + 1] = { key = key, entry = entry }
-            end
+    if type(scrollLimit) == "number" and scrollLimit > 0 then
+        dropdown.maxItems = math.floor(scrollLimit)
+    end
 
-            table.sort(optionList, function(left, right)
-                return tostring(left.entry and left.entry.text or "") < tostring(right.entry and right.entry.text or "")
-            end)
-        end
+    UIDropDownMenu_Initialize(dropdown, function()
+        ApplyDropdownListLimit(scrollLimit)
+
+        local optionList = BuildDropdownOptionList(GetOptions())
 
         for _, item in ipairs(optionList) do
             local info = UIDropDownMenu_CreateInfo()
@@ -470,6 +751,23 @@ local function CreateDropdown(parent, x, y, label, width, options, getter, sette
             UIDropDownMenu_AddButton(info)
         end
     end)
+
+    if dropdownConfig and dropdownConfig.useSearchPicker and dropdown.Button and dropdown.Button.SetScript then
+        dropdown.Button:SetScript("OnClick", function(self)
+            if self.IsEnabled and not self:IsEnabled() then
+                return
+            end
+
+            OpenSoundPicker({
+                label = label,
+                pickerTitle = dropdownConfig.pickerTitle,
+                getOptions = GetOptions,
+                getter = getter,
+                setter = setter,
+                refresh = RefreshText,
+            })
+        end)
+    end
 
     dropdown.PreydatorRefresh = RefreshText
     function dropdown:PreydatorSetEnabled(enabled)
@@ -485,6 +783,77 @@ local function CreateDropdown(parent, x, y, label, width, options, getter, sette
     end
     RefreshText()
     return dropdown
+end
+
+local function CreateSoundPickerSelector(parent, x, y, label, width, getOptions, getter, setter)
+    local title = parent:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    title:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
+    title:SetText(label)
+
+    local TRIGGER_W = 28
+    local DISPLAY_W = width - TRIGGER_W - 4
+
+    local displayBox = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
+    displayBox:SetSize(DISPLAY_W, 20)
+    displayBox:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
+    displayBox:SetAutoFocus(false)
+    displayBox:SetText("")
+    displayBox:SetScript("OnEditFocusGained", function(self) self:ClearFocus() end)
+
+    local triggerBtn = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
+    triggerBtn:SetSize(TRIGGER_W, 22)
+    triggerBtn:SetPoint("LEFT", displayBox, "RIGHT", 4, -1)
+    triggerBtn:SetText("...")
+
+    local function ResolveOptions()
+        if type(getOptions) == "function" then
+            return getOptions() or {}
+        end
+        return getOptions or {}
+    end
+
+    local function RefreshText()
+        local selected = getter and getter() or nil
+        local optionSource = ResolveOptions()
+        local optionList = BuildDropdownOptionList(optionSource)
+        local selectedText = nil
+
+        for _, option in ipairs(optionList) do
+            if option and option.key == selected then
+                selectedText = tostring(option.entry and option.entry.text or "")
+                break
+            end
+        end
+
+        displayBox:SetText(selectedText and selectedText ~= "" and selectedText or "(none)")
+    end
+
+    local function DoOpen()
+        OpenSoundPicker({
+            label = label,
+            pickerTitle = L["Sound Selection"] or "Sound Selection",
+            getOptions = ResolveOptions,
+            getter = getter,
+            setter = setter,
+            refresh = RefreshText,
+        })
+    end
+
+    displayBox:SetScript("OnMouseDown", DoOpen)
+    triggerBtn:SetScript("OnClick", DoOpen)
+
+    displayBox.PreydatorRefresh = RefreshText
+    function displayBox:PreydatorSetEnabled(enabled)
+        local isEnabled = enabled and true or false
+        self:SetAlpha(isEnabled and 1 or 0.45)
+        triggerBtn:SetAlpha(isEnabled and 1 or 0.45)
+        triggerBtn:SetEnabled(isEnabled)
+        triggerBtn:EnableMouse(isEnabled)
+        self:EnableMouse(isEnabled)
+    end
+
+    RefreshText()
+    return displayBox
 end
 
 local function CreateTextInput(parent, x, y, label, width, getter, setter)
@@ -983,7 +1352,7 @@ local function BuildHuntPage(owner, parent)
     content:SetSize(PANEL_WIDTH - 160, contentHeight)
     contentViewport:SetScrollChild(content)
 
-    local panelScrollSlider = CreateFrame("Slider", nil, parent, "OptionsSliderTemplate")
+    local panelScrollSlider = CreateFrame("Slider", nil, contentViewport, "OptionsSliderTemplate")
     panelScrollSlider:SetOrientation("VERTICAL")
     panelScrollSlider:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -2, -24)
     panelScrollSlider:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -2, 26)
@@ -1568,7 +1937,7 @@ local function BuildBarPage(owner, parent)
     content:SetSize(PANEL_WIDTH - 160, 960)
     contentViewport:SetScrollChild(content)
 
-    local contentScrollSlider = CreateFrame("Slider", nil, parent, "OptionsSliderTemplate")
+    local contentScrollSlider = CreateFrame("Slider", nil, contentViewport, "OptionsSliderTemplate")
     contentScrollSlider:SetOrientation("VERTICAL")
     contentScrollSlider:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -2, -24)
     contentScrollSlider:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -2, 26)
@@ -2247,16 +2616,16 @@ local function BuildTextPage(owner, parent)
         api.UpdateBarDisplay()
     end))
     RegisterRefresher(owner, CreateTextInput(parent, COLUMN_LEFT_X, -280, L["Ambush Prefix"], 220, function()
-        return db.ambushPrefix or ""
+        return db.ambushPrefix or "AMBUSH: "
     end, function(value)
-        db.ambushPrefix = value
+        db.ambushPrefix = tostring(value or "AMBUSH: ")
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
     end))
     RegisterRefresher(owner, CreateTextInput(parent, COLUMN_LEFT_X, -326, L["Bloody Command Prefix"], 220, function()
-        return db.bloodyCommandPrefix or ""
+        return db.bloodyCommandPrefix or "Bloody Command: "
     end, function(value)
-        db.bloodyCommandPrefix = value
+        db.bloodyCommandPrefix = tostring(value or "Bloody Command: ")
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
     end))
@@ -2280,17 +2649,17 @@ local function BuildTextPage(owner, parent)
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
     end))
-    RegisterRefresher(owner, CreateTextInput(parent, TEXT_RIGHT_X, -280, L["Ambush Override Text"], 220, function()
-        return db.ambushCustomText
+    RegisterRefresher(owner, CreateTextInput(parent, TEXT_RIGHT_X, -280, L["Ambush Suffix"], 220, function()
+        return db.ambushSuffix or "preyTargetName"
     end, function(value)
-        db.ambushCustomText = value
+        db.ambushSuffix = tostring(value or "preyTargetName")
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
     end))
     RegisterRefresher(owner, CreateTextInput(parent, TEXT_RIGHT_X, -326, L["Bloody Command Suffix"], 220, function()
-        return db.bloodyCommandSuffix or ""
+        return db.bloodyCommandSuffix or "bloodyCommandSourceName"
     end, function(value)
-        db.bloodyCommandSuffix = value
+        db.bloodyCommandSuffix = tostring(value or "bloodyCommandSourceName")
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
     end))
@@ -2299,9 +2668,10 @@ local function BuildTextPage(owner, parent)
             db.stageLabels[stageIndex] = defaults.stageLabels[stageIndex] or ""
         end
         db.outOfZoneLabel = constants.DEFAULT_OUT_OF_ZONE_LABEL
-        db.ambushCustomText = ""
-        db.bloodyCommandPrefix = ""
-        db.bloodyCommandSuffix = ""
+        db.ambushPrefix = "AMBUSH: "
+        db.ambushSuffix = "preyTargetName"
+        db.bloodyCommandPrefix = "Bloody Command: "
+        db.bloodyCommandSuffix = "bloodyCommandSourceName"
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
         owner:RefreshControls()
@@ -2328,7 +2698,7 @@ local function BuildSoundsPage(owner, parent)
     content:SetSize(PANEL_WIDTH - 160, 620)
     contentViewport:SetScrollChild(content)
 
-    local contentScrollSlider = CreateFrame("Slider", nil, parent, "OptionsSliderTemplate")
+    local contentScrollSlider = CreateFrame("Slider", nil, contentViewport, "OptionsSliderTemplate")
     contentScrollSlider:SetOrientation("VERTICAL")
     contentScrollSlider:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -2, -24)
     contentScrollSlider:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -2, 26)
@@ -2426,7 +2796,8 @@ local function BuildSoundsPage(owner, parent)
     end))
 
     CreateSectionTitle(content, COLUMN_LEFT_X, -130, L["Sound Selection"])
-    TrackSoundsControl(CreateDropdown(content, COLUMN_LEFT_X, -160, string.format(L["Stage %d Sound"], 1), 170, function()
+
+    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -160, string.format(L["Stage %d Sound"], 1), 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.stageSounds[1]
@@ -2434,7 +2805,7 @@ local function BuildSoundsPage(owner, parent)
         db.stageSounds[1] = key
         api.NormalizeSoundSettings()
     end))
-    TrackSoundsControl(CreateDropdown(content, COLUMN_LEFT_X, -214, string.format(L["Stage %d Sound"], 2), 170, function()
+    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -214, string.format(L["Stage %d Sound"], 2), 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.stageSounds[2]
@@ -2442,7 +2813,7 @@ local function BuildSoundsPage(owner, parent)
         db.stageSounds[2] = key
         api.NormalizeSoundSettings()
     end))
-    TrackSoundsControl(CreateDropdown(content, COLUMN_LEFT_X, -268, string.format(L["Stage %d Sound"], 3), 170, function()
+    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -268, string.format(L["Stage %d Sound"], 3), 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.stageSounds[3]
@@ -2450,7 +2821,7 @@ local function BuildSoundsPage(owner, parent)
         db.stageSounds[3] = key
         api.NormalizeSoundSettings()
     end))
-    TrackSoundsControl(CreateDropdown(content, COLUMN_LEFT_X, -322, string.format(L["Stage %d Sound"], 4), 170, function()
+    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -322, string.format(L["Stage %d Sound"], 4), 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.stageSounds[4]
@@ -2459,7 +2830,7 @@ local function BuildSoundsPage(owner, parent)
         api.NormalizeSoundSettings()
     end))
 
-    TrackSoundsControl(CreateDropdown(content, COLUMN_LEFT_X, -376, L["Ambush Sound"], 170, function()
+    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -376, L["Ambush Sound"], 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.ambushSoundPath
@@ -2467,7 +2838,7 @@ local function BuildSoundsPage(owner, parent)
         db.ambushSoundPath = key
         api.NormalizeAmbushSettings()
     end))
-    TrackSoundsControl(CreateDropdown(content, COLUMN_LEFT_X, -430, L["Bloody Command Sound"], 170, function()
+    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -430, L["Bloody Command Sound"], 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.bloodyCommandSoundPath
@@ -2475,7 +2846,7 @@ local function BuildSoundsPage(owner, parent)
         db.bloodyCommandSoundPath = key
         api.NormalizeAmbushSettings()
     end))
-    TrackSoundsControl(CreateDropdown(content, COLUMN_LEFT_X, -484, L["Echo of Predation Sound"], 170, function()
+    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -484, L["Echo of Predation Sound"], 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.echoOfPredationSoundPath
@@ -2484,6 +2855,29 @@ local function BuildSoundsPage(owner, parent)
         api.NormalizeAmbushSettings()
     end))
     CreateSectionTitle(content, COLUMN_RIGHT_X, -102, L["Custom Files / Tests"])
+    local combinedAudioHintText = tostring(L["HINT_AUDIO_SLIDER"] or "")
+    local sliderHintText, customInputHintText = combinedAudioHintText:match("^([^\r\n]+)[\r\n]+(.+)$")
+    if not sliderHintText or sliderHintText == "" then
+        sliderHintText = combinedAudioHintText
+    end
+
+    local customHintStart = sliderHintText:find("Custom sound input", 1, true)
+    if customHintStart then
+        local extracted = sliderHintText:sub(customHintStart)
+        sliderHintText = (sliderHintText:sub(1, customHintStart - 1):match("^%s*(.-)%s*$") or "")
+        if not customInputHintText or customInputHintText == "" then
+            customInputHintText = extracted
+        end
+    end
+
+    if sliderHintText == "" then
+        sliderHintText = "Slider values can be dragged or typed directly."
+    end
+
+    if not customInputHintText or customInputHintText == "" then
+        customInputHintText = "Custom sound input accepts bare names, .ogg, or full addon paths."
+    end
+
     local customSoundInput = CreateTextInput(content, COLUMN_RIGHT_X, -132, L["Custom Sound File"], 220, function()
         return ""
     end, function()
@@ -2495,7 +2889,14 @@ local function BuildSoundsPage(owner, parent)
     end)
     customSoundInput:SetText("")
 
-    local addFileButton = CreateActionButton(content, COLUMN_RIGHT_X, -178, 105, L["Add File"], function()
+    local customInputHint = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    customInputHint:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_RIGHT_X, -186)
+    customInputHint:SetWidth(250)
+    customInputHint:SetJustifyH("LEFT")
+    customInputHint:SetWordWrap(true)
+    customInputHint:SetText(customInputHintText)
+
+    local addFileButton = CreateActionButton(content, COLUMN_RIGHT_X, -224, 105, L["Add File"], function()
         local ok, message = api.AddSoundFileName(customSoundInput:GetText())
         if ok then
             customSoundInput:SetText("")
@@ -2507,7 +2908,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(addFileButton)
 
-    local removeFileButton = CreateActionButton(content, COLUMN_RIGHT_X + 115, -178, 105, L["Remove File"], function()
+    local removeFileButton = CreateActionButton(content, COLUMN_RIGHT_X + 115, -224, 105, L["Remove File"], function()
         local ok, message = api.RemoveSoundFileName(customSoundInput:GetText())
         if ok then
             customSoundInput:SetText("")
@@ -2521,7 +2922,7 @@ local function BuildSoundsPage(owner, parent)
 
     local TEST_SOUND_BUTTON_WIDTH = 190
 
-    local testStage1Button = CreateActionButton(content, COLUMN_RIGHT_X, -222, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 1), function()
+    local testStage1Button = CreateActionButton(content, COLUMN_RIGHT_X, -268, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 1), function()
         local path = api.ResolveStageSoundPath(1)
         if not path then
             print(string.format(L["Preydator: No stage %d sound configured."], 1))
@@ -2533,7 +2934,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testStage1Button)
 
-    local testStage2Button = CreateActionButton(content, COLUMN_RIGHT_X, -252, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 2), function()
+    local testStage2Button = CreateActionButton(content, COLUMN_RIGHT_X, -298, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 2), function()
         local path = api.ResolveStageSoundPath(2)
         if not path then
             print(string.format(L["Preydator: No stage %d sound configured."], 2))
@@ -2545,7 +2946,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testStage2Button)
 
-    local testStage3Button = CreateActionButton(content, COLUMN_RIGHT_X, -282, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 3), function()
+    local testStage3Button = CreateActionButton(content, COLUMN_RIGHT_X, -328, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 3), function()
         local path = api.ResolveStageSoundPath(3)
         if not path then
             print(string.format(L["Preydator: No stage %d sound configured."], 3))
@@ -2557,7 +2958,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testStage3Button)
 
-    local testStage4Button = CreateActionButton(content, COLUMN_RIGHT_X, -312, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 4), function()
+    local testStage4Button = CreateActionButton(content, COLUMN_RIGHT_X, -358, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 4), function()
         local path = api.ResolveStageSoundPath(4)
         if not path then
             print(string.format(L["Preydator: No stage %d sound configured."], 4))
@@ -2569,7 +2970,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testStage4Button)
 
-    local testAmbushButton = CreateActionButton(content, COLUMN_RIGHT_X, -342, TEST_SOUND_BUTTON_WIDTH, L["Test Ambush"], function()
+    local testAmbushButton = CreateActionButton(content, COLUMN_RIGHT_X, -388, TEST_SOUND_BUTTON_WIDTH, L["Test Ambush"], function()
         local path = api.ResolveAmbushSoundPath()
         if not path then
             print("Preydator: No ambush sound configured.")
@@ -2580,7 +2981,7 @@ local function BuildSoundsPage(owner, parent)
         end
     end)
     TrackSoundsControl(testAmbushButton)
-    local testBloodyCommandButton = CreateActionButton(content, COLUMN_RIGHT_X, -372, TEST_SOUND_BUTTON_WIDTH, L["Test Bloody Command"], function()
+    local testBloodyCommandButton = CreateActionButton(content, COLUMN_RIGHT_X, -418, TEST_SOUND_BUTTON_WIDTH, L["Test Bloody Command"], function()
         local path = api.ResolveBloodyCommandSoundPath()
         if not path then
             print("Preydator: No Bloody Command sound configured.")
@@ -2591,7 +2992,7 @@ local function BuildSoundsPage(owner, parent)
         end
     end)
     TrackSoundsControl(testBloodyCommandButton)
-    local testEchoOfPredationButton = CreateActionButton(content, COLUMN_RIGHT_X, -402, TEST_SOUND_BUTTON_WIDTH, L["Test Echo of Predation"], function()
+    local testEchoOfPredationButton = CreateActionButton(content, COLUMN_RIGHT_X, -448, TEST_SOUND_BUTTON_WIDTH, L["Test Echo of Predation"], function()
         local path = api.ResolveEchoOfPredationSoundPath()
         if not path then
             print("Preydator: No Echo of Predation sound configured.")
@@ -2603,13 +3004,13 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testEchoOfPredationButton)
     local note = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    note:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_RIGHT_X, -442)
+    note:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_RIGHT_X, -488)
     note:SetWidth(250)
     note:SetJustifyH("LEFT")
     note:SetWordWrap(true)
-    note:SetText(L["HINT_AUDIO_SLIDER"])
+    note:SetText(sliderHintText)
 
-    TrackSoundsControl(CreateSlider(content, COLUMN_RIGHT_X, -484, L["Enhance Sounds"], 0, 100, 5, function() return db.soundEnhance or 0 end, function(value)
+    TrackSoundsControl(CreateSlider(content, COLUMN_RIGHT_X, -530, L["Enhance Sounds"], 0, 100, 5, function() return db.soundEnhance or 0 end, function(value)
         db.soundEnhance = math.floor(value + 0.5)
     end, function(value) return tostring(math.floor(value + 0.5)) end))
 
@@ -2621,6 +3022,7 @@ local function BuildSoundsPage(owner, parent)
                     control:PreydatorSetEnabled(soundsEnabled)
                 end
             end
+            customInputHint:SetAlpha(soundsEnabled and 1 or 0.45)
             note:SetAlpha(soundsEnabled and 1 or 0.45)
             UpdateSoundsScrollBounds()
         end,
@@ -2679,7 +3081,7 @@ local function BuildThemePage(owner, parent)
     content:SetSize(PANEL_WIDTH - 160, 780)
     contentViewport:SetScrollChild(content)
 
-    local themeScrollSlider = CreateFrame("Slider", nil, parent, "OptionsSliderTemplate")
+    local themeScrollSlider = CreateFrame("Slider", nil, contentViewport, "OptionsSliderTemplate")
     themeScrollSlider:SetOrientation("VERTICAL")
     themeScrollSlider:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -2, -24)
     themeScrollSlider:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -2, 26)
@@ -3484,10 +3886,13 @@ local function BuildAdvancedPage(owner, parent)
 
     CreateActionButton(parent, ADV_RIGHT_X, -78, ADV_BUTTON_WIDTH, L["Restore Default Names"], function()
         for stageIndex = 1, (constants.MAX_STAGE - 1) do
-            db.stageLabels[stageIndex] = defaults.stageLabels[stageIndex]
+            db.stageLabels[stageIndex] = defaults.stageLabels[stageIndex] or ""
         end
         db.outOfZoneLabel = constants.DEFAULT_OUT_OF_ZONE_LABEL
-        db.ambushCustomText = ""
+        db.ambushPrefix = "AMBUSH: "
+        db.ambushSuffix = "preyTargetName"
+        db.bloodyCommandPrefix = "Bloody Command: "
+        db.bloodyCommandSuffix = "bloodyCommandSourceName"
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
         owner:RefreshControls()

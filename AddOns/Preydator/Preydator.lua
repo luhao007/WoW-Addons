@@ -1,4 +1,5 @@
 ---@diagnostic disable
+-- luacheck: ignore 561
 
 local ADDON_NAME = ...
 
@@ -26,7 +27,6 @@ local UIDropDownMenu_AddButton = _G.UIDropDownMenu_AddButton
 _G.SLASH_PREYDATOR1 = "/pd"
 _G.SLASH_PREYDATOR2 = nil
 
-local PREY_WIDGET_TYPE = 31
 local PREY_PROGRESS_FINAL = 3
 local MAX_STAGE = 4
 local MAX_TICK_MARKS = 3
@@ -39,6 +39,7 @@ local KILL_SOUND_PATH = "Interface\\AddOns\\Preydator\\sounds\\predator-kill.ogg
 local DEBUG_LOG_LIMIT = 200
 local DEFAULT_OUT_OF_ZONE_LABEL = _G.PreydatorL["No Sign in These Fields"]
 local DEFAULT_AMBUSH_LABEL = _G.PreydatorL["AMBUSH"]
+local DEFAULT_BLOODY_COMMAND_LABEL = _G.PreydatorL["Bloody Command"]
 local PROGRESS_SEGMENTS_QUARTERS = "quarters"
 local PROGRESS_SEGMENTS_THIRDS = "thirds"
 local BAR_TICK_PCTS_BY_SEGMENT = {
@@ -100,6 +101,53 @@ local PROTECTED_SOUND_FILENAMES = {
     ["predator-kills-its-prey-to-survive.ogg"] = true,
     ["echo-of-predation.ogg"] = true,
 }
+
+local function GetExternalSoundCatalog()
+    local entries = {}
+    local seenPaths = {}
+
+    local function addEntry(path, text)
+        if type(path) ~= "string" or path == "" or type(text) ~= "string" or text == "" then
+            return
+        end
+
+        local key = string.lower(path)
+        if seenPaths[key] then
+            return
+        end
+
+        seenPaths[key] = true
+        entries[#entries + 1] = {
+            key = path,
+            text = text,
+        }
+    end
+
+    local libStub = _G.LibStub
+    if type(libStub) == "table" and type(libStub.GetLibrary) == "function" then
+        local ok, lsm = pcall(libStub.GetLibrary, libStub, "LibSharedMedia-3.0", true)
+        if ok and type(lsm) == "table" and type(lsm.List) == "function" and type(lsm.Fetch) == "function" then
+            local soundNames = lsm:List("sound") or {}
+            for _, soundName in ipairs(soundNames) do
+                if soundName ~= "None" then
+                    local path = lsm:Fetch("sound", soundName)
+                    addEntry(path, "LSM: " .. soundName)
+                end
+            end
+        end
+    end
+
+    table.sort(entries, function(left, right)
+        local leftText = string.lower(tostring(left and left.text or ""))
+        local rightText = string.lower(tostring(right and right.text or ""))
+        if leftText == rightText then
+            return tostring(left and left.key or "") < tostring(right and right.key or "")
+        end
+        return leftText < rightText
+    end)
+
+    return entries
+end
 local DEFAULT_STAGE_LABELS = {
     [1] = _G.PreydatorL["Scent in the Wind"],
     [2] = _G.PreydatorL["Blood in the Shadows"],
@@ -189,10 +237,10 @@ local DEFAULTS = {
     outOfZoneLabel = DEFAULT_OUT_OF_ZONE_LABEL,
     outOfZonePrefix = "",
     ambushLabel = DEFAULT_AMBUSH_LABEL,
-    ambushPrefix = "",
-    bloodyCommandPrefix = "",
-    bloodyCommandSuffix = "",
-    ambushCustomText = "",
+    ambushPrefix = "AMBUSH: ",
+    ambushSuffix = "preyTargetName",
+    bloodyCommandPrefix = "Bloody Command: ",
+    bloodyCommandSuffix = "bloodyCommandSourceName",
     stageLabels = {
         [1] = DEFAULT_STAGE_LABELS[1],
         [2] = DEFAULT_STAGE_LABELS[2],
@@ -438,7 +486,6 @@ local UI = {
 
 local EnsureOptionsPanel
 local OpenOptionsPanel
-local ExtractWidgetQuestID
 local AddDebugLog
 local TryPlaySound
 local TryPlayStageSound
@@ -570,14 +617,9 @@ function Preydator:ShowSoundDefaultsPromptIfNeeded()
         return
     end
 
-    if settings.soundDefaultsPromptSeenVersion == "2.2.0-sound-defaults" then
-        return
-    end
-
-    local frame = self:EnsureSoundDefaultsPromptFrame()
-    if frame and frame.Show then
-        frame:Show()
-    end
+    -- Retire the legacy 2.2.0 prompt so updates cannot accidentally replace
+    -- existing user-selected sound mappings.
+    settings.soundDefaultsPromptSeenVersion = "2.2.9-sound-prompt-retired"
 end
 
 local function RunModuleHook(hookName, ...)
@@ -617,6 +659,7 @@ local state = {
     lastAmbushSoundAt = 0,
     lastEchoOfPredationSoundAt = 0,
     lastAmbushSystemMessage = nil,
+    ambushSourceName = nil,
     bloodyCommandAlertUntil = 0,
     bloodyCommandSourceName = nil,
     lastBloodyCommandSpellID = nil,
@@ -861,6 +904,7 @@ local function NormalizeLabelSettings()
             defaultStageLabels = DEFAULT_STAGE_LABELS,
             defaultOutOfZoneLabel = DEFAULT_OUT_OF_ZONE_LABEL,
             defaultAmbushLabel = DEFAULT_AMBUSH_LABEL,
+            defaultBloodyCommandLabel = DEFAULT_BLOODY_COMMAND_LABEL,
         })
         return
     end
@@ -898,19 +942,28 @@ local function NormalizeLabelSettings()
     end
 
     if type(settings.ambushPrefix) ~= "string" then
-        settings.ambushPrefix = ""
+        settings.ambushPrefix = "AMBUSH: "
+    end
+
+    if type(settings.ambushSuffix) ~= "string" then
+        settings.ambushSuffix = "preyTargetName"
     end
 
     if type(settings.bloodyCommandPrefix) ~= "string" then
-        settings.bloodyCommandPrefix = ""
+        settings.bloodyCommandPrefix = "Bloody Command: "
     end
 
     if type(settings.bloodyCommandSuffix) ~= "string" then
-        settings.bloodyCommandSuffix = ""
+        settings.bloodyCommandSuffix = "bloodyCommandSourceName"
     end
 
-    if type(settings.ambushCustomText) ~= "string" then
-        settings.ambushCustomText = ""
+    -- One-way migration from legacy 2.2.7 text settings.
+    if settings.ambushSuffix == "preyTargetName" and settings.ambushPrefix == "" then
+        settings.ambushPrefix = "AMBUSH: "
+    end
+
+    if settings.bloodyCommandSuffix == "bloodyCommandSourceName" and settings.bloodyCommandPrefix == "" then
+        settings.bloodyCommandPrefix = "Bloody Command: "
     end
 end
 
@@ -1340,7 +1393,19 @@ local FALLBACK_MAP_ID_EQUIVALENTS = {
 }
 
 local function CanonicalizeFallbackMapID(mapID)
-    mapID = tonumber(mapID)
+    local okString, asString = pcall(tostring, mapID)
+    if not okString or type(asString) ~= "string" then
+        return nil
+    end
+
+    local numericToken = string.match(asString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
+        or string.match(asString, "^%s*([%+%-]?%d*%.%d+)%s*$")
+    if not numericToken then
+        return nil
+    end
+
+    local okNumber, parsedMapID = pcall(tonumber, numericToken)
+    mapID = okNumber and parsedMapID or nil
     if not mapID or mapID < 1 then
         return nil
     end
@@ -1437,7 +1502,21 @@ local function RefreshInPreyZoneStatus(questID, force)
     local playerMapID = nil
     if C_Map and C_Map.GetBestMapForUnit then
         local okMapID, rawMapID = pcall(C_Map.GetBestMapForUnit, "player")
-        playerMapID = okMapID and CanonicalizeFallbackMapID(rawMapID) or nil
+        if okMapID then
+            local parsedMapID = nil
+            local okMapString, mapAsString = pcall(tostring, rawMapID)
+            if okMapString and type(mapAsString) == "string" then
+                local numericToken = string.match(mapAsString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
+                    or string.match(mapAsString, "^%s*([%+%-]?%d*%.%d+)%s*$")
+                if numericToken then
+                    local okNumber, numericValue = pcall(tonumber, numericToken)
+                    if okNumber and type(numericValue) == "number" then
+                        parsedMapID = numericValue
+                    end
+                end
+            end
+            playerMapID = CanonicalizeFallbackMapID(parsedMapID)
+        end
     end
 
     local questMapID = CanonicalizeFallbackMapID(state.preyZoneMapID)
@@ -1705,9 +1784,12 @@ local function IsRestrictedInstanceForPreyBar()
     return false
 end
 
-local function TriggerAmbushAlert(message, source)
+local function TriggerAmbushAlert(message, source, senderName)
     local now = GetTime and GetTime() or 0
     state.lastAmbushSystemMessage = message
+    if type(senderName) == "string" and senderName ~= "" then
+        state.ambushSourceName = senderName
+    end
 
     if settings.ambushVisualEnabled ~= false then
         state.ambushAlertUntil = now + AMBUSH_ALERT_DURATION_SECONDS
@@ -2761,6 +2843,7 @@ local function ClearPreyStateAndDisplay()
     state.lastAmbushSoundAt = 0
     state.lastEchoOfPredationSoundAt = 0
     state.lastAmbushSystemMessage = nil
+    state.ambushSourceName = nil
     state.bloodyCommandAlertUntil = 0
     state.bloodyCommandSourceName = nil
     state.lastBloodyCommandSpellID = nil
@@ -3458,6 +3541,9 @@ NormalizeSoundSettings = function()
     end
 
     local runtime = GetRuntimeModule("SoundsRuntime")
+    local soundContext = {
+        soundFolderPrefix = SOUND_FOLDER_PREFIX,
+    }
 
     local mergedNames = {}
     local seen = {}
@@ -3465,15 +3551,55 @@ NormalizeSoundSettings = function()
     local function pushFileName(fileName)
         local normalized = nil
         if runtime and type(runtime.NormalizeSoundFileName) == "function" then
-            normalized = runtime:NormalizeSoundFileName(fileName, {
-                soundFolderPrefix = SOUND_FOLDER_PREFIX,
-            })
+            normalized = runtime:NormalizeSoundFileName(fileName, soundContext)
         end
         if not normalized or seen[normalized] then
             return
         end
         seen[normalized] = true
         table.insert(mergedNames, normalized)
+    end
+
+    local function pushConfiguredSoundPath(path)
+        if type(path) ~= "string" or path == "" or path == "__NONE__" then
+            return
+        end
+
+        local fileName = nil
+        if runtime and type(runtime.ExtractAddonSoundFileName) == "function" then
+            fileName = runtime:ExtractAddonSoundFileName(path, soundContext)
+        end
+
+        if not fileName and runtime and type(runtime.NormalizeSoundFileName) == "function" then
+            fileName = runtime:NormalizeSoundFileName(path, soundContext)
+        end
+
+        pushFileName(fileName)
+    end
+
+    local function canonicalizeConfiguredSoundPath(path)
+        if type(path) ~= "string" or path == "" or path == "__NONE__" then
+            return path
+        end
+
+        if not runtime or type(runtime.BuildAddonSoundPath) ~= "function" then
+            return path
+        end
+
+        local fileName = nil
+        if type(runtime.ExtractAddonSoundFileName) == "function" then
+            fileName = runtime:ExtractAddonSoundFileName(path, soundContext)
+        end
+
+        if not fileName and type(runtime.NormalizeSoundFileName) == "function" then
+            fileName = runtime:NormalizeSoundFileName(path, soundContext)
+        end
+
+        if not fileName then
+            return path
+        end
+
+        return runtime:BuildAddonSoundPath(fileName, soundContext) or path
     end
 
     for _, defaultName in ipairs(DEFAULT_SOUND_FILENAMES) do
@@ -3486,42 +3612,28 @@ NormalizeSoundSettings = function()
 
     for stage = 1, MAX_STAGE do
         local existingPath = settings.stageSounds and settings.stageSounds[stage]
-        local extracted = nil
-        if runtime and type(runtime.ExtractAddonSoundFileName) == "function" then
-            extracted = runtime:ExtractAddonSoundFileName(existingPath, {
-                soundFolderPrefix = SOUND_FOLDER_PREFIX,
-            })
-        end
-        pushFileName(extracted)
+        pushConfiguredSoundPath(existingPath)
     end
 
-    local extractedAmbush = nil
-    if runtime and type(runtime.ExtractAddonSoundFileName) == "function" then
-        extractedAmbush = runtime:ExtractAddonSoundFileName(settings.ambushSoundPath, {
-            soundFolderPrefix = SOUND_FOLDER_PREFIX,
-        })
-    end
-    pushFileName(extractedAmbush)
-
-    local extractedEchoOfPredation = nil
-    if runtime and type(runtime.ExtractAddonSoundFileName) == "function" then
-        extractedEchoOfPredation = runtime:ExtractAddonSoundFileName(settings.echoOfPredationSoundPath, {
-            soundFolderPrefix = SOUND_FOLDER_PREFIX,
-        })
-    end
-    pushFileName(extractedEchoOfPredation)
+    pushConfiguredSoundPath(settings.ambushSoundPath)
+    pushConfiguredSoundPath(settings.bloodyCommandSoundPath)
+    pushConfiguredSoundPath(settings.echoOfPredationSoundPath)
     settings.soundFileNames = mergedNames
 
     local allowedPathLower = {}
     for _, fileName in ipairs(settings.soundFileNames) do
         local fullPath = nil
         if runtime and type(runtime.BuildAddonSoundPath) == "function" then
-            fullPath = runtime:BuildAddonSoundPath(fileName, {
-                soundFolderPrefix = SOUND_FOLDER_PREFIX,
-            })
+            fullPath = runtime:BuildAddonSoundPath(fileName, soundContext)
         end
         if type(fullPath) == "string" and fullPath ~= "" then
             allowedPathLower[string.lower(fullPath)] = true
+        end
+    end
+
+    for _, entry in ipairs(GetExternalSoundCatalog()) do
+        if type(entry) == "table" and type(entry.key) == "string" and entry.key ~= "" then
+            allowedPathLower[string.lower(entry.key)] = true
         end
     end
 
@@ -3537,6 +3649,8 @@ NormalizeSoundSettings = function()
                 configuredPath = legacyPath
             end
         end
+
+        configuredPath = canonicalizeConfiguredSoundPath(configuredPath)
 
         if type(configuredPath) == "string" and string.find(string.lower(configuredPath), "predator%-idle%.ogg", 1, false) then
             configuredPath = nil
@@ -3561,17 +3675,23 @@ NormalizeSoundSettings = function()
         settings.stageSounds[stage] = configuredPath
     end
 
+    settings.ambushSoundPath = canonicalizeConfiguredSoundPath(settings.ambushSoundPath)
+
     if settings.ambushSoundPath ~= "__NONE__"
         and (type(settings.ambushSoundPath) ~= "string" or not allowedPathLower[string.lower(settings.ambushSoundPath)])
     then
         settings.ambushSoundPath = KILL_SOUND_PATH
     end
 
+    settings.bloodyCommandSoundPath = canonicalizeConfiguredSoundPath(settings.bloodyCommandSoundPath)
+
     if settings.bloodyCommandSoundPath ~= "__NONE__"
         and (type(settings.bloodyCommandSoundPath) ~= "string" or not allowedPathLower[string.lower(settings.bloodyCommandSoundPath)])
     then
         settings.bloodyCommandSoundPath = KILL_SOUND_PATH
     end
+
+    settings.echoOfPredationSoundPath = canonicalizeConfiguredSoundPath(settings.echoOfPredationSoundPath)
 
     if settings.echoOfPredationSoundPath ~= "__NONE__"
         and (type(settings.echoOfPredationSoundPath) ~= "string" or not allowedPathLower[string.lower(settings.echoOfPredationSoundPath)])
@@ -3770,6 +3890,7 @@ local function ResetStateForNewQuest(questID, forceReset)
         state.lastAmbushSoundAt = 0
         state.lastEchoOfPredationSoundAt = 0
         state.lastAmbushSystemMessage = nil
+        state.ambushSourceName = nil
     end
 end
 
@@ -4892,18 +5013,18 @@ EnsureOptionsPanel = function()
     ambushLabelEdit:SetAutoFocus(false)
     ambushLabelEdit:SetTextInsets(6, 6, 0, 0)
     ambushLabelEdit:SetPoint("TOPLEFT", panel, "TOPLEFT", 380, -574)
-    ambushLabelEdit:SetText(settings.ambushCustomText or "")
+    ambushLabelEdit:SetText(settings.ambushSuffix or "preyTargetName")
     ambushLabelEdit:SetScript("OnEnterPressed", function(self)
-        settings.ambushCustomText = self:GetText()
+        settings.ambushSuffix = self:GetText()
         NormalizeLabelSettings()
-        self:SetText(settings.ambushCustomText)
+        self:SetText(settings.ambushSuffix)
         self:ClearFocus()
         UpdateBarDisplay()
     end)
     ambushLabelEdit:SetScript("OnEditFocusLost", function(self)
-        settings.ambushCustomText = self:GetText()
+        settings.ambushSuffix = self:GetText()
         NormalizeLabelSettings()
-        self:SetText(settings.ambushCustomText)
+        self:SetText(settings.ambushSuffix)
         UpdateBarDisplay()
     end)
 
@@ -4917,9 +5038,12 @@ EnsureOptionsPanel = function()
             stageNameEdits[stageIndex]:SetText(DEFAULT_STAGE_LABELS[stageIndex])
         end
         settings.outOfZoneLabel = DEFAULT_OUT_OF_ZONE_LABEL
-        settings.ambushCustomText = ""
+        settings.ambushPrefix = "AMBUSH: "
+        settings.ambushSuffix = "preyTargetName"
+        settings.bloodyCommandPrefix = "Bloody Command: "
+        settings.bloodyCommandSuffix = "bloodyCommandSourceName"
         outZoneEdit:SetText(DEFAULT_OUT_OF_ZONE_LABEL)
-        ambushLabelEdit:SetText("")
+        ambushLabelEdit:SetText("preyTargetName")
         UpdateBarDisplay()
     end)
 
@@ -5237,7 +5361,7 @@ EnsureOptionsPanel = function()
             stageNameEdits[stageIndex]:SetText(settings.stageLabels[stageIndex])
         end
         outZoneEdit:SetText(settings.outOfZoneLabel)
-        ambushLabelEdit:SetText(settings.ambushCustomText)
+        ambushLabelEdit:SetText(settings.ambushSuffix or "preyTargetName")
     end
 
     panelRoot.PreydatorRefreshControls = RefreshOptionsControls
@@ -5387,17 +5511,28 @@ Preydator.API = {
         if runtime and type(runtime.BuildSoundDropdownOptions) == "function" then
             return runtime:BuildSoundDropdownOptions(settings, {
                 defaultSoundFileNames = DEFAULT_SOUND_FILENAMES,
+                additionalSoundEntries = GetExternalSoundCatalog(),
                 noneLabel = _G.PreydatorL["None"],
                 soundFolderPrefix = SOUND_FOLDER_PREFIX,
             })
         end
 
-        local options = {}
+        local options = {
+            {
+                key = "__NONE__",
+                text = _G.PreydatorL["None"],
+            },
+        }
         local files = (settings and settings.soundFileNames) or DEFAULT_SOUND_FILENAMES
-        options["__NONE__"] = { text = _G.PreydatorL["None"] }
         for _, fileName in ipairs(files) do
             local path = SOUND_FOLDER_PREFIX .. tostring(fileName or "")
-            options[path] = { text = tostring(fileName or "") }
+            options[#options + 1] = {
+                key = path,
+                text = tostring(fileName or ""),
+            }
+        end
+        for _, entry in ipairs(GetExternalSoundCatalog()) do
+            options[#options + 1] = entry
         end
         return options
     end,
@@ -5629,8 +5764,8 @@ Preydator.API = {
             barPositionUtil = barPositionUtil,
         }
     end,
-    TriggerAmbushAlert = function(message, source)
-        TriggerAmbushAlert(message, source)
+    TriggerAmbushAlert = function(message, source, senderName)
+        TriggerAmbushAlert(message, source, senderName)
     end,
     TriggerBloodyCommandAlert = function(spellID, sourceName, source)
         TriggerBloodyCommandAlert(spellID, sourceName, source)

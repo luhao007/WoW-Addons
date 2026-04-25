@@ -1,3 +1,12 @@
+# v30.20
+
+- Updated for 12.0.5
+- Updated prerequisites for allied race quest lines
+
+# v30.19
+
+- Updated for 12.0.0
+
 # v30.18
 
 - Updated for 11.2.7

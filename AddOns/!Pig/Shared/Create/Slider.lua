@@ -18,20 +18,15 @@ local function PIGformatter(labelType,danwei,weishu)
 		if danwei and danwei~="" and danwei~=" " then
 			if type(danwei)=="function" then
 				return danwei(arg1)
-			elseif danwei:match("%%s") then
-				return format(danwei, arg1)
-			elseif danwei:match("%%") then
-				if danwei=="%" then
-					return (arg1*100).."%"
-				else
-					return format(danwei, arg1*100)
-				end
+			elseif danwei:match("%%d%%") then
+				return format(danwei, arg1*100)
+			-- elseif danwei:match("%%d") then
+			-- 	return format(danwei, arg1)
 			else
 				return format(danwei, arg1)
 			end
-		else
-			return arg1
 		end
+		return arg1
 	end
 	return formatter;
 end
@@ -108,6 +103,7 @@ function Create.PIGSlider(fuF,Point,data,WH,UIName)--,{["Right"]="%"}
 		self.Slider:SetMinMaxValues(min,max);
 		self:PIGSetValue(value)
 	end
+	function SliderF.PIGOnValueChange() end
 	SliderF.Slider:HookScript("OnValueChanged", function(self, arg1)
 		local VX = floor(arg1*100+0.5)*0.01
 		SliderF:PIGOnValueChange(VX)

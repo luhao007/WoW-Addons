@@ -21,12 +21,16 @@ local suijizuoqi = [=[/run C_MountJournal.SummonByID(0)]=]
 local function UseKeyDownUpdate(button,gn)
 	if PIG_MaxTocversion(120000,true) or (PIG_MaxTocversion(40000) and PIG_MaxTocversion(20000,true)) then
 		local UseKeyDown =GetCVar("ActionButtonUseKeyDown")
-		if UseKeyDown=="0" then
-			button:RegisterForClicks("AnyUp");
-		elseif UseKeyDown=="1" then
-			if button.gn then
-				button:RegisterForClicks("AnyUp")
-			else
+		if button.gn then
+			if UseKeyDown=="0" then
+				button:RegisterForClicks("AnyUp");
+			elseif UseKeyDown=="1" then
+				button:RegisterForClicks("LeftButtonDown", "RightButtonDown")
+			end
+		else
+			if UseKeyDown=="0" then
+				button:RegisterForClicks("AnyUp");
+			elseif UseKeyDown=="1" then
 				button:RegisterForClicks("AnyUp", "LeftButtonDown", "RightButtonDown");
 			end
 		end

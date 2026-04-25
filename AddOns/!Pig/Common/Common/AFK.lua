@@ -1,16 +1,14 @@
-local _, addonTable = ...;
-local Data=addonTable.Data
-local Create = addonTable.Create
-local PIGQuickBut=Create.PIGQuickBut
-local PIGFontString=Create.PIGFontString
---============================
-local Commonfun=addonTable.CommonInfo.Commonfun
-local Pig_AFKData = {}
-function Commonfun.Pig_AFK()
+local _, PD = ...;
+local L=PD.locale
+local Create = PD.Create
+local CommonInfo=PD.CommonInfo
+function CommonInfo.Common_Pig_AFK()
+	local Pig_AFKData = {}
 	Pig_AFKData.cameraYawMoveSpeed=GetCVar("cameraYawMoveSpeed")
 	Pig_AFKData.cameraPitchMoveSpeed=GetCVar("cameraPitchMoveSpeed")
-	if not PIGA["Other"]["AFK"]["Open"] or Commonfun.Pig_AFKOpen then return end
-	Commonfun.Pig_AFKOpen=true
+	if not PIGA["Other"]["AFK"]["Open"] or CommonInfo.Pig_AFKOpen then return end
+	CommonInfo.Pig_AFKOpen=true
+	local PIGFontString=Create.PIGFontString
 	local WowWidth=GetScreenWidth();
 	local WowHeight=GetScreenHeight();
 	local AFKUI = CreateFrame("Frame",nil, WorldFrame,"BackdropTemplate");
@@ -22,7 +20,7 @@ function Commonfun.Pig_AFK()
 	AFKUI:SetSize(WowWidth,100);
 	AFKUI:SetPoint("BOTTOM",WorldFrame,"BOTTOM",0,0);
 	AFKUI:Hide()
-	local zijiinfo="|cff00FFFF服务器:|r"..PIG_OptionsUI.Realm.."   |cff00FFFF种族:|r"..PIG_OptionsUI.RaceData.raceName.."   |cff00FFFF玩家名:|r"..PIG_OptionsUI.Name
+	local zijiinfo="|cff00FFFF"..FRIENDS_LIST_REALM.."|r"..PIG_OptionsUI.Realm.."   |cff00FFFF"..RACE..":|r"..PIG_OptionsUI.RaceData.raceName.."   |cff00FFFF"..SHOW_PLAYER_NAMES..":|r"..PIG_OptionsUI.Name
 	AFKUI.info = PIGFontString(AFKUI,{"CENTER", AFKUI, "CENTER", 0, 0},zijiinfo,"OUTLINE",28)
 	AFKUI.info:SetTextColor(1, 1, 0, 1);
 	
@@ -128,7 +126,7 @@ function Commonfun.Pig_AFK()
 					MoveViewLeftStart()
 					UIParent:Hide()
 					self:Show()
-					self.title:SetText(Commonfun.GetAFKTispTXT());
+					self.title:SetText(CommonInfo.GetAFKTispTXT());
 					self.pxulie=1
 					weizhibiandong()
 				elseif arg1==CLEARED_AFK then
@@ -140,23 +138,23 @@ function Commonfun.Pig_AFK()
 	end)
 end
 ----
-local QuickButUI=_G[Data.QuickButUIname]
+local QuickButUI=_G[PD.Data.QuickButUIname]
 QuickButUI.ButList[19]=function()
 	if PIGA["QuickBut"]["Open"] and PIGA["Other"]["AFK"]["Open"] and PIGA["Other"]["AFK"]["QuickBut"] then	
 		if QuickButUI.AFK_QKBUT then return end
 		QuickButUI.AFK_QKBUT=true
+		local PIGQuickBut=Create.PIGQuickBut
 		local Icon=132802
-		local Tooltip = "执行离开屏保"
-		local AFK_pingbao=PIGQuickBut(nil,Tooltip,Icon,nil,nil, "SecureActionButtonTemplate")
-		addonTable.Fun.ActionFun.PIGUseKeyDown(AFK_pingbao)
+		local AFK_pingbao=PIGQuickBut(nil,L["COMMON_AFK"],Icon,nil,nil, "SecureActionButtonTemplate")
+		PD.Fun.ActionFun.PIGUseKeyDown(AFK_pingbao)
 		AFK_pingbao:SetAttribute("type", "macro")
 		AFK_pingbao:HookScript("PreClick",  function (self)
 			if InCombatLockdown() then
-				PIG_OptionsUI:ErrorMsg("副本内或战斗中无法暂离")
+				PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT)
 			else
 				local inInstance, instanceType = IsInInstance()
 				if inInstance then
-					PIG_OptionsUI:ErrorMsg("副本内或战斗中无法暂离")
+					PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT)
 				else
 					AFK_pingbao:SetAttribute("macrotext", [=[/AFK]=])
 				end
@@ -165,7 +163,7 @@ QuickButUI.ButList[19]=function()
 		AFK_pingbao:HookScript("PostClick",  function (self)
 			PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 			if not InCombatLockdown() then
-				AFK_pingbao:SetAttribute("macrotext", [=[/PIGprint("副本内或战斗中无法暂离")]=])
+				AFK_pingbao:SetAttribute("macrotext", [=[/PIGprint("..ERR_NOT_IN_COMBAT..")]=])
 			end
 		end);
 	end

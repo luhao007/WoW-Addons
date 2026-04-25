@@ -28,7 +28,7 @@ local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInst
 -----------
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.Item(StatsInfo,peizhiList)
-	local BagdangeW=bagData.ItemWH-10
+	local itembutW=40
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"物\n品",StatsInfo.butW,"Left")
 	---
 	fujiF.List=PIGFrame(fujiF)
@@ -206,7 +206,8 @@ function BusinessInfo.Item(StatsInfo,peizhiList)
 			itemBut = CreateFrame("ItemButton", nil, fujiF.ItemList.BOTTOM);
 		end
 		fujiF.ItemList.BOTTOM.listbut[i]=itemBut
-		itemBut:SetSize(BagdangeW,BagdangeW);
+		itemBut:SetSize(itembutW,itembutW);
+		itemBut:SetScale(0.806)
 		itemBut:Hide()
 		if i==1 then
 			itemBut:SetPoint("TOPLEFT",fujiF.ItemList.BOTTOM,"TOPLEFT",3,-4);

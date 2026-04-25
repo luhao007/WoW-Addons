@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Breen
-## Version: v6.24
+## Version: v6.25
 
 ## Title: BtWQuests: Shadowlands
 ## Notes: Shadowlands quest data for BtWQuests
@@ -10,6 +10,7 @@
 ## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
 
 ## Dependencies: BtWQuests
+## OptionalDeps: BtWQuestsShadowlandsPrologue
 ## LoadOnDemand: 1
 
 ## X-BtWQuests: Shadowlands

@@ -8,6 +8,58 @@ local L = addon.L;
 local changelogs = addon.ControlCenter.changelogs;
 
 
+changelogs[10901] = {
+	{
+		type = "date",
+		versionText = "1.9.1 b",
+		timestamp = 1776900000,
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Fixed a critical issue that prevented this addon from loading properly if you logged in during combat or in an instance.",
+	},
+
+	{
+		type = "br",
+	},
+	{
+		type = "br",
+	},
+
+	{
+		type = "date",
+		versionText = "1.9.1",
+		timestamp = 1776700000,
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Expansion Summary: You can hide unwanted currencies by setting them as Unused in WoW's currency UI.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Drawer Macro: If you own two houses, \"Teleport Home\" will appear as two buttons on the pop-up, allowing you to teleport to the house of your choice.",
+	},
+
+	{
+		type = "tocVersionCheck",
+		minimumTocVersion = 120005,
+		breakpoint = true,
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Transmog Ensembles: This module will display your collection progress on Void-Touched Cache\'s tooltips.",
+	},
+};
+
+
 changelogs[10900] = {
 	{
 		type = "date",

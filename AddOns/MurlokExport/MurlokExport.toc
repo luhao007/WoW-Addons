@@ -1,0 +1,31 @@
+## Interface: 120001, 120005
+## Author: Alexandrix (EU - Teldrassil)
+## Version: 1.6.0
+
+## Title: |cff00ccffMurlok|rExport
+## Notes: Simple addon to display Murlok.io rated Mythic+ or PvP data
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF|cff00ccffMurlok|r配装数据|r |cFFFFE00A|cff00ccffMurlok|rExport|r
+## Notes-zhCN: Murlok网站导出的数据，包括配装和天赋等
+
+## IconTexture: Interface/AddOns/MurlokExport/Artwork/MurlokExport.tga
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
+## SavedVariables: MurlokExportConfig
+
+## X-Credits: Big thanks to |cff00ccffMurlok.io|r team for providing rated data
+## X-Curse-Project-ID: 1273867
+
+Python\Export.lua
+
+Locales\Localization.xml
+Frames\Options.xml
+Frames\ClassList.xml
+Frames\Stats.xml
+Frames\TalentsList.xml
+Frames\TraitsTree.xml
+Frames\EquipmentsList.xml
+Core\Core.xml
+
+Core\MinimapButton.lua
+Core\Init.lua

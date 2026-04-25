@@ -216,8 +216,7 @@ L["Wowace.com Forums"] = "Wowace.com Fóruns"
 		L = {}
 		-- CopyChat
 L[" Text"] = "Texte"
---[[Translation missing --]]
-L["activealpha"] = "Alpha when mouseover"
+L["activealpha"] = "Transparence  au survol de la souris"
 L["BBCode"] = true
 --[[Translation missing --]]
 L["BOTTOMLEFT"] = "Bottom, Left"

@@ -1,5 +1,5 @@
-## Interface: 120001
-## Version: #Details.20260411.14930.171
+## Interface: 120001, 120005
+## Version: #Details.20260424.15009.171
 
 ## Title: Details! Damage Meter
 ## Notes: Essential tool to impress that chick in your raid.
@@ -190,6 +190,7 @@ core\gears.lua
 core\windows.lua
 core\meta.lua
 core\network.lua
+core\inspect.lua
 
 core\parser.lua
 

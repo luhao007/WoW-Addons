@@ -42,7 +42,9 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Нажмите, чтобы о
 Lockit.UI_LOOT_INFO_DESCRIPTION = "Завершите Вылазку, чтобы получить:"
 
 -- Delves Gossip
-Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Click to cancel auto entering>"
+Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER = "Auto Enter (Tier %d)" -- %d is a Tier number (1-11).
+Lockit.UI_DELVE_AUTO_ENTER_INFO = "The selected Tier can be changed in Addon Options."
+Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Нажмите, чтобы отменить автоматический ввод>"
 
 -- Информация о ключах
 
@@ -86,8 +88,8 @@ Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "Вертика�
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "Кнопки расположены вертикально."
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "Горизонтальный макет"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "Кнопки расположены горизонтально."
-Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "Story Variant Status"
-Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "Highlight whether the active Story Variant has been completed or not (required for Delve Loremaster achievements) in the window displayed entering a Delve."
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "Статус варианта сюжета"
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "В окне, отображаемом при входе в подземелье, можно указать, завершен ли активный вариант сюжета (это необходимо для получения достижений 'Хранитель мудрости' в Вылазках)."
 Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Показывать иконку на миникарте"
 Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Отображать иконку на миникарте. Нажав на него, можно быстро получить доступ к информации о текущем сезоне Вылазок."
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Автоматический вход в Вылазки"

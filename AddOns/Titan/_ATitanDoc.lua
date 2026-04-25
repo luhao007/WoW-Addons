@@ -51,18 +51,19 @@ Contains ...
 --]===]
 Each file has a terse description of its contents.
 
+--[===[ Var 
+...
+--]===]
+These are critical tables and info used within Titan.
+Unless specifically marked otherwise, treat these as "---Titan".
+
+
 ---API
 These are routines Titan will keep stable.
 Changes to these varibles and routines will be broadcast to developers via Discord at a minimum.
 
 ---Titan 
 These are global routines Titan uses. These may change at any time per Titan needs and design.
-
---[===[ Var 
-...
---]===]
-These are critical tables and info used within Titan.
-Unless specifically marked otherwise, treat these as "---Titan".
 
 ---local
 These are local routines that may change at any time.
@@ -144,6 +145,43 @@ NOTE: All versions of WoW may not accept all image types.
 Most graphic art software can save to these formats. 
 We don’t recommend using an online source to convert one image format to another. 
 They have a tendency to add additional code or info to the image.
+--]======]
+
+--[======[ Titan Panel Profiles
+Titan has always run on profiles. In release 9.* this became more explicit to the user with Sync.
+Custom profiles have been available for some time before 9.* but are more usable with Sync and Sync All.
+
+On PEW, Titan determines the profile to use - See code flow below. 
+This sets Titan the way the user wants; showing the selected bars and plugins.
+
+Also in 9.* character data such as gold and mail (Post) were moved into the profile. 
+This reduced the data built-in plugins needed to store on each character.
+The moving of data changed Titan saved vars and processing.
+
+Every character has had a section in saved variables since release 1.0:
+TitanSettings.Players.<name>@<server>
+
+Under this .Info table was added in 9.* to hold character information.
+Some built-in plugins added a .<plugin> at the same level as .Info; such as .Gold for Gold
+The table holds data needed for the plugin such as a show / hide character option.
+
+The Saved Variables section below shows a sample saved variable structure.
+
+Consequences of this change are:
+1) Titan must ensure a .Info exists for each character profile.
+This is done in TitanVariables before Titan decides the profile.
+.Info can be an empty table for a character not logged into yet but it must exist. 
+Dealing with non existent values before using is easier than seeing if a table exists before every reference.
+
+2) Plugins with their own section must ensure the entry exists for each character profile.
+This should be done as part of the OnShow to ensure Titan tables are whole.
+
+3) Titan and Plugins that need .Info must NOT assume values exist.
+This allows information to be built over time as the user logs into characters.
+Plugins should set default values as the table entry is created.
+
+Note that character profiles do not include custom profiles. One can not log into custom profiles.
+
 --]======]
 
 --[======[ Titan Addon code flow
@@ -353,59 +391,75 @@ TitanSettings = {
 	["Players"] = {
 		["Embic@Staghelm"] = {
 			["Panel"] = {
-				-- Holds all the Titan settings for this character
+				-- Holds all the Titan level settings for this character
+				}
+			["Info"] = {
+				-- Holds various information for this character, used by Titan and some built-in plugins
+				-- example :
+				["levelText"] = "80",
+				["itemLevelPvp"] = 137.75,
+				["class"] = "Demon Hunter",
+				["raceName"] = "NightElf",
+				["race"] = "Night Elf",
+				["played_start"] = 1775660178,
+				["factionName"] = "Alliance",
+				["level"] = 80,
+				["server"] = "Staghelm",
+				["played_total"] = 805746,
+				["gold_toon"] = 1086716295,
+				["itemLevelEquipped"] = 137.75,
+				["logout"] = 1775660193,
+				["itemLevelAve"] = 137.75,
+				["raceId"] = 4,
+				["faction"] = "Alliance",
+				["logoutStr"] = "2026-04-08 10:56",
+				["name"] = "Stormblade",
+				["className"] = "DEMONHUNTER",
+				["subZoneText"] = "The Bazaar",
+				["played_this_level"] = 128790,
+				["classId"] = 12,
+				["zoneText"] = "Silvermoon City",
+				}
+			[<plugin>] = {
+				-- Holds various information for this character, specific to THIS plugin
 				}
 			["BarVars"] = {
 				-- Holds all the Titan bar settings for this character
 				}
 			["Plugins"] = {
-				-- Each registered plugin will be here
-					["Starter"] = { 
-						["notes"] = "Adds bag and free slot information to Titan Panel.\n",
-						["menuTextFunction"] = nil,
-						["id"] = "Starter",
-						["menuText"] = "Bag",
-						["iconWidth"] = 16,
-						["savedVariables"] = {
-							["ShowColoredText"] = 1,
-							["CustomLabel3Text"] = "",
-							["ShowIcon"] = 1,
-							["OpenBags"] = false,
-							["CustomLabel3TextShow"] = false,
-							["CustomLabelTextShow"] = false,
-							["CustomLabel4Text"] = "",
-							["CustomLabel2Text"] = "",
-							["OpenBagsClassic"] = "new_install",
-							["ShowLabelText"] = 1,
-							["CustomLabel4TextShow"] = false,
-							["CountProfBagSlots"] = false,
-							["ShowUsedSlots"] = 1,
-							["DisplayOnRightSide"] = false,
-							["ShowDetailedInfo"] = false,
-							["CustomLabel2TextShow"] = false,
-							["CustomLabelText"] = "",
-						},
-						["controlVariables"] = {
-							["DisplayOnRightSide"] = true,
-							["ShowColoredText"] = true,
-							["ShowIcon"] = true,
-							["ShowLabelText"] = true,
-						},
-						["version"] = "1.0.0",
-						["category"] = "Information",
-						["buttonTextFunction"] = nil ,
-						["tooltipTextFunction"] = nil ,
-						["icon"] = "Interface\\AddOns\\TitanPlugin\\Artwork\\TitanStarter",
-						["tooltipTitle"] = "Bags Info",
-					},
-				}
+				-- Each registered plugin saved vars will be here
+				-- Below is Location as an example
+				["Location"] = {
+					["CoordsLoc"] = "Bottom",
+					["ShowZoneText"] = 1,
+					["NumLabelsSeen"] = 2,
+					["ShowRealmText"] = false,
+					["ShowIcon"] = 1,
+					["ShowCoordsText"] = true,
+					["ShowSubZoneText"] = false,
+					["CustomLabelText"] = "",
+					["CustomLabel3TextShow"] = false,
+					["CustomLabelTextShow"] = false,
+					["ShowCoordsOnMap"] = true,
+					["CustomLabel4Text"] = "",
+					["ShowCursorOnMap"] = true,
+					["CoordsFormat"] = "(%.d, %.d)",
+					["ShowLabelText"] = 1,
+					["DisplayOnRightSide"] = false,
+					["ShowColoredText"] = 1,
+					["UpdateWorldmap"] = false,
+					["CustomLabel2Text"] = "",
+					["CustomLabel2TextShow"] = false,
+					["CoordsLabel"] = true,
+					["CustomLabel3Text"] = "",
+					["CustomLabel4TextShow"] = false,
+				},
 			["Adjust"] = {
 				-- Holds offsets for frames the user may adjust - Retail and Classic have different list of frames
 				}
 			["Register"] = {
-				-- Holds data as each plugin and LDB is attempted to be registered. 
-				-- There may be helpful debug data here under your plugin name if the plugin is not shown as expected. 
-				-- Titan > Configuration > Attempts shows some of this data, including errors.
+				-- Exists but empty - used to holds data as each plugin and LDB is attempted to be registered. 
+				-- Titan > Configuration > Attempts shows some data, including errors.
 				}
 ...
 TitanAll = {

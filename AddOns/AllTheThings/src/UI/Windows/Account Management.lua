@@ -148,6 +148,7 @@ local function QueueSendChunks(method, target, detail, chunks)
 		acks = {},
 		uid = uid,
 	};
+	app.print("Starting sync for " .. pendingChunk.detail .. " with " .. target);
 	pending[uid] = pendingChunk;
 	uid = uid + 1;
 	app:StartATTCoroutine("Sync_ProcessSendChunks", ProcessSendChunks);
@@ -1255,6 +1256,19 @@ local function GetTimePlayedString(totalTimePlayed)
 		end
 	end
 end
+local function OpenCharacterUniqueDataWindow(guid)
+	local character = CharacterData[guid]
+	if not character then return end
+
+	local window = app:GetWindow("Character Unique Data")
+	window.data.character = character
+	window.data.guid = guid
+
+	window.data._built = nil
+
+	window:Rebuild()
+	window:Show()
+end
 local function OnClickForCharacter(row, button)
 	local guid = row.ref.guid;
 	if not guid then return true; end
@@ -1273,7 +1287,11 @@ local function OnClickForCharacter(row, button)
 			end);
 		end
 	elseif button == "LeftButton" then
-		BroadcastMessage(character.text, "char," .. character.guid .. "," .. character.lastPlayed);
+		if IsShiftKeyDown() then
+			OpenCharacterUniqueDataWindow(guid);
+		else
+			BroadcastMessage(character.text, "char," .. character.guid .. "," .. character.lastPlayed);
+		end
 	end
 	return true;
 end
@@ -1420,6 +1438,10 @@ local function OnTooltipForCharacter(t, tooltipInfo)
 		});
 		tinsert(tooltipInfo, {
 			left = "Right Click to Delete this Character",
+			r = 1, g = 0.8, b = 0.8
+		});
+		tinsert(tooltipInfo, {
+			left = "Shift-Left Click to Open Character Unique Data Window.",
 			r = 1, g = 0.8, b = 0.8
 		});
 		if character.ignored then
@@ -1827,5 +1849,181 @@ app:CreateWindow("Account Management", {
 	end,
 	OnSave = function(self, settings)
 		settings.EnableBattleNet = EnableBattleNet;
+	end,
+});
+
+app:CreateWindow("Character Unique Data", {
+	OnInit = function(self)
+		local SearchForObject = app.SearchForObject
+
+		-- Map CurrentCharacter table names to object names
+		local FieldToTypeKey = {
+			Achievements = "achievementID",
+			AzeriteEssenceRanks = "azeriteessenceID",
+			BattlePets = "speciesID",
+			Conduits = "conduitID",
+			Exploration = "explorationID",
+			Factions = "factionID",
+			FirstCrafts = "firstcraftID",
+			FlightPaths = "flightpathID",
+			Followers = "followerID",
+			GarrisonBuildings = "garrisonbuildingID",
+			Mounts = "spellID",
+			Professions = "professionID",
+			ProfessionNodes = "professionnodeID",
+			Quests = "questID",
+			Spells = "spellID",
+			Titles = "titleID",
+		}
+
+		local InvalidFlags = {
+			repeatable = true,
+			isWorldQuest = true,
+			isDaily = true,
+			isWeekly = true,
+			isMonthly = true,
+			isYearly = true,
+		}
+
+		local ManualFilters = {
+			-- Battle Pets and Appearances have spellID sometimes, we should not care about that
+			spellID = {
+				BattlePetWithItem = true,
+				ItemWithAppearance = true,
+			},
+			-- HQTs on Mounts would be probably way to confusing for users
+			questID = {
+				MountWithItem = true,
+			},
+			-- Show only Garrison Buildings as GarrisonBuildingWithItem
+			garrisonbuildingID = {
+				GarrisonBuilding = true,
+			},
+		}
+
+		local function IsInvalidObject(obj)
+			if not obj then return false end
+			if obj.collectible == false or obj.u == 5 then return true end
+
+			for flag in pairs(InvalidFlags) do
+				if obj[flag] then
+					return true
+				end
+			end
+		end
+
+		local function IsManuallyFiltered(typeKey, obj)
+			if not obj then return false end
+			local rules = ManualFilters[typeKey]
+			return rules and rules[obj.__type] or false
+		end
+
+		local function ExistsOnAnotherCharacter(field, id, currentGuid)
+			for guid, character in pairs(CharacterData) do
+				if guid ~= currentGuid then
+					local t = character[field]
+					if t and t[id] then
+						return true
+					end
+				end
+			end
+		end
+
+		local function SearchTypeObject(typeKey, id)
+			local o = setmetatable({ OnUpdate = app.ForceShowUpdate, g = app.EmptyTable }, {
+					__index = id and (SearchForObject(typeKey, id, "key")
+									or SearchForObject(typeKey, id, "field")
+									or app.__CreateObject({[typeKey]=id}))
+								or setmetatable({name=EMPTY}, app.BaseClass)
+				})
+			-- app.PrintDebug("Created", typeKey, id, "->", o.name or "???")
+			-- app.PrintTable(o)
+			return o
+		end
+
+		local function IsUniqueToCharacter(field, id, currentGuid)
+			local typeKey = FieldToTypeKey[field]
+			if not typeKey then return false end
+
+			-- Get the actual object
+			local obj = SearchTypeObject(typeKey, id)
+
+			-- Filter repeatable / non-collectible stuff
+			if IsInvalidObject(obj) then
+				return false
+			end
+
+			-- Manual corrections layer
+			if IsManuallyFiltered(typeKey, obj) then
+				return false
+			end
+
+			-- Check whether any other character already has this ID
+			if ExistsOnAnotherCharacter(field, id, currentGuid) then
+				return false
+			end
+
+			return true
+		end
+
+		local function BuildCharacterData(character, guid)
+			local g = {}
+
+			for field, values in pairs(character) do
+				local typeKey = FieldToTypeKey[field]
+				if typeKey and type(values) == "table" then
+					for id, collected in pairs(values) do
+						if collected and IsUniqueToCharacter(field, id, guid) then
+							g[#g + 1] = SearchTypeObject(typeKey, id)
+						end
+					end
+				end
+			end
+
+			return g
+		end
+
+		-- Initialize the window data object
+		self:SetData(app.CreateRawText("Character Unique Data", {
+			icon = 134400,
+			description = "Unique Data for this character only. Do not remove this character if you don't want to lose these things.",
+			visible = true,
+			back = 1,
+			g = {},
+			OnUpdate = function(data)
+				if data.character and not data._built then
+					local results = BuildCharacterData(data.character, data.guid)
+
+					-- Create the character unit
+					local unit = app.CreateUnit(data.guid, {
+						name = data.character.name,
+						trackable = true,
+						visible = true,
+						expanded = true,
+						OnUpdate = app.AlwaysShowUpdate,
+						parent = data,
+						g = {},
+					})
+
+					-- Show only dynamic categories
+					if #results > 0 then
+						local summary = self.SearchAPI.BuildDynamicCategorySummaryForSearchResults(results)
+						if summary then
+							summary.expanded = true
+							summary.OnSetVisibility = app.ReturnTrue
+							summary.parent = unit
+							summary.sourceParent = unit
+							tinsert(unit.g, summary)
+						end
+					end
+
+					wipe(data.g)
+					tinsert(data.g, unit)
+					self:AssignChildren();
+
+					data._built = true
+				end
+			end,
+		}))
 	end,
 });

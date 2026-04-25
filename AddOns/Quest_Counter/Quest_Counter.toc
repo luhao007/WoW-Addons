@@ -1,4 +1,4 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Raelsion
 ## Version: v12.0.1-3.10.26
 

@@ -9,12 +9,12 @@ local PIGFontString=Create.PIGFontString
 local PIGModbutton=Create.PIGModbutton
 local PIGSetFont=Create.PIGSetFont
 -----------
-local GetPIGID=Fun.GetPIGID
 local TardisInfo=addonTable.TardisInfo
-local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
 function TardisInfo.ADD_UI()
 	if not PIGA["Tardis"]["Open"] then return end
 	if _G[GnUI] then return end
+	local GetPIGID=Fun.GetPIGID
+	local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
 	C_Timer.After(0.1,function() PIGModbutton(GnName,GnIcon,GnUI,FrameLevel) end)
 	--
 	local Width,Height  = 880, 505;

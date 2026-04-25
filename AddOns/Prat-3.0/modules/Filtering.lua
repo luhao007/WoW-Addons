@@ -24,6 +24,8 @@
 --
 -------------------------------------------------------------------------------
 
+local issecretvalue = issecretvalue or function() return false end
+
 Prat:AddModuleToLoad(function()
 	local module = Prat:NewModule("Filtering", "AceEvent-3.0")
 	local PL = module.PL
@@ -160,19 +162,17 @@ L["useai_name"] = "AI Spam Filter"
 
   L = {}
   -- Filtering
-L["A module to provide basic chat filtering."] = "Un module pour fournir un filtrage basique"
---[[Translation missing --]]
-L["afkdnd_desc"] = "Throttle AFK and DND messages."
---[[Translation missing --]]
-L["afkdnd_name"] = "Throttle AFK and DND messages."
-L["bgjoin_desc"] = "Filtrer les messages du canal Champ de bataille: \"quitte/rejoint\""
-L["bgjoin_name"] = "Filtrer BG quitte/rejoint"
+L["A module to provide basic chat filtering."] = "Un module fournissant un filtrage de base du chat"
+L["afkdnd_desc"] = "Limiter les messages AFK et DND."
+L["afkdnd_name"] = "Limiter les messages AFK et DND."
+L["bgjoin_desc"] = "Filtrer les messages du canal Champ de bataille du type \"à quitter\" / \"à rejoint\""
+L["bgjoin_name"] = "Filtre CdB Quitter / rejoindre"
 L["Filtering"] = "Filtrage"
-L["leavejoin_desc"] = "Filtrer les messages: \"quitte/rejoint le canal\""
+L["leavejoin_desc"] = "Filtrer les spams de départ / arrivée de canal"
 L["leavejoin_name"] = "Filtre Rejoindre/Quitte"
 --[[Translation missing --]]
 L["notices_desc"] = "Filter out other custom channel notification messages, e.g. moderator changes."
-L["notices_name"] = "Notifications de filtrage"
+L["notices_name"] = "Filtrer les notifications des canaux"
 --[[Translation missing --]]
 L["tradespam_desc"] = "Throttle messages to prevent the same message from being repeated multiple times"
 --[[Translation missing --]]
@@ -608,7 +608,7 @@ L["useai_name"] = "AI Spam Filter"
 	}
 
 	function module:Prat_FrameMessage(_, message, _, event)
-		if self.db.profile.useai and eventsToHandle[event] and message.GUID ~= UnitGUID("player") then
+		if self.db.profile.useai and not issecretvalue(message.GUID) and eventsToHandle[event] and message.GUID ~= UnitGUID("player") then
 			local msg = tokenize(message.ORG.MESSAGE)
 			local prob = self.classifier.getprob(msg)
 			local isSpam = prob >= SPAM_CUTOFF

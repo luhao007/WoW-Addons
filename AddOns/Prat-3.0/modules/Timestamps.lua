@@ -156,15 +156,17 @@ L["Set the format for the day/month/year"] = "Set the format for the day/month/y
 L["Set the timestamp format"] = "Définit le format de l'heure."
 L["Set Timestamp Color"] = "Configurer la couleur"
 L["Sets the color of the timestamp."] = "Définit la couleur de l'heure des messages."
-L["Show Timestamp"] = "Montrer l'heure des messages"
-L["show_desc"] = "Active/Désactive l'affiche de l'heure pour chaque fenêtre."
-L["show_name"] = "Montrer l'heure des messages"
+L["Show Timestamp"] = "Afficher l'horodatage"
+L["show_desc"] = "Activer ou désactiver l'affichage de l'horodatage pour chaque fenêtre."
+L["show_name"] = [=[Afficher l'horodatage
+						
+]=]
 L["space_desc"] = "Active/Désactive l'ajout d'un espace après l'heure."
 L["space_name"] = "Montrer l'espace"
 --[[Translation missing --]]
 L["Timestamp Text Format"] = "Timestamp Text Format"
 L["Timestamps"] = "Heure des messages"
-L["Toggle showing timestamp for each window."] = "Active/Désactive l'affiche de l'heure des messages pour chaque fenêtre."
+L["Toggle showing timestamp for each window."] = "Activer / désactiver l'affichage de l'horodatage pour chaque fenêtre."
 L["twocolumn_desc"] = "Place l'heure dans une colonne séparée de manière à ce qu'aucun texte ne s'écrive en dessous de l'heure."
 L["twocolumn_name"] = "Discussion à 2 colonnes"
 

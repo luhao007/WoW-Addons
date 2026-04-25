@@ -42,6 +42,8 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Klicken, um Beuteinformatione
 Lockit.UI_LOOT_INFO_DESCRIPTION = "Schließe eine Tiefe ab um folgendes zu erhalten:"
 
 -- Delves Gossip
+Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER = "Auto Enter (Tier %d)" -- %d is a Tier number (1-11).
+Lockit.UI_DELVE_AUTO_ENTER_INFO = "The selected Tier can be changed in Addon Options."
 Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Click to cancel auto entering>"
 
 -- Tooltips Extension

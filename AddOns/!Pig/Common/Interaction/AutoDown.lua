@@ -1,5 +1,5 @@
 local _, addonTable = ...;
-local Interactionfun=addonTable.CommonInfo.Interactionfun
+local CommonInfo=addonTable.CommonInfo
 --------------
 local errList1 = {
 	[ERR_CANTATTACK_NOTSTANDING] = true,-- "你必须处于站立状态下才能进行攻击！";
@@ -25,7 +25,7 @@ zidongxiama:SetScript("OnEvent", function(self,event,key,state)
 	end
 end)
 --------------------
-Interactionfun.AutoDown = function()
+function CommonInfo.Interaction_AutoDown()
 	if PIGA['Interaction']['AutoDown'] then
 		zidongxiama:RegisterEvent("UI_ERROR_MESSAGE")
 	else
@@ -43,7 +43,7 @@ zidongjieshouzuduiyaoqingFFF:SetScript("OnEvent", function(self, event)
 		StaticPopup_Hide("RESURRECT")
 	end
 end)
-function Interactionfun.YaoqingFuhuo()
+function CommonInfo.Interaction_YaoqingFuhuo()
 	if PIGA['Interaction']['AutoJyaoqing'] then
 		zidongjieshouzuduiyaoqingFFF:RegisterEvent("PARTY_INVITE_REQUEST")
 	else

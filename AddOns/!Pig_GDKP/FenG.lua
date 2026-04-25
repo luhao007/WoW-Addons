@@ -9,7 +9,6 @@ function GDKPInfo.ADD_fenG(RaidR)
 	local PIGDownMenu=Create.PIGDownMenu
 	local PIGLine=Create.PIGLine
 	local PIGEnter=Create.PIGEnter
-	local PIGSlider = Create.PIGSlider
 	local PIGCheckbutton=Create.PIGCheckbutton
 	local PIGOptionsList_R=Create.PIGOptionsList_R
 	local PIGQuickBut=Create.PIGQuickBut

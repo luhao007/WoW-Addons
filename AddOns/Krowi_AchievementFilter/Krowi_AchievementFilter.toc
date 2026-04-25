@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Krowi-Frostmane EU
-## Version: 94.8
+## Version: 95.0
 
 ## Title: Krowi's |cFF1D92C2Achievement Filter|r
 ## Notes: Filters your achievements.
@@ -60,3 +60,5 @@ DataAddons\Retail\Files.xml [AllowLoadGameType mainline]
 DataAddons\Classic\Files.xml [AllowLoadGameType wrath, cata, mists]
 
 DataAddons\Loaders\Files.xml
+
+Benchmark.lua

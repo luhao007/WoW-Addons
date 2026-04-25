@@ -80,36 +80,121 @@ local function MN_IsTrackedVignettePin(pin)
   return vignetteID and ns.HiddenBlizzVignetteIDs[vignetteID] or false
 end
 
+local function MN_GetPinIdentity(pin)
+  if not pin then return nil end
+
+  if MN_IsAreaPOIPin(pin) then
+    local areaPoiID = MN_GetAreaPoiID(pin)
+    if areaPoiID then
+      return "area", areaPoiID
+    end
+  end
+
+  local vignetteID = MN_GetVignetteIDFromPin(pin)
+  if vignetteID then
+    return "vignette", vignetteID
+  end
+
+  return nil
+end
+
+local function MN_ShouldHideIdentity(kind, id)
+  local cfg = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate
+  if not cfg then return false end
+  if cfg.HideMapNote then return false end
+
+  MN_BuildLookups()
+
+  if kind == "area" then
+    if cfg.RemoveBlizzPOIs and ns.BlizzAreaPoisLookup[id] then
+      return true
+    end
+    if cfg.RemoveBlizzPOIsZidormi and ns.BlizzAreaPoisLookupZidormi[id] then
+      return true
+    end
+    return false
+  end
+
+  if kind == "vignette" then
+    if cfg.RemoveBlizzPOIs and ns.HiddenBlizzVignetteIDs and ns.HiddenBlizzVignetteIDs[id] then
+      return true
+    end
+    return false
+  end
+
+  return false
+end
+
 local function MN_AttachPinGuard(pin)
   if not MN_IsValidPin(pin) then return end
   if pin.MN_GuardHooked then return end
   pin.MN_GuardHooked = true
 
-  if pin.HookScript then
-    pin:HookScript("OnShow", function(self)
-      if self.MN_HiddenByMapNotes then
-        if self.SetAlpha then
-          self:SetAlpha(0)
-        end
-        if self.EnableMouse then
-          self:EnableMouse(false)
-        end
+  local function MN_GuardRefresh(self)
+    if not self.MN_HiddenByMapNotes then return end
+
+    local currentKind, currentID = MN_GetPinIdentity(self)
+
+    if currentKind ~= self.MN_HiddenKind or currentID ~= self.MN_HiddenID then
+      local restoreAlpha = self.MN_OldAlpha or 1
+      local restoreMouse = self.MN_OldMouseEnabled ~= false
+    
+      self.MN_HiddenByMapNotes = nil
+      self.MN_HiddenKind = nil
+      self.MN_HiddenID = nil
+      self.MN_OldAlpha = nil
+      self.MN_OldMouseEnabled = nil
+    
+      if self.SetAlpha then
+        self:SetAlpha(restoreAlpha)
       end
-    end)
+      if self.EnableMouse then
+        self:EnableMouse(restoreMouse)
+      end
+      return
+    end
+
+    if not MN_ShouldHideIdentity(currentKind, currentID) then
+      local restoreAlpha = self.MN_OldAlpha or 1
+      local restoreMouse = self.MN_OldMouseEnabled ~= false
+    
+      self.MN_HiddenByMapNotes = nil
+      self.MN_HiddenKind = nil
+      self.MN_HiddenID = nil
+      self.MN_OldAlpha = nil
+      self.MN_OldMouseEnabled = nil
+    
+      if self.SetAlpha then
+        self:SetAlpha(restoreAlpha)
+      end
+      if self.EnableMouse then
+        self:EnableMouse(restoreMouse)
+      end
+      return
+    end
+
+    if self.SetAlpha and self:GetAlpha() ~= 0 then
+      self:SetAlpha(0)
+    end
+    if self.EnableMouse and self:IsMouseEnabled() then
+      self:EnableMouse(false)
+    end
+  end
+
+  if pin.HookScript then
+    pin:HookScript("OnShow", MN_GuardRefresh)
   end
 
   hooksecurefunc(pin, "SetAlpha", function(self, alpha)
     if self.MN_HiddenByMapNotes and alpha and alpha > 0 then
-      if self.SetAlpha then
-        self:SetAlpha(0)
-      end
+      MN_GuardRefresh(self)
     end
   end)
 
   if pin.EnableMouse then
     hooksecurefunc(pin, "EnableMouse", function(self, enabled)
       if self.MN_HiddenByMapNotes and enabled then
-        self:EnableMouse(false)
+        MN_GuardRefresh(self)
       end
     end)
   end
@@ -117,12 +202,7 @@ local function MN_AttachPinGuard(pin)
   if pin.Show then
     hooksecurefunc(pin, "Show", function(self)
       if self.MN_HiddenByMapNotes then
-        if self.SetAlpha then
-          self:SetAlpha(0)
-        end
-        if self.EnableMouse then
-          self:EnableMouse(false)
-        end
+        MN_GuardRefresh(self)
       end
     end)
   end
@@ -131,11 +211,19 @@ end
 local function MN_HidePin(pin)
   if not MN_IsValidPin(pin) then return end
 
+  local kind, id = MN_GetPinIdentity(pin)
+  if not kind or not id then return end
+
   if not pin.MN_HiddenByMapNotes then
     pin.MN_HiddenByMapNotes = true
+    pin.MN_HiddenKind = kind
+    pin.MN_HiddenID = id
     pin.MN_OldAlpha = pin.GetAlpha and pin:GetAlpha() or 1
     pin.MN_OldMouseEnabled = pin.IsMouseEnabled and pin:IsMouseEnabled() or true
     MN_AttachPinGuard(pin)
+  else
+    pin.MN_HiddenKind = kind
+    pin.MN_HiddenID = id
   end
 
   if pin.SetAlpha and pin:GetAlpha() ~= 0 then
@@ -160,6 +248,8 @@ local function MN_RestorePin(pin)
   end
 
   pin.MN_HiddenByMapNotes = nil
+  pin.MN_HiddenKind = nil
+  pin.MN_HiddenID = nil
   pin.MN_OldAlpha = nil
   pin.MN_OldMouseEnabled = nil
 end
@@ -273,24 +363,15 @@ function ns.RemovePOIs()
       if MN_IsValidPin(pin) then
         local shouldHide = false
         local isManagedByUs = false
+        local kind, id = MN_GetPinIdentity(pin)
 
-        if MN_IsAreaPOIPin(pin) then
-          local areaPoiID = MN_GetAreaPoiID(pin)
-          if areaPoiID then
-            if cfg.RemoveBlizzPOIs and ns.BlizzAreaPoisLookup[areaPoiID] then
-              isManagedByUs = true
-              shouldHide = true
-            elseif cfg.RemoveBlizzPOIsZidormi and ns.BlizzAreaPoisLookupZidormi[areaPoiID] then
-              isManagedByUs = true
-              shouldHide = true
-            elseif pin.MN_HiddenByMapNotes then
-              isManagedByUs = true
-            end
-          end
-        elseif MN_IsTrackedVignettePin(pin) then
-          isManagedByUs = true
-          if cfg.RemoveBlizzPOIs then
-            shouldHide = true
+        if kind and id then
+          shouldHide = MN_ShouldHideIdentity(kind, id)
+
+          if shouldHide then
+            isManagedByUs = true
+          elseif pin.MN_HiddenByMapNotes then
+            isManagedByUs = true
           end
         elseif pin.MN_HiddenByMapNotes then
           isManagedByUs = true

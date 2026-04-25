@@ -1,4 +1,4 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: Karl-Heinz Schneider
 ## Version: v1.3.9.10
 

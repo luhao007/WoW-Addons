@@ -222,8 +222,11 @@ local function RegisterForEvents()
 	_G[TITAN_PANEL_CONTROL]:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 
 	-- 2026 Apr Add more info for Alts
-	_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_MONEY");
-	_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
+	_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_MONEY")
+	_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+	_G[TITAN_PANEL_CONTROL]:RegisterEvent("TIME_PLAYED_MSG")
+	_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_LEVEL_UP")
+	_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_XP_UPDATE")
 end
 
 --------------------------------------------------------------
@@ -262,8 +265,83 @@ local function RegisterAddonCompartment()
 	end
 end
 
+--****** overload the 'time played' text to Chat - if XP requested the API call
+local requesting
+---@diagnostic disable: duplicate-set-field
+
+-- Save orignal output to Chat
+-- somewhere in 11.* (The World Within) this changed
+local orig_ChatFrame_DisplayTimePlayed = function(...) end
+
+-- Do not output Chat messages when using RequestTimePlayed
+function TitanPanelBarButton:RequestTimePlayed()
+	requesting = true
+	RequestTimePlayed()
+end
+
+if Titan_Global.switch.chat_class then
+	orig_ChatFrame_DisplayTimePlayed = ChatFrameUtil.DisplayTimePlayed
+
+	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
+		if requesting then
+			-- XP requested time played, do not spam Chat
+			requesting = false
+		else
+			-- XP did not request time played so output
+			---@diagnostic disable-next-line: need-check-nil
+			orig_ChatFrame_DisplayTimePlayed(...)
+		end
+	end
+else
+	orig_ChatFrame_DisplayTimePlayed = ChatFrame_DisplayTimePlayed
+
+	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
+		if requesting then
+			-- XP requested time played, do not spam Chat
+			requesting = false
+		else
+			-- XP did not request time played so output
+			---@diagnostic disable-next-line: need-check-nil
+			orig_ChatFrame_DisplayTimePlayed(...)
+		end
+	end
+end
+--****** overload end
+
+local function SetToonZoneInfo()
+	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
+	toon_info.zoneText = GetZoneText()
+	toon_info.subZoneText = GetSubZoneText() or ""
+end
+
+local function GetElapsed(time_ago)
+	return (_G.time() - time_ago)
+end
+
+--local Collect info for time played
+local function SetToonPlayedInfo(action, total, level)
+	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
+
+	if action == 'init' then
+		TitanPanelBarButton:RequestTimePlayed() -- TIME_PLAYED_MSG
+		toon_info.played_start = _G.time()
+	elseif action == 'update' then -- via event TIME_PLAYED_MSG
+		toon_info.played_total = total + GetElapsed(toon_info.played_start)
+		toon_info.played_this_level = level + GetElapsed(toon_info.played_start)
+	elseif action == 'logout' then -- 
+		toon_info.played_total = toon_info.played_total + GetElapsed(toon_info.played_start)
+		toon_info.played_this_level = toon_info.played_this_level + GetElapsed(toon_info.played_start)
+	elseif action == 'level' then
+		toon_info.played_start = _G.time()
+		toon_info.played_total = toon_info.played_total + GetElapsed(toon_info.played_start)
+		toon_info.played_this_level = GetElapsed(toon_info.played_start)
+	else
+		-- !?
+	end
+end
+
 local function SetToonInfo(toon)
-	-- New Dec 2025 Collect some toon info for profile display
+	-- New Dec 2025 Collect some toon info for profile display (Alts)
 	-- Unlikely to change on reload but...
 	local toon_info = TitanSettings.Players[toon].Info ---@class CharInfo
 	local unit = "player"
@@ -302,23 +380,37 @@ local function SetToonInfo(toon)
 	toon_info.gold_toon = GetMoney() -- NO Warband
 
 	local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvp = GetAverageItemLevel()
-	toon_info.itemLevelAve = avgItemLevel -- using ony equp change event, this may not be accurate...
+	toon_info.itemLevelAve = avgItemLevel -- using only equip change event, this may not be accurate...
 	toon_info.itemLevelEquipped = avgItemLevelEquipped -- this is the one we are tracking
 	toon_info.itemLevelPvp = avgItemLevelPvp
+
+	SetToonPlayedInfo('init')
+
+	toon_info.unit_xp = UnitXP("player")
+	toon_info.unit_xp_max = UnitXPMax("player")
+
+	toon_info.zoneText = GetZoneText()
+	toon_info.subZoneText = GetSubZoneText() or ""
+
+	-- seems to return current location if hearth not bound
+	toon_info.hearth_binding = GetBindLocation()
+
 end
 
 local function SetToonLogout(toon)
 	-- New Dec 2025 Collect some toon info for profile display
 	-- Unlikely to change on reload but...
 	local toon_info = TitanSettings.Players[toon].Info
-	local unit = "player"
 
-	toon_info.zoneText = GetZoneText()
-	toon_info.subZoneText = GetSubZoneText() or ""
+	toon_info.gold_toon = GetMoney()
 
 	local now = _G.time()
 	toon_info.logout = now
 	toon_info.logoutStr = TitanUtils_GetDateText(now, true)
+
+	-- Zone and subzone set via events
+
+	SetToonPlayedInfo('logout')
 end
 
 local function SetPluginsAndConfig()
@@ -548,6 +640,7 @@ function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2, arg3, arg4)
 
 	Titan_Debug.Out('titan', 'p_e_w', "Titan init processing done")
 end
+
 ---Titan Handle CVAR_UPDATE React to user changed WoW options.
 function TitanPanelBarButton:CVAR_UPDATE(cvarname, cvarvalue)
 	if cvarname == "USE_UISCALE"
@@ -587,16 +680,19 @@ end
 ---Titan Handle ZONE_CHANGED_INDOORS Hide Titan top bars if user requested to hide Top bar(s) in BG or arena
 function TitanPanelBarButton:ZONE_CHANGED()
 	TitanPanelBarButton_DisplayBarsWanted("ZONE_CHANGED")
+	SetToonZoneInfo()
 end
 
 ---Titan Handle ZONE_CHANGED_INDOORS Hide Titan top bars if user requested to hide Top bar(s) in BG or arena
 function TitanPanelBarButton:ZONE_CHANGED_INDOORS()
 	TitanPanelBarButton_DisplayBarsWanted("ZONE_CHANGED_INDOORS")
+	SetToonZoneInfo()
 end
 
 ---Titan Handle ZONE_CHANGED_INDOORS Hide Titan top bars if user requested to hide Top bar(s) in BG or arena
 function TitanPanelBarButton:ZONE_CHANGED_NEW_AREA()
 	TitanPanelBarButton_DisplayBarsWanted("ZONE_CHANGED_NEW_AREA")
+	SetToonZoneInfo()
 end
 
 ---Titan Handle PET_BATTLE_CLOSE Hide Titan bars during pet battle.
@@ -632,19 +728,21 @@ function TitanPanelBarButton:PLAYER_REGEN_DISABLED()
 	TitanPanelBarButton_DisplayBarsWanted("PLAYER_REGEN_DISABLED")
 end
 
----Titan Handle ZONE_CHANGED_INDOORS Hide Titan top bars if user requested to hide Top bar(s) in BG or arena
+-- Events 'for profile' are needed because routines called during logout event return invalid results.
+
+---Titan Store in profile
 function TitanPanelBarButton:PLAYER_MONEY()
 	local toon_info = TitanSettings.Players[TitanSettings.Player].Info
 	-- 2026 Mar Add more info for Alts
 	toon_info.gold_toon = GetMoney() -- NO Warband
 end
 
----Titan Handle ZONE_CHANGED_INDOORS Hide Titan top bars if user requested to hide Top bar(s) in BG or arena
+---Titan Store in profile
 function TitanPanelBarButton:PLAYER_EQUIPMENT_CHANGED()
 	local toon_info = TitanSettings.Players[TitanSettings.Player].Info
 	-- 2026 Mar Add more info for Alts
 	local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvp = GetAverageItemLevel()
-	toon_info.itemLevelAve = avgItemLevel
+	toon_info.itemLevelAve = avgItemLevel -- not accurate w/o tracking armor in bags
 	toon_info.itemLevelEquipped = avgItemLevelEquipped
 	toon_info.itemLevelPvp = avgItemLevelPvp
 	-- Poss info to save for Alts
@@ -652,6 +750,35 @@ function TitanPanelBarButton:PLAYER_EQUIPMENT_CHANGED()
 	-- raid (locked list on click), num quests, currencies (on click - virtual)
 
 end
+
+---Titan For /played in profile
+function TitanPanelBarButton:TIME_PLAYED_MSG(a1, a2, ...)
+	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
+	SetToonPlayedInfo('update', a1, a2)
+end
+
+---Titan For player level in profile
+function TitanPanelBarButton:PLAYER_LEVEL_UP(...)
+	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
+	SetToonPlayedInfo('level')
+end
+
+---Titan For player XP in profile
+function TitanPanelBarButton:PLAYER_XP_UPDATE(...)
+	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
+	toon_info.unit_xp = UnitXP("player")
+	toon_info.unit_xp_max = UnitXPMax("player")
+end
+
+---Titan For player hearth in profile
+function TitanPanelBarButton:HEARTHSTONE_BOUND(...)
+	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
+	-- seems to return current location if hearth not bound
+	toon_info.hearth_binding = GetBindLocation()
+end
+
+
+-- for profile end
 
 if Titan_Global.switch.can_edit_ui then
 	-- Do not need to adjust frames

@@ -1,10 +1,12 @@
-local _, addonTable = ...;
-local FramePlusfun=addonTable.FramePlusfun
-local ActionFun=addonTable.Fun.ActionFun
+local _, PD = ...;
+local FramePlusfun=PD.FramePlusfun
+local Fun=PD.Fun
+local ActionFun=Fun.ActionFun
 local PIGUseKeyDown=ActionFun.PIGUseKeyDown
 local Update_State=ActionFun.Update_State
 ----
-local Data=addonTable.Data
+local Data=PD.Data
+
 local butW = ActionButton1:GetWidth()
 local PIGSkillinfo={
 	["bookType"]=PIG_GetSpellBookType(),
@@ -15,27 +17,18 @@ local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
 -----------------------
 local function PIG_ADDON_LOADED(BlizzardName,addfun)
-	if PIGIsAddOnLoaded(BlizzardName) then
-		addfun()
-	else
-		local jiazaiui = CreateFrame("Frame")
-		jiazaiui:RegisterEvent("ADDON_LOADED")
-		jiazaiui:SetScript("OnEvent", function(self, event, arg1)
-			if event=="ADDON_LOADED" then
-				if arg1==BlizzardName then
-					self:UnregisterEvent("ADDON_LOADED")
-					if InCombatLockdown() then
-						jiazaiui:RegisterEvent("PLAYER_REGEN_ENABLED")
-					else
-						addfun()
-					end
-				end
-			elseif event=="PLAYER_REGEN_ENABLED" then
+	Fun.IsAddOnLoaded(BlizzardName,function()
+		if InCombatLockdown() then
+			local jiazaiui = CreateFrame("Frame")
+			jiazaiui:RegisterEvent("PLAYER_REGEN_ENABLED")
+			jiazaiui:SetScript("OnEvent", function(self, event, arg1)
 				self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 				addfun()				
-			end
-		end)
-	end
+			end)
+		else
+			addfun()
+		end
+	end)
 end
 local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 	if fujiui.ButList then return end
@@ -412,7 +405,7 @@ function FramePlusfun.Skill()
 	if not PIGA["FramePlus"]["Skill"] then return end
 	if NDui then return end
 	if PIG_MaxTocversion() then
-		PIG_ADDON_LOADED("Blizzard_TradeSkillUI",TradeSkillFunc)
-		PIG_ADDON_LOADED("Blizzard_CraftUI",CraftFunc)
+		Fun.IsAddOnLoaded("Blizzard_TradeSkillUI",TradeSkillFunc)
+		Fun.IsAddOnLoaded("Blizzard_CraftUI",CraftFunc)
 	end
 end

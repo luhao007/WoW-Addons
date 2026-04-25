@@ -1915,7 +1915,7 @@ local function CreateImportExportList(pos)
 	args["export_header"] = {
 		order = position,
 		type = "header",
-		name = L["TITAN_PANEL_MENU_IMPEXP_IMPORT"] .. " \n",
+		name = L["TITAN_PANEL_MENU_IMPEXP_EXPORT"] .. " \n",
 		cmdHidden = true
 	}
 	local ex_desc = ""

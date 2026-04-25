@@ -134,7 +134,7 @@ fujiF.setF.ActionBar_Scale:SetScript("OnClick", function (self)
 	ActionBar_Scale(true)
 end);
 -------
-fujiF.setF.ActionBar_Scale.Slider = PIGSlider(fujiF.setF,{"LEFT",fujiF.setF.ActionBar_Scale,"RIGHT",96,0},{0.4, 1.8, 0.01,{["Right"]="%"}},200)
+fujiF.setF.ActionBar_Scale.Slider = PIGSlider(fujiF.setF,{"LEFT",fujiF.setF.ActionBar_Scale,"RIGHT",96,0},{0.4, 1.8, 0.01,{["Right"]="%d%%"}},200)
 function fujiF.setF.ActionBar_Scale.Slider:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ActionBar"]["ScaleV"]=arg1;
 	ActionBar_Scale()
@@ -467,20 +467,68 @@ end)
 --=====
 local HHH=22
 local WWW=HHH*0.84
-local Old_MicroBut = {
-	"CharacterMicroButton",
-	"SpellbookMicroButton",
-	"TalentMicroButton",
-	"AchievementMicroButton",
-	"QuestLogMicroButton",
-	"SocialsMicroButton",
-	"GuildMicroButton",
-	"CollectionsMicroButton",
-	"PVPMicroButton",
-	"LFGMicroButton",
-	"MainMenuMicroButton",
-	"HelpMicroButton",
-}
+local Old_MicroBut = {}
+if PIG_MaxTocversion(30000) then
+	Old_MicroBut = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"QuestLogMicroButton",
+		"SocialsMicroButton",
+		"GuildMicroButton",
+		"WorldMapMicroButton",
+		"MainMenuMicroButton",
+		"HelpMicroButton",
+	}
+elseif PIG_MaxTocversion(40000) then
+	Old_MicroBut = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"AchievementMicroButton",
+		"QuestLogMicroButton",
+		"SocialsMicroButton",
+		"GuildMicroButton",
+		"CollectionsMicroButton",
+		"PVPMicroButton",
+		"LFGMicroButton",
+		"MainMenuMicroButton",
+		"HelpMicroButton",
+	}
+elseif PIG_MaxTocversion(50000) then
+	Old_MicroBut = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"AchievementMicroButton",
+		"QuestLogMicroButton",
+		"SocialsMicroButton",
+		"GuildMicroButton",
+		"EJMicroButton",
+		"CollectionsMicroButton",
+		"PVPMicroButton",
+		"LFGMicroButton",
+		"MainMenuMicroButton",
+		"HelpMicroButton",
+	}
+elseif PIG_MaxTocversion(60000) then
+	Old_MicroBut = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"AchievementMicroButton",
+		"QuestLogMicroButton",
+		"SocialsMicroButton",
+		"GuildMicroButton",
+		"EJMicroButton",
+		"CollectionsMicroButton",
+		"PVPMicroButton",
+		"LFGMicroButton",
+		"MainMenuMicroButton",
+		"HelpMicroButton",
+		"StoreMicroButton",
+	}
+end
 local Diy_MicroBut = {"MacroMicroButton","MainMenuBarBackpackButton"}
 --重建菜单列表
 local GameMenu = {}
@@ -575,14 +623,12 @@ fujiF.setMicroF.cz:SetScript("OnClick", function (self)
 	fujiF.setMicroF:Hide()
 	fujiF.setMicroF:Show()
 end);
-fujiF.setMicroF.ScaleT = PIGFontString(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -20},"缩放")
-fujiF.setMicroF.Scale = PIGSlider(fujiF.setMicroF,{"LEFT",fujiF.setMicroF.ScaleT,"LEFT",100,0},{0.6, 1.8, 0.01,{["Right"]="%"}})
+fujiF.setMicroF.Scale = PIGSlider(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -20},{0.6, 1.8, 0.01,{["Right"]="缩放%d%%"}})
 function fujiF.setMicroF.Scale:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["MicroMenu"]["Scale"]=arg1;
 	fujiF.UpdateUIScaleXY()
 end
-fujiF.setMicroF.IntervalT = PIGFontString(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -60},"按钮间距")
-fujiF.setMicroF.Interval = PIGSlider(fujiF.setMicroF,{"LEFT", fujiF.setMicroF.IntervalT, "LEFT", 100, 0},{-6, 30, 1})
+fujiF.setMicroF.Interval = PIGSlider(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -60},{-6, 30, 1,{["Right"]="按钮间距%d"}})
 function fujiF.setMicroF.Interval:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["MicroMenu"]["Interval"]=arg1;
 	fujiF.UpdateUIScaleXY()

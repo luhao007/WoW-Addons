@@ -1712,7 +1712,9 @@ local function RowOnEnter(self)
 	-- Attach all of the Information to the tooltip.
 	app.Modules.Tooltip.AttachTooltipInformation(tooltip, tooltipInfo);
 	if not IsRefreshing then tooltip:SetATTReferenceForTexture(reference); end
-	tooltip:Show();
+	-- Defer Show() to the next frame to break the addon taint chain.
+	-- Without this, Backdrop.lua tries arithmetic on secret-tainted width/height values.
+	Callback(function() tooltip:Show() end)
 
 	-- Reactivate the original tooltip integrations setting.
 	if wereTooltipIntegrationsDisabled then app.Settings:SetTooltipSetting("Enabled", false); end
@@ -2155,6 +2157,12 @@ local function OnEventDebugging(self, ...)
 	-- app.PrintDebug(self.Suffix, ...);
 end
 local function OnMouseWheelForWindow(self, delta)
+	if IsShiftKeyDown() then
+		delta = 5 * delta
+	elseif IsControlKeyDown() then
+		delta = delta * (self.ScrollBar.VisibleRows or 1)
+	end
+	-- app.PrintDebug("MouseScroll",delta,"from",self.ScrollBar.CurrentIndex)
 	self.ScrollBar:SetValue(self.ScrollBar.CurrentIndex - delta);
 end
 local function OnScrollBarValueChanged(self, value)
@@ -2351,7 +2359,8 @@ local FieldDefaults = {
 			-- self.ScrollBar:Show();
 			totalRowCount = totalRowCount + 1;
 			self.ScrollBar:SetMinMaxValues(1, totalRowCount - rowCount);
-			self.ScrollBar:SetStepsPerPage(rowCount - 2);
+			self.ScrollBar:SetStepsPerPage(rowCount - 1);
+			self.ScrollBar.VisibleRows = rowCount - 1
 		end
 	end,
 	ScrollTo = function(self, field, value)
@@ -2416,6 +2425,7 @@ local FieldDefaults = {
 			SetRowData(self, rows[i], rowData[current]);
 			current = current + 1;
 		end
+		-- app.PrintDebugPrior(app.Modules.Color.Colorize("Redraw:", app.DefaultColors.TooltipLore),self.Suffix)
 	end,
 	OnInactiveAlphaChanged = function(self, value)
 		value = tonumber(value)
@@ -3581,8 +3591,8 @@ local DynamicCategoryHeaders = {
 	{ id = "factionID", name = L.FACTIONS, icon = app.asset("Category_Factions") },
 	{ id = "flightpathID", name = L.FLIGHT_PATHS, icon = app.asset("Category_FlightPaths") },
 	{ id = "mountID", name = MOUNTS, icon = app.asset("Category_Mounts") },
-	-- TODO: Add professions here using the byValue probably
 	{ id = "questID", name = TRACKER_HEADER_QUESTS, icon = app.asset("Interface_Quest_header") },
+	{ id = "recipeID", name = AUCTION_CATEGORY_RECIPES, icon = app.asset("Category_Professions") },
 	{ id = "titleID", name = PAPERDOLL_SIDEBAR_TITLES, icon = app.asset("Category_Titles") },
 	{ id = "toyID", name = TOY_BOX, icon = app.asset("Category_ToyBox") },
 };

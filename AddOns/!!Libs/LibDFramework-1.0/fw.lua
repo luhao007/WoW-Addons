@@ -1,5 +1,5 @@
 
-local dversion = 679
+local dversion = 717
 local major, minor = "DetailsFramework-1.0", dversion
 local DF, oldminor = LibStub:NewLibrary(major, minor)
 
@@ -1446,8 +1446,12 @@ function DF:SetFontFace(fontString, fontface)
 		fontface = font
 	end
 
-	local _, size, flags = fontString:GetFont()
-	return fontString:SetFont(fontface, size, flags)
+	if _G[fontface] then
+		fontface = _G[fontface]:GetFont()
+	end
+
+	local origFont, size, flags = fontString:GetFont()
+	local ok = pcall(fontString.SetFont, fontString, fontface, size, flags) -- silently fail this one
 end
 
 local dummyFontString = UIParent:CreateFontString(nil, "background", "GameFontNormal")
@@ -1520,6 +1524,22 @@ function DF:SetFontRotation(fontString, degrees) --deprecated, use fontString:Se
 		fontString.__rotationAnimation:Play()
 		fontString.__rotationAnimation:Pause()
 	end
+end
+
+function DF:RemoveColorCodes(text)
+    --remove color code: |cFFFFFFFF
+    text = string.gsub(text, "%|c%w+", "")
+    --remove the end code: |r
+    text = string.gsub(text, "%|r", "")
+    return text
+end
+
+--function to remove |T...|t style codes from text
+--removes portions starting with |T and ending with |t, including both delimiters
+function DF:RemoveTextureCodes(text)
+	--remove |T...|t style codes
+	text = string.gsub(text, "%|T.-%|t", "")
+	return text
 end
 
 ---receives a string and a color and return the string wrapped with the color using |c and |r scape codes
@@ -1751,7 +1771,7 @@ function DF:GetFontFace(fontString)
 end
 
 local ValidOutlines = {
-	["NONE"] = true,
+	[""] = true,
 	["MONOCHROME"] = true,
 	["OUTLINE"] = true,
 	["THICKOUTLINE"] = true,
@@ -1798,7 +1818,11 @@ function DF:SetFontOutline(fontString, outline)
         end
     end
 
-    outline = (not outline or outline == "NONE") and "" or outline
+	outline = (not outline or outline == "NONE") and "" or outline
+
+	if not ValidOutlines[outline] then
+		outline = ""
+	end
 
     fontString:SetFont(font, fontSize, outline)
 end
@@ -5498,16 +5522,15 @@ end
 
 -- TODO: maybe make this auto-generaded some day?...
 DF.CLEncounterID = {
-	{ID = 2423, Name = "The Tarragrue"},
-	{ID = 2433, Name = "The Eye of the Jailer"},
-	{ID = 2429, Name = "The Nine"},
-	{ID = 2432, Name = "Remnant of Ner'zhul"},
-	{ID = 2434, Name = "Soulrender Dormazain"},
-	{ID = 2430, Name = "Painsmith Raznal"},
-	{ID = 2436, Name = "Guardian of the First Ones"},
-	{ID = 2431, Name = "Fatescribe Roh-Kalo"},
-	{ID = 2422, Name = "Kel'Thuzad"},
-	{ID = 2435, Name = "Sylvanas Windrunner"},
+	{ID = 3176, Name = "Imperator Averzian"},
+	{ID = 3177, Name = "Vorasius"},
+	{ID = 3179, Name = "Fallen-King Salhadaar"},
+	{ID = 3178, Name = "Vaelgor & Ezzorak"},
+	{ID = 3180, Name = "Lightblinded Vanguard"},
+	{ID = 3181, Name = "Crown of the Cosmos"},
+	{ID = 3306, Name = "Chimaerus the Undreamt God"},
+	{ID = 3182, Name = "Belo'ren, Child of Al'ar"},
+	{ID = 3183, Name = "Midnight Falls"},
 }
 
 function DF:GetPlayerRole()
@@ -5700,6 +5723,8 @@ local specInformation = {
 	[537] = {specId = 537, name = "Tenacity", specIcon = 132121, role = "TANK", classId = 0, className = "WARRIOR", specIndex = 1, flags = 0x20, primaryStatPriority = 0},
 	[577] = {specId = 577, name = "Havoc", specIcon = 1247264, role = "DAMAGER", classId = 12, className = "DEMONHUNTER", specIndex = 0, flags = 0x44, primaryStatPriority = 3},
 	[581] = {specId = 581, name = "Vengeance", specIcon = 1247265, role = "TANK", classId = 12, className = "DEMONHUNTER", specIndex = 1, flags = 0x4, primaryStatPriority = 3},
+	[1480] = {specId = 1480, name = "Devourer", specIcon = 7455386, role = "TANK", classId = 12, className = "DEMONHUNTER", specIndex = 1, flags = 0x4, primaryStatPriority = 3},
+	--[1480] = {specId = 1480, name = "Devourer", specIcon = 7455385, role = "DAMAGER", classId = 12, className = "DEMONHUNTER", specIndex = 2, flags = 0x3, primaryStatPriority = 3},
 	[1444] = {specId = 1444, name = "Initial", specIcon = 136048, role = "DAMAGER", classId = 7, className = "SHAMAN", specIndex = 4, flags = 0x3, primaryStatPriority = 0},
 	[1446] = {specId = 1446, name = "Initial", specIcon = 132355, role = "DAMAGER", classId = 1, className = "WARRIOR", specIndex = 4, flags = 0x44, primaryStatPriority = 5},
 	[1447] = {specId = 1447, name = "Initial", specIcon = 136096, role = "DAMAGER", classId = 11, className = "DRUID", specIndex = 4, flags = 0x14b, primaryStatPriority = 0},
@@ -5717,7 +5742,6 @@ local specInformation = {
 	[1468] = {specId = 1468, name = "Preservation", specIcon = 4511812, role = "HEALER", classId = 13, className = "EVOKER", specIndex = 1, flags = 0x3, primaryStatPriority = 0},
 	[1473] = {specId = 1473, name = "Augmentation", specIcon = 5198700, role = "DAMAGER", classId = 13, className = "EVOKER", specIndex = 2, flags = 0x3, primaryStatPriority = 0},
 	[1478] = {specId = 1478, name = "Adventurer", specIcon = 2055034, role = "DAMAGER", classId = 14, className = "ROGUE", specIndex = 4, flags = 0x2, primaryStatPriority = 4},
-	[1480] = {specId = 1480, name = "Devourer", specIcon = 7455385, role = "DAMAGER", classId = 12, className = "DEMONHUNTER", specIndex = 2, flags = 0x3, primaryStatPriority = 0},
 }
 
 --make a table where the key is the specIcon and the value is the table from specInformation
@@ -6077,7 +6101,7 @@ do
             --need to create the new object
             local newObject = self.newObjectFunc(self, unpack(self.payload))
             if (newObject) then
-				self.objectsCreated = self.objectsCreated + 0
+				self.objectsCreated = self.objectsCreated + 1
 				table.insert(self.inUse, newObject)
 				if (self.onAcquire) then
 					DF:QuickDispatch(self.onAcquire, newObject)

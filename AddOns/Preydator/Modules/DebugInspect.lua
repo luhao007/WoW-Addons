@@ -412,6 +412,10 @@ local function BuildInspectReport()
     end
 
     local preyWidgetVisible = suppressionDebug and suppressionDebug.preyIconShown == true
+    local hasResolvedPreyZoneEvidence = state and (state.preyZoneMapID ~= nil or state.confirmedPreyZoneMapID ~= nil)
+    local hasCertifiedWidgetZoneSignal = state and state.inPreyZone == nil
+        and preyWidgetVisible
+        and hasResolvedPreyZoneEvidence
     local onlyShowInPreyZone = settings and settings.onlyShowInPreyZone == true
     local forceShowBar = state and state.forceShowBar == true
     local forceKillStage = now < ((state and state.killStageUntil) or 0)
@@ -419,7 +423,7 @@ local function BuildInspectReport()
     local forceBloodyCommandAlert = now < ((state and state.bloodyCommandAlertUntil) or 0)
     local isOutOfPreyZone = hasActiveQuest and state and state.inPreyZone == false
     local inStageFourInZone = state and state.stage == 4
-        and (state.inPreyZone == true or (state.inPreyZone == nil and preyWidgetVisible))
+        and (state.inPreyZone == true or hasCertifiedWidgetZoneSignal)
     local editModePreview = settings and settings.showInEditMode == true and _G.EditModeManagerFrame and _G.EditModeManagerFrame.IsShown and _G.EditModeManagerFrame:IsShown()
     local isRestrictedInstance = inInstance == true and (
         instanceType == "pvp"
@@ -451,7 +455,9 @@ local function BuildInspectReport()
         shouldShowBar = true
         visibilityReason = "editModePreview"
     elseif onlyShowInPreyZone then
-        shouldShowBar = (hasActiveQuest and state and state.inPreyZone == true) or inStageFourInZone
+        local inZoneSignal = (state and state.inPreyZone == true)
+            or hasCertifiedWidgetZoneSignal
+        shouldShowBar = (hasActiveQuest and inZoneSignal) or inStageFourInZone
         visibilityReason = shouldShowBar and "onlyShowInPreyZone-pass" or "onlyShowInPreyZone-block"
     else
         shouldShowBar = true
@@ -620,6 +626,9 @@ function DebugInspectModule:OnSlashCommand(text, rest)
             end
         else
             print("Preydator: Could not send inspect report to BugSack: " .. tostring(reason))
+            for _, line in ipairs(lines) do
+                print(line)
+            end
         end
     end
 

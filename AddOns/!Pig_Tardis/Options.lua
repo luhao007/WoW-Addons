@@ -13,7 +13,6 @@ local TardisInfo = {}
 addonTable.TardisInfo=TardisInfo
 ------------
 local QuickBut_ID=20
-if PIGIsHardcore() then return end
 local fuFrame,fuFrameBut,adddata = unpack(Data.Ext[addonName])
 if not adddata.open then return end
 fuFrame.IsOpenUpdate=nil

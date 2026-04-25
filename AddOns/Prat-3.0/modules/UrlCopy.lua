@@ -84,13 +84,13 @@ L["Color URL"] = "Colorier les URL"
 L["Set Color"] = "Couleur des URL"
 L["Show Brackets"] = "Afficher les crochets"
 L["Toggle"] = "Activé/Désactivé"
-L["Toggle showing brackets on and off."] = "Active/Désactive l'affichage de crochets."
+L["Toggle showing brackets on and off."] = "Activer / désactiver l'affichage des parenthèses."
 L["Toggle the module on and off."] = "Active/Désactive le module."
 L["Toggle the URL color on and off."] = "Active/Désactive la couleur des liens URL."
 L["URL formating options."] = "Options de formatage des liens URL."
 L["UrlCopy"] = "Copie de liens"
 L["Use Popup"] = "Utiliser une popup"
-L["Use popup window to show URL."] = "Utiliser une popup pour afficher le lien URL sélectionné."
+L["Use popup window to show URL."] = "Utiliser une fenêtre contextuelle pour afficher l'URL."
 
 
 	PL:AddLocale("frFR",L)

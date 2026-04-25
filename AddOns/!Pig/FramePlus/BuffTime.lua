@@ -1,6 +1,6 @@
-local _, addonTable = ...;
+local _, PD = ...;
 ---BUFF/DEBUFF框架精确时间========
-local FramePlusfun=addonTable.FramePlusfun
+local FramePlusfun=PD.FramePlusfun
 function FramePlusfun.BuffTime()
 	if not PIGA["FramePlus"]["BuffTime"] then return end
 	if PIG_MaxTocversion(119999,true) then return end

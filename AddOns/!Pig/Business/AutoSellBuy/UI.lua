@@ -10,11 +10,13 @@ local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
 local PIGDiyBut=Create.PIGDiyBut
 local PIGLine=Create.PIGLine
+local PIGEnter=Create.PIGEnter
 local PIGModbutton=Create.PIGModbutton
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
+local Show_TabBut_R=Create.Show_TabBut_R
 --
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local IsUsableItem=IsUsableItem or C_Item and C_Item.IsUsableItem
@@ -22,7 +24,7 @@ local bagIDMax= addonTable.Data.bagData["bagIDMax"]
 ---
 local BusinessInfo=addonTable.BusinessInfo
 local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
-local Width,Height,biaotiH  = 300, 550, 21;
+local Width,Height,biaotiH  = 340, 550, 21;
 --父框架
 function BusinessInfo.AutoSellBuy_ADDUI(QuickButUI_index)
 	if not PIGA["AutoSellBuy"]["Open"] then return end
@@ -47,14 +49,22 @@ function BusinessInfo.AutoSellBuy_ADDUI(QuickButUI_index)
 	BusinessInfo.FastXuan(QuickButUI_index+3)
 	BusinessInfo.FastSave()
 end
-function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
-	local Config0
-	if hangName=="Buy" or hangName=="Save" or hangName=="Take" then
-		Config0=PIGA_Per["AutoSellBuy"][hangName.."_List"]
-	else
-		Config0=PIGA["AutoSellBuy"][hangName.."_List"]
+function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
+	local function GetConfigRef()
+		if hangName=="Buy" or hangName=="Save" or hangName=="Take" then
+			if hangName=="Buy" and PIGA["AutoSellBuy"][hangName.."_Class"] then
+			local classId = PIG_OptionsUI.ClassData.classId
+			PIGA["AutoSellBuy"][hangName.."_List"][classId] = PIGA["AutoSellBuy"][hangName.."_List"][classId] or {}
+			return PIGA["AutoSellBuy"][hangName.."_List"][classId]
+			else
+				return PIGA_Per["AutoSellBuy"][hangName.."_List"]
+			end
+		else
+			return PIGA["AutoSellBuy"][hangName.."_List"]
+		end
 	end
 	local FiltraConfig0 = PIGA["AutoSellBuy"][hangName.."_Lsit_Filtra"]
+
 	local Width,hang_Height,addBag_hang_NUM = fuFrame:GetWidth()-12,24,19
 
 	local function IsItemExist(Conf,idx)
@@ -66,16 +76,17 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		return false
 	end
 	local function InsertItemData(itemID,itemLink,itemTexture,itemStackCount,ly)
+		local Config0=GetConfigRef()
 		local itemLink=Fun.GetItemLinkJJ(itemLink)
 		if fuFrame.List.addList.lx=="filtra" and ly~="Cursor" then
 			if IsItemExist(FiltraConfig0,itemID) then
-				PIG_OptionsUI:ErrorMsg("物品已在排除列表","R");
+				PIG_OptionsUI:ErrorMsg(L["TRADESELLBUY_ERROR1"],"R");
 				return false
 			end
 			table.insert(FiltraConfig0,1,{itemID,itemLink,itemTexture,itemStackCount,itemStackCount,false})
 		else
 			if IsItemExist(Config0,itemID) then
-				PIG_OptionsUI:ErrorMsg("物品已在"..text.."列表","R");
+				PIG_OptionsUI:ErrorMsg(string.format(L["TRADESELLBUY_ERROR2"],Title),"R");
 				return false
 			end
 			table.insert(Config0,1,{itemID,itemLink,itemTexture,itemStackCount,itemStackCount,false})
@@ -89,7 +100,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				if bag=="Cursor" then return true end	
 				if fuFrame.List.addList.lx=="filtra" then
 					if quality>0 then
-						return false, "排除列表只支持灰色物品"
+						return false, L["TRADESELLBUY_ERROR3"]
 					else
 						return true
 					end
@@ -97,7 +108,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 					return true
 				end				
 			else
-				return false,"物品无法售卖"
+				return false,ITEM_UNSELLABLE--无法出售
 			end
 		elseif hangName=="Buy" then
 			if add then
@@ -106,7 +117,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				if classID==0 or classID==5 or classID==6 or classID==7 or classID==15 then
 					return true
 				else
-					return false,"非消费品"
+					return false,L["TRADESELLBUY_ERROR4"]
 				end
 			end
 		elseif hangName=="Diuqi" then
@@ -116,7 +127,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				if quality<3 then
 					return true
 				else
-					return false,"高品质物品"
+					return false,L["TRADESELLBUY_ERROR5"]
 				end
 			end
 		elseif hangName=="Open" then
@@ -128,20 +139,20 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				if usable or lootable then
 					return true
 				else
-					return false,"物品无法开启/使用"
+					return false,L["TRADESELLBUY_ERROR6"]
 				end
 			end
 		elseif hangName=="Fen" then
 			if quality>1 and classID==2 or classID==4 or classID==19 then
 				return true
 			else
-				return false,"物品无法分解"
+				return false,ITEM_DISENCHANT_NOT_DISENCHANTABLE--"物品无法分解"
 			end
 		elseif hangName=="Xuan" then
 			if quality>0 and classID==7 and subclassID==7 then
 				return true
 			else
-				return false,"物品无法选矿"
+				return false,L["TRADESELLBUY_ERROR7"]
 			end
 		else
 			return true
@@ -150,20 +161,20 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 	--------
 	fuFrame.List = PIGFrame(fuFrame,{"BOTTOM", fuFrame, "BOTTOM", 0, 6},{Width, hang_Height*hang_NUM+6})
 	fuFrame.List:PIGSetBackdrop()
-	fuFrame.List.chu = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame.List,"TOPLEFT",0,4},{44,20},"导出");
+	fuFrame.List.chu = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame.List,"TOPLEFT",0,4},{44,20},L["CONFIG_DAOCHU"]);
 	fuFrame.List.chu:SetScript("OnClick", function(self)
-		Fun.Config_CHU(self,Config0)
+		Fun.Config_CHU(self,GetConfigRef())
 	end)
-	fuFrame.List.ru = PIGButton(fuFrame,{"LEFT",fuFrame.List.chu,"RIGHT",4,0},{44,20},"导入");
+	fuFrame.List.ru = PIGButton(fuFrame,{"LEFT",fuFrame.List.chu,"RIGHT",4,0},{44,20},L["CONFIG_DAORU"]);
 	fuFrame.List.ru:SetScript("OnClick", function(self)
 		Fun.Config_RU(self,Config1)
 	end)
-	fuFrame.List.biaoti = PIGFontString(fuFrame.List,{"BOTTOM", fuFrame.List, "TOP", 0, 6},"\124cff00FF00↓"..text.."列表↓\124r")
-	fuFrame.List.addBag = PIGButton(fuFrame,{"BOTTOMRIGHT",fuFrame.List,"TOPRIGHT",0,4},{44,20},"添加");
+	fuFrame.List.biaoti = PIGFontString(fuFrame.List,{"BOTTOM", fuFrame.List, "TOP", 0, 6},string.format(L["TRADESELLBUY_TITLE1"],Title))
+	fuFrame.List.addBag = PIGButton(fuFrame,{"BOTTOMRIGHT",fuFrame.List,"TOPRIGHT",0,4},{44,20},ADD);
 	fuFrame.List.addBag:HookScript("OnClick",  function (self)
-		fuFrame.addList_ShowFun("addBag","添加背包物品")
+		fuFrame.addList_ShowFun("addBag",BAGSLOT)
 	end)
-	fuFrame.List.Clearbut = PIGButton(fuFrame.List,{"RIGHT",fuFrame.List.addBag,"LEFT",-4,0},{44,20},"清空")
+	fuFrame.List.Clearbut = PIGButton(fuFrame.List,{"RIGHT",fuFrame.List.addBag,"LEFT",-4,0},{44,20},L["LIB_CLEAR"])
 	fuFrame.List.Clearbut:SetScript("OnClick", function (self)
 		if self.F:IsShown() then
 			self.F:Hide()
@@ -175,9 +186,10 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 	fuFrame.List.Clearbut.F:PIGSetBackdrop(1)
 	fuFrame.List.Clearbut.F:SetFrameLevel(fuFrame.List.Clearbut:GetFrameLevel()+10)
 	fuFrame.List.Clearbut.F:Hide()
-	fuFrame.List.Clearbut.F.biaoti = PIGFontString(fuFrame.List.Clearbut.F,{"TOP", fuFrame.List.Clearbut.F, "TOP", 0, -30},"确定清空\124cff00FF00↓"..text.."列表↓\124r吗?")
-	fuFrame.List.Clearbut.F.yes = PIGButton(fuFrame.List.Clearbut.F,{"TOP", fuFrame.List.Clearbut.F, "TOP", -60, -100},{60,24},"确定")
+	fuFrame.List.Clearbut.F.biaoti = PIGFontString(fuFrame.List.Clearbut.F,{"TOP", fuFrame.List.Clearbut.F, "TOP", 0, -30},L["LIB_CLEAR"]..string.format(L["TRADESELLBUY_TITLE1"],Title).."?")
+	fuFrame.List.Clearbut.F.yes = PIGButton(fuFrame.List.Clearbut.F,{"TOP", fuFrame.List.Clearbut.F, "TOP", -60, -100},{60,24},YES)
 	fuFrame.List.Clearbut.F.yes:SetScript("OnClick", function (self)
+		local Config0=GetConfigRef()
 		for ivv=#Config0,1,-1 do
 			table.remove(Config0, ivv);
 		end
@@ -185,15 +197,15 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		fuFrame.UpdateListHang_addBag()
 		fuFrame.List.Clearbut.F:Hide()
 	end);
-	fuFrame.List.Clearbut.F.no = PIGButton(fuFrame.List.Clearbut.F,{"TOP", fuFrame.List.Clearbut.F, "TOP", 60, -100},{60,24},"取消")
+	fuFrame.List.Clearbut.F.no = PIGButton(fuFrame.List.Clearbut.F,{"TOP", fuFrame.List.Clearbut.F, "TOP", 60, -100},{60,24},NO)
 	fuFrame.List.Clearbut.F.no:SetScript("OnClick", function (self)
 		fuFrame.List.Clearbut.F:Hide()
 	end);
 		
 	if hangName=="Sell" then
-		fuFrame.List.filtra = PIGButton(fuFrame.List,{"BOTTOMRIGHT",fuFrame.List.addBag,"TOPRIGHT",0,4},{44,20},"排除")
+		fuFrame.List.filtra = PIGButton(fuFrame.List,{"BOTTOMRIGHT",fuFrame.List.addBag,"TOPRIGHT",0,4},{44,20},L["TRADESELLBUY_EXCLUDE"])
 		fuFrame.List.filtra:SetScript("OnClick", function (self)
-			fuFrame.addList_ShowFun("filtra","卖出排除物品")
+			fuFrame.addList_ShowFun("filtra",L["TRADESELLBUY_EXCLUDE1"])
 		end);
 	end
 
@@ -208,7 +220,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 	fuFrame.List.addList.biaoti = PIGFontString(fuFrame.List.addList,{"TOP", fuFrame.List.addList, "TOP", 0, -4})
 	PIGLine(fuFrame.List.addList,"TOP",-biaotiH)
 	---
-	fuFrame.List.addList.filtraTips = PIGFontString(fuFrame.List.addList,{"TOP", fuFrame.List.addList, "TOP", 0, -28},"下方列表|c"..Quality[0]["HEX"].."灰色|r物品将不会被自动卖出")
+	fuFrame.List.addList.filtraTips = PIGFontString(fuFrame.List.addList,{"TOP", fuFrame.List.addList, "TOP", 0, -28},string.format(L["TRADESELLBUY_EXCLUDE2"],Quality[0]["HEX"]))
 	fuFrame.List.addList.filtraTips:SetTextColor(0, 1, 0, 1); 
 	fuFrame.List.addList.ButList={}
 	local QualityMinMax = {1,4}
@@ -218,8 +230,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		QualityMinMax[1],QualityMinMax[2]=2,4
 	end
 	for i=QualityMinMax[1],QualityMinMax[2] do
-		local text ={Quality[i]["Name"],nil}
-		local Checkbut =PIGCheckbutton(fuFrame.List.addList,nil,text)
+		local Checkbut =PIGCheckbutton(fuFrame.List.addList,nil,{Quality[i]["Name"],nil})
 		fuFrame.List.addList.ButList[i]=Checkbut
 		fuFrame.List.addList.ButList[i].Check=true	
 		if i==QualityMinMax[1] then
@@ -245,6 +256,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				table.remove(FiltraConfig, ivv);
 			end
 		else
+			local Config0=GetConfigRef()
 			local bagshujuy =fuFrame.addItemData
 			local ItemsNum = #bagshujuy;
 			for ix=1,ItemsNum do
@@ -256,14 +268,14 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		fuFrame.UpdateListHang()
 		fuFrame.UpdateListHang_addBag()
 	end)
-	fuFrame.List.addList.EditBoxT = PIGFontString(fuFrame.List.addList,{"LEFT", fuFrame.List.addList.addall, "RIGHT", 16, 0},"物品ID")
+	fuFrame.List.addList.EditBoxT = PIGFontString(fuFrame.List.addList,{"LEFT", fuFrame.List.addList.addall, "RIGHT", 16, 0},ITEMS.."ID")
 	fuFrame.List.addList.EditBox = CreateFrame("EditBox", nil, fuFrame.List.addList, "InputBoxInstructionsTemplate");
 	fuFrame.List.addList.EditBox:SetSize(80,20);
 	fuFrame.List.addList.EditBox:SetPoint("LEFT", fuFrame.List.addList.EditBoxT, "RIGHT", 6, 0);
 	fuFrame.List.addList.EditBox:SetAutoFocus(false);
 	fuFrame.List.addList.EditBox:SetMaxLetters(10)
 	fuFrame.List.addList.EditBox:SetNumeric(true)
-	fuFrame.List.addList.EditBox.addbut = PIGButton(fuFrame.List.addList.EditBox,{"LEFT", fuFrame.List.addList.EditBox, "RIGHT", 2, 0},{42,20},"添加");
+	fuFrame.List.addList.EditBox.addbut = PIGButton(fuFrame.List.addList.EditBox,{"LEFT", fuFrame.List.addList.EditBox, "RIGHT", 2, 0},{42,20},ADD);
 	fuFrame.List.addList.EditBox.addbut:Hide()
 	fuFrame.List.addList.EditBox:SetScript("OnTextChanged", function(self) if self:GetNumber()>0 then self.addbut:Show() else self.addbut:Hide() end end)
 	fuFrame.List.addList.EditBox.addbut:SetScript("OnClick", function(self)
@@ -316,6 +328,9 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		hang.icon:SetSize(hang_Height-1,hang_Height-1);
 		hang.icon:SetPoint("LEFT", hang.check, "RIGHT", 0,0);
 		hang.link = PIGFontString(hang,{"LEFT", hang.icon, "RIGHT", 4,0})
+		function hang:ShowInfoFun(itemLink, itemQuality, itemLevel)
+			self.link:SetText(itemLevel..itemLink);
+		end
 	end
 	function fuFrame.UpdateListHang_addBag()
 		if not fuFrame.List.addList:IsShown() then return end
@@ -331,14 +346,14 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				butx:Hide()
 			end
 			fuFrame.List.addList.filtraTips:Show()
-			fuFrame.List.addList.addall:SetText("清空排除")
+			fuFrame.List.addList.addall:SetText(L["LIB_CLEAR"])
 			bagshujuy=PIGA["AutoSellBuy"][hangName.."_Lsit_Filtra"]
 		else
 			for _,butx in pairs(fuFrame.List.addList.ButList) do
 				butx:Show()
 			end
 			fuFrame.List.addList.filtraTips:Hide()
-			fuFrame.List.addList.addall:SetText("添加以下")
+			fuFrame.List.addList.addall:SetText(L["TRADESELLBUY_ADDALL"])
 			for bag=0,bagIDMax do
 				local NumSlots=GetContainerNumSlots(bag)
 				for slot=1,NumSlots do
@@ -357,6 +372,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 			end
 		end
  		---
+ 		local Config0=GetConfigRef()
  		fuFrame.addItemData=bagshujuy
 		local ItemsNum = #bagshujuy;
 		for i=1,ItemsNum do
@@ -374,8 +390,8 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 	    		hang.check:SetID(dangqianH);
 		    	hang.icon:SetTexture(bagshujuy[dangqianH][3]);
 		    	hang.itemID=bagshujuy[dangqianH][1]
-		    	hang.link:SetText(bagshujuy[dangqianH][7]..bagshujuy[dangqianH][2]);
 				if fuFrame.List.addList.lx=="filtra" then
+					Fun.HY_ShowItemLink(hang,bagshujuy[dangqianH][1],bagshujuy[dangqianH][2],New)
 					hang.check.icon:SetSize(hang_Height-9,hang_Height-9);
 					hang.check.icon:SetTexture("interface/common/voicechat-muted.blp");
 					hang.check:Show()
@@ -388,6 +404,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 						fuFrame.UpdateListHang_addBag()
 					end);
 				else
+		    		hang.link:SetText(bagshujuy[dangqianH][7]..bagshujuy[dangqianH][2]);
 					hang.check.icon:SetSize(hang_Height-1,hang_Height-1);
 					hang.check.icon:SetTexture("interface/buttons/ui-checkbox-check.blp");
 					hang.check:SetShown(bagshujuy[dangqianH][6])
@@ -444,7 +461,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		end
 		hang.del = PIGDiyBut(hang,{"LEFT", hang, "LEFT", 4,0},{hang_Height-6});
 		hang.del:SetScript("OnClick", function (self)
-			table.remove(Config0, self:GetID());
+			table.remove(GetConfigRef(), self:GetID());
 			fuFrame.UpdateListHang();
 			fuFrame.UpdateListHang_addBag()
 		end);
@@ -503,6 +520,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 				local NWEdanjiaV=self:GetNumber();
 		 		self:SetText(NWEdanjiaV);
 		 		local bianjiID=self:GetParent().del:GetID()
+		 		local Config0=GetConfigRef()
 				Config0[bianjiID][4]=NWEdanjiaV;
 				fuFrame.UpdateListHang();
 			end);
@@ -513,6 +531,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		for id = 1, hang_NUM do
 			fuFrame.List.ButList[id]:Hide();
 	    end
+	    local Config0=GetConfigRef()
 	    local ItemsNum = #Config0;
 		if ItemsNum>0 then
 		    FauxScrollFrame_Update(Scroll, ItemsNum, hang_NUM, hang_Height);
@@ -588,4 +607,41 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 	fuFrame.List:SetScript("OnShow", function()
 		fuFrame.UpdateListHang();
 	end)
+end
+function BusinessInfo.Add_MerchantBut(_GN,_GNE,ClickFun,fujiF,fujiTabBut)
+	local function Add_MerchantBut()
+		if PIGA["AutoSellBuy"][_GNE.."_But"] and not MerchantFrame[_GNE] then
+			MerchantFrame.pigbutc=MerchantFrame.pigbutc and MerchantFrame.pigbutc+1 or 0
+			MerchantFrame[_GNE] = PIGButton(MerchantFrame,{"TOPLEFT",MerchantFrame,"TOPLEFT",MerchantFrame.pigbutc*60+56,-30},{50,24},_GN,nil,nil,nil,nil,0);
+			PIGEnter(MerchantFrame[_GNE],string.format(L["TRADESELLBUY_TISP2"],_GN,_GN))  
+			MerchantFrame[_GNE]:SetScript("OnClick", function (self,button)
+				if button=="LeftButton" then
+					ClickFun()
+				else
+					_G[GnUI]:Show()
+					Show_TabBut_R(_G[GnUI].F,fujiF,fujiTabBut)
+				end
+			end)
+			hooksecurefunc("PanelTemplates_SetTab", function(frame, id)
+				if id==1 then
+					MerchantFrame[_GNE]:Show()
+				else
+					MerchantFrame[_GNE]:Hide()
+				end
+			end)
+		end
+		if MerchantFrame[_GNE] then
+			MerchantFrame[_GNE]:SetShown(PIGA["AutoSellBuy"][_GNE.."_But"])
+		end
+	end
+	local But = PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",20,-44},{string.format(L["LIB_GNBUT"],_GN), string.format(L["TRADESELLBUY_TISP3"],_GN,_GN,_GN)})
+	But:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["AutoSellBuy"][_GNE.."_But"]=true;	
+		else
+			PIGA["AutoSellBuy"][_GNE.."_But"]=false;
+		end
+		Add_MerchantBut()
+	end);
+	return But
 end

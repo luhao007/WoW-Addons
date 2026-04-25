@@ -62,7 +62,7 @@ do
 			return app.Settings.Collectibles[CACHE]
 		end,
 		collected = function(t)
-			return app.TypicalCharacterCollected(CACHE, t[KEY])
+			return app.TypicalCharacterCollected(CACHE, t[KEY], "Recipes")
 		end,
 		saved = function(t)
 			return not C_TradeSkillUI_IsRecipeFirstCraft(t[KEY])
@@ -96,6 +96,9 @@ do
 		app.SetBatchCached(CACHE, saved, 1)
 		app.SetBatchCached(CACHE, none)
 	end)
+	app.AddEventHandler("OnLoad", function()
+		app.AddDynamicCategoryHeader({ id = "firstcraftID", name = "First Crafts", icon = app.asset("Category_Professions") });
+	end);
 end
 
 -- Profession Nodes Lib
@@ -264,6 +267,9 @@ do
 		app.SetBatchCached(CACHE, saved, 1)
 		app.SetBatchCached(CACHE, none)
 	end)
+	app.AddEventHandler("OnLoad", function()
+		app.AddDynamicCategoryHeader({ id = "professionnodeID", name = "Profession Nodes", icon = app.asset("Category_Professions") });
+	end);
 
 	-- Debug code to get new Profession Nodes for ProfessionNodeDB
 	local DB = {}

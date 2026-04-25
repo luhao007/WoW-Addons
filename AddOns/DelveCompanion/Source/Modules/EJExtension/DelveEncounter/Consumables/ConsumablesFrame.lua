@@ -84,18 +84,26 @@ function DelveCompanion_DelveEncounterConsumablesFrameMixin:UpdateConsumables()
             self.BountyMap:SetInsecureAction({ type1 = "macro", macrotext = macroText })
 
             local mapsCount = C_Item.GetItemCount(mapCode)
-            local mapsLine = tostring(mapsCount)
+            -- local mapsLine = tostring(mapsCount) -- TODO: re-enable if Tooltips stop being tainted...
+            local mapsLine = string.format("%s", "|A:common-icon-redx:20:20|a")
 
             if mapsCount >= Config.BOUNTY_MAP_MAX_PER_WEEK then
-                mapsLine = _G["GREEN_FONT_COLOR"]:WrapTextInColorCode(mapsLine)
+                -- Has the Map in Inventory
+                -- mapsLine = _G["GREEN_FONT_COLOR"]:WrapTextInColorCode(mapsLine) -- TODO: re-enable if Tooltips stop being tainted...
+                mapsLine = string.format("%s", "|A:bag-main:20:20|a")
                 self.BountyMap.Icon:SetDesaturated(false)
             elseif C_QuestLog.IsQuestFlaggedCompleted(Config.BOUNTY_MAP_QUEST) then
-                mapsLine = _G["DISABLED_FONT_COLOR"]:WrapTextInColorCode(mapsLine)
+                -- Looted and used already
+                -- mapsLine = _G["DISABLED_FONT_COLOR"]:WrapTextInColorCode(mapsLine) -- TODO: re-enable if Tooltips stop being tainted...
+                mapsLine = string.format("%s", "|A:common-icon-checkmark:20:20|a")
                 self.BountyMap.Icon:SetDesaturated(true)
             else
-                mapsLine = _G["HIGHLIGHT_FONT_COLOR"]:WrapTextInColorCode(mapsLine)
+                -- Map to be looted
+                -- mapsLine = _G["HIGHLIGHT_FONT_COLOR"]:WrapTextInColorCode(mapsLine) -- TODO: re-enable if Tooltips stop being tainted...
+                mapsLine = string.format("%s", "|A:common-icon-redx:20:20|a")
                 self.BountyMap.Icon:SetDesaturated(false)
             end
+
             self.BountyMap:SetLabelText(mapsLine)
             self.BountyMap:Show()
         end

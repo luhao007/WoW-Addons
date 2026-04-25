@@ -102,7 +102,7 @@ Pig_Options.RLUI.Tex = Pig_Options.RLUI:CreateTexture(nil, "BORDER");
 Pig_Options.RLUI.Tex:SetTexture("interface/helpframe/helpicon-reportabuse.blp");
 Pig_Options.RLUI.Tex:SetSize(32,32);
 Pig_Options.RLUI.Tex:SetPoint("RIGHT",Pig_Options.RLUI.txt,"LEFT", 0, 0);
-Pig_Options.RLUI.Button = PIGButton(Pig_Options.RLUI,{"LEFT",Pig_Options.RLUI.txt,"RIGHT",4,0},{76,25},L["OPTUI_RLUI"])
+Pig_Options.RLUI.Button = PIGButton(Pig_Options.RLUI,{"LEFT",Pig_Options.RLUI.txt,"RIGHT",4,0},{76,25},RELOADUI)
 Pig_Options.RLUI.Button:SetScript("OnClick", function ()
 	ReloadUI();
 end);

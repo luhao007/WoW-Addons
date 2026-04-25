@@ -1,4 +1,4 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Author: foxlit
 ## Version: 8.3.2
 ## License: All rights reserved. Do not redistribute, in whole or in part, without explicit prior permission from the author.

@@ -24,16 +24,15 @@ fujiF:Show()
 fujiBut:Selected(true)
 --------
 local cfbutW=fujiF:GetWidth()-20
-local BiaotiName = CHAT_DEFAULT..L["CONFIG_TABNAME"]
 local DefaultF=PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-10},{cfbutW,60})
 DefaultF:PIGSetBackdrop(0.4)
-DefaultF.button = PIGButton(DefaultF,{"LEFT",DefaultF,"LEFT",10,0},{90,24},BiaotiName)
+DefaultF.button = PIGButton(DefaultF,{"LEFT",DefaultF,"LEFT",10,0},{120,24},RESET_TO_DEFAULT)
 DefaultF.title = PIGFontString(DefaultF,{"LEFT", DefaultF.button, "RIGHT", 6, 0},L["CONFIG_ERRTIPS"])
 DefaultF.title:SetTextColor(0, 1, 0, 1);
 DefaultF.title:SetJustifyH("LEFT");
 DefaultF.title:SetWidth(cfbutW-120);
 DefaultF.button:SetScript("OnClick", function ()
-	StaticPopup_Show("PIG_CONFIG_ZAIRUQUEREN",BiaotiName,nil,{"Default",BiaotiName});
+	StaticPopup_Show("PIG_CONFIG_ZAIRUQUEREN",RESET_TO_DEFAULT,nil,{"Default",RESET_TO_DEFAULT});
 end);
 StaticPopupDialogs["PIG_CONFIG_ZAIRUQUEREN"] = {
 	text = L["CONFIG_LOADTIPS"],

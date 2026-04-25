@@ -8,7 +8,6 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 	local PIGDownMenu=Create.PIGDownMenu
 	local PIGLine=Create.PIGLine
 	local PIGEnter=Create.PIGEnter
-	local PIGSlider = Create.PIGSlider
 	local PIGDiyBut=Create.PIGDiyBut
 	local PIGCheckbutton=Create.PIGCheckbutton
 	local PIGOptionsList_R=Create.PIGOptionsList_R

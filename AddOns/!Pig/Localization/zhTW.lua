@@ -145,7 +145,7 @@ L["CHAT_LOOTFNRSETTIPS"]="啟用獨立拾取窗口後，建議打開此選項。
 L["CHAT_LOOTFADDERR1"]="創建失敗，當前屏幕分辨率過小";
 L["CHAT_LOOTFADDERR2"]="創建失敗，系統允許最大聊天窗口數：10，當前："..FCF_GetNumActiveChatFrames();
 --商業
-L["BUSINESS_TABNAME"] = "商業";
+L["TRADE_TABNAME"] = "商業";
 --动作条
 L["ACTION_TABNAME"] = ACTIONBARS_LABEL;
 L["ACTION_TABNAME1"] = GENERAL;

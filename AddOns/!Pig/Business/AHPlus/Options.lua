@@ -17,16 +17,11 @@ function BusinessInfo.AHPlusOptions()
 	local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 	local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 
-	local GnName= "拍卖助手"
+	local GnName= L["TRADEAH_TABNAME"]
 	local AHPlusF,AHPlustabbut =PIGOptionsList_R(BusinessInfo.RTabFrame,GnName,90)
 	AHPlusF:Show()
 	AHPlustabbut:Selected(true)
-
-	local AHPlus_tooltip="在拍卖行界面增加一个缓存单价按钮，时光徽章界面显示历史价格";
-	if PIG_MaxTocversion(40000) then
-		AHPlus_tooltip="在拍卖行浏览列表显示一口价，和涨跌百分比。界面增加一个缓存单价按钮，时光徽章界面显示历史价格";
-	end
-	AHPlusF.AHPlus =PIGCheckbutton_R(AHPlusF,{GnName, AHPlus_tooltip})
+	AHPlusF.AHPlus =PIGCheckbutton_R(AHPlusF,{GnName, L["TRADEAH_TISP"]})
 	AHPlusF.AHPlus:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["AHPlus"]["Open"]=true;
@@ -39,11 +34,11 @@ function BusinessInfo.AHPlusOptions()
 	end);
 	AHPlusF.CZ = PIGButton(AHPlusF,{"TOPRIGHT",AHPlusF,"TOPRIGHT",-20,-20},{60,22},RESET);  
 	AHPlusF.CZ:SetScript("OnClick", function ()
-		StaticPopup_Show ("AH_CZQIANGKONGINFO");
+		StaticPopup_Show ("PIG_AH_CZQIANGKONGINFO");
 	end);
-	PIGEnter(AHPlusF.CZ,"|cffFF0000重置|r"..GnName.."所有配置")
-	StaticPopupDialogs["AH_CZQIANGKONGINFO"] = {
-		text = "此操作将\124cffff0000重置\124r"..GnName.."所有配置，需重载界面。\n确定重置?",
+	PIGEnter(AHPlusF.CZ,string.format(L["OPTUI_RESETDEFAULTRL"],GnName))
+	StaticPopupDialogs["PIG_AH_CZQIANGKONGINFO"] = {
+		text = string.format(L["OPTUI_RESETDEFAULTRL"],GnName),
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
@@ -56,14 +51,17 @@ function BusinessInfo.AHPlusOptions()
 		hideOnEscape = true,
 	}
 	--扫描间隔
-	local Scaninfo = {1,10,1,{["Right"]="扫描间隔%s"}}
-	AHPlusF.ScanSlider = PIGSlider(AHPlusF,{"TOPLEFT",AHPlusF,"TOPLEFT",20,-40},Scaninfo)
+	AHPlusF.ScanSlider = PIGSlider(AHPlusF,{"TOPLEFT",AHPlusF,"TOPLEFT",20,-40},{1,10,1,{["Right"]=L["TRADEAH_SCANCD"]}})
 	function AHPlusF.ScanSlider:PIGOnValueChange(arg1)
 		PIGA["AHPlus"]["ScanTimeCD"]=arg1
 	end
-
+	AHPlusF.ScanSlider.CZ = PIGButton(AHPlusF.ScanSlider,{"LEFT",AHPlusF.ScanSlider.RightText,"RIGHT",10,0},{60,22},RESET)
+	AHPlusF.ScanSlider.CZ:HookScript("OnClick", function (self)
+		PIGA["AHPlus"]["ScanTimeCD"]=addonTable.Default["AHPlus"]["ScanTimeCD"]
+		AHPlusF.ScanSlider:PIGSetValue(PIGA["AHPlus"]["ScanTimeCD"])
+	end);
 	----
-	AHPlusF.BagOpen =PIGCheckbutton_R(AHPlusF,{"拍卖时打开背包"},true)
+	AHPlusF.BagOpen =PIGCheckbutton_R(AHPlusF,{L["TRADEAH_OPENBAG"]},true)
 	AHPlusF.BagOpen:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["AHPlus"]["BagOpen"]=true;
@@ -71,7 +69,7 @@ function BusinessInfo.AHPlusOptions()
 			PIGA["AHPlus"]["BagOpen"]=false;
 		end
 	end);
-	AHPlusF.AHtooltip =PIGCheckbutton_R(AHPlusF,{"鼠标提示拍卖价钱","在物品的鼠标提示上显示拍卖缓存价钱"},true)
+	AHPlusF.AHtooltip =PIGCheckbutton_R(AHPlusF,{L["TRADEAH_MOUSETISPG"]},true)
 	AHPlusF.AHtooltip:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["AHPlus"]["AHtooltip"]=true;
@@ -80,7 +78,7 @@ function BusinessInfo.AHPlusOptions()
 		end
 	end);
 	if PIG_MaxTocversion(60000) then
-		AHPlusF.QuicAuc =PIGCheckbutton_R(AHPlusF,{"鼠标右键快速拍卖","鼠标右键背包物品快速拍卖"},true)
+		AHPlusF.QuicAuc =PIGCheckbutton_R(AHPlusF,{L["TRADEAH_MOUSERIGHT"]},true)
 		AHPlusF.QuicAuc:SetScript("OnClick", function (self)
 			if self:GetChecked() then
 				PIGA["AHPlus"]["QuicAuc"]=true;
@@ -90,7 +88,7 @@ function BusinessInfo.AHPlusOptions()
 				PIG_OptionsUI.RLUI:Show()
 			end
 		end);
-		AHPlusF.AHUIoff =PIGCheckbutton_R(AHPlusF,{"禁止专业面板关闭","拍卖界面打开时禁止系统的专业面板自动关闭功能"},true)
+		AHPlusF.AHUIoff =PIGCheckbutton_R(AHPlusF,{L["TRADEAH_SKILLNOOFF"]},true)
 		AHPlusF.AHUIoff:SetScript("OnClick", function (self)
 			if self:GetChecked() then
 				PIGA["AHPlus"]["AHUIoff"]=true;

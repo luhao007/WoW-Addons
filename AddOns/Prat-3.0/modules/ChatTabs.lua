@@ -318,7 +318,7 @@ L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = "Transparence inactive"
 L["preventdrag_desc"] = "Empêcher le déplacement des onglets avec la souris"
 L["preventdrag_name"] = "Verrouiller"
-L["Set ChatFrame%d Display Mode"] = "Définir le mode d'affichage de la fenêtre de discussion %d"
+L["Set ChatFrame%d Display Mode"] = "Définir le mode d’affichage de ChatFrame%d"
 L["Set Display Mode"] = "Mode d'affichage"
 --[[Translation missing --]]
 L["Set Flash Color"] = "Set Flash Color"
@@ -330,8 +330,7 @@ L["Set tab display to always, hidden or the Blizzard default."] = "Définir l'af
 L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
 L["Sets alpha of chat tab for active chat frame."] = "Définit la transparence de l'onglet pour les fenêtres de discussion actives."
 L["Sets alpha of chat tab for not active chat frame."] = "Définit la transparence de l'onglet pour les fenêtres de discussion inactives."
---[[Translation missing --]]
-L["Show Tab Textures"] = "Show Tab Textures"
+L["Show Tab Textures"] = "Afficher les textures de l'onglet"
 --[[Translation missing --]]
 L["Tab Font Size"] = "Tab Font Size"
 L["Tabs"] = "Onglets"

@@ -39,16 +39,18 @@ L.Reverse = '역방향'
 L.ReverseDesc = '쓸기 방향 반전'
 L.SwipeColor = '쓸기 색상'
 L.SwipeColorDesc = '재사용 대기시간 쓸기 애니메이션 색상 덮어쓰기'
-L.UseAuraDisplayTime = '오라 지속시간 반올림'
-L.UseAuraDisplayTimeDesc = '오라 지속시간 반올림을 제어합니다. 항상은 내림, 안 함은 올림합니다'
 
 -- Countdown text options
+L.RoundingMode = '반올림 모드'
+L.RoundingModeDesc = '지속 시간 수치의 반올림 방식을 설정합니다'
 L.MinDuration = '최소 지속시간'
 L.MinDurationDesc = '카운트다운 텍스트를 표시하기 위한 최소 재사용 대기시간(초)'
 L.TenthsThreshold = '소수점 임계값'
 L.TenthsThresholdDesc = '남은 재사용 대기시간이 이 값 미만일 때 소수점 이하를 표시합니다'
 L.AbbrevThreshold = 'MM:SS 임계값'
 L.AbbrevThresholdDesc = '텍스트가 MM:SS 형식으로 전환되기까지의 시간(초) (예: "90" 대신 "1:30")'
+L.ShowZero = '0 표시'
+L.ShowZeroDesc = '내림/가장가까운값으로 0이 되는 재사용 시간에 "0" 대신 빈 텍스트 표시'
 
 -- Font options
 L.FontFace = '글꼴'
@@ -76,6 +78,11 @@ L.VerticalOffset = 'Y 위치'
 L.DrawState_default = '기본값'
 L.DrawState_always = '항상'
 L.DrawState_never = '안 함'
+
+-- Rounding mode values
+L.RoundingMode_Up = '올림'
+L.RoundingMode_Down = '내림'
+L.RoundingMode_Nearest = '반올림'
 
 -- Color threshold UI
 L.AddColorThreshold = '색상 임계값 추가'

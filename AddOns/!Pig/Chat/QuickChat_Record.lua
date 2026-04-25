@@ -9,7 +9,6 @@ local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
 local PIGDownMenu=Create.PIGDownMenu
-local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
 local PIGOptionsList=Create.PIGOptionsList

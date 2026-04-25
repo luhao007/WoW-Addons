@@ -12,7 +12,7 @@ MerchantFrame:HookScript("OnShow",function (self,event)
 					end
 					if PIGguildMoney >= cost and CanGuildBankRepair() then
 						RepairAllItems(true);
-						PIGprint("本次修理花费：" .. GetCoinTextureString(cost).."[公会]");	
+						PIGprint(GUILDCONTROL_OPTION15..": " .. GetCoinTextureString(cost));	
 						return
 					end
 				end
@@ -20,9 +20,9 @@ MerchantFrame:HookScript("OnShow",function (self,event)
 				local money = GetMoney()--自身金钱
 				if money >= cost then
 					RepairAllItems()
-					PIGprint("本次修理花费：" .. GetCoinTextureString(cost));
+					PIGprint(REPAIR_COST .. GetCoinTextureString(cost));
 				else
-					PIGprint("自动修理失败：你没有足够的钱");
+					PIGprint(string.format(ERR_QUEST_FAILED_S,REPAIR_ITEMS)..ERR_TAXINOTENOUGHMONEY);
 				end
 			end
 		end

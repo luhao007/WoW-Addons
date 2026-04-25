@@ -40,16 +40,18 @@ L.Reverse = 'Reverse'
 L.ReverseDesc = 'Reverse the swipe direction'
 L.SwipeColor = 'Swipe Color'
 L.SwipeColorDesc = 'Override the color of the cooldown swipe animation'
-L.UseAuraDisplayTime = 'Aura Duration Rounding'
-L.UseAuraDisplayTimeDesc = 'Control how aura durations are rounded. Always rounds down, Never rounds up'
 
 -- Countdown text options
+L.RoundingMode = 'Rounding Mode'
+L.RoundingModeDesc = 'Controls how duration numbers are rounded'
 L.MinDuration = 'Minimum Duration'
 L.MinDurationDesc = 'How long, in seconds, a cooldown must be to display countdown text'
 L.TenthsThreshold = 'Tenths Threshold'
 L.TenthsThresholdDesc = 'Show tenths of seconds when the cooldown remaining is below this value'
 L.AbbrevThreshold = 'MM:SS Threshold'
 L.AbbrevThresholdDesc = 'How long, in seconds, before cooldown text switches to MM:SS format (e.g., "1:30" instead of "90")'
+L.ShowZero = 'Show Zero'
+L.ShowZeroDesc = 'Show "0" for cooldowns rounded to zero instead of empty text'
 
 -- Font options
 L.FontFace = 'Font'
@@ -80,6 +82,11 @@ L.DrawState_default = 'Default'
 L.DrawState_always = 'Always'
 L.DrawState_never = 'Never'
 
+-- Rounding mode values
+L.RoundingMode_Up = 'Up'
+L.RoundingMode_Down = 'Down'
+L.RoundingMode_Nearest = 'Nearest'
+
 -- Color threshold UI
 L.AddColorThreshold = 'Add Color Threshold'
 L.Duration = 'Duration'
@@ -98,6 +105,7 @@ L.Rules = 'Rules'
 
 -- Builtin Theme Names
 L.Theme_default = DEFAULT
+L.Theme_omnicc = "OmniCC"
 L.Theme_disable = DISABLE
 L.Theme_none= NONE
 

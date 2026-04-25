@@ -6,7 +6,7 @@ local active = {}
 
 -- text containers for repositioning cooldown font strings
 local textContainers = {}
-local ACTION_BUTTON_WIDTH = ActionButton1:GetWidth()
+local SCALE_BASE = Round(ActionButton1.cooldown:GetWidth())
 
 -- themer function cache
 local themers = setmetatable({}, {
@@ -18,6 +18,17 @@ local themers = setmetatable({}, {
         return themer
     end
 })
+
+local function getTheme(cooldown)
+    if issecretvalue(cooldown) or cooldown.noCooldownCount then return end
+
+    local themeName = Addon:GetThemeName(cooldown)
+    local theme = Addon.db.profile.themes[themeName]
+
+    if theme.enabled then
+        return theme
+    end
+end
 
 local function onCooldownShow(cooldown)
     if issecretvalue(cooldown) then return end
@@ -32,12 +43,18 @@ local function onCooldownHide(cooldown)
 end
 
 local function onCooldownSizeChanged(cooldown, width)
-    if not canaccessvalue(width) then return end
+    local theme = getTheme(cooldown)
+    local scale, alpha = 1, 1
 
-    local scale = width / ACTION_BUTTON_WIDTH
-    if scale > 0 then
-        cooldown:GetCountdownFontString():SetScale(scale)
+    if theme and canaccessvalue(width) and width > 0 then
+
+        scale = theme.scaleText and (Round(width) / SCALE_BASE) or 1
+        alpha = Round(scale * 100) >= Round(theme.minScale * 100) and 1 or 0
     end
+
+    local fs = cooldown:GetCountdownFontString()
+    fs:SetAlpha(alpha)
+    fs:SetScale(scale)
 end
 
 local function onCooldownStart(cooldown)
@@ -69,19 +86,9 @@ local function onCooldownStart(cooldown)
         end
     end
 
-    local func = themers[Addon:GetThemeName(cooldown)]
-    func(cooldown)
-end
-
-local function getActiveTheme(cooldown)
-    if issecretvalue(cooldown) then return end
-
-    local themeName = Addon:GetThemeName(cooldown)
-    local theme = Addon.db.profile.themes[themeName]
-
-    if theme.enabled then
-        return theme
-    end
+    themers[Addon:GetThemeName(cooldown)](cooldown)
+    onCooldownSizeChanged(cooldown, cooldown:GetWidth())
+    active[cooldown] = cooldown:IsVisible()
 end
 
 function Addon:OnLoad()
@@ -126,7 +133,7 @@ function Addon:OnLoad()
 
     local function enforceCooldownSetting(method, setting)
         hooksecurefunc(CooldownMT, method, lock(function(cooldown, value)
-            local theme = getActiveTheme(cooldown)
+            local theme = getTheme(cooldown)
             if not (theme and theme.themeText) then return end
 
             if theme[setting] == "always" then
@@ -145,10 +152,9 @@ function Addon:OnLoad()
     enforceCooldownSetting('SetDrawEdge', 'drawEdge')
     enforceCooldownSetting('SetDrawSwipe', 'drawSwipe')
     enforceCooldownSetting('SetReverse', 'reverse')
-    enforceCooldownSetting('SetUseAuraDisplayTime', 'useAuraDisplayTime')
 
     hooksecurefunc(CooldownMT, 'SetSwipeColor', lock(function(cooldown, r, g, b, a)
-        local theme = getActiveTheme(cooldown)
+        local theme = getTheme(cooldown)
         if not (theme and theme.themeCooldown and theme.themeSwipeColor) then
             return
         end
@@ -160,7 +166,7 @@ function Addon:OnLoad()
     end))
 
     hooksecurefunc(CooldownMT, 'SetHideCountdownNumbers', lock(function(cooldown, hide)
-        local theme = getActiveTheme(cooldown)
+        local theme = getTheme(cooldown)
         if not (theme and theme.themeText) then return end
 
         if theme.drawText == "always" then
@@ -173,6 +179,13 @@ function Addon:OnLoad()
             end
         end
     end))
+
+    hooksecurefunc('CooldownFrame_SetDisplayAsPercentage', function(cooldown)
+        if issecretvalue(cooldown) or cooldown.noCooldownCount then return end
+
+        cooldown.noCooldownCount = true
+        cooldown:SetHideCountdownNumbers(true)
+    end)
 
     -- setup launcher commands
     local function showOptionsFrame()
@@ -247,14 +260,36 @@ function Addon:GetDBDefaults()
                     shadowX = 0,
                     shadowY = 0,
 
+                    -- text scaling and visibility
+                    scaleText = false,
+                    minScale = 0,
+
                     -- how long a cooldown must be in order to display text
                     minDuration = 3,
 
-                    -- tenths duration (0.1s)
+                    -- tenths duration (0.1)
                     tenthsThreshold = 0,
 
-                    -- this currently controls the MM:SS display duration
+                    -- minutes format (1m)
+                    minutesThreshold = 60,
+
+                    -- mm:ss format (12:00)
                     abbrevThreshold = 90,
+
+                    -- hours format (4h)
+                    hoursThreshold = 3600,
+
+                    -- days format (7d)
+                    daysThreshold = 86400,
+
+                    -- weeks format (1w)
+                    weeksThreshold = 604800,
+
+                    -- key of Enum.NumericRuleFormatRounding
+                    roundingMode = "Nearest",
+
+                    -- show zero for rounding modes that would show empty at threshold 0
+                    showZero = false,
 
                     -- array of {threshold, color} entries
                     -- thresholds are specified in seconds and represent the
@@ -271,6 +306,26 @@ function Addon:GetDBDefaults()
 
                 -- default styling with conditional colors
                 default = {
+                    textColors = {
+                        -- soon (0 - 5s)
+                        { threshold = 5,    color = "FF6347FF" },
+                        -- seconds (5 - 60s)
+                        { threshold = 60,   color = "FFFF00FF" },
+                        -- minutes (60 - 3600s)
+                        { threshold = 3600, color = "FFFFFFFF" },
+                    },
+
+                    defaultTextColor = "AAAAAAFF"
+                },
+
+                omnicc = {
+                    fontSize = 18,
+                    drawText = "always",
+                    minDuration = 2,
+                    abbrevThreshold = 0,
+                    scaleText = true,
+                    minScale = 0.5,
+
                     textColors = {
                         -- soon (0 - 5s)
                         { threshold = 5,    color = "FF6347FF" },
@@ -329,6 +384,8 @@ do
         for cooldown in pairs(active) do
             local themeName = Addon:GetThemeName(cooldown)
             local func = themers[themeName]
+
+            onCooldownSizeChanged(cooldown, cooldown:GetWidth())
 
             func(cooldown)
         end

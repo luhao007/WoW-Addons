@@ -8,17 +8,10 @@ local COLLECTED_ICON_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\collected2
 local DROP_REMINDER_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\drop"
 local NOTE_ICON_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\note"
 
-local TWITCH_DROP_ITEM_ID = 265545
-local TWITCH_DROP_DECOR_ID = 16965
-local TWITCH_DROP_END_TIME = 1776981600
-local TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24271368/twitch-drop-get-the-cuddly-void-grrgle-housing-decor-item-26-march"
-if GetServerTime() >= TWITCH_DROP_END_TIME then
-	DROP_REMINDER_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\drop2"
-	TWITCH_DROP_ITEM_ID = 265394
-	TWITCH_DROP_DECOR_ID = 16818
-	TWITCH_DROP_END_TIME = 1779400800
-	TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24266872/twitch-drop-get-the-cuddly-pearl-grrgle-housing-decor-item-23-april"
-end
+local TWITCH_DROP_ITEM_ID = 265394
+local TWITCH_DROP_DECOR_ID = 16818
+local TWITCH_DROP_END_TIME = 1779400800
+local TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24266872/twitch-drop-get-the-cuddly-pearl-grrgle-housing-decor-item-23-april"
 
 local EXPANSION_NAMES = {
 	[1] = "Classic", [2] = "The Burning Crusade", [3] = "Wrath of the Lich King",

@@ -1,11 +1,23 @@
 # tullaCTC Version History
 
-## v12.0.5-beta1
+## v12.0.7
 
-### Important: This version only works on the 12.0.5 PTR
+* Fixed some issues with the new rounding options
+* Added a "Show Zero" checkbox for controlling whether or not to show 0 when using the Nearest or Down rounding modes
+* Adjusted text format breakpoint values to be settings driven instead of using hardcoded values.
+
+## v12.0.6
+
+* Adjusted scaling defaults for the OmniCC theme
+* Better handle percentage cooldowns
+
+## v12.0.5
 
 * tullaCTC now uses the new Cooldown:SetCountdownFormatter API to style cooldowns. Eliminated the need for periodic update handlers.
 * Cooldown text is now automatically scaled based upon frame width (will make optional later)
+* Removed the durations API
+* Replaced the aura display time option with a new rounding option
+* Added an OmniCC theme (show text on everything by default)
 
 ## v12.0.1
 

@@ -164,7 +164,7 @@ if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA
 		questObject = RefreshQuestIDs[questID]
 		if questObject then
 			RefreshQuestIDs[questID] = nil
-			app.DirectGroupRefresh(questObject, true)
+			app.DirectGroupRedraw(questObject, true)
 		end
 
 		-- see if this Quest is awaiting a callback, call it with the questID and success from the server
@@ -815,13 +815,36 @@ app.CheckInaccurateQuestInfo = function(questRef, questChange, forceShow)
 		local metPrereq = not questRef.missingReqs;
 		-- a real quest type
 		local questType = questRef.__type
-		local realQuest = questType:sub(1,5) == "Quest"
+		local realQuest = questType:sub(1,5) == "Quest" or questType == "EncounterWithQuest"
+		-- Profession skill check: verify current character's profession skills meet requirements
+		local metSkill = true;
+		local requireSkill = questRef.requireSkill;
+		if requireSkill then
+			if app.IsRetail then
+				-- Retail uses Professions table (professionID -> boolean known)
+				metSkill = app.CurrentCharacter.Professions and app.CurrentCharacter.Professions[requireSkill];
+			else
+				-- Classic uses ActiveSkills table (spellID -> {skillRank, skillMaxRank})
+				local skills = app.CurrentCharacter.ActiveSkills and app.CurrentCharacter.ActiveSkills[requireSkill];
+				if skills then
+					local learnedAt = questRef.learnedAt;
+					if learnedAt then
+						metSkill = skills[1] >= learnedAt;
+					else
+						metSkill = true;
+					end
+				else
+					metSkill = false;
+				end
+			end
+		end
 		-- app.PrintDebug("CheckInaccurateQuestInfo",questRef.questID,questChange,filter,inGame,incomplete,metPrereq,questType:sub(1,5),realQuest)
 		if forceShow or not (
 			filter
 			and inGame
 			and incomplete
 			and metPrereq
+			and metSkill
 			and realQuest
 			-- debugging, show link for any accepted quest
 			-- and false
@@ -832,6 +855,7 @@ app.CheckInaccurateQuestInfo = function(questRef, questChange, forceShow)
 				InGame = inGame and true or false,
 				Incomplete = incomplete and true or false,
 				PreReq = metPrereq and true or false,
+				Skill = metSkill and true or false,
 				RealQuest = realQuest and true or false,
 			};
 			app.Modules.Contributor.AddReportData(
@@ -1467,13 +1491,15 @@ local QuestWithReputationCostCollectibles = setmetatable({}, {
 			-- TODO: adjust when givesReputation exists
 			local maxReputation = quest.maxReputation
 			if maxReputation then
-				local faction = app.CreateFaction(maxReputation[1]);
+				local faction = app.SearchForObject("factionID", maxReputation[1], "key") or app.CreateFaction(maxReputation[1])
 				if faction:CompareReputation(maxReputation[2]) or not faction.collectible then
 					costCollectibles = false;
 				else
-					faction.r = quest.r;
-					faction.c = quest.c;
-					costCollectibles = { faction }
+					if app.RecursiveGroupRequirementsFilter(quest) then
+						-- app.PrintDebug("Assign",quest.r,"/",quest.c,"to Faction",app:SearchLink(faction),"collectible via",app:SearchLink(quest))
+						costCollectibles = { faction }
+					-- else app.PrintDebug("Filtered",quest.r,"/",quest.c,"on Faction",app:SearchLink(faction),"collectible via",app:SearchLink(quest))
+					end
 				end
 			else
 				costCollectibles = false;
@@ -1483,6 +1509,10 @@ local QuestWithReputationCostCollectibles = setmetatable({}, {
 		return costCollectibles
 	end,
 });
+app.AddEventHandler("OnSettingsNeedsRefresh", function()
+	-- since the quest costCollectibles depends on Filtering, it needs to be reset when Settings are changed which can change filtering
+	wipe(QuestWithReputationCostCollectibles)
+end)
 local createQuest = app.CreateClass("Quest", "questID", {
 	CACHE = function() return CACHE end,
 	AsyncRefreshFunc = function()

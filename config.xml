@@ -1462,6 +1462,12 @@
 		<Notes>提供团队和小队的一些辅助功能</Notes>
 		<Category>副本</Category>
 	</Addon>
+	<Addon name="MurlokExport">
+		<Title>|cff00ccffMurlok|r配装数据</Title>
+		<Title-en>|cff00ccffMurlok|rExport</Title-en>
+		<Notes>Murlok网站导出的数据，包括配装和天赋等</Notes>
+		<Category>副本</Category>
+	</Addon>
 	<Addon name="MythicDungeonTools">
 		<Title>大秘境工具</Title>
 		<Notes>大秘境工具包</Notes>
@@ -1845,6 +1851,10 @@
 			<SubAddon name="TitanAmmo">
 				<Title>弹药</Title>
 				<Notes>泰坦面板的弹药模块</Notes>
+			</SubAddon>
+			<SubAddon name="TitanAlts">
+				<Title>小号</Title>
+				<Notes>泰坦面板的小号</Notes>
 			</SubAddon>
 			<SubAddon name="TitanBag">
 				<Title>背包</Title>
