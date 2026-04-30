@@ -201,8 +201,8 @@ local function zhegnheBANK()
 end
 -------
 function BagBankfun.Zhenghe(Rneirong,tabbut)
-	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.yizhixingjiazai then return end
-	BagBankfun.yizhixingjiazai=true
+	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.BagbankOK then return end
+	BagBankfun.BagbankOK=true
 	BagBankfun.qiyongzidongzhengli()
 	hooksecurefunc("ContainerFrame_Update", function(frame)
 		if not PIGA["BagBank"]["JunkShow"] then return end
@@ -455,11 +455,6 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 				for banki=2,#bagData["bankID"] do
 					OpenBag(bagData["bankID"][banki])
 				end
-			end
-		elseif event=="BAG_UPDATE_DELAYED" then
-			if self:IsShown() then
-				CloseAllBags()
-				OpenAllBags()
 			end
 		elseif event=="UNIT_PORTRAIT_UPDATE" then
 			if self.portrait then

@@ -77,7 +77,7 @@ local function GetAutomaticHeaderData(id, type)
 	local typeID = HeaderTypeAbbreviations[type] or type;
 	local obj = (GetRawFieldContainer(typeID) and SearchForObject(typeID, id, "key")) or CreateClassInstance(typeID,id)
 	if obj then
-		-- app.PrintDebug("GetAutomaticHeaderData", id, typeID, obj.text, obj.key, obj[obj.key]);
+		-- app.PrintDebug("GetAutomaticHeaderData",id,typeID,obj.text,obj.key,obj.keyval,obj.name,obj.link)
 		-- app.PrintDebug("Automatic Header",obj.name or obj.link)
 		local name = obj.name or obj.link;
 		return { name = not IsRetrieving(name) and name or nil, icon = obj.icon };

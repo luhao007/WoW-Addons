@@ -63,6 +63,7 @@ function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
 			return PIGA["AutoSellBuy"][hangName.."_List"]
 		end
 	end
+	fuFrame.GetConfigRef=GetConfigRef
 	local FiltraConfig0 = PIGA["AutoSellBuy"][hangName.."_Lsit_Filtra"]
 
 	local Width,hang_Height,addBag_hang_NUM = fuFrame:GetWidth()-12,24,19
@@ -634,6 +635,7 @@ function BusinessInfo.Add_MerchantBut(_GN,_GNE,ClickFun,fujiF,fujiTabBut)
 			MerchantFrame[_GNE]:SetShown(PIGA["AutoSellBuy"][_GNE.."_But"])
 		end
 	end
+	Add_MerchantBut()
 	local But = PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",20,-44},{string.format(L["LIB_GNBUT"],_GN), string.format(L["TRADESELLBUY_TISP3"],_GN,_GN,_GN)})
 	But:SetScript("OnClick", function (self)
 		if self:GetChecked() then

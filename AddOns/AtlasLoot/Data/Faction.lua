@@ -179,6 +179,7 @@ Faction.FACTION_KEY = {
 	[2770] = "Slayer's Duellum",
 	[2764] = "Prey: Season 1",
 	[2742] = "Delves: Season 1",
+	[2792] = "Ritual Sites",
 }
 
 Faction.FriendshipRanks = {

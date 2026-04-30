@@ -183,7 +183,7 @@ Config.DELVE_MAPS = {
 ---@field coordinates MapCoord? Delve entrance coordinates. Used primarly for Boss Delves and non-Blizzard waypoints (e.g. TomTom).
 ---@field nemesisInfo DelveConfigNemesisInfo?
 
----@type table<number, DelveConfig[]> Table of all Delves in the game and their parameters. Grouped by LE_EXPANSION enum.
+---@type table<number, DelveConfig[]> Table of all Delves in the game and their parameters. Indexed by LE_EXPANSION enum.
 Config.DELVES_CONFIG = {
     [LE_EXPANSION_WAR_WITHIN] = {
         -- Earthcrawl Mines
@@ -621,29 +621,29 @@ Config.DELVES_CONFIG = {
 ---@class (exact) LootRarity
 ---@field from number Left value of the range, inclusive.
 ---@field to number Right value of the range, inclusive.
----@field color colorRGBA Color for such an ilvl.
+---@field quality Enum.ItemQuality Quality required to get its color (to respect Color Overrides).
 
----@type table<number, LootRarity[]>
+---@type LootRarity[]
 Config.LOOT_RARITY = {
     [1] = {
         from = 220,
         to = 230,
-        color = _G["ITEM_SUPERIOR_COLOR"]
+        quality = Enum.ItemQuality.Rare
     },
     [2] = {
         from = 231,
         to = 243,
-        color = _G["ITEM_EPIC_COLOR"]
+        quality = Enum.ItemQuality.Epic
     },
     [3] = {
         from = 244,
         to = 256,
-        color = _G["ITEM_LEGENDARY_COLOR"]
+        quality = Enum.ItemQuality.Legendary
     },
     [4] = {
         from = 257,
         to = 269,
-        color = _G["ITEM_ARTIFACT_COLOR"]
+        quality = Enum.ItemQuality.Artifact
     }
 }
 
@@ -654,7 +654,7 @@ Config.LOOT_RARITY = {
 ---@field mapLvl number? Item Level player gets from the Bounty Map chest completing the corresponding Delve Tier. Can be nil because Bounty Map reward is unavailable for some tiers.
 
 --- Indexed table of Delves Loot information (index = Tier).
----@type table<number, DelveLootInfo[]>
+---@type DelveLootInfo[]
 Config.DELVES_LOOT_INFO_DATA = {
     [1] = {
         bountifulLvl = 220,

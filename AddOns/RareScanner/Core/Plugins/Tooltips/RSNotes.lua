@@ -256,5 +256,10 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
 	-- Containers that require the quest Wey'nans Ward
 	elseif (RSUtils.Contains(RSConstants.CONTAINERS_WEYNAN_WARD, entityID))	then
 		return AL["NOTE_WEYNAN_WARD"]
+	-- NPCs that require renown with Ritual Sites
+	elseif (RSUtils.Contains(RSConstants.RARES_RITUAL_SITES_4, entityID))	then
+		return AL["NOTE_RARES_RITUAL_SITES_4"]
+	elseif (RSUtils.Contains(RSConstants.RARES_RITUAL_SITES_8, entityID))	then
+		return AL["NOTE_RARES_RITUAL_SITES_8"]
 	end
 end

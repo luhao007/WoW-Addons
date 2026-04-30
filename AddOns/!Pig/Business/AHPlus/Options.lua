@@ -61,14 +61,6 @@ function BusinessInfo.AHPlusOptions()
 		AHPlusF.ScanSlider:PIGSetValue(PIGA["AHPlus"]["ScanTimeCD"])
 	end);
 	----
-	AHPlusF.BagOpen =PIGCheckbutton_R(AHPlusF,{L["TRADEAH_OPENBAG"]},true)
-	AHPlusF.BagOpen:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["AHPlus"]["BagOpen"]=true;
-		else
-			PIGA["AHPlus"]["BagOpen"]=false;
-		end
-	end);
 	AHPlusF.AHtooltip =PIGCheckbutton_R(AHPlusF,{L["TRADEAH_MOUSETISPG"]},true)
 	AHPlusF.AHtooltip:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -103,13 +95,11 @@ function BusinessInfo.AHPlusOptions()
 	function AHPlusF:ShowChecked()
 		self.ScanSlider:SetEnabled(PIGA["AHPlus"]["Open"])
 		self.AHtooltip:SetEnabled(PIGA["AHPlus"]["Open"])
-		self.BagOpen:SetEnabled(PIGA["AHPlus"]["Open"])
 		if self.AHUIoff then self.AHUIoff:SetEnabled(PIGA["AHPlus"]["Open"]) end
 		if self.QuicAuc then self.QuicAuc:SetEnabled(PIGA["AHPlus"]["Open"]) end
 	end
 	AHPlusF:HookScript("OnShow", function (self)
 		self.AHPlus:SetChecked(PIGA["AHPlus"]["Open"])
-		self.BagOpen:SetChecked(PIGA["AHPlus"]["BagOpen"])
 		self.AHtooltip:SetChecked(PIGA["AHPlus"]["AHtooltip"])
 		self.ScanSlider:PIGSetValue(PIGA["AHPlus"]["ScanTimeCD"])
 		if self.AHUIoff then self.AHUIoff:SetChecked(PIGA["AHPlus"]["AHUIoff"]) end

@@ -49,7 +49,7 @@ function GossipExtension:Init()
 
     do
         local frame = CreateFrame("Frame", EVENT_FRAME_NAME, UIParent)
-        frame:RegisterEvent("GOSSIP_SHOW")
+        frame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW")
 
         frame:SetScript("OnEvent", function(owner, eventName, arg1, ...)
             C_Timer.After(0.25, function(...)
@@ -61,21 +61,21 @@ function GossipExtension:Init()
 
     do
         ---@param owner GossipExtension
-        local function OnDelveInProgressChanged(owner)
-            if not DelveCompanion.ProgressTracker.isDelveInProgress then
-                self:StartExitTimer()
-            end
+        local function OnDelveExited(owner)
+            owner:StartExitTimer()
         end
 
-        EventRegistry:RegisterCallback(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_IN_PROGRESS,
-            OnDelveInProgressChanged, self)
+        EventRegistry:RegisterCallback(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_EXITED,
+            OnDelveExited, self)
     end
 end
 
 ---@param self GossipExtension
 function GossipExtension:ProcessEvent(eventName, arg1, ...)
-    if eventName == "GOSSIP_SHOW" then
-        if arg1 ~= DELVE_PICKER_KIT or not DelvesDifficultyPickerFrame:IsShown() then
+    -- Logger:Log("[GossipExtension] Processing event: %s", eventName)
+
+    if eventName == "PLAYER_INTERACTION_MANAGER_FRAME_SHOW" then
+        if arg1 ~= Enum.PlayerInteractionType.TieredEntrance or C_DelvesUI.GetTieredEntranceType() ~= Enum.TieredEntranceType.Delve then
             return
         end
         -- Logger:Log("[GossipExtension] Delve Gossip shown...")
@@ -119,7 +119,6 @@ function GossipExtension:ProcessEvent(eventName, arg1, ...)
 
                 local delay = DelveCompanionAccountData.delveAutoEnterDelaySec
                 if delay > 0 then
-                    self.CancelAutoEnterButton:Show()
                     -- Logger:Log("[GossipExtension] Entering Tier %d in %d seconds.", tier, delay)
                     self:EnterWithDelay(delay, tier)
                 else
@@ -156,7 +155,7 @@ end
 ---@return boolean isNemesis Whether it's a Nemesis Delve.
 ---@return boolean isBountiful Whether the Delve is Bountiful now.
 function GossipExtension:GetDelveInfo()
-    local delveName = C_GossipInfo.GetText()
+    local delveName = C_DelvesUI.GetDelveEntranceHeaderString()
     local isCompleted, isNemesis, isBountiful = false, false, false
 
     for _, expansionDelves in pairs(DelveCompanion.Variables.delvesData) do
@@ -180,14 +179,14 @@ end
 ---@param self GossipExtension
 ---@return number
 function GossipExtension:GetDelveInProgressTier()
-    local optionInfo = C_GossipInfo.GetActiveDelveGossip()
+    local optionInfo = C_DelvesUI.GetActiveDelveTier()
     if not optionInfo then
         -- Presumably, it cannot happen. But if does, return a tier that's higher than possible.
         local impossibleTier = DelveCompanion:GetDelvesMaxTier() + 1
         return impossibleTier
     end
 
-    return optionInfo.orderIndex + 1
+    return optionInfo.tier
 end
 
 -- Retrieve the highest unlocked Delve Tier stored in CVar. From [Blizzard_DelvesDifficultyPicker.lua](https://www.townlong-yak.com/framexml/live/Blizzard_DelvesDifficultyPicker/Blizzard_DelvesDifficultyPicker.lua)
@@ -269,8 +268,10 @@ function GossipExtension:EnterDelve(tier)
         return
     end
 
+    self:UpdateEnterButton(0)
+
     -- Logger:Log("[GossipExtension] Entering Tier %d...", tier)
-    C_GossipInfo.SelectOptionByIndex(tier - 1)
+    C_DelvesUI.SelectDelveEntranceTier(tier)
 end
 
 ---@param self GossipExtension
@@ -297,9 +298,11 @@ function GossipExtension:UpdateEnterButton(countdown)
 
     if countdown < 1 then
         button:SetText(defaultText)
+        self.CancelAutoEnterButton:Hide()
     else
         local newText = string.format("%s: %d", defaultText, countdown)
         button:SetText(newText)
+        self.CancelAutoEnterButton:Show()
     end
 end
 
@@ -386,11 +389,11 @@ function GossipExtension:DisplayStoryStatus(isCompleted)
         and string.format("|cnDIM_GREEN_FONT_COLOR:%s|r", Lockit.UI_DELVE_STORY_VARIANT_COMPLETED_SEQUENCE)
         or string.format("|cnWARNING_FONT_COLOR:%s|r", Lockit.UI_DELVE_STORY_VARIANT_NOT_COMPLETED_SEQUENCE)
     local statusText = string.format("|cnHIGHLIGHT_FONT_COLOR:%s:|r\n%s", _G["STORY_PROGRESS"], sequence)
-    local descriptionText = string.format("%s\n\n%s", C_GossipInfo.GetCustomGossipDescriptionString(), statusText)
+    local descriptionText = string.format("%s\n\n%s", statusText, C_DelvesUI.GetDelveEntranceDescriptionString())
 
-    local newHeight = DelvesDifficultyPickerFrame.Description:GetHeight() + 50
-    DelvesDifficultyPickerFrame.Description:SetHeight(newHeight)
+    local newHeight = DelvesDifficultyPickerFrame.Description:GetHeight() + 500
     DelvesDifficultyPickerFrame.Description:SetText(descriptionText)
+    DelvesDifficultyPickerFrame.Description:SetHeight(newHeight)
 end
 
 --#endregion

@@ -13,12 +13,12 @@ local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 
 local QTip = LibStub("LibQTip-1.0")
 local iconProvider, cellPrototype, baseCellPrototype = QTip:CreateCellProvider(QTip.LabelProvider)
--- Required for Create - just call the base init
+-- Required for CreateCellProvider - just call the base init
 function cellPrototype:InitializeCell()
 	baseCellPrototype.InitializeCell(self);
 end
 
--- Required for Create - override the base Setup to use an icon
+-- Required for CreateCellProvider - override the base Setup to use an icon
 function cellPrototype:SetupCell(tooltip, value, justification, font)
 	local _, height = baseCellPrototype.SetupCell(self, tooltip, format("|T%s:0|t", tostring(value)), "CENTER");
 	return baseCellPrototype.SetupCell(self, tooltip,
@@ -26,7 +26,6 @@ function cellPrototype:SetupCell(tooltip, value, justification, font)
 end
 
 local UNK = TitanUtils_GetGrayText("-")
---]]
 
 local artwork_path = "Interface\\AddOns\\TitanAlts\\Artwork\\"
 local TITAN_PLUGIN = "Alts"
@@ -71,7 +70,6 @@ local Alts = {} -- namespace for Alts routines as needed
 ---@field sync_global boolean -- may implement
 
 -- ******************************** Variables *******************************
-local trace = false -- true / false    Make true when debug output is needed.
 local alts_tt = {}  -- Holds alt data for tooltip display; gen once except for logged in toon
 local alts_tt_sort_col = "" -- one sort to rule them all...
 local alts_tt_sort_ascend = true -- default on click; click again to flip
@@ -164,21 +162,23 @@ local function SetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePo
 	-- Making changes to it difficult and possibly changing the tooltip globally.
 
 	if custom then
-		-- do NOT set owner - it clears the contents!
+		-- do NOT set owner here - it clears the contents!
 	else
 		frame:SetOwner(parent, "ANCHOR_NONE")
 	end
 
 	frame:SetPoint(anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset);
 
-	-- set font size for the Game Tooltip
+	-- Set font size for the tooltip only on show
 	if TitanPanelGetVar("DisableTooltipFont") then
 		-- use UI scale
 	else
+		--[[
 		if TitanTooltipScaleSet < 1 then
 			TitanTooltipOrigScale = frame:GetScale();
 			TitanTooltipScaleSet = TitanTooltipScaleSet + 1;
 		end
+		--]]
 		frame:SetScale(TitanPanelGetVar("TooltipFont"));
 	end
 
@@ -1012,11 +1012,10 @@ end
 
 -- Handle mouse clicks
 local function OnClick(self, button)
-	if trace then
-		TitanPluginDebug(TITAN_PLUGIN, "Titan Alts click"
-			.. " " .. tostring(button) .. ""
-		)
-	end
+	local dbg_msg = "OnClick"
+		.. " '" .. tostring(TITAN_PLUGIN) .. "'"
+		.. " " .. tostring(button) .. ""
+	Titan_Debug.Out('alts', 'flow', dbg_msg)
 	if (button == "LeftButton") then
 		--		C_UI.Reload() --ReloadUI()
 	end
@@ -1043,11 +1042,10 @@ local function Create_Frames()
 		return -- if already created
 	end
 
-	if trace then
-		TitanPluginDebug(TITAN_PLUGIN, "TS frames"
-			.. " '" .. tostring(TITAN_BUTTON) .. "'"
-		)
-	end
+	local dbg_msg = "Create_Frames"
+		.. " '" .. tostring(TITAN_PLUGIN) .. "'"
+		.. " " .. tostring(TITAN_BUTTON) .. ""
+	Titan_Debug.Out('alts', 'flow', dbg_msg)
 
 	-- general container frame
 	local f = CreateFrame("Frame", nil, UIParent)
@@ -1085,6 +1083,7 @@ local function Create_Frames()
 	end)
 
 	-- Create tooltip frame for this plugin
+	-- This is a CUSTOM tooltip to show toon info.
 
 	-- OnUpdate starts as soon as OnShow is done...
 	tt_frame = CreateFrame("GameTooltip", TITAN_TOOLTIP, UIParent, "GameTooltipTemplate")

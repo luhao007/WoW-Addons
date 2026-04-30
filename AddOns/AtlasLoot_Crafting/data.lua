@@ -7989,6 +7989,7 @@ data["Leatherworking"] = {
 				{ 3, 244603, 1237577 }, -- Blessed Pango Charm
 				{ 4, 244607, 1237578 }, -- Primal Spore Binding
 				{ 5, 244674, 1237579 }, -- Devouring Banding
+				{ 7, 270058, 1291046 }, -- Rope Lynx Harness
 			},
 			[TWW_DIFF] = {
 				{ 1, 219905, 444122 }, -- Thunderous Drums

@@ -27,7 +27,7 @@ private.CONTINENT_ZONE_IDS = {
 	[9996] = { zonefilter = true, npcfilter = true, zones = {366,508,764,850,909,2047,2166,2406} }; --Raids
 	[9995] = { zonefilter = false, npcfilter = true, zones = {0} }; --Unknown
 	[9994] = { zonefilter = true, npcfilter = true, zones = {981,1022,1032,1033,1034,1035,1036,1037,1336,1337,1501,1502} }; --Expedition islands
-	[9993] = { zonefilter = true, npcfilter = true, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347,2348,2396,2420,2453,2502,2505,2506,2510,2504,2525,2528,2522,2535,2545,2547} }; --Delves
+	[9993] = { zonefilter = true, npcfilter = true, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347,2348,2396,2420,2453,2502,2505,2506,2510,2504,2525,2528,2522,2535,2545,2547,2594} }; --Delves
 }
 
 private.SUBZONES_IDS = {
@@ -334,4 +334,5 @@ private.MONSTER_EMOTE = {
 private.MAP_RENOWN_IDS = {
 	[2413] = { factionID = 2704, containers = true, npcs = false }; --Hara'ti
 	[2576] = { factionID = 2704, containers = true, npcs = false }; --Hara'ti
+	[2594] = { factionID = 2792, containers = true, npcs = true }; --Ritual places
 }

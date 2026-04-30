@@ -26,44 +26,17 @@ GMChatStatusFrameDescription=GMChatStatusFrameDescription or CreateFrame("Frame"
 GMChatStatusFrameTitleText=GMChatStatusFrameTitleText or CreateFrame("Frame")
 ---
 function QuickChatfun.QuickBut_Jilu()
-	local fuFrame=QuickChatfun.TabButUI
-	local fuWidth = fuFrame.Width
-	local Width,Height = fuWidth,fuWidth
-	local ziframe = {fuFrame:GetChildren()}
-	if PIGA["Chat"]["QuickChat_style"]==1 then
-		fuFrame.ChatJilu = CreateFrame("Button",nil,fuFrame, "TruncatedButtonTemplate"); 
-	elseif PIGA["Chat"]["QuickChat_style"]==2 then
-		fuFrame.ChatJilu = CreateFrame("Button",nil,fuFrame, "UIMenuButtonStretchTemplate"); 
-	end
-	fuFrame.ChatJilu:SetSize(Width,Height);
-	fuFrame.ChatJilu:SetFrameStrata("LOW")
-	fuFrame.ChatJilu:SetPoint("LEFT",fuFrame,"LEFT",#ziframe*Width,0);
-	fuFrame.ChatJilu.Tex = fuFrame.ChatJilu:CreateTexture(nil, "BORDER");
-	fuFrame.ChatJilu.Tex:SetTexture("interface/chatframe/ui-chatwhispericon.blp");
-	fuFrame.ChatJilu.Tex:SetPoint("CENTER",0,0);
-	fuFrame.ChatJilu.Tex:SetSize(Width-6,Height-4);
-	PIGEnter(fuFrame.ChatJilu,"|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..L["CHAT_WHISPER"]..GUILD_BANK_LOG.."\n|cff00FFff"..KEY_BUTTON2.."-|r|cffFFFF00"..CHAT_MSG_PARTY..CHAT_MSG_RAID..GUILD_BANK_LOG.."|r")
-	fuFrame.ChatJilu:HookScript("OnEnter", function (self)	
-		fuFrame:PIGEnterAlpha()
-	end);
-	fuFrame.ChatJilu:HookScript("OnLeave", function (self)
-		fuFrame:PIGLeaveAlpha()
-	end);
-	fuFrame.ChatJilu:SetScript("OnMouseDown", function (self)
-		self.Tex:SetPoint("CENTER",1,-1);
-	end);
-	fuFrame.ChatJilu:SetScript("OnMouseUp", function (self)
-		self.Tex:SetPoint("CENTER",0,0);
-	end);
-	fuFrame.ChatJilu:RegisterForClicks("LeftButtonUp","RightButtonUp")
-	fuFrame.ChatJilu:SetScript("OnClick", function(self,button)
+	local QuickUI=QuickChatfun.TabButUI
+	QuickUI.ChatJilu=QuickUI:ADD_chatbutExt("interface/chatframe/ui-chatwhispericon.blp",-6,-4, 0, 0,"|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..L["CHAT_WHISPER"]..GUILD_BANK_LOG.."\n|cff00FFff"..
+		KEY_BUTTON2.."-|r|cffFFFF00"..CHAT_MSG_PARTY..CHAT_MSG_RAID..GUILD_BANK_LOG.."|r")
+	QuickUI.ChatJilu:SetScript("OnClick", function(self,button)
 		self.ShowTabClick(button)
 	end);
-	
+	QuickUI.ChatJilu.X:Hide();
 	--密语提醒
-	fuFrame.ChatJilu.Tex.animationGroup = fuFrame.ChatJilu.Tex:CreateAnimationGroup()
-	fuFrame.ChatJilu.Tex.animationGroup:SetLooping("REPEAT")
-	local fade = fuFrame.ChatJilu.Tex.animationGroup:CreateAnimation("Alpha")
+	QuickUI.ChatJilu.Tex.animationGroup = QuickUI.ChatJilu.Tex:CreateAnimationGroup()
+	QuickUI.ChatJilu.Tex.animationGroup:SetLooping("REPEAT")
+	local fade = QuickUI.ChatJilu.Tex.animationGroup:CreateAnimation("Alpha")
 	fade:SetFromAlpha(1)
 	fade:SetToAlpha(0)
 	fade:SetDuration(0.1)
@@ -675,7 +648,7 @@ function QuickChatfun.QuickBut_Jilu()
 		if arg1:match("[!Pig]:") then return end
 		if event=="CHAT_MSG_WHISPER_INFORM" or event=="CHAT_MSG_BN_WHISPER_INFORM" then
 			if self.tixingOpen and not self:IsVisible() then
-				fuFrame.ChatJilu.Tex.animationGroup:Stop()
+				QuickUI.ChatJilu.Tex.animationGroup:Stop()
 			end
 		elseif event=="CHAT_MSG_WHISPER" or event=="CHAT_MSG_BN_WHISPER" then
 			if event=="CHAT_MSG_WHISPER" and self.jichengBlackOpen then
@@ -684,7 +657,7 @@ function QuickChatfun.QuickBut_Jilu()
 				end
 			end
 			if self.tixingOpen and not self:IsVisible() then
-				fuFrame.ChatJilu.Tex.animationGroup:Play()
+				QuickUI.ChatJilu.Tex.animationGroup:Play()
 			end
 			if self.AudioOpen and not self:IsVisible() then
 				PIG_PlaySoundFile(AudioData[self.AudioID])
@@ -1162,13 +1135,13 @@ function QuickChatfun.QuickBut_Jilu()
 		end)
 	end
 	---
-	function fuFrame.ChatJilu.ShowTabClick(button)
+	function QuickUI.ChatJilu.ShowTabClick(button)
 		if button=="LeftButton" then
 			ChatRecordF:Hide()
 			if miyijiluF:IsShown() then
 				miyijiluF:Hide()
 			else
-				fuFrame.ChatJilu.Tex.animationGroup:Stop()
+				QuickUI.ChatJilu.Tex.animationGroup:Stop()
 				miyijiluF:Show()
 			end
 		else

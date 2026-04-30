@@ -135,6 +135,7 @@ function TomTom:Initialize(event, addon)
                     hide = true,
                 },
                 addon_compartment = true,
+                autoclose = false,
             }
         },
     }

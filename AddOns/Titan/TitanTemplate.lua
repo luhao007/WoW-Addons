@@ -26,7 +26,7 @@ The available plugin types are:
 - TitanPanelTextTemplate - * A frame that only displays text ("$parentText")
 - TitanPanelIconTemplate - * A frame that only displays an icon ("$parentIcon")
 - TitanPanelComboTemplate - * A frame that displays an icon then text ("$parentIcon"  "$parentText")
-- TitanOptionsSliderTemplate - A frame that contains the basics for a vertical slider control. See TitanVolume for an example.
+- TitanOptionsSliderTemplate - A frame that contains a basic vertical slider control. See TitanVolume for an example.
 
 * Templates inherit TitanPanelButtonTemplate for common elements.
 
@@ -156,7 +156,7 @@ end
 ---@param frame table Tooltip frame
 ---@param custom boolean If custom / not tooltip frame
 local function SetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame, custom)
-	-- Changes for 9.1.5 Removed the background template from the Tooltip
+	-- Changes for WoW 9.1.5 Removed the background template from the Tooltip
 	-- Making changes to it difficult and possibly changing the tooltip globally.
 
 	if custom then
@@ -167,14 +167,16 @@ local function SetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePo
 
 	frame:SetPoint(anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset);
 
-	-- set font size for the Game Tooltip
+	-- Set font size for the tooltip; only on show
 	if TitanPanelGetVar("DisableTooltipFont") then
 		-- use UI scale
 	else
+		--[[
 		if TitanTooltipScaleSet < 1 then
 			TitanTooltipOrigScale = frame:GetScale();
 			TitanTooltipScaleSet = TitanTooltipScaleSet + 1;
 		end
+		--]]
 		frame:SetScale(TitanPanelGetVar("TooltipFont"));
 	end
 
@@ -300,7 +302,6 @@ local function TitanPanelButton_SetTooltip(self)
 	local ok = false
 	local frame = TitanPanelTooltip --GameTooltip
 	local id = self.registry.id
---local frame = CreateFrame("GameTooltip","myTooltipFrame",UIParent,"GameTooltipTemplate")
 
 	frame.registry_id = id -- for use in other routines
 	frame.plugin_frame = self
@@ -325,7 +326,7 @@ local function TitanPanelButton_SetTooltip(self)
 			self.plugin_frame = TitanUtils_ButtonName(id)
 			if (plugin and plugin.tooltipDisplayFrame) then
 				-- 2026 Mar : Added from LDB to take advantage of Titan processing.
-				-- PLugin is expected to handle its frame!
+				-- Plugin is expected to handle its frame!
 				-- Titan will position and show only!
 				-- Plugin must handle any timeout and any other features.
 
@@ -771,28 +772,19 @@ function TitanPanelButton_OnLeave(self)
 	local time_out = max (TitanPanelGetVar("TooltipTimeout"), 0.1)
 	TitanUtils_StartFrameCounting(TitanPanelTooltip, time_out)
 
---[===[
 	-- The cursor has moved away from the plugin.
-	-- NOTE: !!! It is possible, especially with Short bars that the
-	-- user never mouses over the tooltip so start the Hide timer !!!
-	--
-
-	-- Let the tooltip SetScripts handle OnEnter and OnLeave if
-	-- the user mouses over.
-	if TitanPanelTooltip:IsShown() then
-		local time_out = TitanPanelGetVar("TooltipTimeout")
-		TitanUtils_StartFrameCounting(TitanPanelTooltip, time_out)
-	else
-		-- nothing to do
-	end
-]===]
+	-- Notes: 
+	-- - The OnUpdate of the tooltip will Hide it.
+	-- - Scale set OnShow
+	--[[
 	if TitanPanelGetVar("DisableTooltipFont") then
 		-- use game font & scale
 	else
 		-- use Titan font & scale
-		TitanPanelTooltip:SetScale(TitanTooltipOrigScale);
+--		TitanPanelTooltip:SetScale(TitanTooltipOrigScale);
 		TitanTooltipScaleSet = 0;
 	end
+	--]]
 end
 
 -- local routines for Update Button
@@ -1317,7 +1309,7 @@ end
 local tt_frame = TitanPanelTooltip
 local tt_init_timeout = .5
 
---[===[
+--[===[ GameTooltip does not stay if cursor moves off plugin...
 tt_frame:SetScript("OnShow", function(self)
 	local time_out = TitanPanelGetVar("TooltipTimeout")
 	local dbg_msg = "OnShow"
@@ -1382,8 +1374,7 @@ tt_frame:SetScript("OnUpdate", function(self, elapsed)
 	end
 	--]]
 
-	-- Compromise to keep tooltip open if the user stays over plugin 
-	-- and does not mouse over tooltip frame (OnEnter)
+	-- Keep tooltip open as long as the curser stays over plugin 
 	local is_over = self.plugin_frame:IsMouseOver()
 	if is_over then
 		TitanUtils_StopFrameCounting(self)
@@ -1394,7 +1385,7 @@ tt_frame:SetScript("OnUpdate", function(self, elapsed)
 	end
 
 	--[[
-	if debug_over ~= debug_over_new then
+	if debug_over ~= debug_over_new then -- slow output a little...
 		debug_over = debug_over_new
 		local dbg_msg = "OnUpdate"
 			.. " over: " .. tostring(is_over) .. ""

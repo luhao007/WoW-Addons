@@ -179,10 +179,7 @@ function BagBankF.SetListF.hangNUM:PIGOnValueChange(arg1)
 	else
 		ContainerFrameCombinedBags.meihang=arg1
 	end
-	if _G[BagBankfun.BagUIName] and _G[BagBankfun.BagUIName]:IsShown() or ContainerFrameCombinedBags and ContainerFrameCombinedBags:IsShown() then
-		CloseAllBags()
-		OpenAllBags()
-	end
+	PIG_OptionsUI:ErrorMsg("重新打开背包生效")
 end
 --缩放
 BagBankF.SetListF.suofang = PIGSlider(BagBankF.SetListF,{"TOPLEFT",BagBankF.SetListF.hangNUM,"BOTTOMLEFT",0,-20},{0.8,1.4,0.01,{["Right"]="背包缩放比例%d%%"}})	
@@ -193,10 +190,7 @@ function BagBankF.SetListF.suofang:PIGOnValueChange(arg1)
 	else
 		ContainerFrameCombinedBags.suofang=arg1
 	end
-	if _G[BagBankfun.BagUIName] and _G[BagBankfun.BagUIName]:IsShown() or ContainerFrameCombinedBags and ContainerFrameCombinedBags:IsShown() then
-		CloseAllBags()
-		OpenAllBags()
-	end
+	PIG_OptionsUI:ErrorMsg("重新打开背包生效")
 end
 
 BagBankF.SetListF.CZpeizhi = PIGButton(BagBankF.SetListF,{"BOTTOMLEFT",BagBankF.SetListF,"BOTTOMLEFT",20,6},{150,24},"背包异常点此重置");

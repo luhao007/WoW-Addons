@@ -20,7 +20,9 @@ DelveCompanion_LootInfoFrameMixin = {}
 local function GetLootRarity(ilvl)
     for _, rarityInfo in ipairs(Config.LOOT_RARITY) do
         if ilvl >= rarityInfo.from and ilvl <= rarityInfo.to then
-            return rarityInfo.color:WrapTextInColorCode(ilvl)
+            ---@type ItemQualityColorData
+            local data = ColorManager.GetColorDataForItemQuality(rarityInfo.quality)
+            return data.color:WrapTextInColorCode(ilvl)
         end
     end
 
@@ -65,11 +67,6 @@ function DelveCompanion_LootInfoFrameMixin:OnLoad()
         rowFrame.layoutIndex = tier
 
         rowFrame.Tier:SetText(tostring(tier))
-
-        local container = rowFrame.Container
-        container.Bountiful.Text:SetText(GetLootRarity(lootInfo.bountifulLvl))
-        container.Vault.Text:SetText(GetLootRarity(lootInfo.vaultLvl))
-        container.Map.Text:SetText(lootInfo.mapLvl and GetLootRarity(lootInfo.mapLvl) or "-")
     end
 
     self.Rows:Layout()
@@ -78,6 +75,23 @@ end
 ---@param self LootInfoFrame
 function DelveCompanion_LootInfoFrameMixin:OnShow()
     --Logger:Log("LootInfo OnShow start")
+
+    ---@type LootInfoRowXml[]
+    local rows = self.Rows:GetLayoutChildren()
+
+    if not rows or #rows < 1 then
+        self:Hide()
+        return
+    end
+
+    for i, rowFrame in ipairs(rows) do
+        local lootInfo = Config.DELVES_LOOT_INFO_DATA[i]
+
+        local container = rowFrame.Container
+        container.Bountiful.Text:SetText(GetLootRarity(lootInfo.bountifulLvl))
+        container.Vault.Text:SetText(GetLootRarity(lootInfo.vaultLvl))
+        container.Map.Text:SetText(lootInfo.mapLvl and GetLootRarity(lootInfo.mapLvl) or "-")
+    end
 end
 
 --#region XML Annotations

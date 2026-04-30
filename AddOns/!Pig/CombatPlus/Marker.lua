@@ -222,7 +222,7 @@ local function add_barUI(peizhiT)
 			listbut:SetSize(biaojiW,biaojiW-10)
 			listbut:SetPoint("LEFT", biaojiUIx, "LEFT",i*(biaojiW+3)-biaojiW,0)
 			listbut.bgX = CreateFrame("Frame", nil, listbut,"BackdropTemplate")
-			listbut.bgX:SetBackdrop(Create.Backdropinfo);
+			listbut.bgX:SetBackdrop(Create.BackdropData);
 			listbut.bgX:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 			listbut.bgX:SetAllPoints(listbut)
 			listbut:SetScript("OnEnter", function (self)

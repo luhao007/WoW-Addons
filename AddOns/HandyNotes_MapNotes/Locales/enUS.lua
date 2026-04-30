@@ -462,7 +462,6 @@ L["Echo Isles, Durotar"] = true -- in process
 L["Silithus"] = true -- in process
 L["Nazjatar"] = true -- in process
 L["Emerald Dream"] = true -- in process
-L["Thunder Bluff"] = true -- in process
 L["Howling Fjord"] = true -- in process
 L["Ruins of Lordaeron"] = true -- in process
 L["Isle of Thunder"] = true -- in process

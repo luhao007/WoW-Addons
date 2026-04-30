@@ -1126,6 +1126,9 @@ local function RefreshDatabaseData(previousDbVersion)
 				elseif (RSConstants.IsEventAtlas(entityInfo.atlasName)) then
 					private.dbglobal.events_found[entityID] = entityInfo
 					tinsert(idsRemove, entityID)
+				-- Delete if it doesn't exist in the internal database or is custom
+				elseif (not RSNpcDB.GetInternalNpcInfo(entityID) and not RSNpcDB.GetCustomNpcInfo(entityID)) then
+					tinsert(idsRemove, entityID)
 				end
 			end, 
 			function(context)

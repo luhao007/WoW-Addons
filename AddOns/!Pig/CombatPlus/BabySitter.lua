@@ -193,7 +193,6 @@ end)
 local function DangerWarningFun()
 	local DangerWarningUI = CreateFrame("Frame", nil, UIParent,"BackdropTemplate");
 	DangerWarningUI:SetBackdrop({bgFile = "interface/chatframe/chatframebackground.blp"});
-	--DangerWarningUI:SetBackdropColor(1, 0, 0, 0.5);
 	DangerWarningUI:SetSize(130,30);
 	DangerWarningUI:SetPoint("CENTER",UIParent,"CENTER",300,-150);
 	DangerWarningUI:Hide()

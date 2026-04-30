@@ -118,8 +118,9 @@ Definitions.Events = {
     SETTING_CHANGE = "DelveCompanion.SettingChange", -- Whenever any addon setting is changed.
     DELVE_INSTANCE_BUTTON_CLICK = "DelveCompanion.RequestDelveInfoFrame",
     PROGRESS_TRACKER = {
-        DELVE_IN_PROGRESS = "DelveCompanion.DelveInProgress",             -- Delve has started or has been left.
+        DELVE_IN_PROGRESS = "DelveCompanion.DelveInProgress",             -- Delve has started.
         DELVE_RESPAWN_ACTIVATED = "DelveCompanion.DelveRespawnActivated", -- Respawn has been activated in the Delve.
-        DELVE_COMPLETE = "DelveCompanion.DelveComplete",                  -- Delve has been completed.
+        DELVE_COMPLETED = "DelveCompanion.DelveCompleted",                 -- Delve has been completed.
+        DELVE_EXITED = "DelveCompanion.DelveExited",                      -- Delve has been left.
     }
 }

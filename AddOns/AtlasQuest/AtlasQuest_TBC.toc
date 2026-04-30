@@ -1,6 +1,6 @@
 ## Interface: 120001, 120005
 ## Author: AtlasQuest Team
-## Version: v5.6.2
+## Version: v5.6.3
 
 ## Title: AtlasQuest
 ## Notes: Shows the Quests for dungeons and battlegrounds.

@@ -158,7 +158,8 @@ function BusinessInfo.FastSave()
 			if PIG_MaxTocversion() then
 				savebut:SetPoint("TOPRIGHT",BankFrame,"TOPRIGHT",-56,-40);
 			else
-				savebut:SetPoint("BOTTOMRIGHT", BankPanel.NineSlice, "BOTTOMRIGHT", -24, 10);
+				savebut:SetPoint("BOTTOMRIGHT", BankPanel, "BOTTOMRIGHT", -10, 4);
+				--savebut:SetPoint("BOTTOMRIGHT", BankPanel.NineSlice, "BOTTOMRIGHT", -24, 10);
 			end
 			PIGEnter(savebut,string.format(L["TRADESELLBUY_SAVE6"],NewItemTypeLsit[ib][3],NewItemTypeLsit[ib][3],NewItemTypeLsit[ib][3],NewItemTypeLsit[ib][3]))
 		else

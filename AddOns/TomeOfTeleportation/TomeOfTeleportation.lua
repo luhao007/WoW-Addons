@@ -66,7 +66,6 @@ local OpenTime = 0
 local ShouldNotBeEquiped = {}
 local ShouldBeEquiped = {}
 local EquipTime = 0
-local CustomizeSpells = false
 local RemoveIconOffset = 0
 local ShowIconOffset = 0
 local SortUpIconOffset = 0
@@ -113,6 +112,18 @@ local SortCustom = 3
 local SortByExpansion = 4
 
 local TitleFrameBG
+
+
+local DefaultTabs =
+{
+	[TeleporterGetHomeTabGuid()] =
+	{
+		["guid"] = TeleporterGetHomeTabGuid(),
+		["name"] = "All",
+		["searchString"] = nil,
+		["order"] = 1
+	}
+}
 
 local DefaultOptions =
 {
@@ -169,6 +180,33 @@ local DefaultOptions =
 	["showSearch"] = 1,
 	["searchHidden"] = 1,
 	["tooltip"] = 1,
+	["showTabs"] = 1,
+	["tabHeight"] = 24,
+	["tabFontSize"] = 14,
+	["tabSelectedColourR"] = 0.2,
+	["tabSelectedColourG"] = 0.2,
+	["tabSelectedColourB"] = 0.2,
+	["tabSelectedColourA"] = 0.8,
+	["tabSelectedBorderR"] = 0.6,
+	["tabSelectedBorderG"] = 0.6,
+	["tabSelectedBorderB"] = 0.0,
+	["tabSelectedBorderA"] = 1,
+	["tabSelectedTextR"] = 1,
+	["tabSelectedTextG"] = 1,
+	["tabSelectedTextB"] = 1,
+	["tabUnselectedColourR"] = 0.1,
+	["tabUnselectedColourG"] = 0.1,
+	["tabUnselectedColourB"] = 0.1,
+	["tabUnselectedColourA"] = 0.5,
+	["tabUnselectedBorderR"] = 0.3,
+	["tabUnselectedBorderG"] = 0.3,
+	["tabUnselectedBorderB"] = 0.3,
+	["tabUnselectedBorderA"] = 0.8,
+	["tabUnselectedTextR"] = 0.7,
+	["tabUnselectedTextG"] = 0.7,
+	["tabUnselectedTextB"] = 0.7,
+	["tabs"] = DefaultTabs,
+	["defaultTab"] = TeleporterGetHomeTabGuid()
 }
 
 -- Themes. For now there aren't many of these. Message me on curseforge.com
@@ -324,6 +362,8 @@ function TeleporterSetOption(option, value)
 	local isSame = value == oldValue
 	if type(value) == "number" and type(oldValue) == "number" then
 		isSame = math.abs(value - oldValue) < 0.0001
+	elseif type(value) == "table" then
+		isSame = false
 	end
 
 	if not isSame then
@@ -565,6 +605,7 @@ local MenuIDShowIcon			= 17
 local MenuIDCurrentRaids		= 18
 local MenuIDGroupRaids			= 19
 local MenuIDExpansionInGroupNames = 20
+local MenuIDShowTabs			= 21
 
 local function InitTeleporterOptionsMenu(frame, level, menuList, topLevel)
 	if level == 1 or topLevel then
@@ -584,6 +625,7 @@ local function InitTeleporterOptionsMenu(frame, level, menuList, topLevel)
 		AddHideOptionMenu(MenuIDRandomHearth, "Random Hearthstone", "randomHearth", frame, level)
 		AddHideOptionMenu(MenuIDWrongZone, "Show Spells When In Wrong Zone", "showInWrongZone", frame, level)
 		AddHideOptionMenu(MenuIDCloseAfterCast, "Close When Cast Finishes", "closeAfterCast", frame, level)
+		AddHideOptionMenu(MenuIDShowTabs, "Show Tabs", "showTabs", frame, level)
 
 		info.text = "Sort"
 		info.hasArrow = true
@@ -648,14 +690,14 @@ local function InitTeleporterOptionsMenu(frame, level, menuList, topLevel)
 		info.menuList = nil
 		info.func = function(info)
 			if GetOption("oldCustomizer") then
-				CustomizeSpells = not CustomizeSpells; Refresh();
+				TeleporterCustomizeSpells = not TeleporterCustomizeSpells; Refresh();
 			else
 				TeleporterClose()
 				TeleporterOpenSettings()
 			end
 		end
 		info.owner = frame
-		info.checked = CustomizeSpells
+		info.checked = TeleporterCustomizeSpells
 		UIDropDownMenu_AddButton(info, level)
 
 	elseif menuList == "Scale" then
@@ -699,7 +741,7 @@ local function InitTeleporterOptionsMenu(frame, level, menuList, topLevel)
 		info.value = 1
 		info.func = function(info) TomeOfTele_SetSort(1) end
 		info.owner = frame
-		info.checked = function(info) sortMode = GetOption("sort"); return sortMode == nil or sortMode == 1; end
+		info.checked = function(info) local sortMode = GetOption("sort"); return sortMode == nil or sortMode == 1; end
 		UIDropDownMenu_AddButton(info, level)
 
 		info.text = "Type"
@@ -839,14 +881,16 @@ end
 function TeleporterGetSearchString()
 	if GetOption("showSearch") and TeleporterSearchBox then
 		local searchString = TeleporterSearchBox:GetText()
-		if searchString == "" then
-			return nil
-		else
+		if searchString ~= "" then
 			return searchString
 		end
-	else
-		return nil
 	end
+
+	if GetOption("showTabs") and TeleporterGetCurrentTab() ~= TeleporterGetHomeTabGuid() then
+		return TeleporterGetCurrentTabSearchString()
+	end
+
+	return nil
 end
 
 local function SetupSpells()
@@ -1158,7 +1202,7 @@ function TeleporterUpdateButton(button)
 			countString:SetText(GetItemCount(itemId, false, true))
 		end
 
-		if CustomizeSpells then
+		if TeleporterCustomizeSpells then
 			local alpha = 1
 			if not spell:IsVisible() then
 				alpha = 0.5
@@ -1431,7 +1475,7 @@ local function AddCustomizationIcon(existingIcon, buttonFrame, showAboveFrame, x
 		iconObject.frame:SetWidth(width)
 		iconObject.frame:SetHeight(height)
 
-		if CustomizeSpells and not forceHidden then
+		if TeleporterCustomizeSpells and not forceHidden then
 			iconObject.icon:Show()
 			iconObject.frame:Show()
 		else
@@ -1800,7 +1844,7 @@ end
 
 function TeleporterSortSpells()
 	local SortType = GetOption("sort")
-	if CustomizeSpells then
+	if TeleporterCustomizeSpells then
 		SortType = SortCustom
 	end
 	table.sort(TeleporterSpells, function(a,b) return SortSpells(a, b, SortType) end)
@@ -1938,7 +1982,7 @@ function TeleporterOpenFrame(isSearching)
 
 			local haveSpell = true
 			if spell:GetZone() == TeleporterHearthString and GetOption("randomHearth") then
-				if spellId ~= onlyHearth and not CustomizeSpells then
+				if spellId ~= onlyHearth and not TeleporterCustomizeSpells then
 					haveSpell = false
 				end
 			end
@@ -2084,7 +2128,7 @@ function TeleporterOpenFrame(isSearching)
 				nameString:SetJustifyH("LEFT")
 				nameString:SetJustifyV("MIDDLE")
 				nameString:SetPoint("TOPLEFT", teleicon, "TOPRIGHT", 2, 0)
-				if CustomizeSpells then
+				if TeleporterCustomizeSpells then
 					nameString:SetPoint("BOTTOMRIGHT",cooldownString,"BOTTOMLEFT",-iconW * 4,0)
 				else
 					nameString:SetPoint("RIGHT",cooldownString,"LEFT",0,0)
@@ -2155,7 +2199,7 @@ function TeleporterOpenFrame(isSearching)
 
 		local addRemoveButtonsHeight = 0
 
-		if CustomizeSpells then
+		if TeleporterCustomizeSpells then
 			if numColumns < 2 then
 				numColumns = 2
 			end
@@ -2177,6 +2221,7 @@ function TeleporterOpenFrame(isSearching)
 	end
 
 	TeleporterUpdateAllButtons()
+	TeleporterCreateTabs(TeleporterParentFrame)
 	TeleporterParentFrame:Show()
 end
 
@@ -2275,12 +2320,20 @@ function TeleporterSlashCmdFunction(args)
 		if IsVisible then
 			TeleporterClose()
 		else
+			TeleporterSetCurrentTab(GetOption("defaultTab"))
 			TeleporterOpenFrame()
 		end
 		if splitArgs[1] == "search" and GetOption("showSearch") and TeleporterSearchBox then
-			TeleporterSearchBox:SetText("")
-			-- Don't set the focus immediately because the hot key will be put in the search box
-			StartSearch = true
+			if #splitArgs >= 2 then
+				TeleporterSearchBox:SetText(string.sub(args, string.len(splitArgs[1]) + 2))
+			else
+				TeleporterSearchBox:SetText("")
+				-- Don't set the focus immediately because the hot key will be put in the search box
+				StartSearch = true
+			end
+			-- Doesn't work until we close and reopen!
+			TeleporterClose()
+			TeleporterOpenFrame()
 		end
 	else
 		print("Tome of Teleportation usage")
@@ -2618,7 +2671,7 @@ function TeleporterTest_Reset()
 	ShouldNotBeEquiped = {}
 	ShouldBeEquiped = {}
 	EquipTime = 0
-	CustomizeSpells = false
+	TeleporterCustomizeSpells = false
 	RemoveIconOffset = 0
 	ShowIconOffset = 0
 	SortUpIconOffset = 0

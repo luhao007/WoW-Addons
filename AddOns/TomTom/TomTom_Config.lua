@@ -1049,6 +1049,14 @@ local function createconfig()
 					TomTom:PasteConfigChanged()
 				end,
 			},
+			autoclose = {
+				order = 4,
+				type = "toggle",
+				name = L["Auto-close paste window after submitting"],
+				desc = L["Automatically hides the paste window after submitting"],
+				width = "double",
+				arg = "paste.autoclose",
+			},
 		}
 	}
 

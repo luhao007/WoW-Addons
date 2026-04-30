@@ -6,10 +6,11 @@ local GetPIGID=Fun.GetPIGID
 local biaoqingData=Fun.biaoqingData
 local TihuanBiaoqing=Fun.TihuanBiaoqing
 --
-local QuickChatfun=addonTable.QuickChatfun
 local Create=addonTable.Create
+local PIGEnter=Create.PIGEnter
 local PIGFontString=Create.PIGFontString
 ---
+local QuickChatfun=addonTable.QuickChatfun
 local jiangejuli,hangshu = 0,10;
 local ChatpindaoMAX = addonTable.Fun.ChatpindaoMAX
 --local locale1 = GetAvailableLocales()
@@ -85,21 +86,22 @@ local function PIG_IsShow_CHANNEL(pdname)
 	return false
 end
 -------------
+local function Add_Backdrop(chatbut,Template)
+	if Template=="BackdropTemplate" then
+		chatbut:SetBackdrop({
+			bgFile = "interface/characterframe/ui-party-background.blp", tile = true, tileSize = 0,
+			edgeFile = "Interface/Tooltips/UI-Tooltip-Border", edgeSize = 8, 
+			insets = { left = 2, right = 2, top = 2, bottom = 2 }});
+		chatbut:SetBackdropColor(0, 0, 0, 0.5);
+		chatbut:SetBackdropBorderColor(0, 0, 0, 0.8);
+	end
+end
 local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 	if name and PIGA["Chat"]["QuickChat_ButHide"][name] then return end
 	local Width=fuF.Width
-	local PIGTemplate={nil,"NORMAL"}
-	if PIGA["Chat"]["QuickChat_style"]==1 then
-		PIGTemplate[1]=nil
-		PIGTemplate[2]="OUTLINE"
-	elseif PIGA["Chat"]["QuickChat_style"]==2 then
-		PIGTemplate[1]="UIMenuButtonStretchTemplate"
-		PIGTemplate[2]="NORMAL"
-	elseif PIGA["Chat"]["QuickChat_style"]==3 then
-		PIGTemplate[2]="NORMAL"
-	end
 	local ziframe = {fuF:GetChildren()}
-	local chatbut = CreateFrame("Button",nil,fuF, PIGTemplate[1]);  
+	local chatbut = CreateFrame("Button",nil,fuF, fuF.PIGTemplate[1]);
+	Add_Backdrop(chatbut,fuF.PIGTemplate[1])
 	chatbut:SetSize(Width,Width);
 	chatbut:SetPoint("LEFT",fuF,"LEFT",#ziframe*Width,0);
 	chatbut:SetFrameStrata("LOW")
@@ -148,7 +150,7 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 		chatbut.X:SetAlpha(0.7);
 		chatbut.X:SetPoint("CENTER",0,0);
 		chatbut.X:Hide()
-		chatbut.Text = PIGFontString(chatbut,{"CENTER",chatbut,"CENTER",0,0},name,PIGTemplate[2]);
+		chatbut.Text = PIGFontString(chatbut,{"CENTER",chatbut,"CENTER",0,0},name,fuF.PIGTemplate[2]);
 		chatbut.Text:SetTextColor(Color[1], Color[2], Color[3], 1);
 		chatbut:SetScript("OnMouseDown", function (self)
 			self.Text:SetPoint("CENTER",1,-1);
@@ -350,6 +352,46 @@ function QuickChatfun.TabBut()
 	QuickTabBut.Width=Width
 	QuickTabBut:SetSize(Width,Width);
 	QuickTabBut:SetFrameStrata("LOW")
+	QuickTabBut.PIGTemplate={nil,""}
+	if PIGA["Chat"]["QuickChat_style"]==1 then
+		QuickTabBut.PIGTemplate[2]="OUTLINE"
+	elseif PIGA["Chat"]["QuickChat_style"]==2 then
+		QuickTabBut.PIGTemplate[1]="UIMenuButtonStretchTemplate"
+	elseif PIGA["Chat"]["QuickChat_style"]==3 then
+		QuickTabBut.PIGTemplate[1]="BackdropTemplate"
+	end
+	function QuickTabBut:ADD_chatbutExt(icon,ww,hh,xx,yy,tisptxt)
+		local ziframe = {self:GetChildren()}
+		local extbut = CreateFrame("Button",nil,self, self.PIGTemplate[1])
+		Add_Backdrop(extbut,self.PIGTemplate[1])
+		extbut:SetSize(Width,Width);
+		extbut:SetPoint("LEFT",self,"LEFT",#ziframe*Width,0);
+		extbut.Tex = extbut:CreateTexture();
+		extbut.Tex:SetTexture(icon);
+		extbut.Tex:SetSize(Width+ww,Width+hh);
+		extbut.Tex:SetPoint("CENTER", xx,yy);
+		extbut.Tex:SetDrawLayer("BORDER", -1)
+		extbut.X = extbut:CreateTexture();
+		extbut.X:SetTexture("interface/common/voicechat-muted.blp");
+		extbut.X:SetSize(Width-9,Width-9);
+		extbut.X:SetAlpha(0.7);
+		extbut.X:SetPoint("CENTER", 0, 0);
+		extbut:SetScript("OnMouseDown",  function(self)
+			self.Tex:SetPoint("CENTER", xx+1.5,yy-1.5);
+		end)
+		extbut:SetScript("OnMouseUp",  function(self)
+			self.Tex:SetPoint("CENTER", xx,yy);
+		end)
+		PIGEnter(extbut,tisptxt)
+		extbut:HookScript("OnEnter", function ()
+			self:PIGEnterAlpha()
+		end);
+		extbut:HookScript("OnLeave", function ()
+			self:PIGLeaveAlpha()
+		end);
+		extbut:RegisterForClicks("LeftButtonUp","RightButtonUp")
+		return extbut
+	end
 	local function Hidebeijing(editBox)
 		if ( editBox.disableActivate or ( GetCVar("chatStyle") == "classic" and not editBox.isGM ) ) then	
 		else

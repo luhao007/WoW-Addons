@@ -10,7 +10,7 @@ local WWW,HHH,biaotiW = 600,380,25
 local GNNameE="PIG_BugcollectUI"
 local Backdropinfo={bgFile = Create.bgFile,edgeFile = Create.edgeFile, edgeSize = Create.edgeSize}
 local BGColor={0.1, 0.1, 0.1, 0.8}
-local BorderColor={0.2, 0.2, 0.2, 0.9}
+local BorderColor={0.4, 0.4, 0.4, 0.9}
 local BorderColor_OnEnter={0, 0.8, 1, 0.9}
 local function PIGSetBackdrop(self,but)
 	self:SetBackdrop(Backdropinfo)

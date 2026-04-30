@@ -160,7 +160,6 @@ function BusinessInfo.MailPlus_ADDUI()
 			MailFrame:SetWidth(338)
 		elseif tabID == 2 then
 			if SendMailFrame.pigopen then
-				if not PIGA["MailPlus"]["BagOpen"] then CloseAllBags() end
 				MailFrame:SetWidth(705)
 			end
 		end
@@ -707,14 +706,6 @@ function BusinessInfo.MailPlus_ADDUI()
 	SendMailFrame.recipients=PIGFrame(SendMailFrame,{"LEFT",SendMailFrame,"LEFT",line_W1+15,17},{line_W2,314})
 	if ElvUI or NDui then SendMailFrame.recipients:PIGSetBackdrop(0,1) end
 
-	SendMailFrame.recipients.BagOpen = PIGCheckbutton(SendMailFrame.recipients,{"BOTTOMRIGHT",SendMailFrame.recipients,"TOPRIGHT",150,34},{L["TRADEMAIL_TISP2"]},nil,nil,nil,0)
-	SendMailFrame.recipients.BagOpen:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["MailPlus"]["BagOpen"]=true;
-		else
-			PIGA["MailPlus"]["BagOpen"]=false
-		end
-	end);
 	SendMailFrame.recipients.lianxuMode = PIGCheckbutton(SendMailFrame.recipients,{"BOTTOMLEFT",SendMailFrame.recipients,"TOPLEFT",60,34},{L["TRADEMAIL_TISP2"],L["TRADEMAIL_TISP21"]},nil,nil,nil,0)
 	SendMailFrame.recipients.lianxuMode:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -764,7 +755,6 @@ function BusinessInfo.MailPlus_ADDUI()
 			table.remove(PIGA["MailPlus"]["Coll"],i)
 		end
 		self.xuanzelianxiren()
-		self.BagOpen:SetChecked(PIGA["MailPlus"]["BagOpen"])
 		self.MoneyEdit:SetChecked(PIGA["MailPlus"]["MoneyEdit"])
 		self.ALTbatch:SetChecked(PIGA["MailPlus"]["ALTbatch"])
 		self.lianxuMode:SetChecked(PIGA["MailPlus"]["lianxuMode"])

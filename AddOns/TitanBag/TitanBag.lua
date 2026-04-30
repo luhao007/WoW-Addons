@@ -1070,37 +1070,39 @@ Titan_Menu expects an object approach. The older scheme uses a table driven whic
 --[[ .registry Routines for Tooltip creation
 If Titan finds a tooltip function, Titan will assume it needs to position, show, and hide the tooltip.
 
-Titan looks for a function to create a tooltip, in order:
+Titan looks for a tooltip directive, in order:
 1) .tooltipDisplayFrame : New 2026 Mar
-   2026 Mar : Added from LDB (.tooltip) to take advantage of Titan processing.
-   It allows the plugin full control BUT the plugin must take nearly full responsibility.
+   .tooltipDisplayFrame contains the tooltip frame - not function!
+   This allows the plugin full control.
    Titan will position and show only!
-   Plugin must handle timeout and any other features.
-   Note: If using a frame of type GameTooltip, the plugin MUST set owner. 
-   If Titan does a set oener on display, it wipes the contents...
+   Note: The plugin MUST set owner (:SetOwner). If Titan does a set owner, it could wipe the contents...
 
 2) .tooltipTemplateFunction : New 2026 Mar
-A game tooltip template is passed to plugin as an explicit agreement
+   A game tooltip template is passed to plugin as an explicit agreement.
+   This allows the plugin to use the Titan tooltip with GameTooltip routines such as AddLine()
    pcall(self.tooltipTemplateFunction, self, frame)
 
-3) .tooltipCustomFunction : Deprecated Midnight (12.0.0) / 2026 Mar : 
-Assumes GameTooltip as implicit agreement
+3) .tooltipCustomFunction : Deprecated for Titan in Midnight (12.0.0) / 2026 Mar : 
+   Assumes GameTooltip as implicit agreement
    tmp_txt = pcall(self.tooltipCustomFunction, self)
 
 4) .tooltipTextFunction : Titan adds plugin name as Title; expects text in return to fill the tooltip.
 
+5) The plugin may decide to create a custom tooltip without involving Titan.
+   Titan would find no tooltip directive and do nothing.
+
 The tooltip function is called when the mouse enters the plugin frame - OnEnter.
-Titan templates set the OnEnter script for the plugin frame.
+Titan templates set the OnEnter script for each plugin frame.
 On a tooltip error, Titan will usually show part of the error in the tool tip.
-If you need to see the full error, search for this attribute in the Titan folder;
+If you need to see the full error, search for the attribute in the Titan folder;
 and uncomment the print of the error message.
 
-Due to changes in Midnight (12.0.0) Titan tooltips have undergone major changes to avoid 'secret' errors.
+Due to changes in Midnight (12.0.0 - Early 2026) Titan tooltips have undergone major changes to avoid 'secret' errors.
 Titan had to move to a custom tooltip rather than use Blizzard's GameTooltip.
 This causes conflict in the 'custom' scheme which assumes GameTooltip in Titan and the Titan plugin.
 To resolve this .tooltipTemplateFunction was added (2026 Mar).
 The new attribute allows plugins to update as needed to Midnight.
-It also allows older, possibly abandoned, plugins to run as long as practical. Until a breaking API change.
+It also allows older, possibly abandoned, plugins to run as long as practical.
 
 --]]
 

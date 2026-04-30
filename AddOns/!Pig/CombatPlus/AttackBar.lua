@@ -122,12 +122,13 @@ function CombatPlusfun.AttackBar(open)
 	if open then AttackBar:jiazaichushiV() end
 	AttackBar:SetScript("OnUpdate", AttackBar_OnUpdate)
 	AttackBar.fubar:SetScript("OnUpdate", AttackBar_OnUpdate)
-	local GUID = UnitGUID("player")
-	AttackBar:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+
+	local playerGUID = UnitGUID("player")
 	AttackBar:RegisterEvent("PLAYER_ENTERING_WORLD");
 	AttackBar:RegisterEvent("PLAYER_REGEN_ENABLED")
 	AttackBar:RegisterUnitEvent("UNIT_ATTACK_SPEED","player");--当您的攻击速度受到影响时触发
 	--AttackBar:RegisterUnitEvent("PLAYER_TARGET_SET_ATTACKING","target");
+	AttackBar:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 	AttackBar:SetScript("OnEvent", function (self,event,arg1,arg2)
 		--print(event)
 		if event=="PLAYER_ENTERING_WORLD" or event=="UNIT_ATTACK_SPEED" then
@@ -139,24 +140,25 @@ function CombatPlusfun.AttackBar(open)
 		elseif event=="PLAYER_REGEN_ENABLED" then
 			self:Hide()
 		elseif event=="COMBAT_LOG_EVENT_UNFILTERED" then
-			local Combat1,Combat2,Combat3,Combat4,Combat5,Combat6,Combat7,Combat8,Combat9,Combat10,Combat11,Combat12,Combat13,Combat14,Combat15,Combat16,Combat17,Combat18,Combat19,Combat20,Combat21= CombatLogGetCurrentEventInfo();
-			if Combat4 ~= GUID then return end
-			--print(select(1, CombatLogGetCurrentEventInfo()))
-			if Combat2=="SPELL_CAST_SUCCESS" then
-				GetAttackSpeedTime(self)
-				self:Show()
-			elseif Combat2:match("SWING") then
-				local zhufushou = Combat21
-				if zhufushou==nil then
-					zhufushou=Combat13
-				end
-				if zhufushou then 
+			local _,subEvent,_,sourceGUID,_,_,_,_,_,_,_,_,spellX,_,_,_,_,_,_,_,isOffHand= CombatLogGetCurrentEventInfo()
+			if sourceGUID ~= playerGUID then return end
+			--print(CombatLogGetCurrentEventInfo())
+			if subEvent=="SWING_DAMAGE" then
+				if isOffHand then 
 					GetAttackSpeedTime(self.fubar)
 					self.fubar:Show()
 				else
 					GetAttackSpeedTime(self)
 					self:Show()
 				end
+			elseif subEvent=="SWING_MISSED" then
+				if spellX then 
+					GetAttackSpeedTime(self.fubar)
+					self.fubar:Show()
+				else
+					GetAttackSpeedTime(self)
+					self:Show()
+				end	
 			end
 		end
 	end)

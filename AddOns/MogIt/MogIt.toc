@@ -1,6 +1,6 @@
 ## Interface: 120001, 120005
 ## Author: Aelobin (The Maelstrom EU) & Lombra (Defias Brotherhood EU)
-## Version: v4.1.6
+## Version: v4.1.7
 
 ## Title: MogIt
 ## Notes: Transmogrification Assistant
@@ -18,5 +18,6 @@
 Libs\Embeds.xml
 Locale\Locale.xml
 
+GUI.xml
 Core\Core.xml
 Modules\Modules.xml

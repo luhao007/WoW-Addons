@@ -12,14 +12,23 @@ local Lockit = DelveCompanion.Lockit
 
 --#region Constants
 
+---@type string
 local EVENT_FRAME_NAME = "DelveCompanionProgressTrackingFrame"
+---@type string
+local SCENARIO_DELVE_NAME = _G["DELVES_LABEL"]
 
+---@type number
+local EVENT_PROCESSING_DELAY = 1
+
+---@type number
 local RESPAWN_SPELL = 433110
 --#endregion
 
 ---@class (exact) ProgressTracker
----@field eventFrame Frame
+---@field EventFrame Frame
+---@field isSubscribed boolean
 ---@field isDelveInProgress boolean
+---@field lastSeenScenario string
 local ProgressTracker = {}
 DelveCompanion.ProgressTracker = ProgressTracker
 
@@ -30,62 +39,81 @@ local baseEvents = {
 }
 
 ---@param self ProgressTracker
+function ProgressTracker:Init()
+    -- Logger:Log("[ProgressTracker] Init started...")
+
+    local frame = CreateFrame("Frame", EVENT_FRAME_NAME, UIParent)
+    frame:RegisterEvent("SCENARIO_UPDATE")
+
+    ---@param owner Frame
+    ---@param eventName string
+    ---@param arg1 any
+    ---@param ... any
+    local function ProcessEventInternal(owner, eventName, arg1, ...)
+        C_Timer.After(EVENT_PROCESSING_DELAY, function(...)
+            self:ProcessEvent(eventName, arg1, ...)
+        end)
+    end
+
+    frame:SetScript("OnEvent", ProcessEventInternal)
+    self.EventFrame = frame
+
+    self:UpdateSeenScenario()
+    self:UpdateDelveStatus()
+    if self.isDelveInProgress then
+        -- If UI Reload or Login happens in the midst of the Delve, force register required events.
+        FrameUtil.RegisterFrameForEvents(self.EventFrame, baseEvents)
+    end
+end
+
+---@param self ProgressTracker
+function ProgressTracker:UpdateSeenScenario()
+    self.lastSeenScenario = select(1, C_Scenario.GetInfo())
+
+    -- Logger:Log("[ProgressTracker] Scenario: %s", tostring(self.lastSeenScenario))
+end
+
+---@param self ProgressTracker
 function ProgressTracker:UpdateDelveStatus()
-    -- Logger:Log("[ProgressTracker] DelveStatus: InP: %s ||| IsC: %s",
-    --     tostring(C_PartyInfo.IsDelveInProgress()),
-    --     tostring(C_PartyInfo.IsDelveComplete()))
-    self.isDelveInProgress = C_PartyInfo.IsDelveInProgress() and not C_PartyInfo.IsDelveComplete()
+    self.isDelveInProgress = select(1, C_Scenario.GetInfo()) == SCENARIO_DELVE_NAME
+
+    -- Logger:Log("[ProgressTracker] DelveStatus: %s", tostring(self.isDelveInProgress))
 end
 
 ---@param self ProgressTracker
 function ProgressTracker:ProcessEvent(eventName, arg1, ...)
-    self:UpdateDelveStatus()
-    -- local widgetInfo = C_UIWidgetManager.GetScenarioHeaderDelvesWidgetVisualizationInfo(6183)
+    -- Logger:Log("[ProgressTracker] Processing event: %s", eventName)
 
+    self:UpdateDelveStatus()
+
+    -- local widgetInfo = C_UIWidgetManager.GetScenarioHeaderDelvesWidgetVisualizationInfo(6183)
     if eventName == "SCENARIO_UPDATE" then
-        if self.isDelveInProgress then
-            FrameUtil.RegisterFrameForEvents(self.eventFrame, baseEvents)
+        if self.isDelveInProgress and not self.isSubscribed then
+            self:UpdateSeenScenario()
+
+            FrameUtil.RegisterFrameForEvents(self.EventFrame, baseEvents)
+            self.isSubscribed = true
 
             EventRegistry:TriggerEvent(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_IN_PROGRESS)
         end
     elseif eventName == "SCENARIO_CRITERIA_UPDATE" then
         if C_PartyInfo.IsDelveComplete() then
-            self.eventFrame:UnregisterEvent("SCENARIO_CRITERIA_UPDATE")
+            self.EventFrame:UnregisterEvent("SCENARIO_CRITERIA_UPDATE")
 
-            EventRegistry:TriggerEvent(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_COMPLETE)
+            EventRegistry:TriggerEvent(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_COMPLETED)
         end
     elseif eventName == "DISPLAY_EVENT_TOAST_LINK" then
         if string.match(arg1, RESPAWN_SPELL) ~= nil then
             EventRegistry:TriggerEvent(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_RESPAWN_ACTIVATED)
 
-            self.eventFrame:UnregisterEvent("DISPLAY_EVENT_TOAST_LINK")
+            self.EventFrame:UnregisterEvent("DISPLAY_EVENT_TOAST_LINK")
         end
     elseif eventName == "ZONE_CHANGED_NEW_AREA" then
-        if not self.isDelveInProgress then
-            FrameUtil.UnregisterFrameForEvents(self.eventFrame, baseEvents)
+        if self.lastSeenScenario == SCENARIO_DELVE_NAME and not self.isDelveInProgress then
+            FrameUtil.UnregisterFrameForEvents(self.EventFrame, baseEvents)
+            self.isSubscribed = false
 
-            EventRegistry:TriggerEvent(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_IN_PROGRESS)
+            EventRegistry:TriggerEvent(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_EXITED)
         end
-    end
-end
-
----@param self ProgressTracker
-function ProgressTracker:Init()
-    -- Logger:Log("[ProgressTracker] Init started...")
-
-    self:UpdateDelveStatus()
-
-    local frame = CreateFrame("Frame", EVENT_FRAME_NAME, UIParent)
-    frame:RegisterEvent("SCENARIO_UPDATE")
-    frame:SetScript("OnEvent", function(owner, eventName, arg1, ...)
-        C_Timer.After(0.5, function(...)
-            self:ProcessEvent(eventName, arg1, ...)
-        end)
-    end)
-    self.eventFrame = frame
-
-    if self.isDelveInProgress then
-        -- If UI Reload or Login happens in the midst of the Delve, force register required events.
-        FrameUtil.RegisterFrameForEvents(self.eventFrame, baseEvents)
     end
 end

@@ -48,7 +48,6 @@ function Fun.PruningServerName(str)
     end
     return str
 end
-
 function Fun.IsAddOnLoaded(AddOnName,funx)
 	if PIGIsAddOnLoaded(AddOnName) then
 		funx()

@@ -50,9 +50,6 @@ function Create.PIGFontStringBG(fuF,Point,Text,WH,Zihao,UIName)
 	return Font
 end
 ------
-Create.Backdropinfo={bgFile = Create.bgFile, tile = true, tileSize = 0,edgeFile = Create.edgeFile, edgeSize = Create.edgeSize}
-Create.BackdropColor={0.08, 0.08, 0.08, 0.5}
-Create.BackdropBorderColor={0.2, 0.2, 0.2, 0.8}
 local function _SetPoint(self,Point,BOTTOMRIGHT)
 	local expp1,expp2,expp3,expp4,expp5=0,0,0,0,false
 	if NDui and self.Ext and self.Ext.NDui and self.Ext.NDui[1] then
@@ -78,12 +75,12 @@ local function _BlizzardBackdrop(self)
 	self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1);
 end
 local function _SetBackdrop(ui,BGAlpha,BorderAlpha,Color,BorderColor)
-	ui:SetBackdrop(Create.Backdropinfo)
+	ui:SetBackdrop(Create.BackdropData)
 	local BackdropColor=Color or Create.BackdropColor
 	local BackdropBorderColor=BorderColor or Create.BackdropBorderColor
-	local BGAlpha = BGAlpha or BackdropColor[4]
+	local BGAlpha = BGAlpha or BackdropColor[4] or 1
 	ui:SetBackdropColor(BackdropColor[1], BackdropColor[2], BackdropColor[3], BGAlpha);
-	local BorderAlpha = BorderAlpha or BackdropBorderColor[4]
+	local BorderAlpha = BorderAlpha or BackdropBorderColor[4] or 1
 	ui:SetBackdropBorderColor(BackdropBorderColor[1], BackdropBorderColor[2], BackdropBorderColor[3], BorderAlpha);
 end
 function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template,Ext)

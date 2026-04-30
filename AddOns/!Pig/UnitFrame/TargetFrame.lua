@@ -180,9 +180,8 @@ function UnitFramefun.Mubiao()
 			TargetFrame.mubiaoHP.title = PIGFontString(TargetFrame.mubiaoHP,{"TOPRIGHT", TargetFrame.mubiaoHP, "TOPRIGHT", 0, 0},"", "OUTLINE",13)
 			TargetFrame.mubiaoHP.title:SetTextColor(1, 1, 0.47,1);
 			--
-			TargetFrame:HookScript("OnEvent", function (self,event,arg1)	
-				if event=="PLAYER_ENTERING_WORLD" or event=="PLAYER_TARGET_CHANGED" or event=="UNIT_HEALTH" or event=="UNIT_AURA" then
-					if not UnitExists("target") then return end
+			TargetFrame:HookScript("OnEvent", function (self,event,arg1)
+				if event=="PLAYER_ENTERING_WORLD" or event=="PLAYER_TARGET_CHANGED" or ((event=="UNIT_HEALTH" or event=="UNIT_AURA") and arg1 == self.unit) then
 					local mubiaoH = UnitHealth("target")
 					local mubiaoHmax = UnitHealthMax("target")
 					local mubiaobaifenbi = math.ceil((mubiaoH/mubiaoHmax)*100);
@@ -311,11 +310,10 @@ function UnitFramefun.Mubiao()
 			end
 		end
 	end
-	-----目标的目标的目标
+	--目标的目标的目标
 	if PIGA["UnitFrame"]["TargetFrame"]["ToToToT"] and not TargetFrameToT.TTT then	
 		SetCVar("showTargetOfTarget","1")
-		local unitMubiao = "targettargettarget"
-		local fuF=TargetFrameToT
+		local unitMubiao,fuF="targettargettarget",TargetFrameToT
 		fuF.TTT = CreateFrame("Button", "$ParentToT", fuF, "TargetofTargetFrameTemplate");
 		fuF.TTT:SetFrameLevel(fuF:GetFrameLevel() + 5);
 		fuF.TTT:ClearAllPoints();
@@ -427,54 +425,54 @@ function UnitFramefun.Mubiao()
 		end
 		fuF.TTT:RegisterUnitEvent("UNIT_TARGET","target");
 		fuF.TTT:RegisterUnitEvent("UNIT_TARGET","targettarget");
-		fuF.TTT:RegisterUnitEvent("UNIT_AURA", unit);
-		fuF.TTT:RegisterUnitEvent("UNIT_TARGET",unitMubiao);
+		--fuF.TTT:RegisterUnitEvent("UNIT_AURA", unit);
+		--fuF.TTT:RegisterUnitEvent("UNIT_TARGET",unitMubiao);
 		fuF.TTT:RegisterUnitEvent("UNIT_PORTRAIT_UPDATE",unitMubiao);
 		fuF.TTT:SetScript("OnEvent", function (self,event,arg1)
-			local TTTname = UnitName(self.unit)
-			if PIG_MaxTocversion() then
-				self.name:SetText(TTTname);
-				SetPortraitTexture(self.portrait, self.unit)
-				TargetofTargetHealthCheck(self)
-				TargetFrame_CheckDead(self);
-				UnitFrameHealthBar_Update(self.healthbar, self.unit);
-				UnitFrameManaBar_Update(self.manabar, self.unit);
-			else
-				self.Name:SetText(TTTname);
-				SetPortraitTexture(self.Portrait, self.unit)
-				self:CheckDead()
-				PigUnitFrameHealthBar_Update(self.HealthBar, self.unit)
-				PigUnitFrameManaBar_Update(self.ManaBar, self.unit);
+			if UnitExists(self.unit) then
+				local TTTname = UnitName(self.unit)
+				if PIG_MaxTocversion() then
+					self.name:SetText(TTTname);
+					SetPortraitTexture(self.portrait, self.unit)
+					TargetofTargetHealthCheck(self)
+					TargetFrame_CheckDead(self);
+					UnitFrameHealthBar_Update(self.healthbar, self.unit);
+					UnitFrameManaBar_Update(self.manabar, self.unit);
+				else
+					self.Name:SetText(TTTname);
+					SetPortraitTexture(self.Portrait, self.unit)
+					self:CheckDead()
+					PigUnitFrameHealthBar_Update(self.HealthBar, self.unit)
+					PigUnitFrameManaBar_Update(self.ManaBar, self.unit);
+				end
 			end
 			if event=="PLAYER_REGEN_ENABLED" then
 				self:UnregisterEvent("PLAYER_REGEN_ENABLED");
 			end
 		end)
-		if PIG_MaxTocversion() then
-			fuF.TTT.healthbar:RegisterUnitEvent("UNIT_HEALTH",unitMubiao);
-			fuF.TTT.healthbar:RegisterUnitEvent("UNIT_MAXHEALTH",unitMubiao);
-			fuF.TTT.manabar:RegisterUnitEvent("UNIT_POWER_FREQUENT",unitMubiao);
-			fuF.TTT.manabar:RegisterUnitEvent("UNIT_MAXPOWER",unitMubiao);
-			fuF.TTT.healthbar:HookScript("OnEvent", function (self,event)
-				UnitFrameHealthBar_Update(self, unitMubiao);
+		local function loadEventFun(ui1,ui2,fun1,fun2)
+			ui1:RegisterUnitEvent("UNIT_HEALTH",unitMubiao);
+			ui1:RegisterUnitEvent("UNIT_MAXHEALTH",unitMubiao);
+			ui1:HookScript("OnEvent", function (self,event,arg1)
+				if UnitExists(self.unit) then
+					fun1(self, self.unit);
+				end
 			end)
-			fuF.TTT.manabar:HookScript("OnEvent", function (self,event)
-				UnitFrameManaBar_Update(self, unitMubiao);
-			end)
-		else
-			fuF.TTT.HealthBar:RegisterUnitEvent("UNIT_HEALTH",unitMubiao);
-			fuF.TTT.HealthBar:RegisterUnitEvent("UNIT_MAXHEALTH",unitMubiao);
-			fuF.TTT.ManaBar:RegisterUnitEvent("UNIT_POWER_FREQUENT",unitMubiao);
-			fuF.TTT.ManaBar:RegisterUnitEvent("UNIT_MAXPOWER",unitMubiao);
-			fuF.TTT.HealthBar:HookScript("OnEvent", function (self,event)
-				PigUnitFrameHealthBar_Update(self, unitMubiao)
-			end)
-			fuF.TTT.ManaBar:HookScript("OnEvent", function (self,event)
-				PigUnitFrameManaBar_Update(self, unitMubiao)
+			--ui2:RegisterUnitEvent("UNIT_POWER_FREQUENT",unitMubiao);
+			ui2:RegisterUnitEvent("UNIT_MAXPOWER",unitMubiao);
+			ui2:HookScript("OnEvent", function (self,event,arg1)
+				if UnitExists(self.unit) then
+					fun2(self, self.unit);
+				end
 			end)
 		end
+		if PIG_MaxTocversion() then
+			loadEventFun(fuF.TTT.healthbar,fuF.TTT.manabar,UnitFrameHealthBar_Update,UnitFrameManaBar_Update)
+		else
+			loadEventFun(fuF.TTT.HealthBar,fuF.TTT.ManaBar,PigUnitFrameHealthBar_Update,PigUnitFrameManaBar_Update)
+		end
 	end
-	--
+	--移速
 	if PIGA["UnitFrame"]["TargetFrame"]["Yisu"] and not TargetFrame.yisuF then
 		TargetFrame.yisuF=CreateFrame("Frame",nil,TargetFrame);
 		TargetFrame.yisuF:SetSize(49,18);
@@ -495,9 +493,14 @@ function UnitFramefun.Mubiao()
 		TargetFrame.yisuF.Tex:SetPoint("LEFT", TargetFrame.yisuF, "LEFT", 0, 0);
 		TargetFrame.yisuT = PIGFontString(TargetFrame.yisuF,{"LEFT", TargetFrame.yisuF.Tex, "RIGHT", 0, 0},"", "OUTLINE")
 		TargetFrame.yisuT:SetTextColor(1,1,1,1);
-		TargetFrame.yisuF:HookScript("OnUpdate", function ()
-			local currentSpeed, runSpeed, flightSpeed, swimSpeed = GetUnitSpeed("target");
-			TargetFrame.yisuT:SetText(Round(((currentSpeed/7)*100))..'%')
+		TargetFrame.yisuF.cachedSpeed = 0
+		TargetFrame.yisuF:HookScript("OnUpdate", function (self, elapsed)
+			self.cachedSpeed = self.cachedSpeed + elapsed
+            if self.cachedSpeed >0.1 then
+                self.yisuLastUpdate = 0
+				local currentSpeed, runSpeed, flightSpeed, swimSpeed = GetUnitSpeed("target");
+				TargetFrame.yisuT:SetText(Round(((currentSpeed/7)*100))..'%')
+            end
 		end)
 	end
 end

@@ -269,6 +269,10 @@ local function AcquirePin(pin)
 	        PlayPinAnimation(pin, entityID, mapID, x, y, forceAnimation)
 	
 	        if (not pin.RSHooksInstalled) then
+	        	if (not pin.hasTooltip) then
+	        		pin:EnableMouseMotion(true);
+	        	end
+	        	
 	            pin:HookScript("OnEnter", OnPinMouseEnter)
 	            pin:HookScript("OnLeave", OnPinMouseLeave)
 	            pin:HookScript("OnMouseDown", OnPinMouseDown)
@@ -286,7 +290,7 @@ local function OnVignettePinAcquired(pin, vignetteGUID, vignetteInfo, frameIndex
 end
 
 function RSBlizzardMapProvider:AddHooks()
-	local mixins = { VignettePinBaseMixin, AreaPOIPinMixin }
+	local mixins = { VignettePinMixin, VignettePinPOIButtonMixin, AreaPOIPinMixin }
 
 	for _, mixin in ipairs(mixins) do
 		hooksecurefunc(mixin, "OnAcquired", OnVignettePinAcquired)

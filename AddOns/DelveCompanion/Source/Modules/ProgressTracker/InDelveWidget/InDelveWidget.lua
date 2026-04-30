@@ -88,14 +88,14 @@ function InDelveWidget:Init()
 
     do
         ---@param owner InDelveWidget
-        local function OnDelveInProgressChanged(owner)
-            -- Logger:Log("[InDelveWidget] OnProgressChanged. State: %s", tostring(DelveCompanion.ProgressTracker.isDelveInProgress))
-
+        local function RefreshInternal(owner)
             owner:Refresh(false)
         end
 
         EventRegistry:RegisterCallback(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_IN_PROGRESS,
-            OnDelveInProgressChanged, self)
+            RefreshInternal, self)
+        EventRegistry:RegisterCallback(DelveCompanion.Definitions.Events.PROGRESS_TRACKER.DELVE_EXITED,
+            RefreshInternal, self)
     end
 
     do

@@ -11,7 +11,7 @@ local TextColor={1, 0.843, 0, 1}
 local dr, dg, db= GRAY_FONT_COLOR:GetRGB()
 local TextColor_Disable={dr, dg, db, 1}
 local function BackdropSet(self)
-	self:SetBackdrop(Create.Backdropinfo)
+	self:SetBackdrop(Create.BackdropData)
 	self:SetBackdropColor(BGColor[1],BGColor[2],BGColor[3],BGColor[4]);
 	self:SetBackdropBorderColor(BorderColor[1], BorderColor[2], BorderColor[3], BorderColor[4]);
 end

@@ -160,7 +160,7 @@ QuickButF.ModF:PIGSetBackdrop(0)
 QuickButF.ModF:SetPoint("TOPLEFT",QuickButF.SetF,"BOTTOMLEFT",0,1);
 QuickButF.ModF:SetPoint("BOTTOMRIGHT",QuickButF,"BOTTOMRIGHT",0,0);
 QuickButF.ModF:Hide()
-local BGbroadcast_tooltip = {string.format(L["ACTION_ADDQUICKBUT"],BATTLEFIELDS..BATTLENET_BROADCAST),string.format(L["ACTION_ADDQUICKBUTTIS"],BATTLEFIELDS..BATTLENET_BROADCAST).."\n注意:战况广播按钮战场外不显示"}
+local BGbroadcast_tooltip = {BATTLEFIELDS..BATTLENET_BROADCAST,string.format(L["ACTION_ADDQUICKBUTTIS"],BATTLEFIELDS..BATTLENET_BROADCAST).."\n注意:战况广播按钮战场外不显示"}
 QuickButF.ModF.BGbroadcast=PIGCheckbutton_R(QuickButF.ModF,BGbroadcast_tooltip,true)
 QuickButF.ModF.BGbroadcast:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -172,9 +172,7 @@ QuickButF.ModF.BGbroadcast:SetScript("OnClick", function (self)
 	end
 end)
 --饰品
-local newText=Fun.Delmaohaobiaodain(MODIFIERS_COLON)
-local tishineiQKButTrinket = INVTYPE_TRINKET..newText
-QuickButF.ModF.QKButTrinket = PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_ADDQUICKBUT"],tishineiQKButTrinket),string.format(L["ACTION_ADDQUICKBUTTIS"],tishineiQKButTrinket)},true)
+QuickButF.ModF.QKButTrinket = PIGCheckbutton_R(QuickButF.ModF,{INVTYPE_TRINKET..CHAT_MODERATE,string.format(L["ACTION_ADDQUICKBUTTIS"],INVTYPE_TRINKET..CHAT_MODERATE)},true)
 QuickButF.ModF.QKButTrinket:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["QuickBut"]["Trinket"]=true
@@ -185,7 +183,7 @@ QuickButF.ModF.QKButTrinket:SetScript("OnClick", function (self)
 	end
 end)
 if PIG_MaxTocversion(20000) and C_Engraving and C_Engraving.IsEngravingEnabled() then
-	QuickButF.ModF.QKButRune = PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_ADDQUICKBUT"],RUNES..newText),string.format(L["ACTION_ADDQUICKBUTTIS"],RUNES..newText)},true)
+	QuickButF.ModF.QKButRune = PIGCheckbutton_R(QuickButF.ModF,{RUNES..CHAT_MODERATE,string.format(L["ACTION_ADDQUICKBUTTIS"],RUNES..CHAT_MODERATE)},true)
 	QuickButF.ModF.QKButRune:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["QuickBut"]["Rune"]=true
@@ -207,7 +205,7 @@ if PIG_MaxTocversion(20000) and C_Engraving and C_Engraving.IsEngravingEnabled()
 	end)
 end
 ----
-QuickButF.ModF.QKButEquip = PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_ADDQUICKBUT"],EQUIPMENT_MANAGER),string.format(L["ACTION_ADDQUICKBUTTIS"],EQUIPMENT_MANAGER)},true)
+QuickButF.ModF.QKButEquip = PIGCheckbutton_R(QuickButF.ModF,{EQUIPMENT_MANAGER,string.format(L["ACTION_ADDQUICKBUTTIS"],EQUIPMENT_MANAGER)},true)
 QuickButF.ModF.QKButEquip.errt = PIGFontString(QuickButF.ModF.QKButEquip,{"LEFT", QuickButF.ModF.QKButEquip.Text, "RIGHT", 2, 0},"需打开界面优化/角色信息/人物信息扩展功能","OUTLINE")
 QuickButF.ModF.QKButEquip.errt:SetTextColor(1, 0, 0); 
 QuickButF.ModF.QKButEquip.errt:Hide()
@@ -220,7 +218,7 @@ QuickButF.ModF.QKButEquip:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show();
 	end
 end)
-QuickButF.ModF.AddonList = PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_ADDQUICKBUT"],ADDONS..CHAT_MODERATE)},true)
+QuickButF.ModF.AddonList = PIGCheckbutton_R(QuickButF.ModF,{ADDONS..CHAT_MODERATE,string.format(L["ACTION_ADDQUICKBUTTIS"],ADDONS..CHAT_MODERATE)},true)
 QuickButF.ModF.AddonList:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["QuickBut"]["AddonList"]=true
@@ -230,7 +228,7 @@ QuickButF.ModF.AddonList:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show();
 	end
 end)
-local Lushi_tooltip = {string.format(L["ACTION_ADDQUICKBUT"],TUTORIAL_TITLE31.."/"..TRADE_SKILLS),string.format(L["ACTION_ADDQUICKBUTTIS"],TUTORIAL_TITLE31.."/"..TRADE_SKILLS)}
+local Lushi_tooltip = {TUTORIAL_TITLE31.."/"..TRADE_SKILLS,string.format(L["ACTION_ADDQUICKBUTTIS"],TUTORIAL_TITLE31.."/"..TRADE_SKILLS)}
 QuickButF.ModF.Lushi=PIGCheckbutton_R(QuickButF.ModF,Lushi_tooltip,true)
 QuickButF.ModF.Lushi:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -241,7 +239,7 @@ QuickButF.ModF.Lushi:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show()
 	end
 end)
-QuickButF.ModF.Spell=PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_ADDQUICKBUT"],CLASS..BINDING_HEADER_ACTIONBAR),string.format(L["ACTION_ADDQUICKBUTTIS"],CLASS..BINDING_HEADER_ACTIONBAR)},true)
+QuickButF.ModF.Spell=PIGCheckbutton_R(QuickButF.ModF,{CLASS..BINDING_HEADER_ACTIONBAR,string.format(L["ACTION_ADDQUICKBUTTIS"],CLASS..BINDING_HEADER_ACTIONBAR)},true)
 QuickButF.ModF.Spell:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["QuickBut"]["Spell"]=true;
@@ -873,9 +871,9 @@ QuickButUI.ButList[8]=function()
 		_G["BINDING_NAME_CLICK "..qkuiname..":LeftButton"]= "PIG功能条随机坐骑"
 		---内容页----
 		local Zhushou_List = CreateFrame("Frame", nil, Zhushou,"BackdropTemplate,SecureHandlerShowHideTemplate");
-		Zhushou_List:SetBackdrop(Create.Backdropinfo)
-		Zhushou_List:SetBackdropColor(Create.BackdropColor[1], Create.BackdropColor[2], Create.BackdropColor[3], Create.BackdropColor[4]);
-		Zhushou_List:SetBackdropBorderColor(Create.BackdropBorderColor[1], Create.BackdropBorderColor[2], Create.BackdropBorderColor[3], Create.BackdropBorderColor[4]);
+		Zhushou_List:SetBackdrop(Create.BackdropData)
+		Zhushou_List:SetBackdropColor(unpack(Create.BackdropColor));
+		Zhushou_List:SetBackdropBorderColor(unpack(Create.BackdropBorderColor));
 		Zhushou_List:SetSize((butW+6)*kuanNum+6,(butW+6)*gaoNum+6);
 		Zhushou_List:SetScale(PIGA["QuickBut"]["bili"]);
 		Zhushou_List:Hide();

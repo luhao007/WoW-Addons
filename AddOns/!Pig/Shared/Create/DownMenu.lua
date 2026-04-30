@@ -110,9 +110,9 @@ end
 for i=1,UIDROPDOWNMENU_MAXLEVELS do
 	local PIGDownList = CreateFrame("Frame", nil, UIParent,"BackdropTemplate",i);
 	PIG_DropDown[i]=PIGDownList
-	PIGDownList:SetBackdrop(Create.Backdropinfo)
-	PIGDownList:SetBackdropColor(0.1, 0.1, 0.1, 1);
-	PIGDownList:SetBackdropBorderColor(0, 0, 0, 1);
+	PIGDownList:SetBackdrop(Create.BackdropData)
+	PIGDownList:SetBackdropColor(unpack(Create.BackdropColor));
+	PIGDownList:SetBackdropBorderColor(unpack(Create.BackdropBorderColor));
 	PIGDownList:Hide()
 	PIGDownList:SetClampedToScreen(true)
 	PIGDownList:SetFrameStrata("FULLSCREEN_DIALOG")
@@ -240,7 +240,7 @@ end);
 local function Update_extFlistF(listFrame,Lid)
 	if not listFrame.extFlist[Lid] then
 		local erjiF = CreateFrame("Frame", nil, listFrame,"BackdropTemplate");
-		erjiF:SetBackdrop(Create.Backdropinfo)
+		erjiF:SetBackdrop(Create.BackdropData)
 		erjiF:SetBackdropColor(0.1, 0.1, 0.1, 1);
 		erjiF:SetBackdropBorderColor(0, 0, 0, 1);
 		erjiF:HookScript("OnEnter", function (self)
@@ -265,9 +265,9 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 	else
 		local Width,Height=SizeWH[1],SizeWH[2]
 		local Height=Height or 24
-		DownMenu:SetBackdrop(Create.Backdropinfo)
-		DownMenu:SetBackdropColor(0.1, 0.1, 0.1, 1);
-		DownMenu:SetBackdropBorderColor(0, 0, 0, 1);
+		DownMenu:SetBackdrop(Create.BackdropData)
+		DownMenu:SetBackdropColor(unpack(Create.BackdropColor));
+		DownMenu:SetBackdropBorderColor(unpack(Create.BackdropBorderColor));
 		DownMenu:SetSize(Width,Height);
 		DownMenu:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
 		DownMenu:HookScript("OnHide", function(self)

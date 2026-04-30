@@ -265,49 +265,6 @@ local function RegisterAddonCompartment()
 	end
 end
 
---****** overload the 'time played' text to Chat - if XP requested the API call
-local requesting
----@diagnostic disable: duplicate-set-field
-
--- Save orignal output to Chat
--- somewhere in 11.* (The World Within) this changed
-local orig_ChatFrame_DisplayTimePlayed = function(...) end
-
--- Do not output Chat messages when using RequestTimePlayed
-function TitanPanelBarButton:RequestTimePlayed()
-	requesting = true
-	RequestTimePlayed()
-end
-
-if Titan_Global.switch.chat_class then
-	orig_ChatFrame_DisplayTimePlayed = ChatFrameUtil.DisplayTimePlayed
-
-	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
-		if requesting then
-			-- XP requested time played, do not spam Chat
-			requesting = false
-		else
-			-- XP did not request time played so output
-			---@diagnostic disable-next-line: need-check-nil
-			orig_ChatFrame_DisplayTimePlayed(...)
-		end
-	end
-else
-	orig_ChatFrame_DisplayTimePlayed = ChatFrame_DisplayTimePlayed
-
-	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
-		if requesting then
-			-- XP requested time played, do not spam Chat
-			requesting = false
-		else
-			-- XP did not request time played so output
-			---@diagnostic disable-next-line: need-check-nil
-			orig_ChatFrame_DisplayTimePlayed(...)
-		end
-	end
-end
---****** overload end
-
 local function SetToonZoneInfo()
 	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
 	toon_info.zoneText = GetZoneText()
@@ -323,7 +280,7 @@ local function SetToonPlayedInfo(action, total, level)
 	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
 
 	if action == 'init' then
-		TitanPanelBarButton:RequestTimePlayed() -- TIME_PLAYED_MSG
+		TitanUtils_GetTimePlayed("Titan") -- TIME_PLAYED_MSG
 		toon_info.played_start = _G.time()
 	elseif action == 'update' then -- via event TIME_PLAYED_MSG
 		toon_info.played_total = total + GetElapsed(toon_info.played_start)
@@ -399,10 +356,10 @@ end
 
 local function SetToonLogout(toon)
 	-- New Dec 2025 Collect some toon info for profile display
-	-- Unlikely to change on reload but...
+	-- Do NOT call any API routines here!!
+	-- WoW is shutting down and the return values are usually nil or wrong...
+	--
 	local toon_info = TitanSettings.Players[toon].Info
-
-	toon_info.gold_toon = GetMoney()
 
 	local now = _G.time()
 	toon_info.logout = now
@@ -613,6 +570,7 @@ function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2, arg3, arg4)
 			StopTitan("Could not initialize", ret_val) -- something really bad occured...
 		end
 
+		-- Register plugins; set profile; set config
 		call_ok, ret_val = pcall(SetupUser)
 		if call_ok then
 			-- Titan initialized properly

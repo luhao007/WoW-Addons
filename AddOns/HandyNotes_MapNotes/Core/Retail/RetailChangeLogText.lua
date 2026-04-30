@@ -1,9 +1,10 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.4.8"
-ns.PreviousAddonVersion = "3.4.7" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.4.9"
+ns.PreviousAddonVersion = "3.4.8" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.4.9", table = ns.LOCALE_CHANGELOG_3_4_9 },
   { version = "3.4.8", table = "smallChanges" },
   { version = "3.4.7", table = ns.LOCALE_CHANGELOG_3_4_7 },
   { version = "3.4.6", table = "smallChanges" },
@@ -74,6 +75,52 @@ ns.LOCALE_CHANGELOG_3_4_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_4_9 = {
+  deDE = [[
+• Verbesserung der Koreanischen Übersetzungsdatei
+]],
+
+  enUS = [[
+• Improvement of the Korean translation file
+]],
+
+  frFR = [[
+• Amélioration du fichier de traduction coréenne
+]],
+
+  itIT = [[
+• Miglioramento del file di traduzione coreana
+]],
+
+  esES = [[
+• Mejora del archivo de traducción coreana
+]],
+
+  esMX = [[
+• Mejora del archivo de traducción coreana
+]],
+
+  ptBR = [[
+• Melhoria do arquivo de tradução coreana
+]],
+
+  ruRU = [[
+• Улучшение файла корейского перевода
+]],
+
+  zhCN = [[
+• 改进韩语翻译文件
+]],
+
+  zhTW = [[
+• 改進韓文翻譯檔案
+]],
+
+  koKR = [[
+• 한국어 번역 파일 개선
 ]],
 }
 

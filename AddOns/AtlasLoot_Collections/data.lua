@@ -1398,6 +1398,18 @@ data["MOUNTS"]             = {
 				{ 127, 260893, "mount", [PRICE_EXTRA_ITTYPE] = "tender:450" },  -- Arboreal Pseudoshell
 				{ 128, 262705, "mount", [PRICE_EXTRA_ITTYPE] = "tender:600" },  -- Vicious Snapvine
 				{ 129, 257143, "mount", [QUEST_EXTRA_ITTYPE] = 90867 },         -- Peridot Dragonhawk
+				{ 130, 275440, "mount", [PRICE_EXTRA_ITTYPE] = "275436:1" },    -- Cerulean Deathwalker
+				{ 201, 275442, "mount", [PRICE_EXTRA_ITTYPE] = "275436:1" },    -- Amethyst Mechsuit
+				{ 202, 275444, "mount", [PRICE_EXTRA_ITTYPE] = "275436:1" },    -- Blue-Chip Shreddertank
+				{ 203, 275445, "mount", [PRICE_EXTRA_ITTYPE] = "275436:1" },    -- Profit-Green Shreddertank
+				{ 204, 275446, "mount", [PRICE_EXTRA_ITTYPE] = "275436:1" },    -- High-Yield Shreddertank
+				{ 205, 275447, "mount", [PRICE_EXTRA_ITTYPE] = "275436:1" },    -- Speculative Shreddertank
+				{ 206, 268481, "mount", [PRICE_EXTRA_ITTYPE] = "illusionaryCoin:500" }, -- Magister's Spell Bee Comb
+				{ 207, 264348, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Unbound Manawyrm
+				{ 208, 268578, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4500" }, -- Void-Touched Hawkstrider
+				{ 209, 270041, "mount" },                                       -- Void-Touched Snapdragon
+				{ 210, 269828, "mount" },                                       -- Void-Corrupted Eagle Talon
+				{ 211, 270058, "mount" },                                       -- Rope Lynx Harness
 				-- { 127, 260228, "mount", [ACH_EXTRA_ITTYPE] = 61188 }, -- Galactic Gladiator's Goredrake
 			},
 			[HORDE_DIFF] = {
@@ -6781,6 +6793,18 @@ data["COMPANIONS"]         = {
 				{ 130, 262393, "pet4955", [PRICE_EXTRA_ITTYPE] = "undercoin:10000" }, -- Kreepah'zoyd
 				{ 201, 258122, "pet4909", [QUEST_EXTRA_ITTYPE] = 88769 },       -- Emerald Hatchling
 				{ 202, 262762, "pet4963", [PRICE_EXTRA_ITTYPE] = "tender:250" }, -- Grumpy Mandrake
+				{ 203, 270331, "pet5037", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:1800" }, -- Void-Infused Mindbreaker Fry
+				{ 204, 270330, "pet5036", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:1800" }, -- Void-Touched Dragonhawk Egg
+				{ 205, 270989, "pet5039", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:1800" }, -- Cappy
+				{ 206, 274266, "pet5065", [PRICE_EXTRA_ITTYPE] = "anglerPearls:2500" }, -- Ka'bubb
+				{ 207, 269829, "pet5017" },                                     -- Void-Scarred Eaglet
+				{ 208, 269836, "pet5019" },                                     -- Chubs
+				{ 209, 270990, "pet5040" },                                     -- Curious Lynx Kitten
+				{ 210, 270988, "pet5038" },                                     -- Wriggling Capybara
+				{ 211, 270061, "pet5021" },                                     -- Void-Corrupted Snapdragon
+				{ 212, 269999, "pet5020" },                                     -- Overloaded Manaling
+				{ 213, 270062, "pet5022" },                                     -- Void-Touched Chick
+				{ 214, 270063, "pet5023" },                                     -- Void-Touched Lynx Kitten
 				-- { 103, 259337, "pet4929" },                                        -- Munchy
 				-- { 102, 260306, "pet4942" },                                        -- Distorted Memory
 				-- { 120, 262881, "pet4968" },                                        -- Lil' Staropod
@@ -7154,6 +7178,9 @@ data["TOYS"]               = {
 				{ 103, 267291, [PRICE_EXTRA_ITTYPE] = "undercoin:250" }, -- Coffer Key Glue
 				{ 104, 262431, [PRICE_EXTRA_ITTYPE] = "undercoin:5000" }, -- Bouncy Mushroom
 				{ 105, 257736, [QUEST_EXTRA_ITTYPE] = 88710 },         -- Lightcalled Hearthstone
+				{ 106, 272287 },                                       -- Nap Mat
+				{ 107, 268456, [PRICE_EXTRA_ITTYPE] = "illusionaryCoin:200" }, -- Animated Bench
+				{ 108, 268455, [PRICE_EXTRA_ITTYPE] = "illusionaryCoin:200" }, -- Enchanted Hourglass
 				-- { 20,  250320 },                                      -- Lightgraft (unknown)
 			}
 		},

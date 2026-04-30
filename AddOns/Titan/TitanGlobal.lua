@@ -58,12 +58,14 @@ else
 end
 
 Titan_Global.switch.chat_class  = true -- if chat routines moved into ChatFrameUtil
+--[[ 2026 Apr at some point, Blizz rolled out ChatFrameUtil to all WoW versions.
+-- TODO : Remove check from code
 if ChatFrameUtil and ChatFrameUtil.DisplayTimePlayed then
 	Titan_Global.switch.chat_class  = true -- started in 11.* somewhere
 else
 	Titan_Global.switch.chat_class  = false -- older version
 end
-
+--]]
 
 Titan_Global.AdjList = {         -- TODO : localize
 	["UIWidgetTopCenterContainerFrame"] = {

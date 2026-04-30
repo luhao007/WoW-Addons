@@ -53,7 +53,6 @@ Get_itemF.textMsgFrame={}
 Get_itemF.textAllIDs={}
 --远程观察图标
 local ClassColor=Data.ClassColor
-local Texwidth,Texheight = 500,500
 local function GetGemList(linkx)
 	local baoshiinfo = {}
     local statsg = GetItemStats(linkx)
@@ -125,6 +124,27 @@ local GetColorKey=Fun.PIGGetColorKey
 local function escape_dash(s)
     return s:gsub("-", "%%-")
 end
+local function MsgFastCopyShowZb(GUID,newText)
+	if PIGA["Chat"]["FastCopy"] then
+		local left=0.08*500+5
+		local right=0.92*500-5
+		local top=0*500+5
+		local bottom=0.95*500-5
+		local Copyicon ="|Tinterface/buttons/ui-guildbutton-publicnote-up.blp:0:0:0:0:500:500:"..left..":"..right..":"..top..":"..bottom.."|t"
+		if Copyicon~="" then
+			newText=newText:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-999:%2|h"..Copyicon.."|h%1")
+		end
+	end
+	if PIGA["Chat"]["ShowZb"] then
+		local _, _, _, englishRace, sex = GetPlayerInfoByGUID(GUID)
+		local raceX = GetRaceClassTXT(0,500,englishRace,sex)
+		if raceX~="" then
+			newText=newText:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-998:%2|h"..raceX.."|h%1")
+		end
+	end
+	return newText
+end
+QuickChatfun.MsgFastCopyShowZb=MsgFastCopyShowZb
 local function ShowZb_Link_Icon(text)
 	newText=ChatPindaoName(text)
 	if PIGA["Chat"]["FastCopy"] or PIGA["Chat"]["ShowZb"] then
@@ -135,23 +155,7 @@ local function ShowZb_Link_Icon(text)
 			namexShowZb = newText:match("%[.-%].-%[(.-)%]")
 		end
 		if namexShowZb and namexShowZb~="" and wanjiaxinxil[namexShowZb] then
-			if PIGA["Chat"]["FastCopy"] then
-				local left=0.08*Texheight+5
-				local right=0.92*Texheight-5
-				local top=0*Texheight+5
-				local bottom=0.95*Texheight-5
-				local Copyicon ="|Tinterface/buttons/ui-guildbutton-publicnote-up.blp:0:0:0:0:"..Texheight..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t"
-				if Copyicon~="" then
-					newText=newText:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-999:%2|h"..Copyicon.."|h%1")
-				end
-			end
-			if PIGA["Chat"]["ShowZb"] then
-				local _, _, _, englishRace, sex = GetPlayerInfoByGUID(wanjiaxinxil[namexShowZb])
-				local raceX = GetRaceClassTXT(0,Texwidth,englishRace,sex)
-				if raceX~="" then
-					newText=newText:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-998:%2|h"..raceX.."|h%1")
-				end
-			end
+			newText=MsgFastCopyShowZb(wanjiaxinxil[namexShowZb],newText)
 		end
 	end
 	if PIGA["Chat"]["ShowLinkIcon"] or PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then

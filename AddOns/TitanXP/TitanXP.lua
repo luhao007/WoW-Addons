@@ -44,41 +44,6 @@ local txp = {
 	sessionTime = 0,
 }
 
---****** overload the 'time played' text to Chat - if XP requested the API call
-local requesting
-
--- Save orignal output to Chat
--- somewhere in 11.* (The World Within) this changed
-local orig_ChatFrame_DisplayTimePlayed = function(...) end
-
-if Titan_Global.switch.chat_class then
-	orig_ChatFrame_DisplayTimePlayed = ChatFrameUtil.DisplayTimePlayed
-
-	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
-		if requesting then
-			-- XP requested time played, do not spam Chat
-			requesting = false
-		else
-			-- XP did not request time played so output
-			---@diagnostic disable-next-line: need-check-nil
-			orig_ChatFrame_DisplayTimePlayed(...)
-		end
-	end
-else
-	orig_ChatFrame_DisplayTimePlayed = ChatFrame_DisplayTimePlayed
-
-	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
-		if requesting then
-			-- XP requested time played, do not spam Chat
-			requesting = false
-		else
-			-- XP did not request time played so output
-			---@diagnostic disable-next-line: need-check-nil
-			orig_ChatFrame_DisplayTimePlayed(...)
-		end
-	end
-end
-
 -- ******************************** Functions *******************************
 
 ---local Set icon based on faction
@@ -163,7 +128,7 @@ end
 -- Override ChatFrame_DisplayTimePlayed used by RequestTimePlayed().
 -- TIME_PLAYED_MSG used to send response.
 local function RefreshPlayed()
-	txp.frame:RequestTimePlayed()
+	TitanUtils_GetTimePlayed("XP")
 end
 
 ---local Display the plugin on selected Titan bar; register events; start timer; and init vars
@@ -628,12 +593,6 @@ local function Create_Frames()
 		--		window:SetScript("OnUpdate", function(self, elapsed)
 		--			OnUpdate(self, elapsed)
 		--		end)
-
-		-- Do not output Chat messages when using RequestTimePlayed
-		function window:RequestTimePlayed()
-			requesting = true
-			RequestTimePlayed()
-		end
 	end
 end
 

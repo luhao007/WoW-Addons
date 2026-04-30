@@ -392,6 +392,232 @@ end
 
 -- ====== Tool tip routines
 
+--- functions to check the work after manipulate an singulary array or an array with subarrays
+local function printArray(t)for k, v in pairs(t)do print(k..": ", v)end end
+local function printTable(t)for k, v in pairs(t)do if type(v) == "table" then print(k..": ")printArray(v)else print(k..": ", v)end end end
+
+local function MySort(copy, i, sort_by)
+			if sort_by == "NameAsc" then table.sort(copy[i], function(key1, key2)return key1.char_name < key2.char_name;end)
+			elseif sort_by == "GoldAsc" then table.sort(copy[i], function(key1, key2)return key1.gold < key2.gold;end)
+			elseif sort_by == "GoldDec" then table.sort(copy[i], function(key1, key2)return key1.gold > key2.gold;end)
+			else end
+end
+
+-- ====== Tool tip routines
+---Take a table of toons to sort per user settings: @param gold_table table; @return table sorted May not be need but it is explicit
+local function SortByIndex(gold_table)
+
+	-- special thanks to Liefwing (Andre) for the code to show all server properly!
+
+	--- function to hard copy an array
+	local function deepcopy(orig)
+		local orig_type = type(orig)
+		local copy;
+		if orig_type == 'table' then copy = {}
+			for orig_key, orig_value in next, orig, nil do copy[deepcopy(orig_key)] = deepcopy(orig_value)end
+			setmetatable(copy, deepcopy(getmetatable(orig)))
+		else copy = orig;end
+		return copy;
+	end
+	-- save array for safety
+	local origin = deepcopy(gold_table)
+	-- original sourcecode
+	local sort_by = TitanGetVar(TITAN_GOLD_ID, "SortByName")
+	--- Yeah, after a feeling from 1000 of hours the function is ready for use (I hope so, because I don't have many Chars in retail).
+	if TitanGetVar(TITAN_GOLD_ID, "AllServers")then
+		local copy, sorting, test, a, p = {}, {}, {}, 0, "" --(arrays and container for internal use)
+		for _, subTable in pairs(gold_table)do
+			local value = subTable["server"]
+			if value ~= nil then
+				if not sorting[value]then
+					sorting[value] = true;
+					a = a + 1;
+				end
+			end
+		end
+		for value, _ in pairs(sorting)do table.insert(test, value)end
+		table.sort(test, function(key1, key2)return key1 < key2;end)
+		for i = 1, a do copy[i] = deepcopy(gold_table)
+			if sort_by == "NameAsc" then table.sort(copy[i], function(key1, key2)return key1.char_name < key2.char_name;end)
+			elseif sort_by == "GoldAsc" then table.sort(copy[i], function(key1, key2)return key1.gold < key2.gold;end)
+			elseif sort_by == "GoldDec" then table.sort(copy[i], function(key1, key2)return key1.gold > key2.gold;end)
+			else end
+			for k = #copy[i], 1, -1 do
+				if string.match(copy[i][k].server, " ")then p = string.gsub(copy[i][k].server, " ", "")else p = copy[i][k].server;end
+				if p ~= test[i]then table.remove(copy[i], k)end
+			end
+		end
+		gold_table = {}
+		for i = 1, a do
+			for _, value in pairs(copy[i])do table.insert(gold_table, value)end
+		end
+	elseif TitanGetVar(TITAN_GOLD_ID, "MergeServers")then local copy, p = {}, ""
+		for i = 1, #realmNames do copy[i] = deepcopy(gold_table)
+			if sort_by == "NameAsc" then table.sort(copy[i], function(key1, key2)return key1.char_name < key2.char_name;end)
+			elseif sort_by == "GoldAsc" then table.sort(copy[i], function(key1, key2)return key1.gold < key2.gold;end)
+			elseif sort_by == "GoldDec" then table.sort(copy[i], function(key1, key2)return key1.gold > key2.gold;end)
+			else end
+			for k = #copy[i], 1, -1 do
+				if string.match(copy[i][k].server, " ")then p = string.gsub(copy[i][k].server, " ", "")else p = copy[i][k].server;end
+				if p ~= realmNames[i]then table.remove(copy[i], k)end
+			end
+		end
+		gold_table = {}
+		for i = 1, #realmNames do
+			for _, value in ipairs(copy[i])do table.insert(gold_table, value)end
+		end
+	elseif TitanGetVar(TITAN_GOLD_ID, "SeparateServers")then
+		-- This section will sort the array based on user preference: * by name or by gold amount descending, * grouping by realm if selected
+		if sort_by == "NameAsc" then table.sort(gold_table, function(key1, key2)return key1.char_name < key2.char_name;end)
+		-- by gold ascending
+		elseif sort_by == "GoldAsc" then table.sort(gold_table, function(key1, key2)return key1.gold < key2.gold;end)
+		-- by gold descending
+		elseif sort_by == "GoldDec" then table.sort(gold_table, function(key1, key2)return key1.gold > key2.gold;end)
+		-- should not get here
+		else end
+	else end
+	return gold_table;
+end
+
+---local Generate formatted tooltip text: @return string
+local function GetTooltipText()
+	local GoldSorted = {}
+	local currentMoneyRichText = ""
+	local countelements = 0;			--(unused outside the next "for"-loop)
+	local faction = GoldInfo.factionName;
+	local ignore_faction = TitanGetVar(TITAN_GOLD_ID, "IgnoreFaction")
+	for _ in pairs(realmNames)do countelements = countelements + 1;end
+	-- insert all keys from hash into the GoldSorted array
+	if TitanGetVar(TITAN_GOLD_ID, "SeparateServers")then
+		-- Parse the database and display characters from this server
+		Titan_Debug.Out('gold', 'tool_tip', "=== SeparateServers")
+		for index, money in TitanUtils_PlayerIter()do local char = EvalIndexInfo(index)
+			if char.valid then
+				if char.same_realm and char.show_toon then
+					Titan_Debug.Out('gold', 'tool_tip', index.." "..NiceCash(char.gold, false, false))
+					table.insert(GoldSorted, char)
+				end
+			end
+		end
+	elseif TitanGetVar(TITAN_GOLD_ID, "MergeServers")then
+		-- Parse the database and display characters from merged / connected servers
+		Titan_Debug.Out('gold', 'tool_tip', "=== MergeServers")
+		for index, money in TitanUtils_PlayerIter()do local char = EvalIndexInfo(index)
+			if char.valid then
+				if char.merge_realm and char.show_toon then
+					Titan_Debug.Out('gold', 'tool_tip', index.." "..NiceCash(char.gold, false, false))
+					table.insert(GoldSorted, char)
+				end
+			end
+		end
+	elseif TitanGetVar(TITAN_GOLD_ID, "AllServers")then
+		-- Parse the database and display characters from all servers
+		Titan_Debug.Out('gold', 'tool_tip', "=== AllServers")
+		for index, money in TitanUtils_PlayerIter()do local char = EvalIndexInfo(index)
+			if char.valid then
+				if char.show_toon then
+					Titan_Debug.Out('gold', 'tool_tip', index.." "..NiceCash(char.gold, false, false))
+					table.insert(GoldSorted, char)
+				end
+			end
+		end
+	end
+	local by_realm = TitanGetVar(TITAN_GOLD_ID, "GroupByRealm")
+	GoldSorted = SortByIndex(GoldSorted)
+	-- Array holds all characters to display, nicely sorted.
+	currentMoneyRichText = ""
+	local coin_str = ""
+	local faction_text = ""
+	local curr_realm = ""
+	local show_dash = false;
+	local show_realm = true;
+	local character, charserver, char_faction;
+	for i = 1, #GoldSorted do
+		local toon = GoldSorted[i]
+		character = toon.char_name;
+		charserver = toon.server;
+		char_faction = toon.faction;
+		local t_gold = toon.gold;
+		coin_str = NiceCash(t_gold, false, false)
+		show_dash = false;
+		show_realm = true;
+		if(TitanGetVar(TITAN_GOLD_ID, "SeparateServers"))then show_realm = false;
+		elseif(TitanGetVar(TITAN_GOLD_ID, "MergeServers"))then show_dash = true;
+		elseif(TitanGetVar(TITAN_GOLD_ID, "AllServers"))then show_dash = true;end
+		if by_realm then
+			-- Set a realm header
+			if charserver ~= curr_realm then
+				currentMoneyRichText = currentMoneyRichText.."\n-- "..charserver;
+				curr_realm = charserver;
+			end
+			show_dash = false;
+			show_realm = false;
+		end
+		if ignore_faction then
+			if char_faction == TITAN_ALLIANCE then faction_text = " |TInterface/AddOns/TitanGold/Artwork/UI_AllianceIcon-round:"..TitanPanelGetVar("FontSize")..":"..TitanPanelGetVar("FontSize")..":2:0|t"
+			elseif char_faction == TITAN_HORDE then faction_text = " |TInterface/AddOns/TitanGold/Artwork/UI_HordeIcon-round:"..TitanPanelGetVar("FontSize")..":"..TitanPanelGetVar("FontSize")..":2:0|t" end
+		end
+		currentMoneyRichText = currentMoneyRichText.."\n"..character..(show_dash and "-" or "")..(show_realm and charserver or "")..faction_text.."\t"..coin_str;
+	end
+	-- === Add Warband Bank
+	if Warband.Use()then
+		local cash = NiceCash(Warband.GetSum(), false, false)
+		local war_name = Warband.GetName() -- localized
+		currentMoneyRichText = currentMoneyRichText.."\n------\t+\n"..war_name.."\t"..cash;
+		local msg = war_name.." "..cash;
+		Titan_Debug.Out('gold', 'tool_tip', msg)
+	end
+	-- === Add Total per user options
+	-- Display total gold
+	coin_str = NiceCash(TotalGold(), false, false)
+	currentMoneyRichText = currentMoneyRichText.."\n-------------------------\t----------------------\n"..L["TITAN_GOLD_TTL_GOLD"]..":\t"..coin_str;
+	-- find session earnings and earning per hour
+	local sesstotal = Get_Money() - GOLD_STARTINGGOLD;
+	local negative = false;
+	if(sesstotal < 0)then
+		sesstotal = math.abs(sesstotal)
+		negative = true;
+	end
+	local sesslength = GetTime() - GOLD_SESSIONSTART;
+	local perhour = math.floor(sesstotal / sesslength * 3600)
+	coin_str = NiceCash(GOLD_STARTINGGOLD, false, false)
+	local session_status;
+	local per_hour_status;
+	local sessionMoneyRichText = ""
+	if TitanGetVar(TITAN_GOLD_ID, "ShowSessionInfo")then
+		sessionMoneyRichText = "\n\n"..TitanUtils_GetHighlightText(L["TITAN_GOLD_STATS_TITLE"]).."\n"..L["TITAN_GOLD_START_GOLD"].."\t"..coin_str.."\n"
+		if(negative)then
+			session_status = TitanUtils_GetRedText(L["TITAN_GOLD_SESS_LOST"])
+			per_hour_status = TitanUtils_GetRedText(L["TITAN_GOLD_PERHOUR_LOST"])
+		else
+			session_status = TitanUtils_GetGreenText(L["TITAN_GOLD_SESS_EARNED"])
+			per_hour_status = TitanUtils_GetGreenText(L["TITAN_GOLD_PERHOUR_EARNED"])
+		end
+		coin_str = NiceCash(sesstotal, true, true)
+		sessionMoneyRichText = sessionMoneyRichText..session_status.."\t"..coin_str.."\n"
+		if TitanGetVar(TITAN_GOLD_ID, "DisplayGoldPerHour")then
+			coin_str = NiceCash(perhour, true, true)
+			sessionMoneyRichText = sessionMoneyRichText..per_hour_status.."\t"..coin_str.."\n"
+		end
+	else
+		-- Do not display session info
+	end
+	-- === Add Gold notes and info
+	local final_tooltip = TitanUtils_GetGoldText(L["TITAN_GOLD_TOOLTIPTEXT"]..": ")
+	local final_server = ""
+	if realmNames == nil or TitanGetVar(TITAN_GOLD_ID, "SeparateServers")then final_server = realmName;
+	elseif TitanGetVar(TITAN_GOLD_ID, "MergeServers")then final_server = L["TITAN_GOLD_MERGED"]
+	elseif TitanGetVar(TITAN_GOLD_ID, "AllServers")then final_server = ALL;end
+	final_server = TitanUtils_GetGoldText(final_server.." ")
+	local final_faction = ""
+	if ignore_faction then final_faction = TitanUtils_GetGoldText(ALL)
+	elseif faction == TITAN_ALLIANCE then final_faction = final_server.."("..TitanUtils_GetHexText(FACTION_ALLIANCE, Titan_Global.colors.alliance)..")"
+	elseif faction == TITAN_HORDE then final_faction = final_server.."("..TitanUtils_GetHexText(FACTION_HORDE, Titan_Global.colors.horde)..")" end
+	return "\n"..final_tooltip.."\t"..final_faction.."\n-------------------------\t----------------------"..currentMoneyRichText.."\n"..sessionMoneyRichText;--- this is the output what I prefer
+end
+--]===]
+
+--[===[
 ---Take a table of toons to sort per user settings
 ---@param gold_table table
 ---@return table sorted May not be need but it is explicit
@@ -659,6 +885,7 @@ print("TG"
 		.. sessionMoneyRichText
 end
 -- ======
+--]===]
 
 -- ====== Right click menu routines
 
@@ -882,6 +1109,8 @@ local function GeneratorFunction(owner, rootDescription)
 
 		Titan_Menu.AddSelector(opts_gold, id, L["TITAN_GOLD_TOGGLE_GPH_SHOW"], "DisplayGoldPerHour")
 	end
+
+	Titan_Menu.AddSelector(root, id, L["TITAN_GOLD_ONLY"], "ShowGoldOnly")
 
 	local disp = { -- selectors using the same option
 		{ L["TITAN_GOLD_TOGGLE_ALL_TEXT"],    true },

@@ -190,6 +190,8 @@ local PRICE_INFO = {
 	["remnantOfAnguish"]           = { currencyID = 3392 }, -- Remnant of Anguish
 	["unalloyedAbundance"]         = { currencyID = 3377 }, -- Unalloyed Abundance
 	["luminousDust"]               = { currencyID = 3385 }, -- Luminous Dust
+	["illusionaryCoin"]            = { currencyID = 3393 }, -- Illusionary Coin
+	["anglerPearls"]               = { currencyID = 3373 }, -- Angler Pearls
 	["alchemyMoxie"]               = { currencyID = 3256 }, -- Artisan Alchemist's Moxie
 	["miningMoxie"]                = { currencyID = 3264 }, -- Artisan Miner's Moxie
 	["herbalismMoxie"]             = { currencyID = 3260 }, -- Artisan Herbalist's Moxie

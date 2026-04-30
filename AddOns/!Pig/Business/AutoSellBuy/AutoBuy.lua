@@ -55,7 +55,7 @@ function BusinessInfo.AutoBuy()
 	end
 	local function StartBuyItem()
 		if not MerchantFrame:IsVisible() or MerchantFrame.selectedTab ~= 1 then return end
-		local Buydata = PIGA_Per["AutoSellBuy"][_GNE.."_List"]
+		local Buydata = fujiF.GetConfigRef()
 		if #Buydata==0 then return end
 		local BuyAllData={cost=0,Data={}}
 		for i=1,#Buydata do

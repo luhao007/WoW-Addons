@@ -1,5 +1,5 @@
 ## Interface: 120001, 120005
-## Version: 2.06
+## Version: 2.07
 
 ## Title: MDTGuide
 ## Notes: Guide mode for Mythic Dungeon Tools.

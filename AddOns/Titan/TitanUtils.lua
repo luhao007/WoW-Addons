@@ -1894,6 +1894,35 @@ function TitanUtils_DecompressData(data, dataType)
 	return false, {}
 end
 
+--====== Overload the 'time played' text to Chat to not show 'time played' to Chat
+local requesting = 0
+
+-- Save orignal output to Chat
+local orig_ChatFrame_DisplayTimePlayed = function(...) end
+
+	orig_ChatFrame_DisplayTimePlayed = ChatFrameUtil.DisplayTimePlayed
+
+	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
+		-- A little clunky but calls done rapidly should sort themselves
+		-- even if the exact call to event does not match.
+		if requesting > 0 then
+			-- Titan requested time played, do not spam Chat
+			requesting = requesting - 1
+		else
+			-- Did not request time played so output
+			---@diagnostic disable-next-line: need-check-nil
+			orig_ChatFrame_DisplayTimePlayed(...)
+		end
+	end
+
+---Titan Get time played in a general way to not spam Chat
+---@param reason string For debug
+function TitanUtils_GetTimePlayed(reason)
+	requesting = requesting + 1
+
+	RequestTimePlayed()
+end
+
 --------------------------------------------------------------
 -- Various debug routines
 --[[

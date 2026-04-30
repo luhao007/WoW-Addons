@@ -242,7 +242,7 @@ local function IsNpcPOIFiltered(npcID, mapID, npcInfo, questTitles, vignetteGUID
 	end
 	
 	-- Skip if it requires a renown level
-	if (npcInfo and npcInfo.renown and not RSConfigDB.IsShowingRenownNpcs() and private.MAP_RENOWN_IDS[mapID] and private.MAP_RENOWN_IDS[mapID].npcs) then
+	if (npcInfo and npcInfo.renown and not RSConfigDB.IsShowingRenownRareNPCs() and private.MAP_RENOWN_IDS[mapID] and private.MAP_RENOWN_IDS[mapID].npcs) then
 		local factionData = C_MajorFactions.GetMajorFactionData(private.MAP_RENOWN_IDS[mapID].factionID)
 		if (factionData and factionData.renownLevel < npcInfo.renown) then
 			RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Requiere renown aun sin conseguir.", npcID))

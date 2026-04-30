@@ -12,7 +12,7 @@ local function initPasteWindow()
 	addon.pasteWindow = CreateFrame("Frame", "TomTomPaste", UIParent, "DefaultPanelTemplate,ClickToDragTemplate")
 
 	local frame = addon.pasteWindow
-	frame:SetHeight(450)
+	frame:SetHeight(475)
 	frame:SetWidth(465)
 	frame:SetFrameStrata("HIGH")
 	frame:ClearAllPoints()
@@ -25,12 +25,9 @@ local function initPasteWindow()
 	local editBox = frame.EditBox
 
 	editBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 14, -80)
-	editBox:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 40)
+	editBox:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 65)
 
-	editBox:SetWidth(435)
-	editBox:SetHeight(85)
-
-	local label = L["Add several /way commands here and click Paste"]
+	local label = L["Add several /way commands here and click Paste or press Ctrl+Enter"]
 	editBox.Label = editBox:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 	editBox.Label:SetPoint("BOTTOMLEFT", editBox, "TOPLEFT", 0, 5)
 	editBox.Label:SetPoint("BOTTOMRIGHT", editBox, "TOPRIGHT", 0, 5)
@@ -40,8 +37,20 @@ local function initPasteWindow()
 	editBox.Label:SetJustifyH("LEFT")
 	editBox.Label:SetText(label)
 
-	local function OnTextChanged(o, editBox, userChanged)
-		local text = editBox:GetText()
+	local function executePaste()
+		local text = frame.EditBox.ScrollingEditBox:GetText()
+		local lines = {string.split("\n", text)}
+
+		for idx, line in ipairs(lines) do
+			line = line:gsub("^%S+", "")
+			if line:match("%S+") then
+				addon.SlashWayCommand(line)
+			end
+		end
+
+		if addon.db.profile.paste.autoclose then
+			frame:Hide()
+		end
 	end
 
 	local function OnEscapePressed(o, editBox)
@@ -51,7 +60,7 @@ local function initPasteWindow()
 	local function OnEnterPressed(o, editBox)
 		if IsControlKeyDown() then
 			editBox:ClearFocus()
-			frame.PasteButton:Click()
+			executePaste()
 			return
 		end
 
@@ -60,7 +69,6 @@ local function initPasteWindow()
 		editBox:SetText(text)
 	end
 
-	editBox.ScrollingEditBox:RegisterCallback("OnTextChanged", OnTextChanged, editBox)
 	editBox.ScrollingEditBox:RegisterCallback("OnEscapePressed", OnEscapePressed, editBox)
 	editBox.ScrollingEditBox:RegisterCallback("OnEnterPressed", OnEnterPressed, editBox)
 
@@ -104,18 +112,19 @@ local function initPasteWindow()
 	frame.PasteButton:SetWidth(100)
 	frame.PasteButton:ClearAllPoints()
 	frame.PasteButton:SetPoint("RIGHT", frame.CloseButton, "LEFT", 0, 0)
-	frame.PasteButton:SetScript("OnClick", function(button)
-		local text = frame.EditBox.ScrollingEditBox:GetText()
-		local lines = {string.split("\n", text)}
+	frame.PasteButton:SetScript("OnClick", executePaste)
 
-		for idx, line in ipairs(lines) do
-			-- remove the first token from the commands
-			line = line:gsub("^%S+", "")
-			if line:match("%S+") then
-				addon.SlashWayCommand(line)
-			end
-		end
+	frame.AutoCloseCheck = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+	frame.AutoCloseCheck:SetSize(24, 24)
+	frame.AutoCloseCheck:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 10, 33)
+	frame.AutoCloseCheck:SetChecked(addon.db.profile.paste.autoclose)
+	frame.AutoCloseCheck:SetScript("OnClick", function(btn)
+		addon.db.profile.paste.autoclose = btn:GetChecked()
 	end)
+
+	local autoCloseLabel = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	autoCloseLabel:SetPoint("LEFT", frame.AutoCloseCheck, "RIGHT", 4, 0)
+	autoCloseLabel:SetText(L["Auto-close after paste"])
 
 	return addon.pasteWindow
 end
@@ -181,6 +190,10 @@ function addon:PasteConfigChanged()
         else
             ldbicon:RemoveButtonFromCompartment(iconName)
         end
+    end
+
+    if addon.pasteWindow then
+        addon.pasteWindow.AutoCloseCheck:SetChecked(addon.db.profile.paste.autoclose)
     end
 end
 

@@ -1,5 +1,5 @@
 ## Interface: 120001, 120005
-## Version: #Details.20260424.15009.171
+## Version: #Details.20260428.15031.171
 
 ## Title: Details! Damage Meter
 ## Notes: Essential tool to impress that chick in your raid.
@@ -168,6 +168,7 @@ frames\window_nestspells.lua
 frames\window_deathrecap.lua
 frames\window_transcriptor.lua
 frames\window_arenasummary.lua
+frames\window_mythickeys.lua
 
 classes\class_error.lua
 classes\class_spelltable.lua

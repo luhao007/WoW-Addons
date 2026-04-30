@@ -200,6 +200,7 @@ api.AddReportData = AddReportData
 local MapPrecisionOverrides = {
 	  [24] = 2,	-- Light's Hope Chapel
 	  [46] = 3,	-- Karazhan Catacombs
+	 [590] = 2.5,	-- Frostwall
 	 [626] = 4,	-- The Hall of Shadows
 	 [629] = 3,	-- Aegwynn's Gallery
 	 [640] = 9,	-- Vault of Eyir, Stormheim
@@ -275,7 +276,7 @@ local function Check_coords(objRef, maxCoordDistance)
 	local relCoords = not objRef.coords
 	local dist, sameMap
 	local closest = 9999
-	maxCoordDistance = MapPrecisionOverrides[mapID] or maxCoordDistance or 1
+	maxCoordDistance = maxCoordDistance or MapPrecisionOverrides[mapID] or 1
 	if coords[mapID] then
 		sameMap = mapID
 		for i,coord in ipairs(coords[mapID]) do
@@ -303,6 +304,25 @@ local function Check_coords(objRef, maxCoordDistance)
 	end
 	return true
 end
+
+local function Check_ingame(objRef, reportData)
+	-- check if the object is considered in-game for the current ATT version
+	if not objRef then return end
+
+	if DebugPrinting then
+		app.print("Contrib.ingame:",objRef.__type,objRef.keyval,app.Modules.Filter.Filters.InGame(objRef) and "TRUE" or "FALSE")
+	end
+	if not app.Modules.Filter.Filters.InGame(objRef) then
+		local id = objRef.keyval
+		-- object does NOT meet the filter
+		local reportData = reportData or BuildGenericReportData(objRef, id)
+		reportData.NotAvailableInGame = "This is not properly considered available in " .. app.GameBuildVersion
+		AddReportData(objRef.__type, id, reportData)
+		return 1
+	end
+	return true
+end
+
 
 -- Temporary implementation until better, global DB(s) provides similar data references
 -- These should be NPCs which are mobile in that they can have completely variable coordinates in game
@@ -686,7 +706,6 @@ MobileDB.Creature = {
 	[251891] = true,	-- Lingering Shade
 	[252807] = true,	-- Vanguard Paladin
 	[256867] = true,	-- Grieving Amani
-	[257459] = true,	-- Farstrider Scout
 }
 -- These should be GameObjects which are mobile in that they can have completely variable coordinates in game
 -- either by following the player or having player-based decisions that cause them to have any coordinates
@@ -3137,6 +3156,16 @@ MobileDB.GameObject = {
 	[650051] = true,	-- Faithbreaker Ger'lok's Ritual Chest [Broken Throne, Ritual Site]
 }
 
+-- Represents content which will trigger the 'not in game' contrib check, but only because it is available from a 'not in game' source (i.e. an NPC spawned from a removed Item used by a Player; an Object which spawns during a Quest which is removed but accessible if a Player still has it, etc.) Or perhaps an object/npc which is actually in the game but whose entire use has been made obsolete and is thus marked in ATT
+local NotInGameDB = {
+	Creature = {
+
+	},
+	GameObject = {
+
+	},
+}
+
 local ReturnEmptyFunctionMeta = { __index = function() return app.ReturnFalse end}
 local EmptyFunctionTable = setmetatable({}, ReturnEmptyFunctionMeta)
 local ReturnEmptyTableMeta = { __index = function() return EmptyFunctionTable end}
@@ -3144,16 +3173,20 @@ local IgnoredChecksByType = setmetatable({
 	Item = setmetatable({
 		coord = app.ReturnTrue,
 		provider = app.ReturnTrue,
+		ingame = app.ReturnTrue,
 	}, ReturnEmptyFunctionMeta),
 	Player = setmetatable({
 		coord = app.ReturnTrue,
-		provider = app.ReturnTrue
+		provider = app.ReturnTrue,
+		ingame = app.ReturnTrue,
 	}, ReturnEmptyFunctionMeta),
 	Creature = setmetatable({
 		coord = function(id) return MobileDB.Creature[id] end,
+		ingame = function(id) return NotInGameDB.Creature[id] end,
 	}, ReturnEmptyFunctionMeta),
 	GameObject = setmetatable({
 		coord = function(id) return MobileDB.GameObject[id] end,
+		ingame = function(id) return NotInGameDB.GameObject[id] end,
 	}, ReturnEmptyFunctionMeta),
 	Vehicle = setmetatable({
 		coord = app.ReturnTrue,
@@ -3363,8 +3396,14 @@ local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 	local mapsNoCoords = objRef.maps and not objRef.coords
 	-- check sourced object coords
 	if not mapsNoCoords and not IgnoredChecksByType[guidtype].coord(id) then
-		-- object auto-detect can happen from rather far, so using 2 distance
-		local checkCoords = Check_coords(objRef, 2)
+		-- if this is a quest object, i.e. directly within a Quest object, we will be a bit more lenient on the distance
+		-- as long as the coords are relatively nearby
+		local objParent = objRef.parent
+		local checkDistanceOverride
+		if objParent and objParent.__type and objParent.__type == "Quest" then
+			checkDistanceOverride = 3
+		end
+		local checkCoords = Check_coords(objRef, checkDistanceOverride)
 		if not checkCoords then
 			local reportData = {
 				id = id,
@@ -3375,6 +3414,11 @@ local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 		elseif checkCoords == 1 then
 			-- no extra data to add for object detection
 		end
+	end
+
+	-- check in-game
+	if not IgnoredChecksByType[guidtype].ingame(id) then
+		Check_ingame(objRef)
 	end
 end
 AddEventFunc("PLAYER_SOFT_INTERACT_CHANGED", OnPLAYER_SOFT_INTERACT_CHANGED)

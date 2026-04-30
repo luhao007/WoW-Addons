@@ -10,13 +10,39 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
+      version = "9.2.2",
+      when = "2026/04/28",
+      topics = {
+         {
+            topic = "Alts",
+            lines = {
+               "Fix Gold value disappearing from tooltip on logout",
+            },
+         },
+         {
+            topic = "Gold",
+            lines = {
+               "Fix tooltip for All Servers - special thanks to Liefwing for the code!",
+               "Gold Only option is back",
+            },
+         },
+         {
+            topic = "Titan",
+            lines = {
+               "Time Played : Move override to Utils so both Titan and XP can use.",
+               "Tooltip : Fix 'flash' on cursor leaving plugin, especially if using scale less than 1.",
+            },
+         },
+      },
+   },
+   {
       version = "9.2.1",
       when = "2026/04/23",
       topics = {
          {
             topic = "Titan",
             lines = {
-               "Update : Dur to a git hitch, tooltip, an Alts fix, and History were not included in 9.2.0.",
+               "Update : Due to a git hitch, tooltip, an Alts fix, and History were not included in 9.2.0.",
             },
          },
       },

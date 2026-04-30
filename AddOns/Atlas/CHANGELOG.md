@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.15.3 - April 25, 2026
+Retail: Updated TOC to 12.0.5
+
 ## 3.15.2 - April 3, 2026
 ### Added
 - TBC: Added Atlas LFG button to TBC instances (thanks m0ezes)
@@ -751,7 +754,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.15.2" as the version
+  if specifed; or will ignore those set "v3.15.3" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

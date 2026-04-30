@@ -5,7 +5,6 @@ local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
 local PIGFontString=Create.PIGFontString
-local BackdropColor=Create.BackdropColor
 local PIGEnter=Create.PIGEnter
 local PIGDiyTex = Create.PIGDiyTex
 ----

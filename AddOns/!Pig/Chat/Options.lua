@@ -622,7 +622,7 @@ function QuickButF.QuickChat.maodian:PIGDownMenu_SetValue(value,arg1,arg2)
 	PIGCloseDropDownMenus()
 end
 ---
-local QuickChat_style = {L["CHAT_QUKBUT_STYLE"].."1",L["CHAT_QUKBUT_STYLE"].."2"};
+local QuickChat_style = {L["CHAT_QUKBUT_STYLE"].."1",L["CHAT_QUKBUT_STYLE"].."2",L["CHAT_QUKBUT_STYLE"].."3"};
 QuickButF.QuickChat.style =PIGDownMenu(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.maodian,"RIGHT",20,0},{80,nil})
 function QuickButF.QuickChat.style:PIGDownMenu_Update_But()
 	local info = {}

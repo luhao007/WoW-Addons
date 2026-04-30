@@ -1,5 +1,18 @@
 ﻿# Changelog
 
+## 9.22.4 - April 28, 2026
+### Added
+- Added 12.0.5 mounts, pets and toys to Collections
+- Added Ritual Sites faction
+- Added more Hara'ti Renown items
+- Added Timewalking difficulty to WOTLK instances
+- Added new Children's Week item
+## Changed
+- Significant additions, fixes and changes to WOTLK instance loot
+- Updated TOC to 12.0.5
+### Fixed
+- Fixed instance map button for The Oculus
+
 ## 9.22.3 - April 10, 2026
 ### Added
 - Added Daetan Swiftplume loot for Noblegarden

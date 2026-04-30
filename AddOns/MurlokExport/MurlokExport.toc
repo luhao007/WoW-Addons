@@ -29,3 +29,4 @@ Core\Core.xml
 
 Core\MinimapButton.lua
 Core\Init.lua
+

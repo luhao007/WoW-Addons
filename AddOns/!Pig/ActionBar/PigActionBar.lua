@@ -11,7 +11,6 @@ local PIGSlider = Create.PIGSlider
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
-local Backdropinfo=Create.Backdropinfo
 local Data=addonTable.Data
 --=========================
 

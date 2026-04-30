@@ -54,6 +54,7 @@ local function Clear_FailureData()
 	PIGA["Chat"]["Plus_chat"]=nil
 	PIGA["Chat"]["QuickChat_ButList"]=nil
 	PIGA["Chat"]["Tiqu"]["KeywordFShow"]=nil
+	PIGA["Chat"]["Tiqu"]["Keys"]=nil
 	PIGA["Chat"]["TiquKey"]=nil
 	PIGA["Chat"]["Filter"]["Blacks_P"]=nil
 	PIGA["Chatjilu"]["jiluinfo"]=nil
@@ -75,6 +76,7 @@ local function Clear_FailureData()
 	PIGA["StatsInfo"]["InstancesCD"]=nil
 	PIGA["StatsInfo"]["AHOffline"]=nil
 	PIGA["StatsInfo"]["AHData"]=nil
+	PIGA["MailPlus"]["BagOpen"]=nil
 			
 	PIGA["AHPlus"]["Data"]=nil
 	PIGA["AHPlus"]["RepeatQuery"]=nil
@@ -85,6 +87,7 @@ local function Clear_FailureData()
 	PIGA["AHPlus"]["Tokens"]=nil
 	PIGA["AHPlus"]["DataList"]=nil
 	PIGA["AHPlus"]["OfflineData"]=nil
+	PIGA["AHPlus"]["BagOpen"]=nil
 	PIGA["CombatPlus"]["topMenu"]=nil
 	PIGA["CombatPlus"]["CombatTime"]=nil
 	PIGA["CombatPlus"]["Biaoji"]=nil

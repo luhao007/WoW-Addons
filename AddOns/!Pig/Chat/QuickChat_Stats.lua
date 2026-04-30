@@ -12,58 +12,34 @@ local Data=addonTable.Data
 ---
 local QuickChatfun=addonTable.QuickChatfun
 function QuickChatfun.QuickBut_Stats()
-	local fuFrame=QuickChatfun.TabButUI
-	local fuWidth = fuFrame.Width
-	local Width,Height = fuWidth,fuWidth
-	local ziframe = {fuFrame:GetChildren()}
-	if PIGA["Chat"]["QuickChat_style"]==1 then
-		fuFrame.playerStats = CreateFrame("Button",nil,fuFrame, "TruncatedButtonTemplate"); 
-	elseif PIGA["Chat"]["QuickChat_style"]==2 then
-		fuFrame.playerStats = CreateFrame("Button",nil,fuFrame, "UIMenuButtonStretchTemplate"); 
-	end
-	fuFrame.playerStats:SetSize(Width,Height);
-	fuFrame.playerStats:SetFrameStrata("LOW")
-	fuFrame.playerStats:SetPoint("LEFT",fuFrame,"LEFT",#ziframe*Width,0);
-	fuFrame.playerStats:RegisterForClicks("LeftButtonUp", "RightButtonUp");
-	fuFrame.playerStats.Tex = fuFrame.playerStats:CreateTexture(nil);
-	fuFrame.playerStats.Tex:SetTexture(666623)
-	fuFrame.playerStats.Tex:SetSize(Width,Height+2);
-	fuFrame.playerStats.Tex:SetPoint("CENTER",fuFrame.playerStats,"CENTER",0,-2);
-	fuFrame.playerStats:SetScript("OnMouseDown", function (self)
-		self.Tex:SetPoint("CENTER",1,-3);
-	end);
-	fuFrame.playerStats:SetScript("OnMouseUp", function (self)
-		self.Tex:SetPoint("CENTER",0,-2);
-	end);
-	PIGEnter(fuFrame.playerStats,"|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..CHAT_ANNOUNCE..PAPERDOLL_SIDEBAR_STATS.."\n|cff00FFff"..KEY_BUTTON2.."-|r|cffFFFF00"..PARTY.."/"..RAID_MEMBERS..INFO.."|r")
-	fuFrame.playerStats:HookScript("OnEnter", function (self)	
-		fuFrame:PIGEnterAlpha()
-	end);
-	fuFrame.playerStats:HookScript("OnLeave", function (self)
-		fuFrame:PIGLeaveAlpha()
-	end);
+	local QuickUI=QuickChatfun.TabButUI
+	local yyybbvv=-0.5
+	if PIG_MaxTocversion() then yyybbvv=-1.6 end
+	QuickUI.playerStats=QuickUI:ADD_chatbutExt(666623,0,2,0,yyybbvv,"|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..CHAT_ANNOUNCE..PAPERDOLL_SIDEBAR_STATS..
+		"\n|cff00FFff"..KEY_BUTTON2.."-|r|cffFFFF00"..PARTY.."/"..RAID_MEMBERS..INFO.."|r")
+	QuickUI.playerStats.X:Hide();
 	local TalentData=addonTable.Data.TalentData
-	fuFrame.playerStats:SetScript("OnClick", function(self, event)
+	QuickUI.playerStats:SetScript("OnClick", function(self, event)
 		if event=="LeftButton" then
 			local shuxintxt = TalentData.Player_Stats()
 			local editBoxXX = ChatEdit_ChooseBoxForSend()
 	        ChatEdit_ActivateChat(editBoxXX)
 			editBoxXX:Insert(shuxintxt)
 		else
-			if fuFrame.playerStats.RF:IsShown() then
-				fuFrame.playerStats.RF:Hide()
+			if QuickUI.playerStats.RF:IsShown() then
+				QuickUI.playerStats.RF:Hide()
 			else
-				fuFrame.playerStats.RF:Show()
+				QuickUI.playerStats.RF:Show()
 			end
 		end
 	end);
 	---
 	local greenTexture = "interface/common/indicator-green.blp"
 	local xuanzhongBG = {{0.2, 0.2, 0.2, 0.2},{0.4, 0.8, 0.8, 0.1}}
-	local OptionsW,OptionsH,uifu = 200,400,fuFrame.playerStats.RF
+	local OptionsW,OptionsH,uifu = 200,400,QuickUI.playerStats.RF
 	local UIname,hang_Height = "PIG_PlayerStatsUI",20
-	fuFrame.playerStats.RF=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{OptionsW*MAX_PARTY_MEMBERS,OptionsH},UIname,true)
-	local uifu = fuFrame.playerStats.RF
+	QuickUI.playerStats.RF=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{OptionsW*MAX_PARTY_MEMBERS,OptionsH},UIname,true)
+	local uifu = QuickUI.playerStats.RF
 	uifu:PIGSetBackdrop()
 	uifu:PIGClose()
 	uifu:PIGSetMovableNoSave()
@@ -220,10 +196,14 @@ function QuickChatfun.QuickBut_Stats()
 	uifu:SetScript("OnShow", function (self)
 		Update_List()
 	end)
+	uifu.Pending=false
 	uifu:RegisterEvent("GROUP_ROSTER_UPDATE")
 	uifu:HookScript("OnEvent",function(self, event,arg1)
+		if self.Pending then return end
+		self.Pending = true
 		if not self:IsShown() then return end
-		C_Timer.After(0.2,function()
+		C_Timer.After(0.6,function()
+			self.Pending = false
 			Update_List()
 		end)
 	end)

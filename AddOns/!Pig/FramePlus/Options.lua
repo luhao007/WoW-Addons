@@ -446,6 +446,7 @@ end);
 local FrameMovF =PIGOptionsList_R(RTabFrame,"移动/缩放",90)
 local BlizzardUIList={
 	{true,  nil, "CharacterFrame",nil,"角色信息"},
+	{false, nil, "DressUpFrame",nil, "试衣间"},
 	{true,  nil, "SpellBookFrame",nil,"技能书"},
 	{false, nil, "QuestLogFrame",nil,"任务日志"},
 	{false, nil, "FriendsFrame",nil,"社交"},

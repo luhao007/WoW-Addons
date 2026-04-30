@@ -1347,6 +1347,7 @@ data["ChildrensWeek"]         = {
 				{ 25,  241193,       "pet3245" },               -- Threadis's Workshop Bot 2.0 (Helpful Workshop Bot)
 				{ 26,  242260 },                                -- Arsenal: Children's Stormwind Guard Weapon Set
 				{ 27,  242265 },                                -- Arsenal: Children's Orgrimmar Guard Weapon Set
+				{ 29,  272287 },                                -- Nap Mat
 				{ 101, "INV_Box_01", nil,                                AL["Common Rewards"],                       nil },
 				{ 102, 116202 },                                -- Pet Care Package
 				{ 103, 23022 },                                 -- Curmudgeon's Payoff
