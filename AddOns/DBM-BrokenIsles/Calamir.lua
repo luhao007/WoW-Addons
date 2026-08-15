@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1774, "DBM-BrokenIsles", 1, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260523021952")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(109331)
 mod:SetEncounterID(1952)
@@ -27,10 +27,10 @@ local warnHowlingGale			= mod:NewSpellAnnounce(217966, 2)
 local warnIcyComet				= mod:NewSpellAnnounce(217925, 2)
 local warnAncientRageArcane		= mod:NewSpellAnnounce(217834, 2)
 
-local specBurningBomb			= mod:NewSpecialWarningYou(217877, nil, nil, nil, 1, 2)--You warning because you don't have to run out unless healer is afk. However still warn in case they are
-local specWrathfulFlames		= mod:NewSpecialWarningDodge(217893, nil, nil, nil, 1, 2)
-local specWrathfulFlamesGTFO	= mod:NewSpecialWarningMove(217907, nil, nil, nil, 1, 2)
-local specArcaneDesolation		= mod:NewSpecialWarningSpell(217986, nil, nil, nil, 2, 2)
+local specBurningBomb			= mod:NewSpecialWarningYou(217877, nil, nil, nil, 1, 2, nil, nil, "targetyou")--You warning because you don't have to run out unless healer is afk. However still warn in case they are
+local specWrathfulFlames		= mod:NewSpecialWarningDodge(217893, nil, nil, nil, 1, 2, nil, nil, "watchstep")
+local specWrathfulFlamesGTFO	= mod:NewSpecialWarningMove(217907, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specArcaneDesolation		= mod:NewSpecialWarningSpell(217986, nil, nil, nil, 2, 2, nil, nil, "carefly")
 
 local timerBurningBombCD		= mod:NewCDTimer(13.4, 217877, nil, nil, nil, 3)
 local timerWrathfulFlamesCD		= mod:NewCDTimer(13.4, 217907, nil, nil, nil, 2)

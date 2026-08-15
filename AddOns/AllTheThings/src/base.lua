@@ -479,16 +479,17 @@ app.Race = race;
 app.IgnoreDataCaching = function()
 	-- This function currently returns false on Tournament realms. Very good. >_<
 	if IsOnTournamentRealm() then
-		app.print("Data will not be saved for this Realm");
+		app.print("Data will not be saved for Tournament Realms");
 		app.IgnoreDataCaching = app.ReturnTrue;
 		return true;
 	end
 	local realmName = GetRealmName();
 	if  realmName:find("Mythic Dungeons") or
 		realmName:find("Arena Champions") or
-		realmName:find("US") or
-		realmName:find("AU") or
-		realmName:find("EU")
+		realmName:find("Tournament")
+		-- realmName:find("US") or
+		-- realmName:find("AU") or
+		-- realmName:find("EU") or
 		-- confirm realm tournament names elsewhere
 		-- or realmName:find("CN")
 		-- or realmName:find("TW")
@@ -668,6 +669,7 @@ function app:ShowPopupDialogWithEditBox(msg, text, callback, timeout)
 			hideOnEscape = true,
 			enterClicksFirstButton = true,
 			hasEditBox = true,
+			maxLetters = 0,
 			OnAccept = function(self)
 				if popup.callback and type(popup.callback) == "function" then
 					local editBox = self.editBox or self.EditBox or (self.GetEditBox and self:GetEditBox())
@@ -752,6 +754,9 @@ function app:ShowPopupDialogWithMultiLineEditBox(text, onclick, label)
 			l:SetPoint("TOP", f, "TOP", 0, -3);
 			l:SetJustifyH("CENTER");
 			l:SetText(label or "");
+			l:SetWordWrap(true)
+			l:SetPoint("LEFT", f, "LEFT", 10, -10)
+			l:SetPoint("RIGHT", f, "RIGHT", -10, -10)
 			f.Label = l;
 			sf:SetPoint("TOP", l, "BOTTOM", 0, -5)
 		else

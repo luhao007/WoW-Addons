@@ -93,6 +93,8 @@ local CleanFields = {
 	_missing = 1,
 	__merge = 1,
 	__canretry = 1,
+	_cata = 1,
+	bonuses = 1,
 	SortType = 1,
 	OnClick = 1,
 	__FillGroups = 1,
@@ -531,6 +533,7 @@ app:RegisterDataStyleExporter("Readable", {
 app:CreateWindow("Debugger", {
 	HideFromSettings = true,
 	Commands = { "attdebugger" },
+	RootCommands = { "debugger" },
 	AddObject = function(self, info)
 		MergeObject(self.data.g, CloneObject(info));
 		self:AssignChildren();

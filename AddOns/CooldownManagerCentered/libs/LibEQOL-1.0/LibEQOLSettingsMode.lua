@@ -1,11 +1,7 @@
-local MODULE_MAJOR, MINOR = "LibEQOLSettingsMode-1.0", 20000001
-local LibStub = _G.LibStub
-assert(LibStub, MODULE_MAJOR .. " requires LibStub")
-
-local lib = LibStub:NewLibrary(MODULE_MAJOR, MINOR)
-if not lib then
-    return
-end
+local _, ns = ...
+local MINOR = 24000003
+local lib = ns.LibEQOL.SettingsMode or {}
+ns.LibEQOL.SettingsMode = lib
 lib.MINOR = MINOR
 
 local Settings = _G.Settings
@@ -177,9 +173,7 @@ local function prefixNotifyTag(tag, setting)
 
     -- Prefer the setting's prefix, then the global prefix
     local settingVar = setting and setting.GetVariable and setting:GetVariable()
-    local tagPrefix = (settingVar and State.settingPrefixes[settingVar])
-        or State.settingPrefixes[tag]
-        or (State.prefixSet and State.prefix)
+    local tagPrefix = (settingVar and State.settingPrefixes[settingVar]) or State.settingPrefixes[tag] or (State.prefixSet and State.prefix)
     if tagPrefix and not tag:find(tagPrefix, 1, true) then
         return tagPrefix .. tag
     end
@@ -207,9 +201,7 @@ local function maybeAttachNotify(setting, data)
     if not (data and data.notify) then
         return
     end
-    local notifyTag = (data.notify == true)
-            and ((setting and setting.GetVariable and setting:GetVariable()) or (setting and setting.variable))
-        or data.notify
+    local notifyTag = (data.notify == true) and ((setting and setting.GetVariable and setting:GetVariable()) or (setting and setting.variable)) or data.notify
     attachNotify(setting, notifyTag)
 end
 
@@ -585,16 +577,8 @@ end
 
 function lib:CreateSlider(cat, data)
     assert(cat and data and data.key, "category and data.key required")
-    local setting = registerSetting(
-        cat,
-        data.key,
-        Settings.VarType.Number,
-        data.name or data.text or data.key,
-        data.default or data.min or 0,
-        data.get,
-        data.set,
-        data
-    )
+    local setting =
+        registerSetting(cat, data.key, Settings.VarType.Number, data.name or data.text or data.key, data.default or data.min or 0, data.get, data.set, data)
     local options = Settings.CreateSliderOptions(data.min or 0, data.max or 1, data.step or 1)
     if data.formatter then
         options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, data.formatter)
@@ -623,17 +607,11 @@ function lib:CreateInput(cat, data)
     if default == nil then
         default = (varType == Settings.VarType.Number) and 0 or ""
     end
-    local setting =
-        registerSetting(cat, data.key, varType, data.name or data.text or data.key, default, data.get or function()
-            return default
-        end, data.set, data)
+    local setting = registerSetting(cat, data.key, varType, data.name or data.text or data.key, default, data.get or function()
+        return default
+    end, data.set, data)
 
-    local initializer = Settings.CreateControlInitializer(
-        "LibEQOLcooldownmanagercentered_InputControlTemplate",
-        setting,
-        nil,
-        data.desc
-    )
+    local initializer = Settings.CreateControlInitializer("LibEQOLcooldownmanagercentered_InputControlTemplate", setting, nil, data.desc)
     initializer.data.multiline = data.multiline
     initializer.data.multilineHeight = data.multilineHeight or data.height
     initializer.data.numeric = data.numeric or (varType == Settings.VarType.Number)
@@ -644,6 +622,9 @@ function lib:CreateInput(cat, data)
     initializer.data.selectAllOnFocus = data.selectAllOnFocus
     initializer.data.placeholder = data.placeholder
     initializer.data.justifyH = data.justifyH
+    initializer.data.min = data.min
+    initializer.data.max = data.max
+    initializer.data.clampToRange = data.clampToRange
 
     if initializer.data.multiline then
         local extent = tonumber(initializer.data.multilineHeight) or 80
@@ -682,16 +663,7 @@ function lib:CreateDropdown(cat, data)
             varType = Settings.VarType.String
         end
     end
-    local setting = registerSetting(
-        cat,
-        data.key,
-        varType,
-        data.name or data.text or data.key,
-        data.default,
-        data.get,
-        data.set,
-        data
-    )
+    local setting = registerSetting(cat, data.key, varType, data.name or data.text or data.key, data.default, data.get, data.set, data)
     local function optionsFunc()
         local container = Settings.CreateControlTextContainer()
         local list = data.values or data.options
@@ -745,16 +717,7 @@ function lib:CreateScrollDropdown(cat, data)
         end
     end
 
-    local setting = registerSetting(
-        cat,
-        data.key,
-        varType,
-        data.name or data.text or data.key,
-        data.default,
-        data.get,
-        data.set,
-        data
-    )
+    local setting = registerSetting(cat, data.key, varType, data.name or data.text or data.key, data.default, data.get, data.set, data)
 
     local function optionsFunc()
         local container = Settings.CreateControlTextContainer()
@@ -809,16 +772,8 @@ end
 
 function lib:CreateSoundDropdown(cat, data)
     assert(cat and data and data.key, "category and data.key required")
-    local setting = registerSetting(
-        cat,
-        data.key,
-        data.varType or Settings.VarType.String,
-        data.name or data.text or data.key,
-        data.default,
-        data.get,
-        data.set,
-        data
-    )
+    local setting =
+        registerSetting(cat, data.key, data.varType or Settings.VarType.String, data.name or data.text or data.key, data.default, data.get, data.set, data)
     local initializer = Settings.CreateElementInitializer("LibEQOLcooldownmanagercentered_SoundDropdownTemplate", {
         setting = setting,
         options = data.values or data.options,
@@ -925,7 +880,7 @@ function lib:CreateCheckboxDropdown(cat, data)
         return container:GetData()
     end
 
-    local initializer = Settings.CreateElementInitializer("SettingsCheckboxDropdownControlTemplate", {
+    local initializer = Settings.CreateElementInitializer(data.template or "SettingsCheckboxDropdownControlTemplate", {
         name = data.name or data.text or data.cbName or data.cbLabel or data.key,
         tooltip = data.desc or data.cbDesc or data.tooltip,
         cbSetting = cbSetting,
@@ -935,6 +890,7 @@ function lib:CreateCheckboxDropdown(cat, data)
         dropdownOptions = dropdownOptions,
         dropDownLabel = data.dropdownName or data.dropdownText or data.dropdownLabel or data.dropdownKey,
         dropDownTooltip = data.dropdownDesc or data.dropdownTooltip,
+        compactFont = data.compactFont,
     })
     if data.getSelectionText or data.dropdownSelectionText then
         local selectionTextFunc = data.getSelectionText or data.dropdownSelectionText
@@ -965,6 +921,17 @@ function lib:CreateCheckboxDropdown(cat, data)
     maybeAttachNotify(cbSetting, data)
     maybeAttachNotify(dropdownSetting, data.dropdownNotify and { notify = data.dropdownNotify })
     return initializer, cbSetting, dropdownSetting
+end
+
+function lib:CreateCompactFont(cat, data)
+    assert(cat and data, "category and data required")
+    local compactData = {}
+    for key, value in pairs(data) do
+        compactData[key] = value
+    end
+    compactData.template = "LibEQOLcooldownmanagercentered_CompactFontTemplate"
+    compactData.compactFont = data.details or data.compactFont
+    return self:CreateCheckboxDropdown(cat, compactData)
 end
 
 function lib:CreateCheckboxSlider(cat, data)
@@ -1020,16 +987,9 @@ function lib:CreateCheckboxSlider(cat, data)
         }
     )
 
-    local sliderOptions = Settings.CreateSliderOptions(
-        data.sliderMin or data.min or 0,
-        data.sliderMax or data.max or 1,
-        data.sliderStep or data.step or 1
-    )
+    local sliderOptions = Settings.CreateSliderOptions(data.sliderMin or data.min or 0, data.sliderMax or data.max or 1, data.sliderStep or data.step or 1)
     if data.sliderFormatter or data.formatter then
-        sliderOptions:SetLabelFormatter(
-            MinimalSliderWithSteppersMixin.Label.Right,
-            data.sliderFormatter or data.formatter
-        )
+        sliderOptions:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, data.sliderFormatter or data.formatter)
     end
 
     local initializer = Settings.CreateElementInitializer("SettingsCheckboxSliderControlTemplate", {
@@ -1057,10 +1017,7 @@ function lib:CreateCheckboxSlider(cat, data)
 end
 
 function lib:CreateCheckboxButton(cat, data)
-    assert(
-        cat and data and data.key and (data.buttonClick or data.click),
-        "category, data.key, and data.buttonClick/click required"
-    )
+    assert(cat and data and data.key and (data.buttonClick or data.click), "category, data.key, and data.buttonClick/click required")
     local setting = registerSetting(
         cat,
         data.key,
@@ -1107,6 +1064,7 @@ function lib:CreateColorOverrides(cat, data)
         hasOpacity = data.hasOpacity or data.hasAlpha,
     })
     initializer.GetExtent = function(_)
+        local controlData = initializer.data or data
         if data.height then
             return data.height
         end
@@ -1133,37 +1091,141 @@ function lib:CreateColorOverrides(cat, data)
     return initializer
 end
 
+function lib:CreateSortableList(cat, data)
+    assert(cat and data and (data.items or data.getItems or data.get), "category and data.items/getItems required")
+    local notifyTag = data.notify
+    if notifyTag == true then
+        notifyTag = data.key or data.name or data.text
+    end
+    if notifyTag then
+        notifyTag = prefixNotifyTag(notifyTag)
+    end
+    local initializer = Settings.CreateElementInitializer("LibEQOLcooldownmanagercentered_SortableListTemplate", {
+        name = data.name or data.text or data.key or "List",
+        tooltip = data.desc or data.tooltip,
+        key = data.key,
+        items = data.items,
+        getItems = data.getItems,
+        setItems = data.setItems,
+        get = data.get,
+        set = data.set,
+        onChanged = data.onChanged,
+        callback = data.callback,
+        onReorder = data.onReorder,
+        onDelete = data.onDelete,
+        onAdd = data.onAdd,
+        addOptions = data.addOptions,
+        addValues = data.addValues,
+        addOptionFunc = data.addOptionFunc,
+        menuGenerator = data.menuGenerator,
+        onAddButtonClick = data.onAddButtonClick,
+        addText = data.addText,
+        addButtonText = data.addButtonText,
+        addButtonWidth = data.addButtonWidth,
+        emptyAddText = data.emptyAddText,
+        delete = data.delete,
+        deletable = data.deletable,
+        add = data.add,
+        drag = data.drag,
+        draggable = data.draggable,
+        dropHighlightColor = data.dropHighlightColor,
+        highlightColor = data.highlightColor,
+        dragGhost = data.dragGhost,
+        showDragGhost = data.showDragGhost,
+        dragGhostWidth = data.dragGhostWidth,
+        dragGhostHeight = data.dragGhostHeight,
+        dragGhostOffsetX = data.dragGhostOffsetX,
+        dragGhostOffsetY = data.dragGhostOffsetY,
+        dragGhostColor = data.dragGhostColor,
+        dragGhostTextColor = data.dragGhostTextColor,
+        allowDuplicates = data.allowDuplicates,
+        rowHeight = data.rowHeight,
+        spacing = data.spacing,
+        padding = data.padding,
+        buttonSize = data.buttonSize,
+        upTooltip = data.upTooltip,
+        downTooltip = data.downTooltip,
+        deleteTooltip = data.deleteTooltip,
+        parentCheck = data.parentCheck,
+        isEnabled = data.isEnabled,
+        notify = notifyTag,
+    })
+    initializer.GetExtent = function(_)
+        local currentData = initializer.data or {}
+        if data.height then
+            return data.height
+        end
+        local count = 0
+        local items = data.items
+        if data.getItems then
+            local ok, result = pcall(data.getItems)
+            if ok then
+                items = result
+            end
+        elseif data.get then
+            local ok, result = pcall(data.get)
+            if ok then
+                items = result
+            end
+        end
+        if type(items) == "table" then
+            count = #items
+        end
+        if currentData._currentCount and currentData._currentCount > count then
+            count = currentData._currentCount
+        end
+        local rowHeight = data.rowHeight or 22
+        local spacing = data.spacing or 4
+        local padding = data.padding or 4
+        local showAdd = currentData._showAdd
+            or (data.add ~= false and (data.addOptions or data.addValues or data.addOptionFunc or data.menuGenerator or data.onAddButtonClick))
+        local height = padding * 2
+        if count > 0 then
+            height = height + (count * rowHeight) + (math.max(0, count - 1) * spacing)
+        end
+        if showAdd then
+            if count > 0 then
+                height = height + spacing
+            end
+            height = height + 22
+        end
+        if data.minHeight then
+            height = math.max(height, data.minHeight)
+        end
+        return height
+    end
+    addSearchTags(initializer, data.searchtags, data.name or data.text)
+    applyParentInitializer(initializer, data.parent, data.parentCheck)
+    applyModifyPredicate(initializer, data)
+    applyExpandablePredicate(initializer, data)
+    Settings.RegisterInitializer(cat, initializer)
+    State.elements[data.key or (data.name or "SortableList")] = initializer
+    return initializer
+end
+
 function lib:CreateMultiDropdown(cat, data)
     assert(cat and data and data.key, "category and data.key required")
     local defaultSelection = normalizeSelectionMap(data.defaultSelection or data.default)
     local defaultSerialized = serializeSelection(defaultSelection)
-    local setting = registerSetting(
-        cat,
-        data.key,
-        Settings.VarType.String,
-        data.name or data.text or data.key,
-        defaultSerialized,
-        function()
-            -- Reflect current selection in the backing Setting for reset tracking
-            local selection
-            if data.getSelection then
-                local ok, result = pcall(data.getSelection)
-                if ok then
-                    selection = result
-                end
-            elseif data.get then
-                local ok, result = pcall(data.get)
-                if ok then
-                    selection = result
-                end
+    local setting = registerSetting(cat, data.key, Settings.VarType.String, data.name or data.text or data.key, defaultSerialized, function()
+        -- Reflect current selection in the backing Setting for reset tracking
+        local selection
+        if data.getSelection then
+            local ok, result = pcall(data.getSelection)
+            if ok then
+                selection = result
             end
-            return serializeSelection(selection)
-        end,
-        function() end,
-        data
-    )
+        elseif data.get then
+            local ok, result = pcall(data.get)
+            if ok then
+                selection = result
+            end
+        end
+        return serializeSelection(selection)
+    end, function() end, data)
     local initializer = Settings.CreateElementInitializer("LibEQOLcooldownmanagercentered_MultiDropdownTemplate", {
         label = data.name or data.text or data.key,
+        tooltip = data.desc or data.cbDesc or data.tooltip,
         options = data.values,
         optionfunc = data.optionfunc,
         order = data.order,
@@ -1246,8 +1308,7 @@ function lib.CreateExpandableSection(_, cat, data)
                     frame.NewFeature:SetPoint("LEFT", frame, "LEFT", 0, 0)
                 end
             end
-            local resolver, resolvedPrefix =
-                getResolverForPrefix(data.prefix or (State.prefixSet and State.prefix) or nil)
+            local resolver, resolvedPrefix = getResolverForPrefix(data.prefix or (State.prefixSet and State.prefix) or nil)
             local show = false
             if resolver then
                 local ok, result = pcall(resolver, newTagID, newTagID, nil, resolvedPrefix)
@@ -1260,10 +1321,7 @@ function lib.CreateExpandableSection(_, cat, data)
 
         local function applyVisuals(expanded)
             if frame.Button and frame.Button.Right then
-                frame.Button.Right:SetAtlas(
-                    expanded and "Options_ListExpand_Right_Expanded" or "Options_ListExpand_Right",
-                    TextureKitConstants.UseAtlasSize
-                )
+                frame.Button.Right:SetAtlas(expanded and "Options_ListExpand_Right_Expanded" or "Options_ListExpand_Right", TextureKitConstants.UseAtlasSize)
             end
 
             if frame.Button and frame.Button.Text then
@@ -1334,10 +1392,7 @@ end
 function lib:CreateText(cat, text, extra)
     local data = normalizeNameData(text, extra)
     local name = data.name or data.text
-    local init = Settings.CreateElementInitializer(
-        "LibEQOLcooldownmanagercentered_SettingsListSectionHintTemplate",
-        { name = name }
-    )
+    local init = Settings.CreateElementInitializer("LibEQOLcooldownmanagercentered_SettingsListSectionHintTemplate", { name = name })
     addSearchTags(init, data.searchtags or name, name)
     applyParentInitializer(init, data.parent, data.parentCheck)
     applyModifyPredicate(init, data)
@@ -1349,8 +1404,7 @@ end
 function lib:CreateButton(cat, data)
     assert(cat and data and data.text, "category and data.text required")
     local label = data.label or data.name or data.textLabel or ""
-    local btn =
-        CreateSettingsButtonInitializer(label, data.text, data.click or data.func, data.desc, data.searchtags or false)
+    local btn = CreateSettingsButtonInitializer(label, data.text, data.click or data.func, data.desc, data.searchtags or false)
     SettingsPanel:GetLayout(cat):AddInitializer(btn)
     applyParentInitializer(btn, data.parent, data.parentCheck)
     applyModifyPredicate(btn, data)
@@ -1361,8 +1415,7 @@ end
 
 function lib:CreateKeybind(cat, data)
     assert(cat and data and data.bindingIndex, "category and data.bindingIndex required")
-    local initializer =
-        Settings.CreateElementInitializer("KeyBindingFrameBindingTemplate", { bindingIndex = data.bindingIndex })
+    local initializer = Settings.CreateElementInitializer("KeyBindingFrameBindingTemplate", { bindingIndex = data.bindingIndex })
     addSearchTags(initializer, data.searchtags, data.name or data.text)
     applyParentInitializer(initializer, data.parent, data.parentCheck)
     applyModifyPredicate(initializer, data)
@@ -1510,6 +1563,7 @@ function lib:FindCategory(query, opts)
     end
 
     if wantMultiple then
+        assert(results)
         table.sort(results, function(a, b)
             if a._score ~= b._score then
                 return a._score < b._score

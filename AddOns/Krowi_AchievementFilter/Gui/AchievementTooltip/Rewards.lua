@@ -11,19 +11,15 @@ end
 
 local getTypeName
 function section:Add(achievement)
-	GameTooltip:AddLine(addon.L["Rewards"]) -- Header
+	Krowi_Tooltip:AddLine(addon.L["Rewards"]) -- Header
     local rewardType = achievement.RewardType
     if rewardType then
-        if not addon.Util.IsTable(rewardType) then
-            rewardType = {rewardType}
-        end
-
         if not getTypeName then
             getTypeName = EnumUtil.GenerateNameTranslation(KrowiAF.Enum.RewardType)
         end
 
         for _, rType in next, rewardType do
-            GameTooltip:AddLine(addon.L[getTypeName(rType)], 1, 1, 1)
+            Krowi_Tooltip:AddLine(addon.L[getTypeName(rType)], 1, 1, 1)
         end
     end
 end

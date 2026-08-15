@@ -19,7 +19,7 @@ local hideOwned = false
 local hideKilled = false
 local hideButton = false
 local lockEsc = false
-local useTomTom = true -- CHANGED: Default to true
+local useTomTom = true
 local currentScale = 1.0
 local searchText = ""
 local hideDungeons = false
@@ -97,7 +97,8 @@ local colors = {
     green = "|cff00ff00",
     grey = "|cffb0b0b0", greyRGB = {0.690196, 0.690196, 0.690196},
     red = "|cffff4040", redRGB = {1, 0.25098, 0.25098},
-    white = "|cffffffff", whiteRGB = {1, 1, 1}
+    white = "|cffffffff", whiteRGB = {1, 1, 1},
+    darkOrange = "|cfff039a4"
 }
 
 dbBH = {minimap = {hide = false}}
@@ -187,6 +188,12 @@ local function getPath(t, ...)
         t = t[key]
     end
     return t
+end
+
+local function getChanceColor(chance)
+    if chance < 1.0 then return colors.darkOrange
+    elseif chance <= 5.0 then return colors.blue
+    else return colors.green end
 end
 
 local settingsTimer
@@ -437,7 +444,6 @@ function bountyHelper:createUI()
     tomTomCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     tomTomCheckbox.text:SetPoint("LEFT", tomTomCheckbox, "RIGHT", 0, 1)
     
-    -- CHANGED: Visual state reflects preference, but interaction is disabled if not installed
     tomTomCheckbox:SetChecked(useTomTom)
     
     if TomTom then
@@ -475,6 +481,50 @@ function bountyHelper:createUI()
     ignorePopupButton2:SetSize(80, 22)
     ignorePopupButton2:SetScale(1.2)
     self.frames.ignorePopupButton2 = ignorePopupButton2
+
+    local wowheadPopup = createRect(f, {390, 130}, {"CENTER"}, colors.goldRGB)
+    wowheadPopup:SetFrameStrata("DIALOG")
+    wowheadPopup:SetClipsChildren(true)
+    wowheadPopup:EnableMouse(true)
+    wowheadPopup:Hide()
+    self.frames.wowheadPopup = wowheadPopup
+
+    local whPopupFront = createRect(wowheadPopup, {386, 126}, {"CENTER"}, colors.blackRGB)
+
+    local whPopupText = createText(whPopupFront, "GameFontNormal", {"TOP", 0, -20}, nil, {STANDARD_TEXT_FONT, 14})
+    whPopupText:SetJustifyH("CENTER")
+    whPopupText:SetJustifyV("TOP")
+    self.frames.wowheadPopupText = whPopupText
+
+    local whEditBox = CreateFrame("EditBox", nil, whPopupFront, "InputBoxTemplate")
+    whEditBox:SetSize(300, 24)
+    whEditBox:SetPoint("CENTER", 0, -5)
+    whEditBox:SetAutoFocus(false)
+    whEditBox:SetScript("OnEscapePressed", function(self) self:ClearFocus(); wowheadPopup:Hide() end)
+    whEditBox:SetScript("OnEditFocusGained", function(self) self:HighlightText() end)
+    self.frames.wowheadEditBox = whEditBox
+
+    local whCloseButton = CreateFrame("Button", nil, whPopupFront, "UIPanelButtonTemplate")
+    whCloseButton:SetSize(80, 22)
+    whCloseButton:SetScale(1.2)
+    whCloseButton:SetPoint("BOTTOM", 0, 12)
+    whCloseButton:SetText("Close")
+    whCloseButton:SetScript("OnClick", function() wowheadPopup:Hide() end)
+    self.frames.wowheadCloseButton = whCloseButton
+end
+
+function bountyHelper:ShowWowheadPopup(itemID, itemName)
+    local popup = self.frames.wowheadPopup
+    local editBox = self.frames.wowheadEditBox
+    local titleText = self.frames.wowheadPopupText
+    if not popup or not editBox or not titleText then return end
+
+    titleText:SetText(string.format("%s%s|r\nPress Ctrl + C to copy Wowhead link:", colors.gold, itemName or "Wowhead Link"))
+    local url = string.format("https://www.wowhead.com/item=%d", itemID)
+    editBox:SetText(url)
+    popup:Show()
+    editBox:SetFocus()
+    editBox:HighlightText()
 end
 
 function bountyHelper:CreateCategoryHeader(parent, difficultyID)
@@ -522,7 +572,18 @@ function bountyHelper:CreateBossRow(parent, bossData, header, instanceID)
     icon:SetNormalTexture(GetItemIcon(data.mountID))
     icon:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_LEFT"); GameTooltip:SetItemByID(data.mountID); GameTooltip:Show() end)
     icon:SetScript("OnLeave", GameTooltip_Hide)
-    icon:SetScript("OnClick", function(_, button) if IsControlKeyDown() and not InCombatLockdown() then DressUpMount(data.journalMountID) end end)
+    icon:SetScript("OnClick", function(_, button)
+        if IsShiftKeyDown() then
+            local mountLink = select(2, GetItemInfo(data.mountID))
+            if mountLink then
+                if not ChatEdit_InsertLink(mountLink) then
+                    ChatFrame_OpenChat(mountLink)
+                end
+            end
+        elseif IsControlKeyDown() and not InCombatLockdown() then
+            DressUpMount(data.journalMountID)
+        end
+    end)
 
     local nameText = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     nameText:SetWidth(150)
@@ -565,7 +626,8 @@ function bountyHelper:CreateBossRow(parent, bossData, header, instanceID)
     chanceText:SetPoint("RIGHT", -15, 0)
     chanceText:SetFont(STANDARD_TEXT_FONT, 14)
     chanceText:SetJustifyH("RIGHT")
-    chanceText:SetFormattedText("Chance: %s%s", colors.green, string.format("%.1f%%", data.chance))
+    local chanceColor = getChanceColor(data.chance)
+    chanceText:SetFormattedText("Chance: %s%s", chanceColor, string.format("%.1f%%", data.chance))
     
     return row
 end
@@ -793,11 +855,8 @@ function bountyHelper:createContent()
             self:SetAlpha(1)
             headerRow.arrow:Show()
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-            if useTomTom and TomTom then
-                GameTooltip:SetText(colors.green .. "<Left Click to add TomTom Waypoint>")
-            else
-                GameTooltip:SetText(colors.green .. "<Left Click to add Map Pin>")
-            end
+            local leftAction = (useTomTom and TomTom) and "<Left Click to add TomTom Waypoint>" or "<Left Click to add Map Pin>"
+            GameTooltip:SetText(colors.green .. leftAction .. "\n" .. colors.gold .. "<Right Click to copy Wowhead Link>")
             GameTooltip:Show()
         end)
         headerRow.border:SetScript("OnLeave", function(self)
@@ -811,33 +870,44 @@ function bountyHelper:createContent()
             headerRow.border:SetAlpha(0)
             self:Hide()
         end)
-        headerRow.border:SetScript("OnMouseDown", function()
-            if IsControlKeyDown() then
-                if not InCombatLockdown() then DressUpMount(data.journalMountID) end
-            elseif db.waypoints[instanceID] then
-                if not InCombatLockdown() then
-                    local targetMapID = db.waypoints[instanceID].point[4] or db.waypoints[instanceID].point[1]
-                    
-                    if useTomTom and TomTom then
-                        local mapID, x, y = unpack(db.waypoints[instanceID].point)
-                        TomTom:AddWaypoint(mapID, x, y, {
-                            title = instanceToMap[instanceID].name or "Bounty Helper",
-                            persistent = false,
-                            minimap = true,
-                            world = true
-                        })
-                        print(string.format("%sBounty Helper:|r TomTom waypoint set for %s", colors.gold, mountLink))
-                    else
-                        local waypoint = UiMapPoint.CreateFromCoordinates(unpack(db.waypoints[instanceID].point))
-                        C_Map.SetUserWaypoint(waypoint)
-                        C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-                        print(string.format("%sBounty Helper:|r Waypoint set for %s", colors.gold, mountLink))
+        
+        headerRow.border:SetScript("OnMouseDown", function(_, button)
+            if button == "RightButton" then
+                bountyHelper:ShowWowheadPopup(mountID, db.mountData[mountID].name)
+            elseif button == "LeftButton" or button == nil then
+                if IsShiftKeyDown() then
+                    if mountLink then
+                        if not ChatEdit_InsertLink(mountLink) then
+                            ChatFrame_OpenChat(mountLink)
+                        end
                     end
-                    
-                    C_Map.OpenWorldMap(targetMapID)
+                elseif IsControlKeyDown() then
+                    if not InCombatLockdown() then DressUpMount(data.journalMountID) end
+                elseif db.waypoints[instanceID] then
+                    if not InCombatLockdown() then
+                        local targetMapID = db.waypoints[instanceID].point[4] or db.waypoints[instanceID].point[1]
+                        
+                        if useTomTom and TomTom then
+                            local mapID, x, y = unpack(db.waypoints[instanceID].point)
+                            TomTom:AddWaypoint(mapID, x, y, {
+                                title = instanceToMap[instanceID].name or "Bounty Helper",
+                                persistent = false,
+                                minimap = true,
+                                world = true
+                            })
+                            print(string.format("%sBounty Helper:|r TomTom waypoint set for %s", colors.gold, mountLink))
+                        else
+                            local waypoint = UiMapPoint.CreateFromCoordinates(unpack(db.waypoints[instanceID].point))
+                            C_Map.SetUserWaypoint(waypoint)
+                            C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+                            print(string.format("%sBounty Helper:|r Waypoint set for %s", colors.gold, mountLink))
+                        end
+                        
+                        C_Map.OpenWorldMap(targetMapID)
+                    end
+                else
+                    print(string.format("%sBounty Helper:|r No waypoint data available for %s", colors.gold, mountLink))
                 end
-            else
-                print(string.format("%sBounty Helper:|r No waypoint data available for %s", colors.gold, mountLink))
             end
         end)
         table.insert(self.contentFrames, headerRow)
@@ -879,14 +949,22 @@ function bountyHelper:createHeaderRow(mountID, journalMountID, name, chance)
     end)
     icon:SetScript("OnLeave", GameTooltip_Hide)
     icon:SetScript("OnClick", function()
-        if IsControlKeyDown() and not InCombatLockdown() then
+        if IsShiftKeyDown() then
+            local mountLink = select(2, GetItemInfo(mountID))
+            if mountLink then
+                if not ChatEdit_InsertLink(mountLink) then
+                    ChatFrame_OpenChat(mountLink)
+                end
+            end
+        elseif IsControlKeyDown() and not InCombatLockdown() then
             DressUpMount(journalMountID)
         end
     end)
     createText(panel, "GameFontNormalLarge", {"TOPLEFT", 48, -10}):SetText(name)
     local chanceText = createText(panel, "GameFontNormal", {"TOPRIGHT", -12, -10}, nil, {STANDARD_TEXT_FONT, 14})
     chanceText:SetJustifyH("RIGHT")
-    chanceText:SetFormattedText("Chance: %s%s", colors.green, string.format("%.1f%%", chance))
+    local chanceColor = getChanceColor(chance)
+    chanceText:SetFormattedText("Chance: %s%s", chanceColor, string.format("%.1f%%", chance))
     
     local ignore = createButton(panel, {"TOPLEFT", 2, -38}, "ignore", colors.redRGB, function()
         ignoreList[mountID] = not ignoreList[mountID]

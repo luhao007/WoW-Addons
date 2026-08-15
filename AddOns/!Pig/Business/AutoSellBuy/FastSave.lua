@@ -9,20 +9,13 @@ function BusinessInfo.FastSave()
 	local PIGCheckbutton=Create.PIGCheckbutton
 	local PIGFontString=Create.PIGFontString
 	local PIGSlider = Create.PIGSlider
-	--
-	local GetContainerNumSlots = C_Container.GetContainerNumSlots
-	local GetContainerItemID = C_Container.GetContainerItemID
-	local GetContainerItemLink = C_Container.GetContainerItemLink
-	local PickupContainerItem =C_Container.PickupContainerItem
-	local UseContainerItem =UseContainerItem or C_Container and C_Container.UseContainerItem
-	local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 	-- 
 	local Fun = addonTable.Fun
 	local Data=addonTable.Data
 	local bagID=Data.bagData["bagID"]
 	local bankID=Data.bagData["bankID"]
 	--
-	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
+	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.uiData)
 	local _GN,_GNE = L["TRADESELLBUY_SAVE2"],"Save"
 	local fujiF,fujiTabBut=PIGOptionsList_R(_G[GnUI].F,L["TRADESELLBUY_SAVE1"],50,"Left")
 	if PIG_MaxTocversion() then
@@ -61,32 +54,24 @@ function BusinessInfo.FastSave()
 	table.insert(NewItemTypeLsit,{135860,"diy",CUSTOM})
 	local function SavezhixingFun(typeid,itemID,bag,slot,cfvv)
 		if itemID then
-			local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subclassID = GetItemInfoInstant(itemID) 
+			local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subclassID = PIGGetItemInfoInstant(itemID) 
 			-- local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bag,slot)
 			-- print(itemLink,classID, subclassID,itemType, itemSubType)
 			if NewItemTypeLsit[typeid][2]=="diy" then
 				for ib=1,#cfvv do
 					if itemID==cfvv[ib][1] then
-						UseContainerItem(bag,slot,nil, BankFrame.GetActiveBankType and BankFrame:GetActiveBankType() or nil, false);
+						PIGUseContainerItem(bag,slot);
 					end
 				end
 			else
 				for ib=1,#NewItemTypeLsit[typeid][2] do
 					if NewItemTypeLsit[typeid][2][ib][2] then
 						if classID==NewItemTypeLsit[typeid][2][ib][1] and subclassID==NewItemTypeLsit[typeid][2][ib][2] then
-							if PIG_MaxTocversion(20000) then
-								UseContainerItem(bag,slot,nil, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
-							else
-								UseContainerItem(bag,slot,nil, BankFrame.GetActiveBankType and BankFrame:GetActiveBankType(), false);
-							end
+							PIGUseContainerItem(bag,slot);
 						end
 					else
 						if classID==NewItemTypeLsit[typeid][2][ib][1] then
-							if PIG_MaxTocversion(20000) then
-								UseContainerItem(bag,slot,nil, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
-							else
-								UseContainerItem(bag,slot,nil, BankFrame.GetActiveBankType and BankFrame:GetActiveBankType(), false);
-							end
+							PIGUseContainerItem(bag,slot);
 						end
 					end
 				end
@@ -94,7 +79,7 @@ function BusinessInfo.FastSave()
 		end
 	end
 	local function PIGRunUseItem(button,typeid,data)
-		if PIG_MaxTocversion(20000) then PIG_OptionsUI:ErrorMsg(FEATURE_NOT_YET_AVAILABLE) return end
+		if PIG_MaxTocversion(20000) then PIGErrorMsg(FEATURE_NOT_YET_AVAILABLE) return end
 		local shujudata={{},{}}
 		if button=="LeftButton" then
 			if NewItemTypeLsit[typeid][2]=="G" then
@@ -102,9 +87,9 @@ function BusinessInfo.FastSave()
 			else
 				shujudata[2]=PIGA_Per["AutoSellBuy"][_GNE.."_List"]
 				for bag=1,#bagID do
-					local bganum=GetContainerNumSlots(bagID[bag])
+					local bganum=PIGGetContainerNumSlots(bagID[bag])
 					for slot=1,bganum do
-						local itemID=GetContainerItemID(bagID[bag], slot)
+						local itemID=PIGGetContainerItemID(bagID[bag], slot)
 						SavezhixingFun(typeid,itemID,bagID[bag], slot, shujudata[2])
 					end
 				end
@@ -117,24 +102,24 @@ function BusinessInfo.FastSave()
 				local BankFrameBankType=BankFrame:GetActiveBankType()
 				if BankFrameBankType==0 then
 					if PIG_MaxTocversion() then
-						local bganum=GetContainerNumSlots(-1)
+						local bganum=PIGGetContainerNumSlots(-1)
 						for slot=1,bganum do
-							local itemID=GetContainerItemID(-1, slot)
+							local itemID=PIGGetContainerItemID(-1, slot)
 							SavezhixingFun(typeid,itemID,-1, slot, shujudata[2])
 						end
 					end
 					for bagid=(bagID[#bagID]+1),11 do
-						local bganum=GetContainerNumSlots(bagid)
+						local bganum=PIGGetContainerNumSlots(bagid)
 						for slot=1,bganum do
-							local itemID=GetContainerItemID(bagid, slot)
+							local itemID=PIGGetContainerItemID(bagid, slot)
 							SavezhixingFun(typeid,itemID,bagid, slot, shujudata[2])
 						end
 					end
 				elseif BankFrameBankType==2 then
 					for bagid=12,17 do
-						local bganum=GetContainerNumSlots(bagid)
+						local bganum=PIGGetContainerNumSlots(bagid)
 						for slot=1,bganum do
-							local itemID=GetContainerItemID(bagid, slot)
+							local itemID=PIGGetContainerItemID(bagid, slot)
 							SavezhixingFun(typeid,itemID,bagid, slot, shujudata[2])
 						end
 					end

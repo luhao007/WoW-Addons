@@ -17,7 +17,7 @@ local data = AtlasLoot.ItemDB:Add(addonname)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
+local NORMAL_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "n", nil, 1)
 
 -- change sortorder for factions
 local ALLIANCE_DIFF, HORDE_DIFF
@@ -43,7 +43,7 @@ data["ArgentTournament"]      = {
 	ContentType = PERMRECEVENTS_CONTENT,
 	items = {
 		{ --ArgentTournamentGear
-			name = AL["Armor"].." / "..AL["Weapons"],
+			name = ARMOR.." / "..AL["Weapons"],
 			[ALLIANCE_DIFF] = {
 				{ 1,  45156, [PRICE_EXTRA_ITTYPE] = "championsseal:10" }, -- Sash of Shattering Hearts
 				{ 2,  45181, [PRICE_EXTRA_ITTYPE] = "championsseal:10" }, -- Wrap of the Everliving Tree
@@ -136,7 +136,7 @@ data["ArgentTournament"]      = {
 			},
 		},
 		{ --ArgentTournamentMounts
-			name = AL["Mounts"],
+			name = MOUNTS,
 			[ALLIANCE_DIFF] = {
 				{ 1,  45591,      "mount", [PRICE_EXTRA_ITTYPE] = "championsseal:100" }, -- Darnassian Nightsaber
 				{ 2,  45590,      "mount", [PRICE_EXTRA_ITTYPE] = "championsseal:100" }, -- Exodar Elekk
@@ -173,7 +173,7 @@ data["ArgentTournament"]      = {
 			},
 		},
 		{ --ArgentTournamentPets
-			name = AL["Pets"],
+			name = PETS,
 			[ALLIANCE_DIFF] = {
 				{ 1, 44998, "pet214" },                                                                 -- Argent Squire
 				{ 2, 44984, "pet212",                                  [PRICE_EXTRA_ITTYPE] = "championsseal:40" }, -- Ammen Vale Lashling
@@ -196,7 +196,7 @@ data["ArgentTournament"]      = {
 			},
 		},
 		{ --ArgentTournamentMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[ALLIANCE_DIFF] = {
 				{ 1,  45714, [PRICE_EXTRA_ITTYPE] = "46114:1" }, -- Darnassus Commendation Badge
 				{ 2,  45715, [PRICE_EXTRA_ITTYPE] = "46114:1" }, -- Exodar Commendation Badge
@@ -341,7 +341,7 @@ data["BrawlersGuild"]         = {
 			},
 		},
 		{ -- Miscellaneous
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[ALLIANCE_DIFF] = {
 				-- Potions
 				{ 1,  253011, [PRICE_EXTRA_ITTYPE] = "money:24000" },                     -- Brawler's Healing Brute Punch
@@ -397,11 +397,11 @@ data["BrawlersGuild"]         = {
 }
 
 data["DarkmoonFaire"]         = {
-	name = AL["Darkmoon Faire"],
+	name = CALENDAR_FILTER_DARKMOON,
 	ContentType = PERMRECEVENTS_CONTENT,
 	items = {
 		{ --DarkmoonMountsPets
-			name = AL["Mounts"].." & "..AL["Pets"],
+			name = MOUNTS.." & "..PETS,
 			[NORMAL_DIFF] = {
 				{ 1,  73766,  "mount",   [PRICE_EXTRA_ITTYPE] = "darkmoon:180" }, -- Darkmoon Dancing Bear
 				{ 2,  72140,  "mount",   [PRICE_EXTRA_ITTYPE] = "darkmoon:180" }, -- Swift Forest Strider
@@ -566,7 +566,7 @@ data["DarkmoonFaire"]         = {
 			},
 		},
 		{ --DarkmoonHeirloomArmor
-			name = AL["Heirloom"].." - "..AL["Armor"],
+			name = AL["Heirloom"].." - "..ARMOR,
 			[NORMAL_DIFF] = {
 				{ 1,  93859, [PRICE_EXTRA_ITTYPE] = "42985:1:darkmoon:44" }, -- Bloodstained Dreadmist Mantle
 				{ 2,  93864, [PRICE_EXTRA_ITTYPE] = "42984:1:darkmoon:44" }, -- Majestic Ironfeather Shoulders
@@ -1100,7 +1100,7 @@ data["LoveisintheAir"]        = {
 			},
 		},
 		{ --LoveisintheAirMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[NORMAL_DIFF] = {
 				{ 1,  116651, "ac9394" },                                                        -- True Love Prism
 				{ 3,  50160,  "ac1694",                             [PRICE_EXTRA_ITTYPE] = "lovetoken:20" }, -- Lovely Dress Box
@@ -1323,7 +1323,7 @@ data["ChildrensWeek"]         = {
 		{ --ChildrensWeek
 			name = AL["Children's Week"],
 			[NORMAL_DIFF] = {
-				{ 1,   "INV_Box_01", nil,                                AL["Azeroth"],                              ALIL["Stormwind City"].." / "..ALIL["Orgrimmar"] },
+				{ 1,   "INV_Box_01", nil,                                AZEROTH,                                    ALIL["Stormwind City"].." / "..ALIL["Orgrimmar"] },
 				{ 2,   23007,        "pet126" },                -- Piglet's Collar
 				{ 3,   23015,        "pet127" },                -- Rat Cage
 				{ 4,   66073,        "pet289" },                -- Snail Shell
@@ -1390,6 +1390,7 @@ data["MidsummerFireFestival"] = {
 				{ 25, 244356 },                          -- Crown of the Frost Lord
 				{ 26, 17202 },                           -- Snowball
 				{ 27, 23247 },                           -- Burning Blossom
+				{ 28, 275464,        "mount" },          -- Sun Festival's Painted Roc
 			},
 		},
 		{ --MidsummerFireFestival
@@ -1417,20 +1418,38 @@ data["MidsummerFireFestival"] = {
 				{ 22,  242740, [PRICE_EXTRA_ITTYPE] = "burningblossom:350" },                                 -- Grand Helm of the Fire Festival
 				{ 23,  242741, [PRICE_EXTRA_ITTYPE] = "burningblossom:350" },                                 -- Grand Mantle of the Fire Festival
 				{ 24,  242742, [PRICE_EXTRA_ITTYPE] = "burningblossom:150" },                                 -- Grand Belt of the Fire Festival
-				{ 26,  23246,  [PRICE_EXTRA_ITTYPE] = "burningblossom:2" },                                   -- Fiery Festival Brew
-				{ 27,  23435,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Elderberry Pie
-				{ 28,  23327,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Fire-Toasted Bun
-				{ 29,  23326,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Midsummer Sausage
-				{ 30,  23211,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Toasted Smorc
-				{ 101, 34684,  [PRICE_EXTRA_ITTYPE] = "burningblossom:2" },                                   -- Handful of Summer Petals
-				{ 102, 23215,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Bag of Smorc Ingredients
-				{ 103, 34599,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Juggling Torch
-				{ 105, 122338, [PRICE_EXTRA_ITTYPE] = "burningblossom:350" },                                 -- Ancient Heirloom Armor Casing
-				{ 106, 122340, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Timeworn Heirloom Armor Casing
-				{ 107, 151614, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Weathered Heirloom Armor Casing
-				{ 108, 167731, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Battle-Hardened Heirloom Armor Casing
-				{ 109, 187997, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Eternal Heirloom Armor Casing
-				{ 110, 204336, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Awakened Heirloom Armor Casing
+				{ 25,  275457, [PRICE_EXTRA_ITTYPE] = "burningblossom:150" },                                 -- Sun Festival's Totemic Edge
+				{ 26,  275458, [PRICE_EXTRA_ITTYPE] = "burningblossom:150" },                                 -- Sun Festival's Totemic Greataxe
+				{ 27,  275459, [PRICE_EXTRA_ITTYPE] = "burningblossom:150" },                                 -- Sun Festival's Torchblade
+				{ 28,  275460, [PRICE_EXTRA_ITTYPE] = "burningblossom:150" },                                 -- Sun Festival's Flamebrand
+				{ 29,  276546, [PRICE_EXTRA_ITTYPE] = "burningblossom:250" },                                 -- Illusion: Summer Sun Blossom
+				{ 30,  275461, [PRICE_EXTRA_ITTYPE] = "burningblossom:300" },                                 -- Ensemble: Sun Festival's Flame Totems
+				{ 101, 275475, [PRICE_EXTRA_ITTYPE] = "burningblossom:50" },                                  -- Sun Festival's Painted Wrap
+				{ 102, 275466, [PRICE_EXTRA_ITTYPE] = "burningblossom:100" },                                 -- Sun Festival's Painted Mask
+				{ 103, 275468, [PRICE_EXTRA_ITTYPE] = "burningblossom:150" },                                 -- Sun Festival's Painted Mantle
+				{ 104, 275467, [PRICE_EXTRA_ITTYPE] = "burningblossom:150" },                                 -- Sun Festival's Painted Wings
+				{ 105, 275476, [PRICE_EXTRA_ITTYPE] = "burningblossom:100" },                                 -- Sun Festival's Painted Hauberk
+				{ 106, 275465, [PRICE_EXTRA_ITTYPE] = "burningblossom:50" },                                  -- Sun Festival's Painted Tunic
+				{ 107, 275474, [PRICE_EXTRA_ITTYPE] = "burningblossom:75" },                                  -- Sun Festival's Painted Gauntlets
+				{ 108, 275470, [PRICE_EXTRA_ITTYPE] = "burningblossom:75" },                                  -- Sun Festival's Painted Sash
+				{ 109, 275469, [PRICE_EXTRA_ITTYPE] = "burningblossom:50" },                                  -- Sun Festival's Painted Girdle
+				{ 110, 275472, [PRICE_EXTRA_ITTYPE] = "burningblossom:100" },                                 -- Sun Festival's Painted Greaves
+				{ 111, 275471, [PRICE_EXTRA_ITTYPE] = "burningblossom:75" },                                  -- Sun Festival's Painted Leggings
+				{ 112, 275473, [PRICE_EXTRA_ITTYPE] = "burningblossom:75" },                                  -- Sun Festival's Painted Striders
+				{ 114, 23246,  [PRICE_EXTRA_ITTYPE] = "burningblossom:2" },                                   -- Fiery Festival Brew
+				{ 115, 23435,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Elderberry Pie
+				{ 116, 23327,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Fire-Toasted Bun
+				{ 117, 23326,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Midsummer Sausage
+				{ 118, 23211,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Toasted Smorc
+				{ 119, 34684,  [PRICE_EXTRA_ITTYPE] = "burningblossom:2" },                                   -- Handful of Summer Petals
+				{ 120, 23215,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Bag of Smorc Ingredients
+				{ 121, 34599,  [PRICE_EXTRA_ITTYPE] = "burningblossom:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },      -- Juggling Torch
+				{ 123, 122338, [PRICE_EXTRA_ITTYPE] = "burningblossom:350" },                                 -- Ancient Heirloom Armor Casing
+				{ 124, 122340, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Timeworn Heirloom Armor Casing
+				{ 125, 151614, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Weathered Heirloom Armor Casing
+				{ 126, 167731, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Battle-Hardened Heirloom Armor Casing
+				{ 127, 187997, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Eternal Heirloom Armor Casing
+				{ 128, 204336, [PRICE_EXTRA_ITTYPE] = "burningblossom:600" },                                 -- Awakened Heirloom Armor Casing
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,

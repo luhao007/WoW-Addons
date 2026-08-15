@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal25"
 end
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(22841)
 mod:SetEncounterID(603, 2475)
@@ -29,7 +29,7 @@ local warnPhase2		= mod:NewPhaseAnnounce(2)
 local warnDefender		= mod:NewAnnounce("warnAshtongueDefender", 2, 41180)
 local warnSorc			= mod:NewAnnounce("warnAshtongueSorcerer", 2, 40520)
 
-local specWarnAdds		= mod:NewSpecialWarningAddsCustom(216726, "-Healer", nil, nil, 1, 2)
+local specWarnAdds		= mod:NewSpecialWarningAddsCustom(216726, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
 
 local timerCombatStart	= mod:NewCombatTimer(12)
 local timerAddsCD		= mod:NewAddsCustomTimer(25, 216726)--NewAddsCustomTimer

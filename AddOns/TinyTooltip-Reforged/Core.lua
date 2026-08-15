@@ -33,6 +33,22 @@ addon.L, addon.G = {}, {}
 setmetatable(addon.L, {__index = function(_, k) return k end})
 setmetatable(addon.G, {__index = function(_, k) return _G[k] or k end})
 
+local function SafeHideNineSlice(tip)
+    if (not tip or not tip.NineSlice) then return end
+    local ns = tip.NineSlice
+    if (type(ns) == "table" and ns.Hide) then
+        ns:Hide()
+        return
+    end
+    if (type(ns) == "userdata" and ns.IsObjectType) then
+        if (ns:IsObjectType("Region") and ns.Hide) then
+            ns:Hide()
+        end
+    end
+end
+
+addon.SafeHideNineSlice = SafeHideNineSlice
+
 local actualVersion = C_AddOns.GetAddOnMetadata("TinyTooltip-Reforged", "Version") or "unknown"
 print("|cff00d200TinyTooltip Reforged v",actualVersion," loaded.|r")
 
@@ -72,13 +88,21 @@ addon.bgs = {
     marble  = "Interface\\FrameGeneral\\UI-Background-Marble",
 }
 
+local achievementPointsIconTag = (type(CreateAtlasMarkup) == "function" and CreateAtlasMarkup("storyheader-cheevoicon", 14, 14)) or "|A:storyheader-cheevoicon:14:14|a"
+
 local function AutoValidateElements(src, dst)
     local keys = {}
+    local hasAchievementPoints = false
     for k, v in ipairs(dst) do
         keys[k] = true
         for i = #v, 1, -1 do
-            if (not src[v[i]]) then
-                tremove(v, i)
+	   if (v[i] == "achievementPoints" and src.achievementPoints) then
+                if (hasAchievementPoints) then
+                    tremove(v, i)
+                else
+                    hasAchievementPoints = true
+                    keys[v[i]] = true
+                end
             else
                 keys[v[i]] = true
             end
@@ -86,12 +110,15 @@ local function AutoValidateElements(src, dst)
     end
     for k, v in pairs(src) do
         if (type(k) ~= "number" and not dst[k]) then
-            dst[k] = v
-            if (k == "factionBig" or k == "npcTitle") then
+	    dst[k] = (type(v) == "table") and CopyTable(v) or v
+            if (k == "factionBig" or k == "npcTitle" or k == "itemLevel" or k == "achievementPoints") then
             elseif (not keys[k]) then
                 tinsert(dst[1], 1, k)
             end
         end
+    end
+    if (src.achievementPoints and not hasAchievementPoints) then
+        tinsert(dst, { "achievementPoints" })
     end
     return dst
 end
@@ -123,6 +150,214 @@ local function GetMythicPlusScore(unit)
     end
 end
 
+local ACHIEVEMENT_CACHE_TTL = 900
+local ACHIEVEMENT_REQUEST_INTERVAL = 1.2
+addon.achievementInspectState = addon.achievementInspectState or {
+    cache = {},
+    pendingGUID = nil,
+    lastRequestAt = 0,
+    suspendedUntil = 0,
+}
+local achievementSummaryGuardInstalled = false
+
+local function EnsureAchievementComparisonSummaryGuard()
+    if (achievementSummaryGuardInstalled) then return end
+    if (type(AchievementFrameComparison_UpdateStatusBars) ~= "function") then return end
+    local original = AchievementFrameComparison_UpdateStatusBars
+    AchievementFrameComparison_UpdateStatusBars = function(id, ...)
+        if (id == "summary") then
+            return
+        end
+        return original(id, ...)
+    end
+    achievementSummaryGuardInstalled = true
+end
+
+local function GetCachedAchievementPoints(unit)
+    local state = addon.achievementInspectState
+    if (not state or not state.cache or not unit or not UnitGUID) then return end
+    local guid = UnitGUID(unit)
+    if (not guid) then return end
+    local cached = state.cache[guid]
+    if (not cached or type(cached.points) ~= "number" or type(cached.time) ~= "number") then return end
+    local now = GetTime and GetTime() or 0
+    if ((now - cached.time) > ACHIEVEMENT_CACHE_TTL) then
+        state.cache[guid] = nil
+        return
+    end
+    return cached.points
+end
+
+local function CacheAchievementPoints(guid, points)
+    if (not guid or type(points) ~= "number" or points < 0) then return end
+    local state = addon.achievementInspectState
+    if (not state or not state.cache) then return end
+    state.cache[guid] = {
+        points = floor(points + 0.5),
+        time = GetTime and GetTime() or 0,
+    }
+end
+
+local function GetUnitAchievementPoints(unit)
+    local function SafeCall(fn, ...)
+        local ok, a, b, c = pcall(fn, ...)
+        if ok then return a, b, c end
+    end
+    if (not unit) then return end
+
+    local isSelf = false
+    if (UnitGUID) then
+        local unitGUID = SafeCall(UnitGUID, unit)
+        local playerGUID = SafeCall(UnitGUID, "player")
+        if (unitGUID and playerGUID and unitGUID == playerGUID) then
+            isSelf = true
+        end
+    end
+    if ((not isSelf) and UnitIsUnit and SafeCall(UnitIsUnit, unit, "player")) then
+        isSelf = true
+    end
+
+    if (isSelf) then
+        local points = SafeCall(GetTotalAchievementPoints)
+        if (type(points) == "number" and points >= 0) then
+            return points
+        end
+    end
+
+    if (not SafeCall(UnitIsPlayer, unit)) then return end
+
+    local cachedPoints = GetCachedAchievementPoints(unit)
+    if (type(cachedPoints) == "number" and cachedPoints >= 0) then
+        return cachedPoints
+    end
+end
+
+function addon:RequestInspectAchievementPoints(unit)
+    local function SafeBool(fn, ...)
+        local ok, value = pcall(fn, ...)
+        if (ok and value == true) then
+            return true
+        end
+        return false
+    end
+    if (not unit) then return end
+    if (not SafeBool(UnitExists, unit)) then return end
+    if (not SafeBool(UnitIsPlayer, unit)) then return end
+    if (SafeBool(UnitIsUnit, unit, "player")) then return end
+    if (not SafeBool(CanInspect, unit)) then return end
+
+    local guid = UnitGUID and UnitGUID(unit)
+    if (not guid) then return end
+    local playerGUID = UnitGUID and UnitGUID("player")
+    if (playerGUID and guid == playerGUID) then return end
+
+    local state = self.achievementInspectState
+    if (not state) then return end
+    local now = GetTime and GetTime() or 0
+    if ((state.suspendedUntil or 0) > now) then
+        return
+    end
+    local cached = state.cache and state.cache[guid]
+    if (cached and cached.time and (now - cached.time) <= ACHIEVEMENT_CACHE_TTL) then
+        return
+    end
+    if (state.pendingGUID == guid) then
+        return
+    end
+    if ((now - (state.lastRequestAt or 0)) < ACHIEVEMENT_REQUEST_INTERVAL) then
+        return
+    end
+
+    EnsureAchievementComparisonSummaryGuard()
+
+    if (AchievementFrameComparison and AchievementFrameComparison.UnregisterEvent) then
+        pcall(AchievementFrameComparison.UnregisterEvent, AchievementFrameComparison, "INSPECT_ACHIEVEMENT_READY")
+    end
+    if (AchievementFrame and AchievementFrame.isComparison) then
+        return
+    end
+    if (ClearAchievementComparisonUnit) then
+        pcall(ClearAchievementComparisonUnit)
+    end
+
+    local ok, result = pcall(SetAchievementComparisonUnit, unit)
+    if (ok) then
+        if (result ~= false) then
+            state.pendingGUID = guid
+            state.lastRequestAt = now
+        end
+    end
+end
+
+local function GetUnitGuidSafe(unit)
+    if (not unit or not UnitExists or not UnitGUID) then return end
+    local okExists, exists = pcall(UnitExists, unit)
+    if (not okExists or not exists) then return end
+    local okGuid, value = pcall(UnitGUID, unit)
+    if (okGuid) then
+        return value
+    end
+end
+
+local function SafeGuidEquals(left, right)
+    if (not left or not right) then
+        return false
+    end
+    local ok, same = pcall(function()
+        return left == right
+    end)
+    return ok and same == true
+end
+
+local function ResolveAsyncTooltipRefreshUnit(guid)
+    if (not guid or not GameTooltip or not GameTooltip.IsShown or not GameTooltip:IsShown()) then
+        return
+    end
+
+    local mouseoverGuid = GetUnitGuidSafe("mouseover")
+    if (SafeGuidEquals(mouseoverGuid, guid)) then
+        return "mouseover"
+    end
+    local currentGuid = GameTooltip._tinyUnitGUID
+    if (SafeGuidEquals(currentGuid, guid)) then
+        return false
+    end
+end
+
+do
+    local achievementEventFrame = CreateFrame("Frame")
+    achievementEventFrame:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
+    achievementEventFrame:SetScript("OnEvent", function(_, event, guid)
+        if (event ~= "INSPECT_ACHIEVEMENT_READY") then return end
+        local state = addon.achievementInspectState
+        if (not state or not state.pendingGUID) then return end
+        if (guid and not SafeGuidEquals(guid, state.pendingGUID)) then return end
+
+        local resolvedGUID = guid or state.pendingGUID
+
+        local points
+        local ok, value = pcall(GetComparisonAchievementPoints)
+        if (ok and type(value) == "number" and value >= 0) then
+            points = value
+        end
+        if (type(points) == "number" and points >= 0) then
+            CacheAchievementPoints(resolvedGUID, points)
+        end
+
+        if (ClearAchievementComparisonUnit) then
+            pcall(ClearAchievementComparisonUnit)
+        end
+        state.pendingGUID = nil
+
+        local refreshUnit = ResolveAsyncTooltipRefreshUnit(resolvedGUID)
+        if (refreshUnit) then
+            LibEvent:trigger("tooltip:unit", GameTooltip, refreshUnit)
+        elseif (refreshUnit == false) then
+            pcall(GameTooltip.Hide, GameTooltip)
+        end
+    end)
+end
+
 function addon:FixNumericKey(t)
     local key
     local tbl = {}
@@ -145,13 +380,16 @@ function addon:FixNumericKey(t)
 end
 
 function addon:MergeVariable(src, dst)
-    dst.version = src.version
+    if (type(src) ~= "table") then return dst end
+    if (type(dst) ~= "table") then
+        return CopyTable(src)
+    end
     for k, v in pairs(src) do
         if (dst[k] == nil) then
-            dst[k] = v
-        elseif (type(dst[k]) == "table" and k~="elements") then
+            dst[k] = (type(v) == "table") and CopyTable(v) or v
+        elseif (type(v) == "table" and type(dst[k]) == "table" and k~="elements") then
             self:MergeVariable(v, dst[k])
-        elseif (type(dst[k]) == "table" and k=="elements") then
+        elseif (type(v) == "table" and type(dst[k]) == "table" and k=="elements") then
             dst[k] = AutoValidateElements(v, dst[k])
         end
     end
@@ -159,28 +397,65 @@ function addon:MergeVariable(src, dst)
 end
 
 function addon:AutoSetTooltipWidth(tooltip)
-    if (tooltip:IsAnchoringSecret() or tooltip:HasAnySecretAspect()) then return end
     local width, w = 80
+    local measuredLines = 0
+    local totalLines = tooltip:NumLines()
+    local currentMinWidth
+    if (tooltip.GetMinimumWidth) then
+        local okMin, minValue = pcall(tooltip.GetMinimumWidth, tooltip)
+        if (okMin and type(minValue) == "number" and not (issecretvalue and issecretvalue(minValue))) then
+            currentMinWidth = minValue
+        end
+    end
     for i = 1, tooltip:NumLines() do
         local line = _G[tooltip:GetName() .. "TextLeft" .. i]
-        local check, value = pcall(function()
-            return line and line:GetWidth()
+        local ok, value = pcall(function()
+            if (not line) then return end
+            local frameWidth
+            if (line.GetWidth) then
+                frameWidth = line:GetWidth()
+            end
+            if (type(frameWidth) == "number" and not (issecretvalue and issecretvalue(frameWidth))) then
+                return frameWidth
+            end
+            local strWidth
+            if (line.GetStringWidth) then
+                strWidth = line:GetStringWidth()
+            end
+            if (type(strWidth) == "number" and not (issecretvalue and issecretvalue(strWidth))) then
+                return strWidth
+            end
         end)
-        if (check) then
-            local checkType, isNum = pcall(function()
+        if (ok) then
+            local okType, isNum = pcall(function()
                 return type(value) == "number"
             end)
-            if (checkType and isNum) then
-                local checkMax, newWidth = pcall(function()
+            if (okType and isNum and not (issecretvalue and issecretvalue(value))) then
+                measuredLines = measuredLines + 1
+                local okMax, newWidth = pcall(function()
                     return max(width, value)
                 end)
-                if (checkMax) then
+                if (okMax) then
                     width = newWidth
                 end
             end
         end
     end
     width = width + 6
+    local showFactionBig = false
+    if (tooltip and tooltip.BigFactionIcon and tooltip.BigFactionIcon.IsShown) then
+        local okShown, isShown = pcall(tooltip.BigFactionIcon.IsShown, tooltip.BigFactionIcon)
+        showFactionBig = okShown and isShown == true
+    end
+    if (showFactionBig) then
+        width = width + 30
+    end
+    if (measuredLines == 0) then
+        return currentMinWidth or width
+    end
+    if (measuredLines < totalLines and type(currentMinWidth) == "number") then
+        width = max(width, currentMinWidth)
+    end
     tooltip:SetMinimumWidth(width)
     tooltip:Show()
     return width
@@ -346,6 +621,7 @@ end
 
 function addon:GetUnitSpeed(unit)
     local _, speed, flightSpeed, swimSpeed = GetUnitSpeed(unit)
+    if (speed and issecretvalue(speed)) then return end
     if (not speed or speed == 0) then return end
     speed = speed/BASE_MOVEMENT_SPEED*100
     swimSpeed = swimSpeed/BASE_MOVEMENT_SPEED*100
@@ -837,6 +1113,18 @@ LibEvent:attachTrigger("tooltip.style.border.color", function(self, frame, r, g,
 end)
 
 local defaultHeaderFont, defaultHeaderSize, defaultHeaderFlag = GameTooltipHeaderText:GetFont()
+local function NormalizeFontFlag(flag, defaultFlag)
+    if (type(flag) ~= "string" or flag == "") then
+        return defaultFlag
+    end
+    if (flag == "default") then
+        return defaultFlag
+    end
+    if (flag == "NORMAL") then
+        return ""
+    end
+    return flag
+end
 LibEvent:attachTrigger("tooltip.style.font.header", function(self, frame, fontObject, fontSize, fontFlag)
     local font, size, flag = GameTooltipHeaderText:GetFont()
     if (fontObject == "default" and fontSize == "default" and fontFlag == "default") then
@@ -850,11 +1138,7 @@ LibEvent:attachTrigger("tooltip.style.font.header", function(self, frame, fontOb
     elseif (type(fontSize) == "number") then
         size = fontSize
     end
-    if (fontFlag == "default" or "NORMAL") then
-        flag = defaultHeaderFlag
-    else
-        flag = fontFlag or flag
-    end
+    flag = NormalizeFontFlag(fontFlag, defaultHeaderFlag) or flag
     GameTooltipHeaderText:SetFont(font, size, flag)
 end)
 
@@ -867,11 +1151,7 @@ LibEvent:attachTrigger("tooltip.style.font.body", function(self, frame, fontObje
     elseif (type(fontSize) == "number") then
         size = fontSize
     end
-    if (fontFlag == "default" or "NORMAL") then
-        flag = defaultBodyFlag
-    else
-        flag = fontFlag or flag
-    end
+    flag = NormalizeFontFlag(fontFlag, defaultHeaderFlag) or flag
     GameTooltipText:SetFont(font, size, flag)
 end)
 

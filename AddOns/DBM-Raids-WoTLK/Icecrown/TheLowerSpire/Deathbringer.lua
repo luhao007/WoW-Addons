@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,normal25,heroic,heroic25"
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(37813)
 mod:SetEncounterID(not mod:IsPostCata() and 848 or 1096)
@@ -35,7 +35,7 @@ local warnMark 				= mod:NewTargetCountAnnounce(72293, 4, 72293, nil, nil, nil, 
 local warnBoilingBlood		= mod:NewTargetNoFilterAnnounce(72385, 2, nil, "Healer")
 local warnRuneofBlood		= mod:NewTargetNoFilterAnnounce(72410, 3, nil, "Tank|Healer")
 
-local specwarnRuneofBlood	= mod:NewSpecialWarningTaunt(72410, nil, nil, nil, 1, 2)
+local specwarnRuneofBlood	= mod:NewSpecialWarningTaunt(72410, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 
 local timerCombatStart		= mod:NewCombatTimer(45)
 local timerRuneofBlood		= mod:NewNextTimer(20, 72410, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)

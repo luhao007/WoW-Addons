@@ -23,22 +23,22 @@ local ADD_SCALING = {
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", ADD_SCALING, 1)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", ADD_SCALING, 2)
-local MYTHIC_DIFF = data:AddDifficulty(AL["Mythic"], "m", ADD_SCALING, 23)
-local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(AL["Timewalking"], "timewalkingDungeonWithPreset", ADD_SCALING, 24)
+local NORMAL_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "n", ADD_SCALING, 1)
+local HEROIC_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "h", ADD_SCALING, 2)
+local MYTHIC_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY6, "m", ADD_SCALING, 23)
+local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY_TIMEWALKER, "timewalkingDungeonWithPreset", ADD_SCALING, 24)
 
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "rn", ADD_SCALING, 3)
-local HEROIC_RAID_DIFF = data:AddDifficulty(AL["Heroic"], "rh", ADD_SCALING, 5)
-local P25_DIFF = data:AddDifficulty(AL["25 Player"], "p25", ADD_SCALING, 4)
-local P25H_DIFF = data:AddDifficulty(AL["25 Player Heroic"], "p25h", ADD_SCALING, 6)
-local TIMEWALKING_RAID_DIFF = data:AddDifficulty(AL["Timewalking"], "timewalkingRaidWithPreset", ADD_SCALING, 33)
+local NORMAL_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "rn", ADD_SCALING, 3)
+local HEROIC_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "rh", ADD_SCALING, 5)
+local P25_DIFF = data:AddDifficulty(RAID_DIFFICULTY_25PLAYER, "p25", ADD_SCALING, 4)
+local P25H_DIFF = data:AddDifficulty(RAID_DIFFICULTY_25PLAYER_HEROIC, "p25h", ADD_SCALING, 6)
+local TIMEWALKING_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY_TIMEWALKER, "timewalkingRaidWithPreset", ADD_SCALING, 33)
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
 
-local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
-local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
+local DUNGEON_CONTENT = data:AddContentType(DUNGEONS, ATLASLOOT_DUNGEON_COLOR)
+local RAID_CONTENT = data:AddContentType(RAIDS, ATLASLOOT_RAID_COLOR)
 
 -- Shared loot tables
 local WOTLK_DUNGEONMASTER_AC_TABLE = { --[Northrend Dungeonmaster]
@@ -3914,7 +3914,7 @@ data["ObsidianSanctum"] = {
 				{ 5,   40429 },     -- Crimson Steel
 				{ 6,   43345 },     -- Dragon Hide Bag
 				{ 7,   43347 },     -- Satchel of Spoils
-				{ 9,   "INV_Box_01", "ac2049", AL["Bonus Loot"], nil },
+				{ 9,   "INV_Box_01", "ac2049", BONUS_LOOT_LABEL, nil },
 				{ 10,  43988 },     -- Gale-Proof Cloak
 				{ 11,  43990 },     -- Blade-Scarred Tunic
 				{ 12,  43991 },     -- Legguards of Composure
@@ -3923,13 +3923,13 @@ data["ObsidianSanctum"] = {
 				{ 16,  40613 },     -- Gloves of the Lost Conqueror
 				{ 17,  40614 },     -- Gloves of the Lost Protector
 				{ 18,  40615 },     -- Gloves of the Lost Vanquisher
-				{ 20,  "INV_Box_01", "ac2050", AL["Bonus Loot"], nil },
+				{ 20,  "INV_Box_01", "ac2050", BONUS_LOOT_LABEL, nil },
 				{ 21,  43995 },     -- Enamored Cowl
 				{ 22,  43998 },     -- Chestguard of Flagrant Prowess
 				{ 23,  43996 },     -- Sabatons of Firmament
 				{ 24,  43994 },     -- Belabored Legplates
 				{ 25,  43993 },     -- Greatring of Collision
-				{ 27,  "INV_Box_01", "ac2051", AL["Bonus Loot"], nil },
+				{ 27,  "INV_Box_01", "ac2051", BONUS_LOOT_LABEL, nil },
 				{ 28,  43986,        "mount" }, -- Reins of the Black Drake
 				{ 101, "ac1876" },
 				{ 102, "ac1658" },
@@ -3952,18 +3952,18 @@ data["ObsidianSanctum"] = {
 				{ 13,  40628 },     -- Gauntlets of the Lost Conqueror
 				{ 14,  40629 },     -- Gauntlets of the Lost Protector
 				{ 15,  40630 },     -- Gauntlets of the Lost Vanquisher
-				{ 16,  "INV_Box_01", "ac2052", AL["Bonus Loot"], nil },
+				{ 16,  "INV_Box_01", "ac2052", BONUS_LOOT_LABEL, nil },
 				{ 17,  44002 },     -- The Sanctum's Flowing Vestments
 				{ 18,  44003 },     -- Upstanding Spaulders
 				{ 19,  44004 },     -- Bountiful Gauntlets
 				{ 20,  44000 },     -- Dragonstorm Breastplate
-				{ 22,  "INV_Box_01", "ac2053", AL["Bonus Loot"], nil },
+				{ 22,  "INV_Box_01", "ac2053", BONUS_LOOT_LABEL, nil },
 				{ 23,  44005 },     -- Pennant Cloak
 				{ 24,  44008 },     -- Unsullied Cuffs
 				{ 25,  44007 },     -- Headpiece of Reconciliation
 				{ 26,  44011 },     -- Leggings of the Honored
 				{ 27,  44006 },     -- Obsidian Greathelm
-				{ 29,  "INV_Box_01", "ac2054", AL["Bonus Loot"], nil },
+				{ 29,  "INV_Box_01", "ac2054", BONUS_LOOT_LABEL, nil },
 				{ 30,  43954,        "mount" }, -- Reins of the Twilight Drake
 				{ 101, "ac625" },
 				{ 102, "ac1658" },

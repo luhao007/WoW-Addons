@@ -23,7 +23,7 @@ local WIM_ClassicSkin = {
     message_window = {
         texture = "Interface\\AddOns\\"..WIM.addonTocName.."\\skins\\default\\message_window",
         min_width = 256,
-        min_height = 128,
+        min_height = 80,
         backdrop = {
             top_left = {
                 width = 64,
@@ -254,9 +254,10 @@ local WIM_ClassicSkin = {
                     HighlightAlphaMode = "ADD",
                     icons = {
                         location = "Interface\\Icons\\Ability_TownWatch",
-                        invite = "Interface\\Icons\\Spell_Holy_BlessingOfStrength",
-                        friend = "interface\\icons\\spell_chargepositive",
-                        ignore = "Interface\\Icons\\Ability_Physical_Taunt",
+                        invite = "Interface\\Icons\\INV_Misc_GroupNeedMore",
+                        guild = "Interface\\Icons\\INV_Shirt_GuildTabard_01",
+                        friend = "Interface\\Icons\\ACHIEVEMENT_REPUTATION_01",
+                        ignore = "Interface\\Icons\\Spell_Holy_Silence",
                     }
                 }
             }
@@ -303,6 +304,25 @@ local WIM_ClassicSkin = {
         },
         vertical = false,
     },
+	menu = {
+		edge = "Interface\\AddOns\\"..WIM.addonTocName.."\\Modules\\Textures\\Menu",
+		edge_size = 32,
+		background = "Interface\\AddOns\\"..WIM.addonTocName.."\\Modules\\Textures\\Menu_bg",
+		tile = true,
+		tile_size = 32,
+		insets = { left = 32, right = 32, top = 32, bottom = 32 },
+		title = {
+			font = "ChatFontNormal",
+			font_color = {1, 1, 1},
+			font_height = 11,
+			font_flags = ""
+		},
+		button = {
+			font = "FriendsFont_Normal",
+			font_height = 12,
+			font_flags = ""
+		}
+	},
     emoticons = {
         width = 0,
         height = 0,
@@ -432,7 +452,7 @@ local WIM_ClassicSkin = {
 };
 
 local WIM_ClassicSkin_Blue = {
-    title = "WIM Classic - Blue",
+    title = "WIM Classic - " .. WIM.L["Blue"],
     author = WIM_ClassicSkin.author,
     version = WIM_ClassicSkin.version,
     message_window = {
@@ -441,7 +461,7 @@ local WIM_ClassicSkin_Blue = {
 };
 
 local WIM_ClassicSkin_Green = {
-    title = "WIM Classic - Green",
+    title = "WIM Classic - " .. WIM.L["Green"],
     author = WIM_ClassicSkin.author,
     version = WIM_ClassicSkin.version,
     message_window = {
@@ -450,7 +470,7 @@ local WIM_ClassicSkin_Green = {
 };
 
 local WIM_ClassicSkin_Red = {
-    title = "WIM Classic - Red",
+    title = "WIM Classic - " .. WIM.L["Red"],
     author = WIM_ClassicSkin.author,
     version = WIM_ClassicSkin.version,
     message_window = {
@@ -459,7 +479,7 @@ local WIM_ClassicSkin_Red = {
 };
 
 local WIM_ClassicSkin_Yellow = {
-    title = "WIM Classic - Yellow",
+    title = "WIM Classic - " .. WIM.L["Yellow"],
     author = WIM_ClassicSkin.author,
     version = WIM_ClassicSkin.version,
     message_window = {

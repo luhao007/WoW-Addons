@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2431, "DBM-Shadowlands", nil, 1192)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523021934")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(167525)
 mod:SetEncounterID(2410)
@@ -26,9 +26,9 @@ local warnScreamingSkull					= mod:NewTargetNoFilterAnnounce(338851, 2)
 local warnBoneCleave						= mod:NewSpellAnnounce(338846, 3, nil, "Tank|Healer")
 
 --local specWarnSpineClaw						= mod:NewSpecialWarningDodge(338848, nil, nil, nil, 1, 2)
-local specWarnFrenzy						= mod:NewSpecialWarningDispel(338847, "RemoveEnrage", nil, nil, 1, 2)
-local specWarnScreamingSkull				= mod:NewSpecialWarningMoveTo(338851, nil, nil, 2, 1, 2)
-local specWarnUnrulyremains					= mod:NewSpecialWarningDodgeCount(338849, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.dodge:format(338849), nil, 2, 2)
+local specWarnFrenzy						= mod:NewSpecialWarningDispel(338847, "RemoveEnrage", nil, nil, 1, 2, nil, nil, "enrage")
+local specWarnScreamingSkull				= mod:NewSpecialWarningMoveTo(338851, nil, nil, 2, 1, 2, nil, nil, "gathershare")
+local specWarnUnrulyremains					= mod:NewSpecialWarningDodgeCount(338849, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.dodge:format(338849), nil, 2, 2, nil, nil, "watchstep")
 
 local timerSpineCrawlCD						= mod:NewCDTimer(20.3, 338848, nil, nil, nil, 3)
 local timerFrenzyCD							= mod:NewCDTimer(33.2, 338847, nil, nil, nil, 5, nil, DBM_COMMON_L.ENRAGE_ICON)

@@ -16,6 +16,7 @@ local ipairs, pairs, tinsert, type, wipe
 app:CreateWindow("WorldQuests", {
 	AllowCompleteSound = true,
 	Commands = { "attwq" },
+	RootCommands = { "wq" },
 	OnInit = function(self, handlers)
 		-- localize some APIs
 		local MergeObject, NestObject, NestObjects = app.MergeObject, app.NestObject, app.NestObjects;
@@ -171,6 +172,7 @@ app:CreateWindow("WorldQuests", {
 			end
 			wipe(g);
 			tinsert(g, UpdateButton);
+			self.missingData = nil
 			self:AssignChildren();
 			self:Update(true);
 		end
@@ -179,13 +181,18 @@ app:CreateWindow("WorldQuests", {
 			local mapID = mapObject.mapID;
 			if not mapID then return; end
 			local pois = C_TaskQuest_GetQuestsForPlayerByMapID(mapID);
-			-- app.PrintDebug(#pois,"WQ in",mapID);
+			-- if mapObject.__debug then
+			-- 	app.PrintDebug(#pois,"WQ in",mapID);
+			-- end
 			if pois then
 				for i,poi in ipairs(pois) do
 					-- only include Tasks on this actual mapID since each Zone mapID is checked individually
 					if poi.mapID == mapID and not AddedQuestIDs[poi.questID] then
 						-- app.PrintTable(poi)
 						AddedQuestIDs[poi.questID] = true
+						-- if mapObject.__debug then
+						-- 	app.PrintTable(poi)
+						-- end
 						local questObject = GetPopulatedQuestObject(poi.questID);
 						if questObject then
 							if self.includeAll or
@@ -196,8 +203,8 @@ app:CreateWindow("WorldQuests", {
 								-- or if it has time remaining
 								(questObject.timeRemaining or 0 > 0)
 							then
-								-- if poi.questID == 78663 then
-								-- 	app.print("WQ",questObject.questID,questObject.g and #questObject.g);
+								-- if mapObject.__debug then
+								-- 	app.print("WQ.task.add",questObject.questID,questObject.g and #questObject.g);
 								-- end
 								-- add the map POI coords to our new quest object
 								if poi.x and poi.y then
@@ -206,9 +213,17 @@ app:CreateWindow("WorldQuests", {
 								NestObject(mapObject, questObject);
 								-- see if need to retry based on missing data
 								-- if not self.retry and questObject.missingData then self.retry = true; end
+							-- else
+							-- 	if mapObject.__debug then
+							-- 		app.PrintDebug("WQ.task.ignored",mapID,poi.mapID,poi.questID,questObject.repeatable and "REPEAT" or "NON-REPEAT",questObject.timeRemaining)
+							-- 		app.PrintTable(questObject)
+							-- 	end
 							end
 						end
-					-- else app.PrintDebug("Skipped WQ",mapID,poi.mapID,poi.questID)
+					-- else
+					-- 	if mapObject.__debug then
+					-- 		app.PrintDebug("WQ.task.skip",mapID,poi.mapID,poi.questID)
+					-- 	end
 					end
 				end
 			end
@@ -261,6 +276,9 @@ app:CreateWindow("WorldQuests", {
 							o.coords = { [mapID] = { { 100 * x, 100 * y } }}
 						end
 						if not poiMapID or poiMapID == mapID or poi.isPrimaryMapForPOI then
+							-- if mapObject.__debug then
+							-- 	app.print("WQ.poi",o.questID,o.g and #o.g);
+							-- end
 							NestObject(mapObject, o)
 						else
 							local mapPOIs = MapPOIs[poiMapID]
@@ -303,6 +321,9 @@ app:CreateWindow("WorldQuests", {
 								-- or if it has time remaining
 								(questObject.timeRemaining or 0 > 0)
 							then
+								-- if mapObject.__debug then
+								-- 	app.print("WQ.story",questObject.questID,questObject.g and #questObject.g);
+								-- end
 								NestObject(mapObject, questObject);
 								-- see if need to retry based on missing data
 								-- if not self.retry and questObject.missingData then self.retry = true; end
@@ -330,6 +351,9 @@ app:CreateWindow("WorldQuests", {
 						-- Account/Debug or not saved
 						(app.MODE_DEBUG_OR_ACCOUNT or not questObject.saved)
 					then
+						-- if mapObject.__debug then
+						-- 	app.print("WQ.static",questObject.questID,questObject.g and #questObject.g);
+						-- end
 						NestObject(mapObject, questObject);
 						-- see if need to retry based on missing data
 						-- if not self.retry and questObject.missingData then self.retry = true; end
@@ -342,6 +366,7 @@ app:CreateWindow("WorldQuests", {
 			if not mapObject.mapID then return; end
 
 			-- print("Build Map",mapObject.mapID,mapObject.text);
+			-- mapObject.__debug = mapObject.mapID == 1462
 
 			-- Merge Tasks for Zone
 			self:MergeTasks(mapObject)
@@ -479,8 +504,7 @@ app:CreateWindow("WorldQuests", {
 					-- print(dungeonID,name, typeID, subtypeID, minLevel, maxLevel, recLevel, minRecLevel, maxRecLevel, expansionLevel, groupID, textureFilename, difficulty, maxPlayers, description, isHoliday, bonusRepAmount, minPlayers, isTimeWalker, name2, minGearLevel);
 					local _, gold, unknown, xp, unknown2, numRewards, unknown = GetLFGDungeonRewards(dungeonID);
 					-- print("GetLFGDungeonRewards",dungeonID,GetLFGDungeonRewards(dungeonID));
-					local hg = {}
-					local header = app.CreateRawText(name, { g = hg, dungeonID = dungeonID, description = description, lvl = { minRecLevel or 1, maxRecLevel }, OnUpdate = OnUpdateForLFGHeader})
+					local header = app.CreateRawText(name, { dungeonID = dungeonID, description = description, lvl = { minRecLevel or 1, maxRecLevel }, OnUpdate = OnUpdateForLFGHeader})
 					if expansionLevel and not isHoliday then
 						header.icon = app.CreateExpansion(expansionLevel + 1).icon;
 					elseif isTimeWalker then
@@ -491,6 +515,7 @@ app:CreateWindow("WorldQuests", {
 						-- common logic
 						local idType = (rewardType or "item").."ID";
 						local thing = { [idType] = itemID };
+						app.EnsureObject(thing)
 						local _cache = app.SearchForField(idType, itemID);
 						for _,data in ipairs(_cache) do
 							-- copy any sourced data for the dungeon reward into the list
@@ -508,20 +533,23 @@ app:CreateWindow("WorldQuests", {
 							end
 							-- Should the rewards be listed in the window based on the level of the rewards
 							if lvl <= minRecLevel then
-								NestObjects(thing, data.g);	-- no need to clone, everything is re-created at the end
+								NestObjects(thing, data.g, true)	-- need to clone here since these are from search results
 							end
 						end
-						hg[#hg + 1] = thing
+						NestObject(header, thing)
 					end
 					gfg[#gfg + 1] = header
 				end
 				MergeObject(temp, groupFinder)
 			end
 
+			app.EnsureObject(temp)
 			-- put all the things into the window data, turning them into objects as well
 			NestObjects(self.data, temp);
 			-- Build the heirarchy
 			self:AssignChildren();
+			-- Fill up the window
+			app.FillGroups(self.data)
 			-- Force Update
 			self:Update(true);
 		end

@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal25"
 end
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(22917)
 mod:SetEncounterID(609, 2481)
@@ -51,11 +51,11 @@ local warnPhase4			= mod:NewPhaseAnnounce(4)
 local warnEnrage			= mod:NewSpellAnnounce(40683, 3)
 local warnCaged				= mod:NewSpellAnnounce(40695, 3)
 
-local specWarnParasite		= mod:NewSpecialWarningYou(41917, nil, nil, nil, 1, 2)
+local specWarnParasite		= mod:NewSpecialWarningYou(41917, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellParasiteFades		= mod:NewShortFadesYell(41917)
-local specWarnBarrage		= mod:NewSpecialWarningMoveAway(40585, nil, nil, nil, 1, 2)
-local specWarnShadowDemon	= mod:NewSpecialWarningSwitch(41117, "Dps", nil, nil, 3, 2)
-local specWarnGTFO			= mod:NewSpecialWarningGTFO(40841, nil, nil, nil, 1, 2)
+local specWarnBarrage		= mod:NewSpecialWarningMoveAway(40585, nil, nil, nil, 1, 2, nil, nil, "runout")
+local specWarnShadowDemon	= mod:NewSpecialWarningSwitch(41117, "Dps", nil, nil, 3, 2, nil, nil, "killmob")
+local specWarnGTFO			= mod:NewSpecialWarningGTFO(40841, nil, nil, nil, 1, 2, nil, nil, "runaway")
 
 local timerParasite			= mod:NewTargetTimer(10, 41917, nil, false, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)
 local timerBarrage			= mod:NewTargetTimer(10, 40585, nil, false, nil, 3)

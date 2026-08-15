@@ -1,5 +1,5 @@
 local api, _, T = {}, ...
-if T.Mark ~= 50 then return end
+if T.Mark ~= 266 then return end
 local EV, L = T.Evie, newproxy(true)
 getmetatable(L).__call = function(_,k) if T.L then L = T.L return L(k) end return k end
 local FOLLOWER_ITEM_LEVEL_CAP, MENTOR_FOLLOWER, INF = T.FOLLOWER_ITEM_LEVEL_CAP, T.MENTOR_FOLLOWER, math.huge

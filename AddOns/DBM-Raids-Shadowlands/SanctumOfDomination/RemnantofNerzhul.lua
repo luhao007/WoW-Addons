@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2444, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523022802")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(175729)
 mod:SetEncounterID(2432)
@@ -41,16 +41,16 @@ local warnOrbEternalTorment						= mod:NewFadesAnnounce(355790, 1)
 local warnMalevolence							= mod:NewTargetNoFilterAnnounce(350469, 3)
 local warnShatter								= mod:NewCountAnnounce(351066, 1)
 
-local specWarnMalevolence						= mod:NewSpecialWarningYouPos(350469, nil, nil, nil, 1, 2)
+local specWarnMalevolence						= mod:NewSpecialWarningYouPos(350469, nil, nil, nil, 1, 2, nil, nil, "mm1")
 local yellMalevolence							= mod:NewShortPosYell(350469)
 local yellMalevolenceFades						= mod:NewIconFadesYell(350469)
-local specWarnSufferingTank						= mod:NewSpecialWarningMoveTo(350894, nil, nil, nil, 1, 2)--Tank Warning
-local specWarnSuffering							= mod:NewSpecialWarningYou(350894, nil, nil, nil, 1, 2)--Non Tank warning
+local specWarnSufferingTank						= mod:NewSpecialWarningMoveTo(350894, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Tank Warning
+local specWarnSuffering							= mod:NewSpecialWarningYou(350894, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Non Tank warning
 local yellSuffering								= mod:NewYell(350894, nil, false)--Not as useful as fades
 local yellSufferingFades						= mod:NewFadesYell(350894)
-local specWarnSufferingSwap						= mod:NewSpecialWarningTaunt(350894, nil, nil, nil, 1, 2)
-local specWarnGTFO								= mod:NewSpecialWarningGTFO(350489, nil, nil, nil, 1, 8)
-local specWarnGraspofMalice						= mod:NewSpecialWarningDodge(355123, nil, nil, nil, 2, 2)--Malicious Gauntlet
+local specWarnSufferingSwap						= mod:NewSpecialWarningTaunt(350894, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnGTFO								= mod:NewSpecialWarningGTFO(350489, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnGraspofMalice						= mod:NewSpecialWarningDodge(355123, nil, nil, nil, 2, 2, nil, nil, "watchstep")--Malicious Gauntlet
 --local specWarnAgony							= mod:NewSpecialWarningMoveAway(350097, nil, nil, nil, 1, 2)
 --local yellAgony								= mod:NewYell(350097)
 --local yellAgonyFades							= mod:NewFadesYell(350097)

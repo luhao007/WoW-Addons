@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS, QartemisT
-## Version: 12.0.44
+## Version: 12.1.3
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Core|r|cffffe00a>|r |cff69ccf0Options GUI|r
 ## Notes: GUI for Deadly Boss Mods
@@ -19,8 +19,6 @@
 
 ## X-Website: https://deadlybossmods.com
 ## X-Part-Of: DBM-Core
-
-Polyfills.xml
 
 localization.en.lua
 localization.de.lua
@@ -65,7 +63,6 @@ modules\options\timers\PBC.lua
 modules\options\filters\Filters.lua
 modules\options\filters\GlobalDisables.lua
 modules\options\filters\Reduction.lua
-modules\options\filters\Handholding.lua
 modules\options\filters\HideBlizzard.lua
 modules\options\filters\RaidLeaderDisable.lua
 modules\options\filters\Privacy.lua

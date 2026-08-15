@@ -74,7 +74,7 @@ function RSEventDB.GetAllInternalEventInfo()
 end
 
 function RSEventDB.GetEventIDsByMapID(mapID)
-	return RSMapDB.GetEntitiesByMapID(mapID, RSConstants.MAP_ENTITY_EVENT, true)
+	return RSMapDB.GetEntitiesByMapID(mapID, RSConstants.MAP_ENTITY_EVENT)
 end
 
 function RSEventDB.GetInternalEventInfo(eventID)

@@ -1,17 +1,16 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
+local addonName, PD = ...;
+local L=PD.locale
 local find = _G.string.find
 local ceil = math.ceil
-local GetContainerNumSlots = C_Container.GetContainerNumSlots
-local GetContainerItemLink=C_Container.GetContainerItemLink
 --
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGFontString=Create.PIGFontString
 local BagBankFrame=Create.BagBankFrame
-local Data=addonTable.Data
+local Data=PD.Data
+local PlayerInfo=Data.PlayerInfo
 local InvSlot=Data.InvSlot
 local bagData=Data.bagData
-local BagBankfun=addonTable.BagBankfun
+local BagBankfun=PD.BagBankfun
 --==================
 local zhengliIcon="interface/containerframe/bags.blp"
 local BagdangeW=ContainerFrame1Item1:GetWidth()+5
@@ -40,7 +39,7 @@ local function jisuanBAGzongshu(id)
 	local bagzongshu = 0
 	if id>0 then
 		for i=1,id do
-			local shangnum = GetContainerNumSlots(i-1)
+			local shangnum = PIGGetContainerNumSlots(i-1)
 			bagzongshu=bagzongshu+shangnum
 		end
 	end
@@ -200,19 +199,27 @@ local function zhegnheBANK()
 	UpdateItemButtonZLVranse(nil,nil,-1)
 end
 -------
-function BagBankfun.Zhenghe(Rneirong,tabbut)
+function BagBankfun.Zhenghe()
 	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.BagbankOK then return end
 	BagBankfun.BagbankOK=true
 	BagBankfun.qiyongzidongzhengli()
+	local BusinessInfo=PD.BusinessInfo
 	hooksecurefunc("ContainerFrame_Update", function(frame)
 		if not PIGA["BagBank"]["JunkShow"] then return end
 		local id = frame:GetID();
 		local name = frame:GetName();
 		for i=1, frame.size, 1 do
 			local itemButton = _G[name.."Item"..i];
-			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(id,itemButton:GetID())
-			if quality and quality==0 then
-				itemButton.JunkIcon:Show();
+			if BusinessInfo.ShowSellItemList then
+				if BusinessInfo.ShowSellItemList(id,itemButton:GetID()) then
+					itemButton.JunkIcon:Show();
+					if itemButton.ZLV then itemButton.ZLV:SetText("");end
+				end
+			else
+				local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(id,itemButton:GetID())
+				if quality and quality==0 then
+					itemButton.JunkIcon:Show();
+				end
 			end
 		end
 	end)
@@ -234,7 +241,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		BAGheji.pianyiliangV=8
 	end
 	if BAGheji.portrait then SetPortraitTexture(BAGheji.portrait, "player") end
-	BAGheji.biaoti = PIGFontString(BAGheji,{"TOP", BAGheji, "TOP",10, -14+BAGheji.pianyiliangV},PIG_OptionsUI.AllName)
+	BAGheji.biaoti = PIGFontString(BAGheji,{"TOP", BAGheji, "TOP",10, -14+BAGheji.pianyiliangV},PlayerInfo.AllName)
 	BAGheji.Close:HookScript("OnClick",  function (self)
 		CloseAllBags()
 	end);
@@ -270,7 +277,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	---
 	BAGheji.EqBut = BagBankfun.addEquipmentbut(BAGheji,{"TOPRIGHT",BAGheji,"TOPRIGHT",-74,-39+BAGheji.pianyiliangV})
 	---
-	BAGheji.Setings = BagBankfun.addSetbut(BAGheji,{"TOPRIGHT",BAGheji,"TOPRIGHT",-104,-39+BAGheji.pianyiliangV},Rneirong,tabbut)
+	BAGheji.Setings = BagBankfun.addSetbut(BAGheji,{"TOPRIGHT",BAGheji,"TOPRIGHT",-104,-39+BAGheji.pianyiliangV},BagBankfun.SetingClick)
 	
 	--分类设置
 	BAGheji.fenlei = CreateFrame("Button",nil,BAGheji, "TruncatedButtonTemplate");

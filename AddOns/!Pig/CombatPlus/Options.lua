@@ -1,24 +1,28 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
+local addonName, PD = ...;
+local L=PD.locale
 ---
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGOptionsList=Create.PIGOptionsList
 local PIGOptionsList_RF=Create.PIGOptionsList_RF
 ---
 local CombatPlusfun={}
-addonTable.CombatPlusfun=CombatPlusfun
+PD.CombatPlusfun=CombatPlusfun
+function PD.addOptions_CombatPlus()
+	local fuFrame,fuFrameBut = PIGOptionsList(L["COMBAT_TABNAME"],"TOP")
+	CombatPlusfun.fuFrame=fuFrame
+	CombatPlusfun.fuFrameBut=fuFrameBut
 
-local fuFrame,fuFrameBut = PIGOptionsList(L["COMBAT_TABNAME"],"TOP")
-CombatPlusfun.fuFrame=fuFrame
-CombatPlusfun.fuFrameBut=fuFrameBut
---
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame,30)
-CombatPlusfun.RTabFrame=RTabFrame
---==================================
-addonTable.CombatPlus = function()
+	local RTabFrame =Create.PIGOptionsList_RF(fuFrame,30)
+	CombatPlusfun.RTabFrame=RTabFrame
+	CombatPlusfun.addOptions_Marker()
+	CombatPlusfun.addOptions_HPMPBar()
+	CombatPlusfun.addOptions_AttackBar()
+	CombatPlusfun.addOptions_FastFocus()
+end
+--=========================
+PD.CombatPlus = function()
 	CombatPlusfun.Marker()
 	CombatPlusfun.HPMPBar()
 	CombatPlusfun.AttackBar()
-	CombatPlusfun.BabySitter()
 	CombatPlusfun.FastFocus()
 end

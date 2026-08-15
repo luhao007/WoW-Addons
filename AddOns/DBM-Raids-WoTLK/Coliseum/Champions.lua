@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,normal25,heroic,heroic25"
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(34458, 34451, 34459, 34448, 34449, 34445, 34456, 34447, 34441, 34454, 34444, 34455, 34450, 34453, 34461, 34460, 34469, 34467, 34468, 34471, 34465, 34466, 34473, 34472, 34470, 34463, 34474, 34475)
 --mod:SetEncounterID(not mod:IsPostCata() and 637 or 1086)--This must never be enabled
@@ -32,10 +32,10 @@ local warnDeathgrip			= mod:NewTargetNoFilterAnnounce(66017, 2)
 local warnCyclone			= mod:NewTargetNoFilterAnnounce(65859, 1, nil, false)
 local warnSheep				= mod:NewTargetNoFilterAnnounce(65801, 1, nil, false)
 
-local specWarnHellfire		= mod:NewSpecialWarningGTFO(65816, nil, nil, nil, 1, 8)
-local specWarnHandofProt	= mod:NewSpecialWarningDispel(66009, "MagicDispeller", nil, nil, 1, 2)
-local specWarnDivineShield	= mod:NewSpecialWarningDispel(66010, "MagicDispeller", nil, nil, 1, 2)
-local specWarnIceBlock		= mod:NewSpecialWarningDispel(65802, "MagicDispeller", nil, nil, 1, 2)
+local specWarnHellfire		= mod:NewSpecialWarningGTFO(65816, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnHandofProt	= mod:NewSpecialWarningDispel(66009, "MagicDispeller", nil, nil, 1, 2, nil, nil, "dispelboss")
+local specWarnDivineShield	= mod:NewSpecialWarningDispel(66010, "MagicDispeller", nil, nil, 1, 2, nil, nil, "dispelboss")
+local specWarnIceBlock		= mod:NewSpecialWarningDispel(65802, "MagicDispeller", nil, nil, 1, 2, nil, nil, "dispelboss")
 
 local timerBladestorm		= mod:NewBuffActiveTimer(8, 65947, nil, nil, nil, 2)
 local timerShadowstepCD		= mod:NewCDTimer(30, 66178, nil, nil, nil, 3)

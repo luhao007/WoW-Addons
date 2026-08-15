@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal25"
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(21214)
 mod:SetEncounterID(626, 2461)
@@ -22,8 +22,8 @@ local warnCariPower		= mod:NewSpellAnnounce(38451, 3)
 local warnTidalPower	= mod:NewSpellAnnounce(38452, 3)
 local warnSharPower		= mod:NewSpellAnnounce(38455, 3)
 
-local specWarnHeal		= mod:NewSpecialWarningInterrupt(38330, "HasInterrupt", nil, nil, 1, 2)
-local specWarnTotem		= mod:NewSpecialWarningSwitch(38236, "Dps", nil, nil, 1, 2)
+local specWarnHeal		= mod:NewSpecialWarningInterrupt(38330, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnTotem		= mod:NewSpecialWarningSwitch(38236, "Dps", nil, nil, 1, 2, nil, nil, "attacktotem")
 
 local berserkTimer		= mod:NewBerserkTimer(600)
 

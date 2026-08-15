@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal25"
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(19514)
 mod:SetEncounterID(730, 2464)
@@ -21,9 +21,9 @@ mod:RegisterEventsInCombat(
 local warnPhase2		= mod:NewPhaseAnnounce(2, 2)
 local warnMeteor		= mod:NewSpellAnnounce(35181, 3)
 
-local specWarnQuill		= mod:NewSpecialWarningDodge(34229, nil, nil, nil, 2, 2)
-local specWarnFire		= mod:NewSpecialWarningMove(35383, nil, nil, nil, 1, 2)
-local specWarnArmor		= mod:NewSpecialWarningTaunt(35410, nil, nil, nil, 1, 2)
+local specWarnQuill		= mod:NewSpecialWarningDodge(34229, nil, nil, nil, 2, 2, nil, nil, "findshelter")
+local specWarnFire		= mod:NewSpecialWarningMove(35383, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnArmor		= mod:NewSpecialWarningTaunt(35410, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 
 local timerQuill		= mod:NewCastTimer(10, 34229, nil, nil, nil, 3)
 local timerMeteor		= mod:NewCDTimer(52, 35181, nil, nil, nil, 2)

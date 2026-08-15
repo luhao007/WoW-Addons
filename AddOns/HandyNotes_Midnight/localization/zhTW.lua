@@ -32,8 +32,12 @@ L['options_icons_profession_treasures_desc'] = '顯示會給予專業技能知�
 L['options_icons_safari'] = '{achievement:61091}'
 L['options_icons_safari_desc'] = '顯示成就 {achievement:61091} 所需的戰寵位置。'
 
+L['options_icons_renowned_beast'] = '知名野獸'
+L['options_icons_renowned_beast_desc'] = '顯示可召喚的日常剝皮野獸位置。'
+L['silverscale_note'] = '在橋下召喚。'
+
 -------------------------------------------------------------------------------
--------------------------------- EVERSONG WOODS --------------------------------
+-------------------------------- EVERSONG WOODS -------------------------------
 -------------------------------------------------------------------------------
 
 L['options_icons_ever_painting'] = '{achievement:62185}'
@@ -48,7 +52,7 @@ L['triple_locked_safebox_note'] = '需要 3 把隱藏的保險箱鑰匙。拿起
 L['incomplete_book_of_sonnets'] = '未完成的十四行詩集'
 
 -------------------------------------------------------------------------------
------------------------------------ HARANDAR -----------------------------------
+----------------------------------- HARANDAR ----------------------------------
 -------------------------------------------------------------------------------
 
 L['glowing_moth'] = '發光飛蛾'
@@ -77,16 +81,16 @@ L['altar_of_wisdom_note'] = '與 {object:智慧祭壇} 互動後，將 {item:257
 ---------------------------------- VOIDSTORM ----------------------------------
 -------------------------------------------------------------------------------
 
-L['void_shielded_tomb_note'] = nil
+L['void_shielded_tomb_note'] = '飲用附近桌上的 {object:解離藥水}，接著跑到對面的建築，拾取 {item:251519} 並用它解鎖寶箱。\n\n' .. ns.color.Red('需要90級')
 L['bloody_sack_note'] = '從附近的骨堆收集 {object:滴水的肉} 以餵食 {npc:254756}。'
 L['malignant_chest_note'] = '啟動洞穴中的 {object:惡意節點} 以解鎖寶箱。'
 L['malignant_node'] = '惡意節點'
-L['exaliburn_note'] = nil
+L['exaliburn_note'] = '飲用附近的 {object:無庸置疑力量藥水}，然後拔出崇燃之劍。'
 L['voidhoarders_corpse'] = '虛無囤積者的屍體'
-L['blackcore_note'] = nil
+L['blackcore_note'] = '在標記區域內擊殺 {npc:248462} 或 {npc:248483}，以取得 3 個 {item:248680}，然後與 {object:奇異點鏡片} 互動以召喚稀有怪。'
 
 -------------------------------------------------------------------------------
----------------------------------- ZUL'AMAN ----------------------------------
+----------------------------------- ZUL'AMAN ----------------------------------
 -------------------------------------------------------------------------------
 
 L['options_icons_frog_princess'] = '{achievement:62201}'
@@ -105,21 +109,103 @@ L['options_icons_gnome_alone_desc'] = '顯示 {achievement:62200} 成就的手�
 L['abandoned_ritual_skull'] = '被遺棄的儀式顱骨'
 
 L['options_icons_put_a_pin_in_it'] = '{achievement:62199}'
-L['options_icons_put_a_pin_in_it_desc'] = nil
-L['kalika_note'] = nil
-L['songseeker_ikaja_note'] = nil
+L['options_icons_put_a_pin_in_it_desc'] = '顯示 {achievement:62199} 成就中的位置。'
+L['kalika_note'] = '與 {npc:258884} 交談，然後與附近 {object:Jade Statue} 後方的 {object:被遺忘的鈕扣} 互動。'
+L['songseeker_ikaja_note'] = '位於神廟頂層。'
 
 -------------------------------------------------------------------------------
----------------------------------- 亞肯提納 ----------------------------------
+----------------------------------- NAIGTAL -----------------------------------
+-------------------------------------------------------------------------------
+
+L['sleepy_mandrake_note'] = '找到5個不同的蘑菇餵給在沉睡者洞窟的 {npc:267910}. 每種蘑菇在區域裡的來源都不同.'
+L['partially_digested_redcap_note'] = '由 {npc:264340}, {npc:264315}, 和區域內相似的稀有掉落.'
+L['ancient_crypt_reliquary'] = '遠古墓穴聖匣'
+L['squirming_mollusk'] = '蠕動的軟體生物'
+L['spiked_shell'] = '尖刺外殼'
+
+-------------------------------------------------------------------------------
+------------------------------------- VAL -------------------------------------
+-------------------------------------------------------------------------------
+
+L['enchanted_hilt'] = '附魔劍柄'
+L['enchanted_hilt_note'] = '僅限英雄難度。\n\n點選 {object:附魔劍柄} 以獲得 {spell:1300397}，接著在該區域擊敗世界首領 {npc:261072} 或 {achievement:62881} 中的稀有怪物，共兩次。返回劍柄以取得寶藏。'
+
+-------------------------------------------------------------------------------
+---------------------------------- ARCANTINA ----------------------------------
 -------------------------------------------------------------------------------
 
 L['share_a_drink_note'] = '從亞肯提納的 {npc:250495} 購買 {item:251039} 並與所有種族分享。'
 
 -------------------------------------------------------------------------------
------------------------------------ DELVES ------------------------------------
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+--------------------------------- RITUAL SITES --------------------------------
+-------------------------------------------------------------------------------
+L['options_icons_ritual_site'] = nil
+L['options_icons_ritual_site_desc'] = nil
+
+L['ritual_site_broken_throne'] = nil
+L['ritual_site_daggerspine_point'] = nil
+
+L['broken_throne_entry_note'] = nil
+L['daggerspine_point_entry_note'] = nil
+
+L['chewed_meat'] = nil
+L['chewed_meat_note'] = nil
+
+L['ritual_circle'] = nil
+L['ritual_circle_note'] = nil
+
+L['updraft'] = nil
+L['void_tainted_nest'] = nil
+L['void_tainted_nest_note'] = nil
+
+L['chubs_note'] = nil
+
+L['rustling_fern'] = nil
+L['rustling_bush'] = nil
+L['rustling_fern_note'] = nil
+L['rustling_bush_note'] = nil
+
+L['soggy_nest'] = nil
+L['soggy_nest_note'] = nil
+
+L['washed_up_kelp'] = nil
+L['washed_up_kelp_note'] = nil
+
+L['floating_egg_note'] = nil
+------------------------------------ DELVES -----------------------------------
 -------------------------------------------------------------------------------
 
 L['sturdy_chest'] = '結實的箱子'
 L['sturdy_chest_suffix'] = '結實的箱子已發現'
 
-L['gulf_of_memory_chest_note'] = nil
+L['gulf_of_memory_chest_note'] = '沿著樹根向上走即可到達寶藏。'
+
+-------------------------------------------------------------------------------
+--------------------------------- COILED ISLES --------------------------------
+-------------------------------------------------------------------------------
+
+L['lost_spirit_note'] = '將 {item:269935} 交還給 {npc:261867}。'
+L['sunken_divers_chest_note'] = '擊殺附近的 {npc:263081} 並拾取 3 個 {item:271424}，接著將其合成為 {item:271423} 以解鎖寶藏。'
+L['vulzahn_smuggled_treasure_note'] = '1. 從 {dot:Blue}{npc:253837} 取得 {item:271791}\n\n2. 將 {item:271791} 交給 {dot:Red}{npc:262204} 以獲得 {item:271788}\n\n3. 將 {item:271788} 交給 {dot:Green}{npc:263265} 以獲得 {item:271792} 並解鎖寶藏'
+L['grave_of_someone_forgotten_note'] = '1. 與 {dot:Red}{npc:263242} 對話。\n\n2. 與 {dot:Green}{npc:263243} 對話。\n\n3. 與 {dot:Blue}{npc:263241} 對話。\n\n4. 返回墳墓進行拾取。'
+L['profane_ritual_spoils_note'] = '面向雕像，依右上、左上、右下、左下的順序點擊 {npc:263187} 即可開啟寶藏。'
+L['abandoned_amani_privateers_cache_note'] = nil
+L['grisly_cod_pool'] = nil
+L['waterlogged_crate'] = nil
+L['broken_urn'] = nil
+L['brine_crusted_chest_note'] = nil
+L['bubbling_clam'] = nil
+
+L['options_icons_coiled_isle_safari'] = '{achievement:62492}'
+L['options_icons_coiled_isle_safari_desc'] = '顯示成就 {achievement:62492} 所需的戰寵位置。'
+
+L['options_icons_student_of_hissstory'] = '{achievement:63662}'
+L['options_icons_student_of_hissstory_desc'] = '顯示 {achievement:63662} 成就的劇情物品位置。'
+
+L['options_icons_soft_underbelly'] = '{achievement:62601}'
+L['options_icons_soft_underbelly_desc'] = '顯示 {achievement:62601} 成就的位置。'
+
+L['options_icons_the_honored_dead'] = '{achievement:63610}'
+L['options_icons_the_honored_dead_desc'] = '顯示 {achievement:63610} 成就的位置。'

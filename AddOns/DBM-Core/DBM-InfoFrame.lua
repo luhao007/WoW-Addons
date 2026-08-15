@@ -43,11 +43,27 @@ else
 end
 
 local infoFrameFontResetNotified = false
+local infoFrameStrataOptions = { "BACKGROUND", "LOW", "MEDIUM", "HIGH", "DIALOG", "FULLSCREEN", "FULLSCREEN_DIALOG", "TOOLTIP" }
+infoFrame.StrataOptions = infoFrameStrataOptions
+local validInfoFrameStrata = {}
+for _, v in ipairs(infoFrameStrataOptions) do
+	validInfoFrameStrata[v] = true
+end
+
+local function getSafeInfoFrameStrata()
+	local strata = DBM.Options.InfoFrameStrata
+	if type(strata) ~= "string" or not validInfoFrameStrata[strata] then
+		strata = DBM.DefaultOptions.InfoFrameStrata
+		DBM.Options.InfoFrameStrata = strata
+	end
+	return strata
+end
+
 local function getSafeInfoFrameFontSettings(testFontString)
 	local font = DBM.Options.InfoFrameFont == "standardFont" and standardFont or DBM.Options.InfoFrameFont
 	local size = DBM.Options.InfoFrameFontSize
-	local style = (DBM.Options.InfoFrameFontStyle and DBM.Options.InfoFrameFontStyle ~= "None" and DBM.Options.InfoFrameFontStyle ~= "none") and DBM.Options.InfoFrameFontStyle or ""
-	if not DBM:IsFontValid(font, standardFont) then
+	local style = (DBM.Options.InfoFrameFontStyle and not DBM:IsNoneValue(DBM.Options.InfoFrameFontStyle)) and DBM.Options.InfoFrameFontStyle or ""
+	if not DBM:IsFontValid(font, standardFont, size, style) then
 		DBM.Options.InfoFrameFont = DBM.DefaultOptions.InfoFrameFont
 		DBM.Options.InfoFrameFontSize = DBM.DefaultOptions.InfoFrameFontSize
 		DBM.Options.InfoFrameFontStyle = DBM.DefaultOptions.InfoFrameFontStyle
@@ -57,7 +73,7 @@ local function getSafeInfoFrameFontSettings(testFontString)
 		end
 		font = DBM.Options.InfoFrameFont == "standardFont" and standardFont or DBM.Options.InfoFrameFont
 		size = DBM.Options.InfoFrameFontSize
-		style = (DBM.Options.InfoFrameFontStyle and DBM.Options.InfoFrameFontStyle ~= "None" and DBM.Options.InfoFrameFontStyle ~= "none") and DBM.Options.InfoFrameFontStyle or ""
+		style = (DBM.Options.InfoFrameFontStyle and not DBM:IsNoneValue(DBM.Options.InfoFrameFontStyle)) and DBM.Options.InfoFrameFontStyle or ""
 	end
 	return font, size, style
 end
@@ -122,6 +138,15 @@ do
 		return DBM.Options.InfoFrameCols == col
 	end
 
+	local function setStrata(arg1, strata)
+		if not isWrath then strata = arg1 end -- New dropdown code
+		infoFrame:SetStrata(strata)
+	end
+
+	local function isStrataSelected(strata)
+		return DBM.Options.InfoFrameStrata == strata
+	end
+
 	function initializeDropdown(owner, rootDescription)
 		rootDescription:CreateCheckbox(LOCK_FRAME, isLocked, toggleLocked)
 		rootDescription:CreateCheckbox(L.INFOFRAME_SHOW_SELF, isShowSelf, toggleShowSelf)
@@ -134,6 +159,11 @@ do
 		local cols = rootDescription:CreateButton(L.INFOFRAME_SETCOLS)
 		for _, v in ipairs({ 0, 1, 2, 3, 4, 5, 6 }) do
 			cols:CreateRadio(v == 0 and L.INFOFRAME_LINESDEFAULT or L.INFOFRAME_COLS_TO:format(v), isColsSelected, setCols, v)
+		end
+
+		local strata = rootDescription:CreateButton(L.INFOFRAME_SETSTRATA)
+		for _, v in ipairs(infoFrameStrataOptions) do
+			strata:CreateRadio(v, isStrataSelected, setStrata, v)
 		end
 
 		rootDescription:CreateButton(HIDE, infoFrame.Hide)
@@ -168,6 +198,13 @@ do
 				menuList = "cols",
 			}, 1)
 			UIDropDownMenu_AddButton({
+				text = L.INFOFRAME_SETSTRATA,
+				notCheckable = true,
+				hasArrow = true,
+				keepShownOnClick = true,
+				menuList = "strata",
+			}, 1)
+			UIDropDownMenu_AddButton({
 				text = HIDE,
 				notCheckable = true,
 				func = infoFrame.Hide,
@@ -192,6 +229,15 @@ do
 						checked = isColsSelected(v)
 					}, 2)
 				end
+			elseif menu == "strata" then
+				for _, v in ipairs(infoFrameStrataOptions) do
+					UIDropDownMenu_AddButton({
+						text = v,
+						func = setStrata,
+						arg1 = v,
+						checked = isStrataSelected(v)
+					}, 2)
+				end
 			end
 		end
 	end
@@ -204,7 +250,7 @@ function createFrame()
 	---@class DBMInfoFrameFrame: Frame, BackdropTemplate
 	frame = CreateFrame("Frame", "DBMInfoFrame", UIParent, "BackdropTemplate")
 	frame:Hide()
-	frame:SetFrameStrata("DIALOG")
+	frame:SetFrameStrata(getSafeInfoFrameStrata())
 	frame.backdropInfo = {
 		bgFile		= "Interface\\DialogFrame\\UI-DialogBox-Background", -- 131071
 		tile		= true,
@@ -1014,7 +1060,7 @@ local function onUpdate(frame, table)
 		local icon = icons[extraName or leftText]
 		local textWithIcon = icon and ("|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%d:0|t%s"):format(icon, leftText)
 		if friendlyEvents[currentEvent] then
-			local unitId = DBM:GetRaidUnitId(DBM:GetUnitFullName(extraName or leftText)) or "player"--Prevent nil logical error
+			local unitId = DBM:GetRaidUnitId(DBM:GetUnitFullName(extraName or leftText) or "", true) or "player"--Prevent nil logical error
 			if unitId then
 				local mapId = select(-1, UnitPosition(unitId))--In instances in 10.2.5, blizzard truncates UnitPosition to scrub x and y args, meaning it only has 2 returns, not 4, so can't select 4 anymore, have to -1 so it auto chooses last arg be it a 2 or a 4
 				if mapId == currentMapId then
@@ -1059,8 +1105,8 @@ local function onUpdate(frame, table)
 			end
 		else
 			local color2 = NORMAL_FONT_COLOR -- Only custom into frames will have chance of putting player names on right side
-			local unitId = DBM:GetRaidUnitId(DBM:GetUnitFullName(extraName or leftText))
-			local unitId2 = DBM:GetRaidUnitId(DBM:GetUnitFullName(rightText))
+			local unitId = DBM:GetRaidUnitId(DBM:GetUnitFullName(extraName or leftText) or "", true)
+			local unitId2 = DBM:GetRaidUnitId(DBM:GetUnitFullName(rightText) or "", true)
 			-- Class color names in custom functions too, IF unitID exists
 			if unitId then -- Check left text
 				local _, class = UnitClass(unitId)
@@ -1359,6 +1405,16 @@ function infoFrame:SetColumns(columns)
 	modCols = columns
 	if DBM.Options.InfoFrameCols == 0 then
 		maxCols = columns
+	end
+end
+
+function infoFrame:SetStrata(strata)
+	if strata ~= nil then
+		DBM.Options.InfoFrameStrata = strata
+	end
+	local safeStrata = getSafeInfoFrameStrata()
+	if frame then
+		frame:SetFrameStrata(safeStrata)
 	end
 end
 

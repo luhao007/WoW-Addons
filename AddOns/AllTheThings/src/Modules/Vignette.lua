@@ -96,6 +96,12 @@ local Ignored = setmetatable({
 		[240407] = true,	-- Naynar [Haranir Renown Quartermaster]
 		[255114] = true,	-- Maku [Decor Specialist]
 		[252910] = true,	-- Garnett [Decor Specialist]
+		[256750] = true,	-- Klasa [Decor Specialist]
+		[255213] = true,	-- Faarden the Builder [Decor Specialist]
+		[255216] = true,	-- Balen the Starfinder [Decor Specialist]
+		[255221] = true,	-- Trevor Grenner [Decor Specialist]
+		[255218] = true,	-- Argan Hammerfist [Decor Specialist]
+		[255203] = true,	-- Xiao Dan [Decor Specialist]
 	},
 	object = {
 		[503267] = true,	-- Phase Conduit [K'aresh Teleport Node]
@@ -143,6 +149,9 @@ local AlertMeta = {
 			if not SettingsCache.ReportContent then return end
 
 			local guid = info.objectGUID;
+			-- app.PrintDebug("Vignette.AlertMeta",guid,not ReportedVignettes[guid])
+			rawset(t, key, info);
+			app.UpdateRawID(info.SearchKey, info.ID, app.DirectGroupRedraw)
 			if not guid or ReportedVignettes[guid] then return end
 
 			-- if we encounter situations where a ton of vignettes all attempt to load in a single frame
@@ -151,7 +160,6 @@ local AlertMeta = {
 			if AlertForVignetteInfo(info) then
 				-- If someone has completed turned off
 				ReportedVignettes[guid] = true;
-				rawset(t, key, info);
 			end
 		else
 			rawset(t, key, info);
@@ -187,6 +195,7 @@ local CachedVignetteInfo = setmetatable({}, {
 				local searchType = VignetteSearchTypes[type]
 				if SettingsCache[searchType] then
 					vignetteInfo.SearchType = searchType
+					vignetteInfo.SearchKey = searchType.."ID"
 					vignetteInfo.ID = id
 					-- app.PrintDebug("CachedVignetteInfo",searchType,id,guid)
 					rawset(t, guid, vignetteInfo)
@@ -202,13 +211,15 @@ local function ClearVignette(guid)
 	local vignetteInfo = CachedVignetteInfo[guid]
 	if not vignetteInfo then return end
 
-	-- app.PrintDebug("Vignette.Clear",vignetteInfo.SearchType,vignetteInfo.ID,guid);
-	ActiveVignettes[vignetteInfo.SearchType][vignetteInfo.ID] = nil
+	local type, id = vignetteInfo.SearchType, vignetteInfo.ID
+	-- app.PrintDebug("Vignette.Clear",type,id,guid);
+	ActiveVignettes[type][id] = nil
 	CachedVignetteInfo[guid] = nil
 	if SettingsCache.ClearWaypoints and GetTrackedVignette() == guid then
 		C_SuperTrack.ClearAllSuperTracked()
 		ActiveWaypointGUID = nil
 	end
+	app.UpdateRawID(vignetteInfo.SearchKey, id, app.DirectGroupRedraw)
 end
 local vignettesByGUID = {}
 local function UpdateVignette(guid)
@@ -253,8 +264,7 @@ end
 local function InitialVignetteScan()
 	CacheVignetteSettings()
 	DelayedCallback(Event_VIGNETTES_UPDATED, 0.1)
-	-- clean up the 1 time function, needs to be callback since it's removing within the same event
-	app.FunctionRunner.Run(app.RemoveEventHandler, InitialVignetteScan)
+	app.RemoveEventHandler(InitialVignetteScan)
 end
 app.AddEventHandler("OnRefreshCollectionsDone", InitialVignetteScan)
 app.AddEventHandler("Settings.OnSet", function(containerKey, key, value)

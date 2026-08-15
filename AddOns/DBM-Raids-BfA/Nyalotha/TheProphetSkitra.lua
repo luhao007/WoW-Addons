@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2369, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260526204832")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(157620)
 mod:SetEncounterID(2334)
@@ -27,6 +27,7 @@ mod:RegisterEventsInCombat(
 (ability.id = 309687 or ability.id = 307725) and type = "begincast"
  or (ability.id = 313239 or ability.id = 307937 or ability.id = 313276) and type = "cast"
 --]]
+DBM:RegisterAltSpellName(313239, 127876)--Images of Absolution -> Image
 local warnShadowShock						= mod:NewStackAnnounce(308059, 2, nil, "Tank")
 local warnImagesofAbsolution				= mod:NewCountAnnounce(313239, 3)--Spawn, not when killable
 local warnShredPsyche						= mod:NewTargetNoFilterAnnounce(307937, 2)
@@ -34,18 +35,18 @@ local warnPsychicOutburst					= mod:NewCastAnnounce(309687, 4)
 local warnProjections						= mod:NewSpellAnnounce(307725, 2)
 local warnProjectionsOver					= mod:NewEndAnnounce(307725, 2)
 
-local specWarnCloudedMind					= mod:NewSpecialWarningYou(307784, nil, nil, nil, 1, 2)--voice not yet decided
-local specWarnTwistedMind					= mod:NewSpecialWarningYou(307785, nil, nil, nil, 1, 2)--voice not yet decided
+local specWarnCloudedMind					= mod:NewSpecialWarningYou(307784, nil, nil, nil, 1, 2, nil, nil, "targetyou")--voice not yet decided
+local specWarnTwistedMind					= mod:NewSpecialWarningYou(307785, nil, nil, nil, 1, 2, nil, nil, "targetyou")--voice not yet decided
 local yellMark								= mod:NewPosYell(307784, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION, false)
-local specWarnImagesofAbsolutionSwitch		= mod:NewSpecialWarningSwitch(313239, "dps", 127876, nil, 1, 2, 3)--30 seconds after spawn, when killable
-local specWarnShadowShock					= mod:NewSpecialWarningStack(308059, nil, 7, nil, nil, 1, 6)
-local specWarnShadowShockTaunt				= mod:NewSpecialWarningTaunt(308059, nil, nil, nil, 1, 2)
-local specWarnShredPsyche					= mod:NewSpecialWarningMoveAway(307937, nil, nil, nil, 1, 2)
+local specWarnImagesofAbsolutionSwitch		= mod:NewSpecialWarningSwitch(313239, "dps", nil, nil, 1, 2, 3, nil, "killmob")--30 seconds after spawn, when killable
+local specWarnShadowShock					= mod:NewSpecialWarningStack(308059, nil, 7, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnShadowShockTaunt				= mod:NewSpecialWarningTaunt(308059, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnShredPsyche					= mod:NewSpecialWarningMoveAway(307937, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellShredPsyche						= mod:NewShortPosYell(307937)
 local yellShredPsycheFades					= mod:NewIconFadesYell(307937)
-local specWarnShredPsycheSwitch				= mod:NewSpecialWarningSwitch(307937, "dps", nil, nil, 1, 2)
+local specWarnShredPsycheSwitch				= mod:NewSpecialWarningSwitch(307937, "dps", nil, nil, 1, 2, nil, nil, "killmob")
 
-local timerImagesofAbsolutionCD				= mod:NewCDTimer(84.9, 313239, 127876, nil, nil, 1, nil, DBM_COMMON_L.HEROIC_ICON)
+local timerImagesofAbsolutionCD				= mod:NewCDTimer(84.9, 313239, nil, nil, nil, 1, nil, DBM_COMMON_L.HEROIC_ICON)
 local timerShredPsycheCD					= mod:NewCDTimer(37.7, 307937, nil, nil, nil, 3, nil, DBM_COMMON_L.DAMAGE_ICON, nil, 1, 4)
 
 local berserkTimer							= mod:NewBerserkTimer(600)--He only gains a 300% damage increase on his berserk, and that's surviable since he doesn't melee and his adds don't gain it

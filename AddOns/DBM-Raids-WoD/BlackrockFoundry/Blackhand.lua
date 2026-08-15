@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(959, "DBM-Raids-WoD", 2, 457)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260523022002")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(77325)--68168
 mod:SetEncounterID(1704)
@@ -28,36 +28,36 @@ local warnPhase						= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnMarkedforDeath			= mod:NewTargetCountAnnounce(156096, 4)--If not in combat log, find a RAID_BOSS_WHISPER event.
 local warnMassiveDemolition			= mod:NewCountAnnounce(156479, 3, nil, "Ranged", 2)--As a regular warning, not too spammy and perfectly reasonable for ranged to be on by default.
 --Stage Two: Storage Warehouse
-local warnSiegemaker				= mod:NewCountAnnounce("ej9571", 3, 156667)
+local warnSiegemaker				= mod:NewCountAnnounce(-9571, 3, 156667)
 local warnFixate					= mod:NewTargetAnnounce(156653, 4)
 --Stage Three: Iron Crucible
 local warnAttachSlagBombs			= mod:NewTargetCountAnnounce(157000, 4)
 
 --Stage One: The Blackrock Forge
-local specWarnDemolition			= mod:NewSpecialWarningCount(156425, nil, nil, nil, 2, 2)
+local specWarnDemolition			= mod:NewSpecialWarningCount(156425, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 local specWarnMassiveDemolition		= mod:NewSpecialWarningCount(156479, false, nil, nil, 2)
-local specWarnMarkedforDeath		= mod:NewSpecialWarningYou(156096, nil, nil, nil, 3, 2)
-local specWarnMFDPosition			= mod:NewSpecialWarning("specWarnMFDPosition", nil, false, nil, 1)--Mythic Position Assignment. No option, connected to specWarnMarkedforDeath
-local specWarnMarkedforDeathOther	= mod:NewSpecialWarningTargetCount(156096, false, nil, nil, 1, 12)
+local specWarnMarkedforDeath		= mod:NewSpecialWarningYou(156096, nil, nil, nil, 3, 2, nil, nil, "findshelter")
+local specWarnMFDPosition			= mod:NewSpecialWarning("specWarnMFDPosition", nil, false, nil, 1, nil, nil, nil, nil, nil, "right")--Mythic Position Assignment. No option, connected to specWarnMarkedforDeath
+local specWarnMarkedforDeathOther	= mod:NewSpecialWarningTargetCount(156096, false, nil, nil, 1, 12, nil, nil, "markedfordeath")
 local yellMarkedforDeath			= mod:NewYell(156096)
-local specWarnThrowSlagBombs		= mod:NewSpecialWarningCount(156030, nil, nil, nil, 2, 2)--This spell is not gtfo.
-local specWarnShatteringSmash		= mod:NewSpecialWarningCount(155992, "Melee", nil, nil, nil, 2)
+local specWarnThrowSlagBombs		= mod:NewSpecialWarningCount(156030, nil, nil, nil, 2, 2, nil, nil, "bombsoon")--This spell is not gtfo.
+local specWarnShatteringSmash		= mod:NewSpecialWarningCount(155992, "Melee", nil, nil, nil, 2, nil, nil, "carefly")
 local specWarnMoltenSlag			= mod:NewSpecialWarningMove(156401)
 --Stage Two: Storage Warehouse
-local specWarnSiegemaker			= mod:NewSpecialWarningCount("ej9571", false)--Kiter switch. off by default.
-local specWarnSiegemakerPlatingFades= mod:NewSpecialWarningFades(156667, "Ranged", nil, 2, 1, 12)--Plating removed, NOW dps switch
+local specWarnSiegemaker			= mod:NewSpecialWarningCount(-9571, false)--Kiter switch. off by default.
+local specWarnSiegemakerPlatingFades= mod:NewSpecialWarningFades(156667, "Ranged", nil, 2, 1, 12, nil, nil, "attacktank")--Plating removed, NOW dps switch
 local specWarnFixate				= mod:NewSpecialWarningRun(156653, nil, nil, nil, 4)
 local yellFixate					= mod:NewYell(156653)
 local specWarnMortarSoon			= mod:NewSpecialWarningSoon(156530, "Ranged")--Mortar prefers the furthest targets from siege engine. It's ranged job to bait it to a wall
-local specWarnMassiveExplosion		= mod:NewSpecialWarningSpell(163008, nil, nil, nil, 2, 2)--Mythic
+local specWarnMassiveExplosion		= mod:NewSpecialWarningSpell(163008, nil, nil, nil, 2, 2, nil, nil, "aesoon")--Mythic
 --Stage Three: Iron Crucible
 local specWarnSlagEruption			= mod:NewSpecialWarningCount(156928, nil, nil, nil, 2)
-local specWarnAttachSlagBombs		= mod:NewSpecialWarningYou(157000, nil, nil, nil, nil, 2)--May change to sound 3, but I don't want it confused with the even more threatening marked for death, so for now will try 1
-local specWarnAttachSlagBombsOther	= mod:NewSpecialWarningTaunt(157000, nil, nil, nil, nil, 2)
+local specWarnAttachSlagBombs		= mod:NewSpecialWarningYou(157000, nil, nil, nil, nil, 2, nil, nil, "runout")--May change to sound 3, but I don't want it confused with the even more threatening marked for death, so for now will try 1
+local specWarnAttachSlagBombsOther	= mod:NewSpecialWarningTaunt(157000, nil, nil, nil, nil, 2, nil, nil, "changemt")
 local specWarnSlagPosition			= mod:NewSpecialWarning("specWarnSlagPosition", nil, false, nil, 1)
 local yellAttachSlagBombs			= mod:NewYell(157000, nil, nil, 2)
-local specWarnMassiveShatteringSmash= mod:NewSpecialWarningCount(158054, nil, nil, 2, 3, 2)
-local specWarnFallingDebris			= mod:NewSpecialWarningCount(162585, nil, nil, nil, 2, 2)--Mythic (like Meteor)
+local specWarnMassiveShatteringSmash= mod:NewSpecialWarningCount(158054, nil, nil, 2, 3, 2, nil, nil, "carefly")
+local specWarnFallingDebris			= mod:NewSpecialWarningCount(162585, nil, nil, nil, 2, 2, nil, nil, "helpsoak")--Mythic (like Meteor, "helpsoak")
 
 --Stage One: The Blackrock Forge
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
@@ -69,7 +69,7 @@ local timerShatteringSmashCD		= mod:NewCDCountTimer(44.5, 155992, nil, nil, nil,
 local timerImpalingThrow			= mod:NewCastTimer(5, 156111, nil, nil, nil, nil, nil, DBM_COMMON_L.DEADLY_ICON)--How long marked target has to aim throw at Debris Pile or Siegemaker
 --Stage Two: Storage Warehouse
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
-local timerSiegemakerCD				= mod:NewNextCountTimer(50, "ej9571", nil, nil, nil, 1, 156667)
+local timerSiegemakerCD				= mod:NewNextCountTimer(50, -9571, nil, nil, nil, 1, 156667)
 local timerMassiveExplosion			= mod:NewCastTimer(5, 163008, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 --Stage Three: Iron Crucible
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
@@ -396,7 +396,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 156667 then
 		self.vb.markCount2 = 0
 		self.vb.siegemaker = self.vb.siegemaker + 1
-		if not self.Options.SpecWarnej9571spell then
+		if not self.Options["SpecWarn-9571count"] then
 			warnSiegemaker:Show(self.vb.siegemaker)
 		else
 			specWarnSiegemaker:Show(self.vb.siegemaker)

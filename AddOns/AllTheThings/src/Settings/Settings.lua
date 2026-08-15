@@ -929,13 +929,20 @@ settings.GetModeString = function(self)
 				solo = false
 			end
 		end
+		local hasAllInsaneFilters = true
+		for filterID in pairs(app.EquipmentFilters) do
+			if not settings:GetFilter(filterID) then
+				hasAllInsaneFilters = false
+				break
+			end
+		end
 		if thingCount == 0 then
 			mode = L.TITLE_NONE_THINGS .. mode;
 		elseif thingCount == 1 then
 			mode = things[1] .. L.TITLE_ONLY .. mode;
 		elseif thingCount == 2 then
 			mode = things[1] .. " + " .. things[2] .. L.TITLE_ONLY .. mode;
-		elseif insaneCount == insaneTotalCount then
+		elseif insaneCount == insaneTotalCount and hasAllInsaneFilters then
 			-- only Insane if not hiding anything!
 			if settings:NonMode() then
 				-- don't add Insane :)
@@ -1026,10 +1033,17 @@ settings.GetShortModeString = function(self)
 				solo = false
 			end
 		end
+		local hasAllInsaneFilters = true
+		for filterID in pairs(app.EquipmentFilters) do
+			if not settings:GetFilter(filterID) then
+				hasAllInsaneFilters = false
+				break
+			end
+		end
 		local style = ""
 		if thingCount == 0 then
 			style = "N"
-		elseif insaneCount == insaneTotalCount then
+		elseif insaneCount == insaneTotalCount and hasAllInsaneFilters then
 			-- only Insane if not hiding anything!
 			if settings:NonMode() then
 				-- don't add Insane :)
@@ -1286,7 +1300,9 @@ ATTSettingsPanelMixin = {
 		self:RegisterObject(cb);
 		if OnClick then cb:SetScript("OnClick", OnClick) end
 		cb.OnRefresh = OnRefresh or cb.OnRefreshCheckedDisabled
-		cb.Text:SetText(text)
+		if text ~= "" then
+			cb.Text:SetText(" "..text)
+		end
 		cb.Text:SetScale(1.3)
 		cb.Text:SetWordWrap(false)
 		cb:SetHitRectInsets(0,0 - cb.Text:GetUnboundedStringWidth(),0,0);
@@ -1547,7 +1563,7 @@ settings.CreateOptionsPage = function(self, text, parentCategory, isRootCategory
 	title:SetScale(1.5);
 
 	local version = subcategory:CreateHeaderLabel(app.Version);
-	version:SetPoint("TOPRIGHT", subcategory, "TOPRIGHT", -8, 0);
+	version:SetPoint("TOPRIGHT", subcategory, "TOPRIGHT", -4, 0);
 	version:SetJustifyH("RIGHT");
 
 	local separator = subcategory:CreateTexture(nil, "ARTWORK");
@@ -1568,7 +1584,10 @@ settings.CreateOptionsPage = function(self, text, parentCategory, isRootCategory
 		if not skipRefresh and settings.NeedsRefresh then settings:UpdateMode("FORCE"); end
 	end)
 	checkboxSkipAutoRefresh:SetATTTooltip(L.SKIP_AUTO_REFRESH_TOOLTIP);
-	checkboxSkipAutoRefresh:SetPoint("BOTTOMRIGHT", separator, "TOPRIGHT", -(checkboxSkipAutoRefresh.Text:GetWidth() * checkboxSkipAutoRefresh.Text:GetScale()), 0)
+	checkboxSkipAutoRefresh.Text:ClearAllPoints()
+	checkboxSkipAutoRefresh.Text:SetPoint("BOTTOMRIGHT", separator, "TOPRIGHT", 0, 8)
+	checkboxSkipAutoRefresh:ClearAllPoints()
+	checkboxSkipAutoRefresh:SetPoint("RIGHT", checkboxSkipAutoRefresh.Text, "LEFT", 0, 0)
 	return subcategory;
 end
 
@@ -1583,6 +1602,53 @@ settings.ToggleAccountMode = function(self)
 		app.print(L.TITLE_ACCOUNT..L.MODE.."|R "..L.ENABLED..".")
 	else
 		app.print(L.TITLE_ACCOUNT..L.MODE.."|R "..L.DISABLED..".")
+	end
+end
+settings.ToggleFilters = function(self)
+	self:ForceRefreshFromToggle()
+	if (settings:GetFilter(4) and not (app.ClassIndex == 5 or app.ClassIndex == 8 or app.ClassIndex == 9)) -- Cloth
+	or (settings:GetFilter(5) and not (app.ClassIndex == 4 or app.ClassIndex == 10 or app.ClassIndex == 11 or app.ClassIndex == 12)) -- Leather
+	or (settings:GetFilter(6) and not (app.ClassIndex == 3 or app.ClassIndex == 7 or app.ClassIndex == 13)) -- Mail
+	or (settings:GetFilter(7) and not (app.ClassIndex == 1 or app.ClassIndex == 2 or app.ClassIndex == 6)) then -- Plate
+		settings:ResetFilters()	-- Class Defaults
+		app.print(L.FILTERS_PAGE.." "..L.CLASS_DEFAULTS_BUTTON.."|R "..L.ENABLED..".")
+	else
+		for filterID = 1, 113 do	-- 113 = Bags, highest filterID in our Settings
+			settings:SetFilter(filterID, true)
+		end
+		app.print(L.FILTERS_PAGE.." "..L.ALL_BUTTON.."|R "..L.ENABLED..".")
+	end
+end
+settings.ActivateNextProfile = function(self)
+	if AllTheThingsProfiles and AllTheThingsProfiles.Profiles then
+		local profiles = {}
+		for key in pairs(AllTheThingsProfiles.Profiles) do
+			table.insert(profiles, { name = key })
+			if key == settings:GetProfile(true) then
+				currentProfile = #profiles
+			end
+		end
+		if #profiles >= 2 and currentProfile then
+			table.sort(profiles, function(a, b) return a.name < b.name end)
+			local currentProfile
+			for i, profile in ipairs(profiles) do
+				if profile.name == settings:GetProfile(true) then
+					currentProfile = i
+					break
+				end
+			end
+			local nextProfile = currentProfile % #profiles + 1
+			local announceProfile = settings:Get("Profile:ShowProfileLoadedMessage")
+			settings:Set("Profile:ShowProfileLoadedMessage", true)
+			settings:SetProfile(profiles[nextProfile].name)
+			settings:ApplyProfile()
+			settings:UpdateMode(1)
+			settings:Set("Profile:ShowProfileLoadedMessage", announceProfile)
+		else
+			app.print(L.SWITCH_NO_NEXT_PROFILE)
+		end
+	else
+		app.print(L.SWITCH_NO_NEXT_PROFILE)
 	end
 end
 settings.SetCompletionistMode = function(self, completionistMode)
@@ -1770,7 +1836,7 @@ settings.UpdateMode = function(self, doRefresh)
 
 		if self:Get("AccountMode") then
 			app.MODE_ACCOUNT = true;
-			filterSet.FilterID()
+			filterSet.FilterID(true)
 			filterSet.Class()
 			filterSet.RequireSkill()
 			filterSet.MinReputation()
@@ -1939,6 +2005,6 @@ local function ConvertAutoOpenSettings()
 		app:GetWindow("WorldQuests"):SetShouldAutomaticallyOpen(true)
 		settings:SetTooltipSetting("Auto:WorldQuestsList", nil)
 	end
-	app.FunctionRunner.Run(app.RemoveEventHandler, ConvertAutoOpenSettings)
+	app.RemoveEventHandler(ConvertAutoOpenSettings)
 end
 app.AddEventHandler("OnLoad", ConvertAutoOpenSettings)

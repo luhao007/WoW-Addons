@@ -378,21 +378,12 @@ app.AddEventHandler("OnRefreshCollections", function()
 	local saved, none, bonus, nobonus = {}, {}, {}, {}
 	for id,_ in pairs(app.GetRawFieldContainer(KEY)) do
 		faction = app.SearchForObject(KEY, id, "key")
+		-- TODO: store account-wide factions in acct cache directly
 		if faction then
 			if faction.standing >= faction.maxstanding then
 				saved[id] = true
 			else
 				none[id] = true
-			end
-			-- This is currently always 'false' in Retail, even for Factions with the bonus because Blizzard broke it
-			-- years ago and hasn't bothered fixing it
-			if not app.IsClassic and GetFactionBonusReputation(id) then	-- (sidenote: it does work in Classic at the moment)
-				-- leaving this debug print here in case it ever gets fixed I'll see it spam chat and we can rejoice
-				-- and make the Grand Commendations collectible again :)
-				app.PrintDebug("FactionBonus",id,app:SearchLink(faction))
-				bonus[id] = true
-			else
-				nobonus[id] = true
 			end
 		else PrintMissingFaction(id)
 		end
@@ -400,11 +391,6 @@ app.AddEventHandler("OnRefreshCollections", function()
 	-- Character Cache
 	app.SetBatchCached(CACHE, saved, 1)
 	app.SetBatchCached(CACHE, none)
-	-- Account Cache (removals handled by Sync)
-	app.SetBatchAccountCached(CACHE, saved, 1)
-	-- Account Cache of FactionBonus
-	app.SetBatchAccountCached("FactionBonus", bonus, 1)
-	app.SetBatchAccountCached("FactionBonus", nobonus)
 end);
 local function ScanForNewCollectedFactions()
 	-- app.PrintDebug("Scan uncollected factions")

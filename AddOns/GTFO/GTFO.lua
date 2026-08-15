@@ -29,14 +29,14 @@ GTFO = {
 		IgnoreTimeAmount = .2;
 		AFKAlertMode = nil;
 	};
-	Version = "6.5"; -- Version number (text format)
+	Version = "6.7"; -- Version number (text format)
 	VersionNumber = 0; -- Numeric version number for checking out-of-date clients (placeholder until client is detected)
-	RetailVersionNumber = 60500; -- Numeric version number for checking out-of-date clients (retail)
-	ClassicVersionNumber = 60300; -- Numeric version number for checking out-of-date clients (Vanilla classic)
-	BurningCrusadeVersionNumber = 60300; -- Numeric version number for checking out-of-date clients (TBC classic)
-	WrathVersionNumber = 60300; -- Numeric version number for checking out-of-date clients (Wrath classic)
+	RetailVersionNumber = 60700; -- Numeric version number for checking out-of-date clients (retail)
+	ClassicVersionNumber = 60602; -- Numeric version number for checking out-of-date clients (Vanilla classic)
+	BurningCrusadeVersionNumber = 60602; -- Numeric version number for checking out-of-date clients (TBC classic)
+	WrathVersionNumber = 60602; -- Numeric version number for checking out-of-date clients (Wrath classic)
 	CataclysmVersionNumber = 60300; -- Numeric version number for checking out-of-date clients (Cata classic)
-	MistsVersionNumber = 60300; -- Numeric version number for checking out-of-date clients (MoP classic)
+	MistsVersionNumber = 60602; -- Numeric version number for checking out-of-date clients (MoP classic)
 	DataLogging = nil; -- Indicate whether or not the addon needs to run the datalogging function (for hooking)
 	DataCode = "4"; -- Saved Variable versioning, change this value to force a reset to default
 	CanTank = nil; -- The active character is capable of tanking
@@ -94,17 +94,19 @@ GTFO = {
 		{ Code = "Dialog", Name = _G.DIALOG_VOLUME, CVar = "Sound_EnableDialog" },
 	};
 	Scans = { };
-	EncounterPrivateAuraSoundIds = { };
-	InstancePrivateAuraSoundIds = { };
+	EncounterRegistration = { SoundIds = { }, SpellIds = { } }; -- Active encounter registration state (Retail)
+	InstanceRegistration = { SoundIds = { }, SpellIds = { } }; -- Active instance registration state (Retail)
+	MapRegistration = { SoundIds = { }, SpellIds = { }, MapIds = { } }; -- Active map registration state (Retail)
 	EncounterIndex = { }; -- Cache for encounters (Retail)
 	InstanceIndex = { }; -- Cache for instances (Retail)
+	MapIndex = { }; -- Cache for maps (Retail)
 };
 
 GTFOData = {};
 
 local buildNumber = select(4, GetBuildInfo());
 
-if (buildNumber > 120000) then
+if (buildNumber > 120100) then
 	GTFO.BetaMode = true;
 end
 if (buildNumber >= 120000) then
@@ -201,16 +203,30 @@ function GTFO_ScanGroupGUID()
 	end
 	if (raidMembers > 0) then
 		for i = 1, raidMembers, 1 do
-			if not (UnitIsUnit("raid"..i, "player")) then
+			local isPlayer;
+			if (GTFO.RetailMode) then
+				isPlayer = GTFO.SafeUnitIsUnit("raid"..i, "player");
+			else
+				isPlayer = UnitIsUnit("raid"..i, "player");
+			end
+
+			if (isPlayer == false) then
 				tinsert(GTFO.GroupGUID, UnitGUID("raid"..i));
-			end;
+			end
 		end
 	end
 	if (partyMembers > 0) then
 		for i = 1, partyMembers, 1 do
-			if not (UnitIsUnit("party"..i, "player")) then
+			local isPlayer;
+			if (GTFO.RetailMode) then
+				isPlayer = GTFO.SafeUnitIsUnit("party"..i, "player");
+			else
+				isPlayer = UnitIsUnit("party"..i, "player");
+			end
+
+			if (isPlayer == false) then
 				tinsert(GTFO.GroupGUID, UnitGUID("party"..i));
-			end;
+			end
 		end
 	end
 end
@@ -280,8 +296,12 @@ function GTFO_Command(arg1)
 		GTFO_Command_BrannMode();
 	elseif (Command == "IGNORE") then
 		GTFO_Command_IgnoreSpell(Description);
-	elseif (Command == "REPORT" and GTFO.PrivateAuraScan) then
-		GTFO.PrivateAuraScan();
+	elseif (Command == "REPORT") then
+		if (GTFO.RetailMode) then
+			GTFO_Command_Report();
+		else
+			GTFO_Command_Help();
+		end
 	else
 		GTFO_Command_Help();
 	end
@@ -1407,6 +1427,16 @@ end
 
 -- Detect if the player is tanking or not
 function GTFO_CheckTankMode()
+	if (GTFO.RetailMode) then
+		-- Retail tank mode: go by tank specialization only
+		local spec = GTFO_GetSpecIndex();
+		if (spec and GTFO_GetSpecRole(spec) == "TANK") then
+			return true;
+		end
+		return nil;
+	end
+
+	-- Classic tank mode: dynamic check for bear form, or tank specialization (if available)
 	if (GTFO.CanTank) then
 		if (GTFO.PlayerClass == "DRUID") then
 			local stance = GetShapeshiftForm();

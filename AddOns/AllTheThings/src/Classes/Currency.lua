@@ -119,7 +119,8 @@ local CreateCostCurrency = app.CreateClass("CostCurrency", KEY, {
 	end,
 	-- progress is how much you have
 	progress = function(t)
-		return GetCurrencyInfo(t.currencyID).quantity or 0;
+		local info = GetCurrencyInfo(t.currencyID)
+		return (info and info.quantity) or 0;
 	end,
 	collectible = app.ReturnFalse,
 	trackable = app.ReturnTrue,
@@ -141,4 +142,23 @@ app.CreateCostCurrency = function(t, total)
 	-- cost currency should always be visible for clarity
 	c.OnUpdate = app.AlwaysShowUpdate;
 	return c;
+end
+
+do
+	local function CurrencyRedraw(id)
+		-- app.PrintDebug("CURRENCY.REDRAW",id)
+		app.UpdateRawID("currencyID", id, app.DirectGroupRedraw)
+	end
+	local currencyIDUpdateCallbacks = setmetatable({}, {
+		__index = function(t, currencyID)
+			local callback = function(id) CurrencyRedraw(id) end
+			t[currencyID] = callback
+			return callback
+		end,
+	});
+	app:RegisterFuncEvent("CURRENCY_DISPLAY_UPDATE", function(currencyID,...)
+		if not currencyID then return end
+		-- app.PrintDebug("CURRENCY_DISPLAY_UPDATE", currencyID, ...)
+		app.CallbackHandlers.DelayedCallback(currencyIDUpdateCallbacks[currencyID], 2, currencyID)
+	end)
 end

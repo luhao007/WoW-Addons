@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2429, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(165066)
 mod:SetEncounterID(2418)
@@ -33,11 +33,14 @@ mod:RegisterEventsInCombat(
 --]]
 --Huntsman Altimor
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22309))
+DBM:RegisterAltSpellName(334945, 262783)--Vicious Lunge -> short name
+DBM:RegisterAltSpellName(334852, 135241)--Petrifying Howl -> Howl
+
 local warnPhase									= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnSinseeker								= mod:NewTargetNoFilterAnnounce(335114, 4)
 local warnSpreadshot							= mod:NewSpellAnnounce(334404, 3)
 
-local specWarnSinseeker							= mod:NewSpecialWarningYouPos(335114, nil, nil, nil, 3, 2)
+local specWarnSinseeker							= mod:NewSpecialWarningYouPos(335114, nil, nil, nil, 3, 2, nil, nil, "mm1")
 local yellSinseeker								= mod:NewShortPosYell(335114)
 local yellSinseekerFades						= mod:NewIconFadesYell(335114)
 
@@ -50,21 +53,21 @@ mod:AddSetIconOption("SetIconOnSinSeeker", 335114, true, 0, {1, 2, 3})--335111 3
 ----Margore
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22312))
 local warnJaggedClaws							= mod:NewStackAnnounce(334971, 2, nil, "Tank|Healer")
-local warnViciousLunge							= mod:NewTargetNoFilterAnnounce(334945, 3, nil, nil, 262783)
+local warnViciousLunge							= mod:NewTargetNoFilterAnnounce(334945, 3)
 
-local specWarnJaggedClaws						= mod:NewSpecialWarningStack(334971, nil, 2, nil, nil, 1, 6)
-local specWarnJaggedClawsTaunt					= mod:NewSpecialWarningTaunt(334971, nil, nil, nil, 1, 2)
-local specWarnViciousLunge						= mod:NewSpecialWarningYou(334945, nil, 262783, nil, 3, 2)
+local specWarnJaggedClaws						= mod:NewSpecialWarningStack(334971, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnJaggedClawsTaunt					= mod:NewSpecialWarningTaunt(334971, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnViciousLunge						= mod:NewSpecialWarningYou(334945, nil, nil, nil, 3, 2, nil, nil, "gathershare")
 local yellViciousLunge							= mod:NewYell(334945, 262783, nil, nil, "YELL")
 local yellViciousLungeFades						= mod:NewFadesYell(334945, 262783, nil, nil, "YELL")
 
 local timerJaggedClawsCD						= mod:NewCDTimer(10.9, 334971, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--22.1, 23.4, 11.0
-local timerViciousLungeCD						= mod:NewCDTimer(25.5, 334945, 262783, nil, nil, 3)--Shortname Lunge
+local timerViciousLungeCD						= mod:NewCDTimer(25.5, 334945, nil, nil, nil, 3)--Shortname Lunge
 ----Bargast
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22311))
-local specWarnRipSoul							= mod:NewSpecialWarningDefensive(334797, nil, nil, nil, 1, 2)
-local specWarnRipSoulHealer						= mod:NewSpecialWarningTarget(334797, "Healer", nil, nil, 1, 2)
-local specWarnShadesofBargast					= mod:NewSpecialWarningSwitch(334757, false, nil, 2, 1, 2)
+local specWarnRipSoul							= mod:NewSpecialWarningDefensive(334797, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnRipSoulHealer						= mod:NewSpecialWarningTarget(334797, "Healer", nil, nil, 1, 2, nil, nil, "healfull")
+local specWarnShadesofBargast					= mod:NewSpecialWarningSwitch(334757, false, nil, 2, 1, 2, nil, nil, "targetchange")
 
 local timerRipSoulCD							= mod:NewCDTimer(30, 334797, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON..DBM_COMMON_L.HEALER_ICON)
 local timerShadesofBargastCD					= mod:NewCDTimer(60.1, 334757, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)--60-63 at least
@@ -73,13 +76,13 @@ mod:AddSetIconOption("SetIconOnShades", 334757, true, 5, {4, 5})
 ----Hecutis
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22310))
 local warnCrushingStone							= mod:NewStackAnnounce(334860, 2, nil, "Tank|Healer")
-local warnPetrifyingHowl						= mod:NewTargetAnnounce(334852, 3, nil, nil, 135241)--Shortname "Howl"
+local warnPetrifyingHowl						= mod:NewTargetAnnounce(334852, 3)--Shortname "Howl"
 
-local specWarnPetrifyingHowl					= mod:NewSpecialWarningMoveAway(334852, nil, nil, nil, 1, 2)
+local specWarnPetrifyingHowl					= mod:NewSpecialWarningMoveAway(334852, nil, nil, nil, 1, 2, nil, nil, "scatter")
 local yellPetrifyingHowl						= mod:NewYell(334852, 135241)--Shortname "Howl"
 local yellPetrifyingHowlFades					= mod:NewFadesYell(334852, 135241)--Shortname "Howl"
 
-local timerPetrifyingHowlCD						= mod:NewCDTimer(20.6, 334852, 135241, nil, nil, 3)--20-26 Shortname "Howl"
+local timerPetrifyingHowlCD						= mod:NewCDTimer(20.6, 334852, nil, nil, nil, 3)--20-26 Shortname "Howl"
 
 mod.vb.sinSeekerCount = 0
 mod.vb.activeSeekers = 0

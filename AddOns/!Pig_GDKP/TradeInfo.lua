@@ -2,6 +2,7 @@ local addonName, addonTable = ...;
 local GDKPInfo=addonTable.GDKPInfo
 function GDKPInfo.ADD_Trade(RaidR)
 	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
+	local PlayerInfo=Data.PlayerInfo
 	local PIGFrame=Create.PIGFrame
 	local PIGLine=Create.PIGLine
 	local PIGButton = Create.PIGButton
@@ -9,8 +10,8 @@ function GDKPInfo.ADD_Trade(RaidR)
 	local PIGSetFont=Create.PIGSetFont
 	local PIGDiyBut=Create.PIGDiyBut
 	local bagData=Data.bagData
-	local GetContainerNumSlots = GetContainerNumSlots or C_Container and C_Container.GetContainerNumSlots
 	---
+	local GnName,GnUI,GnIcon,FrameLevel,QuickBut_index = unpack(GDKPInfo.uidata)
 	local WidthF,D_Height,D_hangNUM = 260,18,10
 	local EextData={
 		["ElvUI"]={true,{2,0,2,1}},
@@ -46,8 +47,8 @@ function GDKPInfo.ADD_Trade(RaidR)
 			PIGTradeF.ListF.butlist[id].qianV:SetTextColor(1, 0, 0, 1)
 		end
 	end)
-
-	PIGTradeF.biaoti = PIGFontString(PIGTradeF,{"TOPLEFT", PIGTradeF, "TOPLEFT", 10,-2},GDKPInfo.adddata.nameLocaleAll);
+	
+	PIGTradeF.biaoti = PIGFontString(PIGTradeF,{"TOPLEFT", PIGTradeF, "TOPLEFT", 10,-2},GnName);
 	PIGTradeF.biaoti:SetTextColor(0, 1, 0, 1);
 	PIGTradeF.biaoti1 = PIGFontString(PIGTradeF,{"LEFT", PIGTradeF.biaoti, "RIGHT", 4,0});
 	PIGTradeF.biaoti1:SetTextColor(1, 0, 1, 1);
@@ -126,7 +127,7 @@ function GDKPInfo.ADD_Trade(RaidR)
             PickupPlayerMoney(zhifuGV)
             _G["TradePlayerItem1ItemButton"]:Click()
         else
-        	PIG_OptionsUI:ErrorMsg(ERR_NOT_ENOUGH_MONEY, "R")
+        	PIGErrorMsg(ERR_NOT_ENOUGH_MONEY, "R")
         	return
         end
 		C_Timer.After(0.2,function() AcceptTrade() end)
@@ -164,11 +165,7 @@ function GDKPInfo.ADD_Trade(RaidR)
 		end);
 		hangxx:SetScript("OnClick", function (self,Button)
 			if Button=="LeftButton" then
-				if BankFrame.GetActiveBankType then
-					C_Container.UseContainerItem(self.bagID, self.slotID, nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
-				else
-					C_Container.UseContainerItem(self.bagID, self.slotID, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
-				end
+				PIGUseContainerItem(self.bagID, self.slotID)
 				for ixx=#PIGTradeF.ChatItems_Cache,1,-1 do
 					if self.itemID==PIGTradeF.ChatItems_Cache[ixx][2] then
 						table.remove(PIGTradeF.ChatItems_Cache,ixx)
@@ -218,7 +215,7 @@ function GDKPInfo.ADD_Trade(RaidR)
 		self:DelOlddata()
 		wipe(self.ChatItems_Show)
 		for bag=1,#bagData["bagID"] do
-			for slot=1,GetContainerNumSlots(bagData["bagID"][bag]) do
+			for slot=1,PIGGetContainerNumSlots(bagData["bagID"][bag]) do
 				local itemID, itemLink, icon, stackCount=PIGGetContainerItemInfo(bagData["bagID"][bag], slot)
 				if itemID and not self:IsItemExist(itemID) then
 					if self:IsItembag(itemID) then
@@ -258,7 +255,7 @@ function GDKPInfo.ADD_Trade(RaidR)
 		return #self.DebtDataList>0
 	end
 	local function IsGDKPItem(itemLink_P)
-		local itemID_P = GetItemInfoInstant(itemLink_P[1]) 
+		local itemID_P = PIGGetItemInfoInstant(itemLink_P[1]) 
 		local RRItemList = PIGA["GDKP"]["ItemList"]
 		for x=1,#RRItemList do
 			if itemID_P==RRItemList[x][11] and itemLink_P[2]==RRItemList[x][3] and RRItemList[x][8]==NONE and RRItemList[x][9]==0 and RRItemList[x][14]==0 then
@@ -437,10 +434,10 @@ function GDKPInfo.ADD_Trade(RaidR)
 	PIGTradeF:HookScript("OnEvent",function (self,event,arg1,arg2,arg3,arg4,arg5)
 		if not PIGA["GDKP"]["Rsetting"]["jiaoyijilu"] then return end
 		if event=="CHAT_MSG_RAID" or event=="CHAT_MSG_RAID_LEADER" or event=="CHAT_MSG_RAID_WARNING" then
-			if PIG_OptionsUI.Name~=arg5 then return end
+			if PlayerInfo.Name~=arg5 then return end
 			if arg1:match("Hitem:") then		
 				for word in arg1:gmatch("|(Hitem:.-)|h") do
-					local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(word)
+					local itemID, itemType, itemSubType, itemEquipLoc = PIGGetItemInfoInstant(word)
 					table.insert(self.ChatItems_Cache,{GetServerTime(),itemID})
 				end	
 			end

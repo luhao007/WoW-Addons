@@ -1298,58 +1298,146 @@ GTFO.SpellID["250022"] = {
 };
 
 
--- ***************
--- * King's Rest *
--- ***************
+-- **********************
+-- * King's Rest (1762) *
+-- **********************
 
 GTFO.SpellID["276031"] = {
-  --desc = "Pit of Despair";
+  --desc = "Pit of Despair (Minion of Zul)";
+  instance = 1762;
   applicationOnly = true;
   sound = 3;
 };
 
 GTFO.SpellID["270003"] = {
   --desc = "Suppression Slam (Animated Guardian)";
+  instance = 1762;
+  applicationOnly = true;
   sound = 3;
 };
 
 GTFO.SpellID["265781"] = {
   --desc = "Serpentine Gust (The Golden Serpent)";
+  instance = 1762;
   sound = 3;
 };
 
 GTFO.SpellID["270872"] = {
-  --desc = "Shadow Whirl (Bloodsworn Agent)";
+  --desc = "Serpent Strike (Bloodsworn Agent)";
+  instance = 1762;
   sound = 3;
 };
 
 GTFO.SpellID["275212"] = {
   --desc = "Bisecting Strike (Weaponmaster Halu)";
+  instance = 1762;
   sound = 3;
 };
 
 GTFO.SpellID["270289"] = {
-  --desc = "Purification Beam";
+  --desc = "Purification Beam (Purification Construct)";
+  instance = 1762;
   applicationOnly = true;
   sound = 3;
 };
 
+GTFO.SpellID["1312143"] = {
+  --desc = "Explosive Acids (Mchimba the Embalmer)";
+  instance = 1762;
+  encounter = 2142;
+  sound = 3;
+  test = true; -- Verify this alert
+};
+
+GTFO.SpellID["266206"] = {
+  --desc = "Whirling Axes (Kula the Butcher)";
+  instance = 1762;
+  encounter = 2140;
+  sound = 3;
+  test = true; -- Verify this alert
+};
+
+GTFO.SpellID["266191"] = {
+  --desc = "Whirling Axe (Kula the Butcher)";
+  instance = 1762;
+  encounter = 2140;
+  applicationOnly = true;
+  sound = 3;
+  test = true; -- Verify this alert
+};
+
 GTFO.SpellID["267105"] = {
-  --desc = "Torrent (Torrent Totem)";
+  --desc = "Torrent (Torrent Totem - Kula the Butcher)";
+  instance = 1762;
+  encounter = 2140;
   sound = 3;
 };
 
 GTFO.SpellID["268419"] = {
   --desc = "Gale Slash (Dazar, The First King)";
+  instance = 1762;
   applicationOnly = true;
   sound = 3;
 };
 
 GTFO.SpellID["268796"] = {
   --desc = "Impaling Spear (Dazar, The First King)";
+  instance = 1762;
   applicationOnly = true;
   sound = 3;
 };
+
+GTFO.SpellID["1303115"] = {
+  --desc = "Aerial Smash (Dazar, The First King)";
+  instance = 1762;
+  encounter = 2143;
+  sound = 3;
+};
+
+GTFO.SpellID["1302945"] = {
+  --desc = "Impaling Spear (Dazar, The First King)";
+  instance = 1762;
+  encounter = 2143;
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["1303374"] = {
+  --desc = "Searing Gold (Dazar, The First King)";
+  instance = 1762;
+  encounter = 2143;
+  sound = 3;
+  tankSound = 0;
+  test = true; -- Verify this damage ID fires despite its PTR Obsolete flag
+};
+
+GTFO.SpellID["270485"] = {
+  --desc = "Violent Lunge (Royal Berserker)";
+  instance = 1762;
+  sound = 3;
+  test = true; -- Avoidable by moving out of the landing zone?
+};
+
+GTFO.SpellID["1306056"] = {
+  --desc = "Erupting Slam (King Timalji)";
+  instance = 1762;
+  sound = 3;
+  test = true; -- Verify this is avoidable and the damage ID fires despite its PTR Obsolete flag
+};
+
+--[[
+TODO: Do not activate until log data shows we can distinguish the mandatory target 
+from avoidable bystanders. Registering 270507 directly would false-positive the intended target and likely will not work under 12.X restrictions
+
+GTFO.SpellID["270507"] = {
+  --desc = "Poison Barrage (Spectral Beastmaster)";
+  instance = 1762;
+  applicationOnly = true;
+  sound = 3; -- Valid only for avoidable bystanders
+  test = true; -- Verify this isn't a false-positive for the intended target
+};
+]]--
+
 
 -- ********************
 -- * Siege of Boralus *

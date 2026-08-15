@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2422, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523021934")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(165759)
 mod:SetEncounterID(2402)
@@ -42,7 +42,7 @@ mod:RegisterEventsInCombat(
 --]]
 --High Torturor Darithos
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22089))
-local specWarnGreaterCastigation				= mod:NewSpecialWarningMoveAway(328885, nil, nil, nil, 1, 2)
+local specWarnGreaterCastigation				= mod:NewSpecialWarningMoveAway(328885, nil, nil, nil, 1, 2, nil, nil, "scatter")
 
 local timerGreaterCastigationCD					= mod:NewNextTimer(15.8, 328885, nil, nil, nil, 3)
 
@@ -52,17 +52,17 @@ local warnFeiryStrike							= mod:NewCastAnnounce(326455, 2, nil, nil, "Melee")
 local warnBurningRemnants						= mod:NewStackAnnounce(326456, 2, nil, "Tank")
 local warnEmberBlast							= mod:NewTargetNoFilterAnnounce(325877, 4)
 
-local specWarnShadeSpawned						= mod:NewSpecialWarningSwitch("ej21966", nil, nil, nil, 1, 2)
-local specWarnFeiryStrike						= mod:NewSpecialWarningSpell(326455, false, nil, nil, 1, 2)
-local specWarnBurningRemnants					= mod:NewSpecialWarningStack(326456, nil, 3, nil, nil, 1, 6)
-local specWarnBurningRemnantsTaunt				= mod:NewSpecialWarningTaunt(326456, nil, nil, nil, 1, 2)
-local specWarnEmberBlast						= mod:NewSpecialWarningMoveTo(325877, false, nil, nil, 1, 2)--Opt in as needed
+local specWarnShadeSpawned						= mod:NewSpecialWarningSwitch(-21966, nil, nil, nil, 1, 2, nil, nil, "bigmob")
+local specWarnFeiryStrike						= mod:NewSpecialWarningSpell(326455, false, nil, nil, 1, 2, nil, nil, "shockwave")
+local specWarnBurningRemnants					= mod:NewSpecialWarningStack(326456, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnBurningRemnantsTaunt				= mod:NewSpecialWarningTaunt(326456, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnEmberBlast						= mod:NewSpecialWarningMoveTo(325877, false, nil, nil, 1, 2, nil, nil, "gathershare")--Opt in as needed
 local yellEmberBlast							= mod:NewYell(325877, nil, nil, nil, "YELL")
 local yellEmberBlastFades						= mod:NewFadesYell(325877, nil, nil, nil, "YELL")
-local specWarnBlazingSurge						= mod:NewSpecialWarningDodge(329509, nil, nil, nil, 2, 2)
+local specWarnBlazingSurge						= mod:NewSpecialWarningDodge(329509, nil, nil, nil, 2, 2, nil, nil, "shockwave")
 --local yellBlazingSurge							= mod:NewYell(329509)
-local specWarnUnleashedPyroclasm				= mod:NewSpecialWarningInterrupt(337865, nil, nil, nil, 1, 2)
-local specWarnGTFO								= mod:NewSpecialWarningGTFO(328579, nil, nil, nil, 1, 8)
+local specWarnUnleashedPyroclasm				= mod:NewSpecialWarningInterrupt(337865, nil, nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnGTFO								= mod:NewSpecialWarningGTFO(328579, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerFieryStrikeCD						= mod:NewCDTimer(8.5, 326455, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerEmberBlastCD							= mod:NewCDTimer(20.4, 325877, nil, nil, nil, 3)--20 again? or is it just 24 on mythic and 20 on heroic
@@ -75,51 +75,51 @@ mod:AddSetIconOption("SetIconOnEmberBlast", 325877, true, 0, {1})
 --Adds
 ----Rockbound Vanquisher
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(21954))
-local warnVanquisher							= mod:NewCountAnnounce("ej21954", 2, 325440)
+local warnVanquisher							= mod:NewCountAnnounce(-21954, 2, 325440)
 local warnVanquished							= mod:NewStackAnnounce(325442, 2, nil, "Tank")
 local warnConcussiveSmash						= mod:NewCountAnnounce(325506, 3)
 
-local specWarnVanquished						= mod:NewSpecialWarningStack(325442, nil, 3, nil, nil, 1, 6)
-local specWarnVanquishedTaunt					= mod:NewSpecialWarningTaunt(325442, nil, nil, nil, 1, 2)
+local specWarnVanquished						= mod:NewSpecialWarningStack(325442, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnVanquishedTaunt					= mod:NewSpecialWarningTaunt(325442, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 
-local timerVanquisherCD							= mod:NewCDCountTimer(80, "ej21954", nil, nil, nil, 1, 325440, DBM_COMMON_L.DAMAGE_ICON)
+local timerVanquisherCD							= mod:NewCDCountTimer(80, -21954, nil, nil, nil, 1, 325440, DBM_COMMON_L.DAMAGE_ICON)
 local timerVanquishingStrikeCD					= mod:NewCDTimer(6.1, 325440, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerConcussiveSmashCD					= mod:NewCDCountTimer(19.5, 325506, nil, nil, nil, 5)--Next in between casts, but initial cast can be delayed by a lot
 ----Bleakwing Assassin
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(21993))
-local warnAssassin								= mod:NewCountAnnounce("ej21993", 2, 326583)
+local warnAssassin								= mod:NewCountAnnounce(-21993, 2, 326583)
 local warnReturnToStone							= mod:NewTargetNoFilterAnnounce(333145, 4, nil, "-Healer")
 local warnCrimsonFury							= mod:NewTargetAnnounce(341473, 3)
 
-local specWarnCrimsonFury						= mod:NewSpecialWarningMoveAway(341473, nil, nil, nil, 1, 2)
+local specWarnCrimsonFury						= mod:NewSpecialWarningMoveAway(341473, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellCrimsonFury							= mod:NewYell(341473)
 
-local timerBleakwingAssassinCD					= mod:NewCDCountTimer(80, "ej21993", nil, nil, nil, 1, 326583, DBM_COMMON_L.DAMAGE_ICON)
+local timerBleakwingAssassinCD					= mod:NewCDCountTimer(80, -21993, nil, nil, nil, 1, 326583, DBM_COMMON_L.DAMAGE_ICON)
 --local timerCrimsonFuryCD						= mod:NewCDTimer(44.3, 341473, nil, false, nil, 3, nil, DBM_COMMON_L.BLEED_ICON)--Too many to track via normal bars, this needs nameplate bars/icon
 ----Vile Occultist
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(21952))
-local warnVileOccultists						= mod:NewCountAnnounce("ej21952", 2, 329565)
+local warnVileOccultists						= mod:NewCountAnnounce(-21952, 2, 329565)
 local warnSummonEssenceFont						= mod:NewSpellAnnounce(329565, 2, nil, "Healer")
 
-local specWarnVulgarBrand						= mod:NewSpecialWarningInterrupt(333002, "HasInterrupt", nil, nil, 1, 2)
+local specWarnVulgarBrand						= mod:NewSpecialWarningInterrupt(333002, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
-local timerVileOccultistCD						= mod:NewCDCountTimer(10, "ej21952", nil, nil, nil, 1, 329565, DBM_COMMON_L.DAMAGE_ICON)
+local timerVileOccultistCD						= mod:NewCDCountTimer(10, -21952, nil, nil, nil, 1, 329565, DBM_COMMON_L.DAMAGE_ICON)
 --local timerVulgarBrandCD						= mod:NewCDTimer(44.3, 333002, nil, nil, nil, 3)--TODO, give it a relative icon based on difficulty (Magic/Curse)
 ----Soul Infuser
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(21953))
 local warnSoulInfusion							= mod:NewSpellAnnounce(325665, 4)
 local warnInfusersOrb							= mod:NewCountAnnounce(326075, 1, nil, "Healer")
 
-local timerSoulInfuserCD						= mod:NewCDCountTimer(10, "ej21953", nil, nil, nil, 1, 325665, DBM_COMMON_L.DAMAGE_ICON)
+local timerSoulInfuserCD						= mod:NewCDCountTimer(10, -21953, nil, nil, nil, 1, 325665, DBM_COMMON_L.DAMAGE_ICON)
 ----Pestering Fiend
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22082))
-local timerPesteringFiendCD						= mod:NewCDCountTimer(70, "ej22082", nil, nil, nil, 1, 328254, DBM_COMMON_L.DAMAGE_ICON)
+local timerPesteringFiendCD						= mod:NewCDCountTimer(70, -22082, nil, nil, nil, 1, 328254, DBM_COMMON_L.DAMAGE_ICON)
 ----Reborn Phoenix
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22090))
-local warnRebornPhoenix							= mod:NewSpellAnnounce("ej22090", 2, 328659)
+local warnRebornPhoenix							= mod:NewSpellAnnounce(-22090, 2, 328659)
 local warnEyeOnTarget							= mod:NewTargetAnnounce(328479, 2)
 
-local specWarnEyeOnTarget						= mod:NewSpecialWarningYou(328479, nil, nil, nil, 1, 2)
+local specWarnEyeOnTarget						= mod:NewSpecialWarningYou(328479, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellEyeOnTarget							= mod:NewYell(328479, nil, false)
 
 local timerPhoenixRespawn						= mod:NewCastTimer(20, 328731, nil, nil, nil, 1)
@@ -128,11 +128,11 @@ mod:AddSetIconOption("SetIconOnBirdo", 328731, true, 5, {2, 3, 4, 5})
 mod:AddNamePlateOption("NPAuraOnPhoenixFixate", 328479)
 
 --Mostly for testing, these are not meant to be used as they aren't actual groupings
---mod:GroupSpells("ej21954", 325442, 325506, 325440)--Rockbound Vanquisher spells
---mod:GroupSpells("ej21993", 333145, 341473)--Bleakwing Assassin spells
---mod:GroupSpells("ej21952", 329565, 333002)--Vile Occultist spells
---mod:GroupSpells("ej21953", 325665, 326075)--Soul Infuser spells
---mod:GroupSpells("ej22090", 328479, 328731)--Phoenix spells
+--mod:GroupSpells(-21954, 325442, 325506, 325440)--Rockbound Vanquisher spells
+--mod:GroupSpells(-21993, 333145, 341473)--Bleakwing Assassin spells
+--mod:GroupSpells(-21952, 329565, 333002)--Vile Occultist spells
+--mod:GroupSpells(-21953, 325665, 326075)--Soul Infuser spells
+--mod:GroupSpells(-22090, 328479, 328731)--Phoenix spells
 
 mod.vb.addMode = 0--No adds spawning, 1-Adds Spawning from Darithos Tables, 2-Adds spawning from Shade table
 mod.vb.addCount = 0

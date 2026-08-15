@@ -9,7 +9,7 @@ end
 local mod	= DBM:NewMod("AQ20Trash", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 if not mod:IsClassic() then
 	mod:SetModelID(15741)-- Qiraji Gladiator
@@ -37,29 +37,33 @@ mod:AddNamePlateOption("ThunderclapNameplate", 8732)
 
 -- Toxic Pool, not using the new NewGtfo() thing because it uses the new event handler type that currently only supports combat-only events
 -- This is a problem out of combat often enough
-local specWarnGTFO = mod:NewSpecialWarningGTFO(1215421, nil, nil, nil, 1, 8)
+local specWarnGTFO = mod:NewSpecialWarningGTFO(1215421, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 
 --local eventsRegistered = false
 
 local warnPlague                    = mod:NewTargetAnnounce(22997, 2)
 local warnCauseInsanity             = mod:NewTargetNoFilterAnnounce(26079, 2)
-local warnExplosion					= mod:NewAnnounce("WarnExplosion", 3, nil, false)
-local warnAdd1						= mod:NewSpellAnnounce(17430, 1, 802)
-local warnAdd2						= mod:NewSpellAnnounce(17431, 1, 802)
+local warnAdd1						= mod:NewSpellAnnounce(17430, 2, 802, "Dps")
+local warnAdd2						= mod:NewSpellAnnounce(17431, 2, 802, "Dps")
 
-local specWarnPlague                = mod:NewSpecialWarningMoveAway(22997, nil, nil, nil, 1, 2)
-local specWarnBurst					= mod:NewSpecialWarningDodge(1215202, nil, nil, nil, 2, 2)
+local specWarnPlague                = mod:NewSpecialWarningMoveAway(22997, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellPlague                    = mod:NewYell(22997)
-local yellBurst						= mod:NewIconTargetYell(1215202)
-local specWarnExplode               = mod:NewSpecialWarningRun(25698, "Melee", nil, 3, 4, 2)
-local specWarnShadowFrostReflect    = mod:NewSpecialWarningReflect(19595, nil, nil, nil, 1, 2)
-local specWarnFireArcaneReflect     = mod:NewSpecialWarningReflect(13022, nil, nil, nil, 1, 2)
-local specWarnExplosion				= mod:NewSpecialWarning("SpecWarnExplosion", nil, nil, nil, 1, 8)
+local specWarnExplode               = mod:NewSpecialWarningRun(25698, "Melee", nil, 3, 4, 2, nil, nil, "justrun")
+local specWarnShadowFrostReflect    = mod:NewSpecialWarningReflect(19595, "SpellCaster", nil, nil, 1, 2, nil, nil, "stopattack")
+local specWarnFireArcaneReflect     = mod:NewSpecialWarningReflect(13022, "SpellCaster", nil, nil, 1, 2, nil, nil, "stopattack")
 
-local timerExplosion				= mod:NewTimer(30, "TimerExplosion")
-local timerBurst					= mod:NewNextTimer(30, 1215202)
+local timerSpecWarnExplode			= mod:NewCastTimer(6, 25698, nil, nil, nil, 2) -- Duration is 7s but it expires after 6s
 
+local warnExplosion, yellBurst, specWarnBurst, specWarnExplosion, timerExplosion, timerBurst
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+warnExplosion				= mod:NewAnnounce("WarnExplosion", 3, nil, false)
+yellBurst					= mod:NewIconTargetYell(1215202)
+specWarnBurst				= mod:NewSpecialWarningDodge(1215202, nil, nil, nil, 2, 2)
+specWarnExplosion			= mod:NewSpecialWarning("SpecWarnExplosion", nil, nil, nil, 1, 8)
+timerExplosion				= mod:NewTimer(30, "TimerExplosion") -- Default icon looks good cause they cast Arcane Explosion
+timerBurst					= mod:NewNextTimer(30, 1215202)
+end
 
 local aq40Trash = DBM:GetModByName("AQ40Trash")
 
@@ -80,6 +84,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpell(25698) and not self:IsTrivial() then
 		specWarnExplode:Show()
 		specWarnExplode:Play("justrun")
+		timerSpecWarnExplode:Start(nil, args.sourceGUID)
 	elseif args:IsSpell(26079) then
 		warnCauseInsanity:CombinedShow(0.75, args.destName)
 	elseif args:IsSpell(1215202) then
@@ -172,4 +177,8 @@ end
 
 function mod:UNIT_DIED(args)
 	aq40Trash:RemoveTrackTrashAbilityMob(args.destGUID)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 15355 then
+		timerSpecWarnExplode:Stop(args.destGUID)
+	end
 end

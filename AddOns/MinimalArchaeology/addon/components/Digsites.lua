@@ -348,7 +348,7 @@ function Digsites:Init()
 		Digsites:HideWindow()
 	end)
 
-	Digsites.wpButton = Common:CreateAutoWaypointButton(Digsites.frame, 15, 3);
+	Digsites.wpButton = Common:CreateAutoWaypointButton(Digsites.frame, 15, 1);
 	Digsites.frame:SetScript("OnShow", function()
 		if (Navigation:IsNavigationEnabled()) then
 			Digsites.wpButton:Show();
@@ -791,6 +791,9 @@ function Digsites:GetNearestDigsite(ax, ay, sites, skipPathCalc)
 		Common:DisplayStatusMessage("Cached instance: " .. cInstance .. ", instance: " .. instance, MINARCH_MSG_DEBUG);
 		if (cInstance == instance) then
 			local _, distanceMoved = HBD:GetWorldVector(instance, cX, cY, pX, pY);
+			if (distanceMoved == nil) then
+                return cachedName, cachedDistance, cachedDetails, cachedPrio, cachedPathDistance;
+            end
 			Common:DisplayStatusMessage("Cached digsite: " .. cachedName .. ", distance moved: " .. distanceMoved, MINARCH_MSG_DEBUG);
 			if (distanceMoved < 150) then
 				Common:DisplayStatusMessage("Nearest digsite returned from cache", MINARCH_MSG_DEBUG);
@@ -957,7 +960,10 @@ function Digsites:UpdateFlightMap()
 					pin:SetAlpha(1)
 				end
 			else
-				_G["TaxiButton" .. idx]:SetAlpha(1)
+				local taxiButton = _G["TaxiButton" .. idx]
+				if taxiButton then
+					taxiButton:SetAlpha(1)
+				end
 			end
 		end
 
@@ -1017,7 +1023,10 @@ function Digsites:UpdateFlightMap()
 				pin:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
 			end
 		else
-			_G["TaxiButton" .. idx]:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
+			local taxiButton = _G["TaxiButton" .. idx]
+			if taxiButton then
+				taxiButton:SetAlpha(MinArch.db.profile.TomTom.taxi.alpha / 100)
+			end
 		end
 	end
 
@@ -1033,7 +1042,9 @@ function Digsites:UpdateFlightMap()
 			pin:SetAlpha(1.0)
 		else
 			pin = _G["TaxiButton" .. idx]
-			pin:SetAlpha(1)
+			if pin then
+				pin:SetAlpha(1)
+			end
 		end
 		SetRaceIcon(MinArchTaxiMapFrames[i], digsite.position.x, digsite.position.y, tostring(digsite.name), MinArchDigsitesGlobalDB["continent"][contID][tostring(digsite.name)], pin, idx)
 		i = i + 1

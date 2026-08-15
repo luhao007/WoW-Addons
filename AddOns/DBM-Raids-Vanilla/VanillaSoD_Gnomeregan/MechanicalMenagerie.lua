@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("MechanicalMenagerieSoD", "DBM-Raids-Vanilla", 9)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260526204845")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(218245, 218244, 218243, 218242)--https://www.wowhead.com/classic/npc=218344/explosive-egg
 mod:SetEncounterID(2935)
@@ -39,6 +39,8 @@ mod:RegisterEventsInCombat(
 (ability.id = 436692 or ability.id = 440073 or ability.id = 436833 or ability.id = 436836 or ability.id = 436824 or ability.id = 436816 or ability.id = 436695) and type = "begincast"
  or (ability.id = 436828 or ability.id = 436570) and type = "cast"
 --]]
+DBM:RegisterAltSpellName(436816, 18351)--Sprocketfire Breath -> Breath
+DBM:RegisterAltSpellName(436825, 27564)--Frayed Wiring -> Reflection
 
 mod:AddInfoFrameOption()
 
@@ -50,7 +52,7 @@ local timerSelfRepair				= mod:NewCastSourceTimer(20, 440073, nil, nil, nil, 5, 
 --local warnCorrosion				= mod:NewStackAnnounce(427625, 2, nil, "Tank|Healer")
 local warnCluck						= mod:NewSpellAnnounce(436570, 3)
 
-local specWarnExplosiveEgg			= mod:NewSpecialWarningSwitch(436692, "Ranged", nil, nil, 1, 2)
+local specWarnExplosiveEgg			= mod:NewSpecialWarningSwitch(436692, "Ranged", nil, nil, 1, 2, nil, nil, "targetchange")
 
 local timerExplosiveEggCD			= mod:NewCDTimer(21, 436692, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)--21-39 (pretty gross, but consistent min window)
 
@@ -58,25 +60,25 @@ mod:AddSetIconOption("SetIconOnEgg", 436692, true, 5, {8})
 --STX-25/NB
 local warnWidgetFortress			= mod:NewCastAnnounce(436836, 4)
 
-local specWarnWidgetVolley			= mod:NewSpecialWarningInterrupt(436833, "HasInterrupt", nil, nil, 1, 2)
-local specWarnWidgetFortress		= mod:NewSpecialWarningMove(436836, "Tank", nil, nil, 1, 2)
+local specWarnWidgetVolley			= mod:NewSpecialWarningInterrupt(436833, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnWidgetFortress		= mod:NewSpecialWarningMove(436836, "Tank", nil, nil, 1, 2, nil, nil, "moveboss")
 --local yellDepthCharge				= mod:NewYell(404806)
 
 --local timerWidgetFortressCD		= mod:NewCDTimer(6.5, 436836, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--50-89 so no timer for now
 -- STX-13/LL
 local warnBinaryBleat				= mod:NewTargetNoFilterAnnounce(436828, 3, nil, false)--off by default optioanl announce for anyone who gets silenced for 10 seconds. ALso, no timer since 11-21 variation
-local warnFrayedOver				= mod:NewFadesAnnounce(436825, 1, nil, nil, 27564)
+local warnFrayedOver				= mod:NewFadesAnnounce(436825, 1)
 
-local specWarnFrayedWiring			= mod:NewSpecialWarningReflect(436825, nil, 27564, nil, 1, 2)--Short name "Reflection"
+local specWarnFrayedWiring			= mod:NewSpecialWarningReflect(436825, nil, nil, nil, 1, 2, nil, nil, "stopattack")--Short name "Reflection"
 
 mod:AddNamePlateOption("NPAuraOnFrayed", 436825)
 --STX-04/BD
 local warnOverheat						= mod:NewCastAnnounce(436741, 1, 3)
 
-local specWarnSprocketfireBreath		= mod:NewSpecialWarningSpell(436816, nil, 18351, nil, 2, 2)--Short name "Breath"
+local specWarnSprocketfireBreath		= mod:NewSpecialWarningSpell(436816, nil, nil, nil, 2, 2, nil, nil, "breathsoon")--Short name "Breath"
 
 local timerOverheat						= mod:NewBuffActiveTimer(15, 436741, nil, nil, nil, 5, nil, DBM_COMMON_L.DAMAGE_ICON)
-local timerSprocketfireBreathCD			= mod:NewCDTimer(21, 436816, 18351, nil, nil, 3)--21-26, first timer that's not too radically variable and we can include
+local timerSprocketfireBreathCD			= mod:NewCDTimer(21, 436816, nil, nil, nil, 3)--21-26, first timer that's not too radically variable and we can include
 
 local bossRenames = {
 	[218245] = L.Chicken,

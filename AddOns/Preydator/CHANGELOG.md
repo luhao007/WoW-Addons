@@ -1,5 +1,178 @@
 # Changelog
 
+## 3.0.1 - 2026-08-14
+
+### Changed
+- Bumped release metadata to `3.0.1` across the addon toc, splash version, README, and release packaging defaults.
+
+### Fixed
+- Restored the report-window selection flow to the last known-good behavior by removing the protected clipboard path and keeping the panel in a safe manual-select mode instead of forcing a protected copy call.
+- Fixed stale prey-zone map caching that could keep a previous quest-zone map active when the player entered a different map, preventing the bar from appearing in the correct zone.
+- Fixed the report panel text so it stays contained in the frame and does not float over other UI elements when focused.
+
+## 3.0.0 - 2026-08-11
+
+### Added
+- Added the Preydator 3.0 splash screen and the gated “Show What’s New” launch flow for first-run updates.
+- Simplified the minimap/addopowershell -NoProfile -ExecutionPolicy Bypass -File "d:\Program Files\World of Warcraft\_retail_\Interface\AddOns\Guildhall\.vscode\install-stylua.ps1"n-compartment launcher to a two-button flow: left click opens Options, right click opens the report window.
+
+### Changed
+- Removed the legacy Currency and Warband core feature set from the active runtime and settings surface while preserving Hunt, Bar, and Sounds functionality.
+- Cleaned stale settings/theme defaults and launcher strings so the active addon matches the 3.0 product scope.
+- Tightened the bar runtime and widget handling to keep the active Hunt flow safe while removing the taint-prone legacy paths.
+
+### Fixed
+- Fixed the splash-frame nil locale crash by ensuring the splash uses the same safe localization fallback pattern as the rest of the addon.
+- Fixed the blank, non-closable splash state caused by the raw localization key being displayed instead of the intended 3.0 text.
+
+## 2.2.16 - 2026-7-21
+
+### Changed
+- Synchronized release metadata to `2.2.16` across `Preydator.toc`, `README.md`, and the default version in `build-release.ps1` to keep packaging/version references aligned.
+
+### Fixed
+- Tightened prey-widget stage handling to be taint-aware while preserving progression: `Setup` snapshot reads are sanitized, tracked-frame refresh is constrained to stage-relevant fields, and known taint-prone fields (`shownState`, `widgetID`, `widgetType`) remain skipped. This restores stage advancement beyond stage 1 while keeping the prior tooltip/layout taint guardrails in place (`Blizzard_UIWidgetTemplateBase.lua:1694`, `Blizzard_SharedXML/LayoutFrame.lua:491`).
+- Fixed a refresh/reload regression where a live prey hunt could briefly lose its Blizzard active-quest signal and reset the bar from an in-progress state like `66%` back to `0%`. Preydator now reuses the already-tracked active prey quest while it still exists in the quest log, avoiding transient mid-hunt clears.
+- Added compatibility with 12.1 from PTR
+
+## 2.2.15 - 2026-06-13
+
+### Fixed
+- Fixed prey-zone visibility recovery for active hunts when Only show in prey zone is enabled: zone-status refresh now re-evaluates while cached out-of-zone state is false, so the bar appears promptly after entering the correct prey zone without waiting for an extra cache-dirty event.
+
+## 2.2.14 - 2026-06-10
+
+### Changed
+- Updated addon release version metadata to `2.2.14` across TOC, README, and release packaging defaults.
+- Confirmed release metadata for WoW `12.0.7` compatibility.
+
+## 2.2.13 - 2026-06-07
+
+### Fixed
+- Fixed intermittent `script ran too long` errors in `Modules/CurrencyTracker.lua` by preventing weekly-history key canonicalization/merge from rerunning on every refresh sweep; migration now runs once and cached state is reused on hot event paths.
+
+## 2.2.12 - 2026-06-06
+
+### Fixed
+- Fixed hunt progress getting stuck at early stages in some sessions; stage updates now recover more reliably even when Blizzard widget data arrives partially.
+- Reduced world-map/widget taint issues during prey updates by tightening widget handling and moving risky update work out of sensitive UI paths.
+- Improved prey-widget value safety checks to avoid protected-value edge cases causing bad comparisons or stale progress behavior.
+- Improved prey icon handling during combat by deferring protected visibility changes until combat ends.
+- Improved update timing for prey refreshes to reduce tooltip jitter and temporary 0% flicker during rapid widget updates.
+- Removed extra noisy widget fanout paths to reduce update churn$ErrorActionPreference = "Stop"
+
+$luaRoot = Join-Path $env:LOCALAPPDATA "Programs\Lua"
+$binDir = Join-Path $luaRoot "bin"
+
+New-Item -ItemType Directory -Path $luaRoot -Force | Out-Null
+New-Item -ItemType Directory -Path $binDir -Force | Out-Null
+
+$urls = @(
+    "https://www.lua.org/ftp/lua-5.4.7.tar.gz",
+    "https://www.lua.org/ftp/lua-5.4.6.tar.gz",
+    "https://www.lua.org/ftp/lua-5.3.6.tar.gz"
+)
+
+$downloadUrl = $null
+foreach ($url in $urls) {
+    try {
+        $resp = Invoke-WebRequest -Uri $url -Method Head -SkipHttpErrorCheck
+        if ($resp.StatusCode -eq 200) {
+            $downloadUrl = $url
+            break
+        }
+    }
+    catch {
+        # keep trying
+    }
+}
+
+if (-not $downloadUrl) {
+    throw "No valid Lua distribution URL was reachable."
+}
+
+$archive = Join-Path $env:TEMP "lua-source.tar.gz"
+Invoke-WebRequest -Uri $downloadUrl -OutFile $archive
+
+$extractRoot = Join-Path $env:TEMP "lua-src"
+if (Test-Path $extractRoot) {
+    Remove-Item -Path $extractRoot -Recurse -Force
+}
+
+New-Item -ItemType Directory -Path $extractRoot -Force | Out-Null
+tar -xzf $archive -C $extractRoot
+
+$sourceDir = Get-ChildItem -Path $extractRoot -Directory | Select-Object -First 1
+if (-not $sourceDir) {
+    throw "Lua source directory was not extracted."
+}
+
+Write-Host "Lua source extracted to: $($sourceDir.FullName)"$ErrorActionPreference = "Stop"
+
+$luaRoot = Join-Path $env:LOCALAPPDATA "Programs\Lua"
+$binDir = Join-Path $luaRoot "bin"
+
+New-Item -ItemType Directory -Path $luaRoot -Force | Out-Null
+New-Item -ItemType Directory -Path $binDir -Force | Out-Null
+
+$urls = @(
+    "https://www.lua.org/ftp/lua-5.4.7.tar.gz",
+    "https://www.lua.org/ftp/lua-5.4.6.tar.gz",
+    "https://www.lua.org/ftp/lua-5.3.6.tar.gz"
+)
+
+$downloadUrl = $null
+foreach ($url in $urls) {
+    try {
+        $resp = Invoke-WebRequest -Uri $url -Method Head -SkipHttpErrorCheck
+        if ($resp.StatusCode -eq 200) {
+            $downloadUrl = $url
+            break
+        }
+    }
+    catch {
+        # keep trying
+    }
+}
+
+if (-not $downloadUrl) {
+    throw "No valid Lua distribution URL was reachable."
+}
+
+$archive = Join-Path $env:TEMP "lua-source.tar.gz"
+Invoke-WebRequest -Uri $downloadUrl -OutFile $archive
+
+$extractRoot = Join-Path $env:TEMP "lua-src"
+if (Test-Path $extractRoot) {
+    Remove-Item -Path $extractRoot -Recurse -Force
+}
+
+New-Item -ItemType Directory -Path $extractRoot -Force | Out-Null
+tar -xzf $archive -C $extractRoot
+
+$sourceDir = Get-ChildItem -Path $extractRoot -Directory | Select-Object -First 1
+if (-not $sourceDir) {
+    throw "Lua source directory was not extracted."
+}
+
+Write-Host "Lua source extracted to: $($sourceDir.FullName)" and taint interaction surface.
+- Removed the built-in `Copy` button from the report window. Reports are now keyboard-copy only with automatic focus/selection.
+- Added launcher shortcut `Shift + Left Click` (minimap/addon compartment) to open the built-in report window directly.
+- Added report-window history persistence across likely `/reload` sessions, while full login clears stale history.
+- Added `/pd debug bs` to open the debug log in the same built-in report window used by inspect tools.
+- Fixed Stage 4 sound false triggers during wrong-zone teleports by requiring valid completion context before firing final-stage audio.
+
+## 2.2.11 - 2026-05-27
+
+### Fixed
+- Fixed `ADDON_ACTION_BLOCKED` errors (`SetPassThroughButtons`) that occurred during map operations (especially when closing the world map). The error was caused by calling protected frame suppression functions (`SetAlpha`, `Hide`) directly inside the `UIWidgetTemplatePreyHuntProgressMixin.Setup` hooksecurefunc, which created a tainted execution context that propagated to Blizzard's map canvas code. Prey icon suppression is now applied exclusively through the safe non-hooked context in `ApplyDefaultPreyIconVisibility()`, which is called during initialization and after every bar update cycle through the BarRuntime. This maintains full suppression functionality while eliminating the taint propagation.
+- Fixed remaining world-map tooltip/widget taint during active prey hunts by deferring prey refresh work triggered from prey-widget `Setup` and `UPDATE_UI_WIDGET` until after Blizzard's current widget script pass completes. This keeps widget snapshot capture, stage progression, and default-icon suppression intact without doing bar/runtime refresh work inside Blizzard's widget layout stack. Thanks to `adefee` for the player report and pull request that pointed directly at this error.
+- Removed the external BugSack dependency from diagnostics paths. `/pd inspect bs`, `/pd qinspect bs`, `/pd hinspect bs`, and `/pd hinspectcopy bs` now open a built-in copyable Preydator report window with Back/Next history instead of routing through the error handler.
+- Fixed `main function has more than 200 local variables` warnings by reducing `Preydator.lua` top-level local pressure back to the Lua chunk limit.
+- Fixed built-in report window layout overflow by removing the extra Close action and keeping the Copy action fully inside frame bounds.
+- Added built-in report window resizing with bounds and a bottom-right resize grip.
+- Hardened `/pd inspect bs` and `/pd qinspect bs` report-window dispatch so command handling remains stable even if the report window path faults.
+
 ## 2.2.10 - 2026-04-23
 
 ### Fixed

@@ -324,6 +324,7 @@ ns.DarkPortal = areaName("DarkPortal", 72)
 ns.ShadoPanGarison = areaName("ShadoPanGarison", 6197)
 ns.Amanizar = areaName("Amanizar", 16183)
 ns.Arati = areaName("Arati", 16183)
+ns.FairbreezeVillage = areaName("FairbreezeVillage", 15995)
 ------------------------------------ Sub Zones Horde
 ns.Gromgol = areaName("Gromgol", 117)
 ns.RuinsofLordaeron = areaName("RuinsofLordaeron", 153)
@@ -362,8 +363,12 @@ ns.PitOfSaron = instanceName("PitOfSaron", 278)
 ns.SeatOfTheTriumvirate = instanceName("SeatOfTheTriumvirate", 945)
 ------------------------------------ Draenor
 ns.Skyreach = instanceName("Skyreach", 476)
+------------------------------------ Battle of Azeroth
+ns.Kingsrush = instanceName("Kingsrush", 1041)
+ns.TempleOfSethraliss = instanceName("TempleOfSethraliss", 1030)
 ------------------------------------ Dragonflight
 ns.AlgetharAcademy = instanceName("AlgetharAcademy", 1201)
+ns.RubyLifePools =  instanceName("RubyLifePools", 1202)
 ------------------------------------ Midnight
 ns.MurderRow = instanceName("MurderRow", 1304)
 
@@ -558,6 +563,7 @@ end
 ns.Amanistamm = factionName("Amanistamm", 2696)
 ns.TheSingularity = factionName("TheSingularity", 2699)
 ns.Harati = factionName("Harati", 2704)
+ns.ZulJarras = factionName("Harati", 2772)
 ns.SilvermoonCourt = factionName("SilvermoonCourt", 2710)
 
 SLASH_MNINFOTEST1 = "/mninfotest"

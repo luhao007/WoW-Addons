@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2362, "DBM-BfA", 5, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(152697)--152736/guardian-tannin, 152729/moon-priestess-liara
 mod:SetEncounterID(2317)
@@ -18,8 +18,8 @@ mod:RegisterEventsInCombat(
 --TODO, upgrade endlessdoom to special warning?
 local warnEndlessDoom				= mod:NewSpellAnnounce(301748, 3)
 
-local specWarnMentalCollapse		= mod:NewSpecialWarningRun(301773, nil, nil, nil, 4, 2)
-local specWarnVoidDance				= mod:NewSpecialWarningDodge(301840, nil, nil, nil, 2, 2)
+local specWarnMentalCollapse		= mod:NewSpecialWarningRun(301773, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnVoidDance				= mod:NewSpecialWarningDodge(301840, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
 local timerEndlessDoomCD			= mod:NewCDTimer(72, 301748, nil, nil, nil, 3)--Need at least one more log, i was dumb and released thinking rez was closeby, it wasn't

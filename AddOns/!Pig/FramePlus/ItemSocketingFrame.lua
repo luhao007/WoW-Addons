@@ -44,7 +44,7 @@ function FramePlusfun.GemUIplus()
 				GameTooltip:Hide() 
 			end);
 			ButtonUI:SetScript("OnClick", function(self, button)
-				C_Container.PickupContainerItem(self.bag, self.slot)
+				PIGPickupContainerItem(self.bag, self.slot)
 				if PIGA["FramePlus"]["GemUIplusQuick"] then
 					for SocketID,SocketBut in pairs(ItemSocketingFrame.SocketingContainer.SocketFrames) do
 						local gemname=C_ItemSocketInfo.GetExistingSocketInfo(SocketID)
@@ -64,11 +64,11 @@ function FramePlusfun.GemUIplus()
 			end
 			local ItemsD={}
 		    for bag=0,bagIDMax do
-				local NumSlots=C_Container.GetContainerNumSlots(bag)
+				local NumSlots=PIGGetContainerNumSlots(bag)
 				for slot=1,NumSlots do
-					local itemID = C_Container.GetContainerItemID(bag, slot)
+					local itemID = PIGGetContainerItemID(bag, slot)
 					if itemID and itemID~=6948 then
-						local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID=C_Item.GetItemInfoInstant(itemID)
+						local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID=PIGGetItemInfoInstant(itemID)
 						if classID==3 then
 							table.insert(ItemsD,{bag, slot})
 						end

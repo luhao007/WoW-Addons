@@ -90,6 +90,19 @@ local columnsDropdown = general:CreateDropdown(CL.INFOFRAME_SETCOLS, columns, "D
 end)
 columnsDropdown:SetPoint("TOPLEFT", linesDropdown, "BOTTOMLEFT", 0, isNewDropdown and -15 or -10)
 
+local strata = {}
+for _, v in ipairs(DBM.InfoFrame.StrataOptions or {}) do
+	strata[#strata + 1] = {
+		text	= v,
+		value	= v
+	}
+end
+
+local strataDropdown = general:CreateDropdown(CL.INFOFRAME_SETSTRATA, strata, "DBM", "InfoFrameStrata", function(value)
+	DBM.InfoFrame:SetStrata(value)
+end)
+strataDropdown:SetPoint("TOPLEFT", columnsDropdown, "BOTTOMLEFT", 0, isNewDropdown and -15 or -10)
+
 --local position = panel:CreateArea(L.Area_Position)
 
 local style = panel:CreateArea(L.Area_Style)
@@ -122,46 +135,17 @@ if isNewDropdown then
 	FontDropDown.myheight = 40
 end
 
-local FontStyles = {
-	{
-		text	= L.None,
-		value	= "None"
-	},
-	{
-		text	= L.Outline,
-		value	= "OUTLINE",
-		flag	= true
-	},
-	{
-		text	= L.ThickOutline,
-		value	= "THICKOUTLINE",
-		flag	= true
-	},
-	{
-		text	= L.MonochromeOutline,
-		value	= "MONOCHROME,OUTLINE",
-		flag	= true
-	},
-	{
-		text	= L.MonochromeThickOutline,
-		value	= "MONOCHROME,THICKOUTLINE",
-		flag	= true
-	}
-}
-
-local FontStyleDropDown = style:CreateDropdown(L.FontStyle, FontStyles, "DBM", "InfoFrameFontStyle", function(value)
+local FontStyleDropDown = style:CreateFontDropdown(L.FontStyle, "DBM", "InfoFrameFontStyle", function(value)
 	DBM.Options.InfoFrameFontStyle = value
 	DBM.InfoFrame:UpdateStyle()
 end)
 FontStyleDropDown:SetPoint("TOPLEFT", FontDropDown, "BOTTOMLEFT", 0, isNewDropdown and -15 or -10)
 
-local fontSizeSlider = style:CreateSlider(L.FontSize, 8, 60, 1, 150)
-fontSizeSlider:SetPoint("TOPLEFT", FontStyleDropDown, "TOPLEFT", isNewDropdown and 0 or 20, -45)
-fontSizeSlider:SetValue(DBM.Options.InfoFrameFontSize)
-fontSizeSlider:HookScript("OnValueChanged", function(self)
-	DBM.Options.InfoFrameFontSize = self:GetValue()
+local fontSizeSlider = style:CreateSlider(L.FontSize, 8, 60, 1, 150, DBM.Options.InfoFrameFontSize, function(value)
+	DBM.Options.InfoFrameFontSize = value
 	DBM.InfoFrame:UpdateStyle()
 end)
+fontSizeSlider:SetPoint("TOPLEFT", FontStyleDropDown, "TOPLEFT", isNewDropdown and 0 or 20, -45)
 
 local movemebutton = general:CreateButton(L.MoveMe, 100, 16)
 movemebutton:SetPoint("TOPRIGHT", general.frame, "TOPRIGHT", -2, -4)
@@ -187,12 +171,14 @@ resetbutton:SetScript("OnClick", function()
 	DBM.Options.InfoFrameFont = DBM.DefaultOptions.InfoFrameFont
 	DBM.Options.InfoFrameFontStyle = DBM.DefaultOptions.InfoFrameFontStyle
 	DBM.Options.InfoFrameFontSize = DBM.DefaultOptions.InfoFrameFontSize
+	DBM.InfoFrame:SetStrata(DBM.DefaultOptions.InfoFrameStrata)
 	-- Set UI visuals
 	dontShow:SetChecked(DBM.Options.DontShowInfoFrame)
 	locked:SetChecked(DBM.Options.InfoFrameLocked)
 	showSelf:SetChecked(DBM.Options.InfoFrameShowSelf)
 	FontDropDown:SetSelectedValue(DBM.Options.InfoFrameFont)
 	FontStyleDropDown:SetSelectedValue(DBM.Options.InfoFrameFontStyle)
+	strataDropdown:SetSelectedValue(DBM.Options.InfoFrameStrata)
 	fontSizeSlider:SetValue(DBM.DefaultOptions.InfoFrameFontSize)
 	DBM.InfoFrame:UpdateStyle()
 end)

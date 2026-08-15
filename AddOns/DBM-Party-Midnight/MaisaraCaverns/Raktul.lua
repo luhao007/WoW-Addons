@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2812, "DBM-Party-Midnight", 7, 1315)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260423040903")
+mod:SetRevision("20260713204720")
 mod:SetCreatureID(248605)
 mod:SetEncounterID(3214)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -13,16 +13,16 @@ mod:RegisterCombat("combat")
 
 local warnCrushSouls			= mod:NewCountAnnounce(1252676, 2)
 
-local specWarnSpiritbreaker		= mod:NewSpecialWarningCount(1251023, nil, nil, nil, 1, 2)
-local specWarnSoulrendingRoar	= mod:NewSpecialWarningCount(1253788, nil, nil, nil, 2, 2)
+local specWarnSpiritbreaker		= mod:NewSpecialWarningCount(1251023, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnSoulrendingRoar	= mod:NewSpecialWarningCount(1253788, nil, nil, nil, 2, 2, nil, nil, "phasechange")
 
 local timerSpiritbreakerCD		= mod:NewCDCountTimer(26, 1251023, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerCrushSoulsCD			= mod:NewCDCountTimer(26, 1252676, nil, nil, nil, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
 local timerSoulrendingRoarCD	= mod:NewCDCountTimer(70, 1253788, nil, nil, nil, 6)
 
---Midnight private aura replacements
-mod:AddPrivateAuraSoundOption(1252675, true, 1252675, 1, 1, "leapyou", 19)--Crush Souls
-mod:AddPrivateAuraSoundOption(1253779, true, 1253779, 1, 2, "watchfeet", 8)--Spectral Decay
+--Custom Aura Sounds
+mod:AddAuraSoundOption(1252675, true, 1252675, 1, 1, "leapyou", 19)--Crush Souls
+mod:AddAuraSoundOption(1253779, true, 1253779, 1, 2, "watchfeet", 8)--Spectral Decay
 
 mod.vb.spiritbreakerCount = 0
 mod.vb.crushSoulsCount = 0
@@ -32,7 +32,7 @@ local cycle26Count = 0--NOTE: dur=26 is shared by Spiritbreaker and Crush Souls;
 local badStateDetected = false
 
 ---@param self DBMMod
----@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 local function setFallback(self, dontSetAlerts)
 	if not dontSetAlerts then
 		if self:IsTank() then
@@ -40,9 +40,12 @@ local function setFallback(self, dontSetAlerts)
 		end
 		specWarnSoulrendingRoar:SetAlert(158, "phasechange", 2)
 	end
-	timerSpiritbreakerCD:SetTimeline(156)
-	timerCrushSoulsCD:SetTimeline(157)
-	timerSoulrendingRoarCD:SetTimeline(158)
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerSpiritbreakerCD:SetTimeline(156, onlyColor)
+	timerCrushSoulsCD:SetTimeline(157, onlyColor)
+	timerSoulrendingRoarCD:SetTimeline(158, onlyColor)
 end
 
 function mod:OnLimitedCombatStart()
@@ -51,16 +54,13 @@ function mod:OnLimitedCombatStart()
 	self.vb.spiritbreakerCount = 1
 	self.vb.crushSoulsCount = 1
 	self.vb.soulrendingRoarCount = 1
-	if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+	if DBM.Options.HardcodedTimer and not badStateDetected then
 		self:IgnoreBlizzardAPI()
 		self:RegisterShortTermEvents(
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end

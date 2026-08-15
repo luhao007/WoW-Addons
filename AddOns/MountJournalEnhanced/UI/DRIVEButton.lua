@@ -1,5 +1,7 @@
 local _, ADDON = ...
 
+-- TODO: As dropdown button under Skills
+
 local MOUNT_SPELL = 1215279
 local DRIVE_TRAIT_SYSTEM = 19
 local DRIVE_TRAIT_TREE = 1056
@@ -10,10 +12,8 @@ local function BuildButton()
     button.texture:SetTexture(6383564) -- inv_111_wheel_blue
     button.texture:SetAllPoints()
 
-    if ElvUI then
-        local E = unpack(ElvUI)
-        local ElvSkin = E:GetModule('Skins')
-
+    local ElvSkin = ADDON.UI:GetElvUI('Skins')
+    if ElvSkin then
         -- from Collectables.lua HandleDynamicFlightButton
         button:SetPushedTexture(0)
         button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
@@ -41,7 +41,7 @@ local function BuildButton()
         GameTooltip:Hide()
     end)
 
-    button:SetAttribute("MJE_ToolbarIndex", "Drive")
+    button:SetAttributeNoHandler("MJE_ToolbarIndex", "Drive")
 
     return button
 end

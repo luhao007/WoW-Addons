@@ -1,5 +1,5 @@
 local _, ns = ...
-SpellIDOverrides = {
+local SpellIDOverrides = {
     [1248829] = 190356,
 }
 ns.SpellIDOverrides = SpellIDOverrides

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Garr", "DBM-Cataclysm")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035342")
+mod:SetRevision("20260523022021")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(50056)
 mod:SetModelID(37307)
@@ -16,7 +16,7 @@ mod:RegisterEventsInCombat(
 
 local warnAntiMagicPulse		= mod:NewSpellAnnounce(93506, 2)--An attack that one shots anyone not in a twilight zone.
 
-local specWarnMassiveEruption	= mod:NewSpecialWarningRun(93508, "Melee", nil, nil, 4, 2)
+local specWarnMassiveEruption	= mod:NewSpecialWarningRun(93508, "Melee", nil, nil, 4, 2, nil, nil, "justrun")
 
 local timerMassiveEruptionCD	= mod:NewNextTimer(30, 93508, nil, nil, nil, 2)
 local timerAntiMagicPulseCD		= mod:NewCDTimer(16, 93506, nil, nil, nil, 2)--Every 17-25 seconds. So only a CD bar usuable here.

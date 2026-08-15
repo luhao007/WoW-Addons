@@ -630,7 +630,6 @@ TITAN_PANEL_SAVED_VARIABLES = {
 	ScreenAdjust = false,
 	AuxScreenAdjust = false,
 	MainMenuBarXAdj = 0,
-	BuffIconVerticalAdj = -13,
 	-- End
 	-- for the independent bars
 	Bar_Show = true,
@@ -856,27 +855,12 @@ local function Set_Timers(reset)
 	-- Titan is loaded so set the timers we want to use
 	TitanTimers = {
 		["LDBRefresh"] = { obj = "LDB", callback = TitanLDBRefreshButton, delay = 2, },
-		-- Classic
-		["EnterWorld"] = { obj = "PEW", callback = TitanPanel_AdjustFrames, delay = 4, },
-		["DualSpec"] = { obj = "SpecSwitch", callback = TitanPanel_AdjustFrames, delay = 2, },
-		["Adjust"] = { obj = "MoveAdj", callback = TitanPanel_AdjustFrames, delay = 1, },
-		["Vehicle"] = { obj = "Vehicle", callback = TitanPanel_AdjustFrames, delay = 1, },
 	}
 
 	if reset then
 		TitanAllSetVar("TimerLDB", TitanTimers["LDBRefresh"].delay)
-		-- Classic
-		TitanAllSetVar("TimerPEW", TitanTimers["EnterWorld"].delay)
-		TitanAllSetVar("TimerDualSpec", TitanTimers["DualSpec"].delay)
-		TitanAllSetVar("TimerAdjust", TitanTimers["Adjust"].delay)
-		TitanAllSetVar("TimerVehicle", TitanTimers["Vehicle"].delay)
 	else
 		TitanTimers["LDBRefresh"].delay = TitanAllGetVar("TimerLDB")
-		-- Classic
-		TitanTimers["EnterWorld"].delay = TitanAllGetVar("TimerPEW")
-		TitanTimers["DualSpec"].delay = TitanAllGetVar("TimerDualSpec")
-		TitanTimers["Adjust"].delay = TitanAllGetVar("TimerAdjust")
-		TitanTimers["Vehicle"].delay = TitanAllGetVar("TimerVehicle")
 	end
 end
 
@@ -916,29 +900,6 @@ function TitanVariables_SyncPluginSettings()
 			if (TitanPluginSettings[id]) then
 				TitanPluginSettings[id] = nil;
 			end
-		end
-	end
-end
-
----local Set the adjustable frames for TitanMovable & Config
-local function Titan_SyncAdjList()
-	-- Using Titan list, walk saved vars to add adjustable frames
-	for frame, v in pairs(Titan_Global.AdjList) do
-		if TitanAdjustSettings[frame] then
-			-- No action needed
-			-- If default adds more elements (more data), they will need to be coded here.
-		else
-			TitanAdjustSettings[frame] = TitanAdjDefaults -- Init the saved vars
-		end
-	end
-
-	-- Using saved vars, walk Titan list to remove frames no longer adjustable
-	for frame, v in pairs(TitanAdjustSettings) do
-		if Titan_Global.AdjList[frame] then
-			-- No action needed
-			-- frame is adjustable
-		else
-			TitanAdjustSettings[frame] = nil -- Remove, no longer adjustable
 		end
 	end
 end
@@ -1527,11 +1488,6 @@ local function Init_player_settings(from_profile, to_profile, action)
 
 	-- ====== New May 2023 : Back to adjusting a couple frames per user settings
 	TitanAdjustSettings = TitanPlayerSettings["Adjust"]
-	Titan_SyncAdjList()
-	-- The player settings are known, init the adjustable frames
-	for idx, v in pairs(Titan_Global.AdjList) do
-		TitanPanel_AdjustFrameInit(idx)
-	end
 
 	-- ======
 

@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Tuller
-## Version: 12.0.0
+## Version: 12.1.3
 
 ## Title: tullaRange
 ## Notes: Out of range coloring based on RedRange
@@ -16,6 +16,6 @@
 
 attackFlash.lua
 actionState.lua
-updater.modern.lua [AllowLoadGameType mainline, tbc]
-updater.classic.lua [AllowLoadGameType mists, cata, wrath, vanilla]
+updater.modern.lua [AllowLoadGameType mainline, tbc, mists, vanilla]
+updater.classic.lua [AllowLoadGameType cata, wrath]
 tullaRange.lua

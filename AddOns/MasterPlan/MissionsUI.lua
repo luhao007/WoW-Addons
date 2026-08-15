@@ -1,5 +1,5 @@
 local _, T = ...
-if T.Mark ~= 50 then return end
+if T.Mark ~= 266 then return end
 local PC, L, EV, G, XU, api = T.PlanCore, T.L, T.Evie, T.Garrison, T.exUI, {}
 local GameTooltip = T.NotGameTooltip or GameTooltip
 
@@ -1424,6 +1424,7 @@ local interestUI = CreateFrame("Frame", nil, missionList) do
 				else
 					GameTooltip:SetItemByID(Interest_RewardMap[arg1] or arg1)
 				end
+				return T.HideOwnedGameTooltip
 			end
 			for i=2,#m do
 				m[i].func, m[i].checked, m[i].isNotRadio, m[i].keepShownOnClick, m[i].tooltipOnButton = toggleInterestBit, checkInterestBit, true, true, ShowInterestFilterTip

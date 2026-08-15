@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Maexxna", "DBM-Raids-WoTLK", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15952)
 mod:SetEncounterID(1116)
@@ -21,7 +21,7 @@ local warnWebSprayNow	= mod:NewSpellAnnounce(29484, 3)
 local warnSpidersSoon	= mod:NewAnnounce("WarningSpidersSoon", 2, 17332)
 local warnSpidersNow	= mod:NewAnnounce("WarningSpidersNow", 4, 17332)
 
-local specWarnWebWrap	= mod:NewSpecialWarningSwitch(28622, "RangedDps", nil, nil, 1, 2)
+local specWarnWebWrap	= mod:NewSpecialWarningSwitch(28622, "RangedDps", nil, nil, 1, 2, nil, nil, "targetchange")
 local yellWebWrap		= mod:NewYell(28622)
 
 local timerWebSpray		= mod:NewNextTimer(40.5, 29484, nil, nil, nil, 2)

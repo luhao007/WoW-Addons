@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2328, "DBM-Raids-BfA", 3, 1177)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260525233052")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(144755, 144754)--144755 Zaxasj, 144754 Fa'thuul
 mod:SetEncounterID(2269)
@@ -37,6 +37,7 @@ mod:RegisterEventsInCombat(
  or (ability.id = 282561 or ability.id = 282384 or ability.id = 282407 or ability.id = 285416 or ability.id = 283066 or ability.id = 282742) and type = "cast"
  or (ability.id = 282817 or ability.id = 282432) and type = "applydebuff"
 --]]
+DBM:RegisterAltSpellName(286755, 196871)--Storm of Annihilation -> Storm
 --Relics of Power
 local warnUmbralShell					= mod:NewFadesAnnounce(282741, 1)
 local warnCustodyoftheDeep				= mod:NewCountAnnounce(284772, 3)
@@ -51,32 +52,32 @@ local warnVoidCrash						= mod:NewSpellAnnounce(285416, 2)
 local warnCrushingDoubt					= mod:NewTargetAnnounce(282432, 2)
 
 --Relics of Power
-local specWarnUmbralShell				= mod:NewSpecialWarningTargetChange(282741, "Dps", nil, nil, 1, 2)
-local specWarnStormofAnnihilation		= mod:NewSpecialWarningSpell(286755, nil, nil, nil, 2, 2)
+local specWarnUmbralShell				= mod:NewSpecialWarningTargetChange(282741, "Dps", nil, nil, 1, 2, nil, nil, "attackshield")
+local specWarnStormofAnnihilation		= mod:NewSpecialWarningSpell(286755, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 local specWarnPowerOverwhelming			= mod:NewSpecialWarningTarget(282914, nil, nil, nil, 3)--A wipe basically
 --Zaxasj the Speaker
-local specWarnAphoticBlast				= mod:NewSpecialWarningYou(282386, false, nil, 2, 1, 2)
+local specWarnAphoticBlast				= mod:NewSpecialWarningYou(282386, false, nil, 2, 1, 2, nil, nil, "targetyou")
 local yellAphoticBlast					= mod:NewFadesYell(282386)
-local specWarnAgentofDemise				= mod:NewSpecialWarningTargetChange(282540, "-Healer", nil, nil, 1, 2)
+local specWarnAgentofDemise				= mod:NewSpecialWarningTargetChange(282540, "-Healer", nil, nil, 1, 2, nil, nil, "targetchange")
 local yellAgentofDemise					= mod:NewYell(282540, nil, nil, nil, "YELL")
-local specWarnCerebralAssault			= mod:NewSpecialWarningDodgeCount(282589, nil, nil, nil, 3, 2)
-local specWarnDarkherald				= mod:NewSpecialWarningYou(282561, nil, nil, nil, 1, 2)
+local specWarnCerebralAssault			= mod:NewSpecialWarningDodgeCount(282589, nil, nil, nil, 3, 2, nil, nil, "shockwave")
+local specWarnDarkherald				= mod:NewSpecialWarningYou(282561, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellDarkherald					= mod:NewYell(282561)
-local specWarnPowerStack				= mod:NewSpecialWarningStack(282566, nil, 6, nil, nil, 1, 6)
-local specWarnVisagefromBeyond			= mod:NewSpecialWarningSwitch(282515, "-Healer", nil, nil, 1, 2)
+local specWarnPowerStack				= mod:NewSpecialWarningStack(282566, nil, 6, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnVisagefromBeyond			= mod:NewSpecialWarningSwitch(282515, "-Healer", nil, nil, 1, 2, nil, nil, "bigmob")
 --Fa'thuul the Feared
-local specWarnShearMind					= mod:NewSpecialWarningStack(282384, nil, 3, nil, nil, 1, 6)
-local specWarnShearMindTaunt			= mod:NewSpecialWarningTaunt(282384, nil, nil, nil, 1, 2)
-local specWarnCrushingDoubt				= mod:NewSpecialWarningYouPos(282432, nil, nil, nil, 1, 2)
+local specWarnShearMind					= mod:NewSpecialWarningStack(282384, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnShearMindTaunt			= mod:NewSpecialWarningTaunt(282384, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnCrushingDoubt				= mod:NewSpecialWarningYouPos(282432, nil, nil, nil, 1, 2, nil, nil, "mm1")
 local yellCrushingDoubt					= mod:NewPosYell(282432)
 local yellCrushingDoubtFades			= mod:NewIconFadesYell(282432)
-local specWarnEldritchRevelation		= mod:NewSpecialWarningSwitch(282617, false, nil, 2, 1, 2)
-local specWarnWitnesstheEnd				= mod:NewSpecialWarningInterruptCount(282621, false, nil, nil, 1, 2)
-local specWarnGTFO						= mod:NewSpecialWarningGTFO(287876, nil, nil, nil, 1, 8)
+local specWarnEldritchRevelation		= mod:NewSpecialWarningSwitch(282617, false, nil, 2, 1, 2, nil, nil, "bigmob")
+local specWarnWitnesstheEnd				= mod:NewSpecialWarningInterruptCount(282621, false, nil, nil, 1, 2, nil, nil, "kick2r")
+local specWarnGTFO						= mod:NewSpecialWarningGTFO(287876, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))
 local timerAbyssalCollapse				= mod:NewCastTimer(20, 282886, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
-local timerStormofAnnihilation			= mod:NewCastTimer(15, 286755, 196871, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--Short text "Storm"
+local timerStormofAnnihilation			= mod:NewCastTimer(15, 286755, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--Short text "Storm"
 local timerPact							= mod:NewCastSourceTimer(12, 282675, nil, nil, nil, 2, nil, DBM_COMMON_L.IMPORTANT_ICON)
 local timerVisageActive					= mod:NewBuffActiveTimer(60, 282515, nil, nil, nil, 1)
 --Zaxasj the Speaker

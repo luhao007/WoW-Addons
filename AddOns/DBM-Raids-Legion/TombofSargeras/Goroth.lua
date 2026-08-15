@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1862, "DBM-Raids-Legion", 2, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260524002232")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(115844)
 mod:SetEncounterID(2032)
@@ -26,18 +26,20 @@ mod:RegisterEventsInCombat(
  or (ability.id = 232249 or ability.id = 231363 or ability.id = 233272) and type = "cast"
  or ability.name = "Rain of Brimstone"
 --]]
+DBM:RegisterAltSpellName(238587, 87701)--Rain of Brimstone -> meteor shortname
+
 local warnInfernalSpike					= mod:NewSpellAnnounce(233055, 1)
 local warnShatteringStar				= mod:NewTargetCountAnnounce(233272, 3)
 local warnCrashingComet					= mod:NewTargetAnnounce(232249, 4)
 
-local specWarnInfernalBurning			= mod:NewSpecialWarningMoveTo(233062, nil, nil, nil, 3, 2)
-local specWarnShatteringStar			= mod:NewSpecialWarningMoveTo(233272, nil, nil, nil, 3, 2)
+local specWarnInfernalBurning			= mod:NewSpecialWarningMoveTo(233062, nil, nil, nil, 3, 2, nil, nil, "findshelter")
+local specWarnShatteringStar			= mod:NewSpecialWarningMoveTo(233272, nil, nil, nil, 3, 2, nil, nil, "runout")
 local yellShatteringStar				= mod:NewFadesYell(233272)
-local specWarnCrashingComet				= mod:NewSpecialWarningMoveAway(232249, nil, nil, nil, 3, 2)
+local specWarnCrashingComet				= mod:NewSpecialWarningMoveAway(232249, nil, nil, nil, 3, 2, nil, nil, "runout")
 local yellCrashingComet					= mod:NewFadesYell(232249)
-local specWarnBurningArmor				= mod:NewSpecialWarningMoveAway(231363, nil, nil, nil, 3, 2)
-local specWarnBurningArmorTaunt			= mod:NewSpecialWarningTaunt(231363, nil, nil, nil, 1, 2)
-local specWarnRainofBrimstone			= mod:NewSpecialWarningMoveTo(238587, "-Tank", nil, 2, 1, 6)
+local specWarnBurningArmor				= mod:NewSpecialWarningMoveAway(231363, nil, nil, nil, 3, 2, nil, nil, "runout")
+local specWarnBurningArmorTaunt			= mod:NewSpecialWarningTaunt(231363, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnRainofBrimstone			= mod:NewSpecialWarningMoveTo(238587, "-Tank", nil, 2, 1, 6, nil, nil, "helpsoak")
 
 local timerInfernalBurningCD			= mod:NewNextTimer(59.9, 233062, nil, nil, nil, 2, nil, nil, nil, 1, 4)
 local timerShatteringStarCD				= mod:NewNextCountTimer(31, 233272, nil, nil, nil, 3, nil, nil, nil, 3, 4)
@@ -49,7 +51,7 @@ local timerBurningArmorCD				= mod:NewCDCountTimer(24.3, 231363, nil, "Tank", ni
 local timerBurningArmor					= mod:NewBuffFadesTimer(6, 231363, nil, nil, nil, 5, nil, DBM_COMMON_L.DEADLY_ICON, nil, mod:IsTank() and 2 or nil, 4)
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
 local timerRainofBrimstoneCD			= mod:NewCDCountTimer(31, 238587, nil, nil, nil, 5, nil, DBM_COMMON_L.HEROIC_ICON)
-local timerRainofBrimstone				= mod:NewCastTimer(8, 238587, 87701, nil, nil, 5, nil, DBM_COMMON_L.HEROIC_ICON)
+local timerRainofBrimstone				= mod:NewCastTimer(8, 238587, nil, nil, nil, 5, nil, DBM_COMMON_L.HEROIC_ICON)
 
 --local berserkTimer					= mod:NewBerserkTimer(300)
 

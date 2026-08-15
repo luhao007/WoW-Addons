@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(867, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260506233357")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(71734)
 mod:SetEncounterID(1604)

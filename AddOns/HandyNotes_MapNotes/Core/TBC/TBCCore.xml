@@ -1,0 +1,11 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+    <Script file="TBCCreateLinks.lua"/>
+    <Script file="TBCDefaults.lua"/>
+    <Script file="TBCOptions.lua"/>
+    <Script file="TBCCoordsDisplay.lua"/>
+    <Script file="TBCMmb.lua"/>
+    <Script file="TBCWmb.lua"/>
+    <Script file="TBCFogOfWar.lua"/>
+    <Script file="TBCMain.lua"/>    
+    <Script file="TBCAreaMap.lua"/>      
+</Ui>

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2662, "DBM-Party-Midnight", 3, 1300)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260713204720")
 mod:SetCreatureID(231865)
 mod:SetEncounterID(3074)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -13,15 +13,15 @@ mod:RegisterCombat("combat")
 
 local warnDevouringEntropy				= mod:NewCountAnnounce(1215897, 3)
 
-local specWarnUnstableVoidEssence		= mod:NewSpecialWarningCount(1215087, nil, nil, nil, 2, 12)
-local specWarnHulkingFragment			= mod:NewSpecialWarningCount(1280113, nil, nil, nil, 1, 2)
+local specWarnUnstableVoidEssence		= mod:NewSpecialWarningCount(1215087, nil, nil, nil, 2, 12, nil, nil, "catchballs")
+local specWarnHulkingFragment			= mod:NewSpecialWarningCount(1280113, nil, nil, nil, 1, 2, nil, nil, "defensive")
 
 local timerDevouringEntropyCD			= mod:NewCDCountTimer(20.5, 1215897, nil, nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)
 local timerUnstableVoidEssenceCD		= mod:NewCDCountTimer(20.5, 1215087, nil, nil, nil, 5)
 local timerHulkingFragmentCD			= mod:NewCDCountTimer(20.5, 1280113, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
---Midnight private aura replacements
-mod:AddPrivateAuraSoundOption(1215897, true, 1215897, 1, 1, "scatter", 2)--Devouring Entropy
+--Custom Aura Sounds
+mod:AddAuraSoundOption(1215897, true, 1215897, 1, 1, "scatter", 2)--Devouring Entropy
 
 mod.vb.entropyCount = 0
 mod.vb.essenceCount = 0
@@ -30,7 +30,7 @@ local badStateDetected = false
 local recurringTwentyTwoCount = 0
 
 ---@param self DBMMod
----@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 local function setFallback(self, dontSetAlerts)
 	--Blizz API fallbacks
 	if not dontSetAlerts then
@@ -39,9 +39,12 @@ local function setFallback(self, dontSetAlerts)
 			specWarnHulkingFragment:SetAlert(420, "defensive", 2, 1)
 		end
 	end
-	timerDevouringEntropyCD:SetTimeline(290)
-	timerUnstableVoidEssenceCD:SetTimeline(292)
-	timerHulkingFragmentCD:SetTimeline(420)
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerDevouringEntropyCD:SetTimeline(290, onlyColor)
+	timerUnstableVoidEssenceCD:SetTimeline(292, onlyColor)
+	timerHulkingFragmentCD:SetTimeline(420, onlyColor)
 end
 
 function mod:OnLimitedCombatStart()
@@ -50,16 +53,13 @@ function mod:OnLimitedCombatStart()
 	self.vb.essenceCount = 1
 	self.vb.fragmentCount = 1
 	recurringTwentyTwoCount = 0
-	if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+	if DBM.Options.HardcodedTimer and not badStateDetected then
 		self:IgnoreBlizzardAPI()
 		self:RegisterShortTermEvents(
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end

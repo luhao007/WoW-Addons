@@ -21,8 +21,6 @@ local UIDropDownMenu_SetText = _G.UIDropDownMenu_SetText
 local UIDropDownMenu_AddButton = _G.UIDropDownMenu_AddButton
 local ColorPickerFrame = _G.ColorPickerFrame
 local OpacitySliderFrame = _G.OpacitySliderFrame
-local C_CurrencyInfo = _G.C_CurrencyInfo
-
 local function ApplyDropdownListScale(level, dropDownFrame)
     if not dropDownFrame or not dropDownFrame.GetEffectiveScale then
         return
@@ -1017,10 +1015,7 @@ local function RefreshHuntTrackerPanel()
 end
 
 local function RefreshCurrencyTrackerPanel()
-    local tracker = Preydator:GetModule("CurrencyTracker")
-    if tracker and type(tracker.RefreshCurrencyPage) == "function" then
-        tracker:RefreshCurrencyPage()
-    end
+    -- Currency tracker no longer exists in Preydator 3.0.
 end
 
 local function BuildModulesPage(owner, parent)
@@ -1051,9 +1046,7 @@ local function BuildModulesPage(owner, parent)
     local moduleList = {
         { key = "bar", label = L["Bar Module"], desc = L["Controls the main prey progress bar display and behavior."] },
         { key = "sounds", label = L["Sounds Module"], desc = L["Controls stage sounds and ambush audio settings."] },
-        { key = "currency", label = L["Currency Module"], desc = L["Controls the currency tracker panel and currency displays."] },
         { key = "hunt", label = L["Hunt Table Module"], desc = L["Controls hunt table data, sorting, and panel features."] },
-        { key = "warband", label = L["Warband Module"], desc = L["Controls the warband currency panel and roster view."] },
     }
 
     local initialModuleState = {}
@@ -1202,21 +1195,6 @@ local function BuildGlobalTopStrip(owner, parent)
     controls[#controls + 1] = soundCheck
     currentX = currentX + checkboxSpacing
 
-    -- Disable Minimap Button checkbox
-    local minimapCheck = CreateCheckbox(stripFrame, currentX, -7, L["Disable Minimap Button"], function()
-        return db.currencyMinimap and db.currencyMinimap.hide == true
-    end, function(value)
-        db.currencyMinimap = db.currencyMinimap or {}
-        db.currencyMinimap.hide = value and true or false
-        db.currencyMinimapButton = not (value and true or false)
-        if type(_G.Preydator) == "table" and type(_G.Preydator.UpdateLauncherButtonVisibility) == "function" then
-            _G.Preydator.UpdateLauncherButtonVisibility()
-        end
-        RefreshCurrencyTrackerPanel()
-    end)
-    minimapCheck:SetSize(24, 24)
-    controls[#controls + 1] = minimapCheck
-
     controls[#controls + 1] = {
         PreydatorRefresh = function()
             local barEnabled = IsModuleEnabled("bar")
@@ -1239,21 +1217,9 @@ end
 local function BuildHuntPage(owner, parent)
     local db = api.GetSettings()
     local huntControls = {}
-    local currencyControls = {}
-    local warbandControls = {}
 
     local function TrackHuntControl(control)
         huntControls[#huntControls + 1] = control
-        return RegisterRefresher(owner, control)
-    end
-
-    local function TrackCurrencyControl(control)
-        currencyControls[#currencyControls + 1] = control
-        return RegisterRefresher(owner, control)
-    end
-
-    local function TrackWarbandControl(control)
-        warbandControls[#warbandControls + 1] = control
         return RegisterRefresher(owner, control)
     end
 
@@ -1266,80 +1232,7 @@ local function BuildHuntPage(owner, parent)
         owner:RefreshControls()
     end
 
-    local function ToggleCurrencyPanel()
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.ToggleCurrencyWindow) == "function" then
-            tracker:ToggleCurrencyWindow()
-        else
-            db.currencyWindowEnabled = not (db.currencyWindowEnabled == true)
-            RefreshCurrencyTrackerPanel()
-        end
-        owner:RefreshControls()
-    end
-
-    local function ToggleWarbandPanel()
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.ToggleWarbandWindow) == "function" then
-            tracker:ToggleWarbandWindow()
-        else
-            db.currencyWarbandWindowEnabled = not (db.currencyWarbandWindowEnabled == true)
-            RefreshCurrencyTrackerPanel()
-        end
-        owner:RefreshControls()
-    end
-
-    local function GetKnownWarbandCharacters()
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.GetKnownWarbandCharacters) == "function" then
-            return tracker:GetKnownWarbandCharacters() or {}
-        end
-        return {}
-    end
-
-    local function IsWarbandCharacterShown(charKey)
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.IsWarbandCharacterShown) == "function" then
-            return tracker:IsWarbandCharacterShown(charKey)
-        end
-        return true
-    end
-
-    local function SetWarbandCharacterShown(charKey, shown)
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.SetWarbandCharacterShown) == "function" then
-            tracker:SetWarbandCharacterShown(charKey, shown)
-        else
-            db.currencyWarbandCharacterVisibility = db.currencyWarbandCharacterVisibility or {}
-            db.currencyWarbandCharacterVisibility[charKey] = shown and true or false
-            RefreshCurrencyTrackerPanel()
-        end
-        owner:RefreshControls()
-    end
-
-    local function PurgeHiddenWarbandCharacters()
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.PurgeHiddenWarbandCharacters) == "function" then
-            tracker:PurgeHiddenWarbandCharacters()
-        end
-        RefreshCurrencyTrackerPanel()
-        owner:RefreshControls()
-    end
-
-    local function SetAllWarbandCharactersShown(shown)
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.SetAllWarbandCharactersShown) == "function" then
-            tracker:SetAllWarbandCharactersShown(shown)
-        else
-            db.currencyWarbandCharacterVisibility = db.currencyWarbandCharacterVisibility or {}
-            for _, entry in ipairs(GetKnownWarbandCharacters()) do
-                db.currencyWarbandCharacterVisibility[entry.charKey] = shown and true or false
-            end
-            RefreshCurrencyTrackerPanel()
-        end
-        owner:RefreshControls()
-    end
-
-    local knownCharacters = GetKnownWarbandCharacters()
+    local knownCharacters = {}
     local contentHeight = math.max(1594, 1274 + (math.ceil(#knownCharacters / 2) * 28))
 
     local contentViewport = CreateFrame("ScrollFrame", nil, parent)
@@ -1517,265 +1410,13 @@ local function BuildHuntPage(owner, parent)
         db.huntScannerDifficultyColors.nightmare = { color[1], color[2], color[3], color[4] or 1 }
         RefreshHuntTrackerPanel()
     end, false))
-    -- Currency section
-    CreateSectionTitle(content, COLUMN_LEFT_X, -392, L["Currency Panel"])
-    local currencyToggleButton = CreateActionButton(content, COLUMN_RIGHT_X, -392, 180, L["Open Currency"], function()
-        ToggleCurrencyPanel()
-    end)
-    TrackCurrencyControl(currencyToggleButton)
-    currencyToggleButton.PreydatorRefresh = function(self)
-        self:SetText((db.currencyWindowEnabled == true) and L["Close Currency"] or L["Open Currency"])
-    end
-    TrackCurrencyControl(CreateCheckbox(content, COLUMN_LEFT_X, -428, L["Show Random Hunts Available"], function()
-        return db.currencyShowAffordableHunts == true
-    end, function(value)
-        db.currencyShowAffordableHunts = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-    TrackCurrencyControl(CreateCheckbox(content, COLUMN_LEFT_X, -458, L["Hide Currency in Instance"], function()
-        return db.currencyWindowHideInInstance == true
-    end, function(value)
-        db.currencyWindowHideInInstance = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-
-    TrackCurrencyControl(CreateColorButton(content, COLUMN_LEFT_X, -498, L["Gain Color"], function()
-        return db.currencyDeltaGainColor or { 0.15, 0.9, 0.35, 1 }
-    end, function(color)
-        db.currencyDeltaGainColor = { color[1], color[2], color[3], color[4] }
-        RefreshCurrencyTrackerPanel()
-    end, true))
-    TrackCurrencyControl(CreateColorButton(content, COLUMN_LEFT_X, -542, L["Spend Color"], function()
-        return db.currencyDeltaLossColor or { 0.95, 0.25, 0.2, 1 }
-    end, function(color)
-        db.currencyDeltaLossColor = { color[1], color[2], color[3], color[4] }
-        RefreshCurrencyTrackerPanel()
-    end, true))
-
-    local previewTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    previewTitle:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_LEFT_X, -588)
-    previewTitle:SetText(L["Delta Preview"])
-
-    local function ResolveCurrencyThemeSurface(key, colorKey)
-        local source = THEME_EDITOR_PRESETS[key]
-        if not source and type(db.customThemes) == "table" then
-            source = db.customThemes[key]
-        end
-        if not source then
-            source = THEME_EDITOR_PRESETS.brown
-        end
-        local fallback = THEME_EDITOR_PRESETS.brown[colorKey]
-        local color = source[colorKey] or fallback or { 1, 1, 1, 1 }
-        return { color[1] or 1, color[2] or 1, color[3] or 1, color[4] or 1 }
-    end
-
-    local function CreateDeltaPreviewBox(x, y)
-        local box = CreateFrame("Frame", nil, content, "BackdropTemplate")
-        box:SetSize(42, 62)
-        box:SetPoint("TOPLEFT", content, "TOPLEFT", x, y)
-        box:SetBackdrop({
-            bgFile = "Interface\\Buttons\\WHITE8x8",
-            edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-            edgeSize = 8,
-            insets = { left = 2, right = 2, top = 2, bottom = 2 },
-        })
-        box:SetBackdropBorderColor(0, 0, 0, 0.85)
-
-        local gainText = box:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        gainText:SetPoint("TOP", box, "TOP", 0, -14)
-        gainText:SetText("+123")
-
-        local lossText = box:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        lossText:SetPoint("TOP", box, "TOP", 0, -40)
-        lossText:SetText("-45")
-
-        return { frame = box, gainText = gainText, lossText = lossText }
-    end
-
-    local previewBoxes = {
-        CreateDeltaPreviewBox(COLUMN_LEFT_X, -610),
-        CreateDeltaPreviewBox(COLUMN_LEFT_X + 46, -610),
-        CreateDeltaPreviewBox(COLUMN_LEFT_X + 92, -610),
-    }
-
-    RegisterRefresher(owner, {
-        PreydatorRefresh = function()
-            local gain = db.currencyDeltaGainColor or { 0.15, 0.9, 0.35, 1 }
-            local loss = db.currencyDeltaLossColor or { 0.95, 0.25, 0.2, 1 }
-            local key = db.currencyTheme or "brown"
-            local surfaces = {
-                ResolveCurrencyThemeSurface(key, "section"),
-                ResolveCurrencyThemeSurface(key, "row"),
-                ResolveCurrencyThemeSurface(key, "rowAlt"),
-            }
-            for i, box in ipairs(previewBoxes) do
-                local surface = surfaces[i] or surfaces[2]
-                box.frame:SetBackdropColor(surface[1], surface[2], surface[3], surface[4] or 0.92)
-                box.gainText:SetTextColor(gain[1], gain[2], gain[3], gain[4] or 1)
-                box.lossText:SetTextColor(loss[1], loss[2], loss[3], loss[4] or 1)
-            end
-        end,
-    })
-
-    TrackCurrencyControl(CreateSlider(content, COLUMN_RIGHT_X, -440, L["Currency Width"], 240, 520, 4, function()
-        return db.currencyWindowWidth or 336
-    end, function(value)
-        db.currencyWindowWidth = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    TrackCurrencyControl(CreateSlider(content, COLUMN_RIGHT_X, -494, L["Currency Height"], 64, 700, 4, function()
-        return db.currencyWindowHeight or 280
-    end, function(value)
-        db.currencyWindowHeight = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    TrackCurrencyControl(CreateSlider(content, COLUMN_RIGHT_X, -548, L["Currency Font Size"], 10, 24, 1, function()
-        return db.currencyWindowFontSize or 12
-    end, function(value)
-        db.currencyWindowFontSize = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    TrackCurrencyControl(CreateSlider(content, COLUMN_RIGHT_X, -602, L["Currency Scale"], 0.70, 1.40, 0.05, function()
-        return db.currencyWindowScale or 1.00
-    end, function(value)
-        db.currencyWindowScale = value
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return string.format("%.2f", value)
-    end))
-
-    -- Warband section
-    CreateSectionTitle(content, COLUMN_LEFT_X, -730, L["Warband Panel"])
-    local warbandToggleButton = CreateActionButton(content, COLUMN_RIGHT_X, -730, 180, L["Open Warband"], function()
-        ToggleWarbandPanel()
-    end)
-    TrackWarbandControl(warbandToggleButton)
-    warbandToggleButton.PreydatorRefresh = function(self)
-        self:SetText((db.currencyWarbandWindowEnabled == true) and L["Close Warband"] or L["Open Warband"])
-    end
-    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -790, L["Show Realm"], function()
-        return db.currencyShowRealmInWarband == true
-    end, function(value)
-        db.currencyShowRealmInWarband = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -818, L["Track Alts Weekly"], function()
-        return db.currencyWarbandShowPreyTrack ~= false
-    end, function(value)
-        db.currencyWarbandShowPreyTrack = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -846, L["Show Prey Weekly Completed"], function()
-        return db.currencyWarbandPreyMode == "completed"
-    end, function(value)
-        db.currencyWarbandPreyMode = value and "completed" or "available"
-        RefreshCurrencyTrackerPanel()
-    end))
-    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -874, L["Hide Low Level Alts (78)"], function()
-        return db.currencyWarbandHideLowLevel == true
-    end, function(value)
-        db.currencyWarbandHideLowLevel = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -902, L["Use Icons for Warband Currencies"], function()
-        return db.currencyWarbandUseIcons == true
-    end, function(value)
-        db.currencyWarbandUseIcons = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -930, L["Hide Warband in Instance"], function()
-        return db.currencyWarbandWindowHideInInstance == true
-    end, function(value)
-        db.currencyWarbandWindowHideInInstance = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-
-    TrackWarbandControl(CreateSlider(content, COLUMN_RIGHT_X, -760, L["Warband Width"], 150, 900, 1, function()
-        return db.currencyWarbandWidth or 420
-    end, function(value)
-        db.currencyWarbandWidth = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    TrackWarbandControl(CreateSlider(content, COLUMN_RIGHT_X, -812, L["Warband Height"], 80, 600, 1, function()
-        return db.currencyWarbandHeight or 250
-    end, function(value)
-        db.currencyWarbandHeight = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    TrackWarbandControl(CreateSlider(content, COLUMN_RIGHT_X, -864, L["Warband Font Size"], 10, 24, 1, function()
-        return db.currencyWarbandFontSize or 12
-    end, function(value)
-        db.currencyWarbandFontSize = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    TrackWarbandControl(CreateSlider(content, COLUMN_RIGHT_X, -916, L["Warband Scale"], 0.70, 1.40, 0.05, function()
-        return db.currencyWarbandScale or 1.0
-    end, function(value)
-        db.currencyWarbandScale = value
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return string.format("%.2f", value)
-    end))
-
-    CreateSectionTitle(content, COLUMN_LEFT_X, -1016, L["Characters in Tracker"])
-    TrackWarbandControl(CreateActionButton(content, COLUMN_LEFT_X, -1048, 180, L["Select All Characters"], function()
-        SetAllWarbandCharactersShown(true)
-    end))
-    TrackWarbandControl(CreateActionButton(content, COLUMN_RIGHT_X, -1048, 200, L["Remove Unchecked Characters"], function()
-        PurgeHiddenWarbandCharacters()
-    end))
-    for index, entry in ipairs(knownCharacters) do
-        local level = tonumber(entry.level)
-        local levelSuffix = level and string.format(" (L%d)", level) or ""
-        local label = entry.charKey .. levelSuffix
-        local rowIndex = math.floor((index - 1) / 2)
-        local columnX = ((index - 1) % 2 == 0) and COLUMN_LEFT_X or COLUMN_RIGHT_X
-        TrackWarbandControl(CreateCheckbox(content, columnX, -1082 - (rowIndex * 28), label, function()
-            return IsWarbandCharacterShown(entry.charKey)
-        end, function(value)
-            SetWarbandCharacterShown(entry.charKey, value and true or false)
-        end))
-    end
-    if #knownCharacters == 0 then
-        local emptyNote = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        emptyNote:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_LEFT_X, -1082)
-        emptyNote:SetWidth(300)
-        emptyNote:SetJustifyH("LEFT")
-        emptyNote:SetWordWrap(true)
-        emptyNote:SetText(L["No cached characters yet. Log into alts to populate this list."])
-    end
-
     RegisterRefresher(owner, {
         PreydatorRefresh = function()
             local huntEnabled = IsModuleEnabled("hunt")
-            local currencyEnabled = IsModuleEnabled("currency")
-            local warbandEnabled = IsModuleEnabled("warband")
 
             for _, control in ipairs(huntControls) do
                 if control and type(control.PreydatorSetEnabled) == "function" then
                     control:PreydatorSetEnabled(huntEnabled)
-                end
-            end
-            for _, control in ipairs(currencyControls) do
-                if control and type(control.PreydatorSetEnabled) == "function" then
-                    control:PreydatorSetEnabled(currencyEnabled)
-                end
-            end
-            for _, control in ipairs(warbandControls) do
-                if control and type(control.PreydatorSetEnabled) == "function" then
-                    control:PreydatorSetEnabled(warbandEnabled)
                 end
             end
 
@@ -1783,93 +1424,6 @@ local function BuildHuntPage(owner, parent)
         end,
     })
     UpdatePanelScrollBounds()
-end
-
-local function BuildWarbandPage(owner, parent)
-    local db = api.GetSettings()
-    local trackedIDs = { 3392, 3316, 3383, 3341, 3343, 3345, 3310 }
-
-    CreateSectionTitle(parent, COLUMN_LEFT_X, -10, L["Warband Window"])
-    local warbandToggleButton = CreateActionButton(parent, COLUMN_LEFT_X, -38, 180, L["Open Warband"], function()
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.ToggleWarbandWindow) == "function" then
-            tracker:ToggleWarbandWindow()
-        else
-            db.currencyWarbandWindowEnabled = not (db.currencyWarbandWindowEnabled == true)
-            RefreshCurrencyTrackerPanel()
-        end
-        owner:RefreshControls()
-    end)
-    RegisterRefresher(owner, warbandToggleButton)
-    warbandToggleButton.PreydatorRefresh = function(self)
-        self:SetText((db.currencyWarbandWindowEnabled == true) and L["Close Warband"] or L["Open Warband"])
-    end
-
-    RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_LEFT_X, -68, L["Show Realm in Warband"], function()
-        return db.currencyShowRealmInWarband == true
-    end, function(value)
-        db.currencyShowRealmInWarband = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-    RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -96, L["Warband Width"], 150, 900, 1, function()
-        return db.currencyWarbandWidth or 420
-    end, function(value)
-        db.currencyWarbandWidth = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -148, L["Warband Height"], 80, 600, 1, function()
-        return db.currencyWarbandHeight or 250
-    end, function(value)
-        db.currencyWarbandHeight = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -200, L["Warband Font Size"], 10, 24, 1, function()
-        return db.currencyWarbandFontSize or 12
-    end, function(value)
-        db.currencyWarbandFontSize = math.floor(value + 0.5)
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-    RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -252, L["Warband Scale"], 0.7, 1.4, 0.05, function()
-        return db.currencyWarbandScale or 1.0
-    end, function(value)
-        db.currencyWarbandScale = value
-        RefreshCurrencyTrackerPanel()
-    end, function(value)
-        return string.format("%.2f", value)
-    end))
-
-    CreateSectionTitle(parent, COLUMN_RIGHT_X, -10, L["Tracked in Warband"])
-    RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_RIGHT_X, -38, L["Show Prey Track (Alts) in Warband"], function()
-        return db.currencyWarbandShowPreyTrack ~= false
-    end, function(value)
-        db.currencyWarbandShowPreyTrack = value and true or false
-        RefreshCurrencyTrackerPanel()
-    end))
-    RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_RIGHT_X, -66, L["Prey Track Shows Completed"], function()
-        return db.currencyWarbandPreyMode == "completed"
-    end, function(value)
-        db.currencyWarbandPreyMode = value and "completed" or "available"
-        RefreshCurrencyTrackerPanel()
-    end))
-    for index, currencyID in ipairs(trackedIDs) do
-        local currencyInfoAPI = _G.C_CurrencyInfo
-        local info = currencyInfoAPI and currencyInfoAPI.GetCurrencyInfo and currencyInfoAPI.GetCurrencyInfo(currencyID)
-        local label = (info and info.name) or ("Currency " .. tostring(currencyID))
-        RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_RIGHT_X, -104 - ((index - 1) * 28), label, function()
-            db.currencyWarbandTrackedIDs = db.currencyWarbandTrackedIDs or {}
-            return db.currencyWarbandTrackedIDs[currencyID] ~= false
-        end, function(value)
-            db.currencyWarbandTrackedIDs = db.currencyWarbandTrackedIDs or {}
-            db.currencyWarbandTrackedIDs[currencyID] = value and true or false
-            RefreshCurrencyTrackerPanel()
-        end))
-    end
 end
 
 local function BuildBarPage(owner, parent)
@@ -3139,10 +2693,7 @@ local function BuildThemePage(owner, parent)
         db.themeEnabled = value and true or false
         if value then
             local theme = db.globalTheme or "brown"
-            db.currencyTheme = theme
             db.huntScannerTheme = theme
-            db.currencyWarbandTheme = theme
-            RefreshCurrencyTrackerPanel()
             RefreshHuntTrackerPanel()
         end
         owner:RefreshControls()
@@ -3153,10 +2704,7 @@ local function BuildThemePage(owner, parent)
     end, function(key)
         db.globalTheme = key
         if db.themeEnabled then
-            db.currencyTheme = key
             db.huntScannerTheme = key
-            db.currencyWarbandTheme = key
-            RefreshCurrencyTrackerPanel()
             RefreshHuntTrackerPanel()
         end
     end))
@@ -3170,29 +2718,15 @@ local function BuildThemePage(owner, parent)
 
     CreateSectionTitle(content, THEME_RIGHT_X, -10, L["Per-Module Themes"])
 
-    local currencyThemeDropdown = RegisterRefresher(owner, CreateDropdown(content, THEME_RIGHT_X, -40, L["Currency Panel Theme"], 170, GetAllThemeOptions, function()
-        return db.currencyTheme or "brown"
-    end, function(key)
-        db.currencyTheme = key
-        RefreshCurrencyTrackerPanel()
-    end))
-
-    local huntThemeDropdown = RegisterRefresher(owner, CreateDropdown(content, THEME_RIGHT_X, -96, L["Hunt Table Theme"], 170, GetAllThemeOptions, function()
+    local huntThemeDropdown = RegisterRefresher(owner, CreateDropdown(content, THEME_RIGHT_X, -40, L["Hunt Table Theme"], 170, GetAllThemeOptions, function()
         return db.huntScannerTheme or "brown"
     end, function(key)
         db.huntScannerTheme = key
         RefreshHuntTrackerPanel()
     end))
 
-    local warbandThemeDropdown = RegisterRefresher(owner, CreateDropdown(content, THEME_RIGHT_X, -152, L["Warband Theme"], 170, GetAllThemeOptions, function()
-        return db.currencyWarbandTheme or "brown"
-    end, function(key)
-        db.currencyWarbandTheme = key
-        RefreshCurrencyTrackerPanel()
-    end))
-
     local perModuleNote = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    perModuleNote:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_LEFT_X, -218)
+    perModuleNote:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_LEFT_X, -148)
     perModuleNote:SetWidth(220)
     perModuleNote:SetJustifyH("LEFT")
     perModuleNote:SetWordWrap(true)
@@ -3245,10 +2779,8 @@ local function BuildThemePage(owner, parent)
     globalThemeCheck.PreydatorRefresh = function(self)
         if baseGlobalRefresh then baseGlobalRefresh(self) end
 
-        local currencyEnabled = IsModuleEnabled("currency")
         local huntEnabled = IsModuleEnabled("hunt")
-        local warbandEnabled = IsModuleEnabled("warband")
-        local anyThemeModuleEnabled = currencyEnabled or huntEnabled or warbandEnabled
+        local anyThemeModuleEnabled = huntEnabled
         local isGlobal = db.themeEnabled == true
 
         if globalThemeCheck.PreydatorSetEnabled then
@@ -3259,16 +2791,8 @@ local function BuildThemePage(owner, parent)
             globalThemeDropdown:PreydatorSetEnabled(anyThemeModuleEnabled and isGlobal)
         end
 
-        if currencyThemeDropdown.PreydatorSetEnabled then
-            currencyThemeDropdown:PreydatorSetEnabled(currencyEnabled and (not isGlobal))
-        end
-
         if huntThemeDropdown.PreydatorSetEnabled then
             huntThemeDropdown:PreydatorSetEnabled(huntEnabled and (not isGlobal))
-        end
-
-        if warbandThemeDropdown.PreydatorSetEnabled then
-            warbandThemeDropdown:PreydatorSetEnabled(warbandEnabled and (not isGlobal))
         end
 
         if achievementThemeDropdown.PreydatorSetEnabled then achievementThemeDropdown:PreydatorSetEnabled(false) end
@@ -3418,15 +2942,11 @@ local function BuildThemePage(owner, parent)
 
         local changed = false
         changed = ReassignTheme("globalTheme") or changed
-        changed = ReassignTheme("currencyTheme") or changed
         changed = ReassignTheme("huntScannerTheme") or changed
-        changed = ReassignTheme("currencyWarbandTheme") or changed
         changed = ReassignTheme("achievementTheme") or changed
 
         if db.themeEnabled == true and db.globalTheme == "brown" then
-            db.currencyTheme = "brown"
             db.huntScannerTheme = "brown"
-            db.currencyWarbandTheme = "brown"
             changed = true
         end
 
@@ -3817,22 +3337,9 @@ local function BuildAdvancedPage(owner, parent)
         owner:RefreshControls()
     end)
 
-    CreateActionButton(parent, ADV_LEFT_X, -110, ADV_BUTTON_WIDTH, L["Reset Tracker Positions"], function()
-        db.currencyWindowPoint = {
-            anchor = defaults.currencyWindowPoint.anchor,
-            relativePoint = defaults.currencyWindowPoint.relativePoint,
-            x = defaults.currencyWindowPoint.x,
-            y = defaults.currencyWindowPoint.y,
-        }
-        db.currencyWarbandWindowPoint = {
-            anchor = defaults.currencyWarbandWindowPoint.anchor,
-            relativePoint = defaults.currencyWarbandWindowPoint.relativePoint,
-            x = defaults.currencyWarbandWindowPoint.x,
-            y = defaults.currencyWarbandWindowPoint.y,
-        }
+    CreateActionButton(parent, ADV_LEFT_X, -110, ADV_BUTTON_WIDTH, L["Reset Hunt Table Position"], function()
         db.huntScannerSide = defaults.huntScannerSide
         db.huntScannerAnchorAlign = defaults.huntScannerAnchorAlign
-        RefreshCurrencyTrackerPanel()
         RefreshHuntTrackerPanel()
         owner:RefreshControls()
     end)
@@ -3841,16 +3348,11 @@ local function BuildAdvancedPage(owner, parent)
     CreateAdvancedNote(ADV_LEFT_X, -196, L["Utility actions for release notes and hunt scanner cache maintenance."])
 
     CreateActionButton(parent, ADV_LEFT_X, -234, ADV_BUTTON_WIDTH, L["Show What's New"], function()
-        db.currencyWhatsNewSeenVersion = nil
+        db.preydatorThreeSplashSeenVersion = nil
         db.soundDefaultsPromptSeenVersion = nil
 
-        if type(Preydator.ShowSoundDefaultsPromptIfNeeded) == "function" then
-            Preydator:ShowSoundDefaultsPromptIfNeeded()
-        end
-
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.ShowCurrencyWhatsNew) == "function" then
-            tracker:ShowCurrencyWhatsNew(true)
+        if type(Preydator.ShowPreydatorThreeSplashIfNeeded) == "function" then
+            Preydator:ShowPreydatorThreeSplashIfNeeded(true)
         end
     end)
 
@@ -3938,13 +3440,7 @@ local function BuildAdvancedPage(owner, parent)
         _G.PreydatorDebugDB.enabled = db.debugSounds and true or false
     end))
 
-    RegisterRefresher(owner, CreateCheckbox(parent, ADV_RIGHT_X, -290, L["Currency Debug Events"], function()
-        return db.currencyDebugEvents == true
-    end, function(value)
-        db.currencyDebugEvents = value and true or false
-    end))
-
-    RegisterRefresher(owner, CreateCheckbox(parent, ADV_RIGHT_X, -318, L["Verbose Bloody Command Debug"], function()
+    RegisterRefresher(owner, CreateCheckbox(parent, ADV_RIGHT_X, -290, L["Verbose Bloody Command Debug"], function()
         return db.debugBloodyCommand == true
     end, function(value)
         db.debugBloodyCommand = value and true or false
@@ -3961,7 +3457,7 @@ function SettingsModule:RefreshControls()
 end
 
 function SettingsModule:BuildTabbedOptions(parent, topOffset, bottomOffset)
-    local tabLabels = { L["Modules"], L["Bar"], L["Stage Text"], L["Sounds"], L["Theme"], L["Panels"], L["Currency"], L["Achievements"], L["Profiles"], L["Default Settings"] }
+    local tabLabels = { L["Modules"], L["Bar"], L["Stage Text"], L["Sounds"], L["Theme"], L["Panels"], L["Achievements"], L["Profiles"], L["Default Settings"] }
 
     -- Build top global control strip
     local stripFrame, stripControls = BuildGlobalTopStrip(self, parent)
@@ -3981,9 +3477,7 @@ function SettingsModule:BuildTabbedOptions(parent, topOffset, bottomOffset)
             end
         end
 
-        if tabLabels[index] == L["Currency"] then
-            RefreshCurrencyTrackerPanel()
-        elseif tabLabels[index] == L["Panels"] then
+        if tabLabels[index] == L["Panels"] then
             RefreshCurrencyTrackerPanel()
             RefreshHuntTrackerPanel()
         end
@@ -3993,13 +3487,6 @@ function SettingsModule:BuildTabbedOptions(parent, topOffset, bottomOffset)
     self.tabFrames = self.tabFrames or {}
     self.refreshers = self.refreshers or {}
 
-    local function BuildCurrenciesPage(owner, frame)
-        local tracker = Preydator:GetModule("CurrencyTracker")
-        if tracker and type(tracker.BuildCurrencyPage) == "function" then
-            tracker:BuildCurrencyPage(owner, frame)
-        end
-    end
-
     local pageBuilders = {
         BuildModulesPage,
         BuildBarPage,
@@ -4007,7 +3494,6 @@ function SettingsModule:BuildTabbedOptions(parent, topOffset, bottomOffset)
         BuildSoundsPage,
         BuildThemePage,
         BuildHuntPage,
-        BuildCurrenciesPage,
         BuildAchievementsPage,
         BuildProfilesPage,
         BuildAdvancedPage,

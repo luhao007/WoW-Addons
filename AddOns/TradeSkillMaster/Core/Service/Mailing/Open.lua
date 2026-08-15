@@ -16,6 +16,7 @@ local ChatMessage = TSM.LibTSMService:Include("UI.ChatMessage")
 local Theme = TSM.LibTSMService:Include("UI.Theme")
 local DefaultUI = TSM.LibTSMWoW:Include("UI.DefaultUI")
 local Threading = TSM.LibTSMTypes:Include("Threading")
+local Container = TSM.LibTSMWoW:Include("API.Container")
 local Inbox = TSM.LibTSMWoW:Include("API.Inbox")
 local Mail = TSM.LibTSMService:Include("Mail")
 local private = {
@@ -125,7 +126,7 @@ function private.OpenMails(mails, keepMoney, filterType)
 
 		local mailType = Inbox.GetMailType(index)
 		local matchesFilter = (not filterType and mailType) or (filterType == mailType)
-		local hasBagSpace = not Mail.GetInboxItemLink(index) or CalculateTotalNumberOfFreeBagSlots() > private.settings.keepMailSpace
+		local hasBagSpace = not Mail.GetInboxItemLink(index) or Container.GetTotalFreeBagSlots() > private.settings.keepMailSpace
 		if matchesFilter and hasBagSpace then
 			local _, money, cod, numItems, _, _, textCreated = Inbox.GetHeaderInfo(index)
 			if cod == 0 and (not keepMoney or (keepMoney and money <= 0)) then

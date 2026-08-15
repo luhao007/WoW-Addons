@@ -20,7 +20,7 @@ local function Icon(icon) return '|T' .. icon .. ':0:0:1:-1|t ' end
 local bullet = (GetLocale() == 'zhCN' and '·' or '•')
 
 -------------------------------------------------------------------------------
------------------------------------ REWARD ------------------------------------
+------------------------------------ REWARD -----------------------------------
 -------------------------------------------------------------------------------
 
 local Reward = Class('Reward')
@@ -105,7 +105,7 @@ function Section:Render(tooltip)
 end
 
 -------------------------------------------------------------------------------
------------------------------------ SPACER ------------------------------------
+------------------------------------ SPACER -----------------------------------
 -------------------------------------------------------------------------------
 
 local Spacer = Class('Spacer', Reward)
@@ -115,7 +115,7 @@ function Spacer:IsEnabled() return true end
 function Spacer:Render(tooltip) tooltip:AddLine(' ') end
 
 -------------------------------------------------------------------------------
---------------------------------- HUNTER PET ----------------------------------
+---------------------------------- HUNTER PET ---------------------------------
 -------------------------------------------------------------------------------
 
 local HunterPet = Class('HunterPet', Reward, {type = L['hunter_pet']})
@@ -225,7 +225,7 @@ function Achievement:GetLines()
 end
 
 -------------------------------------------------------------------------------
------------------------------------- BUFF -------------------------------------
+------------------------------------- BUFF ------------------------------------
 -------------------------------------------------------------------------------
 
 local Buff = Class('Buff', Reward, {type = L['buff']})
@@ -267,7 +267,7 @@ function Currency:GetText()
 end
 
 -------------------------------------------------------------------------------
----------------------------------- FOLLOWER -----------------------------------
+----------------------------------- FOLLOWER ----------------------------------
 -------------------------------------------------------------------------------
 
 local Follower = Class('Follower', Reward)
@@ -318,7 +318,7 @@ function Follower:GetStatus()
 end
 
 -------------------------------------------------------------------------------
------------------------------------- ITEM -------------------------------------
+------------------------------------- ITEM ------------------------------------
 -------------------------------------------------------------------------------
 
 local Item = Class('Item', Reward)
@@ -635,7 +635,7 @@ function Appearance:GetStatus()
 end
 
 -------------------------------------------------------------------------------
----------------------------------- TRANSMOG -----------------------------------
+----------------------------------- TRANSMOG ----------------------------------
 -------------------------------------------------------------------------------
 
 local Transmog = Class('Transmog', Item,
@@ -695,12 +695,13 @@ function Transmog:IsObtainable()
     if not Item.IsObtainable(self) then return false end
     -- Cosmetic cloaks do not behave well with the GetItemSpecInfo() function.
     -- They return an empty table even though you can get the item to drop.
-    local _, _, _, ilvl, _, _, _, _, equipLoc = C_Item.GetItemInfo(self.item)
-    if not (ilvl == 1 and equipLoc == 'INVTYPE_CLOAK' and self.isCosmetic) then
-        -- Verify the item drops for any of the players specs
-        local specs = C_Item.GetItemSpecInfo(self.item)
-        if type(specs) == 'table' and #specs == 0 then return false end
-    end
+    -- local _, _, _, ilvl, _, _, _, _, equipLoc = C_Item.GetItemInfo(self.item)
+    -- if not (ilvl == 1 and equipLoc == 'INVTYPE_CLOAK' and self.isCosmetic) then
+    --     -- No longer checking specs since any class can drop transmog items
+    --     -- Verify the item drops for any of the players specs
+    --     -- local specs = C_Item.GetItemSpecInfo(self.item)
+    --     -- if type(specs) == 'table' and #specs == 0 then return false end
+    -- end
     return true
 end
 
@@ -717,18 +718,18 @@ function Transmog:GetStatus()
     local status = collected and Green(L['known']) or Red(L['missing'])
 
     if not collected then
-        if not self:IsLearnable() then
-            status = Orange(L['unlearnable'])
-        elseif not self:IsObtainable() then
-            status = Orange(L['unobtainable'])
-        end
+        if not self:IsLearnable() then status = Orange(L['unlearnable']) end
+        -- Removed unobtainable check since any class can drop transmog items
+        -- elseif not self:IsObtainable() then
+        --     status = Orange(L['unobtainable'])
+        -- end
     end
 
     return status
 end
 
 -------------------------------------------------------------------------------
---------------------------------- REPUTATION ----------------------------------
+---------------------------------- REPUTATION ---------------------------------
 -------------------------------------------------------------------------------
 
 local Reputation = Class('Reputation', Reward,

@@ -346,24 +346,12 @@ local function startLFGSearch(categoryID, activityID)
 	-- Open LFG to the group browser
 	ShowLFGParentFrame(2);
 
-	if (select(4, GetBuildInfo()) < 20000) then
-		-- Set Category
-		UIDropDownMenu_SetSelectedValue(LFGBrowseFrame.CategoryDropDown, categoryID);
-		UIDropDownMenu_Initialize(LFGBrowseFrame.CategoryDropDown, LFGBrowseCategoryDropDown_Initialize);
+	-- Set Category
+	LFGBrowseFrame.CategoryDropdown:SetValue(categoryID);
 
-		-- Set Activity
-		LFGBrowseActivityDropDown_ValueReset(LFGBrowseFrame.ActivityDropDown);
-		UIDropDownMenu_ClearAll(LFGBrowseFrame.ActivityDropDown);
-		UIDropDownMenu_Initialize(LFGBrowseFrame.ActivityDropDown, LFGBrowseActivityDropDown_Initialize);
-		LFGBrowseActivityDropDown_ValueSetSelected(LFGBrowseFrame.ActivityDropDown, activityID, true);
-	else
-		-- Set Category
-		LFGBrowseFrame.CategoryDropdown:SetValue(categoryID);
-
-		-- Set Activity
-		LFGBrowseFrame.ActivityDropdown:Reset()
-		LFGBrowseFrame.ActivityDropdown:ValueSetSelected(activityID, true);
-	end
+	-- Set Activity
+	LFGBrowseFrame.ActivityDropdown:Reset()
+	LFGBrowseFrame.ActivityDropdown:ValueSetSelected(activityID, true);
 
 	-- Start search
 	LFGBrowse_DoSearch();
@@ -1281,7 +1269,7 @@ function Atlas_Refresh(mapID)
 		return
 	end
 
-	if WoWRetail then
+	if WoWRetail or WoWClassic then
 		if (AtlasEJLootFrame:IsShown()) then
 			AtlasEJLootFrame:Hide()
 		end

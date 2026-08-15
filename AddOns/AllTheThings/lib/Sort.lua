@@ -223,10 +223,30 @@ app.SortDefaults = setmetatable({
 		elseif bcomp then
 			return false;
 		end
+		-- Non-filled Things
+		acomp = not (a.filledReagent or a.filledCost or a.filledUpgrade)
+		bcomp = not (b.filledReagent or b.filledCost or b.filledUpgrade)
+		if acomp then
+			if not bcomp then return true; end
+		elseif bcomp then
+			return false;
+		end
+		-- Least missing containers
+		local ag = a.g
+		local bg = b.g
+		if not ag then
+			return bg and true or false -- reversed, individual things before groups
+		elseif not bg then
+			return ag and false or true -- reversed, individual things before groups
+		end
+		acomp = #ag > 0 and a.total - a.progress or nil
+		bcomp = #bg > 0 and b.total - b.progress or nil
+		-- app.PrintDebug("Sort.hierarchy.g",app:SearchLink(a),acomp,#ag,app:SearchLink(b),bcomp,#bg)
+		if acomp and bcomp and acomp ~= bcomp then
+			return acomp < bcomp
+		end
 		-- Otherwise order by container size
-		acomp = a.g
-		bcomp = b.g
-		return (acomp and #acomp or 0) < (bcomp and #bcomp or 0);
+		return #ag < #bg
 	end,
 	-- Sorts objects first by how many total collectibles they contain
 	Total = function(a,b)

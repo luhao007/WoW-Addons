@@ -2,7 +2,7 @@
 local mod	= DBM:NewMod(2394, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(164407)
 mod:SetEncounterID(2399)
@@ -35,26 +35,29 @@ mod:RegisterEventsInCombat(
  or ability.id = 346269 or ability.id = 331314
  or (ability.id = 342420 or ability.id = 340817) and type = "applydebuff"
 --]]
+DBM:RegisterAltSpellName(332318, 247733)--Destructive Stomp -> short name
+DBM:RegisterAltSpellName(332687, 226056)--Colossal Roar -> short name
+
 local warnHatefulGaze							= mod:NewTargetCountAnnounce(331209, 4, nil, nil, nil, nil, nil, nil, true)
 local warnStunnedImpact							= mod:NewTargetNoFilterAnnounce(331314, 1)
 --local warnChainLink								= mod:NewTargetAnnounce(342419, 3)--Targetting debuff
 local warnChainSlam								= mod:NewTargetCountAnnounce(335470, 3, nil, nil, nil, nil, nil, nil, true)
 local warnGruesomeRage							= mod:NewTargetNoFilterAnnounce(341250, 4)
 
-local specWarnHatefulGaze						= mod:NewSpecialWarningMoveTo(331209, nil, nil, nil, 3, 2)
-local specWarnHeedlessCharge					= mod:NewSpecialWarningSoon(331212, nil, nil, nil, 2, 2)
+local specWarnHatefulGaze						= mod:NewSpecialWarningMoveTo(331209, nil, nil, nil, 3, 2, nil, nil, "targetyou")
+local specWarnHeedlessCharge					= mod:NewSpecialWarningSoon(331212, nil, nil, nil, 2, 2, nil, nil, "farfromline")
 local yellHatefulGaze							= mod:NewShortYell(331209)
 local yellHatefulGazeFades						= mod:NewShortFadesYell(331209)
-local specWarnChainLink							= mod:NewSpecialWarningMoveTo(335300, nil, nil, nil, 1, 2)
+local specWarnChainLink							= mod:NewSpecialWarningMoveTo(335300, nil, nil, nil, 1, 2, nil, nil, "gather")
 local yellChainLink								= mod:NewIconRepeatYell(335300, DBM_CORE_L.AUTO_YELL_ANNOUNCE_TEXT.shortyell, false, 2)
-local specWarnChainSlam							= mod:NewSpecialWarningYou(335470, nil, nil, nil, 1, 2)
-local specWarnChainSlamPartner					= mod:NewSpecialWarningTarget(335470, nil, nil, nil, 1, 2)
+local specWarnChainSlam							= mod:NewSpecialWarningYou(335470, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnChainSlamPartner					= mod:NewSpecialWarningTarget(335470, nil, nil, nil, 1, 2, nil, nil, "gathershare")
 local yellChainSlam								= mod:NewShortYell(335470, nil, nil, nil, "YELL")
 local yellChainSlamFades						= mod:NewShortFadesYell(335470, nil, nil, nil, "YELL")
-local specWarnDestructiveStomp					= mod:NewSpecialWarningRun(332318, "Melee", 247733, nil, 4, 2)
-local specWarnColossalRoar						= mod:NewSpecialWarningSpell(332687, nil, 226056, nil, 2, 2)
-local specWarnFallingRubble						= mod:NewSpecialWarningDodgeCount(332572, nil, nil, nil, 2, 2)
-local specWarnSiesmicShift						= mod:NewSpecialWarningMoveAway(340817, nil, nil, nil, 2, 2, 4)
+local specWarnDestructiveStomp					= mod:NewSpecialWarningRun(332318, "Melee", nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnColossalRoar						= mod:NewSpecialWarningSpell(332687, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnFallingRubble						= mod:NewSpecialWarningDodgeCount(332572, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnSiesmicShift						= mod:NewSpecialWarningMoveAway(340817, nil, nil, nil, 2, 2, 4, nil, "range5")
 --local specWarnGTFO							= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8)
 
 --All timers outside of stun and gaze will use keep arg so timers remain visible if they come off CD during gaze stun
@@ -62,9 +65,9 @@ local timerHatefulGazeCD						= mod:NewCDCountTimer(68.9, 331209, nil, nil, nil,
 local timerStunnedImpact						= mod:NewBuffActiveTimer(12, 331314, nil, nil, nil, 5, nil, DBM_COMMON_L.DAMAGE_ICON)
 local timerChainLinkCD							= mod:NewCDCountTimer(68.9, 335300, nil, nil, nil, 3, nil, nil, true)
 local timerChainSlamCD							= mod:NewCDCountTimer(68.9, 335470, nil, nil, nil, 3, nil, DBM_COMMON_L.HEROIC_ICON, true)
-local timerDestructiveStompCD					= mod:NewCDCountTimer(44.3, 332318, 247733, nil, nil, 3, nil, nil, true)
+local timerDestructiveStompCD					= mod:NewCDCountTimer(44.3, 332318, nil, nil, nil, 3, nil, nil, true)
 local timerFallingRubbleCD						= mod:NewCDCountTimer(68.9, 332572, nil, nil, nil, 3, nil, nil, true)
-local timerColossalRoarCD						= mod:NewCDCountTimer(27.9, 332687, 226056, nil, nil, 2, nil, nil, true)
+local timerColossalRoarCD						= mod:NewCDCountTimer(27.9, 332687, nil, nil, nil, 2, nil, nil, true)
 local timerSiesmicShiftCD						= mod:NewCDCountTimer(34, 340817, nil, nil, nil, 3, nil, DBM_COMMON_L.MYTHIC_ICON, true)--Mythic
 
 --local berserkTimer							= mod:NewBerserkTimer(600)

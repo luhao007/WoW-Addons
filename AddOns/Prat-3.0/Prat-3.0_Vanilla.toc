@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Sylvanaar (Sylvaann - Proudmoore/US-Alliance)
-## Version: 3.9.100
+## Version: 3.9.104
 
 ## Title: Prat |cff8080ff3.0|r
 ## Notes: A framework for chat ehancement modules.
@@ -28,6 +28,7 @@
 
 Libs.xml
 
+locales\includes.xml
 fonts\includes.xml
 addon\includes.xml
 services\includes.xml

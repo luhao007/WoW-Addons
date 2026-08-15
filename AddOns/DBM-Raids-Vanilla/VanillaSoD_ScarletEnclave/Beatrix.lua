@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260525233242")
 mod:DisableHardcodedOptions()
 
 mod:SetZone(2856)
@@ -26,7 +26,7 @@ local startTimer = mod:NewCombatTimer(185)
 -- Froggers
 local timerFroggers = mod:NewCastTimer(30, 1232690)
 local warnFroggers = mod:NewSoonAnnounce(1232690)
-local specWarnFroggers = mod:NewSpecialWarningDodgeLoc(1232690, nil, nil, nil, 2, 8)
+local specWarnFroggers = mod:NewSpecialWarningDodgeLoc(1232690, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 -- Cannons
 local timerCannons = mod:NewCastTimer(15, 24933)
@@ -34,7 +34,7 @@ local specWarnCannons = mod:NewSpecialWarningDodge(24933)
 
 -- Meteor
 local timerMeteor = mod:NewCastTimer(19.2, 1231946)
-local specWarnMeteor = mod:NewSpecialWarningSoak(1231946, nil, nil, nil, 2, 12)
+local specWarnMeteor = mod:NewSpecialWarningSoak(1231946, nil, nil, nil, 2, 12, nil, nil, "helpsoak")
 
 -- This fight is full of dispellable debuffs that stack up in bad ways
 -- Currently just showing for dispellers, but do we maybe want some logic for warning if a tank gets certain stacks too high?
@@ -44,7 +44,7 @@ local warnCrusaderStrike = mod:NewTargetNoFilterAnnounce(1236182, nil, nil, "Mag
 
 -- This seems to be a *buff* that needs to be healed to 100%
 local warnRosesThorns = mod:NewTargetNoFilterAnnounce(1232390)
-local specWarnRosesThorns = mod:NewSpecialWarningSpell(1232390, "Healer", nil, nil, 2, 8)
+local specWarnRosesThorns = mod:NewSpecialWarningSpell(1232390, "Healer", nil, nil, 2, 8, nil, nil, "healfull")
 
 
 -- Probably a special warning if you are targeted (as you are tanking) TBD

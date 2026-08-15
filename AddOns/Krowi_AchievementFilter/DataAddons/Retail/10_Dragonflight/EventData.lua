@@ -19,16 +19,6 @@ KrowiAF.EventData.Dragonflight = {
         addon.L["Other"],
         2
     },
-    { -- WoW's 19th Anniversary
-        1397, type.Calendar,
-        1173,
-        133783,
-		addon.L["WoW's 19th Anniversary"],
-        addon.L["Other"],
-        2,
-        nil,
-        true
-    },
     { -- Eastern Kingdoms Cup
         1400, type.Calendar,
         1531,
@@ -58,22 +48,6 @@ KrowiAF.EventData.Dragonflight = {
         1559,
         1100022,
 		addon.L["Northrend Cup"],
-        addon.L["Other"],
-        2
-    },
-    { -- Pandaria Cup
-        1430, type.Calendar,
-        1560,
-        1100022,
-		addon.L["Pandaria Cup"],
-        addon.L["Other"],
-        2
-    },
-    { -- Broken Isles Cup
-        1431, type.Calendar,
-        1561,
-        1100022,
-		addon.L["Broken Isles Cup"],
         addon.L["Other"],
         2
     },

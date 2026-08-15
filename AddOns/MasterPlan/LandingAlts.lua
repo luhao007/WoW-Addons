@@ -1,5 +1,5 @@
 local _, T = ...
-if T.Mark ~= 50 then return end
+if T.Mark ~= 266 then return end
 local L, G, E, api = T.L, T.Garrison, T.Evie, T.MissionsUI
 local GameTooltip = T.NotGameTooltip or GameTooltip
 local SetPortraitToTexture = T.SetPortraitToTexture

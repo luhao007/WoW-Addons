@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2361, "DBM-Raids-BfA", 2, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260525233052")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(152910)
 mod:SetEncounterID(2299)
@@ -38,11 +38,12 @@ mod:RegisterEventsInCombat(
  or ability.id = 300551 and type = "applybuff"
  or (ability.id = 303657) and type = "applydebuff"
 --]]
+DBM:RegisterAltSpellName(297372, 297371)--Greater Reversal -> Reversal
 --General/Ancient Wards (20)
 local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnPressureSurge					= mod:NewSpellAnnounce(302208, 2)
 
-local specWarnDrainedSoul				= mod:NewSpecialWarningStack(298569, nil, 5, nil, nil, 1, 6)
+local specWarnDrainedSoul				= mod:NewSpecialWarningStack(298569, nil, 5, nil, nil, 1, 6, nil, nil, "stackhigh")
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
@@ -53,10 +54,10 @@ mod:AddBoolOption("ShowTimeNotStacks", false, nil, nil, nil, nil, 298569)
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20250))
 local warnPainfulMemoriesOver			= mod:NewMoveToAnnounce(297937, 1, nil, "Tank", 2)
 
-local specWarnPainfulMemories			= mod:NewSpecialWarningMoveTo(297937, "Tank", nil, nil, 3, 2)
-local specWarnLonging					= mod:NewSpecialWarningMoveTo(297934, false, nil, 2, 3, 2)
-local specWarnGTFO						= mod:NewSpecialWarningGTFO(297898, nil, nil, nil, 1, 8)
-local specWarnHulk						= mod:NewSpecialWarningSwitchCount("ej20480", "Dps", nil, nil, 1, 2)
+local specWarnPainfulMemories			= mod:NewSpecialWarningMoveTo(297937, "Tank", nil, nil, 3, 2, nil, nil, "moveboss")
+local specWarnLonging					= mod:NewSpecialWarningMoveTo(297934, false, nil, 2, 3, 2, nil, nil, "moveboss")
+local specWarnGTFO						= mod:NewSpecialWarningGTFO(297898, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnHulk						= mod:NewSpecialWarningSwitchCount(-20480, "Dps", nil, nil, 1, 2, nil, nil, "bigmob")
 
 local timerCombatStart					= mod:NewCombatTimer(4)
 local timerPainfulMemoriesCD			= mod:NewNextTimer(60, 297937, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
@@ -69,9 +70,9 @@ local warnLightningOrbs					= mod:NewSpellAnnounce(298121, 2)
 local warnFrozen						= mod:NewTargetNoFilterAnnounce(298018, 4)
 local warnColdBlast						= mod:NewStackAnnounce(298014, 2, nil, "Tank")
 
-local specWarnChainLightning			= mod:NewSpecialWarningInterrupt(297972, "HasInterrupt", nil, nil, 1, 2)
-local specWarnColdBlast					= mod:NewSpecialWarningStack(298014, nil, 3, nil, nil, 1, 6)
-local specWarnColdBlastTaunt			= mod:NewSpecialWarningTaunt(298014, nil, nil, nil, 1, 2)
+local specWarnChainLightning			= mod:NewSpecialWarningInterrupt(297972, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnColdBlast					= mod:NewSpecialWarningStack(298014, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnColdBlastTaunt			= mod:NewSpecialWarningTaunt(298014, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 
 local timerLightningOrbsCD				= mod:NewCDTimer(16.1, 298121, nil, nil, nil, 3)
 local timerColdBlastCD					= mod:NewCDTimer(9.4, 298014, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
@@ -79,7 +80,7 @@ local timerColdBlastCD					= mod:NewCDTimer(9.4, 298014, nil, "Tank", nil, 5, ni
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20266))
 local warnChargedSpear					= mod:NewTargetNoFilterAnnounce(301078, 4)
 
-local specWarnChargedSpear				= mod:NewSpecialWarningMoveTo(301078, nil, nil, nil, 3, 8)
+local specWarnChargedSpear				= mod:NewSpecialWarningMoveTo(301078, nil, nil, nil, 3, 8, nil, nil, "runtoedge")
 local yellChargedSpear					= mod:NewYell(301078)
 local yellChargedSpearFades				= mod:NewShortFadesYell(301078)
 
@@ -88,7 +89,7 @@ local timerChargedSpearCD				= mod:NewCDTimer(32.3, 301078, nil, nil, nil, 3, ni
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20480))
 local warnGroundPound					= mod:NewCountAnnounce(298531, 2)
 
-local timerHulkSpawnCD					= mod:NewCDCountTimer(30.4, "ej20480", nil, nil, nil, 1, 298531, DBM_COMMON_L.DAMAGE_ICON)
+local timerHulkSpawnCD					= mod:NewCDCountTimer(30.4, -20480, nil, nil, nil, 1, 298531, DBM_COMMON_L.DAMAGE_ICON)
 
 mod:AddNamePlateOption("NPAuraOnInfuriated", 300428)
 ----Azshara
@@ -97,10 +98,10 @@ local warnDrainAncientWard				= mod:NewCountAnnounce(300334, 2)
 local warnBeckon						= mod:NewTargetNoFilterAnnounce(299094, 3)
 local warnCrushingDepths				= mod:NewTargetNoFilterAnnounce(303825, 4, nil, false, 2)
 
-local specWarnArcaneOrbs				= mod:NewSpecialWarningCount(298787, nil, nil, nil, 2, 2)
-local specWarnBeckon					= mod:NewSpecialWarningRun(299094, nil, nil, nil, 4, 8)
+local specWarnArcaneOrbs				= mod:NewSpecialWarningCount(298787, nil, nil, nil, 2, 2, nil, nil, "watchorb")
+local specWarnBeckon					= mod:NewSpecialWarningRun(299094, nil, nil, nil, 4, 8, nil, nil, "justrun")
 local yellBeckon						= mod:NewYell(299094)--Yell goes off when player loses control of self, not pre warning player gets
-local specWarnBeckonNear				= mod:NewSpecialWarningClose(303799, nil, nil, nil, 1, 8)
+local specWarnBeckonNear				= mod:NewSpecialWarningClose(303799, nil, nil, nil, 1, 8, nil, nil, "runaway")
 local specWarnDivideandConquer			= mod:NewSpecialWarningDodge(300478, nil, nil, nil, 3, 2, 4)--Mythic
 
 local timerArcaneOrbsCD					= mod:NewCDCountTimer(65, 298787, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
@@ -118,20 +119,20 @@ local timerNextPhase					= mod:NewStageTimer(30.4)
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20323))
 local warnArcaneBurst					= mod:NewTargetNoFilterAnnounce(303657, 3, nil, "Healer", 2)
 
-local specWarnArcaneVuln				= mod:NewSpecialWarningStack(302999, nil, 12, nil, nil, 1, 6)
-local specWarnArcaneDetonation			= mod:NewSpecialWarningMoveTo(300519, nil, nil, nil, 3, 8)
-local specWarnReversalofFortune			= mod:NewSpecialWarningSpell(297371, nil, nil, nil, 2, 5)
-local specWarnArcaneBurst				= mod:NewSpecialWarningYouPos(303657, nil, nil, nil, 1, 2)
+local specWarnArcaneVuln				= mod:NewSpecialWarningStack(302999, nil, 12, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnArcaneDetonation			= mod:NewSpecialWarningMoveTo(300519, nil, nil, nil, 3, 8, nil, nil, "findshelter")
+local specWarnReversalofFortune			= mod:NewSpecialWarningSpell(297371, nil, nil, nil, 2, 5, nil, nil, "telesoon")
+local specWarnArcaneBurst				= mod:NewSpecialWarningYouPos(303657, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellArcaneBurst					= mod:NewPosYell(303657)
 local yellArcaneBurstFades				= mod:NewIconFadesYell(303657)
-local specWarnAzsharasDevoted			= mod:NewSpecialWarningSwitch("ej20353", "Dps", nil, nil, 1, 2)
-local specWarnAzsharasIndomitable		= mod:NewSpecialWarningSwitchCount("ej20410", "Dps", nil, nil, 1, 2)
+local specWarnAzsharasDevoted			= mod:NewSpecialWarningSwitch(-20353, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnAzsharasIndomitable		= mod:NewSpecialWarningSwitchCount(-20410, "Dps", nil, nil, 1, 2, nil, nil, "bigmob")
 
 local timerArcaneDetonationCD			= mod:NewCDCountTimer(80, 300519, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)
 local timerReversalofFortuneCD			= mod:NewCDCountTimer(80, 297371, nil, nil, nil, 5, nil, DBM_COMMON_L.IMPORTANT_ICON, nil, 2, 5)
 local timerArcaneBurstCD				= mod:NewCDCountTimer(58.2, 303657, nil, nil, nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
-local timerAzsharasDevotedCD			= mod:NewCDTimer(95, "ej20353", nil, nil, nil, 1, 298531, DBM_COMMON_L.DAMAGE_ICON)
-local timerAzsharasIndomitableCD		= mod:NewCDTimer(100, "ej20410", nil, nil, nil, 1, 298531, DBM_COMMON_L.DAMAGE_ICON)
+local timerAzsharasDevotedCD			= mod:NewCDTimer(95, -20353, nil, nil, nil, 1, 298531, DBM_COMMON_L.DAMAGE_ICON)
+local timerAzsharasIndomitableCD		= mod:NewCDTimer(100, -20410, nil, nil, nil, 1, 298531, DBM_COMMON_L.DAMAGE_ICON)
 
 mod:AddSetIconOption("SetIconOnArcaneBurst", 303657, true, 0, {1, 2, 3, 4})
 --Stage Three: Song of the Tides
@@ -139,11 +140,11 @@ mod:AddTimerLine(DBM:EJ_GetSectionInfo(20340))
 local warnStaticShock					= mod:NewTargetAnnounce(300492, 2)
 local warnCrystallineShield				= mod:NewTargetNoFilterAnnounce(300620, 2)
 
-local specWarnLoyalMyrmidon				= mod:NewSpecialWarningSwitchCount("ej20355", "Tank", nil, nil, 1, 2)
-local specWarnStaticShock				= mod:NewSpecialWarningMoveAway(300492, nil, nil, nil, 1, 8)
+local specWarnLoyalMyrmidon				= mod:NewSpecialWarningSwitchCount(-20355, "Tank", nil, nil, 1, 2, nil, nil, "bigmob")
+local specWarnStaticShock				= mod:NewSpecialWarningMoveAway(300492, nil, nil, nil, 1, 8, nil, nil, "runout")
 local yellStaticShock					= mod:NewYell(300492)
 
-local timerLoyalMyrmidonCD				= mod:NewCDCountTimer(95, "ej20355", nil, nil, nil, 1, 301078, DBM_COMMON_L.DAMAGE_ICON)
+local timerLoyalMyrmidonCD				= mod:NewCDCountTimer(95, -20355, nil, nil, nil, 1, 301078, DBM_COMMON_L.DAMAGE_ICON)
 local timerStageThreeBerserk			= mod:NewTimer(180, "timerStageThreeBerserk", 28131)
 --Stage Four: My Palace Is a Prison
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20361))
@@ -153,15 +154,15 @@ local warnEssenceofAzeroth				= mod:NewTargetAnnounce(300866, 2)
 local warnOverload						= mod:NewCountAnnounce(301431, 2)
 local warnSystemShock					= mod:NewTargetAnnounce(300877, 3)
 
-local specWarnGreaterReversal			= mod:NewSpecialWarningSpell(297372, nil, nil, nil, 2, 5)
-local specWarnVoidtouched				= mod:NewSpecialWarningStack(300743, nil, 4, nil, nil, 1, 6)
-local specWarnVoidtouchedTaunt			= mod:NewSpecialWarningTaunt(300743, nil, nil, nil, 1, 2)
-local specWarnPiercingGaze				= mod:NewSpecialWarningDodgeCount(300768, nil, nil, nil, 2, 2)
-local specWarnOverload					= mod:NewSpecialWarningCount(301431, false, nil, 2, 2, 2)
-local specWarnEssenceofAZeroth			= mod:NewSpecialWarningYou(300866, nil, nil, nil, 1, 2)
-local specWarnSystemShock				= mod:NewSpecialWarningDefensive(300877, nil, nil, nil, 1, 2)
+local specWarnGreaterReversal			= mod:NewSpecialWarningSpell(297372, nil, nil, nil, 2, 5, nil, nil, "telesoon")
+local specWarnVoidtouched				= mod:NewSpecialWarningStack(300743, nil, 4, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnVoidtouchedTaunt			= mod:NewSpecialWarningTaunt(300743, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnPiercingGaze				= mod:NewSpecialWarningDodgeCount(300768, nil, nil, nil, 2, 2, nil, nil, "farfromline")
+local specWarnOverload					= mod:NewSpecialWarningCount(301431, false, nil, 2, 2, 2, nil, nil, "specialsoon")
+local specWarnEssenceofAZeroth			= mod:NewSpecialWarningYou(300866, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnSystemShock				= mod:NewSpecialWarningDefensive(300877, nil, nil, nil, 1, 2, nil, nil, "defensive")
 
-local timerGreaterReversalCD			= mod:NewCDCountTimer(70, 297372, 297371, nil, nil, 5, nil, DBM_COMMON_L.IMPORTANT_ICON..DBM_COMMON_L.HEROIC_ICON, nil, 2, 5)
+local timerGreaterReversalCD			= mod:NewCDCountTimer(70, 297372, nil, nil, nil, 5, nil, DBM_COMMON_L.IMPORTANT_ICON..DBM_COMMON_L.HEROIC_ICON, nil, 2, 5)
 local timerVoidTouchedCD				= mod:NewCDTimer(6.9, 300743, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerNetherPortalCD				= mod:NewCDCountTimer(35, 303980, nil, nil, nil, 3)--35 unless delayed by spell queue
 local timerOverloadCD					= mod:NewCDCountTimer(54.9, 301431, nil, nil, nil, 5, nil, DBM_COMMON_L.IMPORTANT_ICON)

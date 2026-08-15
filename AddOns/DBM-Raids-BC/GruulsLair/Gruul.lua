@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal25"
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260525233201")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(19044)
 mod:SetEncounterID(650, 2456)
@@ -30,8 +30,8 @@ local warnGroundSlam	= mod:NewSpellAnnounce(33525, 3)
 local warnShatter		= mod:NewSpellAnnounce(33654, 4)
 local warnSilence		= mod:NewSpellAnnounce(36297, 4)
 
-local specWarnCaveIn	= mod:NewSpecialWarningGTFO(36240, nil, nil, nil, 1, 6)
-local specWarnShatter	= mod:NewSpecialWarningMoveAway(33654, nil, nil, nil, 1, 6)
+local specWarnCaveIn	= mod:NewSpecialWarningGTFO(36240, nil, nil, nil, 1, 6, nil, nil, "watchfeet")
+local specWarnShatter	= mod:NewSpecialWarningMoveAway(33654, nil, nil, nil, 1, 6, nil, nil, "scatter")
 
 local timerGrowthCD		= mod:NewNextTimer(30, 36300, nil, nil, nil, 6)
 local timerGroundSlamCD	= mod:NewCDTimer(74, 33525, nil, nil, nil, 2)--74-80 second variation,and this is just from 2 pulls.

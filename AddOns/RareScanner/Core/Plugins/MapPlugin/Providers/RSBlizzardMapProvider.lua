@@ -147,6 +147,12 @@ local function ShowPin(pin)
 end
 
 local function OnPinMouseEnter(pin)
+	-- Avoids double events
+	if (pin.tooltipShown) then
+		return
+	end
+
+	pin.tooltipShown = true
 	if (pin:GetAlpha() == 0) then
 		GameTooltip:Hide()
 	elseif (pin.POI and RSConfigDB.IsShowingTooltipsOnIngameIcons()) then
@@ -156,6 +162,12 @@ local function OnPinMouseEnter(pin)
 end
 
 local function OnPinMouseLeave(pin)
+	-- Avoids double events
+	if (not pin.tooltipShown) then
+		return
+	end
+
+	pin.tooltipShown = nil
     if (pin.POI and RSConfigDB.IsShowingTooltipsOnIngameIcons()) then
 		if (RSTooltip.HideTooltip(pin.tooltip)) then
 			pin.tooltip = nil

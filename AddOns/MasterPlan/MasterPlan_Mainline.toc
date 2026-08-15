@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: foxlit
-## Version: 8.3.2
+## Version: 8.6.2
 ## License: All rights reserved. Do not redistribute, in whole or in part, without explicit prior permission from the author.
 
 ## Title: Master Plan
@@ -21,11 +21,12 @@
 Libs/Evie.lua
 Libs/Ten.lua
 Libs/NotGameTooltip.lua
+Libs/EasyMenu.lua
 Libs/Reframe.lua
 Libs/exui/exui.lua
 Libs/exui/ScrollBar.lua
 Locale.lua
-Mark-50.lua
+Mark-266.lua
 GarrisonAPI-Data.lua
 GarrisonAPI.lua
 MasterPlan.lua

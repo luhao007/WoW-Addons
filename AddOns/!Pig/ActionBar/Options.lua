@@ -1,7 +1,7 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
+local addonName, PD = ...;
+local L=PD.locale
 ---
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
 local PIGOptionsList=Create.PIGOptionsList
@@ -12,18 +12,7 @@ local PIGFontStringBG=Create.PIGFontStringBG
 local PIGEnter=Create.PIGEnter
 ---
 local ActionBarfun={}
-addonTable.ActionBarfun=ActionBarfun
-local fuFrame,fuFrameBut = PIGOptionsList(L["ACTION_TABNAME"],"TOP")
---
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
-ActionBarfun.fuFrame=fuFrame
-ActionBarfun.fuFrameBut=fuFrameBut
-ActionBarfun.RTabFrame=RTabFrame
---
-local ActionF,Actiontabbut =PIGOptionsList_R(RTabFrame,L["ACTION_TABNAME1"],70)
-ActionF:Show()
-Actiontabbut:Selected(true)
---------
+PD.ActionBarfun=ActionBarfun
 local function ActionBar_Ranse()
 	if not PIGA["ActionBar"]["Ranse"] then return end
 	if ActionButton_UpdateRangeIndicator then
@@ -56,94 +45,64 @@ local function ActionBar_Ranse()
 		end)
 	end
 end
-ActionF.Ranse=PIGCheckbutton_R(ActionF,{"技能范围着色","根据技能范围染色动作条按键颜色"})
-ActionF.Ranse:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["ActionBar"]["Ranse"]=true;
-		ActionBar_Ranse()
-	else
-		PIGA["ActionBar"]["Ranse"]=false;
-		PIG_OptionsUI.RLUI:Show()
-	end
-end);
-local function ActionCD()
+local function ActionBar_CD()
 	if PIGA["ActionBar"]["ActionCD"] then
 		SetCVar("countdownForCooldowns","1")
 	else
 		SetCVar("countdownForCooldowns","0")
 	end
 end
-ActionF.Cooldowns=PIGCheckbutton_R(ActionF,{"显示冷却时间","显示动作条技能物品冷却时间"})
-ActionF.Cooldowns:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["ActionBar"]["ActionCD"]=true;
-	else
-		PIGA["ActionBar"]["ActionCD"]=false;
-	end
-	ActionCD()
-end);
-
-if PIG_MaxTocversion(20000) then
-	function ActionBarfun.ActionBar_Cailiao()
-		if not PIGA["ActionBar"]["Cailiao"] then return end
-		local function update_Count(text)
-    		local xxxx = GetInventoryItemCount("player", 18)
-	        if xxxx>1 then
-	            text:SetText(xxxx)
-	        else
-	        	if GetInventoryItemTexture("player", 18) then
-	            	text:SetText("1")
-	            else
-					text:SetText("|cffff00000|r")
-	            end
-	        end
+local function ActionBar_Cailiao()
+	if PIG_MaxTocversion(20000,true) then return end
+	if not PIGA["ActionBar"]["Cailiao"] then return end
+	local function update_Count(text)
+		local xxxx = GetInventoryItemCount("player", 18)
+        if xxxx>1 then
+            text:SetText(xxxx)
+        else
+        	if GetInventoryItemTexture("player", 18) then
+            	text:SetText("1")
+            else
+				text:SetText("|cffff00000|r")
+            end
         end
-	    hooksecurefunc("ActionButton_UpdateCount", function(actionButton)
-		    local action = actionButton.action
-		    if ( HasAction(action) ) then
-		    	local actiontype,spellID = GetActionInfo(action)
-		    	if actiontype=="spell" and spellID==2764 or spellID==2567 then
-		    		update_Count(actionButton.Count)
-		   		else
-				    if IsConsumableAction(action) then
-				        local xxxx = GetActionCount(action)
-				        local text = actionButton.Count
-				        if xxxx>0 then
-				            text:SetText(xxxx)
-				        else
-				            text:SetText("|cffff00000|r")
-				        end
-				    end
-				end
+    end
+    hooksecurefunc(ActionBarActionButtonMixin,"OnEnter", function(actionButton)
+    	local action = actionButton.action
+	    if ( HasAction(action) ) then
+	    	local actiontype,spellID = GetActionInfo(action)
+	    	if actiontype=="spell" and spellID==2764 or spellID==2567 then
+	    		update_Count(actionButton.Count)
+	   		else
+			    if IsConsumableAction(action) then
+			        local xxxx = GetActionCount(action)
+			        local text = actionButton.Count
+			        if xxxx>0 then
+			            text:SetText(xxxx)
+			        else
+			            text:SetText("|cffff00000|r")
+			        end
+			    end
 			end
-		end)
-		local FrameUI = CreateFrame("Frame")
-		FrameUI:RegisterEvent("PLAYER_ENTERING_WORLD");
-		FrameUI:RegisterEvent("UNIT_INVENTORY_CHANGED");
-		FrameUI:HookScript("OnEvent", function(self,event)
-			if event == "UNIT_INVENTORY_CHANGED" or event == "PLAYER_ENTERING_WORLD" then
-				for k, frame in pairs(ActionBarButtonEventsFrame.frames) do
-					local action = frame.action;
-					if ( HasAction(action) ) then
-						local actiontype,spellID = GetActionInfo(action)
-				    	if actiontype=="spell" and spellID==2764 or spellID==2567 then
-					        update_Count(frame.Count)
-				   		end
-				   	end
-				end
-			end
-		end);
-	end
-	ActionF.Cailiao=PIGCheckbutton_R(ActionF,{"显示施法材料数量","在动作条上显示需要施法材料技能材料数量"})
-	ActionF.Cailiao:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["ActionBar"]["Cailiao"]=true;
-			ActionBarfun.ActionBar_Cailiao()
-		else
-			PIGA["ActionBar"]["Cailiao"]=false;
-			PIG_OptionsUI.RLUI:Show()
 		end
-	end)
+    end)
+	local FrameUI = CreateFrame("Frame")
+	FrameUI:RegisterEvent("PLAYER_ENTERING_WORLD");
+	FrameUI:RegisterEvent("UNIT_INVENTORY_CHANGED");
+	FrameUI:RegisterEvent("SPELL_UPDATE_CHARGES");
+	FrameUI:HookScript("OnEvent", function(self,event)
+		if event == "UNIT_INVENTORY_CHANGED" or event == "PLAYER_ENTERING_WORLD" then
+			for k, frame in pairs(ActionBarButtonEventsFrame.frames) do
+				local action = frame.action;
+				if ( HasAction(action) ) then
+					local actiontype,spellID = GetActionInfo(action)
+			    	if actiontype=="spell" and spellID==2764 or spellID==2567 then
+				        update_Count(frame.Count)
+			   		end
+			   	end
+			end
+		end
+	end);
 end
 ---
 local function ActionBar_PetTishi()
@@ -223,17 +182,7 @@ local function ActionBar_PetTishi()
 		end)	
 	end
 end
-local Pettooltip = "宠物动作条嘲讽技能上方增加一个提示按钮，副本内提示关闭宠物嘲讽/副本外提示开启！\r|cffFFff00（只对有宠物职业生效）|r";
-ActionF.PetTishi=PIGCheckbutton_R(ActionF,{"宠物动作条嘲讽提示",Pettooltip})
-ActionF.PetTishi:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["ActionBar"]["PetTishi"]=true;
-		ActionBar_PetTishi()
-	else
-		PIGA["ActionBar"]["PetTishi"]=false;
-		PIG_OptionsUI.RLUI:Show()
-	end
-end)
+
 --进入战斗时自动切换到1号动作栏
 local zidongfanyeFFFF = CreateFrame("Frame")
 zidongfanyeFFFF:HookScript("OnEvent", function()
@@ -246,84 +195,137 @@ local function ActionBar_AutoFanye()
 		zidongfanyeFFFF:UnregisterEvent("PLAYER_REGEN_DISABLED");
 	end
 end
-ActionF.AutoFanye=PIGCheckbutton_R(ActionF,{"进战斗时切换1动作栏","进入战斗后自动切换到1号动作栏"})
-ActionF.AutoFanye:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["ActionBar"]["AutoFanye"]=true;
-	else
-		PIGA["ActionBar"]["AutoFanye"]=false;
-	end
-	ActionBar_AutoFanye()
-end)
-if PIG_MaxTocversion(60000) and PIG_MaxTocversion(50000,true) or PIG_MaxTocversion(20000) then
-	local function xianshitutentiao()
-		if InCombatLockdown() then return end
-		MultiCastActionBarFrame_Update(MultiCastActionBarFrame)
-		if ( HasMultiCastActionBar() ) then
-			ShowMultiCastActionBar();
-			LockMultiCastActionBar();
-		else
-			UnlockMultiCastActionBar();
-			HideMultiCastActionBar();
-		end
-	end
-	function ActionBarfun.xiufuShowAction()
-		if PIGA["ActionBar"]["xiufuShowAction"] then
-			local Showvalue = GetCVar("alwaysShowActionBars")
-			if Showvalue=="0" then
-				SetCVar("alwaysShowActionBars", "1")
-				SetCVar("alwaysShowActionBars", "0")
-			elseif Showvalue=="1" then
-				SetCVar("alwaysShowActionBars", "0")
-				SetCVar("alwaysShowActionBars", "1")
-			end
-			if MultiCastActionBarFrame then
-				MultiCastActionBarFrame:HookScript("OnEvent", function (self,event)
-					if event=="PLAYER_ENTERING_WORLD" then
-						C_Timer.After(0.1,xianshitutentiao)
-						C_Timer.After(0.3,xianshitutentiao)
-						C_Timer.After(0.5,xianshitutentiao)
-					end
-				end)
-			end
-		end
-	end
-	ActionF.xiufuShowAction=PIGCheckbutton_R(ActionF,{"修复系统动作条BUG","1.修复萨满图腾条第一次登录不会正确显示问题\n2.修复系统设置当总是显示动作条关闭时，偶尔系统还是会显示空白动作条的问题"})
-	ActionF.xiufuShowAction:SetScript("OnClick", function (self)
+function PD.addOptions_ActionBar()
+	local fuFrame,fuFrameBut = PIGOptionsList(L["ACTION_TABNAME"],"TOP")
+	local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
+	ActionBarfun.fuFrame=fuFrame
+	ActionBarfun.fuFrameBut=fuFrameBut
+	ActionBarfun.RTabFrame=RTabFrame
+	--
+	local ActionF,Actiontabbut =PIGOptionsList_R(RTabFrame,L["ACTION_TABNAME1"],70)
+	ActionF:Show()
+	Actiontabbut:Selected(true)
+	--------
+	ActionF.Ranse=PIGCheckbutton_R(ActionF,{"技能范围着色","根据技能范围染色动作条按键颜色"})
+	ActionF.Ranse:SetScript("OnClick", function (self)
 		if self:GetChecked() then
-			PIGA["ActionBar"]["xiufuShowAction"]=true;
+			PIGA["ActionBar"]["Ranse"]=true;
+			ActionBar_Ranse()
 		else
-			PIGA["ActionBar"]["xiufuShowAction"]=false;
+			PIGA["ActionBar"]["Ranse"]=false;
+			PIG_OptionsUI.RLUI:Show()
 		end
-		ActionBarfun.xiufuShowAction()
-	end)
-end
+	end);
+	ActionF.Ranse:SetChecked(PIGA["ActionBar"]["Ranse"])
 
----=======
-ActionF:HookScript("OnShow", function(self)
-	self.Ranse:SetChecked(PIGA["ActionBar"]["Ranse"])
+	ActionF.Cooldowns=PIGCheckbutton_R(ActionF,{"显示冷却时间","显示动作条技能物品冷却时间"})
+	ActionF.Cooldowns:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["ActionBar"]["ActionCD"]=true;
+		else
+			PIGA["ActionBar"]["ActionCD"]=false;
+		end
+		ActionBar_CD()
+	end);
 	if GetCVar("countdownForCooldowns")=="1" then
-		self.Cooldowns:SetChecked(true);
+		ActionF.Cooldowns:SetChecked(true);
 	elseif GetCVar("countdownForCooldowns")=="0" then
-		self.Cooldowns:SetChecked(false);
+		ActionF.Cooldowns:SetChecked(false);
 	end
-	if self.Cailiao then
-		self.Cailiao:SetChecked(PIGA["ActionBar"]["Cailiao"])
+
+	if PIG_MaxTocversion(20000) then
+		ActionF.Cailiao=PIGCheckbutton_R(ActionF,{"显示施法材料数量","在动作条上显示需要施法材料技能材料数量"})
+		ActionF.Cailiao:SetScript("OnClick", function (self)
+			if self:GetChecked() then
+				PIGA["ActionBar"]["Cailiao"]=true;
+				ActionBar_Cailiao()
+			else
+				PIGA["ActionBar"]["Cailiao"]=false;
+				PIG_OptionsUI.RLUI:Show()
+			end
+		end)
+		ActionF.Cailiao:SetChecked(PIGA["ActionBar"]["Cailiao"])
 	end
-	self.PetTishi:SetChecked(PIGA["ActionBar"]["PetTishi"])
-	self.AutoFanye:SetChecked(PIGA["ActionBar"]["AutoFanye"])
-	if self.xiufuShowAction then
-		self.xiufuShowAction:SetChecked(PIGA["ActionBar"]["xiufuShowAction"])
-	end		
-end)
+
+	local Pettooltip = "宠物动作条嘲讽技能上方增加一个提示按钮，副本内提示关闭宠物嘲讽/副本外提示开启！\r|cffFFff00（只对有宠物职业生效）|r";
+	ActionF.PetTishi=PIGCheckbutton_R(ActionF,{"宠物动作条嘲讽提示",Pettooltip})
+	ActionF.PetTishi:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["ActionBar"]["PetTishi"]=true;
+			ActionBar_PetTishi()
+		else
+			PIGA["ActionBar"]["PetTishi"]=false;
+			PIG_OptionsUI.RLUI:Show()
+		end
+	end)
+	ActionF.PetTishi:SetChecked(PIGA["ActionBar"]["PetTishi"])
+
+	ActionF.AutoFanye=PIGCheckbutton_R(ActionF,{"进战斗时切换1动作栏","进入战斗后自动切换到1号动作栏"})
+	ActionF.AutoFanye:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["ActionBar"]["AutoFanye"]=true;
+		else
+			PIGA["ActionBar"]["AutoFanye"]=false;
+		end
+		ActionBar_AutoFanye()
+	end)
+	ActionF.AutoFanye:SetChecked(PIGA["ActionBar"]["AutoFanye"])
+	-- if PIG_MaxTocversion(20000) then
+	-- 	local function xianshitutentiao()
+	-- 		if InCombatLockdown() then return end
+	-- 		MultiCastActionBarFrame_Update(MultiCastActionBarFrame)
+	-- 		if ( HasMultiCastActionBar() ) then
+	-- 			ShowMultiCastActionBar();
+	-- 			LockMultiCastActionBar();
+	-- 		else
+	-- 			UnlockMultiCastActionBar();
+	-- 			HideMultiCastActionBar();
+	-- 		end
+	-- 	end
+	-- 	function ActionBarfun.xiufuShowAction()
+	-- 		if PIGA["ActionBar"]["xiufuShowAction"] then
+	-- 			local Showvalue = GetCVar("alwaysShowActionBars")
+	-- 			if Showvalue=="0" then
+	-- 				SetCVar("alwaysShowActionBars", "1")
+	-- 				SetCVar("alwaysShowActionBars", "0")
+	-- 			elseif Showvalue=="1" then
+	-- 				SetCVar("alwaysShowActionBars", "0")
+	-- 				SetCVar("alwaysShowActionBars", "1")
+	-- 			end
+	-- 			if MultiCastActionBarFrame then
+	-- 				MultiCastActionBarFrame:HookScript("OnEvent", function (self,event)
+	-- 					if event=="PLAYER_ENTERING_WORLD" then
+	-- 						C_Timer.After(0.1,xianshitutentiao)
+	-- 						C_Timer.After(0.3,xianshitutentiao)
+	-- 						C_Timer.After(0.5,xianshitutentiao)
+	-- 					end
+	-- 				end)
+	-- 			end
+	-- 		end
+	-- 	end
+	-- 	ActionF.xiufuShowAction=PIGCheckbutton_R(ActionF,{"修复系统动作条BUG","1.修复萨满图腾条第一次登录不会正确显示问题\n2.修复系统设置当总是显示动作条关闭时，偶尔系统还是会显示空白动作条的问题"})
+	-- 	ActionF.xiufuShowAction:SetScript("OnClick", function (self)
+	-- 		if self:GetChecked() then
+	-- 			PIGA["ActionBar"]["xiufuShowAction"]=true;
+	-- 		else
+	-- 			PIGA["ActionBar"]["xiufuShowAction"]=false;
+	-- 		end
+	-- 		ActionBarfun.xiufuShowAction()
+	-- 	end)
+	-- end
+	-- ActionF.xiufuShowAction:SetChecked(PIGA["ActionBar"]["xiufuShowAction"])
+
+	ActionBarfun.addOptions_QuickBut()
+	ActionBarfun.addOptions_CABar()
+	if ActionBarfun.addOptions_PigActionBar then ActionBarfun.addOptions_PigActionBar() end
+end
 ----------------
-addonTable.ActionBar = function()
+PD.ActionBar = function()
 	ActionBar_Ranse()
-	ActionCD()
-	if ActionBarfun.ActionBar_Cailiao then ActionBarfun.ActionBar_Cailiao() end
+	ActionBar_CD()
+	ActionBar_Cailiao()
 	ActionBar_PetTishi()
 	ActionBar_AutoFanye()
-	if ActionBarfun.ConsumableActionBar then ActionBarfun.ConsumableActionBar() end
-	if ActionBarfun.xiufuShowAction then ActionBarfun.xiufuShowAction() end
+	ActionBarfun.CABar()
 	if ActionBarfun.Pig_Action then ActionBarfun.Pig_Action() end
 end

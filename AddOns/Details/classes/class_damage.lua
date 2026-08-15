@@ -1857,7 +1857,6 @@ function Details:RefreshWindowAddOnApocalypse(instanceObject, session, durationI
 	local barsShowData = instanceObject.row_info.textR_show_data
 	local barsBrackets = instanceObject:GetBarBracket()
 	local barsSeparator = instanceObject:GetBarSeparator()
-	local baseframe = instanceObject.baseframe
 	local useAnimations = Details.is_using_row_animations and(not baseframe.isStretching and not bForceUpdate and not baseframe.isResizing)
 
 	--if (total == 0) then --hello secret my old friend
@@ -1948,17 +1947,17 @@ function Details:RefreshWindowAddOnApocalypse(instanceObject, session, durationI
 					if (combatSources[i]) then
 						---@type detailsline
 						local thisLine = lineContainer[whichRowLine]
-						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, i)
+						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, total, i)
 						whichRowLine = whichRowLine+1
 					end
 				end
 				local thisLine = lineContainer[iterLast]
-				Details:UpdateBarApocalypseWow(thisLine, myTable, instanceObject, topValue, myPos)
+				Details:UpdateBarApocalypseWow(thisLine, myTable, instanceObject, topValue, total, myPos)
 			else
 				for i = instanceObject.barraS[1], iterLast, 1 do
 					if (combatSources[i]) then
 						local thisLine = lineContainer[whichRowLine]
-						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, i)
+						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, total, i)
 						whichRowLine = whichRowLine+1
 					end
 				end
@@ -1968,19 +1967,19 @@ function Details:RefreshWindowAddOnApocalypse(instanceObject, session, durationI
 				for i = instanceObject.barraS[1], instanceObject.barraS[2]-1, 1 do
 					if (combatSources[i]) then
 						local thisLine = lineContainer[whichRowLine]
-						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, i)
+						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, total, i)
 						whichRowLine = whichRowLine+1
 					end
 				end
 
 				local thisLine = lineContainer[whichRowLine]
-				Details:UpdateBarApocalypseWow(thisLine, combatSources[myPos], instanceObject, topValue, myPos)
+				Details:UpdateBarApocalypseWow(thisLine, combatSources[myPos], instanceObject, topValue, total, myPos)
 				whichRowLine = whichRowLine+1
 			else
 				for i = instanceObject.barraS[1], instanceObject.barraS[2], 1 do
 					if (combatSources[i]) then
 						local thisLine = lineContainer[whichRowLine]
-						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, i)
+						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, total, i)
 						whichRowLine = whichRowLine+1
 					end
 				end
@@ -2022,13 +2021,13 @@ function Details:RefreshWindowAddOnApocalypse(instanceObject, session, durationI
 
 			if (following and myPos and myPos+1 > instanceObject.rows_fit_in_window and instanceObject.barraS[2] < myPos+1) then
 				local thisLine = lineContainer[whichRowLine]
-				Details:UpdateBarApocalypseWow(thisLine, combatSources[myPos], instanceObject, topValue, myPos)
+				Details:UpdateBarApocalypseWow(thisLine, combatSources[myPos], instanceObject, topValue, total, myPos)
 				whichRowLine = whichRowLine+1
 
 				for i = iter_last-1, instanceObject.barraS[1], -1 do
 					if (combatSources[i]) then
 						local thisLine = lineContainer[whichRowLine]
-						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, i)
+						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, total, i)
 						whichRowLine = whichRowLine+1
 					end
 				end
@@ -2036,7 +2035,7 @@ function Details:RefreshWindowAddOnApocalypse(instanceObject, session, durationI
 				for i = iter_last, instanceObject.barraS[1], -1 do
 					if (combatSources[i]) then
 						local thisLine = lineContainer[whichRowLine]
-						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, i)
+						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, total, i)
 						whichRowLine = whichRowLine+1
 					end
 				end
@@ -2044,13 +2043,13 @@ function Details:RefreshWindowAddOnApocalypse(instanceObject, session, durationI
 		else
 			if (following and myPos and myPos > instanceObject.rows_fit_in_window and instanceObject.barraS[2] < myPos) then
 				local thisLine = lineContainer[whichRowLine]
-				Details:UpdateBarApocalypseWow(thisLine, combatSources[myPos], instanceObject, topValue, myPos)
+				Details:UpdateBarApocalypseWow(thisLine, combatSources[myPos], instanceObject, topValue, total, myPos)
 				whichRowLine = whichRowLine+1
 
 				for i = instanceObject.barraS[2]-1, instanceObject.barraS[1], -1 do
 					if (combatSources[i]) then
 						local thisLine = lineContainer[whichRowLine]
-						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, i)
+						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, total, i)
 						whichRowLine = whichRowLine+1
 					end
 				end
@@ -2058,7 +2057,7 @@ function Details:RefreshWindowAddOnApocalypse(instanceObject, session, durationI
 				for i = instanceObject.barraS[2], instanceObject.barraS[1], -1 do
 					if (combatSources[i]) then
 						local thisLine = lineContainer[whichRowLine]
-						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, i)
+						Details:UpdateBarApocalypseWow(thisLine, combatSources[i], instanceObject, topValue, total, i)
 						whichRowLine = whichRowLine+1
 					end
 				end
@@ -2113,12 +2112,14 @@ function Details:Refresher(instanceObject, combatObject, bForceUpdate, bExportDa
 end
 --]=]
 
-local oldapi = select(4, GetBuildInfo()) < 120000
+--local oldapi = select(4, GetBuildInfo()) < 120000
 function Details:IsUsingBlizzardAPI(instance)
-	if oldapi then
+	if WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE then
 		return false
 	end
-	return Details222.Apocalypse.ShouldUseGameData(instance)
+	--the true boolean is for debug purposes only
+	return true
+	--return Details222.Apocalypse.ShouldUseGameData(instance)
 	--return Details.appocalypse_mode == 0
 end
 
@@ -2147,6 +2148,10 @@ end
 local lastEventTime = 0
 function Details222.BParser.UpdateAppocalypse(instance, bForceUpdate)
 	---@cast instance instance
+
+	if Details:IsTestBarOngoing() then
+		return
+	end
 
 	--check if the window is showing a pluging, if yes do not update
 	local mode = instance:GetMode()
@@ -3239,6 +3244,10 @@ end
 
 ---@param instance instance
 local dealWithPlayerName = function(instance, line, forceUpdate)
+	if not instance.row_info.playername_alignment_auto then
+		return
+	end
+
 	if InCombatLockdown() and line.lineText1.__playerNameUpdated and not forceUpdate then
 		local baseFrame = instance.baseframe
 		if not baseFrame.isStretching and not baseFrame.isResizing then
@@ -3246,11 +3255,13 @@ local dealWithPlayerName = function(instance, line, forceUpdate)
 		end
 	end
 
-	dummyText:SetFont(instance.row_info.font_face_file, instance.row_info.font_size, "")
+	detailsFramework:SetFont(dummyText, instance.row_info.font_face_file, instance.row_info.font_size, "")
 	dummyText:SetText("MMM")
+
 	local textHeight = dummyText:GetStringHeight()
 	local lineHeight = instance.row_info.height
 	local lineWidth = instance.baseframe:GetWidth()
+
 	local yOffset = -math.max((lineHeight - textHeight) / 2, 0)
 
 	yOffset = yOffset + instance.row_info.text_yoffset
@@ -3298,8 +3309,9 @@ end
 ---@param source damagemeter_combat_source
 ---@param instance instance
 ---@param topValue number
+---@param totalValue number
 ---@param rank number
-function Details:UpdateBarApocalypseWow(instanceLine, source, instance, topValue, rank) --~refresh
+function Details:UpdateBarApocalypseWow(instanceLine, source, instance, topValue, totalValue, rank) --~refresh
 	local percenNumber = 0
 	local mainDisplay, subDisplay = instance:GetDisplay()
 	instanceLine.statusbar:SetMinMaxValues(0, 100)
@@ -3444,7 +3456,13 @@ function Details:UpdateBarApocalypseWow(instanceLine, source, instance, topValue
 		if (subDisplay == DETAILS_SUBATTRIBUTE_DAMAGEDONE or subDisplay == DETAILS_SUBATTRIBUTE_DAMAGETAKEN) then
 			if canShowPercent then
 				local ruleToUse = 3 --total dps percent
-				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), format("%.0f%%", source.totalAmount / topValue * 100), ruleToUse)
+				local percentValue
+				if (instance.row_info.percent_type == 1) then --relative to the total
+					percentValue = source.totalAmount / totalValue * 100
+				elseif (instance.row_info.percent_type == 2) then --relative to the top player
+					percentValue = source.totalAmount / topValue * 100
+				end
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), format("%.0f%%", percentValue), ruleToUse)
 			else
 				local ruleToUse = 2 --total dps
 				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), nil, ruleToUse)
@@ -3454,17 +3472,29 @@ function Details:UpdateBarApocalypseWow(instanceLine, source, instance, topValue
 		elseif (subDisplay == DETAILS_SUBATTRIBUTE_DPS) then
 			if canShowPercent then
 				local ruleToUse = 1 --total and percent
-				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.amountPerSecond), nil, format("%.0f%%", source.totalAmount / topValue * 100), ruleToUse)
+				local percentValue
+				if (instance.row_info.percent_type == 1) then --relative to the total
+					percentValue = source.totalAmount / totalValue * 100
+				elseif (instance.row_info.percent_type == 2) then --relative to the top player
+					percentValue = source.totalAmount / topValue * 100
+				end
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), nil, format("%.0f%%", percentValue), ruleToUse)
 			else
 				local ruleToUse = -1 --only show total
-				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.amountPerSecond), nil, nil, ruleToUse)
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), nil, nil, ruleToUse)
 				--percentNumber = math.floor((dps/instanceObject.top) * 100)
 			end
 
 		elseif (subDisplay == DETAILS_SUBATTRIBUTE_ENEMIES) then
 			if canShowPercent then
+				local percentValue
+				if (instance.row_info.percent_type == 1) then --relative to the total
+					percentValue = source.totalAmount / totalValue * 100
+				elseif (instance.row_info.percent_type == 2) then --relative to the top player
+					percentValue = source.totalAmount / topValue * 100
+				end
 				local ruleToUse = 3 --total dps percent
-				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), format("%.0f%%", source.totalAmount / topValue * 100), ruleToUse)
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), format("%.0f%%", percentValue), ruleToUse)
 			else
 				local ruleToUse = 2
 				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), nil, ruleToUse)
@@ -3474,7 +3504,13 @@ function Details:UpdateBarApocalypseWow(instanceLine, source, instance, topValue
 		elseif (subDisplay == DETAILS_SUBATTRIBUTE_AVOIDABLE) then
 			if canShowPercent then
 				local ruleToUse = 3 --total dps percent
-				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), format("%.0f%%", source.totalAmount / topValue * 100), ruleToUse)
+				local percentValue
+				if (instance.row_info.percent_type == 1) then --relative to the total
+					percentValue = source.totalAmount / totalValue * 100
+				elseif (instance.row_info.percent_type == 2) then --relative to the top player
+					percentValue = source.totalAmount / topValue * 100
+				end
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), format("%.0f%%", percentValue), ruleToUse)
 			else
 				local ruleToUse = 2 --total dps
 				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsDamage), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), nil, ruleToUse)
@@ -3485,7 +3521,13 @@ function Details:UpdateBarApocalypseWow(instanceLine, source, instance, topValue
 		if (subDisplay == DETAILS_SUBATTRIBUTE_HEALDONE or subDisplay == DETAILS_SUBATTRIBUTE_OVERHEAL) then
 			if canShowPercent then
 				local ruleToUse = 3 --total hps percent
-				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsHealing), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), format("%.0f%%", source.totalAmount / topValue * 100), ruleToUse)
+				local percentValue
+				if (instance.row_info.percent_type == 1) then --relative to the total
+					percentValue = source.totalAmount / totalValue * 100
+				elseif (instance.row_info.percent_type == 2) then --relative to the top player
+					percentValue = source.totalAmount / topValue * 100
+				end
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsHealing), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), format("%.0f%%", percentValue), ruleToUse)
 			else
 				local ruleToUse = 2 --total hps
 				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsHealing), AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsDPS), nil, ruleToUse)
@@ -3495,7 +3537,13 @@ function Details:UpdateBarApocalypseWow(instanceLine, source, instance, topValue
 		elseif (subDisplay == DETAILS_SUBATTRIBUTE_HPS) then
 			if canShowPercent then
 				local ruleToUse = 1 --total and percent
-				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.amountPerSecond), nil, format("%.0f%%", source.totalAmount / topValue * 100), ruleToUse)
+				local percentValue
+				if (instance.row_info.percent_type == 1) then --relative to the total
+					percentValue = source.totalAmount / totalValue * 100
+				elseif (instance.row_info.percent_type == 2) then --relative to the top player
+					percentValue = source.totalAmount / topValue * 100
+				end
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.amountPerSecond), nil, format("%.0f%%", percentValue), ruleToUse)
 			else
 				local ruleToUse = -1 --only show total
 				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.amountPerSecond, Details.abbreviateOptionsHPS), nil, nil, ruleToUse)
@@ -3511,10 +3559,22 @@ function Details:UpdateBarApocalypseWow(instanceLine, source, instance, topValue
 
 	elseif mainDisplay == DETAILS_ATTRIBUTE_MISC then
 		if (subDisplay == DETAILS_SUBATTRIBUTE_DISPELL or subDisplay == DETAILS_SUBATTRIBUTE_INTERRUPT) then
-			local ruleToUse = -1 --total
-			Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4,
-			AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsBuffs), nil, nil, ruleToUse)
-			--percentNumber = math.floor((uptimeTotal/instanceObject.top) * 100)
+			if canShowPercent then
+				local ruleToUse = 2 --total percent
+				local percentValue
+				if (instance.row_info.percent_type == 1) then --relative to the total
+					percentValue = source.totalAmount / totalValue * 100
+				elseif (instance.row_info.percent_type == 2) then --relative to the top player
+					percentValue = source.totalAmount / topValue * 100
+				end
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4, AbbreviateNumbers(source.totalAmount), format("%.0f%%", percentValue), nil, ruleToUse)
+				--percentNumber = math.floor((dispellTotal/instanceObject.top) * 100)
+			else
+				local ruleToUse = -1 --total
+				Details:SimpleFormat(instanceLine.lineText2, instanceLine.lineText3, instanceLine.lineText4,
+				AbbreviateNumbers(source.totalAmount, Details.abbreviateOptionsBuffs), nil, nil, ruleToUse)
+				--percentNumber = math.floor((uptimeTotal/instanceObject.top) * 100)
+			end
 
 		elseif (subDisplay == DETAILS_SUBATTRIBUTE_DEATH) then
 			local ruleToUse = -1 --total
@@ -4336,6 +4396,7 @@ function Details:SetClassIcon(texture, instance, class) --[[exported]] --~icons
 				texture:SetTexCoord(unpack(Details.class_specs_coords[self.spec]))
 				texture:SetVertexColor(1, 1, 1)
 			else
+				--issue is here
 				texture:SetTexture(instance.row_info.icon_file or [[Interface\AddOns\Details\images\classes_small]])
 				if (not class or class == "" or type(class) ~= "string" or not Details.class_coords[class]) then
 					class = "UNKNOW"

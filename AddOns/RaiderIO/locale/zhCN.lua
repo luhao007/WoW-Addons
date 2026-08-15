@@ -1,3 +1,4 @@
+-- Generated from CurseForge on Sat Aug 15 08:10:47 UTC 2026
 local ns = select(2, ...) ---@class ns @The addon namespace.
 
 if ns:IsSameLocale("zhCN") then
@@ -7,7 +8,7 @@ if ns:IsSameLocale("zhCN") then
 
 	L.LOCALE_NAME = "zhCN"
 
-	L["ALLOW_IN_LFD"] = "允许在地下城查找器里显示"
+L["ALLOW_IN_LFD"] = "允许在地下城查找器里显示"
 L["ALLOW_IN_LFD_CLASSIC"] = "允许在队伍查找器中显示"
 L["ALLOW_IN_LFD_CLASSIC_DESC"] = "在队伍查找器中右键点击队伍或申请者来复制其Raider.IO主页链接、"
 L["ALLOW_IN_LFD_DESC"] = "右键点击地下城查找器上的队伍或申请者来复制Raider.IO人物主页的网址链接。"
@@ -29,6 +30,60 @@ L["BINDING_HEADER_RAIDERIO_REPLAYUI"] = "回放界面"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TIMING_BOSS"] = "将时间设为Boss时间"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TIMING_DUNGEON"] = "将时间设为地下城时间"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TOGGLE"] = "切换回放界面"
+L["BUILDS_DUNGEON_BRACKET_10-99"] = "钥石10层及以上"
+L["BUILDS_DUNGEON_BRACKET_15-99"] = "钥石15层及以上"
+L["BUILDS_DUNGEON_BRACKET_20-99"] = "钥石20层及以上"
+L["BUILDS_DUNGEON_BRACKET_6-9"] = "钥石6-9层"
+L["BUILDS_DUNGEONS"] = "大秘境"
+L["BUILDS_DUNGEONS_ALL"] = "所有地下城"
+L["BUILDS_DUNGEONS_SPECIFIC"] = "%s (%s)"
+L["BUILDS_ENCOUNTER_DIFFICULY_all"] = "任意难度"
+L["BUILDS_ENCOUNTER_DIFFICULY_heroic"] = "英雄"
+L["BUILDS_ENCOUNTER_DIFFICULY_mythic"] = "史诗"
+L["BUILDS_ENCOUNTER_DIFFICULY_normal"] = "普通"
+L["BUILDS_PROFILE_ACTIVE_LOADOUT_TITLE"] = "此配置已激活"
+L["BUILDS_PROFILE_ALTERNATE"] = "备选"
+L["BUILDS_PROFILE_COPY_COMPARELINK_ACTION_TITLE"] = "复制对比链接"
+L["BUILDS_PROFILE_COPY_COMPARELINK_POPUP_TITLE"] = "复制配置的Raider.IO对比链接："
+L["BUILDS_PROFILE_COPY_LOADOUT_ACTION_TITLE"] = "导出配置"
+L["BUILDS_PROFILE_COPY_LOADOUT_LINK_ACTION_TITLE"] = "复制配置链接"
+L["BUILDS_PROFILE_COPY_LOADOUT_LINK_POPUP_TITLE"] = "复制配置Raider.IO链接："
+L["BUILDS_PROFILE_COPY_LOADOUT_POPUP_TITLE"] = "复制配置字符串："
+L["BUILDS_PROFILE_ERROR_CREATING_LOADOUT"] = "无法创建天赋配置。如果天赋配置已达到数量上限，请删除一个或多个配置后重试。"
+L["BUILDS_PROFILE_FAILED_IMPORTING_BUILD"] = "导入构筑失败。"
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_HERO_FORMAT"] = ""--]] 
+L["BUILDS_PROFILE_IMPORTED_BUILD_TO_LOADOUT"] = "已导入构筑“%s”。"
+L["BUILDS_PROFILE_LOAD_LOADOUT_ACTION_TITLE"] = "载入"
+L["BUILDS_PROFILE_LOADOUT_IS_ALREADY_ACTIVE"] = "你当前的配置与此套天赋符合。"
+L["BUILDS_PROFILE_LOADOUT_NAME"] = "Raider.IO构筑"
+L["BUILDS_PROFILE_NO_DATA"] = "鱼人们什么也没找到。试着调整一下筛选条件吧。"
+L["BUILDS_PROFILE_RECOMMENDED"] = "推荐"
+L["BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON"] = "显示地下城手册按钮"
+L["BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON_DESC"] = "启用后，将在地下城手册界面中显示快捷按钮。"
+L["BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON"] = "显示天赋界面按钮"
+L["BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON_DESC"] = "启用后，将在天赋界面中显示快捷按钮。"
+L["BUILDS_PROFILE_STATS_FORMAT"] = "英雄天赋树：%s（%s，%s %s）"
+L["BUILDS_PROFILE_STATS_SUFFIX_KILLS"] = "击杀"
+L["BUILDS_PROFILE_STATS_SUFFIX_RUNS"] = "记录"
+L["BUILDS_PROFILE_SWITCHING_TO_EXISTING_LOADOUT"] = "正在切换至“%s”。"
+L["BUILDS_PROFILE_SWITCHING_TO_LOADOUT"] = "正在切换至“%s”。"
+L["BUILDS_PROFILE_UNABLE_TO_DELETE_LOADOUT"] = "无法清理旧配置方案“%s”。请重试，或手动将其删除。"
+L["BUILDS_PROFILE_UPDATED_BUILD_TO_LOADOUT"] = "已将“%s”更新为新天赋。"
+L["BUILDS_RAIDS"] = "团队副本"
+L["BUILDS_RAIDS_ENCOUNTERS_ALL"] = "%s：所有首领"
+L["BUILDS_SPEED_all"] = "任意速度"
+L["BUILDS_SPEED_fast"] = "快速击杀（前 20%）"
+L["BUILDS_SPEED_median"] = "中位击杀（中间 20%）"
+L["BUILDS_TITLE"] = "天赋配置"
+L["BUILDS_TITLE_FULL"] = "Raider.IO天赋构筑"
+L["BUILDS_WEAPON_1"] = "双持单手武器"
+L["BUILDS_WEAPON_2"] = "双持双手武器"
+L["BUILDS_WEAPON_3"] = "双手"
+L["BUILDS_WEAPON_4"] = "单手+盾"
+L["BUILDS_WEAPON_5"] = "单手+副手"
+L["BUILDS_WEAPON_6"] = "单手"
+L["BUILDS_WEAPON_all"] = "所有武器"
 L["CANCEL"] = "取消"
 L["CHANGES_REQUIRES_UI_RELOAD"] = [=[您的改动已保存，但您必须重新加载（/reload）界面才能生效。
 
@@ -57,24 +112,32 @@ L["DB_MODULES_HEADER_MYTHIC_PLUS"] = "大秘境"
 L["DB_MODULES_HEADER_RAIDING"] = "团本进行中"
 L["DB_MODULES_HEADER_RECRUITMENT"] = "招募"
 L["DISABLE_DEBUG_MODE_RELOAD"] = "你正在关闭Debug模式。点击确认会重新加载你的界面。"
+L["DISABLE_DROPDOWN_MENU_BUTTON"] = "禁用单位下拉菜单（临时修复）"
+L["DISABLE_DROPDOWN_MENU_BUTTON_DESC"] = "这是针对下拉菜单系统当前问题的临时修复方案。只有当你在战斗期间使用下拉菜单设置焦点、团队标记，或使用社区界面时遇到错误，才需要启用此选项。待暴雪修复底层问题后，此选项将被移除。"
 L["DISABLE_RWF_MODE_BUTTON"] = "禁用"
 L["DISABLE_RWF_MODE_BUTTON_TOOLTIP"] = "点击禁用冲击世界首杀模式。你的界面将会重新加载。"
 L["DISABLE_RWF_MODE_RELOAD"] = "你正在禁用冲击世界首杀模式。点击确定将会重新加载你的界面。"
 L["DPS"] = "伤害输出"
 L["DUNGEON_SHORT_NAME_AA"] = "学院"
 L["DUNGEON_SHORT_NAME_AD"] = "阿塔达萨"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_AOF"] = ""--]] 
 L["DUNGEON_SHORT_NAME_ARAK"] = "回响"
 L["DUNGEON_SHORT_NAME_ARC"] = "回廊"
 L["DUNGEON_SHORT_NAME_AV"] = "碧蓝"
 L["DUNGEON_SHORT_NAME_BH"] = "蕨皮"
 L["DUNGEON_SHORT_NAME_BREW"] = "酒庄"
 L["DUNGEON_SHORT_NAME_BRH"] = "黑鸦"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_BV"] = ""--]] 
 L["DUNGEON_SHORT_NAME_COEN"] = "大教堂"
 L["DUNGEON_SHORT_NAME_COS"] = "群星"
 L["DUNGEON_SHORT_NAME_COT"] = "千丝"
 L["DUNGEON_SHORT_NAME_DAWN"] = "破晨号"
 L["DUNGEON_SHORT_NAME_DFC"] = "裂口"
 L["DUNGEON_SHORT_NAME_DHT"] = "黑心"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_DON"] = ""--]] 
 L["DUNGEON_SHORT_NAME_DOS"] = "彼界"
 L["DUNGEON_SHORT_NAME_EB"] = "永茂"
 L["DUNGEON_SHORT_NAME_EDA"] = "圆顶"
@@ -95,6 +158,8 @@ L["DUNGEON_SHORT_NAME_MC"] = "洞窟"
 L["DUNGEON_SHORT_NAME_MISTS"] = "仙林"
 L["DUNGEON_SHORT_NAME_ML"] = "矿区"
 L["DUNGEON_SHORT_NAME_MOS"] = "噬魂"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_MR"] = ""--]] 
 L["DUNGEON_SHORT_NAME_MT"] = "平台"
 L["DUNGEON_SHORT_NAME_NELT"] = "奈萨鲁斯"
 L["DUNGEON_SHORT_NAME_NL"] = "巢穴"
@@ -126,6 +191,8 @@ L["DUNGEON_SHORT_NAME_UNDR"] = "地渊"
 L["DUNGEON_SHORT_NAME_UPPR"] = "卡上"
 L["DUNGEON_SHORT_NAME_VOTW"] = "牢窟"
 L["DUNGEON_SHORT_NAME_VP"] = "旋云"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_VSA"] = ""--]] 
 L["DUNGEON_SHORT_NAME_WM"] = "庄园"
 L["DUNGEON_SHORT_NAME_WORK"] = "车间"
 L["DUNGEON_SHORT_NAME_WS"] = "风行者"
@@ -179,15 +246,19 @@ L["MINIMAP_SHORTCUT_ENABLE_DESC"] = "启用后可在小地图周围显示图标�
 L["MINIMAP_SHORTCUT_HEADER"] = "小地图"
 L["MINIMAP_SHORTCUT_HELP"] = "|A:newplayertutorial-icon-mouse-leftbutton:16:12|a 搜索 |A:newplayertutorial-icon-mouse-rightbutton:16:12|a 设置"
 L["MINIMAP_SHORTCUT_HELP_LEFT_CLICK"] = "左键点击"
+L["MINIMAP_SHORTCUT_HELP_OPEN_MENU"] = "菜单"
 L["MINIMAP_SHORTCUT_HELP_RIGHT_CLICK"] = "右键点击"
 L["MINIMAP_SHORTCUT_HELP_SEARCH"] = "搜索"
 L["MINIMAP_SHORTCUT_HELP_SETTINGS"] = "设置"
 L["MINIMAP_SHORTCUT_LOCK"] = "锁定按钮"
+L["MINIMAP_SHORTCUT_MENU_BUILDS"] = "选择构筑"
+L["MINIMAP_SHORTCUT_MENU_COPY_BUILD"] = "复制链接"
 L["MINIMAP_SHORTCUT_MINIMAP_ENABLE"] = "启用小地图按钮"
 L["MINIMAP_SHORTCUT_MINIMAP_ENABLE_DESC"] = "启用后将在小地图边缘显示插件图标。"
 L["MINIMAP_SHORTCUT_MINIMAP_LOCK"] = "锁定小地图按钮"
 L["MISC_SETTINGS"] = "其他设置"
 L["MODULE_AMERICAS"] = "美洲"
+L["MODULE_CHINA"] = "国服"
 L["MODULE_EUROPE"] = "欧洲"
 L["MODULE_KOREA"] = "韩国"
 L["MODULE_TAIWAN"] = "中国台湾"
@@ -385,6 +456,7 @@ L["RAID_BOSS_NP_6"] = "节点女亲王"
 L["RAID_BOSS_NP_7"] = "流丝之庭"
 L["RAID_BOSS_NP_8"] = "安苏雷克女王"
 L["RAID_BOSS_RS_1"] = "海里昂"
+L["RAID_BOSS_SF_1"] = "腐沼"
 L["RAID_BOSS_SFO_1"] = "警戒卫士"
 L["RAID_BOSS_SFO_10"] = "莱葛隆"
 L["RAID_BOSS_SFO_11"] = "典狱长"
@@ -406,6 +478,20 @@ L["RAID_BOSS_SOD_6"] = "痛楚工匠莱兹纳尔"
 L["RAID_BOSS_SOD_7"] = "初诞者的卫士"
 L["RAID_BOSS_SOD_8"] = "命运撰写师罗-卡洛"
 L["RAID_BOSS_SOD_9"] = "克尔苏加德"
+L["RAID_BOSS_SOO_1"] = "伊墨苏斯"
+L["RAID_BOSS_SOO_10"] = "潘达利亚战利品"
+L["RAID_BOSS_SOO_11"] = "嗜血的索克"
+L["RAID_BOSS_SOO_12"] = "攻城匠师黑索"
+L["RAID_BOSS_SOO_13"] = "卡拉克西英杰"
+L["RAID_BOSS_SOO_14"] = "加尔鲁什·地狱咆哮"
+L["RAID_BOSS_SOO_2"] = "堕落的守护者"
+L["RAID_BOSS_SOO_3"] = "诺鲁什"
+L["RAID_BOSS_SOO_4"] = "傲之煞"
+L["RAID_BOSS_SOO_5"] = "迦拉卡斯"
+L["RAID_BOSS_SOO_6"] = "钢铁战蝎"
+L["RAID_BOSS_SOO_7"] = "库卡隆黑暗萨满"
+L["RAID_BOSS_SOO_8"] = "纳兹戈林将军"
+L["RAID_BOSS_SOO_9"] = "马尔考罗克"
 L["RAID_BOSS_ToES_1"] = "无尽守护者"
 L["RAID_BOSS_TOES_1"] = "无尽守护者"
 L["RAID_BOSS_TOES_2"] = "烛龙"
@@ -429,6 +515,22 @@ L["RAID_BOSS_TOT_8"] = "普利莫修斯"
 L["RAID_BOSS_TOT_9"] = "黑暗意志"
 L["RAID_BOSS_TOTFW_1"] = "风之议会"
 L["RAID_BOSS_TOTFW_2"] = "奥拉基尔"
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_8"] = ""--]] 
 L["RAID_BOSS_VOTI_1"] = "艾拉诺格"
 L["RAID_BOSS_VOTI_2"] = "泰洛斯"
 L["RAID_BOSS_VOTI_3"] = "原始议会"
@@ -480,12 +582,17 @@ L["RAID_MQD"] = "进军奎尔丹纳斯"
 L["RAID_MSV"] = "魔古山宝库"
 L["RAID_NP"] = "尼鲁巴尔王宫"
 L["RAID_RS"] = "红玉圣所"
+L["RAID_SF"] = "孢陨幽境"
+L["RAID_SOO"] = "决战奥格瑞玛"
 L["RAID_ToES"] = "永春台"
 L["RAID_TOES"] = "永春台"
 L["RAID_TOT"] = "雷电王座"
 L["RAID_TOTFW"] = "风神王座"
+--[[Translation missing --]]
+--[[ L["RAID_VA"] = ""--]] 
 L["RAID_VS"] = "虚影尖塔"
 L["RAID_VS_DR_MQD"] = "虚影/梦境/进军"
+L["RAIDERIO"] = "Raider.IO"
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "能限时%s层的平均分数"
 L["RAIDERIO_BEST_RUN"] = "大秘境最佳成绩"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Raider.IO客户端个性化设置"
@@ -622,6 +729,5 @@ L["WARNING_LOCK_POSITION_FRAME_AUTO"] = "Raider.IO：你必须先关闭Raider.IO
 L["WARNING_RWF_MODE_ENABLE"] = "|cffFFFFFF%s|r 首杀争夺赛模式已开启。你可以通过使用 |cffFFFFFF/raiderio rwf |r来关闭它。"
 L["WIPE_RWF_MODE_BUTTON"] = "清除"
 L["WIPE_RWF_MODE_BUTTON_TOOLTIP"] = "点击以从存储文件中清除日志。 这将需要重新加载您的界面。"
-
 
 end

@@ -496,6 +496,30 @@ L["OPTIONS_STARTUP_NOTE"] = "Note: these settings do not affect the Companion fr
 --[[Translation missing --]]
 L["OPTIONS_STARTUP_SETTINGS_TITLE"] = "Startup settings"
 --[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_COLOR_OPACITY"] = "Border opacity"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_COLOR_TITLE"] = "Border color"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_THICKNESS"] = "Border thickness"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_1"] = "Default"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_2"] = "Modern"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_DESC"] = "Change border style of the Main, History and Digsites window"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_TITLE"] = "Border Style"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_1"] = "Window border"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_2"] = "Inside window"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_TITLE"] = "Button positions"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_MODERN_OPTIONS"] = "Modern border customization"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_TITLE"] = "Styling"
+--[[Translation missing --]]
 L["OPTIONS_SURVEY_DONT_FLYING_DESC"] = "Check this option to prevent casting survey while you're flying."
 --[[Translation missing --]]
 L["OPTIONS_SURVEY_DONT_FLYING_TITLE"] = "Don't cast while flying"

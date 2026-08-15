@@ -6,6 +6,7 @@ local DESCRIPTION_SEPARATOR = app.DESCRIPTION_SEPARATOR;
 -- Implementation
 app:CreateWindow("Never Implemented", {
 	Commands = { "attnyi" },
+	RootCommands = { "nyi" },
 	HideFromSettings = true,
 	Preload = true,
 	OnInit = function(self)

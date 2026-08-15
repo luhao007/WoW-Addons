@@ -1,5 +1,5 @@
-local addonName = ...
-local MDT = MDT
+local _, MDT = ...
+local addonName = MDT.AddonName
 local L = MDT.L
 local dungeonIndex = 152
 MDT.dungeonList[dungeonIndex] = L["WindrunnerSpire"]
@@ -578,10 +578,10 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 15,
     ["health"] = 2126383,
     ["scale"] = 1.6,
+    ["stealthDetect"] = true,
     ["displayId"] = 140702,
     ["creatureType"] = "Undead",
     ["level"] = 91,
-    ["stealthDetect"] = true,
     ["spells"] = {
       [473657] = {
         ["interruptible"] = true,
@@ -615,10 +615,10 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 20,
     ["health"] = 3948997,
     ["scale"] = 1.2,
+    ["stealthDetect"] = true,
     ["displayId"] = 140689,
     ["creatureType"] = "Undead",
     ["level"] = 91,
-    ["stealthDetect"] = true,
     ["spells"] = {
       [473776] = {
       },
@@ -975,10 +975,10 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 15,
     ["health"] = 2582037,
     ["scale"] = 1,
+    ["stealthDetect"] = true,
     ["displayId"] = 131955,
     ["creatureType"] = "Beast",
     ["level"] = 91,
-    ["stealthDetect"] = true,
     ["spells"] = {
       [1216985] = {
         ["bleed"] = true,
@@ -1251,6 +1251,18 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["g"] = 28,
         ["sublevel"] = 1,
       },
+      [41] = {
+        ["x"] = 523.88732459176,
+        ["y"] = -168.96009666556,
+        ["g"] = 61,
+        ["sublevel"] = 1,
+      },
+      [42] = {
+        ["x"] = 518.18049324667,
+        ["y"] = -176.56920875399,
+        ["g"] = 61,
+        ["sublevel"] = 1,
+      },
     },
   },
   [15] = {
@@ -1259,10 +1271,10 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 17,
     ["health"] = 3341459,
     ["scale"] = 1,
+    ["stealthDetect"] = true,
     ["displayId"] = 112489,
     ["creatureType"] = "Elemental",
     ["level"] = 91,
-    ["stealthDetect"] = true,
     ["spells"] = {
       [1216819] = {
         ["interruptible"] = true,
@@ -1284,7 +1296,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 5,
     ["health"] = 1380770,
     ["scale"] = 1,
-    ["displayId"] = 18830,
+    ["displayId"] = 139555,
     ["creatureType"] = "Undead",
     ["level"] = 80,
     ["clones"] = {
@@ -1369,10 +1381,10 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 15,
     ["health"] = 2430152,
     ["scale"] = 1.6,
+    ["stealthDetect"] = true,
     ["displayId"] = 140454,
     ["creatureType"] = "Undead",
     ["level"] = 91,
-    ["stealthDetect"] = true,
     ["spells"] = {
       [471643] = {
       },
@@ -1550,10 +1562,10 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 15,
     ["health"] = 2430152,
     ["scale"] = 1.6,
+    ["stealthDetect"] = true,
     ["displayId"] = 136067,
     ["creatureType"] = "Undead",
     ["level"] = 91,
-    ["stealthDetect"] = true,
     ["spells"] = {
       [1216459] = {
         ["enrage"] = true,
@@ -1843,10 +1855,10 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 0,
     ["health"] = 157503,
     ["scale"] = 1.2,
+    ["stealthDetect"] = true,
     ["displayId"] = 88968,
     ["creatureType"] = "Undead",
     ["level"] = 91,
-    ["stealthDetect"] = true,
     ["spells"] = {
       [1282478] = {
       },
@@ -1885,7 +1897,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["health"] = 131251,
     ["scale"] = 1.2,
     ["displayId"] = 141117,
-    ["creatureType"] = "Humanoid",
+    ["creatureType"] = "Undead",
     ["level"] = 90,
     ["spells"] = {
       [467815] = {
@@ -1928,28 +1940,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["g"] = 56,
         ["sublevel"] = 1,
       },
-    },
-  },
-  [31] = {
-    ["name"] = "Scouting Trapper",
-    ["id"] = 250883,
-    ["count"] = 2,
-    ["health"] = 1518845,
-    ["scale"] = 1,
-    ["displayId"] = 139555,
-    ["creatureType"] = "Undead",
-    ["level"] = 90,
-    ["spells"] = {
-      [1219224] = {
-      },
-      [1219266] = {},
-    },
-    ["clones"] = {
-      -- [1] = {
-      --   ["x"] = 682.94915039465,
-      --   ["y"] = -53.837441606865,
-      --   ["sublevel"] = 1,
-      -- },
     },
   },
 };

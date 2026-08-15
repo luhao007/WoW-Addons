@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal25"
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(25038)
 mod:SetEncounterID(726, 2490)
@@ -26,12 +26,12 @@ local warnEncaps			= mod:NewTargetAnnounce(45665, 4)
 local warnVapor				= mod:NewTargetAnnounce(45402, 3)
 local warnPhase				= mod:NewAnnounce("WarnPhase", 1, 31550)
 
-local specWarnGas			= mod:NewSpecialWarningSpell(45855, "Healer", nil, nil, 1, 2)
-local specWarnCorrosion		= mod:NewSpecialWarningTaunt(45866, nil, nil, nil, 1, 2)
-local specWarnEncaps		= mod:NewSpecialWarningYou(45665, nil, nil, nil, 1, 2)
+local specWarnGas			= mod:NewSpecialWarningSpell(45855, "Healer", nil, nil, 1, 2, nil, nil, "helpdispel")
+local specWarnCorrosion		= mod:NewSpecialWarningTaunt(45866, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnEncaps		= mod:NewSpecialWarningYou(45665, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellEncaps			= mod:NewYell(45665)
-local specWarnVapor			= mod:NewSpecialWarningYou(45402, nil, nil, nil, 1, 2)
-local specWarnBreath		= mod:NewSpecialWarningDodgeCount(45717, nil, nil, nil, 3, 2)
+local specWarnVapor			= mod:NewSpecialWarningYou(45402, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnBreath		= mod:NewSpecialWarningDodgeCount(45717, nil, nil, nil, 3, 2, nil, nil, "breathsoon")
 
 local timerGasCD			= mod:NewCDTimer(19, 45855, nil, nil, nil, 3)
 local timerCorrosion		= mod:NewTargetTimer(10, 45866, nil, "Tank", 2, 5, nil, DBM_COMMON_L.TANK_ICON)

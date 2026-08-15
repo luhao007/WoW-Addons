@@ -50,7 +50,7 @@ local function add_butF(id,gnname,tooltip,classFilename)
 		PIGEnter(fui.CZ,"如果显示异常，请点此重置未学技能数据")
 		fui.CZ:SetScript("OnClick", function (self)
 			wipe(PIGA["FramePlus"]["SpellData"][classFilename])
-			PIG_OptionsUI:ErrorMsg("已重置未学技能数据")
+			PIGErrorMsg("已重置未学技能数据")
 			fui:UpdateShowList()
 			fui:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 		end);
@@ -211,7 +211,7 @@ function FramePlusfun.NoUseSpell()
 		end);
 		spellbut:SetScript("OnMouseDown",function(self)
 			if InCombatLockdown() then
-				PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT)
+				PIGErrorMsg(ERR_NOT_IN_COMBAT)
 				return
 			end
 			local slotType = GetSpellBookItemInfo(self.slot, SpellBookFrame.bookType);

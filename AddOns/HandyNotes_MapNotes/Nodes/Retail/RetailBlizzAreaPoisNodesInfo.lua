@@ -74,6 +74,7 @@ ns.BlizzAreaPoisInfo = {
     8230, -- Portal from Dornogal to Undermine
     8231, -- Portal from Undermine to Dornogal
     8414, -- Portal from K'arsh to Dornogal
+    8477, -- Rootportal from Harandar to Fairbreeze Village
     8504, -- Amani'Zar
     8640, -- Portal to Voidstorm
     8307, -- Portal to Voidstorm
@@ -82,6 +83,7 @@ ns.BlizzAreaPoisInfo = {
     8545, -- Main Portal Chamber
     8587, -- Timeways Portal Silvermoon Midnight
     8642, -- Portal to Silvermoon and Harandar
+    8784, -- Rootportal to Silvermoon
 
     -- ClassHall
     5102, -- Class Hall Rogue Dalaran

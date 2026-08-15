@@ -5,7 +5,7 @@ if not mod:IsClassic() then--on classic, it's normal10,normal25, defined in toc,
 	mod.statTypes = "normal,timewalker"
 end
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(33293)
 if mod:IsPostCata() then
@@ -33,11 +33,11 @@ mod:RegisterEventsInCombat(
 local warnLightBomb					= mod:NewTargetNoFilterAnnounce(65121, 3)
 local warnGravityBomb				= mod:NewTargetNoFilterAnnounce(64234, 3)
 
-local specWarnLightBomb				= mod:NewSpecialWarningMoveAway(65121, nil, nil, nil, 1, 2)
+local specWarnLightBomb				= mod:NewSpecialWarningMoveAway(65121, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellLightBomb					= mod:NewYell(65121)
-local specWarnGravityBomb			= mod:NewSpecialWarningMoveAway(64234, nil, nil, nil, 1, 2)
+local specWarnGravityBomb			= mod:NewSpecialWarningMoveAway(64234, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellGravityBomb				= mod:NewYell(64234)
-local specWarnConsumption			= mod:NewSpecialWarningGTFO(64206, nil, nil, nil, 1, 8)--Hard mode void zone dropped by Gravity Bomb
+local specWarnConsumption			= mod:NewSpecialWarningGTFO(64206, nil, nil, nil, 1, 8, nil, nil, "watchfeet")--Hard mode void zone dropped by Gravity Bomb
 
 local enrageTimer					= mod:NewBerserkTimer(600)
 local timerTympanicTantrum			= mod:NewBuffActiveTimer(8, 62776, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)

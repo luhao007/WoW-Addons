@@ -2,7 +2,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("SoD_NaxxHardmode", "DBM-Raids-Vanilla", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod.isTrashMod = true
 mod.isTrashModBossFightAllowed = true
@@ -27,9 +27,9 @@ local timerBomb			= mod:NewTargetTimer(10, 1219234)
 local warnBomb			= mod:NewTargetNoFilterAnnounce(1219235, 4)
 local warnEggs			= mod:NewAnnounce("WarnEggs", 1, "132832")
 
-local specWarnAoe		= mod:NewSpecialWarningDodge(1219235, nil, nil, nil, 2, 2)
-local specWarnBomb		= mod:NewSpecialWarningYou(1219235, nil, nil, nil, 3, 2)
-local specWarnOrders	= mod:NewSpecialWarning("SpecWarnOrders", nil, nil, nil, 1, 2)
+local specWarnAoe		= mod:NewSpecialWarningDodge(1219235, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBomb		= mod:NewSpecialWarningYou(1219235, nil, nil, nil, 3, 2, nil, nil, "useitem")
+local specWarnOrders	= mod:NewSpecialWarning("SpecWarnOrders", nil, nil, nil, 1, 2, nil, nil, nil, nil, "targetyou")
 
 local yellBomb			= mod:NewYell(1219235)
 local yellBombRepeat	= mod:NewIconFadesYell(1219235)

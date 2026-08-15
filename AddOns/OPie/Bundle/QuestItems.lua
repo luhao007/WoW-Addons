@@ -146,6 +146,7 @@ if MODERN or CF_WRATH then
 			[152106]=have1, [152107]=have1, [152108]=have1, -- paragon boxes
 			-- Midnight
 			[255825]=onPreyHunt, -- disarmed trap
+			[268297]=c1, -- bag o' gold
 			[264274]=have1, -- fabled adventurer's
 			[268545]=have1, [257023]=have1, [257026]=have1, [262346]=have1, -- preyseeker's
 			[265995]=have1, -- quel'thalas adventurer's
@@ -154,13 +155,19 @@ if MODERN or CF_WRATH then
 			[269702]=have1, -- abundant [rare]
 			[269703]=have1, -- avid learner's [rare]
 			[269701]=have1, -- surplus party favors [rare]
-			-- Midnight Apex [S1]
-			[254677]=have1, -- apex cache
-			[263465]=have1, -- saltheril's soiree
-			[260940]=have1, -- stormarion pinnacle
-			[263466]=have1, -- abundant
-			[263467]=have1, -- avid learner's
-			[260193]=have1, -- fabled veteran's
+			[270244]=have1, [270247]=have1, -- field pouch/satchel
+			[264914]=have1, -- ranger's cache
+			-- Midnight Apex [S1/2]
+			[254677]=have1, [279527]=have1, -- apex cache
+			[263465]=have1, [279522]=have1, -- saltheril's soiree
+			[260940]=have1, [279526]=have1, -- stormarion pinnacle
+			[263466]=have1, [279523]=have1, -- abundant
+			[263467]=have1, [279525]=have1, -- avid learner's
+			[260193]=have1, [279520]=have1, -- fabled veteran's
+			[282183]=have1, -- coiled isle [s2]
+			-- Val/Naigtal
+			[275690]=have1, [275691]=have1, -- riftstalker's cache
+			[276389]=have1, [276390]=have1, -- riftstalker's prize
 			-- Midnight inscription treatises [weekly]
 			[245755]=95127, [245756]=95137, [245757]=95131, [245758]=95134, [245759]=95129, [245760]=95133,
 			[245761]=95130, [245762]=95135, [245763]=95128, [245809]=95138, [245828]=95136,
@@ -192,6 +199,10 @@ if MODERN or CF_WRATH then
 		[232466]=1, -- leave the storm, siren isle
 		[246808]=1, -- heroic tier instructions, legion remix
 	}})
+	local function canLearnBattlePet(id)
+		local num, max = C_PetJournal.GetNumCollectedInfo(id)
+		return max and num and num < max
+	end
 	function IsQuestItem(iid, bag, slot)
 		if exclude[iid] or not iid then
 			return false
@@ -216,6 +227,15 @@ if MODERN or CF_WRATH then
 				   wq and not C_QuestLog.IsOnQuest(qid) then
 					return false
 				end
+			end
+		else
+			local toy = C_ToyBox.GetToyLink(iid)
+			local mount = C_MountJournal.GetMountFromItem(iid)
+			local _, _, _, _, _5, _, _, _, _, _0, _, _, battlepet = C_PetJournal.GetPetInfoByItemID(iid)
+			if toy and not PlayerHasToy(iid)
+			or mount and not select(11, C_MountJournal.GetMountInfoByID(mount))
+			or battlepet and canLearnBattlePet(battlepet) then
+				isQuest, startQuestId, rcat = true, false, 3
 			end
 		end
 		if inc == nil and not isQuest then
@@ -251,7 +271,7 @@ else
 		elseif skipTypeCheck then
 			include[iid], isQuest = true, true
 		end
-		if CF_WRATH and bag and slot then
+		if bag and slot then
 			local _isQuestItem, startQuestId, isQuestActive = getContainerItemQuestInfo(bag, slot)
 			startsQuest = startQuestId and not isQuestActive and not C_QuestLog.IsQuestFlaggedCompleted(startQuestId) or false
 			isQuest = isQuest or startsQuest

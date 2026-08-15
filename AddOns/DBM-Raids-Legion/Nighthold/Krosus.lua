@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1713, "DBM-Raids-Legion", 3, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260524002232")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(101002)
 mod:SetEncounterID(1842)
@@ -21,29 +21,32 @@ mod:RegisterEventsInCombat(
 )
 
 --(ability.id = 205368 or ability.id = 205370 or ability.id = 205420 or ability.id = 205361) and type = "begincast"
+DBM:RegisterAltSpellName(205368, 173303)--Fel Beam -> Beam
+DBM:RegisterAltSpellName(205344, DBM_COMMON_L.ORB)--Expel Orb of Destruction -> Orb
+
 local warnExpelOrbDestro			= mod:NewTargetCountAnnounce(205344, 4)
 local warnSlamSoon					= mod:NewAnnounce("warnSlamSoon", 4, 205862, nil, nil, true)
 local warnSlam						= mod:NewCountAnnounce(205862, 2)--Regular slams don't need special warn, only bridge smashing ones
 
-local specWarnSearingBrand			= mod:NewSpecialWarningStack(206677, nil, 4, nil, 2, 1, 6)--Lets go with 4 for now
-local specWarnSearingBrandOther		= mod:NewSpecialWarningTaunt(206677, nil, nil, nil, 1, 2)
-local specWarnFelBeam				= mod:NewSpecialWarningDodge(205368, nil, nil, nil, 2, 2)
-local specWarnOrbDestro				= mod:NewSpecialWarningMoveAway(205344, nil, nil, nil, 3, 2)
-local yellOrbDestro					= mod:NewFadesYell(205344)
-local specWarnBurningPitch			= mod:NewSpecialWarningCount(205420, nil, nil, nil, 2, 6)
-local specWarnSlam					= mod:NewSpecialWarningRun(205862, nil, nil, nil, 4, 2)
-local specWarnFelBlast				= mod:NewSpecialWarningInterrupt(209017, false, nil, 2, 1, 2)
-local specWarnFelBurst				= mod:NewSpecialWarningInterrupt(206351, "HasInterrupt", nil, nil, 1, 2)
+local specWarnSearingBrand			= mod:NewSpecialWarningStack(206677, nil, 4, nil, 2, 1, 6, nil, nil, "stackhigh")--Lets go with 4 for now
+local specWarnSearingBrandOther		= mod:NewSpecialWarningTaunt(206677, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnFelBeam				= mod:NewSpecialWarningDodge(205368, nil, nil, nil, 2, 2, nil, nil, "moveleft")
+local specWarnOrbDestro				= mod:NewSpecialWarningMoveAway(205344, nil, nil, nil, 3, 2, nil, nil, "runout")
+local yellOrbDestro					= mod:NewFadesYell(205344, DBM_COMMON_L.ORB)
+local specWarnBurningPitch			= mod:NewSpecialWarningCount(205420, nil, nil, nil, 2, 6, nil, nil, "helpsoak")
+local specWarnSlam					= mod:NewSpecialWarningRun(205862, nil, nil, nil, 4, 2, nil, nil, "helpsoak")
+local specWarnFelBlast				= mod:NewSpecialWarningInterrupt(209017, false, nil, 2, 1, 2, nil, nil, "kickcast")
+local specWarnFelBurst				= mod:NewSpecialWarningInterrupt(206351, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
 local timerSearingBrand				= mod:NewTargetTimer(20, 206677, nil, "Tank", nil, 5)
-local timerFelBeamCD				= mod:NewNextCountTimer(16, 205368, 173303, nil, nil, 3)--Short text "Beam"
-local timerOrbDestroCD				= mod:NewNextCountTimer(16, 205344, DBM_COMMON_L.ORB, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 4)--Shor timer text "Orb"
+local timerFelBeamCD				= mod:NewNextCountTimer(16, 205368, nil, nil, nil, 3)--Short text "Beam"
+local timerOrbDestroCD				= mod:NewNextCountTimer(16, 205344, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 4)--Shor timer text "Orb"
 local timerBurningPitchCD			= mod:NewNextCountTimer(16, 205420, nil, nil, 2, 5)
 local timerSlamCD					= mod:NewNextCountTimer(30, 205862, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 4)
 
 local berserkTimer					= mod:NewBerserkTimer(360)--technically not a berserk, but raid instantly wipes during final bridge smash, at 6 minutes.
 
-mod:AddSetIconOption("SetIconOnAdds", "ej12914", true, 5)
+mod:AddSetIconOption("SetIconOnAdds", -12914, true, 5)
 mod:AddArrowOption("ArrowOnBeam3", 205368, true, 3)
 
 local burningPitchDebuff = DBM:GetSpellName(215944)
@@ -128,7 +131,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.beamCount = self.vb.beamCount + 1
 		specWarnFelBeam:Show()
 		local nextCount = self.vb.beamCount + 1
-		local timerText = nextCount
+		local timerText = tostring(nextCount)
 		if self.vb.firstBeam == 2 then--First Beam Right
 			if self.vb.beamCount % 2 == 0 then--Coming from left (facing boss)
 				specWarnFelBeam:Play("moveright")

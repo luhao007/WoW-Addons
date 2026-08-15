@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(743, "DBM-Raids-MoP", 4, 330)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260523013441")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(62837)--62847 Dissonance Field, 63591 Kor'thik Reaver, 63589 Set'thik Windblade
 mod:SetEncounterID(1501)
@@ -35,7 +35,7 @@ local warnCalamity				= mod:NewSpellAnnounce(124845, 3, nil, "Healer")
 local warnConsumingTerror		= mod:NewSpellAnnounce(124849, 4, nil, "-Tank")
 local warnHeartOfFear			= mod:NewTargetAnnounce(125638, 4)
 
-local specwarnSonicDischarge	= mod:NewSpecialWarningSpell(123504, nil, nil, nil, true)
+local specwarnSonicDischarge	= mod:NewSpecialWarningSpell(123504, nil, nil, nil, 2)
 local specWarnEyes				= mod:NewSpecialWarningStack(123707, nil, 3)--4 is max, 2 is actually the smartest time to taunt though. i may change it to 2 at some point
 local specWarnEyesOther			= mod:NewSpecialWarningTaunt(123707)
 local specwarnCryOfTerror		= mod:NewSpecialWarningYou(123788)

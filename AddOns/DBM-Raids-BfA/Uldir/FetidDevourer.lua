@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2146, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260524002224")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(133298)
 mod:SetEncounterID(2128)
@@ -24,26 +24,29 @@ mod:RegisterEventsInCombat(
 (ability.id = 262292 or ability.id = 262288 or ability.id = 262364) and type = "begincast"
  or (ability.id = 262370 or ability.id = 274470) and type = "cast"
 --]]
+DBM:RegisterAltSpellName(262277, 74979)--Terrible Thrash -> Thrash
+DBM:RegisterAltSpellName(262292, 21131)--Rotting Regurgitation -> Breath
+DBM:RegisterAltSpellName(262288, 116969)--Shockwave Stomp -> Stomp
 local warnFrenzy						= mod:NewSpellAnnounce(262378, 3)
 local warnThrashNotTanking				= mod:NewSpellAnnounce(262277, 3, nil, "Tank|Healer")
 local warnChuteVisual					= mod:NewAnnounce("addsSoon", 3, 262364)
 
-local specWarnThrash					= mod:NewSpecialWarningDefensive(262277, "Tank", nil, nil, 1, 2)
-local specWarnRottingRegurg				= mod:NewSpecialWarningDodge(262292, nil, nil, nil, 2, 2)
-local specWarnShockwaveStomp			= mod:NewSpecialWarningCount(262288, nil, nil, nil, 2, 2)
-local specWarnMalodorousMiasma			= mod:NewSpecialWarningYou(262313, nil, nil, nil, 1, 2)
-local specWarnMalodorousMiasmaStack		= mod:NewSpecialWarningStack(262313, nil, 2, nil, nil, 1, 6)
+local specWarnThrash					= mod:NewSpecialWarningDefensive(262277, "Tank", nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnRottingRegurg				= mod:NewSpecialWarningDodge(262292, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
+local specWarnShockwaveStomp			= mod:NewSpecialWarningCount(262288, nil, nil, nil, 2, 2, nil, nil, "carefly")
+local specWarnMalodorousMiasma			= mod:NewSpecialWarningYou(262313, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnMalodorousMiasmaStack		= mod:NewSpecialWarningStack(262313, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
 local yellMalodorousMiasma				= mod:NewYell(262313)
 local yellMalodorousMiasmaFades			= mod:NewFadesYell(262313)
-local specWarnPutridParoxysm			= mod:NewSpecialWarningDefensive(262314, nil, nil, nil, 1, 2)
-local specWarnPutridParoxysmStack		= mod:NewSpecialWarningStack(262314, nil, 2, nil, nil, 1, 6)
+local specWarnPutridParoxysm			= mod:NewSpecialWarningDefensive(262314, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnPutridParoxysmStack		= mod:NewSpecialWarningStack(262314, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
 local yellPutridParoxysm				= mod:NewYell(262314)
 local yellPutridParoxysmFades			= mod:NewFadesYell(262314)
-local specWarnAdds						= mod:NewSpecialWarningAdds(262364, "Dps", nil, nil, 1, 2)
+local specWarnAdds						= mod:NewSpecialWarningAdds(262364, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
 
-local timerThrashCD						= mod:NewCDTimer(6, 262277, 74979, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Short Name "Thrash"
-local timerRottingRegurgCD				= mod:NewCDTimer(40.1, 262292, 21131, nil, nil, 3, nil, nil, nil, 1, 4)--Short Name "Breath"
-local timerShockwaveStompCD				= mod:NewCDCountTimer(27.5, 262288, 116969, nil, nil, 2)--Short Name "Stomp"
+local timerThrashCD						= mod:NewCDTimer(6, 262277, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Short Name "Thrash"
+local timerRottingRegurgCD				= mod:NewCDTimer(40.1, 262292, nil, nil, nil, 3, nil, nil, nil, 1, 4)--Short Name "Breath"
+local timerShockwaveStompCD				= mod:NewCDCountTimer(27.5, 262288, nil, nil, nil, 2)--Short Name "Stomp"
 local timerPreAddsCD					= mod:NewTimer(54.8, "chuteTimer", 262364, false, nil, 5)
 local timerAddsCD						= mod:NewAddsTimer(54.8, 262364, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON, nil, 3, 5)
 

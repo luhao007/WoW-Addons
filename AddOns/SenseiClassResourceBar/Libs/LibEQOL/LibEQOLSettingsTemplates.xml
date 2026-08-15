@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-    <Frame name="LibEQOL1652fd2_SettingsListSectionHintTemplate" mixin="SettingsListSectionHeaderMixin" virtual="true">
+    <Frame name="LibEQOLca214ff_SettingsListSectionHintTemplate" mixin="SettingsListSectionHeaderMixin" virtual="true">
         <Size x="30" y="29"/>
         <Layers>
         <Layer level="OVERLAY">
@@ -23,7 +23,7 @@
         </Scripts>
     </Frame>
 
-     <Button name="LibEQOL1652fd2_MultiDropdownTemplate"
+     <Button name="LibEQOLca214ff_MultiDropdownTemplate"
         virtual="true"
         inherits="SettingsDropdownControlTemplate"
         mixin="LibEQOL_MultiDropdownMixin">
@@ -40,13 +40,13 @@
         </Layers>
     </Button>
 
-    <Button name="LibEQOL1652fd2_ScrollDropdownTemplate"
+    <Button name="LibEQOLca214ff_ScrollDropdownTemplate"
         virtual="true"
         inherits="SettingsDropdownControlTemplate"
         mixin="LibEQOL_ScrollDropdownMixin">
     </Button>
 
-    <Frame name="LibEQOL1652fd2_InputControlTemplate"
+    <Frame name="LibEQOLca214ff_InputControlTemplate"
         virtual="true"
         inherits="SettingsListElementTemplate"
         mixin="LibEQOL_InputControlMixin">
@@ -56,7 +56,7 @@
         </Scripts>
     </Frame>
 
-    <Frame name="LibEQOL1652fd2_ColorOverridesPanel" mixin="LibEQOL_ColorOverridesMixin" virtual="true">
+    <Frame name="LibEQOLca214ff_ColorOverridesPanel" mixin="LibEQOL_ColorOverridesMixin" virtual="true">
 		<Size x="200" y="60"/>
 		<Layers>
 			<Layer level="ARTWORK">
@@ -88,7 +88,7 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="LibEQOL1652fd2_ColorOverridesPanelNoHead" 
+	<Frame name="LibEQOLca214ff_ColorOverridesPanelNoHead" 
 		mixin="LibEQOL_ColorOverridesMixin" 
 		inherits="SettingsListElementTemplate"
 		virtual="true"
@@ -124,12 +124,23 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="LibEQOL1652fd2_SoundDropdownTemplate"
+	<Frame name="LibEQOLca214ff_SoundDropdownTemplate"
 		inherits="SettingsListElementTemplate"
 		mixin="LibEQOL_SoundDropdownMixin"
 		virtual="true"
 	>
 	<Size x="200" y="25"/>
+		<Scripts>
+			<OnLoad method="OnLoad"/>
+		</Scripts>
+	</Frame>
+
+	<Frame name="LibEQOLca214ff_SortableListTemplate"
+		inherits="SettingsListElementTemplate"
+		mixin="LibEQOL_SortableListMixin"
+		virtual="true"
+	>
+	<Size x="200" y="80"/>
 		<Scripts>
 			<OnLoad method="OnLoad"/>
 		</Scripts>

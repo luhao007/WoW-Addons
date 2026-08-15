@@ -16,9 +16,6 @@ function TardisInfo.Invite(Activate)
 	local PigSetEditBoxData=Create.InitializeEditBox
 	local IsEditBoxNumber=Create.IsEditBoxNumber
 	------------------------
-	local ConvertToParty=ConvertToParty or C_PartyInfo and C_PartyInfo.ConvertToParty
-	local ConvertToRaid=ConvertToRaid or C_PartyInfo and C_PartyInfo.ConvertToRaid
-	local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
 	local gsub = _G.string.gsub
 	local match = _G.string.match
@@ -26,16 +23,19 @@ function TardisInfo.Invite(Activate)
 	local GetYellPindao=Fun.GetYellPindao
 	local Key_fenge=Fun.Key_fenge
 	local Get_famsg=Fun.Get_famsg
+	local SetAutoInviteOpen=Fun.SetAutoInviteOpen
+	local GetAutoInviteOpen=Fun.GetAutoInviteOpen
+
 	local cl_Name=Data.cl_Name
 	local cl_Name_Role=Data.cl_Name_Role
 	local ClassFile_Name=Data.ClassFile_Name
 	local zhizeAtlas=Data.zhizeAtlas
 	local MSGsuijizifu=Data.MSGsuijizifu
--- 	---
+	---
 	local InvF=_G[GnUI]
-	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,GROUPS,80,"Bot")
+	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,GROUPS,80)
 	if Activate then fujiF:Show() fujiTabBut:Selected(true) end
--- 	--=====================
+	--=====================
 	local Roles = {"TANK", "HEALER","DAMAGER"}
 	local RolesXulie = {["TANK"]=1, ["HEALER"]=2,["DAMAGER"]=3}
 	local Roles_List={{},{},{}};
@@ -272,7 +272,7 @@ function TardisInfo.Invite(Activate)
 			PIGA["Tardis"]["Invite"]["DQMubiao"]=arg1
 			fujiF.Datas_MB=InitializationData(PIGA["Tardis"]["Invite"]["DQMubiao"],true)
 			fujiF:Update_ShowList()
-			PIG_OptionsUI:ErrorMsg("已导入|cffFFFFFF"..value.."|r开团模板");
+			PIGErrorMsg("已导入|cffFFFFFF"..value.."|r开团模板");
 		else
 			for ixx=#PIGA["Tardis"]["Invite"]["Template"],1,-1 do
 				if value == PIGA["Tardis"]["Invite"]["Template"][ixx][1] then
@@ -304,10 +304,10 @@ function TardisInfo.Invite(Activate)
 	fujiF.topF.SaveTemplate.F.E:SetMaxLetters(20)
 	PIGSetFont(fujiF.topF.SaveTemplate.F.E,14,"OUTLINE")
 	fujiF.topF.SaveTemplate.F.E:HookScript("OnShow", function(self)
-		Create.Update_SaveTempF(fujiF.topF.SaveTemplate.F)
+		Create.Update_SaveTempF(PIGA["Tardis"]["Invite"]["Template"],fujiF.topF.SaveTemplate.F)
 	end)
 	fujiF.topF.SaveTemplate.F.E:HookScript("OnTextChanged", function(self)
-		Create.Update_SaveTempF(fujiF.topF.SaveTemplate.F)
+		Create.Update_SaveTempF(PIGA["Tardis"]["Invite"]["Template"],fujiF.topF.SaveTemplate.F)
 	end)
 	fujiF.topF.SaveTemplate.F.error = PIGFontString(fujiF.topF.SaveTemplate.F,{"TOPLEFT", fujiF.topF.SaveTemplate.F.E, "BOTTOMLEFT", 6,-2},"", "OUTLINE");
 	fujiF.topF.SaveTemplate.F.error:SetTextColor(1, 0, 0, 1)
@@ -331,9 +331,9 @@ function TardisInfo.Invite(Activate)
 	fujiF.topF.zhuanhuanPR=PIGButton(fujiF.topF,{"LEFT",fujiF.topF.SaveTemplate,"RIGHT", 30,0},{80,20},"转为团队")
 	fujiF.topF.zhuanhuanPR:SetScript("OnClick", function (self)
 		if IsInRaid(LE_PARTY_CATEGORY_HOME) then
-			ConvertToParty() 
+			PIG_ConvertToParty() 
 		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-			ConvertToRaid()
+			PIG_ConvertToRaid()
 		end
 	end)
 	function fujiF.topF.zhuanhuanPR:Update_ButText()
@@ -510,7 +510,7 @@ function TardisInfo.Invite(Activate)
 	if ContainerFrameItemButton_OnModifiedClick then
 		hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", function(self, button)
 			if button=="LeftButton" and IsShiftKeyDown() then
-		        local itemLink = GetContainerItemLink(self:GetParent():GetID(), self:GetID())
+		        local itemLink = PIGGetContainerItemLink(self:GetParent():GetID(), self:GetID())
 		        if itemLink and fujiF.botF.YellF.E:IsVisible() then
 		            fujiF.botF.YellF.E:Insert(itemLink)
 		        end
@@ -519,7 +519,7 @@ function TardisInfo.Invite(Activate)
 	else
 		hooksecurefunc(ContainerFrameItemButtonMixin, "OnClick", function(self,button)
 			if button=="LeftButton" and IsShiftKeyDown() then
-		        local itemLink = GetContainerItemLink(self:GetParent():GetID(), self:GetID())
+		        local itemLink = PIGGetContainerItemLink(self:GetParent():GetID(), self:GetID())
 		        if itemLink and fujiF.botF.YellF.E:IsVisible() then
 		            fujiF.botF.YellF.E:Insert(itemLink)
 		        end
@@ -547,10 +547,10 @@ function TardisInfo.Invite(Activate)
 	fujiF.botF.YellF.SaveYellTemp.F.E:SetPoint("LEFT", fujiF.botF.YellF.SaveYellTemp.F.Name, "RIGHT", 4,0);
 	PIGSetFont(fujiF.botF.YellF.SaveYellTemp.F.E,14,"OUTLINE")
 	fujiF.botF.YellF.SaveYellTemp.F.E:HookScript("OnShow", function(self)
-		Create.Update_SaveTempF(fujiF.botF.YellF.SaveYellTemp.F,fujiF.botF.YellF.E:GetText():gsub(" ", ""))
+		Create.Update_SaveTempF(PIGA["Tardis"]["Invite"]["YellTemp"],fujiF.botF.YellF.SaveYellTemp.F,fujiF.botF.YellF.E:GetText():gsub(" ", ""))
 	end)
 	fujiF.botF.YellF.SaveYellTemp.F.E:HookScript("OnTextChanged", function(self)
-		Create.Update_SaveTempF(fujiF.botF.YellF.SaveYellTemp.F,fujiF.botF.YellF.E:GetText():gsub(" ", ""))
+		Create.Update_SaveTempF(PIGA["Tardis"]["Invite"]["YellTemp"],fujiF.botF.YellF.SaveYellTemp.F,fujiF.botF.YellF.E:GetText():gsub(" ", ""))
 	end)
 	fujiF.botF.YellF.SaveYellTemp.F.error = PIGFontString(fujiF.botF.YellF.SaveYellTemp.F,{"TOPLEFT", fujiF.botF.YellF.SaveYellTemp.F.E, "BOTTOMLEFT", 6,-2},"", "OUTLINE");
 	fujiF.botF.YellF.SaveYellTemp.F.error:SetTextColor(1, 0, 0, 1)
@@ -678,7 +678,7 @@ function TardisInfo.Invite(Activate)
 			fujiF.DesktopUI.Cooldown:SetCooldown(GetTime(), fujiF.Yell_CD*keyongshu)
 			hanhuadaojishiTime()
 		else
-			PIG_OptionsUI:ErrorMsg("请先选择喊话频道");
+			PIGErrorMsg("请先选择喊话频道");
 		end
 	end
 
@@ -798,7 +798,7 @@ function TardisInfo.Invite(Activate)
 	LFGIconUI:HookScript("OnClick", function(self,button)
 		if button=="LeftButton" then
 			if self.Cooldown:GetCooldownDuration()>0 then
-				PIG_OptionsUI:ErrorMsg(ERR_CHAT_THROTTLED);
+				PIGErrorMsg(ERR_CHAT_THROTTLED);
 			else
 				fujiF.Kaishi_Yell()
 			end	
@@ -813,11 +813,11 @@ function TardisInfo.Invite(Activate)
 	end);
 	--根据指令邀请
 	local function OFF_autoInvite(msg)
-		PIG_OptionsUI.AutoInvite.Invite=nil;
+		SetAutoInviteOpen("Invite",nil)
 		fujiF.botF.AutoYaoqing.Tex:SetTexture("interface/common/indicator-gray.blp");
 		fujiF:UnregisterEvent("CHAT_MSG_WHISPER");
 		fujiF:UnregisterEvent("CHAT_MSG_SYSTEM");
-		PIG_OptionsUI:ErrorMsg(msg);
+		PIGErrorMsg(msg);
 		EyeTemplate_StopAnimating(LFGIconUI)
 		LFGIconUI:Hide()
 	end
@@ -846,18 +846,18 @@ function TardisInfo.Invite(Activate)
 		return true,numGroupMembers
 	end
 	function fujiF:StartAutoInviteFun()
-		if PIG_OptionsUI:IsAutoInviteOpen("Invite") then
+		if Fun.IsAutoInviteOpen("Invite") then
 			return	
 		end
-		if PIG_OptionsUI.AutoInvite.Invite then
+		if GetAutoInviteOpen("Invite") then
 			OFF_autoInvite("已|cffFF0000关闭|r自动邀请")
 		else
 			if self.Is_GroupLeader() and self.Is_RaidNumOK() then
-				PIG_OptionsUI.AutoInvite.Invite=true
+				SetAutoInviteOpen("Invite",true)
 				self.botF.AutoYaoqing.Tex:SetTexture("interface/common/indicator-green.blp");
 				self:RegisterEvent("CHAT_MSG_WHISPER");
 				self:RegisterEvent("CHAT_MSG_SYSTEM")
-				PIG_OptionsUI:ErrorMsg("已|cff00FF00开启|r自动邀请");
+				PIGErrorMsg("已|cff00FF00开启|r自动邀请");
 				LFGIconUI:Show()
 
 				EyeTemplate_StartAnimating(LFGIconUI)
@@ -868,7 +868,7 @@ function TardisInfo.Invite(Activate)
 	local function PIG_Invite_Fun(Pname)
 		local numGroupMembers = GetNumGroupMembers(LE_PARTY_CATEGORY_HOME)
 		if numGroupMembers==5 and not IsInRaid(LE_PARTY_CATEGORY_HOME) then
-			ConvertToRaid()
+			PIG_ConvertToRaid()
 		end
 		PIG_InviteUnit(Pname)
 	end
@@ -913,7 +913,7 @@ function TardisInfo.Invite(Activate)
 				self.Is_GroupLeader("event")
 				self.Is_RaidNumOK("event")
 			end)
-		elseif PIG_OptionsUI.AutoInvite.Invite then
+		elseif GetAutoInviteOpen("Invite") then
 			if arg1:match("[!Pig]") then return end
 			if event=="CHAT_MSG_SYSTEM" then
 				if arg1:match(Err_already) then

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1425, "DBM-Raids-WoD", 1, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260525233107")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(90284)
 mod:SetEncounterID(1785)
@@ -29,15 +29,15 @@ local warnArtillery					= mod:NewTargetCountAnnounce(182280, 4)
 local warnUnstableOrb				= mod:NewTargetCountAnnounce(182001, 3, nil, false)--Off by default do to some frequent casts. Boss fires 2 orbs. anyone then hit on landing gets debuff, if ranged properly spread, 2 targets, if numpty, could be 30 targets
 local warnFuelStreak				= mod:NewCountAnnounce(182668, 3)
 
-local specWarnArtillery				= mod:NewSpecialWarningMoveAway(182280, nil, nil, nil, 3, 2)
+local specWarnArtillery				= mod:NewSpecialWarningMoveAway(182280, nil, nil, nil, 3, 2, nil, nil, "runout")
 local yellArtillery					= mod:NewFadesYell(182108)
-local specWarnImmolation			= mod:NewSpecialWarningMove(182074, nil, nil, nil, 1, 2)
-local specWarnBarrage				= mod:NewSpecialWarningCount(185282, nil, nil, nil, 2, 12)--Count probably better than dodge
-local specWarnPounding				= mod:NewSpecialWarningCount(182020, nil, nil, nil, 2, 2)
-local specWarnBlitz					= mod:NewSpecialWarningCount(179889, nil, nil, nil, 2, 2)--Count probably better than dodge
-local specWarnFullCharge			= mod:NewSpecialWarningSpell(182055, nil, nil, nil, 1, 2)--Phase change
-local specWarnFallingSlam			= mod:NewSpecialWarningSpell(182066, nil, nil, nil, 2, 2)--Phase change
-local specWarnFirebomb				= mod:NewSpecialWarningSwitchCount(181999, "-Healer", nil, nil, 1, 5)
+local specWarnImmolation			= mod:NewSpecialWarningMove(182074, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnBarrage				= mod:NewSpecialWarningCount(185282, nil, nil, nil, 2, 12, nil, nil, "barrageonway")--Count probably better than dodge
+local specWarnPounding				= mod:NewSpecialWarningCount(182020, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnBlitz					= mod:NewSpecialWarningCount(179889, nil, nil, nil, 2, 2, nil, nil, "chargemove")--Count probably better than dodge
+local specWarnFullCharge			= mod:NewSpecialWarningSpell(182055, nil, nil, nil, 1, 2, nil, nil, "phasechange")--Phase change
+local specWarnFallingSlam			= mod:NewSpecialWarningSpell(182066, nil, nil, nil, 2, 2, nil, nil, "phasechange")--Phase change
+local specWarnFirebomb				= mod:NewSpecialWarningSwitchCount(181999, "-Healer", nil, nil, 1, 5, nil, nil, "attbomb")
 
 --mod:AddTimerLine(ALL)--Uncomment when ground phase and air phase are done, don't want to enable this line now and incorrectly flag everything as "All"
 local timerArtilleryCD				= mod:NewNextCountTimer(15, 182108, nil, nil, nil, 3, nil, nil, nil, 3, 4)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(155, "DBM-Raids-Cata", 3, 75)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035342")
+mod:SetRevision("20260523022021")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(46753)
 mod:SetEncounterID(1034)
@@ -32,9 +32,9 @@ local warnFeedback			= mod:NewStackAnnounce(87904, 2)
 local warnCloud				= mod:NewSpellAnnounce(89588, 3)
 local warnLightningRod		= mod:NewTargetNoFilterAnnounce(89668, 4)
 
-local specWarnWindBurst		= mod:NewSpecialWarningSpell(87770, nil, nil, nil, 2, 2)
-local specWarnGTFO			= mod:NewSpecialWarningGTFO(91020, nil, nil, nil, 1, 8)
-local specWarnLightningRod	= mod:NewSpecialWarningMoveAway(89668, nil, nil, nil, 1, 2)
+local specWarnWindBurst		= mod:NewSpecialWarningSpell(87770, nil, nil, nil, 2, 2, nil, nil, "carefly")
+local specWarnGTFO			= mod:NewSpecialWarningGTFO(91020, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnLightningRod	= mod:NewSpecialWarningMoveAway(89668, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellLightningRod		= mod:NewYell(89668)
 
 local timerWindBurst		= mod:NewCastTimer(5, 87770, nil, nil, nil, 2)

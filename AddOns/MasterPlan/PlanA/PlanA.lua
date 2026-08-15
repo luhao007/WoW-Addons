@@ -93,22 +93,6 @@ local LoadMPOnShow, LoadMP do
 		end
 	end
 end
-local function EasyMenu_Initialize(_, level, menuList)
-	for i=1, #menuList do
-		local value = menuList[i]
-		if value.text then
-			value.index = i
-			UIDropDownMenu_AddButton(value, level)
-		end
-	end
-end
-local function EasyMenu(menuList, menuFrame, anchor, x, y, displayMode, autoHideDelay)
-	if displayMode == "MENU" then
-		menuFrame.displayMode = displayMode
-	end
-	UIDropDownMenu_Initialize(menuFrame, EasyMenu_Initialize, displayMode, nil, menuList)
-	ToggleDropDownMenu(1, nil, menuFrame, anchor, x, y, menuList, nil, autoHideDelay)
-end
 local function hookLandingMenu()
 	if GarrisonLandingPageMinimapButton.altMenuManager == nil then
 		GarrisonLandingPageMinimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -195,7 +179,7 @@ local function hookLandingMenu()
 				landingChoices[#landingChoices+1] = C.GetNumFollowers(22) > 0 and {text=WAR_CAMPAIGN, func=ShowLanding, arg1=9, notCheckable=true} or nil
 				landingChoices[#landingChoices+1] = C.GetNumFollowers(123) > 0 and {text=GARRISON_TYPE_9_0_LANDING_PAGE_TITLE, func=ShowLanding, arg1=111, notCheckable=true} or nil
 				GameTooltip:Hide()
-				EasyMenu(landingChoices, landingChoiceMenu, "cursor", 0, 0, "MENU", 4)
+				T.EasyMenu(landingChoices, landingChoiceMenu, "cursor", 0, 0, "MENU", 4)
 				DropDownList1:ClearAllPoints()
 				local x, y = self:GetCenter()
 				local w, h = UIParent:GetSize()

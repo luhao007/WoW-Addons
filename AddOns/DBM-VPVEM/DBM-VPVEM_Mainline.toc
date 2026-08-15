@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Iceoven
-## Version: 814ada1
+## Version: 2f9d4f1
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Media|r|cffffe00a>|r |cff308530Voicepack VEM|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0VEM语音包|r
@@ -20,5 +20,6 @@
 ## X-DBM-Voice-ShortName: VEM
 ## X-DBM-Voice-Version: 19
 ## X-DBM-Voice-HasCount: 1
+## X-DBM-Voice-MaxCount: 11
 ## X-Part-Of: DBM-Core
 

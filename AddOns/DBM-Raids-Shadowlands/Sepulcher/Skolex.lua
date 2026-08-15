@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2465, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523021934")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(181395)
 mod:SetEncounterID(2542)
@@ -33,12 +33,12 @@ local warnRend									= mod:NewStackAnnounce(359979, 2, nil, "Tank|Healer")
 local warnRift									= mod:NewStackAnnounce(359976, 2, nil, "Tank|Healer")
 local warnDestroy								= mod:NewCastAnnounce(364778, 4)
 
-local specWarnRaveningBurrow					= mod:NewSpecialWarningCount(359770, nil, nil, nil, 2, 2)
-local specWarnDustFlail							= mod:NewSpecialWarningCount(359829, "Healer", nil, nil, 2, 2)
-local specWarnRetch								= mod:NewSpecialWarningDodgeCount(360448, nil, nil, nil, 2, 2)
-local specWarnRiftmaw							= mod:NewSpecialWarningTaunt(359976, nil, nil, nil, 1, 2)
-local specWarnRend								= mod:NewSpecialWarningTaunt(359979, nil, nil, nil, 1, 2)
-local specWarnGTFO								= mod:NewSpecialWarningGTFO(366070, nil, nil, nil, 1, 8)
+local specWarnRaveningBurrow					= mod:NewSpecialWarningCount(359770, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
+local specWarnDustFlail							= mod:NewSpecialWarningCount(359829, "Healer", nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnRetch								= mod:NewSpecialWarningDodgeCount(360448, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnRiftmaw							= mod:NewSpecialWarningTaunt(359976, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnRend								= mod:NewSpecialWarningTaunt(359979, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnGTFO								= mod:NewSpecialWarningGTFO(366070, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerDustflailCD							= mod:NewCDCountTimer(16.4, 359829, nil, nil, nil, 2)--16.4-17.5
 local timerRetchCD								= mod:NewCDCountTimer(32.9, 360448, nil, nil, nil, 3)--32.9-35

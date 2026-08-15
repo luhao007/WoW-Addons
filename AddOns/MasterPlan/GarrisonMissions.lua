@@ -1,5 +1,5 @@
 local _, T = ...
-if T.Mark ~= 50 then return end
+if T.Mark ~= 266 then return end
 local PC, EV, G, L = T.PlanCore, T.Evie, T.Garrison, T.L
 local GameTooltip = T.NotGameTooltip or GameTooltip
 

@@ -10,9 +10,9 @@ local BarTexList = {
 Create.BarTexNum=#BarTexList
 local BorderColorX = {0.65, 0.65, 0.65, 1}
 local BGColorX = {0, 0, 0, 0.4}
-function Create.add_Bar(fuji,ly,Point,WH)
-	local zitix=ChatFontNormal:GetFont()
-	--local zitix=TextStatusBarText:GetFont()
+function Create.add_Bar(fuji,ly,Point,WH,hengxiang)
+	--local zitix=ChatFontNormal:GetFont()
+	local zitix=TextStatusBarText:GetFont()
 	local BarHT
 	if ly==4 or ly==6 or ly==7 or ly==11 then
 		BarHT = CreateFrame("Frame", nil, fuji)
@@ -52,15 +52,11 @@ function Create.add_Bar(fuji,ly,Point,WH)
 			if Point then
 				BarHT:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
 			end
-			BarHT:SetSize(WH[1],WH[2]);
 			BarHT.spellicon = BarHT:CreateTexture();
-			BarHT.spellicon:SetPoint("BOTTOM",BarHT,"BOTTOM",0,0);
-			BarHT.spellicon:SetSize(WH[1],WH[1]);
 			BarHT.spellicon:SetTexCoord(0.1,0.9,0.1,0.9);
 			BarHT.Bar = BarHT:CreateTexture(nil, "BACKGROUND");
 			BarHT.Bar:SetTexture(BarTexList[PIGA["CombatPlus"]["HPMPBar"]["BarTex"]][2]);
-			BarHT.Bar:SetPoint("TOPLEFT",BarHT,"TOPLEFT",0,0);
-			BarHT.Bar:SetPoint("BOTTOMRIGHT",BarHT.spellicon,"TOPRIGHT",0,0);
+			
 			BarHT.Border = CreateFrame("Frame", nil, BarHT,"BackdropTemplate")
 			BarHT.Border:SetBackdrop({edgeFile = Create.edgeFile, edgeSize = 6})
 			BarHT.Border:SetBackdropBorderColor(unpack(BorderColorX))
@@ -69,7 +65,21 @@ function Create.add_Bar(fuji,ly,Point,WH)
 			BarHT.Border:SetFrameLevel(5)
 			BarHT.V = BarHT:CreateFontString();
 			BarHT.V:SetFont(zitix, 12,"OUTLINE")
-			BarHT.V:SetPoint("LEFT",BarHT,"RIGHT",0,0);
+			if hengxiang then
+				BarHT:SetSize(WH[2],WH[1]);
+				BarHT.spellicon:SetSize(WH[1],WH[1]);
+				BarHT.spellicon:SetPoint("LEFT",BarHT,"LEFT",0,0);
+				BarHT.Bar:SetPoint("TOPLEFT",BarHT.spellicon,"TOPLEFT",0,0);
+				BarHT.Bar:SetPoint("BOTTOMRIGHT",BarHT,"BOTTOMRIGHT",0,0);
+				BarHT.V:SetPoint("BOTTOM",BarHT,"TOP",0,0);
+			else
+				BarHT:SetSize(WH[1],WH[2]);
+				BarHT.spellicon:SetSize(WH[1],WH[1]);
+				BarHT.spellicon:SetPoint("BOTTOM",BarHT,"BOTTOM",0,0);
+				BarHT.Bar:SetPoint("TOPLEFT",BarHT,"TOPLEFT",0,0);
+				BarHT.Bar:SetPoint("BOTTOMRIGHT",BarHT.spellicon,"TOPRIGHT",0,0);
+				BarHT.V:SetPoint("LEFT",BarHT,"RIGHT",0,0);
+			end
 		else
 			BarHT = CreateFrame("StatusBar", nil, fuji);
 			BarHT:SetStatusBarTexture(BarTexList[PIGA["CombatPlus"]["HPMPBar"]["BarTex"]][2])
@@ -90,10 +100,10 @@ function Create.add_Bar(fuji,ly,Point,WH)
 			BarHT.Border:SetBackdropBorderColor(unpack(BorderColorX))
 			BarHT.Border:SetPoint("TOPLEFT",BarHT,"TOPLEFT",0,0);
 			BarHT.Border:SetPoint("BOTTOMRIGHT",BarHT,"BOTTOMRIGHT",0,0);
-			BarHT.xiaxian = BarHT:CreateFontString();
-			BarHT.V = BarHT:CreateFontString();
-			BarHT.maxV = BarHT:CreateFontString();
-			BarHT.xiaxian:SetPoint("CENTER",BarHT,"CENTER",0,0.8);
+			BarHT.xiaxian = BarHT.Border:CreateFontString();
+			BarHT.V = BarHT.Border:CreateFontString();
+			BarHT.maxV = BarHT.Border:CreateFontString(nil,"OVERLAY");
+			BarHT.xiaxian:SetPoint("CENTER",BarHT,"CENTER",0,0);
 			BarHT.V:SetPoint("RIGHT",BarHT.xiaxian,"LEFT",0,0);
 			BarHT.maxV:SetPoint("LEFT",BarHT.xiaxian,"RIGHT",0,0);
 			function BarHT:PIGStatusBarColort(r,g,b,a)

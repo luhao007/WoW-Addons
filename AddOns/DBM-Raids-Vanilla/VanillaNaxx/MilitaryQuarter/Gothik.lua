@@ -7,7 +7,8 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260804150434")
+mod:SetMinSyncRevision(20260618000000) -- 2026, June 18th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(16060)
 mod:SetEncounterID(1109)
@@ -18,7 +19,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"UNIT_DIED",
-	"UNIT_HEALTH"
+	"UNIT_SPELLCAST_SUCCEEDED"
 )
 
 -- New spell ID found in logs on SoD
@@ -29,14 +30,22 @@ local warnWaveNow		= mod:NewAnnounce("WarningWaveSpawned", 3, nil, false)
 local warnWaveSoon		= mod:NewAnnounce("WarningWaveSoon", 2)
 local warnRiderDown		= mod:NewAnnounce("WarningRiderDown", 4)
 local warnKnightDown	= mod:NewAnnounce("WarningKnightDown", 2)
-local warnPhase2		= mod:NewPhaseAnnounce(2, 3)
+local warnPhase 		= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 
-local timerPhase2		= mod:NewTimer(270, "TimerPhase2", "136116", nil, nil, 6)
+local timerPhase2		= mod:NewStageCountTimer(270)
 local timerWave			= mod:NewTimer(20, "TimerWave", "135974", nil, nil, 1)
-local timerTeleport, warnTeleport
+
+local timerTeleport, warnTeleportSoon, warnTeleportLive, warnTeleportLiveSoon, timerTeleportLive, warnTeleportDead, warnTeleportDeadSoon, timerTeleportDead
 if DBM:IsSeasonal("SeasonOfDiscovery") then
-	warnTeleport		= mod:NewSoonAnnounce(1222332, 3)
+	warnTeleportSoon	= mod:NewSoonAnnounce(1222332, 3)
 	timerTeleport		= mod:NewNextTimer(20, 1222332, nil, nil, nil, 6) -- TODO: might warrant a short countdown, but confirm exactness of this first due to lack of good trigger
+else
+	warnTeleportLive		= mod:NewSpellAnnounce(28025, 3, "135736")
+	warnTeleportLiveSoon	= mod:NewSoonAnnounce(28025, 2, "135736")
+	timerTeleportLive		= mod:NewNextTimer("v19.4-21", 28025, nil, nil, nil, 6, "135736")
+	warnTeleportDead		= mod:NewSpellAnnounce(28026, 3, "135736")
+	warnTeleportDeadSoon	= mod:NewSoonAnnounce(28026, 2, "135736")
+	timerTeleportDead		= mod:NewNextTimer("v19.4-21", 28026, nil, nil, nil, 6, "135736")
 end
 
 mod:AddInfoFrameOption(nil, true)
@@ -146,14 +155,25 @@ end
 
 function mod:Teleport()
 	timerTeleport:Start()
-	warnTeleport:Schedule(27)
+	warnTeleportSoon:Schedule(27)
 	self:ScheduleMethod(20, "Teleport")
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	self.vb.wave = 0
-	timerPhase2:Start()
-	warnPhase2:Schedule(270)
+	self:SetStage(1)
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
+	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
+	timerPhase2:Start(nil, 2)
+	if DBM:IsSeasonal("SeasonOfDiscovery") then
+		self:Schedule(270, function()
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
+		self:SetStage(2)
+		DBM.InfoFrame:Hide()
+		end)
+	end
 	timerWave:Start(27, self.vb.wave + 1)
 	warnWaveSoon:Schedule(24, self.vb.wave + 1, getWaveString(self.vb.wave + 1))
 	self:ScheduleMethod(27, "NextWave")
@@ -171,6 +191,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
+	self:UnregisterShortTermEvents()
 	if DBM.InfoFrame:IsShown() then
 		DBM.InfoFrame:Hide()
 	end
@@ -199,9 +220,47 @@ function mod:UNIT_DIED(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if DBM:IsSeasonal("SeasonOfDiscovery") and self:GetUnitCreatureId(uId) == 16060 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.3 then
-		self:UnscheduleMethod("Teleport")
-		timerTeleport:Cancel()
-		warnTeleport:Cancel()
+	if self:GetUnitCreatureId(uId) == 16060 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.3 then
+		self:SendSync("LowHPThreshold")
+		self:UnregisterShortTermEvents()
+	end
+end
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, spellId)
+	if spellId == 28025 then
+		self:SendSync("TeleportLive")
+	elseif spellId == 28026 then
+		self:SendSync("TeleportDead")
+	end
+end
+
+function mod:OnSync(event)
+	if not self:IsInCombat() then return end
+    if event == "TeleportLive" then
+		if self:GetStage(1) then
+			self:SetStage(2)
+			warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
+			DBM.InfoFrame:Hide()
+		else
+			warnTeleportLive:Show()
+		end
+		warnTeleportLiveSoon:Cancel()
+		timerTeleportLive:Stop()
+		warnTeleportDeadSoon:Schedule(14.5)
+		timerTeleportDead:Start()
+	elseif event == "TeleportDead" then
+		warnTeleportDead:Show()
+		warnTeleportDeadSoon:Cancel()
+		timerTeleportDead:Stop()
+		warnTeleportLiveSoon:Schedule(14.5)
+		timerTeleportLive:Start()
+	elseif event == "LowHPThreshold" then
+		if DBM:IsSeasonal("SeasonOfDiscovery") then
+			self:UnscheduleMethod("Teleport")
+		end
+		timerTeleportLive:Stop()
+		timerTeleportDead:Stop()
+		warnTeleportLiveSoon:Cancel()
+		warnTeleportDeadSoon:Cancel()
 	end
 end

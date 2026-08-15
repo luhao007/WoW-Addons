@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r247
+## Version: r257
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff4565ffDelves (Midnight)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0地下堡|r |cFF22B14C至暗之夜|r
@@ -32,8 +32,8 @@
 ## X-DBM-Mod-Name-zhTW: 探究 (午夜)
 ## X-DBM-Mod-Name-zhCN: 地下堡 (午夜)
 ## X-DBM-Mod-Sort: 115
-## X-DBM-Mod-MapID: 3003, 2961, 2962, 2963, 2964, 2953, 2933, 2952, 2979, 2965, 2966
-## X-DBM-Mod-MinCoreRevision: 20260322092548
+## X-DBM-Mod-MapID: 3003, 2961, 2962, 2963, 2964, 2953, 2933, 2952, 2979, 2965, 2966, 3079, 3038, 3077
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 11
 ## X-Part-Of: DBM-Core
 
@@ -42,6 +42,7 @@ localization.kr.lua
 localization.ru.lua
 localization.cn.lua
 
+Nemesis\Aztarec.lua
 Nemesis\TormentsRise.lua
 
 Encounters\InfiltratorGulkat.lua
@@ -71,3 +72,5 @@ Zones\CollegiateCalamity.lua
 Zones\TheShadowEnclave.lua
 Zones\ShadowguardPoint.lua
 Zones\SunkkillerSanctum.lua
+Zones\RingofGlory.lua
+Zones\GnarldorIsle.lua

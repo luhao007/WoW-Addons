@@ -6,7 +6,6 @@
     <Include file="05_MistsOfPandaria\Files.xml" />
     <Script file="CategoryData_Achievements.lua" />
     <Script file="CategoryData_Events.lua" />
-    <Script file="CategoryData_Expansions.lua" />
     <Script file="CategoryData_PvP.lua" />
     <Script file="CategoryData_Specials.lua" />
 </Ui>

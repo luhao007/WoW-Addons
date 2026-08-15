@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1432, "DBM-Raids-WoD", 1, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260524002240")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(92142, 92144, 92146)--Blademaster Jubei'thos (92142). Dia Darkwhisper (92144). Gurthogg Bloodboil (92146)
 mod:SetEncounterID(1778)
@@ -32,6 +32,7 @@ local Gurtogg	= DBM:EJ_GetSectionInfo(11490)
 
 --(target.id = 92142 or target.id = 92144 or target.id = 92146) and type = "death" or (ability.id = 184657 or ability.id = 184476 or ability.id = 184355) and type = "begincast" or (ability.id = 184449 or ability.id = 183480 or ability.id = 184357) and type = "cast" or (ability.id = 183701 or ability.id = 184360 or ability.id = 184365) and type = "applydebuff" or ability.id = 184674
 --TODO, add bloodboil. mythic only?
+DBM:RegisterAltSpellName(184449, 28836)--Mark of the Necromancer -> Mark
 --Blademaster Jubei'thos
 local warnMirrorImage				= mod:NewSpellAnnounce(183885, 2)
 --Dia Darkwhisper
@@ -43,16 +44,16 @@ local warnAcidicWound				= mod:NewStackAnnounce(184847, 2, nil, false, 2)--As of
 local warnFelRage					= mod:NewTargetCountAnnounce(184360, 4)
 
 --Blademaster Jubei'thos
-local specWarnFelstorm				= mod:NewSpecialWarningSpell(183701, nil, nil, nil, 2, 2)
+local specWarnFelstorm				= mod:NewSpecialWarningSpell(183701, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 --Dia Darkwhisper
 local specWarnNightmareVisage		= mod:NewSpecialWarningCount(184657)--Doesn't option default, only warns highest threat
-local specWarnReap					= mod:NewSpecialWarningMoveAway(184476, nil, nil, nil, 3, 2)--Everyone with Mark of Necromancer is going to drop void zones that last forever, they MUST get the hell out
-local specWarnReapGTFO				= mod:NewSpecialWarningMove(30533, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.move:format(184652), nil, 1, 2)--On the ground version (GTFO)
+local specWarnReap					= mod:NewSpecialWarningMoveAway(184476, nil, nil, nil, 3, 2, nil, nil, "runout")--Everyone with Mark of Necromancer is going to drop void zones that last forever, they MUST get the hell out
+local specWarnReapGTFO				= mod:NewSpecialWarningMove(30533, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.move:format(184652), nil, 1, 2, nil, nil, "runaway")--On the ground version (GTFO, "runaway")
 local yellReap						= mod:NewYell(184476)
 local specWarnDarkness				= mod:NewSpecialWarningSpell(184681, nil, nil, nil, 2)
 --Gurtogg Bloodboil
 local specWarnFelRage				= mod:NewSpecialWarningYou(184360)
-local specWarnDemolishingLeap		= mod:NewSpecialWarningDodge(184366, nil, nil, nil, 2, 2)--Jumps around room, from side to side
+local specWarnDemolishingLeap		= mod:NewSpecialWarningDodge(184366, nil, nil, nil, 2, 2, nil, nil, "runaway")--Jumps around room, from side to side
 local specWarnBloodBoil				= mod:NewSpecialWarningStack(184355, nil, 3)
 
 mod:AddTimerLine(Jubei)
@@ -63,7 +64,7 @@ local timerMirrorImageCD			= mod:NewCDTimer(75, 183885, nil, nil, nil, 1)
 local timerWickedStrikeCD			= mod:NewCDTimer(10.5, 186993, nil, nil, nil, 2)
 mod:AddTimerLine(Dia)
 --Dia Darkwhisper
-local timerMarkofNecroCD			= mod:NewCDTimer(60, 184449, 28836, "Healer", nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
+local timerMarkofNecroCD			= mod:NewCDTimer(60, 184449, nil, "Healer", nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
 local timerReapCD					= mod:NewCDTimer(54, 184476, nil, nil, nil, 3, nil, nil, nil, 2, 4)--54-71
 local timerNightmareVisageCD		= mod:NewCDTimer(30, 184657, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerDarknessCD				= mod:NewCDTimer(75, 184681, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)

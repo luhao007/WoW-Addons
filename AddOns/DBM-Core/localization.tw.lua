@@ -2,6 +2,7 @@ if GetLocale() ~= "zhTW" then return end
 if not DBM_CORE_L then DBM_CORE_L = {} end
 
 local L = DBM_CORE_L
+L.AURA_FONT_RESET = "Invalid aura text font settings were detected and reset to defaults."
 
 local dateTable = date("*t")
 if dateTable.day and dateTable.month and dateTable.day == 1 and dateTable.month == 4 then
@@ -11,7 +12,7 @@ end
 
 L.HOW_TO_USE_MOD				= "歡迎使用"..L.DBM.."。在聊天頻道輸入 /dbm 打開設定開始設定。你可以載入特定區域後為任何首領設定你喜歡的特別設置。"..L.DBM.."會在設定你的職業天賦的預設值，但有些選項可能需要調整。"
 L.SILENT_REMINDER				= "提醒："..L.DBM.."正處於無聲模式。"
-L.NEWS_UPDATE					= "|h|c11ff1111更新說明|r|h: DBM已更新並對模組結構做了更動，因此經典版和正式版現在使用統一的（相同）模組。這意味著經典版(包含探索賽季)、燃燒的遠征、巫妖王之怒以及浩劫與重生現在分別下載並使用與正式版相同的插件包。 讀取更多訊息在|Hgarrmission:DBM:news|h|cff3588ff[此處]|r|h"
+L.NEWS_UPDATE					= "|h|c11ff1111更新說明|r|h: DBM 已更新並加入技能重新命名功能。只要輸入 /dbm，前往模組分類（團隊、副本等），再進入你想重新命名技能的模組即可。"
 L.NEWS_UPDATE_REPEAT			= "|h|c11ff1111更新說明|r|h: DBM已更新並對模組結構做了更動，因此經典版和正式版現在使用統一的（相同）模組。這意味著經典版(包含探索賽季)、燃燒的遠征、巫妖王之怒以及浩劫與重生現在分別下載並使用與正式版相同的插件包。你目前正在缺少模組的團隊副本中。此訊息將持續顯示 (並且您將沒有此區域的功能警報) 直到你安裝了缺少的團隊副本模組為止。"
 
 
@@ -92,7 +93,7 @@ L.LEAVING_COMBAT				= "離開戰鬥"
 L.RAID_DIFFICULTY_CHANGED		= "團隊難度已設定為%s。"
 L.DUNGEON_DIFFICULTY_CHANGED	= "地下城難度已設定為%s。"
 
-L.PROFILE_NOT_FOUND				= "<"..L.DBM..">你目前的配置檔已經損毀。"..L.DBM.."會載入'Default'配置檔。"
+L.PROFILE_NOT_FOUND				= "<"..L.DBM..">你目前的配置檔已經損毀。"..L.DBM.."會載入'%s'配置檔。"
 L.PROFILE_CREATED				= "配置檔'%s'已建立。"
 L.PROFILE_CREATE_ERROR			= "建立配置檔失敗，無效的配置檔名稱。"
 L.PROFILE_CREATE_ERROR_D		= "建立配置檔失敗，配置檔'%s'已存在。"
@@ -101,9 +102,9 @@ L.PROFILE_APPLY_ERROR			= "套用配置檔失敗，配置檔'%s'不存在。"
 L.PROFILE_COPIED				= "配置檔'%s'已複製。"
 L.PROFILE_COPY_ERROR			= "複製配置檔失敗，配置檔'%s'不存在。"
 L.PROFILE_COPY_ERROR_SELF		= "不能複製配置檔到本身來源。"
-L.PROFILE_DELETED				= "配置檔'%s'已刪除。配置檔'Default'會被套用。"
+L.PROFILE_DELETED				= "配置檔'%s'已刪除。配置檔'%s'會被套用。"
 L.PROFILE_DELETE_ERROR			= "刪除配置檔失敗，配置檔'%s'不存在。"
-L.PROFILE_CANNOT_DELETE			= "不能刪除'Default'配置檔。"
+L.PROFILE_CANNOT_DELETE			= "不能刪除'%s'配置檔。"
 L.MPROFILE_COPY_SUCCESS			= "%s's (%d專精)模組設定已被複製。"
 L.MPROFILE_COPY_SELF_ERROR		= "不能複製角色設定到本身來源"
 L.MPROFILE_COPY_S_ERROR			= "配置檔來源已經損毀，設定不能被複製或是部分複製，複製已失敗。"
@@ -195,7 +196,8 @@ L.VOICE_MISSING					= ""..L.DBM.."找不到你所選取的語音包。請確定�
 L.VOICE_DISABLED				= "你的語音包已安裝但是尚未啟用。如果你想使用語音包，請確定語言包已在語音警告中被選取，或是刪除不使用的語音包去隱藏此訊息。"
 L.VOICE_COUNT_MISSING			= "所選取的語音/倒數語音包%d找不到倒數語音或是當前並不支援。 設定已被重置回預設值：%s。"
 L.BIG_WIGS						= "BigWigs"
-L.WEAKAURA_KEY					= " (|cff308530WA鍵:|r %s)"
+L.WEAKAURA_KEY					= " (|cff359030ID:|r %s)"
+L.RENAME						= " (|cff359030重命名:|r |cff71d5ff%s|r)"
 
 L.UPDATEREMINDER_HEADER				= "你的Deadly Boss Mod已經過期。\n你可以在Curse網站或是WOWI網站以及GitHub專案網頁下載到新版本%s (%s)"
 L.UPDATEREMINDER_HEADER_SUBMODULE	= "你的 %s 模組已經過期。\n 你可以在Curse網站或是WOWI網站以及GitHub專案網頁下載到新版本 %s"
@@ -222,7 +224,7 @@ L.HARDCODED_FALLBACK				= L.DBM .. "偵測到硬編碼模組有非預期結果�
 L.MOVABLE_BAR					= "拖動我!"
 L.MOVABLE_FRAMES				= "框架可拖動"
 
-L.PIZZA_SYNC_INFO				= "|Hplayer:%1$s|h[%1$s]|h 向你發送了" .. L.DBM .. "的倒數計時: '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[取消此倒數計時]|r|h  |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[忽略來自 %1$s 的倒數計時]|r|h"
+L.PIZZA_SYNC_INFO				= "|Hplayer:%1$s|h[%1$s]|h 向你發送了" .. L.DBM .. "的倒數計時: '%2$s'\n|Haddon:DBM:cancel:%2$s:nil|h|cff3588ff[取消此倒數計時]|r|h  |Haddon:DBM:ignore:%2$s:%1$s|h|cff3588ff[忽略來自 %1$s 的倒數計時]|r|h"
 --L.PIZZA_SYNC_INFO				= "|Hplayer:%1$s|h[%1$s]|h向你發送了一個倒數計時"
 L.PIZZA_CONFIRM_IGNORE			= "是否要在該次遊戲連結中忽略來自%s的計時？"
 L.PIZZA_ERROR_USAGE				= "命令：/dbm [broadcast] timer <時間（秒）> <文字>。<時間>必須大於等於3"
@@ -256,10 +258,11 @@ L.RANGERADAR_IN_RANGE_TEXTONE	= "%s (%0.1f碼)"--One target
 L.INFOFRAME_TITLE				= "DBM資訊框架"
 L.INFOFRAME_SHOW_SELF			= "總是顯示你的能量"
 L.INFOFRAME_SETLINES			= "設定最大行數"
-L.INFOFRAME_SETCOLS				= "設定最大行數"
+L.INFOFRAME_SETCOLS				= "設定最大列數"
+L.INFOFRAME_SETSTRATA			= "設定框架層級"
 L.INFOFRAME_LINESDEFAULT		= "由首領模組自動設定"
 L.INFOFRAME_LINES_TO			= "%d 行"
-L.INFOFRAME_COLS_TO				= "%d 行"
+L.INFOFRAME_COLS_TO				= "%d 列"
 L.INFOFRAME_POWER				= "能量"
 L.INFOFRAME_AGGRO				= "仇恨"
 L.INFOFRAME_MAIN				= "主要："--Main power
@@ -290,8 +293,13 @@ L.SLASHCMD_HELP2						= {--AI translated (check me)
 	"/range <number> 或 /distance <number>: 顯示範圍框架。/rrange 或 /rdistance 反轉顏色。",
 	"/hudar <number>: 顯示基於 HUD 的範圍查找器。",
 	"/dbm arrow: 顯示 " .. L.DBM .. " 箭頭，詳情請參見 '/dbm arrow help'。",
-	"/dbm hud: 顯示 " .. L.DBM .. " hud，詳情請參見 '/dbm hud'。"
+	"/dbm hud: 顯示 " .. L.DBM .. " hud，詳情請參見 '/dbm hud'。",
+	"/dbm dbtdebug: 顯示已清理的狀態條計時器診斷資訊以供錯誤回報。"
 }
+L.DBT_DEBUG_HEADER			= "DBT 診斷資訊（已清理；不含首領戰或保密文字）"
+L.DBT_DEBUG_EMPTY			= "自重新載入介面後，未擷取到 DBT 樣式更新。"
+L.DBT_DEBUG_DISABLED			= "擷取已停用。請在重現問題前啟用 DBM 偵錯模式。"
+L.DBT_DEBUG_NOTICE			= "請將此聊天輸出附在錯誤回報中。"
 L.TIMER_USAGE	= {
 	L.DBM .. "計時器指令：",
 	"-----------------",
@@ -335,6 +343,7 @@ L.AUTO_ANNOUNCE_TEXTS.incomingcount			= "%s 即將到來的減益 (%%s)"
 L.AUTO_ANNOUNCE_TEXTS.ends 					= "%s結束"
 L.AUTO_ANNOUNCE_TEXTS.endtarget				= "%s結束:>%%s<"
 L.AUTO_ANNOUNCE_TEXTS.fades					= "%s消退"
+L.AUTO_ANNOUNCE_TEXTS.fadesoon				= "%s 即將消退"
 L.AUTO_ANNOUNCE_TEXTS.addsleft				= "%s還剩下:%%d"
 L.AUTO_ANNOUNCE_TEXTS.cast					= "施放%s:%.1f秒"
 L.AUTO_ANNOUNCE_TEXTS.soon					= "%s即將到來"
@@ -361,6 +370,7 @@ L.AUTO_ANNOUNCE_OPTIONS.incomingcount		= "提示：$spell:%s 的減益即將到�
 L.AUTO_ANNOUNCE_OPTIONS.ends				= "提示：當$spell:%s結束"
 L.AUTO_ANNOUNCE_OPTIONS.endtarget			= "提示：當$spell:%s結束(包含目標)"
 L.AUTO_ANNOUNCE_OPTIONS.fades				= "提示：當$spell:%s消退"
+L.AUTO_ANNOUNCE_OPTIONS.fadesoon			= "提示：當$spell:%s即將消退"
 L.AUTO_ANNOUNCE_OPTIONS.addsleft			= "提示：$spell:%s剩餘數量"
 L.AUTO_ANNOUNCE_OPTIONS.cast				= "提示：當$spell:%s開始施放"
 L.AUTO_ANNOUNCE_OPTIONS.soon				= prewarnOption
@@ -397,6 +407,7 @@ L.AUTO_SPEC_WARN_TEXTS.blizzyou				= "你中了%s (%%s)"
 L.AUTO_SPEC_WARN_TEXTS.link					= "%s 與 >%%s< 連結"
 L.AUTO_SPEC_WARN_TEXTS.defensive			= "%s - 使用防禦技能"
 L.AUTO_SPEC_WARN_TEXTS.taunt				= ">%%s<中了%s - 快嘲諷"
+L.AUTO_SPEC_WARN_TEXTS.tauntsecret			= "%%s中了%s - 快嘲諷"
 L.AUTO_SPEC_WARN_TEXTS.close				= "你附近的>%%s<中了%s"
 L.AUTO_SPEC_WARN_TEXTS.move					= "%s - 快移動"
 L.AUTO_SPEC_WARN_TEXTS.keepmove				= "%s - 保持移動"
@@ -516,15 +527,16 @@ L.AUTO_TIMER_TEXTS.roleplay					= GUILD_INTEREST_RP
 L.AUTO_TIMER_TEXTS.combat					= "戰鬥開始"
 
 --This basically clones np only bar option and display text from regular counterparts
---L.AUTO_TIMER_TEXTS.cdnp					= L.AUTO_TIMER_TEXTS.cd -- OPTIONAL
---L.AUTO_TIMER_TEXTS.nextnp				= L.AUTO_TIMER_TEXTS.next -- OPTIONAL
---L.AUTO_TIMER_TEXTS.cdpnp				= L.AUTO_TIMER_TEXTS.cd -- OPTIONAL
---L.AUTO_TIMER_TEXTS.nextpnp				= L.AUTO_TIMER_TEXTS.next -- OPTIONAL
---L.AUTO_TIMER_TEXTS.castpnp				= L.AUTO_TIMER_TEXTS.cast -- OPTIONAL
+L.AUTO_TIMER_TEXTS.cdnp					= L.AUTO_TIMER_TEXTS.cd -- OPTIONAL
+L.AUTO_TIMER_TEXTS.nextnp				= L.AUTO_TIMER_TEXTS.next -- OPTIONAL
+L.AUTO_TIMER_TEXTS.cdpnp				= L.AUTO_TIMER_TEXTS.cd -- OPTIONAL
+L.AUTO_TIMER_TEXTS.nextpnp				= L.AUTO_TIMER_TEXTS.next -- OPTIONAL
+L.AUTO_TIMER_TEXTS.castpnp				= L.AUTO_TIMER_TEXTS.cast -- OPTIONAL
 
 L.AUTO_TIMER_OPTIONS.target					= "計時條：$spell:%s減益效果持續時間"
 L.AUTO_TIMER_OPTIONS.targetcount			= "計時條：$spell:%s減益效果持續時間(包含計數)"
 L.AUTO_TIMER_OPTIONS.cast					= "計時條：$spell:%s施法時間"
+L.AUTO_TIMER_OPTIONS.castpnp 				= "計時條：$spell:%s的施放顯示優先名條僅有計時器"
 L.AUTO_TIMER_OPTIONS.castcount				= "計時條：$spell:%s施法時間(包含計數)"
 L.AUTO_TIMER_OPTIONS.castsource				= "計時條：$spell:%s施放(包含來源)"
 L.AUTO_TIMER_OPTIONS.active					= "計時條：$spell:%s效果持續時間"
@@ -599,12 +611,14 @@ L.AUTO_YELL_ANNOUNCE_TEXT.count				= "" .. UnitName("player") .. "中了%s(%%d)"
 L.AUTO_YELL_ANNOUNCE_TEXT.fade				= "%s %%d秒後消退!"
 L.AUTO_YELL_ANNOUNCE_TEXT.shortfade			= "%%d"
 L.AUTO_YELL_ANNOUNCE_TEXT.iconfade			= "{rt%%2$d}%%1$d"
+L.AUTO_YELL_ANNOUNCE_TEXT.iconfadenoicon	= "%%1$d"
 L.AUTO_YELL_ANNOUNCE_TEXT.position 			= UnitName("player").." ({rt%%3$d})中了%1$s! (%%1$s - {rt%%2$d})"
 L.AUTO_YELL_ANNOUNCE_TEXT.positionnoIcon	= "%s %%s 在 " ..UnitName("player")
 L.AUTO_YELL_ANNOUNCE_TEXT.shortposition 	= "{rt%%1$d}%s"--Icon, Spellname
 L.AUTO_YELL_ANNOUNCE_TEXT.combo				= "%s與%%s"--Spell name (from option, plus spellname given in arg)
 L.AUTO_YELL_ANNOUNCE_TEXT.repeatplayer		= UnitName("player")--Doesn't need translation, it's just player name spam
 L.AUTO_YELL_ANNOUNCE_TEXT.repeaticon		= "{rt%%1$d}"
+L.AUTO_YELL_ANNOUNCE_TEXT.icontarget		= "{rt%%1$d}{rt%%1$d}{rt%%1$d}"
 
 --L.AUTO_YELL_CUSTOM_POSITION				= "{rt%d}%s"--Doesn't need translating. Has no strings (Used in niche situations such as icon repeat yells)
 L.AUTO_YELL_CUSTOM_FADE					= "%s已消退"
@@ -622,9 +636,10 @@ L.AUTO_INFO_FRAME_OPTION_TEXT2			= "為戰鬥概覽顯示訊息框架"
 L.AUTO_INFO_FRAME_OPTION_TEXT3			= "為$spell:%s顯示訊息框架(當達到%%s的閥值時)"
 L.AUTO_READY_CHECK_OPTION_TEXT			= "當首領開打時撥放準備檢查的音效(即使沒有選定目標)"
 L.AUTO_SPEEDCLEAR_OPTION_TEXT			= "顯示此區域的最快清除計時器"
-L.AUTO_PRIVATEAURA_OPTION_TEXT			= "為這場戰鬥的私人光環$spell:%s播放DBM音效警告。"
-L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "當您成為$spell:%s的目標時，播放DBM的私人光環音效警報。"
-L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "當您需要遠離$spell:%s時，播放DBM的私人光環音效警報。"
+L.AUTO_PRIVATEAURA_OPTION_TEXT			= "為這場戰鬥的$spell:%s播放DBM光環音效警告。"
+L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "當您成為$spell:%s的目標時，播放DBM的光環音效警報。"
+L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "當您需要遠離$spell:%s時，播放DBM的光環音效警報。"
+L.AUTO_PRIVATEAURA_OPTION_POST_TEXT		= "對於$spell:%s的持續影響，播放DBM的光環音效警報。"
 L.AUTO_CUSTOMTIMER_OPTION_TEXT			= "顯示$spell:%s的計時器"--Used for Midnight timeline timers (ie we have no context of what type of timer it is, just a generic timer)
 L.AUTO_CUSTOMALERT_OPTION_TEXT			= "設定$spell:%s即將施放時的警報音效"--Used for Midnight custom alerts (ie we have no context of what type of alert it is, just a generic alert)
 
@@ -639,7 +654,7 @@ L.MOVE_SPECIAL_WARNING_BAR	= "可拖動的特別警告"
 L.MOVE_SPECIAL_WARNING_TEXT	= "特別警告"
 
 L.MOVE_PRIVATE_AURA_TEXT				= "<secret value> 瞄準你使用法術 <secret value>"
-L.MOVE_PRIVATE_AURA_DISABLED			= "預覽被禁用，因為私有光環框架在選項中全域禁用。"
+L.MOVE_PRIVATE_AURA_DISABLED			= "預覽被禁用，因為光環框架在選項中全域禁用。"
 
 L.HUD_INVALID_TYPE			= "無效的HUD類型定義"
 L.HUD_INVALID_TARGET		= "無有效的HUD目標"
@@ -677,8 +692,9 @@ L.LAG_HEADER					= ""..L.DBM.." - 網路延遲結果"
 L.DUR_HEADER					= ""..L.DBM.." - 裝備耐久度結果"
 L.KEYSTONES_HEADER				= L.DBM.. " - 鑰石"
 L.GEAR_HEADER					= L.DBM.. " - 裝備檢查結果"
-L.GEAR_MISSING_GEMS			= "缺少寶石"
-L.GEAR_MISSING_ENCHANTS		= "缺少附魔"
+L.GEAR_MISSING_GEMS				= "缺少寶石"
+L.GEAR_MISSING_ENCHANTS			= "缺少附魔"
+L.BREZ_HEADER					= "戰鬥復活"
 
 L.OVERRIDE_ACTIVATED			= "領隊已啟用此首領的配置覆蓋"
 
@@ -687,17 +703,15 @@ L.LDB_TOOLTIP_HELP1				= "點擊開啟" .. L.DBM
 L.LDB_TOOLTIP_HELP2				= "Alt+右鍵點擊切換到無聲模式"
 L.SILENTMODE_IS                 = "無聲模式是 "
 
-L.WORLD_BUFFS = {
-	hordeOny							= "部落的人民，奧格瑪的城民，來吧，聚集到一起歡慶部落英雄的誕生。",
-	allianceOny							= "暴風城的城民和盟友們，今天，有人創造了歷史。",
-	hordeNef							= "奈法利安被!@#掉了！奧格瑪的人們",
-	allianceNef							= "聯盟的人民們，黑石領主已經被幹掉了！",
-	zgHeart								= "只差最後一步，我們就可以擺脫靈魂掠奪者的威脅了……",
-	zgHeartBooty						= "靈魂掠奪者血神已經被打敗了！我們不再有危險了！",
-	zgHeartYojamba						= "開始儀式，我的僕從們。我們必須把哈卡完全打回扭曲虛空中！",
-	rendHead							= "那個假的酋長，雷德·黑手，已經倒下了！",
-	blackfathomBoon						= "黑澗深淵的恩賜"
-}
+L.WORLD_BUFFS.hordeOny			= "部落的人民，奧格瑪的城民，來吧，聚集到一起歡慶部落英雄的誕生。"
+L.WORLD_BUFFS.allianceOny		= "暴風城的城民和盟友們，今天，有人創造了歷史。"
+L.WORLD_BUFFS.hordeNef			= "奈法利安被!@#掉了！奧格瑪的人們"
+L.WORLD_BUFFS.allianceNef		= "聯盟的人民們，黑石領主已經被幹掉了！"
+L.WORLD_BUFFS.zgHeart			= "只差最後一步，我們就可以擺脫靈魂掠奪者的威脅了……"
+L.WORLD_BUFFS.zgHeartBooty		= "靈魂掠奪者血神已經被打敗了！我們不再有危險了！"
+L.WORLD_BUFFS.zgHeartYojamba	= "開始儀式，我的僕從們。我們必須把哈卡完全打回扭曲虛空中！"
+L.WORLD_BUFFS.rendHead			= "那個假的酋長，雷德·黑手，已經倒下了！"
+L.WORLD_BUFFS.blackfathomBoon	= "黑澗深淵的恩賜"
 
 -- Annoying popup, especially for classic players
 L.DBM_INSTALL_REMINDER_HEADER		= "檢測到不完整的DBM安裝！"
@@ -760,6 +774,14 @@ L.KEYSTONE_NAMES[558] = '博學' -- Magister's Terrace
 L.KEYSTONE_NAMES[559] = '奧核點' -- Nexus-Point Xenas
 L.KEYSTONE_NAMES[560] = '梅薩拉' -- Maisara Caverns
 L.KEYSTONE_NAMES[583] = '三傑' -- Seat of the Triumvirate
+L.KEYSTONE_NAMES[249] = '諸王' -- King's Rest
+L.KEYSTONE_NAMES[250] = '神廟' -- Temple of Sethraliss
+L.KEYSTONE_NAMES[399] = '晶紅' -- Ruby Life Pools
+L.KEYSTONE_NAMES[584] = '盲目' -- The Blinding Vale
+L.KEYSTONE_NAMES[585] = '競技場' -- Voidscar Arena
+L.KEYSTONE_NAMES[586] = '納羅拉克' -- Den of Nalorakk
+L.KEYSTONE_NAMES[587] = '兇殺' -- Murder Row
+L.KEYSTONE_NAMES[588] = '毒牙' -- Altar of Fangs
 
 -- Midnight jazz
 L.MN_TIMELINE_HEADER	= "您想使用暴雪時間線還是DBM計時條呢？"

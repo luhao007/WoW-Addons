@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Gaur", "DBM-Draenor", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260523022002")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(90943)
 
@@ -15,8 +15,8 @@ mod:RegisterEventsInCombat(
 
 local warnGoren				= mod:NewSpellAnnounce(180879, 2)
 
-local specWarnEarthenSlam	= mod:NewSpecialWarningSpell(180868, nil, nil, nil, 2, 2)
-local specWarnRunicSpike	= mod:NewSpecialWarningSpell(180830, "Melee", nil, nil, 2, 2)
+local specWarnEarthenSlam	= mod:NewSpecialWarningSpell(180868, nil, nil, nil, 2, 2, nil, nil, "carefly")
+local specWarnRunicSpike	= mod:NewSpecialWarningSpell(180830, "Melee", nil, nil, 2, 2, nil, nil, "watchstep")
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId

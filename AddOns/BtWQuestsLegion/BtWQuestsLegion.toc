@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Breen
-## Version: v30.20
+## Version: v30.21
 
 ## Title: BtWQuests: Legion
 ## Notes: Legion quest data for BtWQuests

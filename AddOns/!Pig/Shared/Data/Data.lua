@@ -5,12 +5,21 @@ local match = _G.string.match
 local gsub = _G.string.gsub 
 local Data = {}
 Data.AtlasInfo={}
---职业颜色(60萨满颜色)
+-----------
 PIG_CLASS_COLORS={}
 for k,v in pairs(RAID_CLASS_COLORS) do
     PIG_CLASS_COLORS[k] = {r = v.r, g = v.g, b = v.b, colorStr = v.colorStr}
 end
-PIG_CLASS_COLORS[NONE]={r = 1, g = 0.843, b = 0, colorStr = "ffFFD700"}
+--职业颜色(60萨满颜色)
+if PIG_MaxTocversion(20000) then
+	PIG_CLASS_COLORS["SHAMAN"] = CreateColor(0.0, 0.44, 0.87)
+end
+PIG_CLASS_COLORS[NONE]=CreateColor(1,0.843, 0)
+for k,v in pairs(PIG_CLASS_COLORS) do
+	if not v.colorStr then
+		v.colorStr = v:GenerateHexColor();
+	end
+end
 local cl_Name_Role={
 	["WARRIOR"] = {"TANK","DAMAGER"},
 	["PALADIN"] = {"TANK", "HEALER","DAMAGER"},
@@ -262,8 +271,9 @@ Data.Tardis={["Prefix"]="!Pig_Tardis",
 	["SqMsg"] ={"!ISQINV_","!HSQYQC_","!FSQSC","!LSQHWM_"},
 	["ver"] ={0,0,8.21,8.21},
 }
-ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL",function(self,event,arg1,...)
-	for i=1,#Data.Tardis.GetMsg do
+local GetMsgNum=#Data.Tardis.GetMsg
+ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_CHANNEL",function(self,event,arg1,...)
+	for i=1,GetMsgNum do
 		if arg1:match(Data.Tardis.GetMsg[i]) then
 			return true;
 		end

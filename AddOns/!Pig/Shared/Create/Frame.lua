@@ -195,6 +195,13 @@ function Create.PIGSetMovableNoSave(LeftUI,MovableUI,KeyDown)
 	end)
 	MovableUI:SetClampedToScreen(true)
 end
+function PIGGetPoint(MovableUI)
+	local point, _, relativePoint, offsetX, offsetY = MovableUI:GetPoint()
+	if not point then return nil end
+	local offsetX = floor(offsetX*100+0.5)*0.01
+	local offsetY = floor(offsetY*100+0.5)*0.01
+	return point, relativePoint, offsetX, offsetY
+end
 function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per,CombatLock)
 	if MovableUI and MovableUI:GetName()=="Pig_FarmUI" and Fun.is_slist() then
 		LeftUI:Hide()
@@ -206,7 +213,7 @@ function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per,CombatLock)
 	LeftUI:EnableMouse(true)
 	LeftUI:RegisterForDrag("LeftButton")
 	LeftUI:SetScript("OnDragStart",function(self)
-		if CombatLock and InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+		if CombatLock and InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
 		if KeyDown and not IsModifiedClick(KeyDown) then return end
 		MovableUI:StartMoving()
 	end)
@@ -216,9 +223,7 @@ function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per,CombatLock)
 		MovableUI:StopMovingOrSizing()
 		local uiname = MovableUI:GetName()
 		if uiname then
-			local point, _, relativePoint, offsetX, offsetY = MovableUI:GetPoint()
-			local offsetX = floor(offsetX*100+0.5)*0.01
-			local offsetY = floor(offsetY*100+0.5)*0.01
+			local point, relativePoint, offsetX, offsetY = PIGGetPoint(MovableUI)
 			if PIGA["PigLayout"]["TopBar"]["Open"] then
 				if relativePoint=="TOP" or relativePoint=="TOPLEFT" or relativePoint=="TOPRIGHT" then
 					offsetY=offsetY+PIGA["PigLayout"]["TopBar"]["Height"]
@@ -234,31 +239,31 @@ function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per,CombatLock)
 	end)
 	MovableUI:SetClampedToScreen(true)
 end
-function Create.add_CloseUI(MODE,self,Ww,Hh,CloseUI)
+function Create.add_CloseUI(MODE,fujik,Ww,Hh,CloseUI)
 	local Ww = Ww or 22
 	local Hh = Hh or 22
-	local CloseUI=CloseUI or self
+	local CloseUI=CloseUI or fujik
 	if MODE then
-		self.Close = CreateFrame("Button",nil,self, "UIPanelCloseButton");
-		self.Close:SetSize(Ww+6,Hh+6);
-		self.Close:SetPoint("TOPRIGHT",self,"TOPRIGHT",0,0);
+		fujik.Close = CreateFrame("Button",nil,fujik, "UIPanelCloseButton");
+		fujik.Close:SetSize(Ww+6,Hh+6);
+		fujik.Close:SetPoint("TOPRIGHT",fujik,"TOPRIGHT",0,0);
 	else
-		self.Close = CreateFrame("Button",nil,self);
-		self.Close:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp")
-		self.Close:SetSize(Ww,Hh);
-		self.Close:SetPoint("TOPRIGHT",self,"TOPRIGHT",0,0);
-		self.Close.Tex = self.Close:CreateTexture(nil, "BORDER");
-		--self.Close.Tex:SetTexture("interface/common/voicechat-muted.blp");
-		self.Close.Tex:SetAtlas("common-icon-redx")
-		self.Close.Tex:SetSize(self.Close:GetWidth()-6,self.Close:GetHeight()-6);
-		self.Close.Tex:SetPoint("CENTER",0,0);
-		self.Close:HookScript("OnMouseDown", function (self)
+		fujik.Close = CreateFrame("Button",nil,fujik);
+		fujik.Close:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp")
+		fujik.Close:SetSize(Ww,Hh);
+		fujik.Close:SetPoint("TOPRIGHT",fujik,"TOPRIGHT",0,0);
+		fujik.Close.Tex = fujik.Close:CreateTexture(nil, "BORDER");
+		--fujik.Close.Tex:SetTexture("interface/common/voicechat-muted.blp");
+		fujik.Close.Tex:SetAtlas("common-icon-redx")
+		fujik.Close.Tex:SetSize(fujik.Close:GetWidth()-6,fujik.Close:GetHeight()-6);
+		fujik.Close.Tex:SetPoint("CENTER",0,0);
+		fujik.Close:HookScript("OnMouseDown", function (self)
 			self.Tex:SetPoint("CENTER",-1.5,-1.5);
 		end);
-		self.Close:HookScript("OnMouseUp", function (self)
+		fujik.Close:HookScript("OnMouseUp", function (self)
 			self.Tex:SetPoint("CENTER");
 		end);
-		self.Close:HookScript("OnClick", function (self)
+		fujik.Close:HookScript("OnClick", function (self)
 			PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 			CloseUI:Hide()
 		end);
@@ -322,15 +327,19 @@ function Create.PIGEnter(Parent,text,text1,text2,Xpianyi,Ypianyi,huanhang)
 	Parent:HookScript("OnEnter", function(self)
 		GameTooltip:ClearLines();
 		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",Xpianyi,Ypianyi);
-		GameTooltip:AddLine(text, nil, nil, nil, huanhangYN)
-		if self.TooltipFun then
-			self.TooltipFun()
+		if type(text)=="function" then
+			GameTooltip:AddLine(text(), nil, nil, nil, huanhangYN)
 		else
-			if text1 then
-				GameTooltip:AddLine(text1, nil, nil, nil, huanhangYN)
-			end
-			if text2 then
-				GameTooltip:AddLine(text2, nil, nil, nil, huanhangYN)
+			GameTooltip:AddLine(text, nil, nil, nil, huanhangYN)
+			if self.TooltipFun then
+				self.TooltipFun()
+			else
+				if text1 then
+					GameTooltip:AddLine(text1, nil, nil, nil, huanhangYN)
+				end
+				if text2 then
+					GameTooltip:AddLine(text2, nil, nil, nil, huanhangYN)
+				end
 			end
 		end
 		GameTooltip:Show();
@@ -343,19 +352,6 @@ end
 --设置UI位置
 local UILayout = {}
 PD.Data.UILayout=UILayout
-function Create.PIG_ResPoint(UIname)
-	PIGA["Pig_UI"][UIname]=nil
-	PIGA_Per["Pig_UI"][UIname]=nil
-	if _G[UIname] then
-		local point, relativePoint, offsetX, offsetY, World=unpack(UILayout[UIname])
-		_G[UIname]:ClearAllPoints();
-		if World then
-			_G[UIname]:SetPoint(point or "CENTER", WorldFrame, relativePoint or "CENTER", offsetX or 0, offsetY or 0);
-		else
-			_G[UIname]:SetPoint(point or "CENTER",UIParent,relativePoint or "CENTER", offsetX or 0, offsetY or 0)
-		end
-	end
-end
 local function PIG_SetPoint_1(MovUIName,Blizzard,PointX,World)
 	local point, relativePoint, offsetX, offsetY=unpack(PointX)
 	_G[MovUIName]:ClearAllPoints();
@@ -373,26 +369,37 @@ local function PIG_SetPoint(k)
 	if not _G[k] then return end
 	local World= UILayout[k] and UILayout[k][5]
 	PIG_SetPoint_1(k,nil,UILayout[k],World)
-	local uixy=PIGA["Pig_UI"][k]
-	if uixy and uixy[1] and uixy[2] and uixy[3] and uixy[4] and not uixy[5] then
-		uixy[3],uixy[4]=FormatXY(uixy[3],uixy[4])
-		PIG_SetPoint_1(k,nil,uixy,World)
-	else
-		PIGA["Pig_UI"][k]=nil
+	if PIGA["Pig_UI"][k] then
+		local uixy=PIGA["Pig_UI"][k]
+		if uixy[1] and uixy[2] and uixy[3] and uixy[4] and not uixy[5] then
+			uixy[3],uixy[4]=FormatXY(uixy[3],uixy[4])
+			PIG_SetPoint_1(k,nil,uixy,World)
+		else
+			PIGA["Pig_UI"][k]=nil
+		end
 	end
-	local uixy=PIGA_Per["Pig_UI"][k]
-	if uixy and uixy[1] and uixy[2] and uixy[3] and uixy[4] and not uixy[5] then
-		uixy[3],uixy[4]=FormatXY(uixy[3],uixy[4])
-		PIG_SetPoint_1(k,nil,uixy,World)
-	else
-		PIGA_Per["Pig_UI"][k]=nil
+	if PIGA_Per["Pig_UI"][k] then
+		local uixy=PIGA_Per["Pig_UI"][k]
+		if uixy[1] and uixy[2] and uixy[3] and uixy[4] and not uixy[5] then
+			uixy[3],uixy[4]=FormatXY(uixy[3],uixy[4])
+			PIG_SetPoint_1(k,nil,uixy,World)
+		else
+			PIGA_Per["Pig_UI"][k]=nil
+		end
 	end
 end
 Create.PIG_SetPoint=PIG_SetPoint
-function Create.PIG_SetPointALL()
-	for k,v in pairs(UILayout) do
-		if _G[k] then
-			PIG_SetPoint(k)
+function Create.PIG_ResPoint(UIname)
+	if UIname then
+		PIGA["Pig_UI"][UIname]=nil
+		PIGA_Per["Pig_UI"][UIname]=nil
+		PIG_SetPoint(UIname)
+	else
+		for k,v in pairs(UILayout) do
+			PIGA["Pig_UI"][k]=nil
+			if _G[k] then
+				PIG_SetPoint_1(k,nil, v,v and v[5])
+			end
 		end
 	end
 end

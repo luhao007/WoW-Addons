@@ -17,6 +17,63 @@ local nodes = { }
 local minimap = { }
 local extraInformations = { }
 
+local MapNotesTooltip = CreateFrame("GameTooltip", "MapNotesTooltip", UIParent, "GameTooltipTemplate")
+Mixin(MapNotesTooltip, BackdropTemplateMixin)
+MapNotesTooltip:SetFrameStrata("TOOLTIP")
+
+local function ApplyMapNotesSlugTooltipFont(tooltip) -- tooltip outlines and slug
+  if not tooltip then return end
+
+  local font, size = GameTooltipText:GetFont()
+  local headerFont, headerSize = GameTooltipHeaderText:GetFont()
+
+  font = font or "Fonts\\FRIZQT__.TTF"
+  size = size or 12
+  headerFont = headerFont or font
+  headerSize = headerSize or 14
+
+  local mode = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.TooltipFontFlag or 1
+
+  local flags = {
+    [0] = "",
+    [1] = "OUTLINE,SLUG",
+    [2] = "THICKOUTLINE,SLUG",
+  }
+
+  local flag = flags[mode] or "OUTLINE,SLUG"
+  local selectedFont = font
+  local selectedHeaderFont = headerFont
+  local fontChoice = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.TooltipFont or "default"
+  local LSM = LibStub("LibSharedMedia-3.0", true)
+
+  if LSM and fontChoice ~= "default" then
+    selectedFont = LSM:Fetch("font", fontChoice, true) or font
+    selectedHeaderFont = selectedFont
+  end
+
+
+  if tooltip:GetName() then
+    for i = 1, tooltip:NumLines() do
+      local left = _G[tooltip:GetName() .. "TextLeft" .. i]
+      local right = _G[tooltip:GetName() .. "TextRight" .. i]
+
+      if left and left.GetFont and left.SetFont then
+        local lf, ls = left:GetFont()
+        left:SetFont(selectedFont, ls or size, flag)
+        left:SetShadowOffset(0, 0)
+        left:SetShadowColor(0, 0, 0, 0)
+      end
+
+      if right and right.GetFont and right.SetFont then
+        local rf, rs = right:GetFont()
+        right:SetFont(selectedFont, rs or size, flag)
+        right:SetShadowOffset(0, 0)
+        right:SetShadowColor(0, 0, 0, 0)
+      end
+    end
+  end
+end
+
 ns.RestoreStaticPopUpsRetail() -- StaticPopUps.lua
 if ns.ErrorMessages then ns.ErrorMessages() end -- RetailErrorMessage.lua
 
@@ -355,7 +412,7 @@ local function ShowBossNames(instanceID, tooltip)
   end
 
   if not EJ_GetEncounterInfoByIndex then
-    LoadAddOn("Blizzard_EncounterJournal")
+    C_AddOns.LoadAddOn("Blizzard_EncounterJournal")
   end
 
   local BossData = pcall(EJ_SelectInstance, instanceID)
@@ -425,7 +482,8 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
     self.texture:SetDrawLayer("OVERLAY", 5)
   end
 
-	local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
+  local tooltip = MapNotesTooltip
+  tooltip:ClearLines()
 
 	if ( self:GetCenter() > UIParent:GetCenter() ) then -- compare X coordinate
 	  tooltip:SetOwner(self, "ANCHOR_LEFT")
@@ -472,6 +530,27 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
     end
   end
 
+  local mode = ns.Addon.db.profile.MultiInstancePrefixMode or 1
+  local prefixes = {
+    [1]  = "•",
+    [3]  = "†",
+    [4]  = ">",
+    [5]  = ">>",
+    [6]  = "#",
+  }
+
+  local instanceCounter = {}
+  if type(nodeData.id) == "table" then
+    local counter = 1
+    for _, instanceID in ipairs(nodeData.id) do
+      local instanceName = EJ_GetInstanceInfo(instanceID)
+      if instanceName then
+        instanceCounter[instanceName] = counter
+        counter = counter + 1
+      end
+    end
+  end
+
   ns.isMulti = (nodeData.id and type(nodeData.id) == "table")
   ns.total = ns.isMulti and #instances or 1
 	for idx, v in pairs(instances) do
@@ -486,7 +565,18 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
  	      end
 	    end
 	  else
-	    tooltip:AddLine(v, nil, nil, nil, false)
+      local displayName = v
+      local instanceNumber = instanceCounter[v]
+
+      if instanceNumber then
+        if mode == 2 then
+          displayName = instanceNumber .. ". " .. v
+        elseif mode ~= 0 and prefixes[mode] then
+          displayName = prefixes[mode] .. " " .. v
+        end
+      end
+      tooltip:AddLine(displayName, nil, nil, nil, false)
+
       if ns.DevMode() then
 
         if nodeData.dnID then
@@ -495,6 +585,20 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
 
         if nodeData.type then
           tooltip:AddLine("IconName:  " .. nodeData.type, nil, nil, false)
+        end
+
+        if nodeData.id then
+          if type(nodeData.id) == "table" then
+            local instanceIDs = {}
+          
+            for _, instanceID in ipairs(nodeData.id) do
+              instanceIDs[#instanceIDs + 1] = tostring(instanceID)
+            end
+          
+            tooltip:AddLine("InstanceIDs:  " .. table.concat(instanceIDs, ", "), nil, nil, false)
+          else
+            tooltip:AddLine("InstanceID:  " .. tostring(nodeData.id), nil, nil, false)
+          end
         end
 
         tooltip:AddDoubleLine("uiMapID:  " .. uiMapId, "Coord:  " .. coord, nil, nil, false)
@@ -801,7 +905,7 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
           tooltip:AddDoubleLine(TextIconInfo:GetIconString() .. " " .. "|cff00ff00" .. L["< Left Click to show map >"], nil, nil, false)
         end
       end
-    
+
       if nodeData.id and not nodeData.mnID and ns.Addon.db.profile.journal then -- "id = " instance entrances
         if ns.Addon.db.profile.activate.SwapButtons and ns.Addon.db.profile.journal then -- Swap Buttons
           tooltip:AddDoubleLine(TextIconInfo:GetIconString() .. " " .. "|cff00ff00" .. L["< Right Click to open Adventure Guide >"], nil, nil, false) -- instance entrances into adventure guide
@@ -836,16 +940,87 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
       end
     end
 
+    ApplyMapNotesSlugTooltipFont(tooltip)
+
+    local tooltipBackground = ns.Addon.db.profile.TooltipBackground or 1 -- tooltip Background
+    if tooltipBackground == 0 then
+      tooltip:SetBackdrop(nil)
+
+      if tooltip.NineSlice then
+        tooltip.NineSlice:SetAlpha(0)
+      end
+
+      if tooltip.Bg then
+        tooltip.Bg:SetAlpha(0)
+      end
+
+    elseif tooltipBackground == 3 then
+      tooltip:SetBackdrop(nil)
+
+      if tooltip.NineSlice then
+        tooltip.NineSlice:SetAlpha(1)
+      end
+
+      if tooltip.Bg then
+        tooltip.Bg:SetAlpha(1)
+      end
+    else
+      if tooltip.NineSlice then
+        tooltip.NineSlice:SetAlpha(0)
+      end
+
+      if tooltip.Bg then
+        tooltip.Bg:SetAlpha(0)
+      end
+
+      tooltip:SetBackdrop({
+        bgFile = "Interface\\Buttons\\WHITE8x8",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        tile = true,
+        tileSize = 16,
+        edgeSize = 16,
+        insets = {
+          left = 4,
+          right = 4,
+          top = 4,
+          bottom = 4,
+        },
+      })
+
+      local alpha = 1
+      if tooltipBackground == 1 then
+        alpha = 0.5
+      elseif tooltipBackground == 2 then
+        alpha = 1
+      end
+
+      tooltip:SetBackdropColor(0, 0, 0, alpha)
+
+      local borderColors = {
+          [0] = {0.60, 0.60, 0.60, 1}, -- Grau
+          [1] = {1.00, 1.00, 1.00, 1}, -- Weiß
+          [2] = {0.00, 0.00, 0.00, 1}, -- Schwarz
+          [3] = {1.00, 0.82, 0.00, 1}, -- Gold
+          [4] = {0.00, 1.00, 0.00, 1}, -- Grün
+          [5] = {1.00, 0.00, 0.00, 1}, -- Rot
+          [6] = {0.00, 0.60, 1.00, 1}, -- Blau
+          [7] = {1.00, 1.00, 0.00, 1}, -- Gelb
+          [8] = {0.65, 0.20, 1.00, 1}, -- Lila
+          [9] = {1.00, 0.50, 0.00, 1}, -- Orange
+          [10] = {0.00, 1.00, 1.00, 1}, -- Cyan
+          [11] = {1.00, 0.40, 0.70, 1}, -- Pink
+          [12] = {0.55, 0.27, 0.07, 1}, -- Braun
+      }
+
+      local c = borderColors[ns.Addon.db.profile.TooltipBorderColor or 0]
+      tooltip:SetBackdropBorderColor(c[1], c[2], c[3], c[4])
+    end
     tooltip:Show()
   end
 end
 
 function ns.pluginHandler:OnLeave(uiMapId, coord)
-  if self:GetParent() == WorldMapButton then
-    WorldMapTooltip:Hide()
-  else
-    GameTooltip:Hide()
-  end
+  MapNotesTooltip:Hide()
 
   if self.highlight then
     self.highlight:Hide()
@@ -855,7 +1030,6 @@ function ns.pluginHandler:OnLeave(uiMapId, coord)
     self.texture:SetDrawLayer("OVERLAY", 5)
   end
 end
-
 
 do
   local tablepool = setmetatable({}, {__mode = "k"})
@@ -888,6 +1062,7 @@ do
 		local state, value = next(data, prestate)
     local CurrentMapID = WorldMapFrame:GetMapID()
     local PlayerMapID = C_Map.GetBestMapForUnit("player")
+    local IsDalaranClassHallMinimap = PlayerMapID == 627 or PlayerMapID == 628
 
 		while value do
 			local alpha
@@ -1039,13 +1214,17 @@ do
       ns.KhazAlgar = CurrentMapID == 2248 or CurrentMapID == 2214 or CurrentMapID == 2215 or CurrentMapID == 2255 or CurrentMapID == 2256 or CurrentMapID == 2213 
                       or CurrentMapID == 2216 or CurrentMapID == 2369 or CurrentMapID == 2346 or CurrentMapID == 2371 or CurrentMapID == 2472
 
-      ns.QuelThalas = CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2405 or CurrentMapID == 2413
+      ns.QuelThalas = CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2405 or CurrentMapID == 2413 or CurrentMapID == 2512 or CurrentMapID == 2509
 
       ns.AllZoneIDs = ns.KalimdorIDs or ns.EasternKingdomIDs or ns.OutlandIDs or ns.NorthrendIDs or ns.DraenorIDs or ns.PandariaIDs or ns.BrokenIslesIDs or ns.ZandalarIDs  
                       or ns.KulTirasIDs or ns.ShadowlandIDs or ns.DragonIsleIDs or ns.KhazAlgar or ns.QuelThalas
 
       -- Special mapIDs that are actually zones/subzones but are considered dungeons/microdungeons by the game are hereby correctly recognized as zones in the addon (no capitals)
       ns.ZoneIDs = CurrentMapID == 750 or CurrentMapID == 652 or CurrentMapID == 2266 or CurrentMapID == 2322
+
+      -- Maps that count als Dungeon / Delve maps
+      ns.SpecialDungeonMapIDs = CurrentMapID == 2633 -- Delve Map - The Ring of Glory
+                                or CurrentMapID == 2510 -- Delve Map - Grollgrube
 
       if value.name == nil then value.name = value.id or value.mnID end
 
@@ -1303,13 +1482,13 @@ do
       end
 
       -- inside Dungeon
-      if (mapInfo.mapType == 4 or mapInfo.mapType == 6) and not (ns.CapitalIDs or ns.ClassHallIDs) and not ns.ZoneIDs then
+      if (mapInfo.mapType == 4 or mapInfo.mapType == 6 or ns.SpecialDungeonMapIDs) and not (ns.CapitalIDs or ns.ClassHallIDs) and not ns.ZoneIDs then
           scale = db.dungeonScale
           alpha = db.dungeonAlpha
       end
 
       -- Dungeon Single scale / alpha
-      if (mapInfo.mapType == 4 or mapInfo.mapType == 6) and not (ns.CapitalIDs or ns.ClassHallIDs) and not ns.ZoneIDs then
+      if (mapInfo.mapType == 4 or mapInfo.mapType == 6 or ns.SpecialDungeonMapIDs) and not (ns.CapitalIDs or ns.ClassHallIDs) and not ns.ZoneIDs then
 
         if value.type == "Exit" then
           scale = db.DungeonMapScaleExit
@@ -1367,7 +1546,7 @@ do
       end
 
       -- Capitals Minimap Class Halls icons
-      if (ns.ClassHallIDs and ns.classHallIcons and value.showOnMinimap) or (not ns.CapitalMiniMapIDs and ns.classHallIcons and value.showOnMinimap) then
+      if ns.classHallIcons and value.showOnMinimap and (ns.ClassHallIDs or not ns.CapitalMiniMapIDs or IsDalaranClassHallMinimap) then
         scale = db.MinimapCapitalsClassHallScale
         alpha = db.MinimapCapitalsClassHallAlpha
       end
@@ -2213,10 +2392,6 @@ local CurrentMapID = WorldMapFrame:GetMapID()
       local difficulty = string.match(link, "journal:.-:.-:(.-)|h") 
       if (not dungeonID or not difficulty) then return end
 
-      if (not EncounterJournal_OpenJournal) then
-        UIParentLoadAddOn("Blizzard_EncounterJournal")
-      end
-
       EncounterJournal_OpenJournal(difficulty, dungeonID)
     end
   end
@@ -2258,10 +2433,6 @@ local CurrentMapID = WorldMapFrame:GetMapID()
       local difficulty = string.match(link, "journal:.-:.-:(.-)|h") 
       if (not dungeonID or not difficulty) then return end
 
-      if (not EncounterJournal_OpenJournal) then
-        UIParentLoadAddOn("Blizzard_EncounterJournal")
-      end
-
       EncounterJournal_OpenJournal(difficulty, dungeonID)
     end
   end
@@ -2299,6 +2470,10 @@ local function EnsureDeletedIconsSchema(t)
   t.MinimapZoneDeletedIcons = AutoSubTables(t.MinimapZoneDeletedIcons)
 
   t.DungeonDeletedIcons = AutoSubTables(t.DungeonDeletedIcons)
+
+  t.TaxiDeletedIcons = AutoSubTables(t.TaxiDeletedIcons)
+
+  t.DelveDeletedIcons = AutoSubTables(t.DelveDeletedIcons)
 end
 
 function Addon:EnableSharedProfile()
@@ -2639,6 +2814,8 @@ function Addon:OnProfileReset(event, database, profileKeys)
   wipe(ns.dbProfile.ZoneDeletedIcons)
   wipe(ns.dbProfile.MinimapZoneDeletedIcons)
   wipe(ns.dbProfile.DungeonDeletedIcons)
+  wipe(ns.dbProfile.TaxiDeletedIcons)
+  wipe(ns.dbProfile.DelveDeletedIcons)
 
   if MapNotesMiniButton and MapNotesMiniButton.db and MNMMBIcon then
     MapNotesMiniButton.db:SetProfile(self.db:GetCurrentProfile())
@@ -2753,12 +2930,15 @@ end
 
 function Addon:PLAYER_LOGIN() -- OnInitialize()
   ns.Addon = Addon
+
+  if not C_AddOns.IsAddOnLoaded("Blizzard_EncounterJournal") then C_AddOns.LoadAddOn("Blizzard_EncounterJournal") end
+
   ns.RebuildMapNotesInfoCache() -- MapNotesInfosfromNpcIDsAndMapIDs.lua
   ns.LoadOptions(self) -- RetailOptions.lua
   ns.BlizzardDelvesAddFunction() -- RetailDelves.lua
   ns.ChangingMapToPlayerZone() -- RetailWorldMap.lua
 
-   C_Timer.After(0, MN_AddWaypointProvider)
+  C_Timer.After(0, MN_AddWaypointProvider)
 
   -- Register Database Profile
   self.db = LibStub("AceDB-3.0"):New("HandyNotes_MapNotesRetailDB", ns.defaults)

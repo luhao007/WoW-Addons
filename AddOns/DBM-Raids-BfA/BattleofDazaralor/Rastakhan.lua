@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2335, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(145616)--145644 Bwonsamdi
 mod:SetEncounterID(2272)
@@ -61,40 +61,40 @@ local warnZombieTotem					= mod:NewSpellAnnounce(285003, 2)
 local warnSealofBwonsamdi				= mod:NewSpellAnnounce(286695, 3)
 
 --Stage One: Zandalari Honor Guard
-local specWarnScorchingDetonation		= mod:NewSpecialWarningMoveAway(284831, nil, nil, nil, 3, 2)
+local specWarnScorchingDetonation		= mod:NewSpecialWarningMoveAway(284831, nil, nil, nil, 3, 2, nil, nil, "runout")
 local yellScorchingDetonation			= mod:NewYell(284831)
 local yellScorchingDetonationFades		= mod:NewFadesYell(284831)
-local specWarnScorchingDetonationOther	= mod:NewSpecialWarningTaunt(284831, nil, nil, nil, 1, 2)
-local specWarnPlagueofToads				= mod:NewSpecialWarningDodge(284933, nil, nil, nil, 2, 2)
-local specWarnSerpTotem					= mod:NewSpecialWarningSwitch(285172, "Ranged", nil, 2, 1, 2)
-local specWarnSerpTotemDodge			= mod:NewSpecialWarningRun(285172, "Melee", nil, 2, 4, 2)
+local specWarnScorchingDetonationOther	= mod:NewSpecialWarningTaunt(284831, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnPlagueofToads				= mod:NewSpecialWarningDodge(284933, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnSerpTotem					= mod:NewSpecialWarningSwitch(285172, "Ranged", nil, 2, 1, 2, nil, nil, "attacktotem")
+local specWarnSerpTotemDodge			= mod:NewSpecialWarningRun(285172, "Melee", nil, 2, 4, 2, nil, nil, "justrun")
 ----Prelate Za'lan
-local specWarnSealofPurification		= mod:NewSpecialWarningRun(284662, nil, nil, nil, 4, 2)
+local specWarnSealofPurification		= mod:NewSpecialWarningRun(284662, nil, nil, nil, 4, 2, nil, nil, "laserrun")
 local yellSealofPurification			= mod:NewYell(284662)
 ----Siegebreaker Roka
-local specWarnMeteorLeap				= mod:NewSpecialWarningMoveTo(284686, nil, nil, nil, 1, 2)
+local specWarnMeteorLeap				= mod:NewSpecialWarningMoveTo(284686, nil, nil, nil, 1, 2, nil, nil, "gathershare")
 local yellMeteorLeap					= mod:NewYell(284686, nil, nil, nil, "YELL")
 local yellMeteorLeapFades				= mod:NewShortFadesYell(284686, nil, nil, nil, "YELL")
 ----Headhunter Gal'wana
-local specWarnGrievousAxe				= mod:NewSpecialWarningDefensive(284781, false, nil, nil, 1, 2)
+local specWarnGrievousAxe				= mod:NewSpecialWarningDefensive(284781, false, nil, nil, 1, 2, nil, nil, "defensive")
 --Stage Two: Bwonsamdi's Pact
-local specWarnPlagueofFire				= mod:NewSpecialWarningMoveAway(285349, nil, nil, nil, 1, 2)
+local specWarnPlagueofFire				= mod:NewSpecialWarningMoveAway(285349, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellPlagueofFire					= mod:NewYell(285349, 255782)
-local specWarnZombieDustTotem			= mod:NewSpecialWarningSwitch(285003, "Dps", nil, nil, 1, 2)
+local specWarnZombieDustTotem			= mod:NewSpecialWarningSwitch(285003, "Dps", nil, nil, 1, 2, nil, nil, "attacktotem")
 ----Bwonsamdi
-local specWarnCaressofDeath				= mod:NewSpecialWarningDefensive(288415, nil, nil, nil, 1, 2)
-local specWarnCaressofDeathOther		= mod:NewSpecialWarningTaunt(288415, false, nil, 2, 1, 2)
-local specWarnDeathsDoor				= mod:NewSpecialWarningMoveAway(288449, nil, nil, nil, 3, 2)
+local specWarnCaressofDeath				= mod:NewSpecialWarningDefensive(288415, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnCaressofDeathOther		= mod:NewSpecialWarningTaunt(288415, false, nil, 2, 1, 2, nil, nil, "tauntboss")
+local specWarnDeathsDoor				= mod:NewSpecialWarningMoveAway(288449, nil, nil, nil, 3, 2, nil, nil, "runout")
 local yellDeathsDoor					= mod:NewYell(288449)
 local yellDeathsDoorFades				= mod:NewFadesYell(288449)
 --Stage Three: Enter the Death Realm
-local specWarnInevitableEnd				= mod:NewSpecialWarningRun(287333, nil, nil, nil, 4, 2)
+local specWarnInevitableEnd				= mod:NewSpecialWarningRun(287333, nil, nil, nil, 4, 2, nil, nil, "justrun")
 ----Spirits
-local specWarnNecroticSmash				= mod:NewSpecialWarningDodge(286742, "Melee", nil, nil, 4, 2)
-local specWarnNecroticSmashFuckedUp		= mod:NewSpecialWarningDefensive(286742, nil, nil, nil, 1, 2)--If tank gets hit by it, warn this
-local specWarnNecroticSmashOther		= mod:NewSpecialWarningTaunt(286742, nil, nil, nil, 1, 2)--And warn other tank to taunt.
+local specWarnNecroticSmash				= mod:NewSpecialWarningDodge(286742, "Melee", nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnNecroticSmashFuckedUp		= mod:NewSpecialWarningDefensive(286742, nil, nil, nil, 1, 2, nil, nil, "defensive")--If tank gets hit by it, warn this
+local specWarnNecroticSmashOther		= mod:NewSpecialWarningTaunt(286742, nil, nil, nil, 1, 2, nil, nil, "changemt")--And warn other tank to taunt.
 --local specWarnGTFO						= mod:NewSpecialWarningGTFO(286772, nil, nil, nil, 1, 8)
-local specWarnFocusedDimise				= mod:NewSpecialWarningInterrupt(286779, nil, nil, nil, 1, 2)
+local specWarnFocusedDimise				= mod:NewSpecialWarningInterrupt(286779, nil, nil, nil, 1, 2, nil, nil, "kickcast")
 
 --Stage One: Zandalari Honor Guard
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19172))

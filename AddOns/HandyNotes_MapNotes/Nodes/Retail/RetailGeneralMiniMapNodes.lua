@@ -1826,6 +1826,10 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
         --Quel'Thalas
         if self.db.profile.showMiniMapQuelThalas then
 
+            if self.db.profile.showMiniMapDecorExpert and not self.db.profile.showMiniMapMapNotesIcons then
+                minimap[2512][58574594] = { npcID = 270399, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
             if self.db.profile.showMiniMapStablemaster then
                 minimap[2405][52296754] = { npcID = 242658, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2395][48856679] = { npcID = 245770, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
@@ -1854,8 +1858,12 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 minimap[2413][51125542] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
+            if self.db.profile.showMiniMapMailbox and not self.db.profile.showMiniMapMapNotesIcons then
+                minimap[2512][58424578] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
             if self.db.profile.showMiniMapInnkeeper then
-                minimap[2405][53166818] = { npcID = 235701, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[2405][53166818] = { npcID = 235701, name = "", dnID = ns.InnkeeperM, type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2395][46274594] = { npcID = 242949, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2395][48976859] = { npcID = 236149, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Immersangwald
                 minimap[2395][39326138] = { npcID = 249879, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Immersangwald
@@ -1870,10 +1878,14 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 minimap[2413][53455428] = { npcID = 258499, name = "", type = "InnkeeperN", dnID = "(" .. L["inside the cave"] .. ")", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
+            if self.db.profile.showMiniMapInnkeeper and not self.db.profile.showMiniMapMapNotesIcons then
+                minimap[2512][58434538] = { npcID = 265147, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
             if self.db.profile.showMiniMapRenownQuartermaster then
                 minimap[2437][45956592] = { npcID = 240279, name = "", dnID = FACTION .. ": " .. ns.Amanistamm, type = "RenownQuartermaster", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Amani'zar
                 minimap[2413][50955073] = { npcID = 240407, name = "", dnID = FACTION .. ": " .. ns.Harati, type = "RenownQuartermaster", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Hara'ti
-                minimap[2395][43464742] = { npcID = 240838, name = "", npcIDs1 = 240838, npcIDs2 = 242725, npcIDs3 = 242723, name = "", npcIDs1Info = FACTION .. ": " .. ns.SilvermoonCourt, type = "RenownQuartermaster", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Hara'ti
+                minimap[2395][43464742] = { npcID = 240838, name = "", npcIDs1 = 240838, npcIDs2 = 242725, npcIDs3 = 242723, npcIDs1Info = FACTION .. ": " .. ns.SilvermoonCourt, type = "RenownQuartermaster", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Hara'ti
                 minimap[2405][52587290] = { npcID = 248328, name = "", dnID = FACTION .. ": " .. ns.TheSingularity, type = "RenownQuartermaster", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Hara'ti
             end
 
@@ -1884,6 +1896,7 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 --minimap[2248][58742792] = { name = "", dnID = TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX .. "\n" .. TextIconStablemasterN:GetIconString() .. " " .. ns.StablemasterM, type = "MNL", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 --Innkeeper Mailbox
                 minimap[2395][48956843] = { name = "", dnID = TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX, type = "MNL", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Immersangwald
+                minimap[2512][58384622] = { name = "", dnID = TextIconPvEVendor:GetIconString() .. " " .. L["Merchant for Renown items"] .. " (" .. ns.ZulJarras .. ")\n" .. TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX .. "\n" .. TextIconDecorExpert:GetIconString() .. " " .. ns.DecorExpertM, type = "MNL", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Gewundene Insel
             end
 
         end

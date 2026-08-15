@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("FesteringRotslimeSoD", "DBM-Raids-Vanilla", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(218819)--Drum 222542, Slab 222543, Mask 222544, Candle 222545
 mod:SetEncounterID(2953)
@@ -39,8 +39,8 @@ local warnGunk						= mod:NewCountAnnounce(438142, 3)
 local warnNauseousGas				= mod:NewCountAnnounce(438130, 2, nil, false, 2)
 local warnSlimeTime					= mod:NewCountAnnounce(446311, 4, nil, nil, DBM_CORE_L.AUTO_ANNOUNCE_OPTIONS.stack:format(446311))
 
-local specWarnGTFO					= mod:NewSpecialWarningGTFO(438136, nil, nil, nil, 1, 8)
-local specWarnSlimeTimeFades		= mod:NewSpecialWarningFades(446311, nil, nil, nil, nil, 16)
+local specWarnGTFO					= mod:NewSpecialWarningGTFO(438136, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnSlimeTimeFades		= mod:NewSpecialWarningFades(446311, nil, nil, nil, nil, 16, nil, nil, "dpshard")
 local devourPlayerYell				= mod:NewYell(448824)
 
 

@@ -260,7 +260,11 @@ function private.SwitchBtnOnClick(button)
 		private.defaultFrame:SetScale(1)
 		private.defaultFrame:SetDisplayMode(AuctionHouseFrameDisplayMode.Buy)
 	end
-	UIParent_OnEvent(UIParent, "AUCTION_HOUSE_SHOW")
+	if ClientInfo.IsRetail() then
+		GameEvent.HandleAuctionHouseShow()
+	else
+		UIParent_OnEvent(UIParent, "AUCTION_HOUSE_SHOW")
+	end
 	private.isSwitching = false
 end
 

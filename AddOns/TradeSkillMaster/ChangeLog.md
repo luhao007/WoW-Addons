@@ -1,5 +1,5 @@
-## v4.14.66 Changes
+## v4.14.75 Changes
 
-* [Retail] Fixed some professions not loading properly
+* [Retail] Profession loading fixes
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

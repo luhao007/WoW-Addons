@@ -7,7 +7,6 @@ function CVarsfun.Fast_Loot()
         if PIGA["CVars"]["Fast_Loot"] and not CVarsfun.LootFUI then
             local Fun=addonTable.Fun
             local Get_LootMethodID=Fun.Get_LootMethodID
-            local GetContainerNumFreeSlots=GetContainerNumFreeSlots or C_Container and C_Container.GetContainerNumFreeSlots
             local internal = {isLooting = false,isHidden = false,isItemLocked = false}
             local LootF = CreateFrame("Frame")
             CVarsfun.LootFUI=LootF
@@ -16,7 +15,7 @@ function CVarsfun.Fast_Loot()
             function LootF:ProcessLootItem(itemLink, itemQuantity)
                 local itemFamily = GetItemFamily(itemLink);
                 for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-                    local free, bagFamily = GetContainerNumFreeSlots(i);
+                    local free, bagFamily = PIGGetContainerNumFreeSlots(i);
                     if (not bagFamily or bagFamily == 0) or (itemFamily and bit.band(itemFamily, bagFamily) > 0) then
                         if free > 0 then
                             return true;
@@ -150,11 +149,10 @@ end
 --     isClassic = true,
 --     audioChannel = "master",
 -- };
--- local GetContainerNumFreeSlots=C_Container and C_Container.GetContainerNumFreeSlots or GetContainerNumFreeSlots
 -- function PIG_AutoLoot:ProcessLootItem(itemLink, itemQuantity)
 --     local itemFamily = GetItemFamily(itemLink);
 --     for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
---         local free, bagFamily = GetContainerNumFreeSlots(i);
+--         local free, bagFamily = PIGGetContainerNumFreeSlots(i);
 --         if (not bagFamily or bagFamily == 0) or (itemFamily and bit.band(itemFamily, bagFamily) > 0) then
 --             if free > 0 then
 --                 return true;

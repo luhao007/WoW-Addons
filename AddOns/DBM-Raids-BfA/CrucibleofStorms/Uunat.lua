@@ -2,7 +2,7 @@
 local mod	= DBM:NewMod(2332, "DBM-Raids-BfA", 3, 1177)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260524002224")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(145371)
 mod:SetEncounterID(2273)
@@ -39,6 +39,13 @@ mod:RegisterEventsInCombat(
 --Eyes 2 first, Undying 2 second
 --Heroic https://www.warcraftlogs.com/reports/VNWqBp9v6JXzTYRd#fight=19&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20293653%20or%20ability.id%20%3D%20285185%20or%20ability.id%20%3D%20285416%20or%20ability.id%20%3D%20285376%20or%20ability.id%20%3D%20285345%20or%20ability.id%20%3D%20285453%20or%20ability.id%20%3D%20285820%20or%20ability.id%20%3D%20285638%20or%20ability.id%20%3D%20285427%20or%20ability.id%20%3D%20285562%20or%20ability.id%20%3D%20285685)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20284851%20or%20ability.id%20%3D%20285652)%20and%20type%20%3D%20%22cast%22%20%20or%20ability.id%20%3D%20286310%20%20or%20(ability.id%20%3D%20284768%20or%20ability.id%20%3D%20284569%20or%20ability.id%20%3D%20284684)
 --Mythic https://www.warcraftlogs.com/reports/Dq1vBHCx6k3KnZJY#fight=47&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20293653%20or%20ability.id%20%3D%20285185%20or%20ability.id%20%3D%20285416%20or%20ability.id%20%3D%20285376%20or%20ability.id%20%3D%20285345%20or%20ability.id%20%3D%20285453%20or%20ability.id%20%3D%20285820%20or%20ability.id%20%3D%20285638%20or%20ability.id%20%3D%20285427%20or%20ability.id%20%3D%20285562%20or%20ability.id%20%3D%20285685)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20284851%20or%20ability.id%20%3D%20285652)%20and%20type%20%3D%20%22cast%22%20%20or%20ability.id%20%3D%20286310%20%20or%20(ability.id%20%3D%20284768%20or%20ability.id%20%3D%20284569%20or%20ability.id%20%3D%20284684)
+DBM:RegisterAltSpellName(284583, 196871)--Storm of Annihilation -> Storm
+DBM:RegisterAltSpellName(285820, 234890)--Call Undying Guardian -> Guardian
+DBM:RegisterAltSpellName(285453, 285477)--Gift of N'Zoth: Obscurity -> Obscurity
+DBM:RegisterAltSpellName(-19118, 284485)--Primordial Mindbender -> Mindbender
+DBM:RegisterAltSpellName(285638, 55975)--Gift of N'Zoth: Hysteria -> Hysteria
+DBM:RegisterAltSpellName(285652, 142942)--Insatiable Torment -> Torment
+DBM:RegisterAltSpellName(285685, L.Lunacy)--Gift of N'Zoth: Lunacy -> Lunacy
 local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnVoidShield					= mod:NewTargetNoFilterAnnounce(286310, 2, nil, nil, nil, nil, nil, 7)
 --Relics of Power
@@ -60,36 +67,36 @@ local warnMaddeningEyes					= mod:NewTargetNoFilterAnnounce(285345, 4)
 --Stage Three: His Unwavering Gaze
 local warnInsatiableTorment				= mod:NewTargetNoFilterAnnounce(285652, 2)
 
-local specWarnUnstableResonance			= mod:NewSpecialWarningMoveAwayCount(293653, nil, nil, nil, 3, 2)
+local specWarnUnstableResonance			= mod:NewSpecialWarningMoveAwayCount(293653, nil, nil, nil, 3, 2, nil, nil, "scatter")
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 --Multiple specialwarings for same event, because this way users can customize sound for each sign
-local specWarnUnstableResonanceVoid		= mod:NewSpecialWarningYouPos(293663, nil, nil, nil, 1, 6)
-local specWarnUnstableResonanceOcean	= mod:NewSpecialWarningYouPos(293662, nil, nil, nil, 1, 6)
-local specWarnUnstableResonanceStorm	= mod:NewSpecialWarningYouPos(293661, nil, nil, nil, 1, 6)
+local specWarnUnstableResonanceVoid		= mod:NewSpecialWarningYouPos(293663, nil, nil, nil, 1, 6, nil, nil, "mm1")
+local specWarnUnstableResonanceOcean	= mod:NewSpecialWarningYouPos(293662, nil, nil, nil, 1, 6, nil, nil, "mm1")
+local specWarnUnstableResonanceStorm	= mod:NewSpecialWarningYouPos(293661, nil, nil, nil, 1, 6, nil, nil, "mm1")
 local yellUnstableResonanceSign			= mod:NewPosYell(293653, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
-local yellUnstableResonanceRelic		= mod:NewShortPosYell("ej18970", nil, nil, nil, "YELL")
+local yellUnstableResonanceRelic		= mod:NewShortPosYell(-18970, nil, nil, nil, "YELL")
 --Stage One: His All-Seeing Eyes
-local specWarnTouchoftheEnd				= mod:NewSpecialWarningYou(284851, nil, nil, nil, 1, 2)
-local specWarnTouchoftheEndTaunt		= mod:NewSpecialWarningTaunt(284851, nil, nil, nil, 1, 6)
-local specWarnPiercingGaze				= mod:NewSpecialWarningCount(285367, nil, nil, nil, 2, 2)
-local specWarnMaddeningEyesCast			= mod:NewSpecialWarningDodgeCount(285345, nil, nil, nil, 2, 2)
-local specWarnMaddeningEyes				= mod:NewSpecialWarningYou(285345, nil, nil, nil, 1, 2)
+local specWarnTouchoftheEnd				= mod:NewSpecialWarningYou(284851, nil, nil, nil, 1, 2, nil, nil, "runout")
+local specWarnTouchoftheEndTaunt		= mod:NewSpecialWarningTaunt(284851, nil, nil, nil, 1, 6, nil, nil, "tauntboss")
+local specWarnPiercingGaze				= mod:NewSpecialWarningCount(285367, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
+local specWarnMaddeningEyesCast			= mod:NewSpecialWarningDodgeCount(285345, nil, nil, nil, 2, 2, nil, nil, "farfromline")
+local specWarnMaddeningEyes				= mod:NewSpecialWarningYou(285345, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellMaddeningEyes					= mod:NewYell(285345)
-local specWarnGiftofNzothObscurity		= mod:NewSpecialWarningDodgeCount(285453, nil, nil, nil, 2, 2)
-local specWarnCallUndyingGuardian		= mod:NewSpecialWarningSwitchCount(285820, "-Healer", nil, nil, 1, 2)
+local specWarnGiftofNzothObscurity		= mod:NewSpecialWarningDodgeCount(285453, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnCallUndyingGuardian		= mod:NewSpecialWarningSwitchCount(285820, "-Healer", nil, nil, 1, 2, nil, nil, "bigmob")
 --Stage Two: His Dutiful Servants
-local specWarnGiftofNzothHysteria		= mod:NewSpecialWarningCount(285638, nil, nil, nil, 2, 2)
-local specWarnConsumeEssence			= mod:NewSpecialWarningInterruptCount(285427, false, nil, nil, 1, 2)
-local specWarnUnknowableTerror			= mod:NewSpecialWarningRun(285562, nil, nil, nil, 4, 2)
-local specWarnPrimordialMindbender		= mod:NewSpecialWarningSwitchCount("ej19118", "Dps", nil, nil, 1, 2)
+local specWarnGiftofNzothHysteria		= mod:NewSpecialWarningCount(285638, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnConsumeEssence			= mod:NewSpecialWarningInterruptCount(285427, false, nil, nil, 1, 2, nil, nil, "kick2r")
+local specWarnUnknowableTerror			= mod:NewSpecialWarningRun(285562, nil, nil, nil, 4, 2, nil, nil, "fearsoon")
+local specWarnPrimordialMindbender		= mod:NewSpecialWarningSwitchCount(-19118, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
 --Stage Three: His Unwavering Gaze
-local specWarnInsatiableTorment			= mod:NewSpecialWarningYou(285652, nil, nil, nil, 1, 2)
+local specWarnInsatiableTorment			= mod:NewSpecialWarningYou(285652, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellInsatiableTorment				= mod:NewShortYell(285652, 142942)--Short text "Torment"
-local specWarnGiftofNzothLunacy			= mod:NewSpecialWarningCount(285685, nil, nil, nil, 2, 2)
+local specWarnGiftofNzothLunacy			= mod:NewSpecialWarningCount(285685, nil, nil, nil, 2, 2, nil, nil, "stopattack")
 
 --Relics of Power
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19055))
-local timerStormofAnnihilation			= mod:NewTargetTimer(15, 284583, 196871, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--Short text "Storm"
+local timerStormofAnnihilation			= mod:NewTargetTimer(15, 284583, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--Short text "Storm"
 local timerUnstableResonanceCD			= mod:NewCDCountTimer(40.8, 293653, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)--40.8-45
 local timerUnstableResonance			= mod:NewBuffFadesTimer(15, 293653, nil, nil, nil, 5, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)--inlineIcon, keep, countdown, countdownMax
 --Stage One: His All-Seeing Eyes
@@ -100,17 +107,17 @@ local timerVoidCrashCD					= mod:NewCDCountTimer(31, 285416, nil, nil, nil, 3)
 --local timerEyesofNzothCD				= mod:NewCDCountTimer(32.7, 285376, nil, nil, nil, 3)--32.7-36.4 (probably spell queuing)
 local timerPiercingGazeCD				= mod:NewCDCountTimer(32.7, 285367, nil, nil, nil, 3)
 local timerMaddeningEyesCD				= mod:NewCDCountTimer(32.7, 285345, nil, nil, nil, 3)
-local timerCallUndyingGuardianCD		= mod:NewCDCountTimer(46.1, 285820, 234890, nil, nil, 1)--Short text "Guardian"
-local timerGiftofNzothObscurityCD		= mod:NewCDCountTimer(42.1, 285453, 285477, nil, nil, 2)--Short text "Obscurity"
+local timerCallUndyingGuardianCD		= mod:NewCDCountTimer(46.1, 285820, nil, nil, nil, 1)--Short text "Guardian"
+local timerGiftofNzothObscurityCD		= mod:NewCDCountTimer(42.1, 285453, nil, nil, nil, 2)--Short text "Obscurity"
 --Stage Two: His Dutiful Servants
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19105))
 local timerUnknowableTerrorCD			= mod:NewCDTimer(40.1, 285562, nil, nil, nil, 3)
-local timerMindBenderCD					= mod:NewCDCountTimer(61.1, "ej19118", 284485, nil, nil, 1, 285427, DBM_COMMON_L.DAMAGE_ICON)--Shorttext "Mindbender"
-local timerGiftofNzothHysteriaCD		= mod:NewCDCountTimer(42.5, 285638, 55975, nil, nil, 2)--Short text "Hysteria"
+local timerMindBenderCD					= mod:NewCDCountTimer(61.1, -19118, nil, nil, nil, 1, 285427, DBM_COMMON_L.DAMAGE_ICON)--Shorttext "Mindbender"
+local timerGiftofNzothHysteriaCD		= mod:NewCDCountTimer(42.5, 285638, nil, nil, nil, 2)--Short text "Hysteria"
 --Stage Three: His Unwavering Gaze
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19106))
-local timerInsatiableTormentCD			= mod:NewCDCountTimer(23.1, 285652, 142942, nil, nil, 3)--Short text "Torment"
-local timerGiftofNzothLunacyCD			= mod:NewCDCountTimer(42.6, 285685, L.Lunacy, nil, nil, 2)--Manually translated because no spell to short text it
+local timerInsatiableTormentCD			= mod:NewCDCountTimer(23.1, 285652, nil, nil, nil, 3)--Short text "Torment"
+local timerGiftofNzothLunacyCD			= mod:NewCDCountTimer(42.6, 285685, nil, nil, nil, 2)--Manually translated because no spell to short text it
 
 local berserkTimer						= mod:NewBerserkTimer(780)
 
@@ -119,8 +126,8 @@ mod:AddInfoFrameOption(293653, true)
 mod:AddNamePlateOption("NPAuraOnBond", 287693)
 mod:AddNamePlateOption("NPAuraOnFeed", 285307)
 mod:AddNamePlateOption("NPAuraOnRegen", 285333)
-mod:AddSetIconOption("SetIconOnAdds", "ej19118", true, 5, {1, 2, 4})
-mod:AddSetIconOption("SetIconOnRelics", "ej18970", true, 0, {1, 3, 5, 6, 7})--only up to 3 are used, but it depends on what user sets UnstableBehavior2 to. 1 and 7 are not included in the default used by DBM/BW (SetTwo)
+mod:AddSetIconOption("SetIconOnAdds", -19118, true, 5, {1, 2, 4})
+mod:AddSetIconOption("SetIconOnRelics", -18970, true, 0, {1, 3, 5, 6, 7})--only up to 3 are used, but it depends on what user sets UnstableBehavior2 to. 1 and 7 are not included in the default used by DBM/BW (SetTwo)
 mod:AddDropdownOption("UnstableBehavior2", {"SetOne", "SetTwo", "SetThree", "SetFour", "SetFive", "SetSix"}, "SetTwo", "misc", nil, 293653)--SetTwo is BW default (BW default used to be SetOne)
 
 mod.vb.touchCount = 0
@@ -141,7 +148,7 @@ mod.vb.tridentOceanicon, mod.vb.tempestStormIcon, mod.vb.voidIcon = 6, 5, 3
 local trackedFeedback1, trackedFeedback2, trackedFeedback3 = false, false, false
 local playerAffected = false
 local playerName = UnitName("player")
-local playerHasRelic = false
+local playerHasRelic = ""
 local unitTracked = {}
 local castsPerGUID = {}
 
@@ -251,7 +258,7 @@ function mod:OnCombatStart(delay)
 	self.vb.umbrelTarget = nil
 	trackedFeedback1, trackedFeedback2, trackedFeedback3 = false, false, false
 	playerAffected = false
-	playerHasRelic = false
+	playerHasRelic = ""
 	table.wipe(unitTracked)
 	table.wipe(castsPerGUID)
 	if self:IsHard() then
@@ -303,7 +310,7 @@ function mod:OnTimerRecovery()
 	elseif self.vb.voidstone == playerName then
 		playerHasRelic = L.Void
 	end
-	if playerHasRelic and self.vb.resonCount > 0 then
+	if playerHasRelic ~= "" and self.vb.resonCount > 0 then
 		local icon = self.vb.tridentOcean == playerName and self.vb.tridentOceanicon or self.vb.tempestCaller == playerName and self.vb.tempestStormIcon or self.vb.voidstone == playerName and self.vb.voidIcon
 		yellUnstableResonanceRelic:Yell(icon, playerHasRelic, icon)
 		self:Unschedule(updateResonanceYell)
@@ -471,7 +478,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			self:SetIcon(self.vb.tempestCaller, self.vb.tempestStormIcon)
 			self:SetIcon(self.vb.voidstone, self.vb.voidIcon)
 		end
-		if playerHasRelic then
+		if playerHasRelic ~= "" then
 			local icon = self.vb.tridentOcean == playerName and self.vb.tridentOceanicon or self.vb.tempestCaller == playerName and self.vb.tempestStormIcon or self.vb.voidstone == playerName and self.vb.voidIcon
 			yellUnstableResonanceRelic:Yell(icon, playerHasRelic, icon)
 			self:Unschedule(updateResonanceYell)
@@ -749,7 +756,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.tridentOcean = "None"
 		self.vb.tridentDrop = GetTime()
 		if args:IsPlayer() then
-			playerHasRelic = false
+			playerHasRelic = ""
 		end
 		if self.Options.SetIconOnRelics then
 			self:SetIcon(args.destName, 0)
@@ -758,7 +765,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.tempestCaller = "None"
 		self.vb.tempestDrop = GetTime()
 		if args:IsPlayer() then
-			playerHasRelic = false
+			playerHasRelic = ""
 		end
 		if self.Options.SetIconOnRelics then
 			self:SetIcon(args.destName, 0)
@@ -767,7 +774,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.voidstone = "None"
 		self.vb.voidDrop = GetTime()
 		if args:IsPlayer() then
-			playerHasRelic = false
+			playerHasRelic = ""
 		end
 		if self.Options.SetIconOnRelics then
 			self:SetIcon(args.destName, 0)

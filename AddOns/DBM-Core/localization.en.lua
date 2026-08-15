@@ -1,5 +1,6 @@
 ---@class DBMLocale
 local L = {}
+L.AURA_FONT_RESET = "Invalid aura text font settings were detected and reset to defaults."
 
 DBM_CORE_L = L
 
@@ -14,7 +15,7 @@ end
 
 L.HOW_TO_USE_MOD						= "Welcome to " .. L.DBM .. ". Type /dbm help for a list of supported commands. To access options type /dbm in your chat to begin configuration. Load specific zones manually to configure any boss specific settings to your liking as well. " .. L.DBM .. " will setup defaults for your spec, but you may want to fine tune these."
 L.SILENT_REMINDER						= "Reminder: " .. L.DBM .. " is still in silent mode."
-L.NEWS_UPDATE							= "|h|c11ff1111News|r|h: DBM has been updated with changes to mod structure so classic and mainline can now use unified (same) modules. This means that Vanilla (including SoD), TBC, Wrath, and Cata raid modules now need to be downloaded separately using same packages as retail. Read more about it |Hgarrmission:DBM:news|h|cff3588ff[click here]|r|h"
+L.NEWS_UPDATE							= "|h|c11ff1111News|r|h: DBM has been updated with ability rename feature. Just do /dbm and go to mods category (raids, dungeons, etc) and navigate to the mod you want to rename abilities for."
 L.NEWS_UPDATE_REPEAT					= "|h|c11ff1111News|r|h: DBM has been updated with changes to mod structure so classic and mainline can now use unified (same) modules. This means that Vanilla (including SoD), TBC, Wrath, and Cata raid modules now need to be downloaded separately using same packages as retail. You are currently in a raid that has a missing module. This message will keep showing (and you'll have no functional alerts for this zone) until you've installed missing raid module."
 
 
@@ -24,7 +25,7 @@ L.LOAD_MOD_ERROR						= "Error while loading boss mods for %s: %s"
 L.LOAD_MOD_SUCCESS						= "Loaded '%s' mods. For more options such as custom alert sounds and personalized warning notes, type /dbm."
 L.LOAD_MOD_COMBAT						= "Loading of '%s' delayed until you leave combat"
 L.LOAD_GUI_ERROR						= "Could not load GUI: %s"
-L.LOAD_GUI_COMBAT						= "GUI cannot be initially loaded in combat. GUI will be loaded out of combat. After GUI loaded, you can open GUI in combat."
+L.LOAD_GUI_COMBAT						= "GUI cannot be opened in combat. Try again when you have left combat."
 L.BAD_LOAD								= L.DBM .. " has detected your mod for this instance failed to fully load correctly because of combat. As soon as you are out of combat, please do /console reloadui as soon as possible."
 L.LOAD_MOD_VER_MISMATCH					= "%s could not be loaded because your DBM-Core does not meet requirements. An updated version is required"
 L.LOAD_MOD_EXP_MISMATCH					= "%s could not be loaded because it is designed for a WoW expansion that's not currently available. When expansion becomes available, this mod will automatically work."
@@ -33,7 +34,7 @@ L.LOAD_MOD_DISABLED						= "%s is installed but currently disabled. This mod wil
 L.LOAD_MOD_DISABLED_PLURAL				= "%s are installed but currently disabled. These mods will not be loaded unless you enable them."
 
 L.COPY_URL_DIALOG						= "Copy URL"
-L.COPY_WA_DIALOG						= "Copy WA Key"
+L.COPY_WA_DIALOG						= "Copy Spell Key"
 
 --Post Patch 7.1
 L.TEXT_ONLY_RANGE						= "Range frame is limited to text only due to Blizzard disabling some functionality in this area."
@@ -95,7 +96,7 @@ L.LEAVING_COMBAT						= "Leaving combat"
 L.RAID_DIFFICULTY_CHANGED				= "Raid difficulty has been set to %s."
 L.DUNGEON_DIFFICULTY_CHANGED			= "Dungeon difficulty has been set to %s."
 
-L.PROFILE_NOT_FOUND						= "<" .. L.DBM .. "> Your current profile is corrupted. " .. L.DBM .. " will load 'Default' profile."
+L.PROFILE_NOT_FOUND						= "<" .. L.DBM .. "> Your current profile is corrupted. " .. L.DBM .. " will load '%s' profile."
 L.PROFILE_CREATED						= "'%s' profile created."
 L.PROFILE_CREATE_ERROR					= "Create profile failed. Invalid profile name."
 L.PROFILE_CREATE_ERROR_D				= "Create profile failed. '%s' profile already exists."
@@ -104,9 +105,9 @@ L.PROFILE_APPLY_ERROR					= "Apply profile failed. '%s' profile does not exist."
 L.PROFILE_COPIED						= "'%s' profile copied."
 L.PROFILE_COPY_ERROR					= "Copy profile failed. '%s' profile does not exist."
 L.PROFILE_COPY_ERROR_SELF				= "Cannot copy profile to itself."
-L.PROFILE_DELETED						= "'%s' profile deleted. 'Default' profile will be applied."
+L.PROFILE_DELETED						= "'%s' profile deleted. '%s' profile will be applied."
 L.PROFILE_DELETE_ERROR					= "Delete profile failed. '%s' profile does not exist."
-L.PROFILE_CANNOT_DELETE					= "Cannot delete 'Default' profile."
+L.PROFILE_CANNOT_DELETE					= "Cannot delete '%s' profile."
 L.MPROFILE_COPY_SUCCESS					= "%s's (%d spec) mod settings have been copied."
 L.MPROFILE_COPY_SELF_ERROR				= "Cannot copy character settings to itself"
 L.MPROFILE_COPY_S_ERROR					= "Source is corrupted. Settings not copied or partly copied. Copy failed."
@@ -198,10 +199,11 @@ L.VOICE_MISSING							= "You have a " .. L.DBM .. " voice pack selected that cou
 L.VOICE_DISABLED						= "You currently have at least one " .. L.DBM .. " voice pack installed but none enabled. If you intend to use a voice pack, make sure it's chosen in 'Spoken Alerts', else uninstall unused voice packs to hide this message"
 L.VOICE_COUNT_MISSING					= "Countdown voice %d is set to a voice/count pack that could not be found or is not currently supported. It has been reset to default setting: %s."
 L.BIG_WIGS								= "BigWigs" -- OPTIONAL
-L.WEAKAURA_KEY							= " (|cff308530WA Key:|r %s)"
+L.WEAKAURA_KEY							= " (|cff359030ID:|r %s)"
+L.RENAME								= " (|cff359030Rename:|r |cff71d5ff%s|r)"
 
-L.UPDATEREMINDER_HEADER					= "Your version of " .. L.DEADLY_BOSS_MODS.. " is out-of-date.\n Version %s (%s) is available for download through Curse, Wago, WoWI, or from GitHub Releases page"
-L.UPDATEREMINDER_HEADER_SUBMODULE		= "Your %s module is out-of-date.\n Version %s is available for download through Curse, Wago, WoWI, or from GitHub Releases page"
+L.UPDATEREMINDER_HEADER					= "Your version of " .. L.DEADLY_BOSS_MODS.. " is out-of-date.\nVersion %s (%s) is available for download through Curse, Wago, WoWI, or from GitHub Releases page"
+L.UPDATEREMINDER_HEADER_SUBMODULE		= "Your %s module is out-of-date.\nVersion %s is available for download through Curse, Wago, WoWI, or from GitHub Releases page"
 L.UPDATEREMINDER_FOOTER					= "Press " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  " to copy the download link to your clipboard."
 L.UPDATEREMINDER_FOOTER_GENERIC			= "Press " .. (IsMacClient() and "Cmd-C" or "Ctrl-C")  ..  " to copy to your clipboard."
 L.UPDATEREMINDER_DISABLE				= "WARNING: Due to your " .. L.DEADLY_BOSS_MODS.. " being out of date and incompatible with current game version or newer versions of DBM, it has been force disabled and cannot be used until updated. This is to ensure incompatible mods do not cause poor play experience for yourself or fellow group members."
@@ -225,7 +227,7 @@ L.HARDCODED_FALLBACK					= L.DBM .. " has detected an unexpected result in this 
 L.MOVABLE_BAR							= "Drag me!"
 L.MOVABLE_FRAMES						= "Frames Dragable"
 
-L.PIZZA_SYNC_INFO						= "|Hplayer:%1$s|h[%1$s]|h sent you a " .. L.DBM .. " timer: '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[Cancel this timer]|r|h  |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignore timers from %1$s]|r|h"
+L.PIZZA_SYNC_INFO						= "|Hplayer:%1$s|h[%1$s]|h sent you a " .. L.DBM .. " timer: '%2$s'\n|Haddon:DBM:cancel:%2$s:nil|h|cff3588ff[Cancel this timer]|r|h  |Haddon:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignore timers from %1$s]|r|h"
 --L.PIZZA_SYNC_INFO						= "|Hplayer:%1$s|h[%1$s]|h sent you a " .. L.DBM .. " timer"
 L.PIZZA_CONFIRM_IGNORE					= "Do you really want to ignore " .. L.DBM .. " timers from %s for this session?"
 L.PIZZA_ERROR_USAGE						= "Usage: /dbm [broadcast] timer <time> <text>. <time> must be 3 or greater."
@@ -260,6 +262,7 @@ L.INFOFRAME_TITLE						= "DBM Info Frame"
 L.INFOFRAME_SHOW_SELF					= "Always show your power"		-- Always show your own power value even if you are below the threshold
 L.INFOFRAME_SETLINES					= "Set max lines"
 L.INFOFRAME_SETCOLS						= "Set max columns"
+L.INFOFRAME_SETSTRATA					= "Set frame strata"
 L.INFOFRAME_LINESDEFAULT				= "Auto Set by boss modules"
 L.INFOFRAME_LINES_TO					= "%d lines"
 L.INFOFRAME_COLS_TO						= "%d columns"
@@ -294,8 +297,13 @@ L.SLASHCMD_HELP2						= {
 	"/range <number> or /distance <number>: Shows range frame. /rrange or /rdistance to reverse colors.",
 	"/hudar <number>: Shows HUD based range finder.",
 	"/dbm arrow: Shows the " .. L.DBM .. " arrow, see '/dbm arrow help' for details.",
-	"/dbm hud: Shows the " .. L.DBM .. " hud, see '/dbm hud' for details."
+	"/dbm hud: Shows the " .. L.DBM .. " hud, see '/dbm hud' for details.",
+	"/dbm dbtdebug: Shows sanitized status bar timer diagnostics for bug reports."
 }
+L.DBT_DEBUG_HEADER						= "DBT diagnostics (sanitized; no encounter or secret text)"
+L.DBT_DEBUG_EMPTY						= "No DBT style refreshes have been captured since this UI reload."
+L.DBT_DEBUG_DISABLED					= "Capture is disabled. Enable DBM Debug Mode before reproducing the problem."
+L.DBT_DEBUG_NOTICE						= "Please include this chat output with your bug report."
 L.TIMER_USAGE							= {
 	L.DBM .. " timer commands:",
 	"-----------------",
@@ -342,6 +350,7 @@ L.AUTO_ANNOUNCE_TEXTS = {
 	ends 								= "%s ended",
 	endtarget							= "%s ended: >%%s<",
 	fades								= "%s faded",
+	fadesoon							= "%s fading soon",
 	addsleft							= "%s remaining: %%d",
 	cast								= "Casting %s: %.1f sec",
 	soon								= "%s soon",
@@ -371,6 +380,7 @@ L.AUTO_ANNOUNCE_OPTIONS = {
 	ends								= "Announce when $spell:%s has ended",
 	endtarget							= "Announce when $spell:%s has ended (with target)",
 	fades								= "Announce when $spell:%s has faded",
+	fadesoon							= "Announce when $spell:%s is fading soon",
 	addsleft							= "Announce how many $spell:%s remain",
 	cast								= "Announce when $spell:%s begins casting",
 	soon								= prewarnOption,
@@ -409,6 +419,7 @@ L.AUTO_SPEC_WARN_TEXTS = {
 	link								= "%s linked with >%%s<",
 	defensive							= "%s - defensive",
 	taunt								= "%s on >%%s< - taunt now",
+	tauntsecret							= "%s on %%s - taunt now",
 	close								= "%s on >%%s< near you",
 	move								= "%s - move away",
 	keepmove							= "%s - keep moving",
@@ -658,10 +669,10 @@ L.AUTO_INFO_FRAME_OPTION_TEXT2			= "Show info frame for encounter overview"
 L.AUTO_INFO_FRAME_OPTION_TEXT3			= "Show info frame for $spell:%s (when threshold of %%s is met)"
 L.AUTO_READY_CHECK_OPTION_TEXT			= "Play ready check sound when boss is pulled (even if it's not targeted)"
 L.AUTO_SPEEDCLEAR_OPTION_TEXT			= "Show timer for fastest clear of this zone"
-L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Play DBM private auras sound alerts for $spell:%s on this fight."--Generic (most common)
-L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "Play DBM private auras sound alerts for when you are targeted by $spell:%s."
-L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "Play DBM private auras sound alerts for when you need to move away from $spell:%s."
-L.AUTO_PRIVATEAURA_OPTION_POST_TEXT		= "Play DBM private auras sound alerts for lingering effects of $spell:%s."
+L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Play DBM aura sound alerts for $spell:%s on this fight."--Generic (most common)
+L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "Play DBM aura sound alerts for when you are targeted by $spell:%s."
+L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "Play DBM aura sound alerts for when you need to move away from $spell:%s."
+L.AUTO_PRIVATEAURA_OPTION_POST_TEXT		= "Play DBM aura sound alerts for lingering effects of $spell:%s."
 L.AUTO_CUSTOMTIMER_OPTION_TEXT			= "Show timer for $spell:%s"--Used for Midnight timeline timers (ie we have no context of what type of timer it is, just a generic timer)
 L.AUTO_CUSTOMALERT_OPTION_TEXT			= "Set alert sound for when $spell:%s is about to be cast"--Used for Midnight custom alerts (ie we have no context of what type of alert it is, just a generic alert)
 
@@ -676,7 +687,7 @@ L.MOVE_SPECIAL_WARNING_BAR				= "Special warning movable"
 L.MOVE_SPECIAL_WARNING_TEXT				= "Special Warning"
 
 L.MOVE_PRIVATE_AURA_TEXT				= "<secret value> targets you with the spell <secret value>"
-L.MOVE_PRIVATE_AURA_DISABLED			= "Preview is disabled because Private Aura Frames are globally disabled in options."
+L.MOVE_PRIVATE_AURA_DISABLED			= "Preview is disabled because Aura Frames are globally disabled in options."
 
 L.HUD_INVALID_TYPE						= "Invalid HUD type defined"
 L.HUD_INVALID_TARGET					= "No valid target given for HUD"
@@ -801,6 +812,15 @@ L.KEYSTONE_NAMES = {
 	[559] = 'NPX', -- Nexus-Point Xenas
 	[560] = 'MC', -- Maisara Caverns
 	[583] = 'SEAT', -- Seat of the Triumvirate
+
+	[249] = 'REST', -- King's Rest
+	[250] = 'TEMPLE', -- Temple of Sethraliss
+	[399] = 'POOLS', -- Ruby Life Pools
+	[584] = 'VALE', -- The Blinding Vale
+	[585] = 'ARENA', -- Voidscar Arena
+	[586] = 'DEN', -- Den of Nalorakk
+	[587] = 'MURDER', -- Murder Row
+	[588] = 'ALTAR', -- Altar of Fangs
 }
 
 -- Midnight jazz

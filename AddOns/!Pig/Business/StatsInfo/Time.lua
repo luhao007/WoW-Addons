@@ -1,31 +1,21 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
-local Fun=addonTable.Fun
-local Create=addonTable.Create
-local PIGFrame=Create.PIGFrame
-local PIGFontString=Create.PIGFontString
-local PIGOptionsList_R=Create.PIGOptionsList_R
---------
-local BusinessInfo=addonTable.BusinessInfo
-function BusinessInfo.Time(StatsInfo)
-	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"时\n光",StatsInfo.butW,"Left")
+local addonName, PD = ...;
+local BusinessInfo=PD.BusinessInfo
+function BusinessInfo.Time(StatsUI)
+	local L=PD.locale
+	local Fun=PD.Fun
+	local Create=PD.Create
+	local PIGFrame=Create.PIGFrame
+	local PIGFontString=Create.PIGFontString
+	local PIGOptionsList_R=Create.PIGOptionsList_R
+	--------
+	local fujiF,fujiTabBut=PIGOptionsList_R(StatsUI.F,ITEM_QUALITY8_DESC,StatsUI.butW,"LeftH")
 	fujiF:HookScript("OnShow", function(self)
 		self.add_uifun()
 		fujiF.Update_huizhangG()
 	end)
-	BusinessInfo.StatsInfoUI=StatsInfo
-	function StatsInfo:TabShow(lyui)
-		if self then
-			if self:IsShown() then
-				self:Hide()
-			else
-				lyui:Hide()
-				self:Show()
-				Create.Show_TabBut_R(self.F,fujiF,fujiTabBut)
-			end
-		else
-			PIG_OptionsUI:ErrorMsg("请打开"..addonName..SETTINGS.."→"..L["TRADE_TABNAME"].."→"..INFO..STATISTICS)
-		end
+	function BusinessInfo.TabShowTime(lyui)
+		lyui:Hide()
+		Create.Show_TabBut_R(StatsUI.F,fujiF,fujiTabBut)
 	end
 	function fujiF.add_uifun()
 		if fujiF.nr then return end
@@ -87,7 +77,7 @@ function BusinessInfo.Time(StatsInfo)
 			end
 			fujiF.timeF.qushiF.UpdateList(hzlishiGG_11.data)
 		end
-		----------------------------------
+		--------------
 		local function AddWowTokenG(hzlishiGG,marketPrice)
 			table.insert(hzlishiGG,{marketPrice,GetServerTime()})
 		end

@@ -64,7 +64,6 @@ local L = _G.PreydatorL
   L["Show bar during Edit Mode"]         = "편집 모드 중에 바 표시"
 
 ---- Dropdown field titles
-  L["Currency Theme"]           = "화폐 테마"
   L["Progress Segments"]        = "진행도 구분"
   L["Sound Channel"]            = "효과음 채널"
   L["Hunt Panel Side"]          = "사냥 패널 위치"
@@ -207,7 +206,7 @@ local L = _G.PreydatorL
   L["HINT_VERTICAL_PERCENT_OFFSET"] = "세로 백분율 간격은 세로 측면 또는 눈금 측면 배치 시 적용됩니다. 단일 백분율 값 대신 눈금을 사용하세요."
   L["HINT_VERTICAL_LOCK"]           = "세로 모드에서는 레이블 모드와 접두사/접미사 행만 잠깁니다. 단계 이름과 사용자 정의 레이블은 계속 편집할 수 있습니다."
   L["HINT_AUDIO_SLIDER"]            = "슬라이더 값은 드래그하거나 직접 입력할 수 있습니다. 사용자 정의 효과음에는 파일 이름, .ogg 또는 전체 애드온 경로를 입력하세요."
-  L["HINT_ADVANCED_NOTES"]          = "기존 설치 환경은 현재 저장된 값을 유지합니다. 새 설정은 PreydatorDB에 키가 없을 때만 적용됩니다. 이 패널은 이전의 긴 옵션 페이지를 대체하지만 동일한 데이터베이스를 사용합니다. 조사 기능은 BugSack과 호환됩니다."
+  L["HINT_ADVANCED_NOTES"]          = "기존 설치 환경은 현재 저장된 값을 유지합니다. 새 설정은 PreydatorDB에 키가 없을 때만 적용됩니다. 이 패널은 이전의 긴 옵션 페이지를 대체하지만 동일한 데이터베이스를 사용합니다. 조사 기능은 내장 복사 가능한 보고서 창을 엽니다."
   L["HINT_PANEL_SUBTITLE"]          = "두 개의 열로 구성된 탭 레이아웃 옵션입니다. 슬라이더 값은 드래그하거나 직접 입력할 수 있습니다."
   L["HINT_EDITMODE_SUBTITLE"] = "블리자드 기본 편집 모드가 열려 있는 동안 사용할 수 있는 빠른 레이아웃 설정입니다. 전체 옵션은 '설정 > 애드온 > Preydator'에서 확인할 수 있습니다."
 
@@ -221,19 +220,13 @@ local L = _G.PreydatorL
   L["Preydator Edit Mode"]       = "Preydator 편집 모드"
   L["HINT_EDITMODE_SUBTITLE"]    = "블리자드 편집 모드가 열려 있는 동안 사용할 수 있는 간편 레이아웃 설정입니다. 전체 옵션은 설정 > 애드온 > Preydator에서 확인하세요."
 
----- Currency Tracker windows
-  L["Preydator Currency"]        = "Preydator 화폐"
-  L["Preydator Warband"]         = "Preydator 전투부대"
-  L["Currency Tracker"]          = "화폐 추적기"
-  L["Preydator Updates: New in 2.1.1"] = "Preydator 업데이트: 2.1.1 새로운 기능"
+---- Preydator 3.0 splash / launcher
+  L["Preydator Updates: New in 3.0"] = "Preydator 업데이트: 3.0 새로운 기능"
   L["Got It"]                    = "확인"
   L["Open Settings"]             = "설정 열기"
   L["Toggle Tracker"]            = "추적기 켜기/끄기"
-  L["Toggle Warband"]            = "전투부대 켜기/끄기"
   L["Open Tracker"]              = "추적기 열기"
   L["Close Tracker"]             = "추적기 닫기"
-  L["Open Warband"]              = "전투부대 열기"
-  L["Close Warband"]             = "전투부대 닫기"
   L["Gain Color"]                = "획득 색상"
   L["Spend Color"]               = "소비 색상"
 
@@ -244,37 +237,6 @@ local L = _G.PreydatorL
   L["Reward data pending"]                             = "보상 데이터 대기 중"
   L["No available hunts"]                              = "가능한 사냥 없음"
   L["Use /pd huntdebug at a hunt table to print payload data."] = "사냥 탁자에서 /pd hinspect를 입력하여 데이터를 확인하세요."
-
----- Currency config page labels
-  L["Currencies to Track"]          = "추적할 화폐"
-  L["Random Hunt Cost (Anguish)"]   = "무작위 사냥 비용 (고뇌)"
-  L["Panel Layout"]                 = "패널 레이아웃"
-  L["Adjust"]                       = "조정"
-  L["Delta Preview"]                = "변동치 미리보기"
-  L["Normal"]                       = "일반"
-  L["Hard"]                         = "어려움"
-  L["Nightmare"]                    = "악몽"
-  L["Currency Window"]              = "화폐 창"
-  L["Warband Window"]               = "전투부대 창"
-
----- Warband column headers
-  L["Realm"]     = "서버"
-  L["Character"] = "캐릭터"
-  L["Anguish"]   = "고뇌"
-  L["Voidlight"] = "공허불빛"
-  L["Adv"]       = "모험가"
-  L["Vet"]       = "노련가"
-  L["Champ"]     = "챔피언"
-  L["N/H/Ni"]    = "일/어/악"
-
----- Warband dynamic row labels
-  L["Total"]     = "합계"
-  L["All Realms"] = "모든 서버"
-  L["Totals"]    = "총계"
-  L["Subtotal"]  = "소계"
-
----- Currency tracker summary format
-  L["Normal %d | Hard %d | Nightmare %s"] = "일반 %d | 영웅 %d | 신화 %s"
 
 ---- Modules page
   L["Module Status"]                                                                                    = "모듈 상태"
@@ -294,10 +256,8 @@ local L = _G.PreydatorL
   L["Module changes require a reload to fully apply. Achievement module remains disabled until it is released."] = "모듈 변경 사항을 완전히 적용하려면 UI 재시작이 필요합니다. 업적 모듈은 출시 전까지 비활성화 상태로 유지됩니다."
 
 ---- Minimap / LDB tooltip
-  L["Left Click: Toggle Currency Window"]  = "왼쪽 클릭: 화폐 창 켜기/끄기"
-  L["Right Click: Toggle Warband Window"]  = "오른쪽 클릭: 전투부대 창 켜기/끄기"
-  L["Shift + Right Click: Open Options"]   = "Shift + 오른쪽 클릭: 설정 열기"
-  L["Preydator Currency Tracker"]          = "Preydator 화폐 추적기"
+  L["Left Click: Open Options"] = "왼쪽 클릭: 설정 열기"
+  L["Right Click: Open Report Window"] = "오른쪽 클릭: 보고서 창 열기"
 
 ---- 2.1.2+ missing keys (Hunt Table / Settings / Profiles / Panels)
   L["WHATS_NEW_BODY"] = "Preydator 2.1.1이 적용되었습니다.\n\n- 사냥 추적기에서 미완료 업적에 도움이 되는 사냥 안내를 표시합니다\n- 사냥 탁자 업적 마커의 배치, 크기, 개수 표시를 개선했습니다\n- 사냥 보상 표시에 아이콘+텍스트, 텍스트 전용, 아이콘+개수 스타일을 지원합니다\n- 전리품 기반 화폐 갱신을 최적화해 불필요한 CPU 사용 급증을 줄였습니다\n\n기존 창 위치를 사용 중이라면 저장된 레이아웃은 그대로 유지됩니다."
@@ -586,18 +546,18 @@ local L = _G.PreydatorL
   L["Preydator Hunt: unable to accept this quest right now."] = "Preydator 사냥: 지금은 이 퀘스트를 수락할 수 없습니다."
   L["Preydator Hunt: unable to open quest details from this row right now."] = "Preydator 사냥: 지금은 이 행에서 퀘스트 상세를 열 수 없습니다."
   L["Preydator HuntDebug Report"] = "Preydator HuntDebug 보고서"
-  L["Preydator HuntDebug: Could not send to BugSack: "] = "Preydator HuntDebug: BugSack으로 보낼 수 없음: "
-  L["Preydator HuntDebug: Could not send to BugSack: %s"] = "Preydator HuntDebug: BugSack으로 보낼 수 없음: %s"
+  L["Preydator HuntDebug: report window unavailable: "] = "Preydator HuntDebug: 보고서 창을 사용할 수 없음: "
+  L["Preydator HuntDebug: report window unavailable: %s"] = "Preydator HuntDebug: 보고서 창을 사용할 수 없음: %s"
   L["Preydator HuntDebug: no hunt snapshot captured yet."] = "Preydator HuntDebug: 아직 사냥 스냅샷이 캡처되지 않았습니다."
   L["Preydator HuntDebug: no payload captured yet."] = "Preydator HuntDebug: 아직 페이로드가 캡처되지 않았습니다."
-  L["Preydator HuntDebug: sent to BugSack via error handler."] = "Preydator HuntDebug: 오류 핸들러를 통해 BugSack으로 전송했습니다."
+  L["Preydator HuntDebug: opened in the built-in report window."] = "Preydator HuntDebug: 내장 보고서 창에서 열었습니다."
   L["Preydator HuntScanner: snapshot error: %s"] = "Preydator HuntScanner: 스냅샷 오류: %s"
   L["Preydator memory (KB): before=%s afterGC=%s reclaimed=%s"] = "Preydator 메모리(KB): 이전=%s GC후=%s 회수=%s"
 
   L["Preydator: "] = "Preydator: "
   L["Preydator: collectgarbage API unavailable."] = "Preydator: collectgarbage API를 사용할 수 없습니다."
-  L["Preydator: Could not send inspect report to BugSack: "] = "Preydator: 검사 보고서를 BugSack으로 보낼 수 없습니다: "
-  L["Preydator: Could not send inspect report to BugSack: %s"] = "Preydator: 검사 보고서를 BugSack으로 보낼 수 없습니다: %s"
+  L["Preydator: report window unavailable: "] = "Preydator: 보고서 창을 사용할 수 없습니다: "
+  L["Preydator: report window unavailable: %s"] = "Preydator: 보고서 창을 사용할 수 없습니다: %s"
   L["Preydator: debug commands are 'debug on', 'debug off', 'debug show', 'debug clear'."] = "Preydator: 디버그 명령은 'debug on', 'debug off', 'debug show', 'debug clear' 입니다."
   L["Preydator: Debug log (last %d of %d)"] = "Preydator: 디버그 로그 (최근 %d / %d)"
   L["Preydator: Debug log cleared."] = "Preydator: 디버그 로그를 비웠습니다."
@@ -608,8 +568,8 @@ local L = _G.PreydatorL
   L["Preydator: Inspect report cached in PreydatorLastInspectReport (%d lines)."] = "Preydator: 검사 보고서를 PreydatorLastInspectReport에 캐시했습니다 (%d줄)."
   L["Preydator: Inspect report cached in PreydatorLastInspectReport (%s lines)."] = "Preydator: 검사 보고서를 PreydatorLastInspectReport에 캐시했습니다 (%s줄)."
   L["Preydator: Inspect report cached in PreydatorLastInspectReport (debug module)."] = "Preydator: 검사 보고서를 PreydatorLastInspectReport에 캐시했습니다 (디버그 모듈)."
-  L["Preydator: Inspect report sent to BugSack via error handler (debug module)."] = "Preydator: 오류 핸들러를 통해 검사 보고서를 BugSack으로 전송했습니다 (디버그 모듈)."
-  L["Preydator: Inspect report sent to BugSack via error handler. This is intentional diagnostic output, not a runtime addon bug."] = "Preydator: 오류 핸들러를 통해 검사 보고서를 BugSack으로 전송했습니다. 이는 런타임 애드온 버그가 아닌 의도된 진단 출력입니다."
+  L["Preydator: Inspect report opened in the built-in report window (debug module)."] = "Preydator: 내장 보고서 창에서 검사 보고서를 열었습니다 (디버그 모듈)."
+  L["Preydator: Inspect report opened in the built-in report window. This is intentional diagnostic output, not a runtime addon bug."] = "Preydator: 내장 보고서 창에서 검사 보고서를 열었습니다. 이는 런타임 애드온 버그가 아닌 의도된 진단 출력입니다."
   L["Preydator: Progress bar auto mode restored."] = "Preydator: 진행 바 자동 모드가 복원되었습니다."
   L["Preydator: Progress bar force show = %s"] = "Preydator: 진행 바 강제 표시 = %s"
   L["Preydator: Progress bar forced visible."] = "Preydator: 진행 바를 강제로 표시했습니다."

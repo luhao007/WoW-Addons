@@ -1,13 +1,30 @@
 From:
 Ace3 - https://www.curseforge.com/wow/addons/ace3
+- AceAddon
+- AceConfig
+- AceGUI
+- AceHook
+- AceLocale
+- AceSerializer
+- AceTimer
+- CallbackHandler
+- LibStib
+- and Ace files (.toc plus)
 
 LibQTip-1.0 - https://www.curseforge.com/wow/addons/libqtip-1-0
 LibSharedMedia-3.0 - https://www.wowace.com/projects/libsharedmedia-3-0 : https://www.curseforge.com/wow/addons/libsharedmedia-3-0
 
 
+*** 2026-Jul ****
+- Ace update from Release-r1399-alpha 2026-07-10
+-- Checkbox and slider widgets
+
+*** 2026-May ****
+- Ace update from Release-r1390 2026-02-03
+- Moved LibQTip from /Ace to /libs
+
 *** 2025-Nov ****
 - Ace update from Release-r1377 2024-10-28
-
 
 *** 2025-Sep*
 - Dropped !LibUIDropDownMenu, again; updated wrappers to Blizz version

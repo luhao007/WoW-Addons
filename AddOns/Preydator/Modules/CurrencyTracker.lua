@@ -238,6 +238,7 @@ local nextLightRefreshAt = 0
 local db                -- reference to PreydatorDB.currency sub-table
 local sessionStart      = {}   -- [currencyID] = quantity at login/reload
 local sessionBaselineReady = false
+local weeklyProgressCanonicalizedSession = false
 local currencyPanelPage = nil  -- the Tab content frame, built lazily
 local lastKnownQuantity = {}   -- [currencyID] = quantity
 local warbandSortKey = "character"
@@ -451,7 +452,9 @@ local function EnsureDB()
         end
     end
 
-    if type(c.preyWeeklyProgress) == "table" then
+    -- One-time migration: canonicalize/merge weekly keys once, then skip on
+    -- hot refresh paths to avoid long synchronous sweeps.
+    if not weeklyProgressCanonicalizedSession and c.weeklyProgressCanonicalized ~= true and type(c.preyWeeklyProgress) == "table" then
         for charKey, weeks in pairs(c.preyWeeklyProgress) do
             if type(weeks) == "table" then
                 local merged = {}
@@ -462,7 +465,9 @@ local function EnsureDB()
                 c.preyWeeklyProgress[charKey] = merged
             end
         end
+        c.weeklyProgressCanonicalized = true
     end
+    weeklyProgressCanonicalizedSession = true
 
     c.preyAccountState.available = nil
 

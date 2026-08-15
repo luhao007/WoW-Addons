@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2147, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260524002224")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(132998)
 mod:SetEncounterID(2122)
@@ -36,6 +36,7 @@ mod:RegisterEventsInCombat(
  or ability.id = 270443 and type = "applybuff"
  or (ability.id = 277079 or ability.id = 272506 or ability.id = 274262 or ability.id = 263504) and (type = "applydebuff" or type = "removedebuff")
 --]]
+DBM:RegisterAltSpellName(275160, 195503)--Gaze of G'huun -> Gaze
 --Arena Floor
 local warnMatrixSpawn					= mod:NewCountAnnounce(263420, 1)
 local warnMatrixFail					= mod:NewAnnounce("warnMatrixFail", 4, 263420)
@@ -48,41 +49,41 @@ local warnBurrow						= mod:NewSpellAnnounce(267579, 2)
 local warnBurstingBoil					= mod:NewCountAnnounce(277007, 4)--Mythic
 
 --Arena Floor
-local specWarnBloodHost					= mod:NewSpecialWarningClose(267813, nil, nil, nil, 1, 2, 4)--Mythic
---local specWarnSpawnofGhuun			= mod:NewSpecialWarningSwitch("ej13699", "Dps", nil, nil, 1, 2)
+local specWarnBloodHost					= mod:NewSpecialWarningClose(267813, nil, nil, nil, 1, 2, 4, nil, "runaway")--Mythic
+--local specWarnSpawnofGhuun			= mod:NewSpecialWarningSwitch(-13699, "Dps", nil, nil, 1, 2)
 local yellBloodHost						= mod:NewYell(267813)--Mythic
-local specWarnDarkPurpose				= mod:NewSpecialWarningRun(268074, nil, nil, nil, 4, 2, 4)--Mythic
+local specWarnDarkPurpose				= mod:NewSpecialWarningRun(268074, nil, nil, nil, 4, 2, 4, nil, "justrun")--Mythic
 local yellDarkPurpose					= mod:NewYell(268074)--Mythic
-local specWarnExplosiveCorruption		= mod:NewSpecialWarningMoveAway(272506, nil, nil, 2, 1, 2)
-local specWarnVirulentCorruption		= mod:NewSpecialWarningDodge(277081, nil, nil, nil, 2, 2)--Orbs spawned by ExplosiveCorruption
+local specWarnExplosiveCorruption		= mod:NewSpecialWarningMoveAway(272506, nil, nil, 2, 1, 2, nil, nil, "runout")
+local specWarnVirulentCorruption		= mod:NewSpecialWarningDodge(277081, nil, nil, nil, 2, 2, nil, nil, "watchorb")--Orbs spawned by ExplosiveCorruption
 local yellExplosiveCorruption			= mod:NewYell(272506)
 local yellExplosiveCorruptionFades		= mod:NewShortFadesYell(272506)
-local specWarnThousandMaws				= mod:NewSpecialWarningSwitch(267509, false, nil, 2, 1, 2)
-local specWarnTorment					= mod:NewSpecialWarningInterrupt(267427, "HasInterrupt", nil, nil, 1, 2)
-local specWarnMassiveSmash				= mod:NewSpecialWarningSpell(267412, "Tank", nil, 2, 1, 2)
-local specWarnDarkBargain				= mod:NewSpecialWarningDodge(267409, nil, nil, 2, 3, 2)
-local specWarnDarkBargainOther			= mod:NewSpecialWarningTaunt(267409, false, nil, 2, 1, 2)
-local specWarnGTFO						= mod:NewSpecialWarningGTFO(270287, nil, nil, nil, 1, 8)
-local specWarnDecayingEruption			= mod:NewSpecialWarningInterruptCount(267462, "HasInterrupt", nil, nil, 1, 2, 4)--Mythic
+local specWarnThousandMaws				= mod:NewSpecialWarningSwitch(267509, false, nil, 2, 1, 2, nil, nil, "killmob")
+local specWarnTorment					= mod:NewSpecialWarningInterrupt(267427, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnMassiveSmash				= mod:NewSpecialWarningSpell(267412, "Tank", nil, 2, 1, 2, nil, nil, "carefly")
+local specWarnDarkBargain				= mod:NewSpecialWarningDodge(267409, nil, nil, 2, 3, 2, nil, nil, "runaway")
+local specWarnDarkBargainOther			= mod:NewSpecialWarningTaunt(267409, false, nil, 2, 1, 2, nil, nil, "changemt")
+local specWarnGTFO						= mod:NewSpecialWarningGTFO(270287, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnDecayingEruption			= mod:NewSpecialWarningInterruptCount(267462, "HasInterrupt", nil, nil, 1, 2, 4, nil, "kick2r")--Mythic
 ----Arena Floor P2+
-local specWarnGrowingCorruption			= mod:NewSpecialWarningCount(270447, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(5, 270447), nil, 1, 2)
-local specWarnGrowingCorruptionOther	= mod:NewSpecialWarningTaunt(270447, nil, nil, nil, 1, 2)
-local specWarnExplosiveCorruptionOther	= mod:NewSpecialWarningTaunt(272506, nil, nil, nil, 1, 2)
-local specWarnBloodFeast				= mod:NewSpecialWarningYou(263235, nil, nil, nil, 1, 2)
+local specWarnGrowingCorruption			= mod:NewSpecialWarningCount(270447, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(5, 270447), nil, 1, 2, nil, nil, "changemt")
+local specWarnGrowingCorruptionOther	= mod:NewSpecialWarningTaunt(270447, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnExplosiveCorruptionOther	= mod:NewSpecialWarningTaunt(272506, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnBloodFeast				= mod:NewSpecialWarningYou(263235, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellBloodFeast					= mod:NewYell(263235, nil, nil, nil, "YELL")
 local yellBloodFeastFades				= mod:NewIconFadesYell(263235, nil, nil, nil, "YELL")
-local specWarnBloodFeastTarget			= mod:NewSpecialWarningTargetCount(263235, nil, nil, nil, 1, 8)
-local specWarnMindNumbingChatter		= mod:NewSpecialWarningCast(263307, "SpellCaster", nil, nil, 1, 2)
-local specWarnBurstingBoilCast			= mod:NewSpecialWarningDodge(277007, nil, nil, nil, 2, 2)
-local specWarnBurstingBoil				= mod:NewSpecialWarningYou(277007, nil, nil, nil, 1, 2, 4)--Mythic
+local specWarnBloodFeastTarget			= mod:NewSpecialWarningTargetCount(263235, nil, nil, nil, 1, 8, nil, nil, "bloodfeast")
+local specWarnMindNumbingChatter		= mod:NewSpecialWarningCast(263307, "SpellCaster", nil, nil, 1, 2, nil, nil, "stopcast")
+local specWarnBurstingBoilCast			= mod:NewSpecialWarningDodge(277007, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBurstingBoil				= mod:NewSpecialWarningYou(277007, nil, nil, nil, 1, 2, 4, nil, "targetyou")--Mythic
 ----Arena Floor P3
-local specWarnCollapse					= mod:NewSpecialWarningDodge(276839, nil, nil, nil, 2, 2)
-local specWarnMalignantGrowth			= mod:NewSpecialWarningDodge(274582, nil, nil, nil, 2, 2)
-local specWarnGazeofGhuun				= mod:NewSpecialWarningLookAway(275160, nil, nil, 2, 3, 2)
+local specWarnCollapse					= mod:NewSpecialWarningDodge(276839, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnMalignantGrowth			= mod:NewSpecialWarningDodge(274582, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnGazeofGhuun				= mod:NewSpecialWarningLookAway(275160, nil, nil, 2, 3, 2, nil, nil, "turnaway")
 --Upper Platforms
-local specWarnPowerMatrix				= mod:NewSpecialWarningYou(263420, nil, nil, nil, 1, 8)--New voice "Matrix on you"
+local specWarnPowerMatrix				= mod:NewSpecialWarningYou(263420, nil, nil, nil, 1, 8, nil, nil, "newmatrix")--New voice "Matrix on you"
 local yellPowerMatrix					= mod:NewYell(263420)
-local specWarnReorginationBlast			= mod:NewSpecialWarningSpell(263482, nil, nil, nil, 2, 2)
+local specWarnReorginationBlast			= mod:NewSpecialWarningSpell(263482, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 
 mod:AddTimerLine("Arena Floor")--Dungeon journal later
 local timerExplosiveCorruptionCD		= mod:NewCDCountTimer(13, 272506, nil, nil, nil, 3, nil, nil, nil, 1, 3)
@@ -100,7 +101,7 @@ local timerBurstingBoilCD				= mod:NewCDCountTimer(20.5, 277007, nil, nil, nil, 
 local timerMindNumbingChatterCD			= mod:NewCDTimer(13.4, 263307, nil, "SpellCaster", nil, 2)
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
 local timerMalignantGrowthCD			= mod:NewCDTimer(25.6, 274582, nil, nil, nil, 3, nil, nil, nil, 2, 4)
-local timerGazeofGhuunCD				= mod:NewCDTimer(26.8, 275160, 195503, nil, nil, 2, nil, nil, nil, 3, 3)--26.8-29.1 (shortname "Gaze")
+local timerGazeofGhuunCD				= mod:NewCDTimer(26.8, 275160, nil, nil, nil, 2, nil, nil, nil, 3, 3)--26.8-29.1 (shortname "Gaze")
 mod:AddTimerLine("Upper Platforms")--Dungeon journal later
 local timerMatrixCD						= mod:NewNextCountTimer(12.1, 263420, nil, nil, nil, 5)
 local timerReOrgBlast					= mod:NewBuffActiveTimer(25, 263482, nil, nil, nil, 6)

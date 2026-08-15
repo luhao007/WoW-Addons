@@ -28,29 +28,6 @@ Prat:AddModuleToLoad(function()
 	local module = Prat:NewModule("SideTabs", "AceHook-3.0")
 	local PL = module.PL
 
-	--[==[@debug@
-	PL:AddLocale("enUS", {
-		["SideTabs"] = true,
-		["Move chat tabs to the side of the chat frame and stack them vertically."] = true,
-		["Side"] = true,
-		["Which side of the chat frame to anchor tabs to."] = true,
-		["Left"] = true,
-		["Right"] = true,
-		["X Offset"] = true,
-		["Horizontal offset from the frame edge."] = true,
-		["Y Offset"] = true,
-		["Vertical offset from the top of the frame."] = true,
-		["Spacing"] = true,
-		["Space between vertically stacked tabs."] = true,
-		["Tab Width"] = true,
-		["Set a fixed tab width for a cleaner vertical stack."] = true,
-		["Apply to Undocked Windows"] = true,
-		["Also move tabs for non-docked chat windows."] = true,
-		["Simple Skin"] = true,
-		["Hide default tab art and draw a simple background for a cleaner SideTabs look."] = true,
-	})
-	--@end-debug@]==]
-
 	Prat:SetModuleDefaults(module, {
 		profile = {
 			on = false,
@@ -380,6 +357,10 @@ Prat:AddModuleToLoad(function()
 			},
 		}
 	})
+
+	function module:GetDescription()
+		return PL["Move chat tabs to the side of the chat frame and stack them vertically."]
+	end
 
 	local function IsTabHovered(tab)
 		if not tab or not tab:IsShown() then

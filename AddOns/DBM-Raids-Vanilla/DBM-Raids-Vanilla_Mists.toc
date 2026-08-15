@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r819
+## Version: r826
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (Vanilla)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C经典旧世|r
@@ -23,15 +23,18 @@
 ## X-DBM-StatTypes: normal
 ## X-DBM-Mod-SubCategoriesID: 531, 509, 469, 409, 309
 ## X-DBM-Mod-Name: Raids (Vanilla)
+## X-DBM-Mod-Name-deDE: Schlachtzüge (Classic)
 ## X-DBM-Mod-Name-esES: Bandas (Clásico)
 ## X-DBM-Mod-Name-esMX: Bandas (Clásico)
 ## X-DBM-Mod-Name-ptBR: Raides (Clássico)
-## X-DBM-Mod-Name-frFR: Raids (Classique)
+## X-DBM-Mod-Name-frFR: Raids (Classic)
 ## X-DBM-Mod-Name-koKR: 공격대 (클래식)
 ## X-DBM-Mod-Name-ruRU: Рейды (классический)
+## X-DBM-Mod-name-zhCN: 团队副本（经典旧世）
+## X-DBM-Mod-name-zhTW: 團隊副本（經典舊世）
 ## X-DBM-Mod-Sort: 1101
 ## X-DBM-Mod-MapID: 531, 509, 309, 469, 409
-## X-DBM-Mod-MinCoreRevision: 20230521000000
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 0
 ## X-Curse-Project-ID: 16442
 ## X-Wago-ID: 7x61xpN1

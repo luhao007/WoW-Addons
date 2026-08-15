@@ -1,0 +1,8 @@
+<Ui>
+	<Script file="init.lua" />
+	<Script file="AFK.lua" />
+	<Include file="Interaction\Interaction.xml" />
+	<Script file="BabySitter.lua" />
+	<Script file="Hardcore.lua" />
+	<Script file="Options.lua" />
+</Ui>

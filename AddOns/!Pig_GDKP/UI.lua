@@ -1,20 +1,23 @@
-local addonName, addonTable = ...;
-local GDKPInfo=addonTable.GDKPInfo
+local addonName, PD = ...;
+local GDKPInfo=PD.GDKPInfo
 function GDKPInfo.ADD_UI()
 	if not PIGA["GDKP"]["Open"] then return end
+	local GnName,GnUI,GnIcon,FrameLevel,QuickBut_index = unpack(GDKPInfo.uidata)
+	if _G[GnUI] then return end
 	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
+	local adddata=L.ExtList[addonName]
 	-----
+	local PlayerInfo=Data.PlayerInfo
 	local PIGFrame=Create.PIGFrame
 	local PIGLine=Create.PIGLine
 	local PIGTabBut=Create.PIGTabBut
 	local PIGButton = Create.PIGButton
 	local PIGOptionsList_RF=Create.PIGOptionsList_RF
 	local PIGFontString=Create.PIGFontString
-	local PIGModbutton=Create.PIGModbutton
 	local PIGEnter=Create.PIGEnter
 	local PIGSetFont=Create.PIGSetFont
-	local GnName,GnUI,GnIcon,FrameLevel = unpack(GDKPInfo.uidata)
-	if _G[GnUI] then return end
+	local PIGQuickBut=Create.PIGQuickBut
+	---
 	local zhizeIcon=Data.zhizeIcon
 	local Width,Height,biaotiH,lineTOP  = 820, 570, 21,30;
 	local iconWH,hang_Height,hang_NUM  = 22,29, 14;
@@ -29,7 +32,22 @@ function GDKPInfo.ADD_UI()
 			"Interface/Buttons/UI-GroupLoot-Pass-Up",
 	}
 	GDKPInfo.RightmenuV={2,0.5,0,1}
-	C_Timer.After(0.2,function() PIGModbutton(GnName,GnIcon,GnUI,FrameLevel) end)
+	C_Timer.After(0.02,function() Create.PIGModbutton(GnName,GnIcon,GnUI,FrameLevel) end)
+	Create.PIGaddQuickBut(QuickBut_index,{
+		Open=function()
+			return PIGA["QuickBut"]["Open"] and PIGA["GDKP"]["Open"] and PIGA["GDKP"]["AddBut"]
+		end,
+		Icon=GnIcon,
+		ShowGnUI=GnUI,
+		FrameLevel=FrameLevel,
+		Tooltip=KEY_BUTTON1.."-|cff00FFFF打开"..GnName.."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r",
+		fun=function(QkBut)
+			QkBut:HookScript("OnClick", function(self,button)
+				adddata.OpenSetUI(button)
+			end);
+		end,
+	})
+
 	local RaidR=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,60},{Width, Height},GnUI,true)
 	RaidR:PIGSetBackdrop(0.8)
 	RaidR:PIGClose()
@@ -142,7 +160,7 @@ function GDKPInfo.ADD_UI()
 			PIGA["GDKP"]["Tops"][bianjiID]=nil
 			RaidR.Update_Tops()
 		elseif GNNn=="DebtRen" then
-			RaidR.PIGTradeF.updataDebtRen(TradeFrame.PIG_Data.Name,2)
+			RaidR.PIGTradeF.updataDebtRen(Data.TradeInfo.Name,2)
 		end
 		RaidR.PlayerList:Hide()
 	end);
@@ -253,7 +271,7 @@ function GDKPInfo.ADD_UI()
 					biajidata[3]=self.allname
 					RaidR.Update_Fakuan()
 				elseif GNNn=="TichengRen" then
-					if bianjiID==self.allname then PIG_OptionsUI:ErrorMsg("老板和推荐人不能为同一人","R") return end
+					if bianjiID==self.allname then PIGErrorMsg("老板和推荐人不能为同一人","R") return end
 					PIGA["GDKP"]["Tops"][bianjiID]={self.allname,0}
 					RaidR.Update_Tops()
 				elseif GNNn=="DebtRen" then
@@ -289,7 +307,7 @@ function GDKPInfo.ADD_UI()
 			RaidR:RaidInfoShow()
 			RaidR.Update_FenG()
 			RaidR.PlayerList:PlayerList_UP()
-			PIGSendChatRaidParty("人员信息已记录,退组/离线/不影响分G，需邮寄工资请"..L["CHAT_WHISPER"].."<"..PIG_OptionsUI.Name..">: 邮寄工资",true,"W")
+			PIGSendChatRaidParty("人员信息已记录,退组/离线/不影响分G，需邮寄工资请"..L["CHAT_WHISPER"].."<"..PlayerInfo.Name..">: 邮寄工资",true,"W")
 		end,
 		timeout = 0,
 		whileDead = true,
@@ -485,13 +503,8 @@ function GDKPInfo.ADD_UI()
 	RaidR.xiafangF.setbut:SetScript("OnMouseUp", function (self)
 		self.Down:Hide()
 	end);
-	RaidR.xiafangF.setbut:HookScript("OnClick", function (self)
-		if PIG_OptionsUI:IsShown() then
-			PIG_OptionsUI:Hide()
-		else
-			PIG_OptionsUI:Show()
-			Create.Show_TabBut(GDKPInfo.fuFrame,GDKPInfo.fuFrameBut)
-		end
+	RaidR.xiafangF.setbut:HookScript("OnClick", function(self,button)
+		adddata.OpenSetUI("RightButton")
 	end);
 	---------
 	RaidR.xiafangF.shezhiline = PIGLine(RaidR.xiafangF,"L",690.5,nil,{-2,4})
@@ -513,7 +526,7 @@ function GDKPInfo.ADD_UI()
 	GDKPInfo.ADD_RaidInfo(RaidR)
 	GDKPInfo.ADD_fenG(RaidR)
 	GDKPInfo.ADD_History(RaidR)
-	GDKPInfo.ADD_Check(RaidR)
+	GDKPInfo.ADD_Tool(RaidR)
 	GDKPInfo.ADD_Trade(RaidR)
 	--
 	RaidR:Update_DongjieBUT()

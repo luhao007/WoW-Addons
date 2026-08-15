@@ -103,7 +103,7 @@ function private.CanLootMailIndex(index, copper)
 	end
 	for j = 1, Inbox.GetMaxAttachments() do
 		-- TODO: prevent items that you can't loot because of internal mail error
-		if CalculateTotalNumberOfFreeBagSlots() <= 0 then
+		if Container.GetTotalFreeBagSlots() <= 0 then
 			return
 		end
 		local link, quantity = Inbox.GetAttachment(index, j)

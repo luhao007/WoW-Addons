@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("d652", "DBM-Scenario-MoP")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260523022011")
 mod:DisableHardcodedOptions()
 mod:SetZone(1099)
 
@@ -18,12 +18,12 @@ mod:RegisterEventsInCombat(
 local warnThrowBomb				= mod:NewSpellAnnounce(132995, 3, nil, false)
 
 --Lieutenant Drak'on
-local specWarnSwashbuckling		= mod:NewSpecialWarningDefensive(141438, nil, nil, nil, 1, 2)
+local specWarnSwashbuckling		= mod:NewSpecialWarningDefensive(141438, nil, nil, nil, 1, 2, nil, nil, "defensive")
 --Lieutenant Fizzel
-local specWarnVolatileConcoction= mod:NewSpecialWarningRun(141327, nil, nil, nil, 4, 2)
+local specWarnVolatileConcoction= mod:NewSpecialWarningRun(141327, nil, nil, nil, 4, 2, nil, nil, "justrun")
 --Admiral Hagman
-local specWarnVerticalSlash		= mod:NewSpecialWarningDefensive(141187, nil, nil, nil, 1, 12)
-local specWarnCounterShot		= mod:NewSpecialWarningCast(136473, "SpellCaster", nil, nil, 1, 2)
+local specWarnVerticalSlash		= mod:NewSpecialWarningDefensive(141187, nil, nil, nil, 1, 12, nil, nil, "useextraaction")
+local specWarnCounterShot		= mod:NewSpecialWarningCast(136473, "SpellCaster", nil, nil, 1, 2, nil, nil, "stopcast")
 
 --Lieutenant Drak'on
 local timerSwashbucklingCD		= mod:NewCDTimer(16, 141438, nil, nil, nil, 5)

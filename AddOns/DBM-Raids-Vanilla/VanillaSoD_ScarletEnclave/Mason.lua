@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260709012018")
 mod:DisableHardcodedOptions()
 
 mod:SetZone(2856)
@@ -26,15 +26,15 @@ mod:RegisterEventsInCombat(
 local warnMortalWoundStack = mod:NewStackAnnounce(1229005)
 
 -- Decurse this
-local warnDrown = mod:NewSpecialWarningDispel(1231592, "RemoveCurse", nil, nil, 2, 8)
+local warnDrown = mod:NewSpecialWarningDispel(1231592, "RemoveCurse", nil, nil, 2, 8, nil, nil, "helpdispel")
 
 local timerCannons = mod:NewNextTimer(30.5, 1228376)
-local specWarnCannons = mod:NewSpecialWarningDodge(1228376, nil, nil, nil, 2, 2)
+local specWarnCannons = mod:NewSpecialWarningDodge(1228376, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 local timerBossStackCount = mod:NewNextCountTimer(3, 1231587)
 
 -- Ignite Flesh (cast by adds) can be interrupted, but it's hard because 1 sec cast time
-local specWarnIgnite = mod:NewSpecialWarningInterrupt(1234347, "HasInterrupt", nil, nil, 1, 2)
+local specWarnIgnite = mod:NewSpecialWarningInterrupt(1234347, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 local timerIgniteCast = mod:NewCastNPTimer(1, 1234347)
 
 local warnPhase2	= mod:NewPhaseAnnounce(2)
@@ -60,7 +60,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif args:IsSpell(1229005) then
 		local amount = args.amount or 1
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId, nil, nil, false, args.sourceGUID) then
 			warnMortalWoundStack:Show(args.destName, amount)
 		end

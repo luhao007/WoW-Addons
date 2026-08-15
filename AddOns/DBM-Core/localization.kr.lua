@@ -2,6 +2,7 @@ if GetLocale() ~= "koKR" then return end
 if not DBM_CORE_L then DBM_CORE_L = {} end
 
 local L = DBM_CORE_L
+L.AURA_FONT_RESET = "Invalid aura text font settings were detected and reset to defaults."
 
 local dateTable = date("*t")
 if dateTable.day and dateTable.month and dateTable.day == 1 and dateTable.month == 4 then
@@ -11,7 +12,7 @@ end
 
 L.HOW_TO_USE_MOD					= L.DBM .. "을 사용해 주셔서 감사합니다. 대화창에서 /dbm help를 입력하면 사용 가능한 명령어 목록을 볼 수 있습니다. 설정을 하시려면 /dbm을 입력하세요. 보스 알림 설정을 기호에 맞게 변경하려면 원하는 던전을 직접 선택해서 로딩을 클릭하세요. " .. L.DBM .. "이 당신의 현재 전문화에 맞는 기본값을 설정하지만 일부 옵션은 자신에게 맞게 조정해야 할 수도 있습니다."
 L.SILENT_REMINDER					= "알림: " .. L.DBM .. "이 아직 조용함 모드입니다."
-L.NEWS_UPDATE						= "|h|c11ff1111뉴스|r|h: DBM이 모듈 구조 변경이 적용된 업데이트를 했으며 클래식과 본섭은 이제부터 (동일한) 통합된 모듈을 사용합니다. 이는 오리지널 (디스커버리 포함), 불성, 리분, 대격변 공격대 모듈을 본섭과 동일하게 각각 다운로드 받아야 한다는 뜻입니다. 보다 자세한 정보를 보려면 |Hgarrmission:DBM:news|h|cff3588ff[이곳을 클릭]|r|h하세요"
+L.NEWS_UPDATE						= "|h|c11ff1111뉴스|r|h: DBM이 스킬 이름 변경 기능 업데이트를 했습니다. /dbm을 입력해서 모듈 카테고리(공격대, 던전 등)로 이동한 후 이름을 바꾸고 싶은 스킬이 있는 모듈로 들어가세요."
 L.NEWS_UPDATE_REPEAT					= "|h|c11ff1111뉴스|r|h: DBM이 모듈 구조 변경이 적용된 업데이트를 했으며 클래식과 본섭은 이제부터 (동일한) 통합된 모듈을 사용합니다. 이는 오리지널 (디스커버리 포함), 불성, 리분, 대격변 공격대 모듈을 본섭과 동일하게 각각 다운로드 받아야 한다는 뜻입니다. 지금 모듈이 설치되지 않은 레이드 중입니다. 이 메시지는 누락된 공격대 모듈을 설치할 때까지 지속적으로 표시됩니다 (설치 전까진 이 지역에선 어떠한 경고도 받지 못할 것입니다)"
 
 
@@ -21,7 +22,7 @@ L.LOAD_MOD_ERROR				= "%s 보스 모드 로딩중 오류 발생: %s"
 L.LOAD_MOD_SUCCESS			= "'%s' 모드가 로딩됐습니다. 사용자 지정 경고 효과음을 설정하거나 개인적으로 메모를 적어놓고 싶다면 /dbm을 입력하세요."
 L.LOAD_MOD_COMBAT			= "전투가 종료될 때까지 %s|1을;를; 로딩하지 않습니다."
 L.LOAD_GUI_ERROR				= "GUI를 로딩할 수 없음: %s"
-L.LOAD_GUI_COMBAT			= "전투중에는 GUI의 최초 로딩을 할 수 없습니다. 전투가 종료되면 GUI가 로딩됩니다. GUI가 로딩된 다음부턴 전투중에도 GUI를 열 수 있습니다."
+L.LOAD_GUI_COMBAT						= "전투 중에는 GUI를 열 수 없습니다. 전투가 끝난 후 다시 시도하세요."
 L.BAD_LOAD					= L.DBM .. "이 전투로 인해 현재 인스턴스의 모드를 완전히 로딩하지 못했습니다. 전투가 종료된 후 가능한 빨리 /console reloadui 명령어를 입력해주세요."
 L.LOAD_MOD_VER_MISMATCH		= "DBM-Core가 로딩 조건과 맞지 않아 %s|1을;를; 로딩하지 못했습니다. 최신 버전을 설치하세요"
 L.LOAD_MOD_EXP_MISMATCH		= "아직 출시되지 않은 WoW 확장팩용으로 설계되었으므로 %s|1을;를; 로딩하지 못했습니다. 확장팩이 출시되면 해당 모드는 자동으로 작동합니다."
@@ -30,7 +31,7 @@ L.LOAD_MOD_DISABLED			= "%s|1이;가; 설치는 돼있지만 켜져있질 않습
 L.LOAD_MOD_DISABLED_PLURAL	= "%s|1이;가; 설치는 돼있지만 켜져있질 않습니다. 직접 켜기 전까진 모드들이 로딩되지 않습니다."
 
 L.COPY_URL_DIALOG					= "URL 복사"
-L.COPY_WA_DIALOG						= "WA 키 복사"
+L.COPY_WA_DIALOG						= "주문 키 복사"
 
 --Post Patch 7.1
 L.TEXT_ONLY_RANGE					= "이 지역에서는 블리자드가 일부 기능을 막아서 거리 창을 텍스트 방식으로만 사용할 수 있습니다."
@@ -92,7 +93,7 @@ L.LEAVING_COMBAT						= "전투 종료"
 L.RAID_DIFFICULTY_CHANGED				= "공격대 난이도가 %s|1으로;로; 설정되었습니다."
 L.DUNGEON_DIFFICULTY_CHANGED			= "던전 난이도가 %s|1으로;로; 설정되었습니다."
 
-L.PROFILE_NOT_FOUND			= "<" .. L.DBM .. "> 현재 설정된 프로필이 손상되었습니다. " .. L.DBM .. "이 'Default' 프로필을 로딩할 것입니다."
+L.PROFILE_NOT_FOUND			= "<" .. L.DBM .. "> 현재 설정된 프로필이 손상되었습니다. " .. L.DBM .. "이 '%s' 프로필을 로딩할 것입니다."
 L.PROFILE_CREATED			= "'%s' 프로필을 생성했습니다."
 L.PROFILE_CREATE_ERROR		= "프로필 생성 실패. 프로필 이름이 올바르지 않습니다."
 L.PROFILE_CREATE_ERROR_D		= "프로필 생성 실패. '%s' 프로필이 이미 존재합니다."
@@ -101,9 +102,9 @@ L.PROFILE_APPLY_ERROR		= "프로필 적용 실패. %s 프로필이 존재하지 
 L.PROFILE_COPIED				= "'%s' 프로필을 복사했습니다."
 L.PROFILE_COPY_ERROR			= "프로필 복사 실패. %s 프로필이 존재하지 않습니다."
 L.PROFILE_COPY_ERROR_SELF	= "동일한 프로필로는 복사할 수 없습니다."
-L.PROFILE_DELETED			= "'%s' 프로필을 삭제했습니다. 'Default' 프로필이 적용됩니다."
+L.PROFILE_DELETED			= "'%s' 프로필을 삭제했습니다. '%s' 프로필이 적용됩니다."
 L.PROFILE_DELETE_ERROR		= "프로필 삭제 실패. '%s' 프로필이 존재하지 않습니다."
-L.PROFILE_CANNOT_DELETE		= "'Default' 프로필은 삭제할 수 없습니다."
+L.PROFILE_CANNOT_DELETE		= "'%s' 프로필은 삭제할 수 없습니다."
 L.MPROFILE_COPY_SUCCESS		= "%s의 (%d 전문화) 모드 설정이 복사됐습니다."
 L.MPROFILE_COPY_SELF_ERROR	= "캐릭터 설정은 자기 자신에게 복사할 수 없습니다."
 L.MPROFILE_COPY_S_ERROR		= "원본이 손상되었습니다. 설정이 복사되지 않거나 일부만 복사됐습니다. 복사에 실패했습니다."
@@ -165,7 +166,7 @@ L.OPTION_CATEGORY_DROPDOWNS		= "드롭다운 옵션"
 L.OPTION_CATEGORY_YELLS			= "말풍선"
 L.OPTION_CATEGORY_NAMEPLATES		= "이름표"
 L.OPTION_CATEGORY_ICONS			= "공격대 징표"
-L.OPTION_CATEGORY_PAURAS				= "비공개 오라"
+L.OPTION_CATEGORY_PAURAS				= "프라이빗 오라"
 
 L.AUTO_RESPONDED						= "귓속말에 자동응답 메시지를 보냈습니다."
 L.STATUS_WHISPER						= "%s: %s, %d/%d 생존"
@@ -191,7 +192,7 @@ L.VOICE_PACK_OUTDATED		= "선택한 " .. L.DBM .. " 음성팩에 일부 음성�
 L.VOICE_MISSING				= "선택한 " .. L.DBM .. " 음성팩을 찾을 수 없습니다. 오류일 경우 음성팩이 제대로 설치되어 있고 애드온 목록에서 활성화되어 있는지 확인해 보시기 바랍니다."
 L.VOICE_DISABLED				= "현재 " .. L.DBM .. " 음성팩이 한 개 이상 설치되어 있지만 사용하고 있는게 없습니다. 음성팩을 사용하려면 '음성 경고' 항목에서 음성팩이 지정되어 있는지 확인하세요. 음성팩을 사용할 의사가 없으면 음성팩을 삭제하시면 이 메시지는 더이상 출력되지 않습니다"
 L.VOICE_COUNT_MISSING		= "%d순위 초읽기 음성으로 사용할 음성/초읽기 팩을 찾지 못했거나 현재 지원하지 않고 있습니다. 기본 설정으로 초기화 되었습니다: %s"
-L.WEAKAURA_KEY							= " (|cff308530WA 키:|r %s)"
+L.RENAME						= " (|cff359030변경됨:|r |cff71d5ff%s|r)"
 
 L.UPDATEREMINDER_HEADER			= "사용중인 " .. L.DEADLY_BOSS_MODS .. " 버전의 사용 기한이 지났습니다.\n%s (%s) 버전을 Curse, Wago, WoWI, GitHub 릴리즈 페이지를 통해 다운로드 할 수 있습니다"
 L.UPDATEREMINDER_HEADER_SUBMODULE		= "사용중인 %s 모듈의 사용 기한이 지났습니다.\n%s 버전을 Curse, Wago, WoWI, GitHub 릴리즈 페이지를 통해 다운로드 할 수 있습니다"
@@ -218,7 +219,7 @@ L.HARDCODED_FALLBACK				= L.DBM .. "가 이 하드코딩된 보스 모드에서 
 L.MOVABLE_BAR				= "드래그 하세요!"
 L.MOVABLE_FRAMES				= "프레임을 드래그 할 수 있습니다"
 
-L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h님이 당신에게 " .. L.DBM .. " 타이머를 전송했습니다: '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[타이머 취소]|r|h  |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[%1$s의 타이머 무시]|r|h"
+L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h님이 당신에게 " .. L.DBM .. " 타이머를 전송했습니다: '%2$s'\n|Haddon:DBM:cancel:%2$s:nil|h|cff3588ff[타이머 취소]|r|h  |Haddon:DBM:ignore:%2$s:%1$s|h|cff3588ff[%1$s의 타이머 무시]|r|h"
 L.PIZZA_CONFIRM_IGNORE			= "정말 %s의 " .. L.DBM .. " 타이머를 차단하시겠습니까? 이 공격대에 있는 동안에만 적용됩니다."
 L.PIZZA_ERROR_USAGE				= "사용법: /dbm [broadcast] timer <시간> <텍스트>. <시간>은 3초 이상이어야 합니다."
 
@@ -247,46 +248,52 @@ L.RANGERADAR_IN_RANGE_TEXT	= "거리 내 %d명 (%0.1fm)"
 L.RANGECHECK_IN_RANGE_TEXT	= "거리 내 %d명"--Text based doesn't need (%dyd), especially since it's not very accurate to the specific yard anyways
 L.RANGERADAR_IN_RANGE_TEXTONE	= "%s (%0.1fm)"--One target
 
-L.INFOFRAME_TITLE			= "DBM 정보 창"
-L.INFOFRAME_SHOW_SELF		= "내 자원 항상 보기"		-- Always show your own power value even if you are below the threshold
-L.INFOFRAME_SETLINES			= "최대 줄 갯수 지정"
-L.INFOFRAME_SETCOLS		= "최대 열 갯수 지정"
+L.INFOFRAME_TITLE				= "DBM 정보 창"
+L.INFOFRAME_SHOW_SELF			= "항상 내 자원 표시"		-- Always show your own power value even if you are below the threshold
+L.INFOFRAME_SETLINES			= "최대 줄 설정"
+L.INFOFRAME_SETCOLS				= "최대 열 설정"
+L.INFOFRAME_SETSTRATA			= "프레임 층 설정"
 L.INFOFRAME_LINESDEFAULT		= "보스 모듈이 자동 설정"
 L.INFOFRAME_LINES_TO			= "줄 %d개"
-L.INFOFRAME_COLS_TO			= "열 %d개"
-L.INFOFRAME_POWER			= "기력"
-L.INFOFRAME_AGGRO			= "어그로"
-L.INFOFRAME_MAIN			= "주 자원:"--Main power
-L.INFOFRAME_ALT				= "보조 자원:"--Alternate Power
+L.INFOFRAME_COLS_TO				= "열 %d개"
+L.INFOFRAME_POWER				= "자원"
+L.INFOFRAME_AGGRO				= "어그로"
+L.INFOFRAME_MAIN				= "주 자원:"--Main power
+L.INFOFRAME_ALT					= "보조 자원:"--Alternate Power
 
 L.LFG_INVITE						= "파티찾기 입장"
 
 --Common slash commands
-L.SLASHCMD_HELP							= {--AI translated (check me)
+L.SLASHCMD_HELP							= {
 	"사용 가능한 슬래시 명령어:",
 	"-----------------",
-	"/dbm unlock: 이동 가능한 상태 바 타이머를 표시합니다 (별칭: move).",
-	"/dbm pull <sec>: <sec> 초 동안의 풀링 타이머를 공격대에 전송합니다. (승급자 필요. 별칭: pull)",
-	"/dbm break <min>: <min> 분 동안의 쉬는 타이머를 공격대에 전송합니다. (승급자 필요. 별칭: break)",
+	"/dbm unlock: 위치를 옮길 수 있는 상태 바 타이머를 표시합니다. (다른 명령어: move)",
+	"/dbm pull <초>: <초> 만큼의 풀링 타이머를 공격대에 전송합니다. (승급 권한이 필요함. 다른 명령어: pull)",
+	"/dbm break <분>: <분> 만큼의 휴식 타이머를 공격대에 전송합니다. (승급 권한이 필요함. 다른 명령어: break)",
 	"/dbm midwizard: 한밤용 설정 마법사를 다시 표시합니다. (본섭 전용)",
 	"/dbm timer: 사용자 정의 " .. L.DBM .. " 타이머를 시작합니다. 자세한 내용은 '/dbm timer'를 참조하세요.",
-	"/dbm key: 파티/길드의 신화+ 쐐기돌 및 평점 확인과 던전 순간이동 스킬 모음을 사용합니다. (별칭: key, keys, keystone)",
-	"/dbm lag: 공격대 전체의 지연 시간을 확인합니다.",
-	"/dbm durability: 공격대 전체의 내구도를 확인합니다.",
+	"/dbm key: 파티/길드의 신화+ 쐐기돌 및 평점 확인과 던전 순간이동 스킬 모음 창을 엽니다. (다른 명령어: key, keys, keystone)",
+	"/dbm lag: 공격대 전원의 지연 시간을 확인합니다.",
+	"/dbm durability: 공격대 전원의 내구도를 확인합니다.",
 	"/dbm brez: 전투 부활 타이머 창을 표시해서 위치를 조정합니다.",
 	"/dbm help2: 추가 슬래시 명령어를 표시합니다"
 }
---덜 사용되는 슬래시 명령어
-L.SLASHCMD_HELP2						= {--AI translated (check me)
+--Less used slash commands
+L.SLASHCMD_HELP2						= {
 	"사용 가능한 슬래시 명령어:",
 	"-----------------",
-	"/dbm version: 보스 모드 버전 확인을 수행합니다 (별칭: ver).",
-	"/dbm version2: 보스 모드 버전 확인을 수행하며 구버전 사용자에게 귓속말을 보냅니다 (별칭: ver2).",
-	"/range <number> 또는 /distance <number>: 범위 프레임을 표시합니다. /rrange 또는 /rdistance로 색상을 반전시킵니다.",
-	"/hudar <number>: HUD 기반 범위 탐지기를 표시합니다.",
+	"/dbm version: 보스 모드 버전을 확인합니다 (다른 명령어: ver).",
+	"/dbm version2: 보스 모드 버전 확인하고 구버전 사용자에게 귓속말을 보냅니다 (다른 명령어: ver2).",
+	"/range <숫자> 또는 /distance <숫자>: 거리 창을 표시합니다. /rrange 또는 /rdistance로 색상을 반전시킵니다.",
+	"/hudar <숫자>: HUD 기반 거리 탐지기를 표시합니다.",
 	"/dbm arrow: " .. L.DBM .. " 화살표를 표시합니다. 자세한 내용은 '/dbm arrow help'를 참조하세요.",
-	"/dbm hud: " .. L.DBM .. " HUD를 표시합니다. 자세한 내용은 '/dbm hud'를 참조하세요."
+	"/dbm hud: " .. L.DBM .. " HUD를 표시합니다. 자세한 내용은 '/dbm hud'를 참조하세요.",
+	"/dbm dbtdebug: 버그 보고서 용으로 정제된 상태 바 타이머 진단 내역을 표시합니다."
 }
+L.DBT_DEBUG_HEADER			= "DBT 진단 내역 (정제 작업을 거쳐 보스전이나 비밀 텍스트 없음)"
+L.DBT_DEBUG_EMPTY			= "UI 재시작으로 인해 DBT 스타일 새로 고침이 캡처되지 않았습니다."
+L.DBT_DEBUG_DISABLED			= "캡처가 비활성화 상태입니다. 문제를 재현하기 전에 먼저 DBM 디버그 모드를 활성화하세요."
+L.DBT_DEBUG_NOTICE			= "버그 보고서에 이 대화창의 출력 내용을 포함해 주세요."
 L.TIMER_USAGE	= {
 	L.DBM .. " 타이머 명령어:",
 	"--------------",
@@ -331,6 +338,7 @@ L.AUTO_ANNOUNCE_TEXTS.incomingcount	= "%s 디버프 걸림 (%%s)"
 L.AUTO_ANNOUNCE_TEXTS.ends			= "%s 종료"
 L.AUTO_ANNOUNCE_TEXTS.endtarget		= "%s 종료: >%%s<"
 L.AUTO_ANNOUNCE_TEXTS.fades			= "%s 사라짐"
+L.AUTO_ANNOUNCE_TEXTS.fadesoon		= "%s 곧 사라짐"
 L.AUTO_ANNOUNCE_TEXTS.addsleft		= "%s 남은 수: %%d"
 L.AUTO_ANNOUNCE_TEXTS.cast			= "%s 시전: %.1f초"
 L.AUTO_ANNOUNCE_TEXTS.soon			= "곧 %s"
@@ -357,6 +365,7 @@ L.AUTO_ANNOUNCE_OPTIONS.incomingcount	= "$spell:%s 주문이 디버프를 걸 �
 L.AUTO_ANNOUNCE_OPTIONS.ends			= "$spell:%s 지속 시간 종료시 알림"
 L.AUTO_ANNOUNCE_OPTIONS.endtarget	= "$spell:%s 지속 시간 종료시 알림 (대상 포함)"
 L.AUTO_ANNOUNCE_OPTIONS.fades		= "$spell:%s|1이;가; 사라졌을 때 알림"
+L.AUTO_ANNOUNCE_OPTIONS.fadesoon	= "$spell:%s|1이;가; 곧 사라질 때 알림"
 L.AUTO_ANNOUNCE_OPTIONS.addsleft		= "$spell:%s의 남은 수 알림"
 L.AUTO_ANNOUNCE_OPTIONS.cast			= "$spell:%s 시전 시작 알림"
 L.AUTO_ANNOUNCE_OPTIONS.soon		= prewarnOption
@@ -392,6 +401,7 @@ L.AUTO_SPEC_WARN_TEXTS.blizzyou		= "%s (%%s): 당신"
 L.AUTO_SPEC_WARN_TEXTS.link		= "%s|1이;가; >%%s<랑 연결됨"
 L.AUTO_SPEC_WARN_TEXTS.defensive		= "%s - 생존기 켜세요"
 L.AUTO_SPEC_WARN_TEXTS.taunt		= "%s: >%%s< - 지금 도발"
+L.AUTO_SPEC_WARN_TEXTS.tauntsecret	= "%s: %%s - 지금 도발"
 L.AUTO_SPEC_WARN_TEXTS.close		= "근처의 >%%2$s<에게 %1$s"
 L.AUTO_SPEC_WARN_TEXTS.move		= "%s - 피하세요"
 L.AUTO_SPEC_WARN_TEXTS.keepmove		= "%s - 계속 이동"
@@ -479,16 +489,8 @@ L.AUTO_TIMER_TEXTS.active				= "%s 종료"--Buff/Debuff/event on boss
 L.AUTO_TIMER_TEXTS.fades				= "%s 사라짐"--Buff/Debuff on players
 L.AUTO_TIMER_TEXTS.ai					= "%s AI 예상"
 
-L.AUTO_TIMER_TEXTS.cd					= "%s"
-L.AUTO_TIMER_TEXTS.cdcount				= "%s (%%s)"
-L.AUTO_TIMER_TEXTS.cdsource				= "%s: >%%s<"
 L.AUTO_TIMER_TEXTS.cdspecial			= "특수 스킬"
-
-L.AUTO_TIMER_TEXTS.next					= "%s"
-L.AUTO_TIMER_TEXTS.nextcount			= "%s (%%s)"
-L.AUTO_TIMER_TEXTS.nextsource			= "%s: %%s"
 L.AUTO_TIMER_TEXTS.nextspecial			= "특수 스킬"
-
 L.AUTO_TIMER_TEXTS.varspecial			= "특수 스킬"--Now same as next, as the ~ was moved to timer number
 
 L.AUTO_TIMER_TEXTS.stage				= "단계"
@@ -601,10 +603,10 @@ L.AUTO_INFO_FRAME_OPTION_TEXT2		= "전투 전반에 관한 사항을 정보 창�
 L.AUTO_INFO_FRAME_OPTION_TEXT3		= "$spell:%s|1을;를; 정보 창에 표시 (%%s의 제한 수치 이상인 경우)"
 L.AUTO_READY_CHECK_OPTION_TEXT		= "보스가 풀링되면 전투 준비 효과음 듣기 (보스를 대상으로 잡지 않아도 재생)"
 L.AUTO_SPEEDCLEAR_OPTION_TEXT		= "이 지역의 완료 신기록 타이머 표시"
-L.AUTO_PRIVATEAURA_OPTION_TEXT		= "이 전투에서 비공개 오라 $spell:%s에 DBM 경고 효과음을 재생합니다."--Generic (most common)
-L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "나에게 $spell:%s|1이;가; 시전될 때 DBM 비공개 오라 경고 효과음을 재생합니다."
-L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "$spell:%s1으로;로;부터 도망가야 할 때 DBM 비공개 오라 경고 효과음을 재생합니다."
-L.AUTO_PRIVATEAURA_OPTION_POST_TEXT		= "$spell:%s의 효과가 지속되는 동안 DBM 비공개 오라 경고 효과음을 재생합니다."
+L.AUTO_PRIVATEAURA_OPTION_TEXT		= "이 전투에서 $spell:%s 오라에 DBM 경고 효과음을 재생합니다."--Generic (most common)
+L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "나에게 $spell:%s|1이;가; 시전될 때 DBM 오라 경고 효과음을 재생합니다."
+L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "$spell:%s1으로;로;부터 도망가야 할 때 DBM 오라 경고 효과음을 재생합니다."
+L.AUTO_PRIVATEAURA_OPTION_POST_TEXT		= "$spell:%s의 효과가 지속되는 동안 DBM 오라 경고 효과음을 재생합니다."
 L.AUTO_CUSTOMTIMER_OPTION_TEXT			= "$spell:%s 타이머 보기"--Used for Midnight timeline timers (ie we have no context of what type of timer it is, just a generic timer)
 L.AUTO_CUSTOMALERT_OPTION_TEXT			= "$spell:%s|1이;가; 시전되려 할 때 경고 효과음 설정"--Used for Midnight custom alerts (ie we have no context of what type of alert it is, just a generic alert)
 
@@ -619,7 +621,7 @@ L.MOVE_SPECIAL_WARNING_BAR		= "특수 알림 이동"
 L.MOVE_SPECIAL_WARNING_TEXT		= "특수 알림"
 
 L.MOVE_PRIVATE_AURA_TEXT				= "<secret value>가 당신에게 <secret value> 주문을 시전합니다"
-L.MOVE_PRIVATE_AURA_DISABLED			= "미리보기는 설정에서 비공개 오라 프레임이 비활성화되서 사용할 수 없습니다."
+L.MOVE_PRIVATE_AURA_DISABLED			= "미리보기는 설정에서 오라 프레임이 비활성화되서 사용할 수 없습니다."
 
 L.HUD_INVALID_TYPE			= "올바르지 않은 HUD 형식이 정의되었습니다"
 L.HUD_INVALID_TARGET			= "HUD에 올바른 대상이 주어지지 않았습니다"
@@ -740,6 +742,15 @@ L.KEYSTONE_NAMES[558] = '마정' -- Magister's Terrace (new)
 L.KEYSTONE_NAMES[559] = '제나스' -- Nexus-Point Xenas
 L.KEYSTONE_NAMES[560] = '동굴' -- Miasara Caverns
 L.KEYSTONE_NAMES[583] = '삼두정' -- Hell (IE Seat of the Triumvirate)
+
+L.KEYSTONE_NAMES[249] = '왕안' -- King's Rest
+L.KEYSTONE_NAMES[250] = '세스' -- Temple of Sethraliss
+L.KEYSTONE_NAMES[399] = '루비' -- Ruby Life Pools
+L.KEYSTONE_NAMES[584] = '골짜기' -- The Blinding Vale
+L.KEYSTONE_NAMES[585] = '투기장' -- Voidscar Arena
+L.KEYSTONE_NAMES[586] = '소굴' -- Den of Nalorakk
+L.KEYSTONE_NAMES[587] = '골목' -- Murder Row
+L.KEYSTONE_NAMES[588] = '제단' -- Altar of Fangs
 
 -- Midnight jazz
 L.MN_TIMELINE_HEADER	= "Blizzard 타임라인과 DBM 타이머 바 중에 어느 것을 사용할까요?"

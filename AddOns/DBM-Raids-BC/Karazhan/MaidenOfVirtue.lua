@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Maiden", "DBM-Raids-BC", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(16457)
 mod:SetEncounterID(654, 2446)
@@ -21,7 +21,7 @@ mod:RegisterEventsInCombat(
 --ability.id = 29511 and type = "begincast"
 local warningHolyFire		= mod:NewTargetNoFilterAnnounce(29522, 2)
 
-local specWarnRepentance	= mod:NewSpecialWarningMoveTo(29522, nil, nil, nil, 1, 15)
+local specWarnRepentance	= mod:NewSpecialWarningMoveTo(29522, nil, nil, nil, 1, 15, nil, nil, "movetopool")
 
 local timerRepentanceCD		= mod:NewVarTimer("v28-64.7", 29511, nil, nil, nil, 6)
 local timerHolyFire			= mod:NewTargetTimer(12, 29522, nil, nil, nil, 5, nil, DBM_COMMON_L.MAGIC_ICON)

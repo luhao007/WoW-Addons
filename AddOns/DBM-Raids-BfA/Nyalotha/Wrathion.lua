@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2368, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260526204832")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(156818)
 mod:SetEncounterID(2329)
@@ -32,27 +32,29 @@ mod:RegisterEventsInCombat(
  or (ability.id = 306111) and type = "cast"
  or ability.id = 306995
  --]]
+DBM:RegisterAltSpellName(305978, 18620)--Searing Breath -> Breath
+DBM:RegisterAltSpellName(306735, 138565)--Burning Cataclysm -> Cataclysm
 local warnPhase								= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 --Stage One: The Black Emperor
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20627))
 local warnSearingArmor						= mod:NewStackAnnounce(306015, 2, nil, "Tank")
 local warnIncineration						= mod:NewTargetAnnounce(306111, 3)
 
-local specWarnSearingArmorStack				= mod:NewSpecialWarningStack(306015, nil, 2, nil, nil, 1, 6)
-local specWarnSearingArmor					= mod:NewSpecialWarningTaunt(306015, nil, nil, nil, 1, 2)
-local specWarnIncineration					= mod:NewSpecialWarningMoveAway(306111, nil, nil, nil, 1, 2)
+local specWarnSearingArmorStack				= mod:NewSpecialWarningStack(306015, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnSearingArmor					= mod:NewSpecialWarningTaunt(306015, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnIncineration					= mod:NewSpecialWarningMoveAway(306111, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellIncineration						= mod:NewYell(306111)
 local yellIncinerationFades					= mod:NewShortFadesYell(306111)
-local specWarnGaleBlast						= mod:NewSpecialWarningDodgeCount(306289, nil, nil, nil, 2, 2)
-local specWarnBurningCataclysm				= mod:NewSpecialWarningCount(306735, nil, 138565, nil, 2, 2)
+local specWarnGaleBlast						= mod:NewSpecialWarningDodgeCount(306289, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBurningCataclysm				= mod:NewSpecialWarningCount(306735, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
 --local specWarnCreepingMadness				= mod:NewSpecialWarningStack(313250, nil, 32, nil, nil, 1, 2, 4)
-local specWarnGTFO							= mod:NewSpecialWarningGTFO(306824, nil, nil, nil, 1, 8)
+local specWarnGTFO							= mod:NewSpecialWarningGTFO(306824, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
-local timerSearingBreathCD					= mod:NewCDTimer(8.5, 305978, 18620, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerSearingBreathCD					= mod:NewCDTimer(8.5, 305978, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerIncinerationCD					= mod:NewCDCountTimer(19.4, 306111, nil, nil, nil, 3)--19-24 variation even when not delayed by other casts
 local timerGaleBlastCD						= mod:NewCDCountTimer(90.9, 306289, nil, nil, nil, 2)
-local timerBurningCataclysmCD				= mod:NewCDCountTimer(90.9, 306735, 138565, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)
-local timerBurningCataclysm					= mod:NewCastTimer(8, 306735, 138565, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerBurningCataclysmCD				= mod:NewCDCountTimer(90.9, 306735, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)
+local timerBurningCataclysm					= mod:NewCastTimer(8, 306735, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 
 --Stage Two: Smoke and Mirrors
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20635))

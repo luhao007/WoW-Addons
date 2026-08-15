@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2655, "DBM-Party-Midnight", 1, 1299)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260713204720")
 mod:SetCreatureID(231606)
 mod:SetEncounterID(3056)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -15,16 +15,16 @@ mod:RegisterCombat("combat")
 --https://www.wowhead.com/beta/spell=470212/flaming-twisters is a private aura but it's impractical to add a sound for
 local warnFlamingUpdraft			= mod:NewCountAnnounce(466556, 3)
 
-local specWarnSearingBeak			= mod:NewSpecialWarningCount(466064, nil, nil, nil, 1, 2)
-local specWarnBurningGale			= mod:NewSpecialWarningCount(465904, nil, nil, nil, 2, 13)
+local specWarnSearingBeak			= mod:NewSpecialWarningCount(466064, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnBurningGale			= mod:NewSpecialWarningCount(465904, nil, nil, nil, 2, 13, nil, nil, "pushbackincoming")
 
 local timerSearingBeakCD			= mod:NewCDCountTimer(10, 466064, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerFlamingUpdraftCD			= mod:NewCDCountTimer(6, 466556, nil, nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)
 local timerBurningGaleCD			= mod:NewCDCountTimer(15, 465904, nil, nil, nil, 2, nil, DBM_COMMON_L.IMPORTANT_ICON)
 
 --TODO, fix private aura GTFO sound defaults if assumption is wrong
-mod:AddPrivateAuraSoundOption(466559, true, 466556, 1, 1, "runout", 2)--Flaming Updraft (Currently disabled by blizzard, so hidden from UI automatically by core)
-mod:AddPrivateAuraSoundOption(472118, false, 472118, 1, 2, "watchfeet", 8)--Ignited Embers. GTFO that's off by default because under certain conditions you do not want to avoid it
+mod:AddAuraSoundOption(466559, true, 466556, 1, 1, "runout", 2)--Flaming Updraft (Currently disabled by blizzard, so hidden from UI automatically by core)
+mod:AddAuraSoundOption(472118, false, 472118, 1, 2, "watchfeet", 8)--Ignited Embers. GTFO that's off by default because under certain conditions you do not want to avoid it
 
 mod.vb.searingBeakCount = 0
 mod.vb.flamingUpdraftCount = 0
@@ -33,7 +33,7 @@ mod.vb.burningGaleCount = 0
 local badStateDetected = false
 
 ---@param self DBMMod
----@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 local function setFallback(self, dontSetAlerts)
 	if not dontSetAlerts then
 		if self:IsTank() then
@@ -41,9 +41,12 @@ local function setFallback(self, dontSetAlerts)
 		end
 		specWarnBurningGale:SetAlert(242, "pushbackincoming", 13)
 	end
-	timerSearingBeakCD:SetTimeline(239)
-	timerFlamingUpdraftCD:SetTimeline(241)
-	timerBurningGaleCD:SetTimeline(242)
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerSearingBeakCD:SetTimeline(239, onlyColor)
+	timerFlamingUpdraftCD:SetTimeline(241, onlyColor)
+	timerBurningGaleCD:SetTimeline(242, onlyColor)
 end
 
 function mod:OnLimitedCombatStart()
@@ -52,16 +55,13 @@ function mod:OnLimitedCombatStart()
 	self.vb.flamingUpdraftCount = 1
 	self.vb.burningGaleCount = 1
 	badStateDetected = false
-	if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+	if DBM.Options.HardcodedTimer and not badStateDetected then
 		self:IgnoreBlizzardAPI()
 		self:RegisterShortTermEvents(
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end

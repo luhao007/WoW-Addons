@@ -1,3 +1,4 @@
+-- Generated from CurseForge on Sat Aug 15 08:10:39 UTC 2026
 local ns = select(2, ...) ---@class ns @The addon namespace.
 
 if ns:IsSameLocale("koKR") then
@@ -7,7 +8,7 @@ if ns:IsSameLocale("koKR") then
 
 	L.LOCALE_NAME = "koKR"
 
-	L["ALLOW_IN_LFD"] = "던전 찾기 허용"
+L["ALLOW_IN_LFD"] = "던전 찾기 허용"
 L["ALLOW_IN_LFD_CLASSIC"] = "파티 찾기 허용"
 L["ALLOW_IN_LFD_CLASSIC_DESC"] = "파티 찾기에서 파티나 신청자를 우클릭하여 Raider.IO 프로필 URL을 복사합니다."
 L["ALLOW_IN_LFD_DESC"] = "던전 찾기에서 파티나 신청자를 우클릭하여 Raider.IO 프로필 URL을 복사합니다."
@@ -29,6 +30,60 @@ L["BINDING_HEADER_RAIDERIO_REPLAYUI"] = "리플레이 UI"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TIMING_BOSS"] = "보스 시간으로 설정"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TIMING_DUNGEON"] = "던전 시간으로 설정"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TOGGLE"] = "리플레이 UI 전환"
+L["BUILDS_DUNGEON_BRACKET_10-99"] = "M+ 10단 이상"
+L["BUILDS_DUNGEON_BRACKET_15-99"] = "M+ 15단 이상"
+L["BUILDS_DUNGEON_BRACKET_20-99"] = "M+ 20단 이상"
+L["BUILDS_DUNGEON_BRACKET_6-9"] = "M+ 6~9단"
+L["BUILDS_DUNGEONS"] = "쐐기"
+L["BUILDS_DUNGEONS_ALL"] = "모든 던전"
+L["BUILDS_DUNGEONS_SPECIFIC"] = "%s (%s)"
+L["BUILDS_ENCOUNTER_DIFFICULY_all"] = "아무 난이도"
+L["BUILDS_ENCOUNTER_DIFFICULY_heroic"] = "영웅"
+L["BUILDS_ENCOUNTER_DIFFICULY_mythic"] = "신화"
+L["BUILDS_ENCOUNTER_DIFFICULY_normal"] = "일반"
+L["BUILDS_PROFILE_ACTIVE_LOADOUT_TITLE"] = "이 장비 구성이 활성화되었습니다"
+L["BUILDS_PROFILE_ALTERNATE"] = "대체"
+L["BUILDS_PROFILE_COPY_COMPARELINK_ACTION_TITLE"] = "비교 링크 복사"
+L["BUILDS_PROFILE_COPY_COMPARELINK_POPUP_TITLE"] = "Raider.IO 구성 비교 링크 복사:"
+L["BUILDS_PROFILE_COPY_LOADOUT_ACTION_TITLE"] = "구성 내보내기"
+L["BUILDS_PROFILE_COPY_LOADOUT_LINK_ACTION_TITLE"] = "장비 구성 링크 복사"
+L["BUILDS_PROFILE_COPY_LOADOUT_LINK_POPUP_TITLE"] = "Raider.IO 장비 구성 링크 복사:"
+L["BUILDS_PROFILE_COPY_LOADOUT_POPUP_TITLE"] = "장비 구성 문자열 복사:"
+L["BUILDS_PROFILE_ERROR_CREATING_LOADOUT"] = "장비 구성을 생성할 수 없습니다. 추가 장비 구성을 저장할 공간이 부족하다면 공간을 확보해 주세요."
+L["BUILDS_PROFILE_FAILED_IMPORTING_BUILD"] = "빌드 가져오기에 실패했습니다."
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_HERO_FORMAT"] = ""--]] 
+L["BUILDS_PROFILE_IMPORTED_BUILD_TO_LOADOUT"] = "“%s”로 빌드를 가져왔습니다."
+L["BUILDS_PROFILE_LOAD_LOADOUT_ACTION_TITLE"] = "불러오기"
+L["BUILDS_PROFILE_LOADOUT_IS_ALREADY_ACTIVE"] = "현재 장비 구성이 이 빌드와 일치합니다."
+L["BUILDS_PROFILE_LOADOUT_NAME"] = "Raider.IO 빌드"
+L["BUILDS_PROFILE_NO_DATA"] = "멀록들은 여기에 표시할 만한 유용한 내용을 찾지 못했습니다. 필터를 변경해 보세요."
+L["BUILDS_PROFILE_RECOMMENDED"] = "추천"
+L["BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON"] = "던전 도감 프레임 버튼 표시"
+L["BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON_DESC"] = "던전 도감 프레임에 바로가기 버튼을 표시하도록 설정합니다."
+L["BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON"] = "특성 프레임 버튼 표시"
+L["BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON_DESC"] = "특성 프레임에 바로가기 버튼을 표시하도록 설정합니다."
+L["BUILDS_PROFILE_STATS_FORMAT"] = "영웅 특성의 %s (%s, %s %s)"
+L["BUILDS_PROFILE_STATS_SUFFIX_KILLS"] = "처치"
+L["BUILDS_PROFILE_STATS_SUFFIX_RUNS"] = "런"
+L["BUILDS_PROFILE_SWITCHING_TO_EXISTING_LOADOUT"] = "“%s”로 전환합니다."
+L["BUILDS_PROFILE_SWITCHING_TO_LOADOUT"] = "“%s”로 전환합니다."
+L["BUILDS_PROFILE_UNABLE_TO_DELETE_LOADOUT"] = "이전 장비 구성 “%s” 정리할 수 없습니다. 다시 시도하거나 수동으로 삭제해 주세요."
+L["BUILDS_PROFILE_UPDATED_BUILD_TO_LOADOUT"] = "“%s”에 새로운 특성을 추가했습니다."
+L["BUILDS_RAIDS"] = "레이드"
+L["BUILDS_RAIDS_ENCOUNTERS_ALL"] = "%s: 모든 전투"
+L["BUILDS_SPEED_all"] = "아무 진행 속도"
+L["BUILDS_SPEED_fast"] = "빠른 처치 (상위 20%)"
+L["BUILDS_SPEED_median"] = "킬 수의 중앙값 (중간 20%)"
+L["BUILDS_TITLE"] = "특성 빌드"
+L["BUILDS_TITLE_FULL"] = "Raider.IO 특성 빌드"
+L["BUILDS_WEAPON_1"] = "한손 쌍수"
+L["BUILDS_WEAPON_2"] = "양손 쌍손"
+L["BUILDS_WEAPON_3"] = "양손"
+L["BUILDS_WEAPON_4"] = "한손 + 방패"
+L["BUILDS_WEAPON_5"] = "한손 + 보조"
+L["BUILDS_WEAPON_6"] = "한손"
+L["BUILDS_WEAPON_all"] = "모든 무기"
 L["CANCEL"] = "취소"
 L["CHANGES_REQUIRES_UI_RELOAD"] = [=[변경 사항이 저장되었지만 변경 사항을 적용하려면 UI를 다시 불러와야 합니다.
 
@@ -57,24 +112,32 @@ L["DB_MODULES_HEADER_MYTHIC_PLUS"] = "신화+"
 L["DB_MODULES_HEADER_RAIDING"] = "레이드"
 L["DB_MODULES_HEADER_RECRUITMENT"] = "신청자"
 L["DISABLE_DEBUG_MODE_RELOAD"] = "디버그 모드를 비활성화하고 있습니다. 확인을 클릭하면 UI가 재시작됩니다."
+L["DISABLE_DROPDOWN_MENU_BUTTON"] = "유닛 드롭다운 메뉴 비활성화 (임시 핫픽스)"
+L["DISABLE_DROPDOWN_MENU_BUTTON_DESC"] = "이는 드롭다운 메뉴 시스템과 관련된 지속적인 문제에 대한 임시 핫픽스입니다. 전투 중 드롭다운 메뉴를 사용하여 주시를 설정하거나 레이드 대상을 지정할 때, 혹은 커뮤니티 프레임을 사용할 때 오류가 발생하는 경우에만 이 확인란을 선택하시면 됩니다. 블리자드가 근본적인 문제를 해결하는 대로 이 옵션은 추후 제거될 예정입니다."
 L["DISABLE_RWF_MODE_BUTTON"] = "비활성화"
 L["DISABLE_RWF_MODE_BUTTON_TOOLTIP"] = "RWF 모드를 비활성화 합니다. UI가 재시작됩니다."
 L["DISABLE_RWF_MODE_RELOAD"] = "RWF 모드를 비활성화 합니다. 확인하면 UI가 재시작됩니다."
 L["DPS"] = "|cffFF3636공격전담|r"
 L["DUNGEON_SHORT_NAME_AA"] = "대학"
 L["DUNGEON_SHORT_NAME_AD"] = "아탈"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_AOF"] = ""--]] 
 L["DUNGEON_SHORT_NAME_ARAK"] = "아라카라"
 L["DUNGEON_SHORT_NAME_ARC"] = "비전로"
 L["DUNGEON_SHORT_NAME_AV"] = "하늘빛"
 L["DUNGEON_SHORT_NAME_BH"] = "담쟁이"
 L["DUNGEON_SHORT_NAME_BREW"] = "양조장"
 L["DUNGEON_SHORT_NAME_BRH"] = "검떼"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_BV"] = ""--]] 
 L["DUNGEON_SHORT_NAME_COEN"] = "대성당"
 L["DUNGEON_SHORT_NAME_COS"] = "별궁"
 L["DUNGEON_SHORT_NAME_COT"] = "실타래"
 L["DUNGEON_SHORT_NAME_DAWN"] = "새인호"
 L["DUNGEON_SHORT_NAME_DFC"] = "어둠불꽃"
 L["DUNGEON_SHORT_NAME_DHT"] = "어숲"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_DON"] = ""--]] 
 L["DUNGEON_SHORT_NAME_DOS"] = "저편"
 L["DUNGEON_SHORT_NAME_EB"] = "상록숲"
 L["DUNGEON_SHORT_NAME_EDA"] = "알다니"
@@ -95,6 +158,8 @@ L["DUNGEON_SHORT_NAME_MC"] = "마이사라"
 L["DUNGEON_SHORT_NAME_MISTS"] = "티르너"
 L["DUNGEON_SHORT_NAME_ML"] = "왕노"
 L["DUNGEON_SHORT_NAME_MOS"] = "아귀"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_MR"] = ""--]] 
 L["DUNGEON_SHORT_NAME_MT"] = "정원"
 L["DUNGEON_SHORT_NAME_NELT"] = "넬루"
 L["DUNGEON_SHORT_NAME_NL"] = "넬둥"
@@ -126,6 +191,8 @@ L["DUNGEON_SHORT_NAME_UNDR"] = "썩은굴"
 L["DUNGEON_SHORT_NAME_UPPR"] = "상층"
 L["DUNGEON_SHORT_NAME_VOTW"] = "금고"
 L["DUNGEON_SHORT_NAME_VP"] = "누각"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_VSA"] = ""--]] 
 L["DUNGEON_SHORT_NAME_WM"] = "웨이"
 L["DUNGEON_SHORT_NAME_WORK"] = "작업장"
 L["DUNGEON_SHORT_NAME_WS"] = "첨탑"
@@ -179,15 +246,19 @@ L["MINIMAP_SHORTCUT_ENABLE_DESC"] = "미니맵 주변에 아이콘을 표시하�
 L["MINIMAP_SHORTCUT_HEADER"] = "미니맵"
 L["MINIMAP_SHORTCUT_HELP"] = "|A:newplayertutorial-icon-mouse-leftbutton:16:12|a 검색 |A:newplayertutorial-icon-mouse-rightbutton:16:12|a 설정"
 L["MINIMAP_SHORTCUT_HELP_LEFT_CLICK"] = "왼쪽 클릭"
+L["MINIMAP_SHORTCUT_HELP_OPEN_MENU"] = "메뉴"
 L["MINIMAP_SHORTCUT_HELP_RIGHT_CLICK"] = "오른쪽 클릭"
 L["MINIMAP_SHORTCUT_HELP_SEARCH"] = "검색"
 L["MINIMAP_SHORTCUT_HELP_SETTINGS"] = "설정"
 L["MINIMAP_SHORTCUT_LOCK"] = "버튼 고정"
+L["MINIMAP_SHORTCUT_MENU_BUILDS"] = "빌드 선택"
+L["MINIMAP_SHORTCUT_MENU_COPY_BUILD"] = "링크 복사"
 L["MINIMAP_SHORTCUT_MINIMAP_ENABLE"] = "미니맵 버튼 표시"
 L["MINIMAP_SHORTCUT_MINIMAP_ENABLE_DESC"] = "미니맵 주변에 아이콘을 표시합니다."
 L["MINIMAP_SHORTCUT_MINIMAP_LOCK"] = "미니맵 버튼 고정"
 L["MISC_SETTINGS"] = "기타"
 L["MODULE_AMERICAS"] = "북미"
+L["MODULE_CHINA"] = "중국"
 L["MODULE_EUROPE"] = "유럽"
 L["MODULE_KOREA"] = "한국"
 L["MODULE_TAIWAN"] = "대만"
@@ -385,6 +456,7 @@ L["RAID_BOSS_NP_6"] = "연합공작 카이베자"
 L["RAID_BOSS_NP_7"] = "비단 궁정"
 L["RAID_BOSS_NP_8"] = "여왕 안수레크"
 L["RAID_BOSS_RS_1"] = "할리온"
+L["RAID_BOSS_SF_1"] = "부식수렁"
 L["RAID_BOSS_SFO_1"] = "경계하는 수호자"
 L["RAID_BOSS_SFO_10"] = "라이겔론"
 L["RAID_BOSS_SFO_11"] = "간수"
@@ -406,6 +478,20 @@ L["RAID_BOSS_SOD_6"] = "고통장이 라즈날"
 L["RAID_BOSS_SOD_7"] = "태초의 존재의 수호자"
 L["RAID_BOSS_SOD_8"] = "운명필경사 로칼로"
 L["RAID_BOSS_SOD_9"] = "켈투자드"
+L["RAID_BOSS_SOO_1"] = "이메르세우스"
+L["RAID_BOSS_SOO_10"] = "판다리아의 전리품"
+L["RAID_BOSS_SOO_11"] = "피에 굶주린 토크"
+L["RAID_BOSS_SOO_12"] = "공성기술자 블랙퓨즈"
+L["RAID_BOSS_SOO_13"] = "클락시 용장들"
+L["RAID_BOSS_SOO_14"] = "가로쉬 헬스크림"
+L["RAID_BOSS_SOO_2"] = "쓰러진 수호자들"
+L["RAID_BOSS_SOO_3"] = "노루셴"
+L["RAID_BOSS_SOO_4"] = "교만의 샤"
+L["RAID_BOSS_SOO_5"] = "갈라크라스"
+L["RAID_BOSS_SOO_6"] = "강철의 거대괴수"
+L["RAID_BOSS_SOO_7"] = "코르크론 암흑주술사"
+L["RAID_BOSS_SOO_8"] = "장군 나즈그림"
+L["RAID_BOSS_SOO_9"] = "말코록"
 L["RAID_BOSS_ToES_1"] = "영원의 수호병"
 L["RAID_BOSS_TOES_1"] = "영원의 수호병"
 L["RAID_BOSS_TOES_2"] = "출롱"
@@ -429,6 +515,22 @@ L["RAID_BOSS_TOT_8"] = "프리모디우스"
 L["RAID_BOSS_TOT_9"] = "암흑 원령"
 L["RAID_BOSS_TOTFW_1"] = "바람의 비밀의회"
 L["RAID_BOSS_TOTFW_2"] = "알아키르"
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_8"] = ""--]] 
 L["RAID_BOSS_VOTI_1"] = "에라노그"
 L["RAID_BOSS_VOTI_2"] = "테로스"
 L["RAID_BOSS_VOTI_3"] = "원시 의회"
@@ -480,12 +582,17 @@ L["RAID_MQD"] = "쿠엘다나스 진격로"
 L["RAID_MSV"] = "모구샨 금고"
 L["RAID_NP"] = "네룹아르 궁전"
 L["RAID_RS"] = "루비 성소"
+L["RAID_SF"] = "진균나락"
+L["RAID_SOO"] = "오그리마 공성전"
 L["RAID_ToES"] = "영원한 봄의 정원"
 L["RAID_TOES"] = "영원한 봄의 정원"
 L["RAID_TOT"] = "천둥의 왕좌"
 L["RAID_TOTFW"] = "네 바람의 왕좌"
+--[[Translation missing --]]
+--[[ L["RAID_VA"] = ""--]] 
 L["RAID_VS"] = "공허첨탑"
 L["RAID_VS_DR_MQD"] = "첨탑/균열/진격로"
+L["RAIDERIO"] = "Raider.IO"
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "+%s단 시간내 평균 점수"
 L["RAIDERIO_BEST_RUN"] = "Raider.IO 신화+ 최고 단수"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "RaiderIO 클라이언트 사용자 정의"
@@ -622,6 +729,5 @@ L["WARNING_LOCK_POSITION_FRAME_AUTO"] = "Raider.IO: 먼저 Raider.IO 프로필�
 L["WARNING_RWF_MODE_ENABLE"] = "|cffFFFFFF%s|r RWF 모드가 활성화되었습니다. |cffFFFFFF/raiderio rwf|r을 입력하여 비활성화 할 수 있습니다."
 L["WIPE_RWF_MODE_BUTTON"] = "초기화"
 L["WIPE_RWF_MODE_BUTTON_TOOLTIP"] = "로그를 저장 파일에서 지우려면 클릭하세요. UI가 재시작됩니다."
-
 
 end

@@ -1,7 +1,7 @@
-local mod	= DBM:NewMod(2739, "DBM-Raids-Midnight", 1, 1308)
+local mod	= DBM:NewMod(2739, "DBM-Raids-Midnight", 2, 1308)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260427055125")
+mod:SetRevision("20260708211617")
 --mod:SetCreatureID()--No Data Yet, has 4 CIDs
 mod:SetEncounterID(3182)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -13,45 +13,57 @@ mod:RegisterCombat("combat")
 --NOTES: Light quill has encounter event if private aura gets removed. https://www.wowhead.com/spell=1241992/light-quill 384
 --https://www.wowhead.com/spell=1242091/void-quill is 385
 --Twilight Seal is a mechanic not in journal but has both private auras and encounter events 417 and 418
+DBM:RegisterAltSpellName(1241282, DBM_COMMON_L.ADDS)--Embers of Belo'ren -> Adds
+DBM:RegisterAltSpellName(1242981, DBM_COMMON_L.ORBS)--Radiant Echoes -> Orbs
+DBM:RegisterAltSpellName(1260763, DBM_COMMON_L.TANKCOMBO)--Guardian's Edict -> Tank Combo
+DBM:RegisterAltSpellName(1242260, DBM_COMMON_L.LINES)--Infused Quills -> Lines
+DBM:RegisterAltSpellName(1242515, L.ColorSwap)--Voidlight Convergence -> Color Swap
+--DBM:RegisterAltSpellName(1241292, DBM_COMMON_L.GROUPSOAK)--Light Diver -> Group Soak
+--DBM:RegisterAltSpellName(1241339, DBM_COMMON_L.GROUPSOAK)--Void Diver -> Group Soak
 --Stage 1
 local warnVoidlightConvergenceSoon		= mod:NewSoonAnnounce(1242515, 3)
 
-local specWarnEmbersofBeloren			= mod:NewSpecialWarningCount(1241282, nil, nil, DBM_COMMON_L.ADDS, 1, 2)
-local specWarnRadiantEchoes				= mod:NewSpecialWarningCount(1242981, nil, nil, DBM_COMMON_L.ORBS, 2, 2)
-local specWarnGuardiansEdict			= mod:NewSpecialWarningCount(1260763, nil, nil, DBM_COMMON_L.TANKCOMBO, 1, 2)
-local specWarnVoidlightConvergence		= mod:NewSpecialWarningBlizzYou(1242515, nil, nil, nil, 2, 2)--No PA to detect color, can only just warn to check color
-local specWarnLightFeather				= mod:NewSpecialWarningYou(1241162, nil, nil, nil, 1, 2)--Untested
-local specWarnVoidFeather				= mod:NewSpecialWarningYou(1241163, nil, nil, nil, 1, 2)--Untested
+local specWarnEmbersofBeloren			= mod:NewSpecialWarningCount(1241282, nil, nil, nil, 1, 2, nil, nil, "mobsoon")
+local specWarnRadiantEchoes				= mod:NewSpecialWarningCount(1242981, nil, nil, nil, 2, 2, nil, nil, "orbsincoming")
+local specWarnGuardiansEdict			= mod:NewSpecialWarningCount(1260763, nil, nil, nil, 1, 2, nil, nil, "tankcombo")
+local specWarnVoidlightConvergence		= mod:NewSpecialWarningBlizzYou(1242515, nil, nil, nil, 2, 2, nil, nil, "colorchange")--No PA to detect color, can only just warn to check color
+--local specWarnLightFeather			= mod:NewSpecialWarningBlizzYou(1241162, nil, nil, nil, 1, 2, nil, nil, "lightyou")--Untested
+--local specWarnVoidFeather				= mod:NewSpecialWarningBlizzYou(1241163, nil, nil, nil, 1, 2, nil, nil, "voidyou")--Untested
 --mod:GroupSpells(1242515, 1241162, 1241163)--Uncomment group when hardcode enables parent warning
-local specWarnDeathDrop					= mod:NewSpecialWarningCount(1246709, nil, nil, nil, 2, 2)
+local specWarnDeathDrop					= mod:NewSpecialWarningCount(1246709, nil, nil, nil, 2, 2, nil, nil, "justrun")
 --Adds
-local specWarnLightDiver				= mod:NewSpecialWarningYou(1241292, nil, nil, DBM_COMMON_L.GROUPSOAK, 1, 2)
-local specWarnVoidDiver					= mod:NewSpecialWarningYou(1241339, nil, nil, DBM_COMMON_L.GROUPSOAK, 1, 2)
+--local specWarnLightDiver				= mod:NewSpecialWarningBlizzYou(1241292, nil, nil, nil, 1, 2, nil, nil, "lightsoak")
+--local specWarnVoidDiver				= mod:NewSpecialWarningBlizzYou(1241339, nil, nil, nil, 1, 2, nil, nil, "voidsoak")
 
-local timerEmbersofBelorenCD			= mod:NewCDCountTimer(20.5, 1241282, DBM_COMMON_L.ADDS.." (%s)", nil, nil, 1)
-local timerRadiantEchoesCD				= mod:NewCDCountTimer(20.5, 1242981, DBM_COMMON_L.ORBS.." (%s)", nil, nil, 5)
-local timerGuardiansEdictCD				= mod:NewCDCountTimer(20.5, 1260763, DBM_COMMON_L.TANKCOMBO.." (%s)", "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK)
+local timerEmbersofBelorenCD			= mod:NewCDCountTimer(20.5, 1241282, nil, nil, nil, 1)
+local timerRadiantEchoesCD				= mod:NewCDCountTimer(20.5, 1242981, nil, nil, nil, 5)
+local timerGuardiansEdictCD				= mod:NewCDCountTimer(20.5, 1260763, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK)
 local timerEternalBurnsCD				= mod:NewCDCountTimer(20.5, 1244344, nil, nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)
 local timerInfusedQuillsCD				= mod:NewCDCountTimer(20.5, 1242260, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
-local timerVoidlightConvergenceCD		= mod:NewCDCountTimer(20.5, 1242515, L.ColorSwap.." (%s)", nil, nil, 2, nil, DBM_COMMON_L.IMPORTANT_ICON)
+local timerVoidlightConvergenceCD		= mod:NewCDCountTimer(20.5, 1242515, nil, nil, nil, 2, nil, DBM_COMMON_L.IMPORTANT_ICON)
 local timerDeathDropCD					= mod:NewCDCountTimer(20.5, 1246709, nil, nil, nil, 6)--Stage bar, unless fight actually fires a diff stage bar then we'll use that
 local timerBerserkCD					= mod:NewBerserkTimer(600)
 
-mod:AddPrivateAuraSoundOption(1244348, true, 1244344, 1, 3, "absorbyou", 19)--Light Burn (sub spell of Eternal Burns)
-mod:AddPrivateAuraSoundOption(1266404, true, 1244344, 1, 3, "absorbyou", 19)--Void Burn (sub spell of Eternal Burns)
-mod:AddPrivateAuraSoundOption(1241992, true, 1242260, 1, 1, "lineyou", 17)--Light Quill (sub spell of Infused Quills)
-mod:AddPrivateAuraSoundOption(1242091, true, 1242260, 1, 1, "lineyou", 17)--Void Quill (sub spell of Infused Quills)
-mod:AddPrivateAuraSoundOption(1241840, true, 1241292, 1, 2, "watchfeet", 8)--Light Patch (dropped by Light Dive)
-mod:AddPrivateAuraSoundOption(1241841, true, 1241339, 1, 2, "watchfeet", 8)--Void Patch (dropped by Void Dive)
+mod:AddAuraSoundOption(1244348, true, 1244344, 1, 3, "absorbyou", 19)--Light Burn (sub spell of Eternal Burns)
+mod:AddAuraSoundOption(1266404, true, 1244344, 1, 3, "absorbyou", 19)--Void Burn (sub spell of Eternal Burns)
+mod:AddAuraSoundOption(1241992, true, 1242260, 1, 1, "lineyou", 17)--Light Quill (sub spell of Infused Quills)
+mod:AddAuraSoundOption(1242091, true, 1242260, 1, 1, "lineyou", 17)--Void Quill (sub spell of Infused Quills)
+mod:AddAuraSoundOption(1241292, true, 1241292, 1, 2, "lightsoak", 19)--Light Dive
+mod:AddAuraSoundOption(1241339, true, 1241339, 1, 2, "voidsoak", 19)--Void Dive
+mod:AddAuraSoundOption(1241840, true, 1241292, 1, 2, "watchfeet", 8)--Light Patch (dropped by Light Dive)
+mod:AddAuraSoundOption(1241841, true, 1241339, 1, 2, "watchfeet", 8)--Void Patch (dropped by Void Dive)
+
+mod:AddCustomAlertSoundOption(1241162, true, 1)--Light Feather
+mod:AddCustomAlertSoundOption(1241163, true, 1)--Void Feather
 --Stage 2
-local specWarnIncubationofFlames		= mod:NewSpecialWarningCount(1242792, nil, nil, nil, 2, 2)
-local specWarnRebirth					= mod:NewSpecialWarningCount(1241313, nil, nil, nil, 1, 2)
+local specWarnIncubationofFlames		= mod:NewSpecialWarningCount(1242792, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnRebirth					= mod:NewSpecialWarningCount(1241313, nil, nil, nil, 1, 2, nil, nil, "dpshard")
 
 local timerIncubationofFlamesCD			= mod:NewCDCountTimer(20.5, 1242792, nil, nil, nil, 3)--Might not even have a timer, if not kill object
-local timerRebirthCD					= mod:NewCDCountTimer(20.5, 1241313, nil, nil, nil, 6)--Iffy
+local timerRebirthCD					= mod:NewCastTimer(20.5, 1241313, nil, nil, nil, 6)--Iffy
 
-mod:AddPrivateAuraSoundOption(1242803, true, 1242792, 1, 2, "watchfeet", 8)--Light Flames (dropped by Incubation of Flames)
-mod:AddPrivateAuraSoundOption(1242815, true, 1242792, 1, 2, "watchfeet", 8)--Void Flames (dropped by Incubation of Flames)
+mod:AddAuraSoundOption(1242803, true, 1242792, 1, 2, "watchfeet", 8)--Light Flames (dropped by Incubation of Flames)
+mod:AddAuraSoundOption(1242815, true, 1242792, 1, 2, "watchfeet", 8)--Void Flames (dropped by Incubation of Flames)
 
 mod.vb.embersCount = 0
 mod.vb.echoesCount = 0
@@ -66,7 +78,7 @@ local lastEmbersEventID = 0
 local heroicSequenceSlot = 0
 
 ---@param self DBMMod
----@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 local function setFallback(self, dontSetAlerts)
 	--Blizz API fallbacks
 	if not dontSetAlerts then
@@ -78,23 +90,28 @@ local function setFallback(self, dontSetAlerts)
 		specWarnVoidlightConvergence:SetAlert(218, "colorchange", 19, 3)
 		specWarnDeathDrop:SetAlert(272, "justrun", 2, 3)
 		specWarnIncubationofFlames:SetAlert(273, "watchstep", 2, 3)
-		specWarnLightFeather:SetAlert(482, "lightyou", 19, 3, 0)
-		specWarnVoidFeather:SetAlert(483, "voidyou", 19, 3, 0)
-		specWarnLightDiver:SetAlert(494, "lightsoak", 19, 3, 0)
-		specWarnVoidDiver:SetAlert(495, "voidsoak", 19, 3, 0)
+--		specWarnLightFeather:SetAlert(482, "lightyou", 19, 3, 0)
+--		specWarnVoidFeather:SetAlert(483, "voidyou", 19, 3, 0)
+		--specWarnLightDiver:SetAlert(494, "lightsoak", 19, 3, 0)
+		--specWarnVoidDiver:SetAlert(495, "voidsoak", 19, 3, 0)
 		specWarnRebirth:SetAlert(497, "dpshard", 16, 3, 0)
 	end
 
-	timerEmbersofBelorenCD:SetTimeline(128)
-	timerRadiantEchoesCD:SetTimeline(130)
-	timerGuardiansEdictCD:SetTimeline(134)
-	timerEternalBurnsCD:SetTimeline(138)
-	timerInfusedQuillsCD:SetTimeline(161)
-	timerVoidlightConvergenceCD:SetTimeline(218)
-	timerDeathDropCD:SetTimeline(272)
-	timerIncubationofFlamesCD:SetTimeline(273)
-	timerRebirthCD:SetTimeline(497)
-	timerBerserkCD:SetTimeline(500)
+	--If user has dbm bars enabled, countdowns will be sent by dbm bars
+	--if user has dbm bars off, SetTimeline will set color and countdowns
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerEmbersofBelorenCD:SetTimeline(128, onlyColor)
+	timerRadiantEchoesCD:SetTimeline(130, onlyColor)
+	timerGuardiansEdictCD:SetTimeline(134, onlyColor)
+	timerEternalBurnsCD:SetTimeline(138, onlyColor)
+	timerInfusedQuillsCD:SetTimeline(161, onlyColor)
+	timerVoidlightConvergenceCD:SetTimeline(218, onlyColor)
+	timerDeathDropCD:SetTimeline(272, onlyColor)
+	timerIncubationofFlamesCD:SetTimeline(273, onlyColor)
+	timerRebirthCD:SetTimeline(497, onlyColor)
+	timerBerserkCD:SetTimeline(500, onlyColor)
 end
 
 function mod:OnLimitedCombatStart(delay)
@@ -117,13 +134,17 @@ function mod:OnLimitedCombatStart(delay)
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		--Even when using hardcodes, we still want to customize the timeline in certain ways
+		--Many use timeline in conjunction with DBM warnings
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end
+	--These fire ENCOUNTER_WARNING we can hook a sound into but we can't disambiguate since we can't parse WHICH one you get
+	--So we can't actually use NewSpecialWarningBlizzYou here AND these don't have private auras
+	--So we simply register custom sounds to blizzards warning sound handler
+	self:EnableAlertOptions(1241162, 482, "lightyou", 19, 4, 0)
+	self:EnableAlertOptions(1241163, 483, "voidyou", 19, 4, 0)
 end
 
 function mod:OnCombatEnd()
@@ -141,8 +162,9 @@ do
 	local function timersEasy(self, timer, timerExact, eventID)
 		if self:GetStage(2) then
 			--Rebirth stage. Any bars ending/restarting around here are treated as cycle boundary.
-			if timer == 30 then
-				timerRebirthCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "rebirth"))
+			if timer == 30 or timer == 40 then
+				self:TLCountStart(eventID, "rebirth")
+				timerRebirthCD:TLStart(timerExact, eventID)
 				return
 			elseif timer == 10 or timer == 6 or timer == 18 or timer == 20 or timer == 34 or timer == 50 then
 				self:SetStage(1)
@@ -178,7 +200,7 @@ do
 			timerVoidlightConvergenceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "convergence", "convergenceCount"))
 			warnVoidlightConvergenceSoon:Schedule(timerExact - 5)
 			warnVoidlightConvergenceSoon:ScheduleVoice(timerExact - 5, "colorchangesoon")
-		elseif timer == 30 then--Rebirth stage transition (health based)
+		elseif timer == 30 or timer == 40 then--Rebirth stage transition (health based)
 			self:SetStage(2)
 			lastEmbersEventID = 0
 			timerRebirthCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "rebirth"))
@@ -197,8 +219,9 @@ do
 	---@param eventID number
 	local function timersHeroic(self, timer, timerExact, eventID)
 		if self:GetStage(2) then
-			if timer == 30 then
-				timerRebirthCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "rebirth"))
+			if timer == 30 or timer == 40 then
+				self:TLCountStart(eventID, "rebirth")
+				timerRebirthCD:TLStart(timerExact, eventID)
 				return
 			elseif timer == 10 or timer == 21 or timer == 6 or timer == 18 or timer == 20 or timer == 34 or timer == 50 then
 				self:SetStage(1)
@@ -291,10 +314,11 @@ do
 				setFallback(self)
 				DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)
 			end
-		elseif timer == 30 then--Rebirth stage transition (health based)
+		elseif timer == 30 or timer == 40 then--Rebirth stage transition (health based)
 			self:SetStage(2)
 			heroicSequenceSlot = 0
-			timerRebirthCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "rebirth"))
+			self:TLCountStart(eventID, "rebirth")
+			timerRebirthCD:TLStart(timerExact, eventID)
 		else
 			badStateDetected = true
 			self:ResumeBlizzardAPI()

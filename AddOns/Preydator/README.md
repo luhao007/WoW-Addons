@@ -2,9 +2,12 @@
 
 Preydator is a focused Prey Hunt companion addon for World of Warcraft, featuring Predator-inspired audio cues, a customizable hunt progress bar, and stage-based tracking built from Blizzard quest/widget APIs.
 
-Current release: `v2.2.10`
+Current release: `v3.0.1`
 
 Runtime safety note: In restricted instance content (`party`, `raid`, `scenario`, `delve`, `arena`, `pvp`), Preydator is intended to fail closed and keep runtime behavior inactive.
+Widget safety note: Preydator captures prey stage data from `Setup` snapshots and a constrained tracked-frame refresh path while explicitly skipping known taint-prone fields (`shownState`, `widgetID`, `widgetType`). Numeric payload handling stays on the sanitized `pcall -> tostring -> tonumber` path to reduce world-map tooltip/layout taint risk.
+Refresh safety note: when Blizzard briefly fails to return the active prey quest during reload or refresh timing windows, Preydator now keeps the already-tracked live prey quest as authoritative as long as it still exists in the quest log, preventing stage/progress resets like `66% -> 0%` mid-hunt.
+Zone safety note: prey-zone matching now re-evaluates stale quest map data against the live player map so new maps do not remain stuck on a previous zone ID, and the built-in report window keeps copy behavior safe from unintended overwrite when the user is selecting text.
 
 ## What Preydator tracks
 
@@ -29,23 +32,18 @@ Important: Blizzard does not expose a true percent completion for Prey Hunts. Pr
 
 ## UI and layout features (2.0.3)
 
-- New module runtime controls for Bar, Sounds, Currency, Hunt Table, and Warband
+- New module runtime controls for Bar, Sounds, Hunt Table, and a standalone launcher
 - Module-aware settings locking with reload detection when module state changes
 - CPU optimizations for zone caching and reduced unnecessary update routes
 - New installs start with the bar unlocked for quick placement; lock it in Options when finished
 - 4K display support with corrected dropdown scaling and UI-scale normalization
 - Account-wide prey unlock tracking for Nightmare difficulty
 - Bar position persistence across reloads with resilient backup coordinate sync
-- New Currency Tracker window for approved Prey currencies
-- New Warband currency table with sortable columns and realm grouping
 - Hunt Table tracker with grouping/sorting, reward icons, collapsible headers, and direct accept/open actions
-- Warband `Prey Track (Alts)` with `N/H/Ni` available/completed modes and weekly-aware tracking snapshots
+- Hunt Table `Prey Track (Alts)` with `N/H/Ni` available/completed modes and weekly-aware tracking snapshots
 - Hunt Table achievement signals resolve from explicit questID criteria mappings only (no title/name fallback matching)
 - Hunt Table achievement signals on higher-tier rows can cumulatively include unmet lower-tier mapped achievements for the same prey target while remaining questID/criteria anchored
-- Session delta tracking for approved Prey currencies
-- Theme support in currency windows: `Light`, `Brown`, `Dark`
-- One-time What's New splash for currency launch (with Show Again in Advanced tab)
-- Currencies tab now includes direct controls for tracker/warband visibility, tracked currency selection, random hunt cost context, and panel layout sliders
+- One-time splash screen for Preydator 3.0 (with Show What's New in Advanced tab)
 
 - Modular tabbed settings panel: `General`, `Display`, `Text`, `Audio`, `Advanced`
 - Compact Edit Mode quick-settings window
@@ -148,6 +146,7 @@ Bundled default files:
 	- `/pd debug on`
 	- `/pd debug off`
 	- `/pd debug show`
+	- `/pd debug bs`
 	- `/pd debug clear`
 
 ## Roadmap progress snapshot
@@ -173,23 +172,28 @@ Bundled default files:
 	- `/pd debug on` - enable debug logging.
 	- `/pd debug off` - disable debug logging.
 	- `/pd debug show` - print the latest debug log lines.
+	- `/pd debug bs` - open the debug log in the built-in report window.
 	- `/pd debug clear` - clear stored debug log lines.
 
 - Inspect diagnostics:
 	- `/pd inspect` - print live addon diagnostics to chat.
-	- `/pd inspect bs` - send live addon diagnostics to BugSack.
+	- `/pd inspect bs` - open live addon diagnostics in the built-in report window.
 
 - Quest inspect diagnostics:
 	- `/pd qinspect` - inspect the active prey quest.
 	- `/pd qinspect <questID>` - inspect a specific quest ID.
-	- `/pd qinspect bs` - send active prey quest diagnostics to BugSack.
-	- `/pd qinspect <questID> bs` - send specific quest diagnostics to BugSack.
+	- `/pd qinspect bs` - open active prey quest diagnostics in the built-in report window.
+	- `/pd qinspect <questID> bs` - open specific quest diagnostics in the built-in report window.
 
 - Hunt snapshot diagnostics:
 	- `/pd hinspect` - print the current hunt snapshot to chat.
-	- `/pd hinspect bs` - send the current hunt snapshot to BugSack.
+	- `/pd hinspect bs` - open the current hunt snapshot in the built-in report window.
 	- `/pd hinspectcopy` - print the last captured hunt payload.
-	- `/pd hinspectcopy bs` - send the last captured hunt payload to BugSack.
+	- `/pd hinspectcopy bs` - open the last captured hunt payload in the built-in report window.
+
+- Launcher shortcuts (minimap button / addon compartment):
+	- `Left Click` - open Options.
+	- `Right Click` - open the built-in report window.
 
 Removed legacy aliases: `/preydator`, `/pd open`, `/pd mem`, `/pd memory`, `inspectquest*`, and `huntdebug*`.
 

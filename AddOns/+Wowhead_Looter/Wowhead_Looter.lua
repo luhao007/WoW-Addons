@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 12.0.5                    --
+--    Patch: 12.1.0                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2026-04-20";
+local WL_ADDON_UPDATED = "2026-08-11";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 120005;
+local WL_VERSION = 120100;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -26,6 +26,7 @@ wlItemDurability, wlGarrisonMissions, wlItemBonuses, wlContributionQuests = {}, 
 wlDailies, wlWorldQuests = "", "";
 wlRegionBuildings = {};
 wlTradingPostItems = "";
+wlCombatLogLooterMode = 0;
 
 -- SavedVariablesPerCharacter
 wlSetting = {minimap=false};
@@ -708,6 +709,13 @@ local WL_ENCOUNTER_NPC = {
 }
 local wlLastBossKillNpcId = 0;
 
+-- Enums for wlCombatLogLooterMode
+local wlCombatLogMode = {
+    Disabled = 0,
+    Instance = 1,
+    Always = 2,
+};
+
 -- Speed optimizations
 local CheckInteractDistance = CheckInteractDistance;
 local GetAchievementCriteriaInfo = GetAchievementCriteriaInfo;
@@ -951,6 +959,10 @@ function wlEvent_PLAYER_LOGIN(self)
     wlScanFollowers();
     wlScanHeirlooms();
     wlCheckAreaPois();
+
+    if wlCombatLogLooterMode ~= wlCombatLogMode.Disabled then
+        wlCombatLogLooterModeSet(wlCombatLogLooterMode, false);
+    end
 
     wlMessage(WL_LOADED:format(WL_NAME, WL_VERSION) .. " - " .. WL_ADDON_UPDATED, true);
 end
@@ -2813,6 +2825,8 @@ function wlSeenWorldQuests()
         2346, -- Undermine
         2371, -- K'aresh
         2537, -- Quel'Thalas
+        2599, -- Val
+        2600, -- Naigtal
     };
     for _, extraUiMapId in ipairs(extraUiMapIds) do
         local mapInfo = C_Map.GetMapInfo(extraUiMapId);
@@ -4985,7 +4999,7 @@ local wlPois = {}
 -- Workaround to collect Bountiful Delves remaining time.
 function wlEvent_AreaPOIPinMouseOver(self, mixin, tooltipShown, poiId, poiName)
 
-    if not mixin or not tooltipShown then
+    if not mixin or not tooltipShown or wlIsInCombat() then
         return;
     end
 
@@ -5195,6 +5209,9 @@ function wlEvent_ZONE_CHANGED()
     wlCheckTorghastWings();
     wlCheckVenthyrBrokenMirrorQuests();
     wlCheckPrimalVignettes();
+    if wlCombatLogLooterMode ~= wlCombatLogMode.Disabled then
+        wlCombatLogModeCheck();
+    end
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -5547,6 +5564,31 @@ function wlMiniMapOnClick(self, button, down)
     end
 end
 
+-- Set the combat log mode
+function wlCombatLogLooterModeSet(mode, userInitiated)
+    wlCombatLogLooterMode = mode;
+    wlCombatLogLooterModeDisabledCheckbox:SetChecked(mode == wlCombatLogMode.Disabled);
+    wlCombatLogLooterModeInstanceCheckbox:SetChecked(mode == wlCombatLogMode.Instance);
+    wlCombatLogLooterModeAlwaysCheckbox:SetChecked(mode == wlCombatLogMode.Always);
+    wlCombatLogModeCheck(userInitiated);
+end
+
+-- Check if combat log should be turned on or off
+function wlCombatLogModeCheck(userInitiated)
+    local inInstance, instanceType = IsInInstance();
+    inInstance = inInstance or instanceType == 'scenario';
+    if wlCombatLogLooterMode == wlCombatLogMode.Disabled or
+       (wlCombatLogLooterMode == wlCombatLogMode.Instance and not inInstance) then
+        LoggingCombat(false);
+        wlMessage(("%s: %s %s"):format(WL_NAME, WL_OPTIONS_COMBATLOG, WL_DISABLED), userInitiated);
+    elseif (wlCombatLogLooterMode == wlCombatLogMode.Instance and inInstance) or
+            wlCombatLogLooterMode == wlCombatLogMode.Always then
+        LoggingCombat(true);
+        wlMessage(("%s: %s %s"):format(WL_NAME, WL_OPTIONS_COMBATLOG, WL_ENABLED), userInitiated);
+    end
+end
+
+
 function wlMiniMapOnDragStart(self, button)
     GameTooltip:Hide();
     self:LockHighlight();
@@ -5804,6 +5846,44 @@ function wlCreateFrames()
         end
         wlMessage(("%s: %s"):format(WL_NAME, (WL_MINIMAP):format(wlEnabledDisabled(wlSetting.minimap))), true);
     end);
+
+    -- Combat Log options
+    local header5 = CreateFrame("Frame", nil, header4);
+    header5:SetHeight(18);
+    header5:SetPoint("TOPLEFT", header4, "BOTTOMLEFT", 0, -70);
+    header5:SetPoint("TOPRIGHT", header4, "BOTTOMRIGHT");
+    header5.label = header5:CreateFontString(nil, "BACKGROUND", "GameFontNormal");
+    header5.label:SetPoint("TOP");
+    header5.label:SetPoint("BOTTOM");
+    header5.label:SetJustifyH("CENTER");
+    header5.label:SetText(WL_OPTIONS_COMBATLOG);
+    header5.left = header5:CreateTexture(nil, "BACKGROUND");
+    header5.left:SetHeight(8);
+    header5.left:SetPoint("LEFT", 10, 0);
+    header5.left:SetPoint("RIGHT", header4.label, "LEFT", -5, 0);
+    header5.left:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border");
+    header5.left:SetTexCoord(0.81, 0.94, 0.5, 1);
+    header5.right = header5:CreateTexture(nil, "BACKGROUND");
+    header5.right:SetHeight(8);
+    header5.right:SetPoint("RIGHT", -10, 0);
+    header5.right:SetPoint("LEFT", header5.label, "RIGHT", 5, 0);
+    header5.right:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border");
+    header5.right:SetTexCoord(0.81, 0.94, 0.5, 1);
+    header5.left:SetPoint("RIGHT", header5.label, "LEFT", -5, 0);
+
+    local checkbox;
+    checkbox = CreateFrame("CheckButton", "wlCombatLogLooterModeAlwaysCheckbox", header5, "InterfaceOptionsCheckButtonTemplate");
+    _G[checkbox:GetName().."Text"]:SetText(WL_OPTIONS_COMBATLOG_MODE_ALWAYS);
+    checkbox:SetPoint("TOPLEFT", header5, "BOTTOMLEFT", 10, -24);
+    checkbox:SetScript("OnClick", function() wlCombatLogLooterModeSet(wlCombatLogMode.Always, true) end);
+    checkbox = CreateFrame("CheckButton", "wlCombatLogLooterModeInstanceCheckbox", header5, "InterfaceOptionsCheckButtonTemplate");
+    _G[checkbox:GetName().."Text"]:SetText(WL_OPTIONS_COMBATLOG_MODE_INSTANCE);
+    checkbox:SetPoint("TOPLEFT", header5, "BOTTOMLEFT", 150, -24);
+    checkbox:SetScript("OnClick", function() wlCombatLogLooterModeSet(wlCombatLogMode.Instance, true) end);
+    checkbox = CreateFrame("CheckButton", "wlCombatLogLooterModeDisabledCheckbox", header5, "InterfaceOptionsCheckButtonTemplate");
+    _G[checkbox:GetName().."Text"]:SetText(WL_OPTIONS_COMBATLOG_MODE_DISABLED);
+    checkbox:SetPoint("TOPLEFT", header5, "BOTTOMLEFT", 290, -24);
+    checkbox:SetScript("OnClick", function() wlCombatLogLooterModeSet(wlCombatLogMode.Disabled, true) end);
 
     local resetAllButton = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate");
     resetAllButton:SetText(WL_OPTIONS_RESET_ALL);

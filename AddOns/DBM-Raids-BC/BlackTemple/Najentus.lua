@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal25"
 end
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260709014257")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(22887)
 mod:SetEncounterID(601, 2473)
@@ -26,7 +26,7 @@ local warnShield		= mod:NewSpellAnnounce(39872, 4)
 local warnShieldSoon	= mod:NewSoonAnnounce(39872, 10, 3)
 local warnSpine			= mod:NewTargetNoFilterAnnounce(39837, 3)
 
-local specWarnSpineTank	= mod:NewSpecialWarningTaunt(39837, nil, nil, nil, 1, 2)
+local specWarnSpineTank	= mod:NewSpecialWarningTaunt(39837, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 local yellSpine			= mod:NewYell(39837)
 
 local timerShield		= mod:NewCDTimer(56, 39872, nil, nil, nil, 5)
@@ -65,7 +65,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellSpine:Yell()
 		else
-			local uId = DBM:GetRaidUnitId(args.destName)
+			local uId = DBM:GetRaidUnitId(args.destName, true)
 			if self:IsTanking(uId) then--Tank got spike and it wasn't us
 				--Taunt off spiked tank
 				specWarnSpineTank:Show(args.destName)

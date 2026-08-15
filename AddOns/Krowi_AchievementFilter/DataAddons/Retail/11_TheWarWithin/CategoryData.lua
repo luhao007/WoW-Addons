@@ -1,12 +1,11 @@
 local _, addon = ...;
 local shared = addon.Data.CategoryData.Shared;
+local CT = shared.CT;
 
 tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
-    1598,
-    addon.GetCategoryInfoTitle(15520),
+    CT.TheWarWithin,
     { -- Character
-        1609,
-        addon.GetCategoryInfoTitle(92),
+        CT.Character,
         {
             40146, -- War Within Superior
             40147, -- War Within Epic
@@ -30,14 +29,11 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         },
     },
     { -- Zones
-        1599,
         addon.L["Zones"],
         { -- Khaz Algar
-            1642,
             addon.GetMapName(2274),
             { -- Quests
-                1643,
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     20596, -- Loremaster of Khaz Algar
@@ -49,8 +45,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Exploration
-                1644,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     40430, -- Khaz Algar Flight Master
@@ -65,8 +60,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Player vs. Player
-                1645,
-                addon.GetCategoryInfoTitle(95),
+                CT.PvP,
                 true,
                 {
                     40087, -- Unbound Battle
@@ -84,8 +78,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Reputation
-                1646,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     41169, -- Khaz Algar Diplomat
@@ -96,11 +89,9 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             }
         },
         { -- Isle of Dorn
-            1611,
             addon.GetMapName(2248),
             { -- Quests
-                1615,
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     20118, -- The Isle of Dorn
@@ -108,8 +99,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Exploration
-                1619,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     40831, -- Explore the Isle of Dorn
@@ -120,16 +110,14 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Player vs. Player
-                1620,
-                addon.GetCategoryInfoTitle(95),
+                CT.PvP,
                 true,
                 {
                     40083, -- Tour of Duty: Isle of Dorn
                 },
             },
             { -- Reputation
-                1621,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     41161, -- Council of Dornogal
@@ -156,11 +144,9 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- The Ringing Deeps
-            1612,
             addon.GetMapName(2214),
             { -- Quests
-                1616,
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     19560, -- The Ringing Deeps
@@ -171,8 +157,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Exploration
-                1622,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     40825, -- Explore The Ringing Deeps
@@ -195,16 +180,14 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Player vs. Player
-                1623,
-                addon.GetCategoryInfoTitle(95),
+                CT.PvP,
                 true,
                 {
                     40084, -- Tour of Duty: The Ringing Deeps
                 },
             },
             { -- Reputation
-                1624,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     41165, -- Assembly of the Deeps
@@ -231,11 +214,9 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Hallowfall
-            1613,
             addon.GetMapName(2215),
             { -- Quests
-                1617,
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     20598, -- Hallowfall
@@ -251,8 +232,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Exploration
-                1625,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     40826, -- Explore Hallowfall
@@ -267,16 +247,14 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Player vs. Player
-                1626,
-                addon.GetCategoryInfoTitle(95),
+                CT.PvP,
                 true,
                 {
                     40085, -- Tour of Duty: Hallowfall
                 },
             },
             { -- Reputation
-                1627,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     41167, -- Hallowfall Arathi
@@ -303,11 +281,9 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Azj-Kahet
-            1614,
             addon.GetMapName(2255),
             { -- Quests
-                1618,
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     19559, -- Azj-Kahet
@@ -320,8 +296,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Exploration
-                1628,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     40822, -- Explore Azj-Kahet
@@ -339,16 +314,14 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Player vs. Player
-                1629,
-                addon.GetCategoryInfoTitle(95),
+                CT.PvP,
                 true,
                 {
                     40086, -- Tour of Duty: Azj-Kahet
                 },
             },
             { -- Reputation
-                1630,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     41149, -- The Severed Threads
@@ -380,7 +353,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         { -- Siren Isle
             addon.GetMapName(2369),
             { -- Quests
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     41042, -- Siren-ity Now!
@@ -390,7 +363,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Exploration
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     41046, -- Clean Up on Isle Siren
@@ -405,7 +378,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         { -- Undermine
             addon.GetMapName(2346),
             { -- Quests
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     40900, -- Undermined
@@ -413,7 +386,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Exploration
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     41587, -- Explore Undermine
@@ -437,14 +410,14 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Player vs. Player
-                addon.GetCategoryInfoTitle(95),
+                CT.PvP,
                 true,
                 {
                     41522, -- Tour of Duty: Undermine
                 },
             },
             { -- Reputation
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     41349, -- In with the Cartels
@@ -479,7 +452,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         { -- K'aresh
             addon.GetMapName(2371),
             { -- Quests
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     41970, -- The Knife's Edge
@@ -498,7 +471,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Exploration
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     42740, -- Explore K'aresh
@@ -515,14 +488,14 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Player vs. Player
-                addon.GetCategoryInfoTitle(95),
+                CT.PvP,
                 true,
                 {
                     42131, -- Tour of Duty: K'aresh
                 },
             },
             { -- Reputation
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     42022, -- A Trusted Partner
@@ -544,107 +517,93 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         }
     },
     { -- Delves
-        1600,
-        addon.GetCategoryInfoTitle(15522),
+        CT.Delves,
         { -- Fungal Folly
-            1658,
-            addon.GetMapName(2249),
+            addon.GetAreaPoiNameName(7864),
             {
                 40525, -- Fungal Folly Stories
                 40803, -- Fungal Folly Discoveries
             },
         },
         { -- Kriegval's Rest
-            1659,
-            addon.GetMapName(2250),
+            addon.GetAreaPoiNameName(7865),
             {
                 40526, -- Kriegval's Rest Stories
                 40807, -- Kriegval's Rest Discoveries
             },
         },
         { -- Earthcrawl Mines
-            1660,
-            addon.GetMapName(2269),
+            addon.GetAreaPoiNameName(7863),
             {
                 40527, -- Earthcrawl Mines Stories
                 40806, -- Earthcrawl Mines Discoveries
             },
         },
         { -- The Waterworks
-            1661,
-            addon.GetMapName(2251),
+            addon.GetAreaPoiNameName(7866),
             {
                 40528, -- The Waterworks Stories
                 40816, -- The Waterworks Discoveries
             },
         },
         { -- The Dread Pit
-            1662,
-            addon.GetMapName(2302),
+            addon.GetAreaPoiNameName(7867),
             {
                 40529, -- The Dread Pit Stories
                 40812, -- The Dread Pit Discoveries
             },
         },
         { -- Nightfall Sanctum
-            1663,
-            addon.GetMapName(2277),
+            addon.GetAreaPoiNameName(7868),
             {
                 40530, -- Nightfall Sanctum Stories
                 40809, -- Nightfall Sanctum Discoveries
             },
         },
         { -- Mycomancer Cavern
-            1664,
-            addon.GetMapName(2312),
+            addon.GetAreaPoiNameName(7869),
             {
                 40531, -- Mycomancer Cavern Stories
                 40808, -- Mycomancer Cavern Discoveries
             },
         },
         { -- The Sinkhole
-            1665,
-            addon.GetMapName(2301),
+            addon.GetAreaPoiNameName(7870),
             {
                 40532, -- The Sinkhole Stories
                 40813, -- The Sinkhole Discoveries
             },
         },
         { -- Skittering Breach
-            1666,
-            addon.GetMapName(2310),
+            addon.GetAreaPoiNameName(7871),
             {
                 40533, -- Skittering Breach Stories
                 40810, -- Skittering Breach Discoveries
             },
         },
         { -- The Underkeep
-            1667,
-            addon.GetMapName(2299),
+            addon.GetAreaPoiNameName(7872),
             {
                 40534, -- The Underkeep Stories
                 40815, -- The Underkeep Discoveries
             },
         },
         { -- Tak-Rethan Abyss
-            1668,
-            addon.GetMapName(2259),
+            addon.GetAreaPoiNameName(7873),
             {
                 40535, -- Tak-Rethan Abyss Stories
                 40811, -- Tak-Rethan Abyss Discoveries
             },
         },
         { -- The Spiral Weave
-            1669,
-            addon.GetMapName(2347),
+            addon.GetAreaPoiNameName(7874),
             {
                 40536, -- The Spiral Weave Stories
                 40814, -- The Spiral Weave Discoveries
             },
         },
         { -- Zekvir's Lair
-            1675,
-            addon.GetMapName(2348),
+            addon.GetAreaPoiNameName(7875),
             {
                 40732, -- Heavy-Handed
                 40103, -- My First Nemesis
@@ -653,21 +612,21 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Excavation Site 9
-            addon.GetMapName(2396),
+            addon.GetAreaPoiNameName(8143),
             {
                 41098, -- Excavation Site 9 Stories
                 41100, -- Excavation Site 9 Discoveries
             },
         },
         { -- Sidestreet Sluice
-            addon.GetMapName(2420),
+            addon.GetAreaPoiNameName(8140),
             {
                 41099, -- Sidestreet Sluice Stories
                 41101, -- Sidestreet Sluice Discoveries
             },
         },
         { -- Demolition Dome
-            addon.GetMapName(2425),
+            addon.GetAreaPoiNameName(8142),
             {
                 40732, -- Heavy-Handed
                 41530, -- My New Nemesis
@@ -677,14 +636,14 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Archival Assault
-            addon.GetMapName(2452),
+            addon.GetAreaPoiNameName(8274),
             {
                 42771, -- Archival Assault Stories
                 42679, -- Archival Assault Discoveries
             },
         },
         { -- Voidrazor Sanctuary
-            addon.GetMapName(2484),
+            addon.GetAreaPoiNameName(8323),
             {
                 40732, -- Heavy-Handed
                 42193, -- My Stab-Happy Nemesis
@@ -782,11 +741,9 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         },
     },
     { -- Dungeons
-        1601,
-        addon.GetCategoryInfoTitle(15272),
+        CT.Dungeons,
         shared.GetTheWarWithinMythicPlus(addon.L["Mythic+"]),
         { -- Ara-Kara, City of Echoes
-            1639,
             addon.GetInstanceInfoName(1271),
             {
                 40370, -- Ara-Kara, City of Echoes
@@ -796,7 +753,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Cinderbrew Meadery
-            1636,
             addon.GetInstanceInfoName(1272),
             {
                 40361, -- Cinderbrew Meadery
@@ -806,7 +762,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- City of Threads
-            1635,
             addon.GetInstanceInfoName(1274),
             {
                 40376, -- City of Threads
@@ -816,7 +771,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Darkflame Cleft
-            1637,
             addon.GetInstanceInfoName(1210),
             {
                 40427, -- Darkflame Cleft
@@ -826,7 +780,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Priory of the Sacred Flame
-            1634,
             addon.GetInstanceInfoName(1267),
             {
                 40590, -- Priory of the Sacred Flame
@@ -836,7 +789,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- The Dawnbreaker
-            1638,
             addon.GetInstanceInfoName(1270),
             {
                 40599, -- The Dawnbreaker
@@ -846,7 +798,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- The Rookery
-            1632,
             addon.GetInstanceInfoName(1268),
             {
                 40621, -- The Rookery
@@ -856,7 +807,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- The Stonevault
-            1633,
             addon.GetInstanceInfoName(1269),
             {
                 40643, -- The Stonevault
@@ -893,13 +843,10 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         },
     },
     { -- Raids
-        1602,
-        addon.GetCategoryInfoTitle(15271),
+        CT.Raids,
         { -- Nerub-ar Palace
-            1648,
             addon.GetInstanceInfoName(1273),
             { -- Glory
-                1649,
                 addon.L["Glory"],
                 {
                     40261, -- Slimy Yet Satisfying
@@ -913,7 +860,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Mythic
-                1650,
                 addon.L["Mythic"],
                 {
                     40236, -- Mythic: Ulgrax the Devourer
@@ -972,7 +918,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Reputation
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     60939, -- Bringing Down the House
@@ -1025,7 +971,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
                 },
             },
             { -- Reputation
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     60940, -- Vandals! In! Space!
@@ -1052,11 +998,9 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         },
     },
     { -- Professions
-        1603,
-        addon.GetCategoryInfoTitle(169),
+        CT.Professions,
         { -- Alchemy
-            1631,
-            addon.GetCategoryInfoTitle(15489),
+            CT.Alchemy,
             true,
             {
                 19704, -- Overflowing Algari Flasks
@@ -1064,16 +1008,14 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Cooking
-            1607,
-            addon.GetCategoryInfoTitle(170),
+            CT.Cooking,
             true,
             {
                 19414, -- Algari Cook
             },
         },
         { -- Fishing
-            1608,
-            addon.GetCategoryInfoTitle(171),
+            CT.Fishing,
             true,
             {
                 19415, -- Algari Fisherman
@@ -1109,8 +1051,7 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
         },
     },
     { -- Pet Battles
-        1604,
-        addon.GetCategoryInfoTitle(15117),
+        CT.PetBattles,
         {
             40194, -- Khaz Algar Safari
             40153, -- Battle on Khaz Algar
@@ -1139,28 +1080,9 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             41551, -- Family Battler of Undermine
         },
     },
-    { -- Brawler's Guild
-        addon.L["Brawler's Guild"],
-        {
-            61413, -- The First Rule of Brawler's Guild
-            61414, -- The First Rule of Brawler's Guild
-            61419, -- Brawler's Chilled
-            61420, -- Let Me Solo It
-            61421, -- A Prime Ordeal
-            61422, -- Audience Participation
-            61423, -- Featherweight Brawler
-            61424, -- Brawlzilla
-            61425, -- Hot Footed
-            61426, -- Bare Knuckle Brawl
-            61429, -- Brawl Star
-            61466, -- The Best There Is
-        },
-    },
     { -- Skyriding Races
-        1606,
         addon.L["Skyriding Races"],
         { -- Isle of Dorn
-            1654,
             addon.GetMapName(2248),
             {
                 40316, -- Isle of Dorn: Bronze
@@ -1175,7 +1097,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- The Ringing Deeps
-            1655,
             addon.GetMapName(2214),
             {
                 40325, -- The Ringing Deeps: Bronze
@@ -1190,7 +1111,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Hallowfall
-            1656,
             addon.GetMapName(2215),
             {
                 40334, -- Hallowfall: Bronze
@@ -1205,7 +1125,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             },
         },
         { -- Azj-Kahet
-            1657,
             addon.GetMapName(2255),
             {
                 40343, -- Azj-Kahet: Bronze
@@ -1279,15 +1198,6 @@ tinsert(KrowiAF.CategoryData.Expansions, { -- The War Within
             41895, -- Orchestra of Masks
             41953, -- Mad World
             41971, -- Through the Looking Glass
-        },
-    },
-    { -- Lorewalking
-        addon.L["Lorewalking"],
-        {
-            42187, -- Lorewalking: Ethereal Wisdom
-            42188, -- Lorewalking: Blade's Bane
-            42189, -- Lorewalking: The Lich Kingdoms
-            61467, -- Lorewalking: The Elves of Quel'thalas
         },
     },
     {

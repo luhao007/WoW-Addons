@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2495, "DBM-Party-Dragonflight", 5, 1201)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260709014625")
 mod:SetCreatureID(191736)
 mod:SetEncounterID(2564)
 mod:SetHotfixNoticeRev(20221127000000)
@@ -13,18 +13,21 @@ mod.sendMainBossGUID = true
 mod:RegisterCombat("combat")
 
 if DBM:IsPostMidnight() then
+	DBM:RegisterAltSpellName(377004, DBM_COMMON_L.AOEDAMAGE)--Deafening Screech -> AOE Damage
+	DBM:RegisterAltSpellName(377034, DBM_COMMON_L.FRONTAL)--Overpowering Gust -> Frontal
+
 	--Play Ball uses ENCOUNTER_WARNING with no stable timeline event in tested pulls
 	mod:AddCustomAlertSoundOption(377182, true, 2)--Play Ball
-	--Midnight private aura replacements
---	mod:AddPrivateAuraSoundOption(433740, true, 433740, 1)
+	--Custom Aura Sounds
+--	mod:AddAuraSoundOption(433740, true, 433740, 1)
 
-	local specWarnSavagePeck					= mod:NewSpecialWarningCount(376997, nil, nil, nil, 1, 2)
-	local specWarnDeafeningScreech				= mod:NewSpecialWarningCount(377004, nil, nil, DBM_COMMON_L.AOEDAMAGE, 2, 2)
-	local specWarnOverpoweringGust				= mod:NewSpecialWarningCount(377034, nil, nil, DBM_COMMON_L.FRONTAL, 2, 15)
+	local specWarnSavagePeck					= mod:NewSpecialWarningCount(376997, nil, nil, nil, 1, 2, nil, nil, "defensive")
+	local specWarnDeafeningScreech				= mod:NewSpecialWarningCount(377004, nil, nil, nil, 2, 2, nil, nil, "scatter")
+	local specWarnOverpoweringGust				= mod:NewSpecialWarningCount(377034, nil, nil, nil, 2, 15, nil, nil, "frontal")
 
 	local timerSavagePeckCD						= mod:NewCDCountTimer(13.6, 376997, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
-	local timerDeafeningScreechCD				= mod:NewCDCountTimer(22.7, 377004, DBM_COMMON_L.AOEDAMAGE.." (%s)", nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
-	local timerOverpoweringGustCD				= mod:NewCDCountTimer(28.2, 377034, DBM_COMMON_L.FRONTAL.." (%s)", nil, nil, 3)
+	local timerDeafeningScreechCD				= mod:NewCDCountTimer(22.7, 377004, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
+	local timerOverpoweringGustCD				= mod:NewCDCountTimer(28.2, 377034, nil, nil, nil, 3)
 
 	mod.vb.peckCount = 0
 	mod.vb.screechCount = 0
@@ -33,7 +36,7 @@ if DBM:IsPostMidnight() then
 	local badStateDetected = false
 
 	---@param self DBMMod
-	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+	---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 	local function setFallback(self, dontSetAlerts)
 		if not dontSetAlerts then
 			if self:IsTank() then
@@ -42,9 +45,12 @@ if DBM:IsPostMidnight() then
 			specWarnDeafeningScreech:SetAlert(279, self:IsSpellCaster() and "stopcast" or "aesoon", 2)
 			specWarnOverpoweringGust:SetAlert(280, "frontal", 15)
 		end
-		timerSavagePeckCD:SetTimeline(278)
-		timerDeafeningScreechCD:SetTimeline(279)
-		timerOverpoweringGustCD:SetTimeline(280)
+		--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+		timerSavagePeckCD:SetTimeline(278, onlyColor)
+		timerDeafeningScreechCD:SetTimeline(279, onlyColor)
+		timerOverpoweringGustCD:SetTimeline(280, onlyColor)
 	end
 
 	function mod:OnLimitedCombatStart()
@@ -60,10 +66,7 @@ if DBM:IsPostMidnight() then
 				"ENCOUNTER_TIMELINE_EVENT_ADDED",
 				"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 			)
-			--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-			if DBM.Options.HideDBMBars then
-				setFallback(self, true)
-			end
+			setFallback(self, true)
 		else
 			setFallback(self)
 		end
@@ -153,11 +156,11 @@ else
 	--]]
 	local warnPlayBall								= mod:NewSpellAnnounce(377182, 2, nil, nil, nil, nil, nil, 2)
 
-	local specWarnFirestorm							= mod:NewSpecialWarningDodge(376448, nil, nil, nil, 2, 2)
-	local specWarnOverpoweringGust					= mod:NewSpecialWarningDodge(377034, nil, nil, nil, 2, 2)
+	local specWarnFirestorm							= mod:NewSpecialWarningDodge(376448, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+	local specWarnOverpoweringGust					= mod:NewSpecialWarningDodge(377034, nil, nil, nil, 2, 2, nil, nil, "shockwave")
 	local yellOverpoweringGust						= mod:NewYell(377034)
-	local specWarnDeafeningScreech					= mod:NewSpecialWarningMoveAwayCount(377004, nil, nil, nil, 2, 2)
-	local specWarnSavagePeck						= mod:NewSpecialWarningDefensive(376997, nil, nil, nil, 1, 2)
+	local specWarnDeafeningScreech					= mod:NewSpecialWarningMoveAwayCount(377004, nil, nil, nil, 2, 2, nil, nil, "scatter")
+	local specWarnSavagePeck						= mod:NewSpecialWarningDefensive(376997, nil, nil, nil, 1, 2, nil, nil, "defensive")
 
 	local timerFirestorm							= mod:NewBuffActiveTimer(12, 376448, nil, nil, nil, 1)
 	local timerOverpoweringGustCD					= mod:NewCDTimer(28.2, 377034, nil, nil, nil, 3)

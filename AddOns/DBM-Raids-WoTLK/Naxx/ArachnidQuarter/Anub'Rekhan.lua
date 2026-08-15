@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Anub'Rekhan", "DBM-Raids-WoTLK", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15956)
 mod:SetEncounterID(1107)
@@ -19,7 +19,7 @@ local warningLocustSoon		= mod:NewSoonAnnounce(28785, 2)
 local warningLocustFaded	= mod:NewFadesAnnounce(28785, 1)
 local warnImpale			= mod:NewTargetNoFilterAnnounce(28783, 3)
 
-local specialWarningLocust	= mod:NewSpecialWarningSpell(28785, nil, nil, nil, 2, 2)
+local specialWarningLocust	= mod:NewSpecialWarningSpell(28785, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 local yellImpale			= mod:NewYell(28783)
 
 local timerLocustIn			= mod:NewCDTimer(80, 28785, nil, nil, nil, 6)

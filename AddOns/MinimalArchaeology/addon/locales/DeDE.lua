@@ -258,6 +258,30 @@ L["OPTIONS_START_HIDDEN_DESC"] = "Minimal Archaeology immer ausgeblendet starten
 L["OPTIONS_START_HIDDEN_TITLE"] = "Ausgeblendet starten"
 L["OPTIONS_STARTUP_NOTE"] = "Hinweis: Diese Einstellungen betreffen nicht das Begleiterfenster."
 L["OPTIONS_STARTUP_SETTINGS_TITLE"] = "Start-Einstellungen"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_COLOR_OPACITY"] = "Border opacity"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_COLOR_TITLE"] = "Border color"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_THICKNESS"] = "Border thickness"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_1"] = "Default"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_2"] = "Modern"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_DESC"] = "Change border style of the Main, History and Digsites window"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_TITLE"] = "Border Style"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_1"] = "Window border"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_2"] = "Inside window"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_TITLE"] = "Button positions"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_MODERN_OPTIONS"] = "Modern border customization"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_TITLE"] = "Styling"
 L["OPTIONS_SURVEY_DONT_FLYING_DESC"] = "Aktivieren Sie diese Option, um das Wirken von Untersuchen während des Fliegens zu verhindern."
 L["OPTIONS_SURVEY_DONT_FLYING_TITLE"] = "Nicht während des Fliegens wirken"
 L["OPTIONS_SURVEY_DONT_MOUNTED_DESC"] = "Aktivieren Sie diese Option, um das Wirken von Untersuchen während des Reitens zu verhindern."

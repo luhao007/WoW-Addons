@@ -1879,6 +1879,10 @@ ns.currentSourceFile = "RetailGeneralZoneNodes.lua"
         --Quel'Thalas
         if self.db.profile.showZoneQuelThalas then
 
+            if self.db.profile.showZoneDecorExpert and not self.db.profile.showZoneMapNotesIcons then
+                nodes[2512][58574594] = { npcID = 270399, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            end
+
             if self.db.profile.showZoneStablemaster and not self.db.profile.showZoneMapNotesIcons then
                 nodes[2405][52296754] = { npcID = 242658, name = "", type = "StablemasterN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[2395][48856679] = { npcID = 245770, name = "", type = "StablemasterN", showInZone = true, showOnContinent = false, showOnMinimap = false }
@@ -1909,6 +1913,7 @@ ns.currentSourceFile = "RetailGeneralZoneNodes.lua"
                 nodes[2413][69585155] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[2413][35292325] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[2413][51125542] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                nodes[2512][58424578] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = true, showOnContinent = false, showOnMinimap = false }
             end
 
             if self.db.profile.showZoneInnkeeper then
@@ -1916,7 +1921,7 @@ ns.currentSourceFile = "RetailGeneralZoneNodes.lua"
             end
 
             if self.db.profile.showZoneInnkeeper and not self.db.profile.showZoneMapNotesIcons then
-                nodes[2405][53166818] = { npcID = 235701, name = "", type = "InnkeeperN", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                nodes[2405][53166818] = { npcID = 235701, name = "", dnID = ns.InnkeeperM, type = "InnkeeperN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[2395][46274594] = { npcID = 242949, name = "", type = "InnkeeperN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[2395][48976859] = { npcID = 236149, name = "", type = "InnkeeperN", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Immersangwald
                 nodes[2395][39326138] = { npcID = 249879, name = "", type = "InnkeeperN", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Immersangwald
@@ -1929,11 +1934,13 @@ ns.currentSourceFile = "RetailGeneralZoneNodes.lua"
                 nodes[2413][66292456] = { npcID = 254942, name = "", type = "InnkeeperN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[2413][50865561] = { npcID = 240404, name = "", type = "InnkeeperN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[2413][53455428] = { npcID = 258499, name = "", type = "InnkeeperN", dnID = "(" .. L["inside the cave"] .. ")", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                nodes[2512][58434538] = { npcID = 265147, name = "", type = "InnkeeperN", showInZone = true, showOnContinent = false, showOnMinimap = false }
             end
 
             if self.db.profile.showZoneRenownQuartermaster and not self.db.profile.showZoneMapNotesIcons then
                 nodes[2437][45956592] = { npcID = 240279, name = "", dnID = FACTION .. ": " .. ns.Amanistamm, type = "RenownQuartermaster", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Amani'zar
                 nodes[2413][50955073] = { npcID = 240407, name = "", dnID = FACTION .. ": " .. ns.Harati, type = "RenownQuartermaster", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Hara'ti
+                nodes[2512][58784595] = { npcID = 268228, name = "", dnID = FACTION .. ": " .. ns.Harati, type = "RenownQuartermaster", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Jan'sari
             end
 
             if self.db.profile.showZoneRenownQuartermaster then
@@ -1955,6 +1962,8 @@ ns.currentSourceFile = "RetailGeneralZoneNodes.lua"
                 nodes[2413][35322317] = { name = "", dnID = TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX .. "\n" .. TextIconStablemasterN:GetIconString() .. " " .. ns.StablemasterM, type = "MNL", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 --Inkkeeper Mailbox
                 nodes[2395][39326138] = { name = "", dnID = TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX, type = "MNL", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                --Inkeeper Mailbox RenownQuartermaster DekorExpert
+                nodes[2512][58384622] = { name = "", dnID = TextIconPvEVendor:GetIconString() .. " " .. L["Merchant for Renown items"] .. " (" .. ns.ZulJarras .. ")\n" .. TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX .. "\n" .. TextIconDecorExpert:GetIconString() .. " " .. ns.DecorExpertM, type = "MNL", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Gewundene Insel
                 -- Inkeeper Stablemaster
                 nodes[2413][66342375] = { name = "", dnID = TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconStablemasterN:GetIconString() .. " " .. ns.StablemasterM, type = "MNL", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 --Innkeeper Mailbox Inscriptiopn Alchemy Herbalism Stablemaster Portal

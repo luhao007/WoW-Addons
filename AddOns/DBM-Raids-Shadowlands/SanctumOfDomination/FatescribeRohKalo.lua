@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2447, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(175730)
 mod:SetEncounterID(2431)
@@ -39,22 +39,26 @@ mod:RegisterEventsInCombat(
  --]]
 --Stage One: Scrying Fate
 mod:AddOptionLine(DBM:EJ_GetSectionInfo(22926), "announce")
+DBM:RegisterAltSpellName(353432, 244657)--Burden of Destiny -> Fixate
+DBM:RegisterAltSpellName(350554, 37859)--Call of Eternity -> Bomb
+DBM:RegisterAltSpellName(350355, 207544)--Fated Conjunction -> Beams
+
 local warnProbe									= mod:NewCastAnnounce(353603, 2)
 local warnGrimPortent							= mod:NewTargetNoFilterAnnounce(354365, 4)--Mythic
 local warnTwistFate								= mod:NewCountAnnounce(353931, 2, nil, "RemoveMagic")
-local warnCallofEternity						= mod:NewTargetAnnounce(350554, 4, nil, nil, 37859)
+local warnCallofEternity						= mod:NewTargetAnnounce(350554, 4)
 
-local specWarnGrimPortent						= mod:NewSpecialWarningYou(354365, nil, nil, nil, 1, 2, 4)--Mythic
+local specWarnGrimPortent						= mod:NewSpecialWarningYou(354365, nil, nil, nil, 1, 2, 4, nil, "targetyou")--Mythic
 local yellGrimPortent							= mod:NewYell(354365)--Mythic
 local yellGrimPortentFades						= mod:NewShortFadesYell(354365)--Mythic
-local specWarnInvokeDestiny						= mod:NewSpecialWarningMoveAway(351680, nil, nil, nil, 1, 2)
+local specWarnInvokeDestiny						= mod:NewSpecialWarningMoveAway(351680, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellInvokeDestiny							= mod:NewYell(351680)
 local yellInvokeDestinyFades					= mod:NewShortFadesYell(351680)
-local specWarnInvokeDestinySwap					= mod:NewSpecialWarningTaunt(351680, nil, nil, nil, 1, 2)
-local specWarnBurdenofDestinyYou				= mod:NewSpecialWarningRun(353432, nil, 244657, nil, 4, 2)--"Fixate"
-local specWarnBurdenofDestiny					= mod:NewSpecialWarningSwitch(353432, "Dps", nil, nil, 1, 2)
-local specWarnFatedConjunction					= mod:NewSpecialWarningDodge(350355, nil, 207544, nil, 2, 2)
-local specWarnCallofEternity					= mod:NewSpecialWarningMoveAway(350554, nil, 37859, nil, 1, 2)
+local specWarnInvokeDestinySwap					= mod:NewSpecialWarningTaunt(351680, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnBurdenofDestinyYou				= mod:NewSpecialWarningRun(353432, nil, nil, nil, 4, 2, nil, nil, "justrun")--"Fixate"
+local specWarnBurdenofDestiny					= mod:NewSpecialWarningSwitch(353432, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnFatedConjunction					= mod:NewSpecialWarningDodge(350355, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnCallofEternity					= mod:NewSpecialWarningMoveAway(350554, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellCallofEternity						= mod:NewShortPosYell(350554, 37859)--"Bomb"
 local yellCallofEternityFades					= mod:NewIconFadesYell(350554, 37859)
 
@@ -63,9 +67,9 @@ local timerGrimPortent							= mod:NewBuffFadesTimer(9, 354365, nil, nil, nil, 5
 local timerInvokeDestinyCD						= mod:NewCDCountTimer(37.8, 351680, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)--37.8-41
 local timerInvokeDestiny						= mod:NewAddsCustomTimer(8, 351680, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)
 local timerTwistFateCD							= mod:NewCDCountTimer(48.7, 353931, nil, nil, 2, 5, nil, DBM_COMMON_L.MAGIC_ICON..DBM_COMMON_L.HEALER_ICON)
-local timerFatedConjunctionCD					= mod:NewCDCountTimer(59.7, 350355, 207544, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 3)--"Beams"
-local timerFatedConjunction						= mod:NewCastTimer(6.7, 350355, 207544, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
-local timerCallofEternityCD						= mod:NewCDCountTimer(37.9, 350554, 167180, nil, nil, 3)--"Bombs"
+local timerFatedConjunctionCD					= mod:NewCDCountTimer(59.7, 350355, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 3)--"Beams"
+local timerFatedConjunction						= mod:NewCastTimer(6.7, 350355, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerCallofEternityCD						= mod:NewCDCountTimer(37.9, 350554, nil, nil, nil, 3)--"Bombs"
 
 mod:AddSetIconOption("SetIconOnCallofEternity", 350554, true, 0, {1, 2, 3, 4, 5})
 mod:AddSetIconOption("SetIconOnGrimPortent", 354365, false, 0, {1, 2, 3, 4, 5, 6, 7, 8})
@@ -74,23 +78,23 @@ mod:AddNamePlateOption("NPAuraOnBurdenofDestiny", 353432, true)
 mod:AddOptionLine(DBM:EJ_GetSectionInfo(22927), "announce")
 local warnRunicAffinity							= mod:NewTargetNoFilterAnnounce(354964, 4)--Mythic
 
-local specWarnRealignFate						= mod:NewSpecialWarningCount(351969, nil, nil, nil, 2, 2)
-local specWarnRunicAffinity						= mod:NewSpecialWarningYou(354964, nil, nil, nil, 2, 2, 4)
+local specWarnRealignFate						= mod:NewSpecialWarningCount(351969, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
+local specWarnRunicAffinity						= mod:NewSpecialWarningYou(354964, nil, nil, nil, 2, 2, 4, nil, "targetyou")
 
 local timerDespairCD							= mod:NewCDCountTimer("d17", 357144, nil, nil, nil, 4)--Tricky to type, it's interrupt bar in 3/4 difficulties, aoe run out in mythic
 local timerDarkestDestiny						= mod:NewCastTimer(40, 353122, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 ----Monstrosity
 local warnDespair								= mod:NewCountAnnounce(357144, 3)
 
-local specWarnDespair							= mod:NewSpecialWarningInterruptCount(357144, "HasInterrupt", nil, nil, 1, 2)--Non mythic only
-local specWarnDespairRun						= mod:NewSpecialWarningRun(357144, nil, nil, nil, 4, 2, 4)
+local specWarnDespair							= mod:NewSpecialWarningInterruptCount(357144, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")--Non mythic only
+local specWarnDespairRun						= mod:NewSpecialWarningRun(357144, nil, nil, nil, 4, 2, 4, nil, "justrun")
 
-mod:AddSetIconOption("SetIconOnMonstrosity", "ej23764", true, 5, {7, 8})
+mod:AddSetIconOption("SetIconOnMonstrosity", -23764, true, 5, {7, 8})
 --Stage Three: Fated Terminus
 mod:AddOptionLine(DBM:EJ_GetSectionInfo(23486), "announce")
 local warnExtemporaneousFate					= mod:NewSoonAnnounce(353195, 3)
 
-local specWarnExtemporaneousFate				= mod:NewSpecialWarningCount(353195, nil, nil, nil, 2, 2)
+local specWarnExtemporaneousFate				= mod:NewSpecialWarningCount(353195, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
 
 local timerRunicAffinityCD						= mod:NewCDCountTimer(39, 354964, nil, nil, nil, 3, nil, nil, true)--Used in state 3 only, in stage 1 it happens at same time as rings
 local timerExtemporaneousFateCD					= mod:NewCDCountTimer(39, 353195, nil, nil, nil, 6, nil, nil, true)

@@ -338,7 +338,7 @@ function GossipExtension:CreateAutoEnterCancelButton()
         tooltip:Show()
     end)
     button:HookScript("OnLeave", function()
-        GameTooltip:Hide()
+        securecall(GameTooltip.Hide, GameTooltip)
     end)
 end
 
@@ -367,7 +367,7 @@ function GossipExtension:CreateAutoEnterCheckbox()
         tooltip:Show()
     end)
     cb:HookScript("OnLeave", function()
-        GameTooltip:Hide()
+        securecall(GameTooltip.Hide, GameTooltip)
     end)
     cb:HookScript("OnClick", function()
         DelveCompanionAccountData.delveAutoEnterEnabled = cb:GetChecked()
@@ -403,15 +403,18 @@ end
 --- Add a button to open Delves' Loot info.
 ---@param self GossipExtension
 function GossipExtension:CreateLootInfoButton()
+    ---@type Frame
+    local pickerFrame = DelvesDifficultyPickerFrame
+
     local button = CreateFrame("Button",
         "$DelveCompanion." .. LOOT_INFO_BUTTON_PARENT_KEY,
-        DelvesDifficultyPickerFrame,
+        pickerFrame,
         "DelveCompanionLootInfoButtonTemplate")
     button:Hide()
     self.LootInfoButton = button
 
     button:SetParentKey(LOOT_INFO_BUTTON_PARENT_KEY)
-    button:SetPoint("BOTTOMRIGHT", DelvesDifficultyPickerFrame, "BOTTOMRIGHT", -2, 3)
+    button:SetPoint("BOTTOMRIGHT", pickerFrame, "BOTTOMRIGHT", -2, 3)
     button:SetTextToFit(_G["LOOT"])
 
     button:HookScript("OnClick", function()
@@ -419,10 +422,13 @@ function GossipExtension:CreateLootInfoButton()
             return
         end
 
-        GameTooltip:Hide()
+        securecall(GameTooltip.Hide, GameTooltip)
         local lootFrame = DelveCompanion:GetLootInfoFrame()
         lootFrame:ClearAllPoints()
-        lootFrame:SetPoint("BOTTOMLEFT", DelvesDifficultyPickerFrame, "BOTTOMRIGHT", 0, 0)
+        lootFrame:SetPoint("TOPLEFT", pickerFrame, "TOPRIGHT", 3, 5)
+
+        local pickerRight, lootLeft = pickerFrame:GetRight(), lootFrame:GetLeft()
+        lootFrame.frameOverlap = pickerRight - lootLeft
 
         ToggleFrame(lootFrame)
     end)
@@ -440,7 +446,7 @@ function GossipExtension:CreateLootInfoButton()
     end)
 
     button:HookScript("OnLeave", function()
-        GameTooltip:Hide()
+        securecall(GameTooltip.Hide, GameTooltip)
     end)
 end
 

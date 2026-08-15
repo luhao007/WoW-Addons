@@ -162,7 +162,7 @@ ns.miniButton = {
         tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Khaz Algar"] .. " " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
         tooltip:Show()
       --Quel'Thalas
-      elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576)
+      elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576 or PlayerMapID == 2512 or PlayerMapID == 2509)
       then
         tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Quel'Thalas"] .. " " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
         tooltip:Show()
@@ -269,7 +269,7 @@ ns.miniButton = {
         tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Khaz Algar"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
         tooltip:Show()
       --Quel'Thalas
-      elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576)
+      elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576 or PlayerMapID == 2512 or PlayerMapID == 2509)
       then
         tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Quel'Thalas"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
         tooltip:Show()
@@ -548,7 +548,7 @@ ns.miniButton = {
               end
             end
           --Quel'Thalas
-          elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576)
+          elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576 or PlayerMapID == 2512 or PlayerMapID == 2509)
           then
             if not ns.Addon.db.profile.showMiniMapQuelThalas then
               ns.Addon.db.profile.showMiniMapQuelThalas = true
@@ -772,7 +772,7 @@ ns.miniButton = {
               end
             end
            --Quel'Thalas
-          elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576)
+          elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576 or PlayerMapID == 2512 or PlayerMapID == 2509)
           then
             if not ns.Addon.db.profile.showZoneQuelThalas then
               ns.Addon.db.profile.showZoneQuelThalas = true

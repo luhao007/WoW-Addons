@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("IsleTimeless", "DBM-TimelessIsle")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240528023610")
+mod:SetRevision("20260523022848")
+mod:DisableHardcodedOptions()
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
@@ -20,24 +21,24 @@ local warnConjurGolem			= mod:NewSpellAnnounce(148001, 3)
 local warnCauterize				= mod:NewCastAnnounce(147997, 4)
 
 --Serpants
-local specWarnFireBlossom		= mod:NewSpecialWarningYou(147818, nil, nil, nil, 1, 2)
-local specWarnStormBlossom		= mod:NewSpecialWarningYou(147828, nil, nil, nil, 1, 2)
+local specWarnFireBlossom		= mod:NewSpecialWarningYou(147818, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnStormBlossom		= mod:NewSpecialWarningYou(147828, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 --Spawns
 local specWarnShip				= mod:NewSpecialWarning("specWarnShip", false)--No voice pack, since there isn't really a sound for "rare spawn up"
 local specWarnGolg				= mod:NewSpecialWarning("specWarnGolg")--No voice pack, since there isn't really a sound for "rare spawn up"
 --Frogs
-local specWarnFrogToxin			= mod:NewSpecialWarningStack(147655, nil, 7, nil, nil, 1, 6)
+local specWarnFrogToxin			= mod:NewSpecialWarningStack(147655, nil, 7, nil, nil, 1, 6, nil, nil, "stackhigh")
 --Weaker Ordon
-local specWarnCracklingBlow		= mod:NewSpecialWarningDodge(147674, nil, nil, nil, 1, 2)
-local specWarnFallingFlames		= mod:NewSpecialWarningSpell(147723, "-Tank", nil, nil, 2, 2)
-local specWarnBlazingCleave		= mod:NewSpecialWarningRun(147702, "-Tank", nil, nil, 4, 2)--Tanks stand in it on purpose so no need to warn them
+local specWarnCracklingBlow		= mod:NewSpecialWarningDodge(147674, nil, nil, nil, 1, 2, nil, nil, "shockwave")
+local specWarnFallingFlames		= mod:NewSpecialWarningSpell(147723, "-Tank", nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBlazingCleave		= mod:NewSpecialWarningRun(147702, "-Tank", nil, nil, 4, 2, nil, nil, "justrun")--Tanks stand in it on purpose so no need to warn them
 --Tougher Ordon
-local specWarnBlazingBlow		= mod:NewSpecialWarningDodge(148003, nil, nil, nil, 1, 2)
-local specWarnConjurKiln		= mod:NewSpecialWarningSwitch(148004, false, nil, 2, 1, 2)
-local specWarnFireStorm			= mod:NewSpecialWarningDodge(147998, nil, nil, nil, 2, 2)
-local specWarnCauterize			= mod:NewSpecialWarningInterrupt(147997, nil, nil, nil, 1, 2)
+local specWarnBlazingBlow		= mod:NewSpecialWarningDodge(148003, nil, nil, nil, 1, 2, nil, nil, "shockwave")
+local specWarnConjurKiln		= mod:NewSpecialWarningSwitch(148004, false, nil, 2, 1, 2, nil, nil, "targetchange")
+local specWarnFireStorm			= mod:NewSpecialWarningDodge(147998, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnCauterize			= mod:NewSpecialWarningInterrupt(147997, nil, nil, nil, 1, 2, nil, nil, "kickcast")
 --Rock Moss/Spelurk
-local specWarnRenewingMists		= mod:NewSpecialWarningInterrupt(147769, nil, nil, nil, 1, 2)
+local specWarnRenewingMists		= mod:NewSpecialWarningInterrupt(147769, nil, nil, nil, 1, 2, nil, nil, "kickcast")
 
 local currentZoneID = -1
 local eventsRegistered = false

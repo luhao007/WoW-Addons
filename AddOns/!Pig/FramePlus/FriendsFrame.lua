@@ -1,6 +1,9 @@
 local _, addonTable = ...;
-local Fun=addonTable.Fun
 local match = _G.string.match
+local Fun=addonTable.Fun
+local Data=addonTable.Data
+local PlayerInfo=Data.PlayerInfo
+
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local ClasseNameID=addonTable.Data.ClasseNameID
 local Create=addonTable.Create
@@ -42,65 +45,82 @@ function FramePlusfun.Friends()
 	end
     ---- 
     local PROJECT_WRATH=WOW_PROJECT_WRATH_CLASSIC or 11
-    local function GetTisp_TXT(ProjectID,richPresence)
-		if richPresence:match("-") then
-			local ProjectName, realmName = strsplit("-", richPresence, 2);
-			local realmName=realmName or ""
-			if ProjectID==WOW_PROJECT_CLASSIC then
-				if ProjectName:match("专家") then
-					return "(专家60-"..realmName
-				elseif ProjectName:match("周年") then
-					return "(周年60-"..realmName
-				else
-					return "(经典60-"..realmName
-				end
-			elseif ProjectID==PROJECT_WRATH then
-				return "(巫妖王-"..realmName
-			elseif ProjectID==WOW_PROJECT_MAINLINE then
-				return "(正式服-"..realmName
-			elseif ProjectID==WOW_PROJECT_MISTS_CLASSIC then
-				return "(熊猫人-"..realmName
-			end
-		end
-		return richPresence
-	end
-    local playerRealmID = PIG_OptionsUI.Realm
+    local PROJECT_BURNING=WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5;
+    local playerRealmID = PlayerInfo.Realm
     local playerFactionGroup = UnitFactionGroup("player");
     local function Updata_hangList(button)
-    	local Newtxt = {"","",iconH}
-    	if button.pig_Data.Count>1 then
-    		Newtxt[3]=iconH-3
-    	end
+    	local Ltxt,Rtxt="",""
 		for i=1,button.pig_Data.Count do
 			local gameAInfo =button.pig_Data.data[i]
-			local _, _,_, _, sexBNET = GetPlayerInfoByGUID(gameAInfo.playerGuid)
-			local raceX,classX = GetRaceClassTXT(Newtxt[3],texW,gameAInfo.raceName,sexBNET or 2,ClasseNameID[gameAInfo.className])
+			local NewsexBNET = 2 
+			if gameAInfo.playerGuid then
+				local _, _,_, _, sexBNET = GetPlayerInfoByGUID(gameAInfo.playerGuid)
+				NewsexBNET=sexBNET
+			end
+			local raceX,classX = GetRaceClassTXT(button.pig_Data.Count>1 and iconH-3 or iconH,texW,gameAInfo.raceName,NewsexBNET,ClasseNameID[gameAInfo.className])
 			local Newnamex = raceX.." "..classX.." (Lv"..gameAInfo.characterLevel..") "..gameAInfo.characterName
 			local color = PIG_CLASS_COLORS[ClasseNameID[gameAInfo.className] or NONE]
 			local allnameX=button.pig_Data.accname.." \124c"..color.colorStr..Newnamex.."\124r"
 			if i>1 then
-				Newtxt[1]=Newtxt[1].."\n"..allnameX
+				Ltxt=Ltxt.."\n"..allnameX
 			else
-				Newtxt[1]=allnameX
+				Ltxt=allnameX
 			end
 			if i>1 then
-				Newtxt[2]=Newtxt[2].."\n"
+				Rtxt=Rtxt.."\n"
 			end
-			local NareaName=gameAInfo.areaName or ""
-			if gameAInfo.wowProjectID==WOW_PROJECT_ID then
-				if gameAInfo.realmName == playerRealmID then
-					Newtxt[2]=Newtxt[2].."|cff00FFFF(本服)|r-"..NareaName
+			local realmName1
+			local areaName=gameAInfo.areaName
+			if gameAInfo.wowProjectID==PROJECT_WRATH then
+				playerRealmID = strsplit("-", playerRealmID, 2);
+				local DisplayName
+				if gameAInfo.richPresence and gameAInfo.richPresence~="" then
+					local ProjectName, realmName = strsplit("-", gameAInfo.richPresence, 2);
+					if realmName then DisplayName=realmName end
+				elseif gameAInfo.realmDisplayName then
+					local realmName = strsplit("-", gameAInfo.realmDisplayName, 2);
+					if realmName then DisplayName=realmName end
+				end
+				if DisplayName then
+					realmName1=DisplayName
+					Rtxt=Rtxt.."(泰坦服-"..DisplayName..") "
 				else
-					local Tisp_TXT=GetTisp_TXT(gameAInfo.wowProjectID,gameAInfo.richPresence)
-					Newtxt[2]=Newtxt[2]..Tisp_TXT..") "..NareaName
+					Rtxt=Rtxt.."("..UNKNOWN..") "
 				end
 			else
-				local Tisp_TXT=GetTisp_TXT(gameAInfo.wowProjectID,gameAInfo.richPresence)
-				Newtxt[2]=Newtxt[2]..Tisp_TXT..") "..NareaName
+				if gameAInfo.richPresence and gameAInfo.richPresence~="" then
+					local ProjectName, realmName = strsplit("-", gameAInfo.richPresence, 2);
+					if realmName then
+						realmName1 = realmName
+						if gameAInfo.wowProjectID==WOW_PROJECT_MAINLINE then
+							Rtxt=Rtxt.."(正式服-"..realmName1..") "
+							areaName=ProjectName
+						elseif gameAInfo.wowProjectID==WOW_PROJECT_MISTS_CLASSIC then
+							Rtxt=Rtxt.."(熊猫人-"..realmName1..") "
+						elseif gameAInfo.wowProjectID==PROJECT_BURNING then
+							Rtxt=Rtxt.."(周年TBC-"..realmName1..") "
+						elseif gameAInfo.wowProjectID==WOW_PROJECT_CLASSIC then
+							if ProjectName:match("专家") then
+								Rtxt=Rtxt.."(专家60-"..realmName1..") "
+							else
+								Rtxt=Rtxt.."(经典60-"..realmName1..") "
+							end
+						end
+					end
+				else
+					Rtxt=Rtxt.."("..UNKNOWN..") "
+				end
+			end
+			Rtxt=Rtxt..(areaName or UNKNOWN)
+			if gameAInfo.wowProjectID==WOW_PROJECT_ID then--和自己相同版本
+				if realmName1 == playerRealmID then
+					Rtxt="|cff00FFFF本服|r"..Rtxt
+					button.info:SetPoint("LEFT",button.name,"RIGHT",-28,0);
+				end
 			end
 		end
-		button.name:SetText(Newtxt[1]);
-		button.info:SetText(Newtxt[2])
+		button.name:SetText(Ltxt);
+		button.info:SetText(Rtxt)
 	end
     local function PIGUpdateFriendButton(button, elementData)
     	if not button.status then return end
@@ -726,7 +746,7 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
-	UIParentLoadAddOn("Blizzard_RaidUI");
+	C_AddOns.LoadAddOn("Blizzard_RaidUI");
 	RaidFrame:UnregisterEvent("UNIT_NAME_UPDATE");
 	RaidFrame:UnregisterEvent("UNIT_PET");
 	Fun.IsAddOnLoaded("Blizzard_RaidUI",PIGRaidUIFrame)

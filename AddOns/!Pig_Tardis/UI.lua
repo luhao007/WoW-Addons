@@ -1,27 +1,44 @@
-local addonName, addonTable = ...;
+local addonName, PD = ...;
 local Create, Data, Fun, L= unpack(PIG)
----------------------------------
-local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
-local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
-local PIGModbutton=Create.PIGModbutton
-local PIGSetFont=Create.PIGSetFont
------------
-local TardisInfo=addonTable.TardisInfo
+------------------------
+local TardisInfo=PD.TardisInfo
 function TardisInfo.ADD_UI()
 	if not PIGA["Tardis"]["Open"] then return end
-	if _G[GnUI] then return end
-	local GetPIGID=Fun.GetPIGID
-	local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
-	C_Timer.After(0.1,function() PIGModbutton(GnName,GnIcon,GnUI,FrameLevel) end)
+	if Data.TardisUI then return end
+	local PIGFrame=Create.PIGFrame
+	local PIGOptionsList_RF=Create.PIGOptionsList_RF
+	local PIGSetFont=Create.PIGSetFont
+	local PIGDiyBut=Create.PIGDiyBut
+	local adddata=L.ExtList[addonName]
 	--
-	local Width,Height  = 880, 505;
+	local GnName,GnUI,GnIcon,FrameLevel,QuickBut_index = unpack(TardisInfo.uidata)
+	local GetPIGID=Fun.GetPIGID
+	Create.PIGModbutton(GnName,GnIcon,GnUI,FrameLevel)
+	Create.PIGaddQuickBut(QuickBut_index,{
+		Open=function()
+			return PIGA["QuickBut"]["Open"] and PIGA["Tardis"]["Open"] and PIGA["Tardis"]["AddBut"]
+		end,
+		Icon=GnIcon,
+		ShowGnUI=GnUI,
+		FrameLevel=FrameLevel,
+		Tooltip=KEY_BUTTON1.."-|cff00FFFF打开"..GnName.."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r",
+		fun=function(QkBut)
+			QkBut:HookScript("OnClick", function(self,button)
+				if button=="RightButton" then
+					adddata.OpenSetUI(button)
+				end
+			end);
+		end,
+	})
+	local Width,Height  = 880, 530;
 	local InvF=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,60},{Width, Height},GnUI,true)
+	Data.TardisUI=InvF
 	InvF:PIGSetBackdrop()
 	InvF:PIGClose()
 	InvF:PIGSetMovableNoSave()
+	InvF:SetFrameLevel(FrameLevel)
 	InvF.hang_Height,InvF.hang_NUM=25,15
 	InvF.pindao="PIG"
 	InvF.Biaotou=Data.Tardis.Prefix
@@ -41,7 +58,7 @@ function TardisInfo.ADD_UI()
 			InvF.jiaruchazhaoqi:SetText(L["TARDIS_LFG_JOIN"]);
 		end
 	end
-	InvF.jiaruchazhaoqi = PIGButton(InvF, {"TOPLEFT",InvF,"TOPLEFT",10,-3.4},{110,16})
+	InvF.jiaruchazhaoqi = PIGButton(InvF, {"TOPRIGHT",InvF,"TOPRIGHT",-100,-14},{110,18})
 	PIGSetFont(InvF.jiaruchazhaoqi.Text,12)
 	InvF.jiaruchazhaoqi:SetFrameLevel(InvF.jiaruchazhaoqi:GetFrameLevel()+6)
 	InvF.jiaruchazhaoqi:Disable()
@@ -50,52 +67,40 @@ function TardisInfo.ADD_UI()
 	end)
 	InvF.jiaruchazhaoqi:SetScript("OnClick", function (self)
 		JoinTemporaryChannel("PIG", nil, DEFAULT_CHAT_FRAME:GetID(), 1);
-		ChatFrame_RemoveMessageGroup(DEFAULT_CHAT_FRAME, "CHANNEL")
+		ChatFrameMixin.RemoveMessageGroup(DEFAULT_CHAT_FRAME, "CHANNEL")
 		gengxinbut1()
 	end)
 	local InfoMsgList=Data.Tardis.GetMsg
 	function InvF:PIGSendAddonMsg(vfname,fujiF,gnindexID)
-		fujiF.GetBut.PIGID=GetPIGID(pindao)
-		if fujiF.GetBut.PIGID==0 then
-			fujiF.GetBut.err:SetText("请先加入"..pindao.."频道");
+		local PIG_ID=GetPIGID(InvF.pindao)
+		if PIG_ID==0 then
+			fujiF.GetBut.err:SetText("请先加入"..InvF.pindao.."频道");
 			return
 		end
 		PIGA["Tardis"][vfname]["DaojishiCD"]=GetServerTime();
 		fujiF.JieshouInfoList={};
 		fujiF.GetBut.yanchiNerMsg=nil
 		if PIG_MaxTocversion() then
-			SendChatMessage(InfoMsgList[gnindexID],"CHANNEL",nil,fujiF.GetBut.PIGID)
+			SendChatMessage(InfoMsgList[gnindexID],"CHANNEL",nil,PIG_ID)
 		else
-			PIGSendAddonMessage(InvF.Biaotou,InfoMsgList[gnindexID],"CHANNEL",fujiF.GetBut.PIGID)
+			PIGSendAddonMessage(InvF.Biaotou,InfoMsgList[gnindexID],"CHANNEL",PIG_ID)
 		end
+		fujiF.GetBut:CZdaojishi()
 	end
-	--设置-----------------------------
-	InvF.setbut = CreateFrame("Button",nil,InvF, "TruncatedButtonTemplate"); 
-	InvF.setbut:SetNormalTexture("interface/gossipframe/healergossipicon.blp"); 
-	InvF.setbut:SetHighlightTexture(130718);
-	InvF.setbut:SetSize(18,18);
-	InvF.setbut:SetPoint("TOPRIGHT",InvF,"TOPRIGHT",-60,-2.5);
-	InvF.setbut.Down = InvF.setbut:CreateTexture(nil, "OVERLAY");
-	InvF.setbut.Down:SetTexture(130839);
-	InvF.setbut.Down:SetSize(18,18);
-	InvF.setbut.Down:SetPoint("CENTER");
-	InvF.setbut.Down:Hide();
-	InvF.setbut:SetScript("OnMouseDown", function (self)
-		self.Down:Show();
-	end);
-	InvF.setbut:SetScript("OnMouseUp", function (self)
-		self.Down:Hide()
-	end);
+	--设置-------------------
+	InvF.setbut=PIGDiyBut(InvF,{"TOPRIGHT",InvF,"TOPRIGHT",-40,-14},{20,nil,nil,nil,132054})
 	InvF.setbut:HookScript("OnClick", function (self)
-		if PIG_OptionsUI:IsShown() then
-			PIG_OptionsUI:Hide()
-		else
-			PIG_OptionsUI:Show()
-			Create.Show_TabBut(TardisInfo.fuFrame,TardisInfo.fuFrameBut)
-		end
+		adddata.OpenSetUI("RightButton")
 	end);
 	--内容显示
-	InvF.F=PIGOptionsList_RF(InvF,21,"Bot",{0,0,0})	
+	InvF.F=PIGOptionsList_RF(InvF,44)
+	local tab1jihuo
+	for i=1,#TardisInfo.tablists do
+		if PIGA["Tardis"][TardisInfo.tablists[i][1]]["Open"] then
+			TardisInfo[TardisInfo.tablists[i][1]](tab1jihuo==nil)
+			tab1jihuo=true
+		end
+	end
 end
 -----
 function TardisInfo.GetInfoBut(fuF,Point,daojiCDtime,jinduS,butTXT,jindutiaoW,GetButW)

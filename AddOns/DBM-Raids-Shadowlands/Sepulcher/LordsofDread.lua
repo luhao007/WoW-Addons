@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2457, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(181398, 181399)
 mod:SetEncounterID(2543)
@@ -40,24 +40,28 @@ local berserkTimer								= mod:NewBerserkTimer(600)
 
 --Mal'Ganis
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(23927))
+DBM:RegisterAltSpellName(360300, 56158)--Swarm of Decay -> Swarm
+DBM:RegisterAltSpellName(360146, 39176)--Fearful Trepidation -> Fear
+DBM:RegisterAltSpellName(360284, 31907)--Anguishing Strike -> Strike
+
 local warnCloudofCarrion						= mod:NewTargetNoFilterAnnounce(360012, 3)
 local warnManifestShadows						= mod:NewCountAnnounce(361913, 3)
 local warnFullyFormed							= mod:NewSpellAnnounce(361945, 3)
 local warnUntoDarknessOver						= mod:NewEndAnnounce(360319, 1)
 
-local specWarnUntoDarkness						= mod:NewSpecialWarningCount(360319, nil, nil, nil, 2, 2)
-local specWarnCloudofCarrion					= mod:NewSpecialWarningMoveAway(360012, nil, nil, nil, 2, 2)--Pre spread warning?
-local specWarnCloudofCarrionDebuff				= mod:NewSpecialWarningYou(360012, nil, nil, nil, 1, 2)
-local specWarnCloudofCarrionDebuffMove			= mod:NewSpecialWarningMoveTo(360012, false, nil, nil, 1, 2)--Off by default because person has to actually have basic understanding of mechanic first, then agree to this helpful warning to help with it
+local specWarnUntoDarkness						= mod:NewSpecialWarningCount(360319, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
+local specWarnCloudofCarrion					= mod:NewSpecialWarningMoveAway(360012, nil, nil, nil, 2, 2, nil, nil, "scatter")--Pre spread warning?
+local specWarnCloudofCarrionDebuff				= mod:NewSpecialWarningYou(360012, nil, nil, nil, 1, 2, nil, nil, "range5")
+local specWarnCloudofCarrionDebuffMove			= mod:NewSpecialWarningMoveTo(360012, false, nil, nil, 1, 2, nil, nil, "gathershare")--Off by default because person has to actually have basic understanding of mechanic first, then agree to this helpful warning to help with it
 local yellCloudofCarrion						= mod:NewYell(360012)
 local yellBitingWounds							= mod:NewIconRepeatYell(364985)
-local specWarnLeechingClaws						= mod:NewSpecialWarningDefensive(359960, nil, nil, nil, 1, 2)
-local specWarnOpenedVeins						= mod:NewSpecialWarningTaunt(359963, nil, nil, nil, 1, 2)
+local specWarnLeechingClaws						= mod:NewSpecialWarningDefensive(359960, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnOpenedVeins						= mod:NewSpecialWarningTaunt(359963, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 ----Shadow adds
-local specWarnRavenousHunger					= mod:NewSpecialWarningInterruptCount(361923, "HasInterrupt", nil, nil, 1, 2)
+local specWarnRavenousHunger					= mod:NewSpecialWarningInterruptCount(361923, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
 local timerUntoDarknessCD						= mod:NewCDCountTimer(102.4, 360319, nil, nil, nil, 6)--100+3sec cast time with standard variation, paused by infiltration of dread
-local timerSwarmofDecay							= mod:NewBuffActiveTimer(20, 360300, 56158, nil, nil, 6)--Short text swarm, timer is used for both swarms
+local timerSwarmofDecay							= mod:NewBuffActiveTimer(20, 360300, nil, nil, nil, 6)--Short text swarm, timer is used for both swarms
 local timerCloudofCarrionCD						= mod:NewCDCountTimer(21.8, 360012, nil, nil, nil, 3)
 local timerManifestShadowsCD					= mod:NewCDCountTimer(1, 361913, nil, nil, nil, 1)--No in between time
 local timerLeechingClawsCD						= mod:NewCDTimer(16.9, 359960, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 4)
@@ -70,27 +74,27 @@ mod:GroupSpells(360012, 364985)--Group biting wounds with cloud of carrion
 --Kin'tessa
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(23929))
 local warnShatterMind							= mod:NewSpellAnnounce(360420, 4)--Kind of a generic alert to say "this pull is a wash"
-local warnFearfulTrepidation					= mod:NewTargetCountAnnounce(360146, 3, nil, nil, 39176, nil, nil, nil, true)
+local warnFearfulTrepidation					= mod:NewTargetCountAnnounce(360146, 3, nil, nil, nil, nil, nil, nil, true)
 local warnAuraofShadows							= mod:NewSpellAnnounce(363191, 4)
 local warnAuraofShadowsOver						= mod:NewEndAnnounce(363191, 1)
 local warnSlumberCloud							= mod:NewCountAnnounce(360229, 2)
-local warnAnguishingStrike						= mod:NewStackAnnounce(360284, 2, nil, "Tank|Healer", 31907)--shorttext "Strike"
+local warnAnguishingStrike						= mod:NewStackAnnounce(360284, 2, nil, "Tank|Healer")--shorttext "Strike"
 
-local specWarnInfiltrationofDread				= mod:NewSpecialWarningCount(360717, nil, nil, nil, 2, 2)
-local specWarnFearfulTrepidation				= mod:NewSpecialWarningYou(360146, nil, 39176, nil, 2, 2)
+local specWarnInfiltrationofDread				= mod:NewSpecialWarningCount(360717, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
+local specWarnFearfulTrepidation				= mod:NewSpecialWarningYou(360146, nil, nil, nil, 2, 2, nil, nil, "runout")
 local yellFearfulTrepidation					= mod:NewShortPosYell(360146, 39176)--Shorttext "Fear"
 local yellFearfulTrepidationFades				= mod:NewIconFadesYell(360146, 39176)
-local specWarnBurstingDread						= mod:NewSpecialWarningDispel(360148, "RemoveMagic", 39176, nil, 1, 2)--shorttext "Fear"
-local specWarnUnsettlingDreams					= mod:NewSpecialWarningDispel(360241, "RemoveMagic", nil, nil, 1, 2)
-local specWarnAnguishingStrike					= mod:NewSpecialWarningDefensive(360284, nil, 31907, nil, 1, 2)
-local specWarnAnguishingStrikeStack				= mod:NewSpecialWarningStack(360284, nil, 3, 31907, nil, 1, 6)
-local specWarnAnguishingStrikeTaunt				= mod:NewSpecialWarningTaunt(360284, nil, 31907, nil, 1, 2)
+local specWarnBurstingDread						= mod:NewSpecialWarningDispel(360148, "RemoveMagic", nil, nil, 1, 2, nil, nil, "helpdispel")--shorttext "Fear"
+local specWarnUnsettlingDreams					= mod:NewSpecialWarningDispel(360241, "RemoveMagic", nil, nil, 1, 2, nil, nil, "helpdispel")
+local specWarnAnguishingStrike					= mod:NewSpecialWarningDefensive(360284, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnAnguishingStrikeStack				= mod:NewSpecialWarningStack(360284, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnAnguishingStrikeTaunt				= mod:NewSpecialWarningTaunt(360284, nil, nil, nil, 1, 2)
 
 local timerInfiltrationofDreadCD				= mod:NewCDCountTimer(122.5, 360717, nil, nil, nil, 6)--120+3sec cast time with standard variation
 local timerParanoia								= mod:NewBuffFadesTimer(25, 360418, nil, nil, nil, 5)
-local timerFearfulTrepidationCD					= mod:NewCDCountTimer(29.1, 360145, 39176, nil, nil, 3)--DBM_COMMON_L.MAGIC_ICON
+local timerFearfulTrepidationCD					= mod:NewCDCountTimer(29.1, 360145, nil, nil, nil, 3)--DBM_COMMON_L.MAGIC_ICON
 local timerSlumberCloudCD						= mod:NewCDCountTimer(32.8, 360229, nil, nil, nil, 3)
-local timerAnguishingStrikeCD					= mod:NewCDTimer(9.7, 360284, 31907, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerAnguishingStrikeCD					= mod:NewCDTimer(9.7, 360284, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
 mod:AddSetIconOption("SetIconOnFearfulTrepidation", 360146, true, 0, {1, 2})--On by default because max targets shows 2 debuffs can be out, and don't want both carrions running to same person. with icons the carrions can make split decisions to pick an icon each are going to
 mod:GroupSpells(360717, 360418)--Group paranoia with parent mechanic Infiltration of dread

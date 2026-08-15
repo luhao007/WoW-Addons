@@ -1,3 +1,7 @@
+# v4.23
+
+- Updated for 12.0.7
+
 # v4.22
 
 - Updated for 12.0.5

@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("ThermapluggSoD", "DBM-Raids-Vanilla", 9)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260709012018")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(218538, 218970, 218972, 218974, 218537)--(red, blue, green, gray, thermaplugg)
 mod:SetEncounterID(2940)
@@ -61,7 +61,7 @@ mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local warningSprocketfire			= mod:NewSpellAnnounce(438683, 2, nil, false, 2)
 local warnSprocketFireDebuff		= mod:NewStackAnnounce(438710, 2, nil, "Tank|Healer")
 
-local specWarnFurnaceSurge			= mod:NewSpecialWarningRun(438713, nil, nil, nil, 4, 2)
+local specWarnFurnaceSurge			= mod:NewSpecialWarningRun(438713, nil, nil, nil, 4, 2, nil, nil, "justrun")
 
 local timerSprocketfireCD			= mod:NewCDTimer(5.2, 438683, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--5.2-8.5
 local timerFurnaceSurgeCD			= mod:NewCDTimer(33.9, 438713, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
@@ -78,7 +78,7 @@ mod:AddTimerLine(SCENARIO_STAGE:format(3))
 local warningHazHammer				= mod:NewSpellAnnounce(438726, 2, nil, false, 2)
 local warnRadiationSickness			= mod:NewStackAnnounce(438727, 2, nil, "Tank|Healer")
 
-local specWarnToxicVentilation		= mod:NewSpecialWarningInterrupt(438732, nil, nil, nil, 1, 2)
+local specWarnToxicVentilation		= mod:NewSpecialWarningInterrupt(438732, nil, nil, nil, 1, 2, nil, nil, "kickcast")
 
 local timerHazHammerCD				= mod:NewCDTimer(5.2, 438726, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--5.2-8.5
 local timerToxicVentilationCD		= mod:NewCDTimer(22.6, 438732, nil, nil, nil, 2)
@@ -226,7 +226,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(438710) then
 		local amount = args.amount or 1
 		if amount >= 3 then--ability is cast in 3s for most part so a good starting point
-			local playerUID, bossUID, bossUIDTwo = DBM:GetRaidUnitId(args.destName), DBM:GetUnitIdFromCID(218538), DBM:GetUnitIdFromCID(218974)
+			local playerUID, bossUID, bossUIDTwo = DBM:GetRaidUnitId(args.destName, true), DBM:GetUnitIdFromCID(218538), DBM:GetUnitIdFromCID(218974)
 			--Freezing is also applied ot others who walk through ice on ground, so we try to scope it to tanks only by only reporting units who are highest threat on bots threat table
 			if (bossUID or bossUIDTwo) and self:IsTanking(playerUID, bossUIDTwo or bossUID, nil, true) then
 				warnSprocketFireDebuff:Cancel()
@@ -236,7 +236,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpell(438720) then
 		local amount = args.amount or 1
 		if amount >= 3 then--ability is cast in 3s for most part so a good starting point
-			local playerUID, bossUID, bossUIDTwo = DBM:GetRaidUnitId(args.destName), DBM:GetUnitIdFromCID(218972), DBM:GetUnitIdFromCID(218974)
+			local playerUID, bossUID, bossUIDTwo = DBM:GetRaidUnitId(args.destName, true), DBM:GetUnitIdFromCID(218972), DBM:GetUnitIdFromCID(218974)
 			--Freezing is also applied ot others who walk through ice on ground, so we try to scope it to tanks only by only reporting units who are highest threat on bots threat table
 			if (bossUID or bossUIDTwo) and self:IsTanking(playerUID, bossUIDTwo or bossUID, nil, true) then
 				warnFreezing:Cancel()

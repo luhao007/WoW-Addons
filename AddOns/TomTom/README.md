@@ -34,6 +34,11 @@ Create a waypoint in the specified zone.
 Coordinates are currently use a '.' as the decimal separator.
 The description is whatever is after the y coordinate.
 
+The zone is matched against the names of zone, continent and micro maps.  A
+zone of the form `#1234` instead targets that map ID directly, which works for
+any map — including dungeons, raids and other maps that are not matched by
+name.
+
 ### /cway
 Set the active waypoint to be the closest one.
 

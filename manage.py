@@ -13,7 +13,7 @@ logger = get_logger("AddonManager")
 
 CLASSIC_ERA_VER = "11508"
 CLASSIC_VER = "50503"
-RETAIL_VER = "120001, 120005"
+RETAIL_VER = "120001, 120005, 120007, 120100"
 
 
 def available_on(

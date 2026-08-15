@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2198, "DBM-BfA", 1, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(140163)
 --mod:SetEncounterID(1880)
@@ -17,7 +17,7 @@ mod:RegisterEventsInCombat(
 
 local warnVoidNova					= mod:NewSpellAnnounce(274842, 3)
 
-local specWarnEndlessAbyss			= mod:NewSpecialWarningRun(274932, nil, nil, nil, 4, 2)
+local specWarnEndlessAbyss			= mod:NewSpecialWarningRun(274932, nil, nil, nil, 4, 2, nil, nil, "justrun")
 
 local timerVoidNovaCD				= mod:NewCDTimer(22.3, 274842, nil, nil, nil, 2)
 local timerEndlessAbyssCD			= mod:NewCDTimer(45.7, 274932, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)

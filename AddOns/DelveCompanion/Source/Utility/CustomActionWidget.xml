@@ -32,6 +32,18 @@
                     </Anchors>
                 </Texture>
             </Layer>
+            <Layer level="BORDER">
+                <Texture parentKey="IconBorder"
+                    file="Interface\Common\WhiteIconFrame" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT"
+                            relativeKey="$parent.Icon" />
+                        <Anchor point="BOTTOMRIGHT"
+                            relativePoint="BOTTOMRIGHT"
+                            relativeKey="$parent.Icon" />
+                    </Anchors>
+                </Texture>
+            </Layer>
             <Layer level="OVERLAY" textureSubLevel="0">
                 <MaskTexture parentKey="CircleMask"
                     file="Interface\CharacterFrame\TempPortraitAlphaMask"

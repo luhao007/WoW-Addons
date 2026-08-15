@@ -1,7 +1,46 @@
 # Changelog
 
+## 3.15.10 - August 12, 2026
+### Changed
+- Retail: Updated TOC to 12.1.0
+- Updated libraries
+### Fixed
+- Retail: Fixed error when mousing over adventure journal button
+- MoP: Fixed loot panel not hiding when changing maps
+
+## 3.15.9 - July 21, 2026
+### Changed
+- Era: Added category, group and icon to TOC
+- Era: Updated TOC to 1.15.9
+### Fixed
+- Era: Fixed error when using the Atlas LFG button
+
+## 3.15.8 - July 7, 2026
+### Changed
+- TBC: Updated TOC to 2.5.6
+
+## 3.15.7 - June 19, 2026
+### Added
+- Retail: Added Sporefall
+
+## 3.15.6 - June 16, 2026
+### Changed
+- Retail: Updated TOC to 12.0.7
+
+## 3.15.5 - June 4, 2026
+### Fixed
+- Retail: Fixed the maps and Encounter Journal entries that Dire Maul buttons go to
+### Changed
+- MoP: Updated TOC to 5.5.4
+- MoP: Enabled Encounter Journal button for SoO
+
+## 3.15.4 - May 6, 2026
+### Fixed
+- TBC/MoP: Fixed Tempest Keep raid not showing up when sorting the list by level
+
 ## 3.15.3 - April 25, 2026
-Retail: Updated TOC to 12.0.5
+### Changed
+- Retail: Updated TOC to 12.0.5
 
 ## 3.15.2 - April 3, 2026
 ### Added
@@ -754,7 +793,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.15.3" as the version
+  if specifed; or will ignore those set "v3.15.10" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

@@ -289,7 +289,9 @@ print
 		-- Walk thru slots 'backward' to give weapons 'priority' if most damaged
 		for slotID = TR.scan_start, TR.scan_end, -1 do  -- thru slots
 			local slotName = slots[slotID].name
-			local scan_slots = tostring(slotName)..":"..tostring(GetInventorySlotInfo(slotName))
+			local scan_slots = tostring(slotName)..":" 
+			--..tostring(GetInventorySlotInfo(slotName))
+			-- 2026 July removed in 12.1.0
 
 			local _, Color, Ltype, Id, Enchant, Gem1, Gem2, Gem3, Gem4, Suffix, Unique, LinkLvl, reforging, Name
 			local itemName, itemQuality

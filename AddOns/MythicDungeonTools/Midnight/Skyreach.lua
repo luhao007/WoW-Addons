@@ -1,5 +1,5 @@
-local addonName = ...
-local MDT = MDT
+local _, MDT = ...
+local addonName = MDT.AddonName
 local L = MDT.L
 local dungeonIndex = 151
 MDT.dungeonList[dungeonIndex] = L["Skyreach"]
@@ -88,8 +88,8 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["sublevel"] = 1,
       },
       [7] = {
-        ["x"] = 597.20956330343,
-        ["y"] = -274.37601367784,
+        ["x"] = 612.05157109739,
+        ["y"] = -285.77253587833,
         ["g"] = 27,
         ["sublevel"] = 1,
       },
@@ -234,7 +234,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
   },
   [4] = {
-    ["name"] = "Outcast Servant",
+    ["name"] = "Lowborn Servant",
     ["id"] = 75976,
     ["count"] = 1,
     ["health"] = 911307,
@@ -454,15 +454,15 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["sublevel"] = 1,
       },
       [8] = {
-        ["x"] = 611.24127788972,
-        ["y"] = -283.53955725464,
+        ["x"] = 598.25449073909,
+        ["y"] = -275.32344363078,
         ["g"] = 27,
         ["sublevel"] = 1,
       },
     },
   },
   [8] = {
-    ["name"] = "Herald of Sunrise",
+    ["name"] = "Solar Elemental",
     ["id"] = 78933,
     ["count"] = 15,
     ["health"] = 2354210,
@@ -554,7 +554,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
   },
   [10] = {
-    ["name"] = "Skyreach Sun Talon",
+    ["name"] = "Suntalon",
     ["id"] = 79093,
     ["count"] = 2,
     ["health"] = 607538,
@@ -644,7 +644,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
   },
   [11] = {
-    ["name"] = "Sun Talon Tamer",
+    ["name"] = "Suntalon Tamer",
     ["id"] = 76154,
     ["count"] = 5,
     ["health"] = 1564410,
@@ -864,7 +864,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
   },
   [17] = {
-    ["name"] = "Blooded Bladefeather",
+    ["name"] = "Outcast Warrior",
     ["id"] = 76205,
     ["count"] = 5,
     ["health"] = 1670730,
@@ -923,7 +923,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
   },
   [18] = {
-    ["name"] = "Sunwings",
+    ["name"] = "Sunwing",
     ["id"] = 76227,
     ["count"] = 0,
     ["health"] = 1012563,

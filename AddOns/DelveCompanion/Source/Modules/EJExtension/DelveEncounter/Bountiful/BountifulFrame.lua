@@ -39,8 +39,10 @@ function DelveCompanion_DelveEncounterBountifulFrameMixin:OnShow()
     DelveCompanion:UpdateDelvesData()
 
     ---@type number
-    local expansion = DelveCompanion.EJExtension.DelveEncounter:GetExpansionForFaction(
-        DelveCompanion.EJExtension.DelveEncounter:GetFactionIDs())
+    local expansion = DelveCompanion.EJExtension.DelveEncounter:GetFactionData().expansionID
+    if not expansion then
+        return
+    end
 
     for index, delveData in ipairs(DelveCompanion.Variables.delvesData[expansion]) do
         if delveData.isBountiful then
@@ -55,8 +57,8 @@ function DelveCompanion_DelveEncounterBountifulFrameMixin:OnShow()
     self.ActiveDelves.NoBountifulLabel:SetShown(#self.ActiveDelves.Container:GetLayoutChildren() == 0)
 
     self.Title:ClearAllPoints()
-    if expansion == LE_EXPANSION_WAR_WITHIN then
-        self.DelveOBotWidget:SetShown(true) -- Delve-O-Bot 7001 works for TWW Delves only
+    if DelveCompanion.Variables.isPTR or expansion == LE_EXPANSION_WAR_WITHIN then
+        self.DelveOBotWidget:SetShown(true)
         self.Title:SetPoint("LEFT", self, "TOPLEFT", 5, -27)
         self.Title:SetJustifyH("LEFT")
     else

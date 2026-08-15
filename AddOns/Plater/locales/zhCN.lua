@@ -6,8 +6,7 @@ do
 ------------------------------------------------------------
 L["A /reload may be required to take effect."] = "可能需要重新加载(/reload)才能生效。"
 L["CVar, saved within Plater profile and restored when loading the profile."] = "保存在 Plater 配置文件中的 CVar，在加载配置文件时恢复。"
---[[Translation missing --]]
-L["DISABLE_TESTING_AURAS"] = ""
+L["DISABLE_TESTING_AURAS"] = "禁用测试光环"
 L["EXPORT"] = "导出"
 L["EXPORT_CAST_COLORS"] = "导出施法条颜色"
 L["EXPORT_CAST_SOUNDS"] = "导出施法条声音"
@@ -59,126 +58,66 @@ L["OPTIONS_AURA_WIDTH"] = "减益图标宽度"
 L["OPTIONS_AURAS_ENABLETEST"] = "启用此选项可隐藏配置时显示的测试光环"
 L["OPTIONS_AURAS_SORT"] = "光环排序"
 L["OPTIONS_AURAS_SORT_DESC"] = "按剩余时间排序（默认）"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_ARENA_BG"] = "In Arena / BG"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_ARENA_BG_DESC"] = "Set 'always show nameplates' on when inside arena or battleground."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_DUNGEONS"] = "In Dungeons"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_DUNGEONS_DESC"] = "Set 'always show nameplates' on when inside dungeons."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_MAJOR_CITIES"] = "In Major Cities"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_MAJOR_CITIES_DESC"] = "Set 'always show nameplates' on when inside a major city."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_OPEN_WORLD"] = "In Open World"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_OPEN_WORLD_DESC"] = "Set 'always show nameplates' on when at any place not listed on the other options."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_RAID"] = "In Raid"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_RAID_DESC"] = "Set 'always show nameplates' on when inside raids."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_ARENA_BG"] = "In Arena / BG"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_ARENA_BG_DESC"] = "Show enemy nameplates when inside arena or battleground."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_DUNGEONS"] = "In Dungeons"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_DUNGEONS_DESC"] = "Show enemy nameplates when inside dungeons."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_MAJOR_CITIES"] = "In Major Cities"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_MAJOR_CITIES_DESC"] = "Show enemy nameplates when inside a major city."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_OPEN_WORLD"] = "In Open World"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_OPEN_WORLD_DESC"] = "Show enemy nameplates when at any place not listed on the other options."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_RAID"] = "In Raid"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_RAID_DESC"] = "Show enemy nameplates when inside raids."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_NAMEPLATES_IC"] = "Enemy Nameplates in combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_NAMEPLATES_IC_DESC"] = "Automatically enable / disable enemy nameplates in combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_NAMEPLATES_OOC"] = "Enemy Nameplates out of combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_NAMEPLATES_OOC_DESC"] = "Automatically enable / disable enemy nameplates out of combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_ARENA_BG"] = "In Arena / BG"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_ARENA_BG_DESC"] = "Show friendly nameplates when inside arena or battleground."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_DUNGEONS"] = "In Dungeons"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_DUNGEONS_DESC"] = "Show friendly nameplates when inside dungeons."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_MAJOR_CITIES"] = "In Major Cities"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_MAJOR_CITIES_DESC"] = "Show friendly nameplates when inside a major city."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_OPEN_WORLD"] = "In Open World"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_OPEN_WORLD_DESC"] = "Show friendly nameplates when at any place not listed on the other options."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_RAID"] = "In Raid"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_RAID_DESC"] = "Show friendly nameplates when inside raids."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_IC"] = "Friendly Nameplates in combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_IC_DESC"] = "Automatically enable / disable friendly nameplates in combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_OOC"] = "Friendly Nameplates out of combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_OOC_DESC"] = "Automatically enable / disable friendly nameplates out of combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_IC"] = "Hide Blizzard Healthbars in combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_IC_DESC"] = "Automatically enable / disable showing blizzard nameplate healthbars in combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_OOC"] = "Hide Blizzard Healthbars out of combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_OOC_DESC"] = "Automatically enable / disable showing blizzard nameplate healthbars out of combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_ENEMY_PETS"] = "Hide Enemy Pets"
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_ENEMY_PETS_DESC"] = "Disable show enemy pets within a raid or a dungeon."
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_ENEMY_TOTEMS"] = "Hide Enemy Totems"
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_ENEMY_TOTEMS_DESC"] = "Disable show enemy totems within a raid or a dungeon."
---[[Translation missing --]]
-L["OPTIONS_AUTO_SHOWNAMEPLATE_INCOMBAT"] = "Enable 'Always Show Nameplates' in combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_SHOWNAMEPLATE_INCOMBAT_DESC"] = "Automatically enable / disable the 'always show' option in combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_SHOWNAMEPLATE_OUTOFCOMBAT"] = "Enable 'Always Show Nameplates' out of combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_SHOWNAMEPLATE_OUTOFCOMBAT_DESC"] = "Automatically enable / disable the 'always show' option out of combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_ARENA_BG"] = "In Arena / BG"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_ARENA_BG_DESC"] = "Set stacking on when inside arena or battleground."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_DUNGEONS"] = "In Dungeons"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_DUNGEONS_DESC"] = "Set stacking on when inside dungeons."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_MAJOR_CITIES"] = "In Major Cities"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_MAJOR_CITIES_DESC"] = "Set stacking on when inside a major city."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_OPEN_WORLD"] = "In Open World"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_OPEN_WORLD_DESC"] = "Set stacking on when at any place not listed on the other options."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_RAID"] = "In Raid"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_RAID_DESC"] = "Set stacking on when inside raids."
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_ARENA_BG"] = "竞技场/战场"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_ARENA_BG_DESC"] = "在竞技场或战场内时，启用\"始终显示姓名板\"。"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_DUNGEONS"] = "在地下城中"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_DUNGEONS_DESC"] = "在地下城内时，启用\"始终显示姓名板\"。"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_MAJOR_CITIES"] = "在主城"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_MAJOR_CITIES_DESC"] = "在主城内时，启用\"始终显示姓名板\"。"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_OPEN_WORLD"] = "在野外"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_OPEN_WORLD_DESC"] = "在野外时，启用\"始终显示姓名板\"。"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_RAID"] = "在团队副本中"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_RAID_DESC"] = "在团队副本内时，启用\"始终显示姓名板\"。"
+L["OPTIONS_AUTO_ENEMY_IN_ARENA_BG"] = "竞技场/战场"
+L["OPTIONS_AUTO_ENEMY_IN_ARENA_BG_DESC"] = "在竞技场或战场内时，显示敌方姓名板。"
+L["OPTIONS_AUTO_ENEMY_IN_DUNGEONS"] = "在地下城中"
+L["OPTIONS_AUTO_ENEMY_IN_DUNGEONS_DESC"] = "在地下城内时，显示敌方姓名板。"
+L["OPTIONS_AUTO_ENEMY_IN_MAJOR_CITIES"] = "在主城"
+L["OPTIONS_AUTO_ENEMY_IN_MAJOR_CITIES_DESC"] = "在主城内时，显示敌方姓名板。"
+L["OPTIONS_AUTO_ENEMY_IN_OPEN_WORLD"] = "在野外"
+L["OPTIONS_AUTO_ENEMY_IN_OPEN_WORLD_DESC"] = "在野外时，显示敌方姓名板。"
+L["OPTIONS_AUTO_ENEMY_IN_RAID"] = "在团队副本中"
+L["OPTIONS_AUTO_ENEMY_IN_RAID_DESC"] = "在团队副本内时，显示敌方姓名板。"
+L["OPTIONS_AUTO_ENEMY_NAMEPLATES_IC"] = "战斗中的敌方姓名板"
+L["OPTIONS_AUTO_ENEMY_NAMEPLATES_IC_DESC"] = "在战斗中自动启用/禁用敌方姓名板。"
+L["OPTIONS_AUTO_ENEMY_NAMEPLATES_OOC"] = "脱战时的敌方姓名板"
+L["OPTIONS_AUTO_ENEMY_NAMEPLATES_OOC_DESC"] = "在脱离战斗时自动启用/禁用敌方姓名板。"
+L["OPTIONS_AUTO_FRIENDLY_IN_ARENA_BG"] = "竞技场/战场"
+L["OPTIONS_AUTO_FRIENDLY_IN_ARENA_BG_DESC"] = "在竞技场或战场内时，显示友方姓名板。"
+L["OPTIONS_AUTO_FRIENDLY_IN_DUNGEONS"] = "在地下城中"
+L["OPTIONS_AUTO_FRIENDLY_IN_DUNGEONS_DESC"] = "在地下城内时，显示友方姓名板。"
+L["OPTIONS_AUTO_FRIENDLY_IN_MAJOR_CITIES"] = "在主城"
+L["OPTIONS_AUTO_FRIENDLY_IN_MAJOR_CITIES_DESC"] = "在主城内时，显示友方姓名板。"
+L["OPTIONS_AUTO_FRIENDLY_IN_OPEN_WORLD"] = "在野外"
+L["OPTIONS_AUTO_FRIENDLY_IN_OPEN_WORLD_DESC"] = "在野外时，显示友方姓名板。"
+L["OPTIONS_AUTO_FRIENDLY_IN_RAID"] = "在团队副本中"
+L["OPTIONS_AUTO_FRIENDLY_IN_RAID_DESC"] = "在团队副本内时，显示友方姓名板。"
+L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_IC"] = "战斗中的友方姓名板"
+L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_IC_DESC"] = "在战斗中自动启用/禁用友方姓名板。"
+L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_OOC"] = "脱战时的友方姓名板"
+L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_OOC_DESC"] = "在脱离战斗时自动启用/禁用友方姓名板。"
+L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_IC"] = "战斗中隐藏暴雪生命条"
+L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_IC_DESC"] = "在战斗中自动启用/禁用显示暴雪姓名板生命条。"
+L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_OOC"] = "脱战时隐藏暴雪生命条"
+L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_OOC_DESC"] = "在脱离战斗时自动启用/禁用显示暴雪姓名板生命条。"
+L["OPTIONS_AUTO_HIDE_ENEMY_PETS"] = "隐藏敌方宠物"
+L["OPTIONS_AUTO_HIDE_ENEMY_PETS_DESC"] = "在团队副本或地下城中禁止显示敌方宠物姓名板。"
+L["OPTIONS_AUTO_HIDE_ENEMY_TOTEMS"] = "隐藏敌方图腾"
+L["OPTIONS_AUTO_HIDE_ENEMY_TOTEMS_DESC"] = "在团队副本或地下城中禁止显示敌方图腾姓名板。"
+L["OPTIONS_AUTO_SHOWNAMEPLATE_INCOMBAT"] = "战斗中启用\"始终显示姓名板\""
+L["OPTIONS_AUTO_SHOWNAMEPLATE_INCOMBAT_DESC"] = "在战斗中自动启用/禁用\"始终显示\"选项。"
+L["OPTIONS_AUTO_SHOWNAMEPLATE_OUTOFCOMBAT"] = "脱战时启用\"始终显示姓名板\""
+L["OPTIONS_AUTO_SHOWNAMEPLATE_OUTOFCOMBAT_DESC"] = "在脱离战斗时自动启用/禁用\"始终显示\"选项。"
+L["OPTIONS_AUTO_STACKING_IN_ARENA_BG"] = "竞技场/战场"
+L["OPTIONS_AUTO_STACKING_IN_ARENA_BG_DESC"] = "在竞技场或战场内时，启用姓名板堆叠。"
+L["OPTIONS_AUTO_STACKING_IN_DUNGEONS"] = "在地下城中"
+L["OPTIONS_AUTO_STACKING_IN_DUNGEONS_DESC"] = "在地下城内时，启用姓名板堆叠。"
+L["OPTIONS_AUTO_STACKING_IN_MAJOR_CITIES"] = "在主城"
+L["OPTIONS_AUTO_STACKING_IN_MAJOR_CITIES_DESC"] = "在主城内时，启用姓名板堆叠。"
+L["OPTIONS_AUTO_STACKING_IN_OPEN_WORLD"] = "在野外"
+L["OPTIONS_AUTO_STACKING_IN_OPEN_WORLD_DESC"] = "在野外时，启用姓名板堆叠。"
+L["OPTIONS_AUTO_STACKING_IN_RAID"] = "在团队副本中"
+L["OPTIONS_AUTO_STACKING_IN_RAID_DESC"] = "在团队副本内时，启用姓名板堆叠。"
 L["OPTIONS_BACKGROUND_ALWAYSSHOW"] = "总是显示背景"
 L["OPTIONS_BACKGROUND_ALWAYSSHOW_DESC"] = "启用一个显示可点击区域的背景."
 L["OPTIONS_BORDER_COLOR"] = "边框颜色"

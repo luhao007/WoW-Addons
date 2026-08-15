@@ -12,7 +12,7 @@ end
 local mod	= DBM:NewMod("Shazzrah", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260618193259")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(DBM:IsSeasonal("SeasonOfDiscovery") and 228434 or 12264)
 mod:SetEncounterID(667)
@@ -33,22 +33,22 @@ mod:RegisterEventsInCombat(
 ability.id = 461343 and type = "begincast"
 or (ability.id = 19713 or ability.id = 19715 or ability.id = 23138 or ability.id = 19714) and type = "cast"
 --]]
-local warnCurse					= mod:NewSpellAnnounce(19713, 4)
-local warnDeadenMagic			= mod:NewTargetNoFilterAnnounce(19714, 2, nil, false, 2)
+local warnCurse					= mod:NewSpellAnnounce(19713, 3)
+local warnDeadenMagic			= mod:NewTargetNoFilterAnnounce(19714, 2, nil, "CasterDps", 2)
 local warnCounterSpell			= mod:NewSpellAnnounce(19715, 3, nil, "SpellCaster", 2)
 
-local specWarnDeadenMagic		= mod:NewSpecialWarningDispel(19714, false, nil, 2, 1, 2)
-local specWarnGate				= mod:NewSpecialWarningTaunt(23138, "Tank", nil, nil, 1, 2)--aggro wipe, needs fresh taunt
+local specWarnDeadenMagic		= mod:NewSpecialWarningDispel(19714, "MagicDispeller", nil, 2, 1, 2, nil, nil, "dispelboss")
+local specWarnGate				= mod:NewSpecialWarningTaunt(23138, "Tank", nil, nil, 1, 2, nil, nil, "tauntboss")--aggro wipe, needs fresh taunt
 
-local timerCurseCD           	= mod:NewVarTimer("v21-26.4", 19713, nil, nil, nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
-local timerDeadenMagic       	= mod:NewBuffActiveTimer(30, 19714, nil, false, 3, 5, nil, DBM_COMMON_L.MAGIC_ICON)
-local timerCounterSpellCD    	= mod:NewVarTimer("v15.7-21.1", 19715, nil, "SpellCaster", nil, 3)
-local timerGateCD            	= mod:NewVarTimer("v42.1-48.6", 23138, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerCurseCD           	= mod:NewVarTimer("v21-26.4", 19713, nil, "RemoveCurse", nil, 2, nil, DBM_COMMON_L.CURSE_ICON)
+local timerDeadenMagic       	= mod:NewBuffActiveTimer(30, 19714, nil, "MagicDispeller", 3, 5, nil, DBM_COMMON_L.MAGIC_ICON)
+local timerCounterSpellCD    	= mod:NewVarTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 9.6 or "v15.7-21.1", 19715, nil, "SpellCaster", nil, 2)
+local timerGateCD            	= mod:NewVarTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 25.8 or "v42.1-48.6", 23138, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
 local specWarnReflectMagic, specWarnReflectMagicDispel, timerReflectMagicCD
 if DBM:IsSeasonal("SeasonOfDiscovery") then
-	specWarnReflectMagic		= mod:NewSpecialWarningCast(460856, "SpellCaster", nil, nil, 1, 2)
-	specWarnReflectMagicDispel	= mod:NewSpecialWarningDispel(460856, false, nil, 2, 1, 2)
+	specWarnReflectMagic		= mod:NewSpecialWarningCast(460856, "SpellCaster", nil, nil, 1, 2, nil, nil, "stopcast")
+	specWarnReflectMagicDispel	= mod:NewSpecialWarningDispel(460856, false, nil, 2, 1, 2, nil, nil, "dispelboss")
 	timerReflectMagicCD			= mod:NewCDTimer(22.6, 460856, nil, nil, nil, 5, nil, DBM_COMMON_L.MAGIC_ICON)
 end
 
@@ -73,7 +73,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(19714) and not args:IsDestTypePlayer() then
-		if self.Options.SpecWarn19714dispel then
+		if self.Options.SpecWarn19714dispel2 then
 			specWarnDeadenMagic:Show(args.destName)
 			specWarnDeadenMagic:Play("dispelboss")
 		else
@@ -81,7 +81,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		timerDeadenMagic:Start()
 	elseif args:IsSpell(460856) and not args:IsDestTypePlayer() then
-		if self.Options.SpecWarn19714dispel then
+		if self.Options.SpecWarn19714dispel2 then
 			specWarnReflectMagicDispel:Show(args.destName)
 			specWarnReflectMagicDispel:Play("dispelboss")
 		end
@@ -101,10 +101,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerCurseCD:Start()
 	elseif args:IsSpell(19715) then
 		warnCounterSpell:Show()
-		timerCounterSpellCD:Start(DBM:IsSeasonal("SeasonOfDiscovery") and 9.6 or "v15-19")
+		timerCounterSpellCD:Start()
 	elseif args:IsSpell(23138) then
 		specWarnGate:Show(args.sourceName)
 		specWarnGate:Play("tauntboss")
-		timerGateCD:Start(DBM:IsSeasonal("SeasonOfDiscovery") and 25.8 or "v41.3-50")
+		timerGateCD:Start()
 	end
 end

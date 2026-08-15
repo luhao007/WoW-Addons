@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1769, "DBM-BrokenIsles", 1, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260523021952")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(108829)
 mod:SetEncounterID(1953)
@@ -19,8 +19,8 @@ mod:RegisterEventsInCombat(
 local warnRendingWhirl			= mod:NewCastAnnounce(217235, 2)
 local warnElectrify				= mod:NewCastAnnounce(217344, 2)
 
-local specWarnMassiveSpout		= mod:NewSpecialWarningDodge(217249, nil, nil, nil, 2, 2)
-local specWarnElectrifyDispel	= mod:NewSpecialWarningDispel(217352, "Healer", nil, nil, 2, 2)
+local specWarnMassiveSpout		= mod:NewSpecialWarningDodge(217249, nil, nil, nil, 2, 2, nil, nil, "watchwave")
+local specWarnElectrifyDispel	= mod:NewSpecialWarningDispel(217352, "Healer", nil, nil, 2, 2, nil, nil, "helpdispel")
 
 local timerRendingWhirlCD		= mod:NewCDTimer(48.5, 217235, nil, nil, nil, 2)
 local timerElectrifyCD			= mod:NewCDTimer(33, 217344, nil, nil, nil, 2)

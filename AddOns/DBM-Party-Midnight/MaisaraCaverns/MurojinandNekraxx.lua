@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2810, "DBM-Party-Midnight", 7, 1315)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260427045159")
+mod:SetRevision("20260709014625")
 mod:SetCreatureID(247570)--Muro, Nekraxx is 247572
 mod:SetEncounterID(3212)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -13,11 +13,11 @@ mod:RegisterCombat("combat")
 
 local warnCarrionSwoop			= mod:NewBlizzTargetAnnounce(1249478, 2)
 
-local specWarnFlankingSpear		= mod:NewSpecialWarningCount(1266480, nil, nil, nil, 1, 2)
-local specWarnFetidQuillstorm	= mod:NewSpecialWarningDodgeCount(1243900, nil, nil, nil, 2, 2)
-local specWarnFreezingTrap		= mod:NewSpecialWarningDodgeCount(1243741, nil, nil, nil, 2, 19)
-local specWarnBarrage			= mod:NewSpecialWarningDodgeCount(1260643, nil, nil, nil, 2, 2)
-local specWarnInfectedPinions	= mod:NewSpecialWarningCount(1246666, "RemoveDisease", nil, nil, 1, 2)
+local specWarnFlankingSpear		= mod:NewSpecialWarningCount(1266480, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnFetidQuillstorm	= mod:NewSpecialWarningDodgeCount(1243900, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnFreezingTrap		= mod:NewSpecialWarningDodgeCount(1243741, nil, nil, nil, 2, 19, nil, nil, "trapsincoming")
+local specWarnBarrage			= mod:NewSpecialWarningDodgeCount(1260643, nil, nil, nil, 2, 2, nil, nil, "frontal")
+local specWarnInfectedPinions	= mod:NewSpecialWarningCount(1246666, "RemoveDisease", nil, nil, 1, 2, nil, nil, "helpdispel")
 
 local timerFlankingSpearCD		= mod:NewCDCountTimer(20.5, 1266480, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerFetidQuillstormCD	= mod:NewCDCountTimer(20.5, 1243900, nil, nil, nil, 3)
@@ -26,10 +26,10 @@ local timerBarrageCD			= mod:NewCDCountTimer(20.5, 1260643, nil, nil, nil, 3)
 local timerInfectedPinionsCD	= mod:NewCDCountTimer(20.5, 1246666, nil, nil, nil, 5, nil, DBM_COMMON_L.DISEASE_ICON)
 local timerCarrionSwoopCD		= mod:NewCDCountTimer(20.5, 1249478, nil, nil, nil, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
 
---Midnight private aura replacements
-mod:AddPrivateAuraSoundOption(1243741, true, 1243741, 1, 1, "stunyou", 19)--Freezing Trap Stun
-mod:AddPrivateAuraSoundOption(1260643, true, 1260643, 1, 1, "frontalyou", 19)--Barrage
-mod:AddPrivateAuraSoundOption(1249478, true, 1249478, 1, 1, "behindice", 19)--Carrion Swoop
+--Custom Aura Sounds
+--mod:AddAuraSoundOption(1243741, true, 1243741, 1, 1, "stunyou", 19)--Freezing Trap Stun
+mod:AddAuraSoundOption(1260643, true, 1260643, 1, 1, "frontalyou", 19)--Barrage
+mod:AddAuraSoundOption(1249478, true, 1249478, 1, 1, "runtotrap", 19)--Carrion Swoop
 
 mod.vb.flankingSpearCount = 0
 mod.vb.fetidQuillstormCount = 0
@@ -49,7 +49,7 @@ local pendingResume = {}
 local pendingResumeUntil = 0
 
 ---@param self DBMMod
----@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 local function setFallback(self, dontSetAlerts)
 	if not dontSetAlerts then
 		if self:IsTank() then
@@ -57,14 +57,18 @@ local function setFallback(self, dontSetAlerts)
 		end
 		specWarnFetidQuillstorm:SetAlert(151, "watchstep", 2)
 		specWarnFreezingTrap:SetAlert(152, "trapsincoming", 19)
-		specWarnBarrage:SetAlert(154, "frontal", 15)
+		specWarnBarrage:SetAlert(153, "frontal", 15)
+--		specWarnInfectedPinions:SetAlert(154, "helpdispel", 2)
 	end
-	timerFlankingSpearCD:SetTimeline(150)
-	timerFetidQuillstormCD:SetTimeline(151)
-	timerFreezingTrapCD:SetTimeline(152)
-	timerBarrageCD:SetTimeline(153)
-	timerInfectedPinionsCD:SetTimeline(154)
-	timerCarrionSwoopCD:SetTimeline(155)
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerFlankingSpearCD:SetTimeline(150, onlyColor)
+	timerFetidQuillstormCD:SetTimeline(151, onlyColor)
+	timerFreezingTrapCD:SetTimeline(152, onlyColor)
+	timerBarrageCD:SetTimeline(153, onlyColor)
+	timerInfectedPinionsCD:SetTimeline(154, onlyColor)
+	timerCarrionSwoopCD:SetTimeline(155, onlyColor)
 end
 
 function mod:OnLimitedCombatStart()
@@ -84,16 +88,13 @@ function mod:OnLimitedCombatStart()
 	self.vb.barrageCount = 1
 	self.vb.infectedPinionsCount = 1
 	self.vb.carrionSwoopCount = 1
-	if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+	if DBM.Options.HardcodedTimer and not badStateDetected then
 		self:IgnoreBlizzardAPI()
 		self:RegisterShortTermEvents(
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end

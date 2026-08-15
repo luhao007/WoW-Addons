@@ -3,10 +3,11 @@
 ..\FrameXML\UI.xsd">
 
 
+<Include file="libs\LibEditModeOverride\LibEditModeOverride.xml"/>
+
 <!--Ace3 Libraries-->
 
-<Include file="libs\LibEQOL-1.0\LibEQOL.xml"/>
-<!-- <Script file="libs\LibButtonGlow-1.0\LibButtonGlow-1.0.lua"/> -->
 <Script file="libs\LibActionButton-1.0\LibActionButton-1.0.lua"/>
+<Script file="libs\WilduCustomGlow-1.0\WilduCustomGlow-1.0.lua"/>
 
 </Ui>

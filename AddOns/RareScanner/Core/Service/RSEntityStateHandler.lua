@@ -98,6 +98,9 @@ function RSEntityStateHandler.SetDeadNpcByZone(npcID, mapID, loadingAddon)
 			end
 		end)
 	end
+
+	-- Increase times killed
+	RSNpcDB.IncreaseTimesKilled(npcID)
 end
 
 -- While loadding the addon there are several checkings that aren't required

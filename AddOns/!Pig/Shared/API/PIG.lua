@@ -8,7 +8,8 @@ local char=string.char
 local L =PD.locale
 local Fun = {}
 PD.Fun=Fun
----lua
+
+---清除格式化占位符
 function FormatLocalStr(text)
 	text = text:gsub("[%%][sd]", "")
 	text = text:gsub("x","")
@@ -39,15 +40,18 @@ function Fun.disp_time(time)
 	-- GARRISON_DURATION_DAYS = "%d天";
 	-- GARRISON_DURATION_HOURS = "%d小时";
 end
--------
+--截取最后连字符-之前部分
 function Fun.PruningServerName(str)
-    local lastIndex = str:reverse():find("-")
-    if lastIndex then
-        local actualIndex = #str - lastIndex + 1
-        return str:sub(1, actualIndex - 1)
-    end
+	if PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(40000) then
+	    local lastIndex = str:reverse():find("-")
+	    if lastIndex then
+	        local actualIndex = #str - lastIndex + 1
+	        return str:sub(1, actualIndex - 1)
+	    end
+	end
     return str
 end
+--插件载入时运行函数
 function Fun.IsAddOnLoaded(AddOnName,funx)
 	if PIGIsAddOnLoaded(AddOnName) then
 		funx()
@@ -57,6 +61,7 @@ function Fun.IsAddOnLoaded(AddOnName,funx)
 		end)
 	end
 end
+
 function Fun.EventCOMBAT_LOG(frame,bot)
 	if PIG_MaxTocversion(120000) then
 		if bot then
@@ -66,6 +71,7 @@ function Fun.EventCOMBAT_LOG(frame,bot)
 		end
 	end
 end
+---
 Fun.IsElvUI=function(vf1,vf2,vf3)
 	if PIGIsAddOnLoaded("ElvUI") then
 		if not vf1 then return true end
@@ -136,68 +142,11 @@ Fun.SetNDui=function(bot,vf1,vf2,vf3)
 	end
 end
 ----
-Fun.PIGGetColorKey=function()
+function Fun.PIGGetColorKey()
 	if PIG_MaxTocversion(60000) then
 		return "cff%w%w%w%w%w%w"
 	else
 		return "cnIQ%d:"
-	end
-end
-
-function Fun.IsAudioNumMaxV(cfv,AudioData)
-	if not AudioData[cfv] or AudioData[cfv] and cfv>#AudioData then
-		return 1
-	else
-		return cfv
-	end
-end
-
----
-function Fun.PIGSetAtlas(buticon,Atlas,useAtlasSize,hWrapMode,vWrapMode)
-	if not PD.Data.AtlasInfo then return false end
-	for k,v in pairs(PD.Data.AtlasInfo) do
-		if v[Atlas] then
-			buticon:SetTexture(k,hWrapMode,vWrapMode)
-			buticon:SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
-			return true
-		end
-	end
-	return false
-end
-function Fun.PIGSetButtonNormalAtlas(buticon,Atlas)
-	if not PD.Data.AtlasInfo then return false end
-	for k,v in pairs(PD.Data.AtlasInfo) do
-		if v[Atlas] then
-			buticon:SetNormalTexture(k)
-			buticon:GetNormalTexture():SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
-		end
-	end
-end
-function Fun.PIGSetButtonPushedAtlas(buticon,Atlas)
-	if not PD.Data.AtlasInfo then return false end
-	for k,v in pairs(PD.Data.AtlasInfo) do
-		if v[Atlas] then
-			buticon:SetPushedTexture(k)
-			buticon:GetPushedTexture():SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
-		end
-	end
-end
-function Fun.PIGSetButtonDisabledAtlas(buticon,Atlas)
-	if not PD.Data.AtlasInfo then return false end
-	for k,v in pairs(PD.Data.AtlasInfo) do
-		if v[Atlas] then
-			buticon:SetDisabledTexture(k)
-			buticon:GetDisabledTexture():SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
-		end
-	end
-end
-function Fun.PIGSetButtonHighlightAtlas(buticon,Atlas)
-	if not PD.Data.AtlasInfo then return false end
-	for k,v in pairs(PD.Data.AtlasInfo) do
-		if v[Atlas] then
-			buticon:SetHighlightTexture(k)
-			buticon:GetHighlightTexture():SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
-		end
 	end
 end
 function Fun.RGBToHex(t)
@@ -207,7 +156,9 @@ function Fun.RGBToHex(t)
 	b = b <= 255 and b >= 0 and b or 0
 	return format("%02x%02x%02x", r, g, b)
 end
------
+---
+
+--队伍分配方式
 local GetLootMethod=GetLootMethod or C_PartyInfo and C_PartyInfo.GetLootMethod
 local SetLootMethod=SetLootMethod or C_PartyInfo and C_PartyInfo.SetLootMethod
 local GetSpecialization = GetSpecialization or C_SpecializationInfo and C_SpecializationInfo.GetSpecialization
@@ -304,6 +255,7 @@ function Fun.Update_LootType(uix,funx,set)
 		end
 	end)
 end
+
 function Fun.Delmaohaobiaodain(oldt)
 	local oldt=oldt:gsub(" ","");
 	local oldt=oldt:gsub("：","");
@@ -316,9 +268,9 @@ function Fun.tihuankuohao(fullName)
 	local fullName = fullName:gsub("）", ")")
 	return fullName
 end
---
-local genders = {[2]="male", [3]="female",[0]="male",[1]="female",}
---local genders = {[0]="male", [1]="female",[2]="none", [3]="both", [3]="neutral"}
+
+--性别
+local genders = {[2]="male", [3]="female",[0]="male",[1]="female",}-- {[0]="male", [1]="female",[2]="none", [3]="both", [3]="neutral"}
 local fixedRaceAtlasNames = {
     ["highmountaintauren"] = "highmountain",
     ["lightforgeddraenei"] = "lightforged",
@@ -393,6 +345,32 @@ function Fun.GetRaceClassTXT(iconH,texW,race,sex,class,color)
 		ClassX=GetRaceClassFormat(131146,iconH,texW,left,right,top,bottom,color)
 	end
 	return RaceX,ClassX
+end
+
+--自动邀请开启状态
+local AutoInviteOpen={}
+function Fun.GetAutoInviteOpen(daname)
+	return AutoInviteOpen[daname]
+end
+function Fun.SetAutoInviteOpen(daname,Boolean)
+	AutoInviteOpen[daname]=Boolean
+end
+function Fun.IsAutoInviteOpen(daname)
+	for name,open in pairs(AutoInviteOpen) do
+		if name~=daname then
+			if name=="Farm" then
+				PIGErrorMsg(L["ExtList"][L.addnames[4]].nameLocaleAll.."-自动邀请处于开启状态，请先关闭");
+				return true
+			elseif name=="Yell" then
+				PIGErrorMsg(L["ExtList"][L.addnames[2]].nameLocaleAll.."喊话-自动邀请处于开启状态，请先关闭");
+				return true
+			elseif name=="Invite" then
+				PIGErrorMsg(L["ExtList"][L.addnames[2]].nameLocaleAll..GROUPS.."-自动邀请处于开启状态，请先关闭");
+				return true
+			end
+		end
+	end
+	return false
 end
 
 --压缩数字======
@@ -529,76 +507,6 @@ function Fun.jieya_NumberString(sss)
     end
 
     return txtdec
-end
---压缩配置
-local pig_teshuzifu = {"&","@","#"}
-function Fun.quchu_teshufuhao(str)
-   	for i=1,#pig_teshuzifu do
-        str = str:gsub(pig_teshuzifu[i], "")
-    end
-    return str
-end
-local pig_yasuoCF = {
-	['"%]=true,']="&",
-	['"%]=false,']="@",
-	['"%]={%["']="#",
-}
-local pig_yasuoCF_1 = {
-	['"%]=true']="&_",
-	['"%]=false']="@_",
-	['"%]={']="#_",
-}
-local pig_yasuoCF_2 = {
-	[']="BOTTOMRIGHT"']="&~",
-	[']="RIGHT"']="@~",
-	[']="CENTER"']="#~",
-}
-local pig_yasuoCF_3 = {
-	['%]=true']="&~",
-	['%]=false']="@~",
-	['%]={}']="#~",
-	['%]="N/A"']="#1",
-	['%]=0']="&1",
-	['%]=""']="@1",
-}
-local pig_jieyaCF = {}
-local pig_jieyaCF_1 = {}
-local pig_jieyaCF_2 = {}
-do
-	for k,v in pairs(pig_yasuoCF) do
-		pig_jieyaCF[v]=k
-	end
-	for k,v in pairs(pig_yasuoCF_1) do
-		pig_jieyaCF_1[v]=k
-	end
-	for k,v in pairs(pig_yasuoCF_2) do
-		pig_jieyaCF_2[v]=k
-	end
-end
-function Fun.yasuo_string(str)
-	str = Fun.quchu_teshufuhao(str)
-    for key, value in pairs(pig_yasuoCF) do
-        str = str:gsub(key, tostring(value))
-    end
-    for key, value in pairs(pig_yasuoCF_1) do
-        str = str:gsub(key, tostring(value))
-    end
-    for key, value in pairs(pig_yasuoCF_2) do
-       str = str:gsub(key, tostring(value))
-    end
-    return str
-end
-function Fun.jieya_string(str)
-	for key, value in pairs(pig_jieyaCF_2) do
-       str = str:gsub(key, tostring(value))
-    end
-    for key, value in pairs(pig_jieyaCF_1) do
-        str = str:gsub(key, tostring(value))
-    end
-    for key, value in pairs(pig_jieyaCF) do
-        str = str:gsub(key, tostring(value))
-    end
-    return str
 end
 --转码
 function Fun.Base64_encod(data)

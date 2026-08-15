@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: nanderson11
-## Version: v3.15.3
+## Version: v3.15.10
 
 ## Title: Atlas
 ## Notes: Instance Map Browser

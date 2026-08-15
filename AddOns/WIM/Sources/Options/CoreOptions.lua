@@ -309,7 +309,7 @@ local function General_WindowSettings()
     frame.menu.nextOffSetY = -35;
     frame.menu.width = frame.menu:CreateSlider(L["Default Width"], "150", "800", 150, 800, 1, db.winSize, "width", function(self) UpdateAllWindowProps(); end);
     frame.menu.nextOffSetY = -45;
-    frame.menu.height = frame.menu:CreateSlider(L["Default Height"], "150", "600", 150, 600, 1, db.winSize, "height", function(self) UpdateAllWindowProps(); end);
+    frame.menu.height = frame.menu:CreateSlider(L["Default Height"], "80", "600", 80, 600, 1, db.winSize, "height", function(self) UpdateAllWindowProps(); end);
     frame.menu.nextOffSetY = -45;
     frame.menu.scale = frame.menu:CreateSlider(L["Window Scale"], "10", "400", 10, 400, 1, db.winSize, "scale", function(self) UpdateAllWindowProps(); end);
     frame.menu.nextOffSetY = -25;
@@ -876,7 +876,8 @@ local function General_Sounds(isChat)
         f.sub.chat:CreateCheckButtonMenu(L["Play special sound for %s."]:format(_G.SAY), db.sounds.chat, "say", nil, nil, soundList[7], db.sounds.chat, "say_sml");
         f.sub.chat:CreateCheckButtonMenu(L["Play special sound for %s."]:format(L["World Chat"]), db.sounds.chat, "world", nil, nil, soundList[8], db.sounds.chat, "world_sml");
         f.sub.chat:CreateCheckButtonMenu(L["Play special sound for %s."]:format(L["Custom Chat"]), db.sounds.chat, "custom", nil, nil, soundList[9], db.sounds.chat, "custom_sml");
-        f.sub.nextOffSetY = -300;
+		f.sub.chat:CreateCheckButtonMenu(L["Play special sound for %s."]:format(L["Community Chat"]), db.sounds.chat, "community", nil, nil, soundList[9], db.sounds.chat, "community_sml");
+        f.sub.nextOffSetY = -310;
         f.sub:CreateCheckButtonMenu(L["Play sound when a message is sent."], db.sounds.chat, "msgout", nil, nil, soundList[10], db.sounds.chat, "msgout_sml");
     else
         f.sub.whispers = f.sub:CreateCheckButtonMenu(L["Play sound when a whisper is received."], db.sounds.whispers, "msgin", nil, nil, soundList[1], db.sounds.whispers, "msgin_sml");

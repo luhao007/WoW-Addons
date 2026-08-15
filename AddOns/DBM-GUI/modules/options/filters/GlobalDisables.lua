@@ -17,7 +17,15 @@ spamSpecAnnounceFeat:CreateCheckButton(L.SpamBlockNoSpecWarnSound, true, nil, "D
 
 if DBM:IsPostMidnight() then
 	local spamPrivateAuras = spamPanel:CreateArea(L.Area_Private_Aura_Features)
-	spamPrivateAuras:CreateCheckButton(L.SpamBlockNoPrivateAuraFrame, true, nil, "DontShowPrivateAuraFrame")
+	local disableAuraFrames = spamPrivateAuras:CreateCheckButton(L.SpamBlockNoPrivateAuraFrame, true, nil, "DontShowPrivateAuraFrame")
+	disableAuraFrames:SetScript("OnClick", function()
+		DBM.Options.DontShowPrivateAuraFrame = not DBM.Options.DontShowPrivateAuraFrame
+		local auraHandler = DBM.Auras
+		local updateMethod = auraHandler and auraHandler.UpdateAuraAnchors
+		if updateMethod and not updateMethod(auraHandler) then
+			DBM:QueueAuraAnchorUpdate()
+		end
+	end)
 	spamPrivateAuras:CreateCheckButton(L.SpamBlockNoPrivateAuraSound, true, nil, "DontPlayPrivateAuraSound")
 end
 
@@ -26,27 +34,27 @@ spamTimers:CreateCheckButton(L.SpamBlockNoShowBossTimers, true, nil, "DontShowBo
 spamTimers:CreateCheckButton(L.SpamBlockNoShowEventTimers, true, nil, "DontShowEventTimers")
 spamTimers:CreateCheckButton(L.SpamBlockNoShowUTimers, true, nil, "DontShowUserTimers")
 spamTimers:CreateCheckButton(L.SpamBlockNoCountdowns, true, nil, "DontPlayCountdowns")
-local NoTLButton = spamTimers:CreateCheckButton(L.SpamBlockNoTLColors, true, nil, "DontSetTimelineColors")
-NoTLButton:SetScript("OnClick", function()
-	DBM.Options.DontSetTimelineColors = not DBM.Options.DontSetTimelineColors
-	if DBM.Options.DontSetTimelineColors then
-		--Apply user bar color to all bars by default, since blizzard applies white (or red) to all of them by default now
-		local timerRed, timerGreen, timerBlue = DBT:GetColorForType(0)
-		--https://wago.tools/db2/EncounterEvent?page=25
-		for i = 1, 733 do
-			C_EncounterEvents.SetEventColor(i, {r = timerRed, g = timerGreen, b = timerBlue})
+if DBM:IsPostMidnight() then
+	local NoTLButton = spamTimers:CreateCheckButton(L.SpamBlockNoTLColors, true, nil, "DontSetTimelineColors")
+	NoTLButton:SetScript("OnClick", function()
+		DBM.Options.DontSetTimelineColors = not DBM.Options.DontSetTimelineColors
+		if DBM.Options.DontSetTimelineColors then
+			--Apply user bar color to all bars by default, since blizzard applies white (or red) to all of them by default now
+			local timerStartRed, timerStartGreen, timerStartBlue = DBT:GetColorForType(0)
+			local timerEndRed, timerEndGreen, timerEndBlue = DBT:GetColorForType(0, true)
+			--https://wago.tools/db2/EncounterEvent?page=25
+			for i = 1, 850 do
+				DBM:EE_SetEventColor(i, timerStartRed, timerStartGreen, timerStartBlue, timerEndRed, timerEndGreen, timerEndBlue)
+			end
+		else
+			for i = 1, 850 do
+				DBM:EE_UnsetEventColor(i)
+			end
 		end
-	else
-		for i = 1, 688 do
-			C_EncounterEvents.SetEventColor(i, nil)
-		end
-	end
-end)
-if not DBM:IsPostMidnight() then
+	end)
+else
 	spamTimers:CreateCheckButton(L.SpamBlockNoShowTrashTimers, true, nil, "DontShowTrashTimers")
-end
 
-if not DBM:IsPostMidnight() then
 	local spamNameplates = spamPanel:CreateArea(L.Area_SpamFilter_Nameplates)
 	local Plater = _G["Plater"]
 	local ThreatPlates = _G["TidyPlatesThreatDBM"] and _G["TidyPlatesThreat"]
@@ -103,9 +111,7 @@ spamPTArea:CreateCheckButton(L.DontShowPT, true, nil, "DontShowPT2")
 spamPTArea:CreateCheckButton(L.DontShowPTText, true, nil, "DontShowPTText")
 local SPTCDA = spamPTArea:CreateCheckButton(L.DontPlayPTCountdown, true, nil, "DontPlayPTCountdown")
 
-local PTSlider = spamPTArea:CreateSlider(L.PT_Threshold, 1, 10, 1, 300)
-PTSlider:SetPoint("BOTTOMLEFT", SPTCDA, "BOTTOMLEFT", 80, -40)
-PTSlider:SetValue(math.floor(DBM.Options.PTCountThreshold2))
-PTSlider:HookScript("OnValueChanged", function(self)
-	DBM.Options.PTCountThreshold2 = math.floor(self:GetValue())
+local PTSlider = spamPTArea:CreateSlider(L.PT_Threshold, 1, 10, 1, 300, math.floor(DBM.Options.PTCountThreshold2), function(value)
+	DBM.Options.PTCountThreshold2 = math.floor(value)
 end)
+PTSlider:SetPoint("BOTTOMLEFT", SPTCDA, "BOTTOMLEFT", 80, -40)

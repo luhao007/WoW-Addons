@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260523003524")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15936)
 mod:SetEncounterID(1112)
@@ -35,6 +35,6 @@ function mod:BackInRoom(time)
 	self:ScheduleMethod(time, "DancePhase")
 end
 
-function mod:OnCombatStart(delay)
-	self:BackInRoom(90 - delay)
+function mod:OnCombatStart()
+	self:BackInRoom(90)
 end

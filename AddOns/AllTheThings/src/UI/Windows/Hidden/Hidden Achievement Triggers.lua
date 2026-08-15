@@ -6,6 +6,7 @@ local DESCRIPTION_SEPARATOR = app.DESCRIPTION_SEPARATOR;
 -- Implementation
 app:CreateWindow("Hidden Achievement Triggers", {
 	Commands = { "atthat", "atthats" },
+	RootCommands = { "hat" },
 	HideFromSettings = true,
 	Preload = true,
 	OnInit = function(self)

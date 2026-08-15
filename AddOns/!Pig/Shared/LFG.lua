@@ -4,15 +4,30 @@ local match = _G.string.match
 local Fun = addonTable.Fun
 -------------
 --LFG副本信息
-function Fun.PIG_GetCategories(baseFilters)
+local function IsPVEPVP(ly,categoryID)
+	if not ly then return true end
+	if ly==1 then
+		if categoryID~=118 and categoryID~=122 and categoryID~=125 then
+			return true 
+		end
+	elseif ly==2 then
+		if categoryID==118 or categoryID==122 or categoryID==125 then
+			return true 
+		end
+	end
+end
+function Fun.PIG_GetCategories(ly)
 	local data={}
 	local categories = C_LFGList.GetAvailableCategories(baseFilters);
 	for i=1, #categories do
 		local categoryID=categories[i]
-		local CategoryInfo= C_LFGList.GetLfgCategoryInfo(categoryID)
-		local renwuname=CategoryInfo.name:match(QUESTS_LABEL)
-		if renwuname then CategoryInfo.name=QUESTS_LABEL end
-		table.insert(data, {categoryID,CategoryInfo.name})
+		--print(ly,categoryID,C_LFGList.GetLfgCategoryInfo(categoryID).name)
+		if IsPVEPVP(ly,categoryID) then
+			local CategoryInfo= C_LFGList.GetLfgCategoryInfo(categoryID)
+			local renwuname=CategoryInfo.name:match(QUESTS_LABEL)
+			if renwuname then CategoryInfo.name=QUESTS_LABEL end
+			table.insert(data, {categoryID,CategoryInfo.name})
+		end
 	end
 	return data
 end
@@ -47,10 +62,100 @@ local function IsBaseFilters(fullName,baseFilters)
 	return false
 end
 Fun.IsBaseFilters=IsBaseFilters
+--
+local function PIG_GetTocOld()
+	return PIG_MaxTocversion(60000)
+end
+Fun.PIG_GetTocOld=PIG_GetTocOld
+local TocOld=PIG_GetTocOld()
 function Fun.PIG_GetGroups(categoryID,baseFilters)
 	local data={{},{},{},{}}
-	if PIG_MaxTocversion(50000) then
-		--活动类型(地下城2/团队114/任务和地图116/PVP118/自定义120)
+	if C_LFGList.GetPremadeGroupFinderStyle()==1 then
+		if TocOld then
+			--地下城2/团队114/任务和地图116/PVP118/自定义PVE120/自定义PVP122/战场125
+			local groups = C_LFGList.GetAvailableActivityGroups(categoryID);
+			if categoryID==120 then
+				local activityInfo= C_LFGList.GetActivityInfoTable(1064)
+				print(22222,activityInfo.fullName,activityInfo.minLevelSuggestion,activityInfo.maxLevelSuggestion)
+				table.insert(data[2],{1064,activityInfo.fullName,activityInfo.minLevelSuggestion,activityInfo.maxLevelSuggestion})
+			else
+				for groupIndex = 1, #groups do
+					local groupID = groups[groupIndex];
+					if not data[2][groupID] then
+						local groupName = PIG_GetActivityGroupInfo(groupID)
+						table.insert(data[1],{groupID,groupName})
+						data[2][groupID]={}
+					end
+					local activities = C_LFGList.GetAvailableActivities(categoryID,groupID)
+					for ii=1,#activities,1 do
+						local activityID=activities[ii]
+						local activityInfo= C_LFGList.GetActivityInfoTable(activityID)
+						table.insert(data[2][groupID],{activityID,activityInfo.fullName,activityInfo.minLevelSuggestion,activityInfo.maxLevelSuggestion})
+						if categoryID==2 or categoryID==114 then
+							if not data[4][activityInfo.difficultyID] then
+								local DifficultyName = PIG_GetDifficultyInfo(activityInfo.difficultyID) or NONE
+								data[4][activityInfo.difficultyID]={activityInfo.difficultyID,DifficultyName}
+							end
+						else
+
+						end
+					end
+					table.sort(data[2][groupID], ActivitySortComparator)
+				end
+				for k,v in pairs(data[4]) do
+					table.insert(data[3],v)
+				end
+				-- table.sort(data[3], function(a, b)
+				--     return a[1] < b[1]
+				-- end)
+			end
+		else
+			--任务1/地下城2/团队3/竞技场4/自定义6/竞技场练习赛7/战场8/评级战场9/海岛探险111/121地下堡
+			local activities = C_LFGList.GetAvailableActivities(categoryID);
+			for ii=1,#activities do
+				local activityID=activities[ii]
+				local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
+				print(111,activityInfo.fullName,activityInfo.minLevelSuggestion,activityInfo.maxLevelSuggestion)
+				if categoryID==1 then
+					if not data[2][activityInfo.groupFinderActivityGroupID] then
+						local groupName, groupOrderIndex = C_LFGList.GetActivityGroupInfo(activityInfo.groupFinderActivityGroupID);
+						table.insert(data[1],{activityInfo.groupFinderActivityGroupID,groupName})
+						data[2][activityInfo.groupFinderActivityGroupID]={}
+					end
+					table.insert(data[2][activityInfo.groupFinderActivityGroupID], {activityID,activityInfo.fullName,activityInfo.shortName})
+				elseif categoryID==2 or categoryID==3 then
+					if not data[2][activityInfo.difficultyID] then
+						local DifficultyName = PIG_GetDifficultyInfo(activityInfo.difficultyID) or NONE
+						table.insert(data[1],{activityInfo.difficultyID,DifficultyName})
+						data[2][activityInfo.difficultyID]={}
+					end
+					table.insert(data[2][activityInfo.difficultyID], {activityID,activityInfo.fullName,activityInfo.shortName})
+				elseif categoryID==6 or categoryID==121 then--自定义6/121地下堡
+					if categoryID==6 then
+						if baseFilters==4 or baseFilters==8 then
+							if IsBaseFilters(activityInfo.fullName,baseFilters) then
+								table.insert(data[2], {activityID,activityInfo.fullName,activityInfo.shortName})
+							end
+						else
+							table.insert(data[2], {activityID,activityInfo.fullName,activityInfo.shortName})
+						end
+					else
+						table.insert(data[2], {activityID,activityInfo.fullName,activityInfo.shortName})
+					end
+				else--if categoryID==4 or categoryID==7 then
+					table.insert(data[2], {activityID,activityInfo.fullName,activityInfo.shortName})
+				end
+			end
+			if #data[1]>0 then
+				for diffID, group in pairs(data[2]) do
+					table.sort(group, function(a, b)
+						return a[1] < b[1]  --按activityID升序
+					end)
+				end
+			end
+		end
+	elseif C_LFGList.GetPremadeGroupFinderStyle()==2 then
+		--地下城2/团队114/任务和地图116/PVP118/自定义120
 		local groups = C_LFGList.GetAvailableActivityGroups(categoryID);
 		if categoryID==120 then
 			local activityInfo= C_LFGList.GetActivityInfoTable(1064)
@@ -81,52 +186,6 @@ function Fun.PIG_GetGroups(categoryID,baseFilters)
 			end
 			for k,v in pairs(data[4]) do
 				table.insert(data[3],v)
-			end
-			-- table.sort(data[3], function(a, b)
-			--     return a[1] < b[1]
-			-- end)
-		end
-	else
-		--活动类型(任务1/地下城2/团队3/竞技场4/自定义6/竞技场练习赛7/战场8/评级战场9/海岛探险111/121地下堡)
-		local activities = C_LFGList.GetAvailableActivities(categoryID);
-		for ii=1,#activities do
-			local activityID=activities[ii]
-			local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
-			if categoryID==1 then
-				if not data[2][activityInfo.groupFinderActivityGroupID] then
-					local groupName, groupOrderIndex = C_LFGList.GetActivityGroupInfo(activityInfo.groupFinderActivityGroupID);
-					table.insert(data[1],{activityInfo.groupFinderActivityGroupID,groupName})
-					data[2][activityInfo.groupFinderActivityGroupID]={}
-				end
-				table.insert(data[2][activityInfo.groupFinderActivityGroupID], {activityID,activityInfo.fullName,activityInfo.shortName})
-			elseif categoryID==2 or categoryID==3 then
-				if not data[2][activityInfo.difficultyID] then
-					local DifficultyName = PIG_GetDifficultyInfo(activityInfo.difficultyID) or NONE
-					table.insert(data[1],{activityInfo.difficultyID,DifficultyName})
-					data[2][activityInfo.difficultyID]={}
-				end
-				table.insert(data[2][activityInfo.difficultyID], {activityID,activityInfo.fullName,activityInfo.shortName})
-			elseif categoryID==6 or categoryID==121 then--自定义6/121地下堡
-				if categoryID==6 then
-					if baseFilters==4 or baseFilters==8 then
-						if IsBaseFilters(activityInfo.fullName,baseFilters) then
-							table.insert(data[2], {activityID,activityInfo.fullName,activityInfo.shortName})
-						end
-					else
-						table.insert(data[2], {activityID,activityInfo.fullName,activityInfo.shortName})
-					end
-				else
-					table.insert(data[2], {activityID,activityInfo.fullName,activityInfo.shortName})
-				end
-			else--if categoryID==4 or categoryID==7 then
-				table.insert(data[2], {activityID,activityInfo.fullName,activityInfo.shortName})
-			end
-		end
-		if #data[1]>0 then
-			for diffID, group in pairs(data[2]) do
-				table.sort(group, function(a, b)
-					return a[1] < b[1]  --按activityID升序
-				end)
 			end
 		end
 	end
@@ -249,7 +308,7 @@ local function IsdanjiaOK(fubenID,danjiaCF)
 	return false
 end
 --根据等级计算单价
-function Fun.Get_LvDanjia(lv,fubenID,danjiaCF)
+local function Get_LvDanjia(lv,fubenID,danjiaCF)
 	if lv==0 then return 0 end
 	if is_slist() then return 0 end
 	local hangD = IsdanjiaOK(fubenID,danjiaCF)
@@ -264,6 +323,17 @@ function Fun.Get_LvDanjia(lv,fubenID,danjiaCF)
 		end
 	end
 	return 0
+end
+Fun.Get_LvDanjia=Get_LvDanjia
+--计算包级总价
+function Fun.Get_BaojiDanjia(minlv,maxlv,fubenID,danjiaCF)
+	if lv==0 then return 0 end
+	if is_slist() then return 0 end
+	local allvv=0
+	for lvv = minlv+1, maxlv, 1 do
+		allvv=allvv+Get_LvDanjia(lvv,fubenID,danjiaCF)
+	end
+	return allvv
 end
 --获取所带副本级别单价文本
 function Fun.Get_LvDanjiaYC(fubenID,danjiaCF)

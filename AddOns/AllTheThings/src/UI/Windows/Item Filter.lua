@@ -69,6 +69,7 @@ local function ParseCommand(self, cmd)
 end
 app:CreateWindow("Item Filter", {
 	Commands = { "attfilter" },
+	RootCommands = { "filter", "filters" },
 	OnCommand = function(self, args, params)
 		local cmd = args[1];
 		if cmd and cmd:len() > 0 then

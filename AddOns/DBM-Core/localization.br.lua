@@ -2,6 +2,7 @@ if GetLocale() ~= "ptBR" then return end
 if not DBM_CORE_L then DBM_CORE_L = {} end
 
 local L = DBM_CORE_L
+L.AURA_FONT_RESET = "Configurações de fonte de texto de aura inválidas detectadas e redefinidas para os padrões."
 
 local dateTable = date("*t")
 if dateTable.day and dateTable.month and dateTable.day == 1 and dateTable.month == 4 then
@@ -11,7 +12,7 @@ end
 
 L.HOW_TO_USE_MOD					= "Bem vindo ao " .. L.DBM .. " Digite /dbm help para obter uma lista dos comandos disponíveis. Para acessar as opções, digite /dbm no seu bate-papo para começar a configuração. Carregue zonas específicas manualmente para configurar opções específicas de cada chefe para o seu gosto pessoal. O " .. L.DBM .. " tenta fazer isso automaticamente para você, observando sua spec na primeira vez que é executado. De qualquer forma, você pode querer ativar outras opções."
 L.SILENT_REMINDER 					= "Lembrete: " .. L.DBM .. " ainda está em modo silencioso."
-L.NEWS_UPDATE						= "|h|c11ff1111Notícias|r|h: Esta atualização altera a estrutura do módulo para que o clássico e o principal agora usem módulos unificados (iguais). Isso significa que os módulos Vanilla, TBC, Wrath e Cata agora são instalados separadamente usando os mesmos pacotes que o jogo original. Leia mais sobre isso |Hgarrmission:DBM:news|h|cff3588ff[aqui]|r|h"
+L.NEWS_UPDATE						= "|h|c11ff1111Notícias|r|h: O DBM foi atualizado com o recurso de renomear habilidades. Basta digitar /dbm, ir para a categoria de módulos (raides, masmorras etc.) e abrir o módulo no qual você quer renomear habilidades."
 L.NEWS_UPDATE_REPEAT				= "|h|c11ff1111Notícias|r|h: Esta atualização altera a estrutura do módulo para que o clássico e o principal agora usem módulos unificados (iguais). Isso significa que os módulos Vanilla, TBC, Wrath e Cata agora são instalados separadamente usando os mesmos pacotes que o jogo original. Você está atualmente em um raide que está com um módulo ausente. Esta mensagem continuará aparecendo (e você não terá alertas funcionais para esta zona) até que você tenha instalado o módulo de raide ausente."
 
 L.COPY_URL_DIALOG_NEWS 				= "Para ler as últimas notícias, visite o link abaixo"
@@ -29,7 +30,7 @@ L.LOAD_MOD_DISABLED 				= "%s está instalado, mas atualmente desativado. Este m
 L.LOAD_MOD_DISABLED_PLURAL 			= "%s estão instalados, mas atualmente desativados. Estes mods não serão carregados a menos que você os ative."
 
 L.COPY_URL_DIALOG 					= "Copiar URL"
-L.COPY_WA_DIALOG 					= "Copiar Chave WA"
+L.COPY_WA_DIALOG 					= "Copiar chave de feitiço"
 
 --Post Patch 7.1
 L.TEXT_ONLY_RANGE 					= "O quadro de distância está limitado apenas a texto devido a restrições de API nesta área."
@@ -56,9 +57,9 @@ L.GUILD_COMBAT_STARTED				= "%s engrenou em combate com a guilda"--Uncomment whe
 L.SCENARIO_STARTED					= "%s começou. Boa sorte e divirta-se! :)"
 L.SCENARIO_STARTED_IN_PROGRESS		= "Juntando-se à %s em progresso. Boa sorte e divirta-se! :)"
 L.BOSS_DOWN							= "%s derrotado após %s!"
-L.BOSS_DOWN_I						= "%s derrotado! você tem %d |vitória:vitórias; no total."
-L.BOSS_DOWN_L						= "%s derrotado após %s! Sua última vitória levou %s, sua vitória mais rápida %s. Você tem um total de %d vitórias."
-L.BOSS_DOWN_NR						= "%s derrotado após %s! Esse é um novo recorde! (Recorde antigo era %s). Você tem um total de %d vitórias."
+L.BOSS_DOWN_I						= "%s derrotado! você tem %d |4vitória:vitórias; no total."
+L.BOSS_DOWN_L						= "%s derrotado após %s! Sua última vitória levou %s, sua vitória mais rápida %s. Você tem %d |4vitória:vitórias; no total."
+L.BOSS_DOWN_NR						= "%s derrotado após %s! Esse é um novo recorde! (Recorde antigo era %s). Você tem %d |4vitória:vitórias; no total."
 L.RAID_DOWN							= "%s derrotado após %s!"
 L.RAID_DOWN_L						= "%s derrotado após %s! Sua última vitória levou %s."
 L.RAID_DOWN_NR						= "%s derrotado após %s! Esse é um novo recorde! (Recorde antigo era %s)."
@@ -91,7 +92,7 @@ L.LEAVING_COMBAT					= "Saindo de combate"
 L.RAID_DIFFICULTY_CHANGED			= "Dificuldade da raide foi definida como %s."
 L.DUNGEON_DIFFICULTY_CHANGED		= "Dificuldade da masmorra foi definida como %s."
 
-L.PROFILE_NOT_FOUND					= "<" .. L.DBM .. "> Seu perfil atual está corrompido. " .. L.DBM .. " carregara o perfil 'Padrão'."
+L.PROFILE_NOT_FOUND					= "<" .. L.DBM .. "> Seu perfil atual está corrompido. " .. L.DBM .. " carregara o perfil '%s'."
 L.PROFILE_CREATED					= "'%s' perfil criado."
 L.PROFILE_CREATE_ERROR				= "Falha ao criar perfil. Nome de perfil inválido."
 L.PROFILE_CREATE_ERROR_D			= "Falha ao criar perfil. '%s' perfil já existe."
@@ -100,9 +101,9 @@ L.PROFILE_APPLY_ERROR				= "Falha ao aplicar perfil. '%s' perfil não existe."
 L.PROFILE_COPIED					= "'%s' perfil copiado."
 L.PROFILE_COPY_ERROR				= "Falha ao copiar perfil. '%s' perfil não existe."
 L.PROFILE_COPY_ERROR_SELF			= "Falha ao copiar perfil, não é possível copiar a si mesmo."
-L.PROFILE_DELETED					= "'%s' perfil deletado. Perfil 'Padrão' será aplicado."
+L.PROFILE_DELETED					= "'%s' perfil deletado. Perfil '%s' será aplicado."
 L.PROFILE_DELETE_ERROR				= "Falha ao deletar perfil. '%s' perfil não existe."
-L.PROFILE_CANNOT_DELETE				= "Não é possível deletar o perfil 'Padrão'."
+L.PROFILE_CANNOT_DELETE				= "Não é possível deletar o perfil '%s'."
 L.MPROFILE_COPY_SUCCESS				= "%s's (%d spec) preferencias do módulo foram copiadas."
 L.MPROFILE_COPY_SELF_ERROR			= "Não é possível copiar às preferencias do char para ele mesmo"
 L.MPROFILE_COPY_S_ERROR				= "Origem esta corrompida. Preferencias não foram copias ou foram copiadas parcialmente. Falha ao copiar."
@@ -164,7 +165,7 @@ L.OPTION_CATEGORY_DROPDOWNS			= "Menus suspensos"--Still put in MISC sub grooup,
 L.OPTION_CATEGORY_YELLS 			= "Gritos"
 L.OPTION_CATEGORY_NAMEPLATES 		= "Placas de nome"
 L.OPTION_CATEGORY_ICONS 			= "Ícones"
-L.OPTION_CATEGORY_PAURAS 			= "Auras privadas"
+L.OPTION_CATEGORY_PAURAS 			= "Auras"
 
 L.AUTO_RESPONDED					= "Respondido automaticamente"
 L.STATUS_WHISPER					= "%s: %s, %d/%d pessoas vivas"
@@ -186,7 +187,7 @@ L.VERSIONCHECK_HEADER				= "Módulo de chefe - Versões"
 L.VERSIONCHECK_ENTRY				= "%s: %s (%s)"
 L.VERSIONCHECK_ENTRY_TWO			= "%s: %s (%s) & %s (%s)"--Two Boss mods
 L.VERSIONCHECK_ENTRY_NO_DBM			= "%s: " .. L.DBM .. " não instalado"
-L.VERSIONCHECK_FOOTER				= "Encontrados %d jogadores com " .. L.DBM .. " & %d jogadores com Bigwigs"
+L.VERSIONCHECK_FOOTER				= "Encontrados %d |4jogador;jogadores com " .. L.DBM .. " e %d |4jogador;jogadores com BigWigs"
 L.VERSIONCHECK_OUTDATED				= "Os seguintes %d jogadores estão com versões desatualizadas de boss mods: %s"
 L.YOUR_VERSION_OUTDATED				= "Sua versão do " .. L.DEADLY_BOSS_MODS .. " está desatualizada. Por favor, acesse no Curse, Wago, WoWI ou Github para baixar a versão mais recente."
 L.VOICE_PACK_OUTDATED				= "O pacote de vozes do seu " .. L.DBM .. " pode estar sem alguns dos sons suportados por esta versão do " .. L.DBM .. ". O filtro de anúncio especial sonoro foi desativado. Por favor, baixe a versão mais recente do pacote de vozes ou entre em contato com o autor para obter um pacote que contenha os sons mencionados."
@@ -194,7 +195,8 @@ L.VOICE_MISSING						= "Você tinha um pacote de vozes " .. L.DBM .. " seleciona
 L.VOICE_DISABLED					= "Você atualmente tem pelo menos um pacote de voz do " .. L.DBM .. " instalado, mas nenhum está ativado. Se pretende usar um pacote de voz, certifique-se de que está selecionado em 'Alertas falados'. Caso contrário, desinstale os pacotes de voz não utilizados para ocultar esta mensagem."
 L.VOICE_COUNT_MISSING				= "A voz de contagem regressiva %d está selecionada para um pacote de voz que não pôde ser encontrado ou que não é compatível no momento. Foi restaurada para a configuração padrão: %s."
 L.BIG_WIGS							= "BigWigs" -- OPTIONAL
-L.WEAKAURA_KEY						= " (|cff308530Chave WA:|r %s)"
+L.WEAKAURA_KEY 						= " (|cff308530ID:|r %s)"
+L.RENAME							= " (|cff359030Renomes:|r |cff71d5ff%s|r)"
 
 L.UPDATEREMINDER_HEADER				= "Sua versão de " .. L.DEADLY_BOSS_MODS .. " está desatualizada.\nA versão %s (%s) está disponível para download nos sites Curse, Wago, WoWI ou Github."
 L.UPDATEREMINDER_HEADER_SUBMODULE	= "Seu módulo %s está desatualizado.\nA versão %s está disponível para download nos sites Curse, Wago, WoWI ou Github."
@@ -221,7 +223,7 @@ L.HARDCODED_FALLBACK					= L.DBM .. " detectou um resultado inesperado em um mó
 L.MOVABLE_BAR						= "Arraste-me!"
 L.MOVABLE_FRAMES 					= "Quadros arrastáveis"
 
-L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h te enviou um cronômetro do " .. L.DBM .. ": '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[Cancelar esse cronômetro]|r|h  |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignorar cronômetros de %1$s]|r|h"
+L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h te enviou um cronômetro do " .. L.DBM .. ": '%2$s'\n|Haddon:DBM:cancel:%2$s:nil|h|cff3588ff[Cancelar esse cronômetro]|r|h  |Haddon:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignorar cronômetros de %1$s]|r|h"
 L.PIZZA_CONFIRM_IGNORE				= "Você tem certeza de que realmente deseja ignorar cronômetros de %s até o fim desta sessão?"
 L.PIZZA_ERROR_USAGE					= "Uso: /dbm [broadcast] timer <tempo> <texto>"
 
@@ -255,6 +257,7 @@ L.INFOFRAME_TITLE					= "Quadro de info"
 L.INFOFRAME_SHOW_SELF				= "Sempre exibir seu poder"		-- Always show your own power value even if you are below the threshold
 L.INFOFRAME_SETLINES				= "Linhas máximas"
 L.INFOFRAME_SETCOLS					= "Colunas máximas"
+L.INFOFRAME_SETSTRATA				= "Camada do quadro"
 L.INFOFRAME_LINESDEFAULT			= "Definido pelo mod"
 L.INFOFRAME_LINES_TO				= "%d linhas"
 L.INFOFRAME_COLS_TO					= "%d colunas"
@@ -287,7 +290,12 @@ L.SLASHCMD_HELP2					= {
 	"/hudar <número>: Mostra o buscador de distância baseado em HUD.",
 	"/dbm arrow: Mostra a seta do " .. L.DBM .. ", veja /dbm arrow help para detalhes.",
 	"/dbm hud: Mostra o HUD do " .. L.DBM .. ", veja '/dbm hud' para detalhes.",
+	"/dbm dbtdebug: Mostra diagnósticos sanitizados de barras de tempo para relatórios de erro."
 }
+L.DBT_DEBUG_HEADER					= "Diagnósticos DBT (sanitizados; sem texto de encontro ou secreto)"
+L.DBT_DEBUG_EMPTY					= "Nenhuma atualização de estilo do DBT foi capturada desde que a interface foi recarregada."
+L.DBT_DEBUG_DISABLED					= "A captura está desativada. Ative o Modo de Depuração do DBM antes de reproduzir o problema."
+L.DBT_DEBUG_NOTICE					= "Inclua esta saída do chat no seu relatório de erro."
 --Translate all of these
 L.TIMER_USAGE						= {
 	"Comandos de cronômetro do DBM:",
@@ -333,6 +341,7 @@ L.AUTO_ANNOUNCE_TEXTS.incomingcount 	= "Penalidade %s se aproximando (%%s)"
 L.AUTO_ANNOUNCE_TEXTS.ends 				= "%s terminado"
 L.AUTO_ANNOUNCE_TEXTS.endtarget 		= "%s terminado: >%%s<"
 L.AUTO_ANNOUNCE_TEXTS.fades 			= "%s desvaneceu-se"
+L.AUTO_ANNOUNCE_TEXTS.fadesoon			= "%s desvanece em breve"
 L.AUTO_ANNOUNCE_TEXTS.addsleft			= "%s restantes: %%d"
 L.AUTO_ANNOUNCE_TEXTS.cast				= "Lançando %s: %.1f seg"
 L.AUTO_ANNOUNCE_TEXTS.soon				= "%s em breve"
@@ -362,6 +371,7 @@ L.AUTO_ANNOUNCE_OPTIONS.incomingcount 	= "Exibir anúncio quando $spell:%s tiver
 L.AUTO_ANNOUNCE_OPTIONS.ends 			= "Exibir anúncio quando $spell:%s tiver terminado"
 L.AUTO_ANNOUNCE_OPTIONS.endtarget 		= "Exibir anúncio quando $spell:%s tiver terminado (com alvo)"
 L.AUTO_ANNOUNCE_OPTIONS.fades 			= "Exibir anúncio quando $spell:%s tiver desvanecido"
+L.AUTO_ANNOUNCE_OPTIONS.fadesoon		= "Exibir anúncio antecipado quando $spell:%s se desvanece"
 L.AUTO_ANNOUNCE_OPTIONS.addsleft 		= "Exibir anúncio para quantos $spell:%s ainda restam"
 L.AUTO_ANNOUNCE_OPTIONS.cast			= "Exibir anúncio quando $spell:%s está sendo lançado"
 L.AUTO_ANNOUNCE_OPTIONS.soon			= prewarnOption
@@ -398,6 +408,7 @@ L.AUTO_SPEC_WARN_TEXTS.blizzyou			= "%s (%%s) em você"
 L.AUTO_SPEC_WARN_TEXTS.link 			= "%s ligado a >%%s<"
 L.AUTO_SPEC_WARN_TEXTS.defensive 		= "%s - Defensivo"
 L.AUTO_SPEC_WARN_TEXTS.taunt 			= "%s em >%%s< - Provoque agora"
+L.AUTO_SPEC_WARN_TEXTS.tauntsecret	= "%s em %%s - Provoque agora"
 L.AUTO_SPEC_WARN_TEXTS.close			= "%s em >%%s< perto de você"
 L.AUTO_SPEC_WARN_TEXTS.move				= "%s - Saia de perto"
 L.AUTO_SPEC_WARN_TEXTS.keepmove 		= "%s - Continue se movendo"
@@ -626,10 +637,10 @@ L.AUTO_INFO_FRAME_OPTION_TEXT2 			= "Exibir quadro de informações para visão 
 L.AUTO_INFO_FRAME_OPTION_TEXT3 			= "Exibir quadro de informações para $spell:%s (quando o limiar de %%s é atingido)"
 L.AUTO_READY_CHECK_OPTION_TEXT 			= "Reproduzir som de verificação de prontidão quando o chefe for puxado (mesmo que não seja direcionado)"
 L.AUTO_SPEEDCLEAR_OPTION_TEXT 			= "Exibir cronômetro para limpeza mais rápida desta zona"
-L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Reproduzir alertas sonoros de auras privadas do DBM para $spell:%s neste encontro"
-L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "Reproduzir alertas sonoros de auras privadas do DBM quando você for alvo de $spell:%s"
-L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "Reproduzir alertas sonoros de auras privadas do DBM quando você precisar se afastar de $spell:%s"
-L.AUTO_PRIVATEAURA_OPTION_POST_TEXT   	= "Reproduzir alertas sonoros de auras privadas do DBM para efeitos persistentes de $spell:%s."
+L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Reproduzir alertas sonoros do DBM para $spell:%s neste encontro"
+L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "Reproduzir alertas sonoros do DBM quando você for alvo de $spell:%s"
+L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "Reproduzir alertas sonoros do DBM quando você precisar se afastar de $spell:%s"
+L.AUTO_PRIVATEAURA_OPTION_POST_TEXT   	= "Reproduzir alertas sonoros do DBM para efeitos persistentes de $spell:%s."
 L.AUTO_CUSTOMTIMER_OPTION_TEXT        	= "Exibir cronômetro para $spell:%s"
 L.AUTO_CUSTOMALERT_OPTION_TEXT        	= "Definir alerta sonoro quando $spell:%s estiver prestes a ser lançado"
 
@@ -640,7 +651,7 @@ L.MOVE_SPECIAL_WARNING_BAR				= "Aviso especial móvel"
 L.MOVE_SPECIAL_WARNING_TEXT				= "Aviso especial"
 
 L.MOVE_PRIVATE_AURA_TEXT 				= "<valor secreto> tem você como alvo com o feitiço <valor secreto>"
-L.MOVE_PRIVATE_AURA_DISABLED 			= "A pré-visualização está desativada porque os quadros de auras privadas estão desativados globalmente nas opções."
+L.MOVE_PRIVATE_AURA_DISABLED 			= "A pré-visualização está desativada porque os quadros de auras estão desativados globalmente nas opções."
 
 L.HUD_INVALID_TYPE 						= "Tipo de HUD definido inválido"
 L.HUD_INVALID_TARGET 					= "Nenhum alvo válido fornecido para o HUD"

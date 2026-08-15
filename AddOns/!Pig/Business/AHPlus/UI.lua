@@ -8,19 +8,20 @@ local PIGEnter=Create.PIGEnter
 local PIGFontString=Create.PIGFontString
 local PIGCheckbutton=Create.PIGCheckbutton
 local Data=addonTable.Data
+local PlayerInfo=Data.PlayerInfo
 local BusinessInfo=addonTable.BusinessInfo
 local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
 local baocunnum = 40
 --------------
 function BusinessInfo.GetCacheDataG(name)
 	local cfdata=PIGA["AHPlus"]["CacheData"]
-	if cfdata[PIG_OptionsUI.Realm] then
+	if cfdata[PlayerInfo.Realm] then
 		if name then
-			if cfdata[PIG_OptionsUI.Realm][name] and cfdata[PIG_OptionsUI.Realm][name][2] and cfdata[PIG_OptionsUI.Realm][name][3] then
-				return cfdata[PIG_OptionsUI.Realm][name][2]
+			if cfdata[PlayerInfo.Realm][name] and cfdata[PlayerInfo.Realm][name][2] and cfdata[PlayerInfo.Realm][name][3] then
+				return cfdata[PlayerInfo.Realm][name][2]
 			end
 		else
-			return cfdata[PIG_OptionsUI.Realm]
+			return cfdata[PlayerInfo.Realm]
 		end
 	else
 		if name then
@@ -76,7 +77,6 @@ function BusinessInfo.SetTooltipOfflineG(tooltip,ItemInfo)
 		end
 	end
 end
-BusinessInfo.ADD_qushiError=addonName.."→"..SETTINGS.."→"..L["TRADE_TABNAME"].."→"..L["TRADECHARDATA_TABNAME"]
 function BusinessInfo.ADD_qushi(fujiui,tishi,num)
 	local Nbaocunnum=num or baocunnum
 	local qushi=PIGFrame(fujiui)
@@ -88,28 +88,11 @@ function BusinessInfo.ADD_qushi(fujiui,tishi,num)
 	end
 	local WidthX =8
 	qushi.qushiButList={}
-	for i=1,Nbaocunnum do
-		local zhuzhuangX = CreateFrame("Frame", nil,qushi,"BackdropTemplate");
-		if i==1 then
-			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",1, 0);
-		else
-			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",(WidthX)*(i-1)+1, 0);
-		end
-		zhuzhuangX:SetBackdrop({
-			bgFile = Create.bgFile, tile = true, tileSize = 0,
-			edgeFile = "Interface/Buttons/WHITE8X8", edgeSize = 1});
-		zhuzhuangX:SetBackdropColor(0.2, 0.8, 0.8, 1);
-		zhuzhuangX:SetBackdropBorderColor(0, 0, 0, 1);
-		zhuzhuangX:SetSize(WidthX,10);
-		zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",WidthX*(i-1), 0);
-		zhuzhuangX:Hide()
-		qushi.qushiButList[i]=zhuzhuangX
-	end
 	function qushi.UpdateList(Data,itemName)
-		local NewHeightX = qushi:GetHeight()
-		for i=1,Nbaocunnum do
-			qushi.qushiButList[i]:Hide()
+		for _,but in pairs(qushi.qushiButList) do
+			but:Hide()
 		end
+		local NewHeightX = qushi:GetHeight()
 		if itemName then
 			qushi.itemName:SetText(itemName)
 		end
@@ -147,16 +130,32 @@ function BusinessInfo.ADD_qushi(fujiui,tishi,num)
 			if Data[i] then
 				local danqianV = Data[i][1]
 				butidindex=butidindex+1
-				qushi.qushiButList[butidindex]:Show()
 				if danqianV>PIG_qushidata_V.maxG then
 					danqianV=PIG_qushidata_V.maxG
 				end
 				local PIG_qushizuidabaifenbi = danqianV/PIG_qushidata_V.maxG
+				if not qushi.qushiButList[butidindex] then
+					local butx = CreateFrame("Frame", nil,qushi,"BackdropTemplate");
+					if i==1 then
+						butx:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",1, 0);
+					else
+						butx:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",(WidthX)*(i-1)+1, 0);
+					end
+					butx:SetBackdrop({
+						bgFile = Create.bgFile, tile = true, tileSize = 0,
+						edgeFile = "Interface/Buttons/WHITE8X8", edgeSize = 1});
+					butx:SetBackdropColor(0.2, 0.8, 0.8, 0.9);
+					butx:SetBackdropBorderColor(0.1, 0.1, 0.1, 0.9);
+					butx:SetSize(WidthX,10);
+					butx:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",WidthX*(i-1), 0);
+					qushi.qushiButList[butidindex]=butx
+				end
 				if PIG_qushizuidabaifenbi<PIG_qushidata_V.minVV then
 					qushi.qushiButList[butidindex]:SetHeight(PIG_qushidata_V.minVV*NewHeightX)
 				else
 					qushi.qushiButList[butidindex]:SetHeight(PIG_qushizuidabaifenbi*NewHeightX)	
 				end
+				qushi.qushiButList[butidindex]:Show()
 			end
 		end
 	end
@@ -227,7 +226,7 @@ function BusinessInfo.AHPlus_ADDUI()
 	if PIGA["AHPlus"]["Open"] then
 		BusinessInfo.QuicAuc()
 		if PIG_MaxTocversion(90000) then--9.2.7暗影国度跨服务器包括宝石、草药、合剂、消耗品等。不过，武器和盔甲这类非商品类物品仍然只能在单个服务器内交易，并不会跨服共享
-			PIGA["AHPlus"]["CacheData"][PIG_OptionsUI.Realm]=PIGA["AHPlus"]["CacheData"][PIG_OptionsUI.Realm] or {}
+			PIGA["AHPlus"]["CacheData"][PlayerInfo.Realm]=PIGA["AHPlus"]["CacheData"][PlayerInfo.Realm] or {}
 		end
 		Fun.IsAddOnLoaded("Blizzard_AuctionHouseUI",BusinessInfo.AHPlus_Mainline)
 		Fun.IsAddOnLoaded("Blizzard_AuctionUI",BusinessInfo.AHPlus_Vanilla)

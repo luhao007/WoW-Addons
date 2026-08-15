@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2461, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(182169)
 mod:SetEncounterID(2539)
@@ -37,6 +37,9 @@ mod:RegisterEventsInCombat(
  or ability.id = 365257 and type = "begincast"
  or ability.id = 368738 and type = "applydebuff"
 --]]
+DBM:RegisterAltSpellName(364652, 260885)--Protoform Cascade -> short name
+DBM:RegisterAltSpellName(363795, 119342)--Deconstructing Energy -> Bombs
+
 --Boss
 local warnSynthesize							= mod:NewCountAnnounce(363130, 3)
 local warnResonance								= mod:NewSpellAnnounce(368027, 3, nil, "Tank")
@@ -47,17 +50,17 @@ local warnFormSentry							= mod:NewSpellAnnounce(365257, 2)
 
 --Boss
 ----Mythic
-local specWarnHarmonicAlignment					= mod:NewSpecialWarningYou(368738, nil, nil, nil, 1, 12, 4)
-local specWarnMelodicAlignment					= mod:NewSpecialWarningYou(368740, nil, nil, nil, 1, 12, 4)
+local specWarnHarmonicAlignment					= mod:NewSpecialWarningYou(368738, nil, nil, nil, 1, 12, 4, nil, "harmonic")
+local specWarnMelodicAlignment					= mod:NewSpecialWarningYou(368740, nil, nil, nil, 1, 12, 4, nil, "melodic")
 
-local specWarnCosmicShift						= mod:NewSpecialWarningTarget(363088, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.spell:format(363088), nil, 2, 13)
-local specWarnUnstableMote						= mod:NewSpecialWarningYou(362622, nil, nil, nil, 1, 2)
-local specWarnProtoformCascade					= mod:NewSpecialWarningDodge(364652, nil, 260885, nil, 1, 2)
-local specWarnResonance							= mod:NewSpecialWarningDefensive(368027, false, nil, nil, 1, 2)
-local specWarnKinResonanceTaunt					= mod:NewSpecialWarningTaunt(368024, false, nil, 2, 1, 2)
-local specWarnSunResonanceTaunt					= mod:NewSpecialWarningTaunt(368025, nil, nil, nil, 1, 2)
-local specWarnDeconstructingEnergy				= mod:NewSpecialWarningYou(363795, nil, 37859, nil, 1, 2)--Shorttext "Bomb"
-local specWarnDeconstructingEnergyTaunt			= mod:NewSpecialWarningTaunt(363795, nil, 37859, nil, 1, 2)--Shorttext "Bomb"
+local specWarnCosmicShift						= mod:NewSpecialWarningTarget(363088, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.spell:format(363088), nil, 2, 13, nil, nil, "pushbackincoming")
+local specWarnUnstableMote						= mod:NewSpecialWarningYou(362622, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnProtoformCascade					= mod:NewSpecialWarningDodge(364652, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnResonance							= mod:NewSpecialWarningDefensive(368027, false, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnKinResonanceTaunt					= mod:NewSpecialWarningTaunt(368024, false, nil, 2, 1, 2, nil, nil, "tauntboss")
+local specWarnSunResonanceTaunt					= mod:NewSpecialWarningTaunt(368025, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnDeconstructingEnergy				= mod:NewSpecialWarningYou(363795, nil, nil, nil, 1, 2, nil, nil, "runout")--Shorttext "Bomb"
+local specWarnDeconstructingEnergyTaunt			= mod:NewSpecialWarningTaunt(363795, nil, nil, nil, 1, 2, nil, nil, "tauntboss")--Shorttext "Bomb"
 local yellDeconstructingEnergy					= mod:NewYell(363795, 37859)--Shorttext "Bomb"
 local yellDeconstructingEnergyFades				= mod:NewShortFadesYell(363795, 37859)--Shorttext "Bomb"
 
@@ -68,10 +71,10 @@ local timerAlignmentShiftCD						= mod:NewCDTimer(20.6, 362659, nil, nil, nil, 3
 local timerUnstableMoteCD						= mod:NewCDCountTimer(20.6, 362622, nil, nil, nil, 3)
 local timerUnstableMote							= mod:NewBuffFadesTimer(5.9, 362622, nil, nil, nil, 5)--1.9+4
 local timerProtoformRadiance					= mod:NewBuffActiveTimer(28.8, 363537, nil, nil, nil, 2)
-local timerProtoformCascadeCD					= mod:NewCDCountTimer(10.9, 364652, 260885, nil, nil, 3)
-local timerResonanceCD							= mod:NewCDCountTimer(41.2, 368027, DBM_COMMON_L.TANKCOMBO.." (%s)", "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerProtoformCascadeCD					= mod:NewCDCountTimer(10.9, 364652, nil, nil, nil, 3)
+local timerResonanceCD							= mod:NewCDCountTimer(41.2, 368027, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerCosmicShiftCD						= mod:NewCDCountTimer(20.3, 363088, nil, nil, nil, 3)
-local timerDeconstructingEnergyCD				= mod:NewCDCountTimer(37.2, 363795, 119342, nil, nil, 3)--Shorttext "Bombs"
+local timerDeconstructingEnergyCD				= mod:NewCDCountTimer(37.2, 363795, nil, nil, nil, 3)--Shorttext "Bombs"
 local timerSynthesizeCD							= mod:NewCDCountTimer(101, 363130, nil, nil, nil, 6)
 local timerSynthesize							= mod:NewBuffActiveTimer(20, 363130, nil, nil, nil, 6, nil, DBM_COMMON_L.DAMAGE_ICON)
 local timerRealignment							= mod:NewBuffActiveTimer(20, 361200, nil, nil, nil, 6)

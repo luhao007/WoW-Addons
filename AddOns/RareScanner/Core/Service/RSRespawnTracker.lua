@@ -199,7 +199,6 @@ function RSRespawnTracker.Init()
 				for _, questID in ipairs (npcInfo.questID) do
 					if (not C_QuestLog.IsQuestFlaggedCompleted(questID) and (npcInfo.reset == nil or npcInfo.reset)) then
 						RSNpcDB.DeleteNpcKilled(npcID)
-						--RSEntityStateHandler.SetDeadNpc(npcID)
 						RSLogger:PrintDebugMessageEntityID(npcID, string.format("CheckRespawnTimers [NPC: %s]. Respawn!", npcID))
 					end
 				end

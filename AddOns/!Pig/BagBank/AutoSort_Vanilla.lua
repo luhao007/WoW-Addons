@@ -5,6 +5,7 @@ local strfind = _G.string.find
 --此部分整理代码来自SortBags，版权归原作者所有
 local BagBankfun=addonTable.BagBankfun
 function BagBankfun.qiyongzidongzhengli()
+	local GetSortBagsRightToLeft=BagBankfun.GetSortBagsRightToLeft
 	local _G, _M = getfenv(0), {}
 	setfenv(1, setmetatable(_M, {__index=_G}))
 
@@ -100,8 +101,8 @@ function BagBankfun.qiyongzidongzhengli()
 			33151, 33152, 33153, 33165, 33307, 34052, 34053, 34054, 34055, 34056, 34057, 34872, 35297, 35298, 35299, 35498, 35500, 35756, 36837, 36838, 36839, 
 			36840, 36898, 37326, 37328, 37329, 37330, 37331, 37332, 37333, 37334, 37335, 37336, 37337, 37338, 37339, 37340, 37341, 37342, 37343, 37344, 37345, 
 			37346, 37347, 37348, 37349, 41741, 41745, 44451, 44452, 44471, 44472, 44473, 44483, 44484, 44485, 44486, 44487, 44488, 44489, 44490, 44491, 44492, 
-			44494, 44495, 44496, 44498, 44944, 44945, 45050, 45059, 46027, 46348, 50406, 186683, 7081, 12810, 37602, 38682, 39349, 39350, 43145, 43146, 7068, 
-			7972, 12808, 7067, 7075, 7076, 7077, 7078, 7080, 7082, 12803, 21885, 22451, 22456, 22457, 22572, 22576, 22577, 22578, 23571, 23572, 40248, 21886, 
+			44494, 44495, 44496, 44498, 44944, 44945, 45050, 45059, 46027, 46348, 50406, 186683, 12810, 37602, 38682, 39349, 39350, 43145, 43146, 7068, 
+			7067, 21885, 22451, 22456, 22457, 22572, 22576, 22577, 22578, 23571, 23572, 40248, 21886, 
 			22575, 35625, 37704, 21884, 22452, 22573, 22574, 35622, 35623, 35624, 35627, 36860, 37700, 37701, 37702, 37703, 37705, 52719, 52718, 52721, 52555,
 			52722,74252,74247,74249,74250,89112,105718}),
 		},
@@ -112,8 +113,8 @@ function BagBankfun.qiyongzidongzhengli()
 			5168, 8831, 8836, 8838, 8839, 8845, 8846, 11018, 11020, 11022, 11024, 11040, 11514, 11951, 11952, 13463, 13464, 13465, 13466, 13467, 13468, 16205, 
 			16208, 17034, 17035, 17036, 17037, 17038, 17760, 18297, 19727, 22094, 22147, 22710, 22785, 22786, 22787, 22788, 22789, 22790, 22791, 22792, 22793, 22794, 
 			22795, 22797, 23329, 23501, 23788, 24245, 24246, 24401, 31300, 32468, 36901, 36902, 36903, 36904, 36905, 36906, 36907, 36908, 37600, 37921, 39969, 39970, 44614, 
-			8153, 10286, 19726, 21886, 22575, 35625, 37704, 52983, 52988, 53986, 52329, 63122, 52987, 52984, 52985, 52986, 79010, 79011, 72234, 72235, 72237, 72238, 89639,
-			97621,97623,97624,
+			8153, 10286, 19726, 21886, 22575, 35625, 37704, 52983, 52988, 53986, 52329, 63122, 52987, 52984, 52985, 52986, 79010, 79011, 72234, 72235, 72237, 72238,89112,
+			89639,97621,97623,97624,
 			}),
 		},
 		-- mining矿石
@@ -123,7 +124,7 @@ function BagBankfun.qiyongzidongzhengli()
 			3860, 3861, 4278, 5833, 6037, 7911, 7912, 10620, 11370, 11371, 12359, 12360, 12365, 12655, 17771, 18562, 20723, 22202, 22203, 23424, 23425, 23426, 23427, 23445, 
 			23446, 23447, 23448, 23449, 23573, 32464, 35128, 36909, 36910, 36911, 36912, 36913, 36914, 36915, 36916, 37663, 37706, 41163, 45201, 5956, 40772, 40892, 40893, 
 			21884, 22452, 22573, 22574, 35622, 35623, 35624, 35627, 36860, 37700, 37701, 37702, 37703, 37705, 24186, 24188, 24190, 24234, 24235, 24242, 24243, 46849, 53038,
-			54232, 53039, 52325, 52326,51950, 52186, 52185, 52183, 53038, 54849, 52327, 52328, 72092, 72093, 72094, 72096, 72103}),
+			54232, 53039, 52325, 52326,51950, 52186, 52185, 52183, 53038, 54849, 52327, 52328, 72092, 72093, 72094, 72095, 72096, 72103}),
 		},
 		-- leather皮革
 		{
@@ -218,18 +219,31 @@ function BagBankfun.qiyongzidongzhengli()
 		table.insert(CLASSES[1].containers, 41597)
 		table.insert(CLASSES[2].containers, 18714)
 	end
+	if PIG_MaxTocversion(20000,true) then
+		CLASSES[4].items[7078]=true
+		CLASSES[4].items[7080]=true
+		CLASSES[4].items[7082]=true
+		CLASSES[4].items[12808]=true
+		CLASSES[4].items[12803]=true
+		CLASSES[4].items[7076]=true
+		CLASSES[4].items[7972]=true
+		CLASSES[4].items[7077]=true
+		CLASSES[4].items[7075]=true
+		CLASSES[4].items[7081]=true
+	end
+
 	do
 		local f = CreateFrame'Frame'
 		local lastUpdate = 0
 		local function updateHandler()
 			if GetTime() - lastUpdate > 1 then
 				for _, container in pairs(BAG_CONTAINERS) do
-					for position = 1, C_Container.GetContainerNumSlots(container) do
+					for position = 1, PIGGetContainerNumSlots(container) do
 						SetScanTooltip(container, position)
 					end
 				end
 				for _, container in pairs(BANK_BAG_CONTAINERS) do
-					for position = 1, C_Container.GetContainerNumSlots(container) do
+					for position = 1, PIGGetContainerNumSlots(container) do
 						SetScanTooltip(container, position)
 					end
 				end
@@ -306,8 +320,8 @@ function BagBankfun.qiyongzidongzhengli()
 		local dstisLocked = select(8,PIGGetContainerItemInfo(dst.container, dst.position))
 		if srcitemID and not srcisLocked and not dstisLocked then
 			ClearCursor()
-			C_Container.PickupContainerItem(src.container, src.position)
-			C_Container.PickupContainerItem(dst.container, dst.position)
+			PIGPickupContainerItem(src.container, src.position)
+			PIGPickupContainerItem(dst.container, dst.position)
 
 			if src.item == dst.item then
 				local count = min(src.count, itemStacks[dst.item] - dst.count)
@@ -440,7 +454,7 @@ function BagBankfun.qiyongzidongzhengli()
 		local counts
 
 		local function insert(t, v)
-			if BagBankfun.GetSortBagsRightToLeft() then
+			if GetSortBagsRightToLeft() then
 				tinsert(t, v)
 			else
 				tinsert(t, 1, v)
@@ -450,7 +464,7 @@ function BagBankfun.qiyongzidongzhengli()
 		local function assign(slot, item)
 			if counts[item] > 0 then
 				local count
-				if BagBankfun.GetSortBagsRightToLeft() and mod(counts[item], itemStacks[item]) ~= 0 then
+				if GetSortBagsRightToLeft() and mod(counts[item], itemStacks[item]) ~= 0 then
 					count = mod(counts[item], itemStacks[item])
 				else
 					count = min(counts[item], itemStacks[item])
@@ -467,7 +481,7 @@ function BagBankfun.qiyongzidongzhengli()
 
 			for _, container in ipairs(CONTAINERS) do
 				local class = ContainerClass(container)
-				for position = 1, C_Container.GetContainerNumSlots(container) do
+				for position = 1, PIGGetContainerNumSlots(container) do
 					local slot = {container=container, position=position, class=class}
 					local item = Item(container, position)
 					if item then
@@ -528,7 +542,7 @@ function BagBankfun.qiyongzidongzhengli()
 	end
 
 	function Item(container, position)
-		local link = C_Container.GetContainerItemLink(container, position)
+		local link = PIGGetContainerItemLink(container, position)
 		if link then
 			local _, _, itemID, enchantID, suffixID, uniqueID = strfind(link, 'item:(%d+):(%d*):%d*:%d*:%d*:%d*:(%-?%d*):(%-?%d*)')
 			itemID = tonumber(itemID)
@@ -601,7 +615,7 @@ function BagBankfun.qiyongzidongzhengli()
 			tinsert(sortKey, -quality)
 			tinsert(sortKey, itemName)
 			tinsert(sortKey, itemID)
-			tinsert(sortKey, (BagBankfun.GetSortBagsRightToLeft() and 1 or -1) * charges)
+			tinsert(sortKey, (GetSortBagsRightToLeft() and 1 or -1) * charges)
 			tinsert(sortKey, suffixID)
 			tinsert(sortKey, enchantID)
 			tinsert(sortKey, uniqueID)

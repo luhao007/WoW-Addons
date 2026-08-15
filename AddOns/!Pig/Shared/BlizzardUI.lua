@@ -191,7 +191,7 @@ function Create.CharacterFrame(fuji,UIName,FrameLevel)
 		end
 	end
 	---装备列表
-	Create.PIGItemListUI(frameX)
+	Create.PIGItemListUI(frameX,"yc")
 	----重置远程UI数据
 	function frameX:CZ_yuancheng_Data(gongneng)
 		frameX.PlayerData = {}

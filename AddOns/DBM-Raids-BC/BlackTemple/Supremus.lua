@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal25"
 end
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(22898)
 mod:SetEncounterID(602, 2474)
@@ -26,9 +26,9 @@ mod:RegisterEventsInCombat(
 local warnPhase			= mod:NewAnnounce("WarnPhase", 4, 42052)
 local warnFixate		= mod:NewTargetNoFilterAnnounce(41976, 3)
 
-local specWarnMolten	= mod:NewSpecialWarningMove(40265, nil, nil, nil, 1, 2)
-local specWarnVolcano	= mod:NewSpecialWarningMove(42052, nil, nil, nil, 1, 2)
-local specWarnFixate	= mod:NewSpecialWarningRun(41976, nil, nil, nil, 4, 2)--41951 doesn't exist in classic
+local specWarnMolten	= mod:NewSpecialWarningMove(40265, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnVolcano	= mod:NewSpecialWarningMove(42052, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnFixate	= mod:NewSpecialWarningRun(41976, nil, nil, nil, 4, 2, nil, nil, "justrun")--41951 doesn't exist in classic
 
 local timerPhase		= mod:NewTimer(60, "TimerPhase", 42052, nil, nil, 6)
 

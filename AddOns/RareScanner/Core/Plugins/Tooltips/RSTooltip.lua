@@ -73,7 +73,7 @@ function cellPrototype:SetupCell(cell, args)
 	end)
 	self.pin:SetScript("OnLeave", function()
 		local _, _, relativePoint = GetTipAnchor(groupTooltip)
-		if (RSUtils.Contains(relativePoint, "TOP") and not MouseIsOver(self.pin, 10) or RSUtils.Contains(relativePoint, "BOTTOM") and not MouseIsOver(self.pin, nil, -10)) then
+		if (RSUtils.Contains(relativePoint, "TOP") and not self.pin:IsMouseOver(10) or RSUtils.Contains(relativePoint, "BOTTOM") and not self.pin:IsMouseOver(nil, -10)) then
 			RSTooltip.HideTooltip(self.pin.tooltip)
 			groupTooltip.tooltip = nil
 		end
@@ -443,6 +443,25 @@ local function AddStateTooltip(tooltip, pin)
 	end
 end
 
+local function AddCounterTooltip(tooltip, pin)
+	if (not RSConfigDB.IsShowingTooltipsCounters()) then
+		return
+	end
+	
+	local counter = 0
+	if (pin.POI.isNpc) then
+		counter = RSNpcDB.GetTimesKilled(pin.POI.entityID)
+	elseif (pin.POI.isContainer) then
+		counter = RSContainerDB.GetTimesOpened(pin.POI.entityID)
+	elseif (pin.POI.isEvent) then
+		return
+	end
+	
+	local line = tooltip:AddLine()
+	local localizedString = pin.POI.isNpc and AL["MAP_TOOLTIP_NPC_COUNTER"] or AL["MAP_TOOLTIP_CONTAINER_COUNTER"]
+	tooltip:SetCell(line, 1, RSUtils.TextColor(string.format(localizedString, RSUtils.TextColor(counter, "FFD100")), "CFDEE3"), nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MIN_WIDTH)
+end
+
 local function AddGuideTooltip(tooltip, pin, addSeparator, isBlizzardPin)
 	if (not RSConfigDB.IsShowingTooltipsCommands()) then
 		return false
@@ -695,7 +714,7 @@ function RSTooltip.ShowSimpleTooltip(pin, parentTooltip, isBlizzardPin)
 	tooltip:SetClampedToScreen(true)
 	tooltip:SetScript("OnLeave", function()
 		RSTooltip.HideTooltip(pin.tooltip)
-		if (parentTooltip and not MouseIsOver(parentTooltip)) then
+		if (parentTooltip and not parentTooltip:IsMouseOver()) then
 			RSTooltip.HideGroupTooltip(parentTooltip)
 		end
 	end)
@@ -736,6 +755,9 @@ function RSTooltip.ShowSimpleTooltip(pin, parentTooltip, isBlizzardPin)
 
 	-- State
 	AddStateTooltip(tooltip, pin)
+
+	-- Times completed
+	AddCounterTooltip(tooltip, pin)
 	
 	-- Extra information added in world map ingame tooltips
 	AddExtraInfoTooltip(tooltip, pin)
@@ -854,7 +876,7 @@ end
 
 function RSTooltip.HideTooltip(tooltip, isLinkTooltip)
 	if (tooltip) then
-		if (not isLinkTooltip and MouseIsOver(tooltip)) then
+		if (not isLinkTooltip and tooltip:IsMouseOver()) then
 			return false
 		end
 		RareScannerMapTooltip:Release(tooltip)

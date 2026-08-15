@@ -17,8 +17,8 @@
 		end
 		local addonName, Details222 = ...
 		local version, build, date, tvs = GetBuildInfo()
-		Details.build_counter = 15031
-		Details.alpha_build_counter = 15031 --if this is higher than the regular counter, use it instead
+		Details.build_counter = 15270
+		Details.alpha_build_counter = 15270 --if this is higher than the regular counter, use it instead
 		Details.dont_open_news = true
 		Details.game_version = version
 		Details.userversion = version .. " " .. Details.build_counter
@@ -235,6 +235,7 @@
 		Details222.PlayerStats = {}
 		Details222.LoadSavedVariables = {}
 		Details222.SaveVariables = {}
+		Details222.Encode = {}
 		Details222.GuessSpecSchedules = {
 			Schedules = {},
 		}
@@ -286,19 +287,72 @@
 			SetType = function(newType)
 				Details222.Apocalypse.segmentType = newType
 			end,
-			IsServerInCombat = function(forceCheckOverall)
-				if (forceCheckOverall) then
-					local s = Details222.B.GetSegment("Type", 0, 0)
-					if s and s.combatSources and s.combatSources[1] and issecretvalue(s.combatSources[1].name) then
-						return true
-					else
-						local e = Details222.B.GetSegment("Type", 0, 10)
-						if e and e.combatSources and e.combatSources[1] and issecretvalue(e.combatSources[1].name) then
-							return true
+			IsServerInCombat = function(forceCheckOverall, forceRecheck, fullScan)
+				if fullScan then
+					--print("performing full scan for secrets")
+					local analyzed = {
+						type = {amount = 0},
+						ids = {amount = 0}
+					}
+					local getSegment = C_DamageMeter.GetCombatSessionFromType
+					for i = 0, 1 do
+						for j = 0, 10 do
+							local thisSegment = getSegment(i, j)
+							if thisSegment then
+								analyzed.type.amount = analyzed.type.amount + 1
+								if issecretvalue(thisSegment.combatSources and thisSegment.combatSources[1] and thisSegment.combatSources[1].name) then
+									return true
+								end
+							end
 						end
-						return false
+					end
+
+					getSegment = C_DamageMeter.GetCombatSessionFromID
+					local allSegments = Details.DM.GetAvailableCombatSessions()
+					for i = #allSegments, #allSegments-2, -1 do
+						if i > 0 then
+							local newSegmentID = allSegments[i].sessionID
+							if newSegmentID then
+								for j = 0, 10 do
+									local thisSegment = getSegment(newSegmentID, j)
+									if thisSegment then
+										analyzed.ids.amount = analyzed.ids.amount + 1
+										if issecretvalue(thisSegment.combatSources and thisSegment.combatSources[1] and thisSegment.combatSources[1].name) then
+											return true
+										end
+									end
+								end
+							end
+						end
+					end
+
+					--dumpt(analyzed)
+				else
+					if (forceCheckOverall) then
+						local s = Details222.B.GetSegment("Type", 0, 0)
+						if s and s.combatSources and s.combatSources[1] and issecretvalue(s.combatSources[1].name) then
+							return true
+						else
+							local e = Details222.B.GetSegment("Type", 0, 10)
+							if e and e.combatSources and e.combatSources[1] and issecretvalue(e.combatSources[1].name) then
+								return true
+							end
+						end
+					end
+
+					if forceRecheck then
+						local s = Details222.B.GetSegment("Type", 1, 0)
+						if s and s.combatSources and s.combatSources[1] and issecretvalue(s.combatSources[1].name) then
+							return true
+						else
+							local e = Details222.B.GetSegment("Type", 1, 10)
+							if e and e.combatSources and e.combatSources[1] and issecretvalue(e.combatSources[1].name) then
+								return true
+							end
+						end
 					end
 				end
+
 				return Details222.Apocalypse.ServerInCombat
 			end
 		}
@@ -356,8 +410,9 @@
 		---@return number amountOfActors
 		---@return number totalAmount
 		---@return number combatTime
+		---@return number maxAmount
 		function Details222.B.GetSegmentInfo(s)
-			return s.combatSources, #s.combatSources, s.totalAmount, s.durationSeconds
+			return s.combatSources, #s.combatSources, s.totalAmount, s.durationSeconds, s.maxAmount
 		end
 
 		---usage: local spellList, amountOfSpells, totalAmount, maxAmount = Details222.B.GetSpellContainerInfo(spellContainer)
@@ -740,6 +795,7 @@
 
 		local dr = C_DeathRecap
 		Details.DR = dr
+		Details222.DR = dr
 
         if (C_Spell and C_Spell.GetSpellInfo) then
             Details222.GetSpellInfo = function(...)
@@ -1519,6 +1575,7 @@ do
 		SharedMedia:Register("font", "TrashHand", [[Interface\Addons\Details\fonts\TrashHand.TTF]])
 		SharedMedia:Register("font", "Harry P", [[Interface\Addons\Details\fonts\HARRYP__.TTF]])
 		SharedMedia:Register("font", "FORCED SQUARE", [[Interface\Addons\Details\fonts\FORCED SQUARE.ttf]])
+		SharedMedia:Register("font", "Expressway", [[Interface\Addons\Details\fonts\Expressway.TTF]])
 
 		SharedMedia:Register("sound", "Details Gun1", [[Interface\Addons\Details\sounds\sound_gun2.ogg]])
 		SharedMedia:Register("sound", "Details Gun2", [[Interface\Addons\Details\sounds\sound_gun3.ogg]])

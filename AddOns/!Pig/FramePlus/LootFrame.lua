@@ -13,10 +13,10 @@ function FramePlusfun.Loot()
 		local pindaoList = {{L["CHAT_QUKBUTNAME"][5],{1, 0.498, 0},"RAID"},{L["CHAT_QUKBUTNAME"][3],{0.6667, 0.6667, 1},"PARTY"},{L["CHAT_QUKBUTNAME"][7],{1, 0.498, 0},"INSTANCE_CHAT"},{L["CHAT_QUKBUTNAME"][4],{0.25, 1, 0.25},"GUILD"}}
 		for i=1,#pindaoList do
 			local pBut = PIGButton(LootFrame,nil,{22,22},pindaoList[i][1])
-			if PIG_MaxTocversion(50000,true) then
-				pBut:SetPoint("BOTTOMLEFT",LootFrame,"TOPLEFT",10+(i-1)*27,0);
-			else
+			if PIG_MaxTocversion() then
 				pBut:SetPoint("TOPLEFT",LootFrame,"TOPLEFT",58+(i-1)*27,-30);
+			else
+				pBut:SetPoint("BOTTOMLEFT",LootFrame,"TOPLEFT",10+(i-1)*27,0);
 			end
 			pBut.Text:SetTextColor(unpack(pindaoList[i][2]))
 			pBut.pinname=pindaoList[i][3]
@@ -39,10 +39,21 @@ function FramePlusfun.Loot()
 				end
 			end)
 		end
+		local meilie=10
 		local function AddlootBut(i)
 			local But = CreateFrame("Button","LootButton"..i,LootFrame, "LootButtonTemplate",i);
 			But:ClearAllPoints();
-			But:SetPoint("TOPLEFT",LootFrame,"TOPLEFT",9,-(68+(i-1)*41));
+			if i==(meilie+1) then
+				But:SetPoint("LEFT",_G["LootButton"..(i-meilie)],"RIGHT",120,0);
+			elseif i==(meilie*2+1) then
+				But:SetPoint("LEFT",_G["LootButton"..(i-meilie)],"RIGHT",120,0);
+			elseif i==(meilie*3+1) then
+				But:SetPoint("LEFT",_G["LootButton"..(i-meilie)],"RIGHT",120,0);
+			elseif i==(meilie*4+1) then
+				But:SetPoint("LEFT",_G["LootButton"..(i-meilie)],"RIGHT",120,0);
+			else
+				But:SetPoint("TOP",_G["LootButton"..(i-1)],"BOTTOM",0,-4);
+			end
 			LootFrame.piglootbut[i]=But
 		end
 		local function PIG_Update_UI()
@@ -132,7 +143,6 @@ function FramePlusfun.Loot()
 		local function PIG_LootFrame_Update(self)
 			PIG_Update_UI()
 			for index=1,self.numLootItems do
-				if not _G["LootButton"..index] then AddlootBut(index) end
 				PIG_LootFrame_UpdateButton(index)
 			end
 		end
@@ -150,21 +160,15 @@ function FramePlusfun.Loot()
 				v:Hide()
 			end
 			if self.numLootItems>4 then
-				self:SetHeight(self.numLootItems*41+74)
-				if ( GetCVar("lootUnderMouse") == "1" and self.numLootItems>6 ) then
-					local _,_,_,xpos,ypos=self:GetPoint()
-					local pignypos = ypos
-					if ( self.numLootItems>14 ) then
-						pignypos = ypos+(self.numLootItems-7)*41
-					elseif ( self.numLootItems>10 ) then
-						pignypos = ypos+(self.numLootItems-6)*41
-					else
-						pignypos = ypos+(self.numLootItems-6)*41
-					end
-					self:SetPoint("TOPLEFT", nil, "BOTTOMLEFT", xpos, pignypos);
+				local lieshu=math.ceil(self.numLootItems/meilie)
+				self:SetWidth((lieshu-1)*158+170)
+				if self.numLootItems>=meilie then
+					self:SetHeight(meilie*41+74)
+				else
+					self:SetHeight(self.numLootItems*41+74)
 				end
 			else
-				self:SetHeight(240)
+				self:SetSize(170,240)
 			end
 			PIG_LootFrame_Update(self)
 		end

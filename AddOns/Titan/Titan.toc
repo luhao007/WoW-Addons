@@ -1,8 +1,8 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Titan Panel Dev Team
-## Version: 9.2.2
+## Version: 9.3.1
 
-## Title: Titan Panel [|cffeda55f_Core_|r] |cff00aa009.2.2|r
+## Title: Titan Panel [|cffeda55f_Core_|r] |cff00aa009.3.1|r
 ## Notes: Adds display bars to show and control information/launcher plugins.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF泰坦面板|r |cFFFFE00ATitan|r
 ## Notes-zhCN: 在屏幕顶端/底端增加一个可视化侧边栏
@@ -43,7 +43,6 @@ TitanHistory.lua
 TitanVariables.lua
 TitanTemplate.xml
 TitanTemplate.lua
-TitanMovable.lua
 TitanConfig.lua
 TitanAutoHide.lua
 Titan.xml

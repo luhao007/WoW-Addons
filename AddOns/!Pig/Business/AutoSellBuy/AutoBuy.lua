@@ -9,14 +9,9 @@ function BusinessInfo.AutoBuy()
 	local PIGOptionsList_R=Create.PIGOptionsList_R
 	local Show_TabBut_R=Create.Show_TabBut_R
 	--
-	local GetContainerNumSlots = C_Container.GetContainerNumSlots
-	local GetContainerItemID=GetContainerItemID or C_Container and C_Container.GetContainerItemID
-	local GetContainerItemLink = C_Container.GetContainerItemLink
-	local PickupContainerItem =C_Container.PickupContainerItem
-	local UseContainerItem =C_Container.UseContainerItem
 	local bagIDMax= addonTable.Data.bagData["bagIDMax"]
 	---
-	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
+	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.uiData)
 	local _GN,_GNE = L["TRADESELLBUY_BUY2"],"Buy"
 	local fujiF,fujiTabBut=PIGOptionsList_R(_G[GnUI].F,L["TRADESELLBUY_BUY1"],50,"Left")
 	BusinessInfo.ADDScroll(fujiF,_GN,_GNE,17,{true,"AutoSellBuy",_GNE.."_List"})
@@ -24,7 +19,7 @@ function BusinessInfo.AutoBuy()
 	local function GetBagItemCount(QitemID)
 		local zongjiBAGitemCount=0
 		for bag = 0, bagIDMax do
-			for slot = 1, GetContainerNumSlots(bag) do
+			for slot = 1, PIGGetContainerNumSlots(bag) do
 				local itemID, itemLink, icon, itemCount = PIGGetContainerItemInfo(bag, slot)
 				if itemID then
 					if QitemID==itemID then

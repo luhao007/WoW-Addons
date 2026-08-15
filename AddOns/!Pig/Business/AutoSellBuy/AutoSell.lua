@@ -7,14 +7,9 @@ function BusinessInfo.AutoSell()
 	local PIGCheckbutton=Create.PIGCheckbutton
 	local PIGOptionsList_R=Create.PIGOptionsList_R
 	--
-	local GetContainerNumSlots = C_Container.GetContainerNumSlots
-	local GetContainerItemID=GetContainerItemID or C_Container and C_Container.GetContainerItemID
-	local GetContainerItemLink = C_Container.GetContainerItemLink
-	local PickupContainerItem =C_Container.PickupContainerItem
-	local UseContainerItem =C_Container.UseContainerItem
 	local bagIDMax= addonTable.Data.bagData["bagIDMax"]
 	---
-	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
+	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.uiData)
 	local _GN,_GNE = L["TRADESELLBUY_SELL2"],"Sell"
 	local fujiF,fujiTabBut=PIGOptionsList_R(_G[GnUI].F,L["TRADESELLBUY_SELL1"],50,"Left")
 	BusinessInfo.ADDScroll(fujiF,_GN,_GNE,17,{false,"AutoSellBuy",_GNE.."_List"})
@@ -28,12 +23,12 @@ function BusinessInfo.AutoSell()
 	end
 	local function ExecuteSellFun(data,numall)
 		for i=1,#data do
-			UseContainerItem(data[i][1], data[i][2]);
+			PIGUseContainerItem(data[i][1], data[i][2]);
 		end
 		C_Timer.After(0.8,function()
 			if not MerchantFrame:IsVisible() or MerchantFrame.selectedTab ~= 1 then return end
 			for i=1,#data do
-				if not GetContainerItemID(data[i][1], data[i][2]) and data[i][5]==false then
+				if not PIGGetContainerItemID(data[i][1], data[i][2]) and data[i][5]==false then
 					numall=numall-1
 					data[i][5]=true
 				end
@@ -59,7 +54,7 @@ function BusinessInfo.AutoSell()
 		local Selldata = PIGA["AutoSellBuy"][_GNE.."_List"]
 		local FiltradataX = PIGA["AutoSellBuy"][_GNE.."_Lsit_Filtra"]
 		for bag = 0, bagIDMax do
-			for slot = 1, GetContainerNumSlots(bag) do
+			for slot = 1, PIGGetContainerNumSlots(bag) do
 				local itemID, itemLink, icon, itemCount, quality, noValue = PIGGetContainerItemInfo(bag, slot)
 				if itemID then
 					if noValue==false then
@@ -81,6 +76,26 @@ function BusinessInfo.AutoSell()
 			end
 		end
 		ExecuteSellFun(bagSellD,#bagSellD)
+	end
+	function BusinessInfo.ShowSellItemList(bag, slot)
+		local Selldata = PIGA["AutoSellBuy"][_GNE.."_List"]
+		local FiltradataX = PIGA["AutoSellBuy"][_GNE.."_Lsit_Filtra"]
+		local itemID, itemLink, icon, itemCount, quality, noValue = PIGGetContainerItemInfo(bag, slot)
+		if itemID then
+			if noValue==false then
+				if quality==0 then
+					if not IsFiltraLsit(FiltradataX,itemID) then
+						return true
+					end
+				end
+				--非灰
+				for i=1,#Selldata do
+					if itemID==Selldata[i][1] then
+						return true
+					end
+				end
+			end
+		end
 	end
 	MerchantFrame:HookScript("OnShow",function (self)
 		if PIGA["AutoSellBuy"][_GNE.."_Open"] then

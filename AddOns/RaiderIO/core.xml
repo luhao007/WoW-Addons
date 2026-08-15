@@ -2,6 +2,7 @@
 	..\FrameXML\UI.xsd">
 
 	<Script file="libs/LibDropDownExtension-1.0/LibDropDownExtension.lua" />
+	<Script file="libs/LibClassTalentsImportExport-1.0/LibClassTalentsImportExport-1.0.lua" />
 	<Script file="libs/LibCombatLogging-1.0/LibCombatLogging.lua" />
 
 	<Script file="locale/locale.lua" />

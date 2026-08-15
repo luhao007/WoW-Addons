@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal"
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260523022011")
 mod:DisableHardcodedOptions()
 mod:SetZone(1031)
 
@@ -14,7 +14,7 @@ mod:RegisterEventsInCombat(
 --	"SPELL_AURA_REMOVED"
 )
 
-local specWarnFlameWall	= mod:NewSpecialWarningSwitch(123966, nil, nil, nil, 2, 2)
+local specWarnFlameWall	= mod:NewSpecialWarningSwitch(123966, nil, nil, nil, 2, 2, nil, nil, "targetchange")
 
 --[[
 --Needs more data, i'm not sure if it has a CD or is just health based atm so no CD timer just yet.

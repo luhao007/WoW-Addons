@@ -1,7 +1,7 @@
-local mod	= DBM:NewMod(2733, "DBM-Raids-Midnight", 3, 1307)
+local mod	= DBM:NewMod(2733, "DBM-Raids-Midnight", 4, 1307)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260428075631")
+mod:SetRevision("20260708211617")
 mod:SetCreatureID(240435)
 mod:SetEncounterID(3176)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -13,25 +13,30 @@ mod:RegisterCombat("combat")
 --NOTE, https://www.wowhead.com/spell=1270949/desolation has event ID of 361 on this fight but doesn't exist?
 --TODO, add remaining private auras? most of em are just basic stacks and stuff anchor kinda handles better since we can't warn for stacks
 --TODO, do adds have timeline timers? i very much doubt it, possibly see if timers are fixed after spawn and start on spawn
-local specWarnShadowsAdvance			= mod:NewSpecialWarningCount(1262776, nil, nil, DBM_COMMON_L.ADDS, 2, 2)
-local specWarnDarkUpheaval				= mod:NewSpecialWarningCount(1249251, nil, nil, DBM_COMMON_L.AOEDAMAGE, 2, 2)
-local specWarnUmbralCollapse			= mod:NewSpecialWarningCount(1249265, nil, nil, DBM_COMMON_L.GROUPSOAK, 2, 2)
-local specWarnOblivionWrath				= mod:NewSpecialWarningDodgeCount(1260712, nil, nil, DBM_COMMON_L.ORBS, 2, 2)
-local specWarnVoidFall					= mod:NewSpecialWarningCount(1258880, nil, 28405, nil, 2, 2)
-local specWarnMarchofEndless			= mod:NewSpecialWarningSpell(1260203, nil, nil, nil, 3, 2)
-local specWarnPitchBulwark				= mod:NewSpecialWarningInterrupt(1255702, false, nil, nil, 1, 2)--Probably spammy
+DBM:RegisterAltSpellName(1258880, 28405)--Void Fall -> Knockback
+DBM:RegisterAltSpellName(1262776, DBM_COMMON_L.ADDS)--Shadow's Advance -> Adds
+DBM:RegisterAltSpellName(1249251, DBM_COMMON_L.AOEDAMAGE)--Dark Upheaval -> AoE
+DBM:RegisterAltSpellName(1249265, DBM_COMMON_L.GROUPSOAK)--Umbral Collapse -> Group Soak
+DBM:RegisterAltSpellName(1260712, DBM_COMMON_L.ORBS)--Oblivion's Wrath -> Orbs
+DBM:RegisterAltSpellName(1280023, DBM_COMMON_L.DEBUFFS)--Void Mark -> Debuffs
+local specWarnShadowsAdvance			= mod:NewSpecialWarningCount(1262776, nil, nil, nil, 2, 2, nil, nil, "mobsoon")
+local specWarnDarkUpheaval				= mod:NewSpecialWarningCount(1249251, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnUmbralCollapse			= mod:NewSpecialWarningCount(1249265, nil, nil, nil, 2, 2, nil, nil, "gathershare")
+local specWarnOblivionWrath				= mod:NewSpecialWarningDodgeCount(1260712, nil, nil, nil, 2, 2, nil, nil, "watchorb")
+local specWarnVoidFall					= mod:NewSpecialWarningCount(1258880, nil, nil, nil, 2, 2, nil, nil, "carefly")
+local specWarnMarchofEndless			= mod:NewSpecialWarningSpell(1260203, nil, nil, nil, 3, 2, nil, nil, "stilldanger")
+local specWarnPitchBulwark				= mod:NewSpecialWarningInterrupt(1255702, false, nil, nil, 1, 2, nil, nil, "kickcast")--Probably spammy
 
-local timerShadowsAdvanceCD				= mod:NewCDCountTimer("d20.5", 1262776, DBM_COMMON_L.ADDS.." (%s)", nil, 2, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
-local timerDarkUpheavalCD				= mod:NewCDCountTimer(20.5, 1249251, DBM_COMMON_L.AOEDAMAGE.." (%s)", nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
-local timerUmbralCollapseCD				= mod:NewCDCountTimer("d20.5", 1249265, DBM_COMMON_L.GROUPSOAK.." (%s)", nil, nil, 3)
-local timerOblivionWrathCD				= mod:NewCDCountTimer(20.5, 1260712, DBM_COMMON_L.ORBS.." (%s)", nil, nil, 3)
-local timerVoidFallCD					= mod:NewCDCountTimer(20.5, 1258880, 28405, nil, nil, 2)--Shortname "Knockback"
+local timerShadowsAdvanceCD				= mod:NewCDCountTimer("d20.5", 1262776, nil, nil, 2, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
+local timerDarkUpheavalCD				= mod:NewCDCountTimer(20.5, 1249251, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
+local timerUmbralCollapseCD				= mod:NewCDCountTimer("d20.5", 1249265, nil, nil, nil, 3)
+local timerOblivionWrathCD				= mod:NewCDCountTimer(20.5, 1260712, nil, nil, nil, 3)
+local timerVoidFallCD					= mod:NewCDCountTimer(20.5, 1258880, nil, nil, nil, 2)
 local timerVoidMarkCD					= mod:NewCDCountTimer(20.5, 1280023, nil, nil, nil, 3, nil, DBM_COMMON_L.MYTHIC_ICON..DBM_COMMON_L.MAGIC_ICON)
 
-mod:AddPrivateAuraSoundOption({1249265,1260203}, true, 1249265, 1, 2, "helpsoak", 2)--Umbral Collapse
-mod:AddPrivateAuraSoundOption(1280023, true, 1280023, 1, 1, "darknessyou", 19)--Void Marked
-mod:AddPrivateAuraSoundOption(1283069, true, 1283069, 1, 3, "fixateyou", 19)--Weakened
-mod:AddPrivateAuraSoundOption(1275059, true, 1275059, 1, 1, "curseyou", 19)--Black Miasma
+mod:AddAuraSoundOption({1249265,1260203}, true, 1249265, 1, 2, "helpsoak", 2)--Umbral Collapse
+mod:AddAuraSoundOption(1280023, true, 1280023, 1, 1, "darknessyou", 19)--Void Marked
+mod:AddAuraSoundOption(1283069, true, 1283069, 1, 3, "fixateyou", 19)--Weakened
 
 mod.vb.shadowCount = 0
 mod.vb.upheavalCount = 0
@@ -52,17 +57,20 @@ local function setFallback(self, dontSetAlerts)
 		specWarnShadowsAdvance:SetAlert({194, 195}, "mobsoon", 2, 2)
 		specWarnDarkUpheaval:SetAlert(196, "aesoon", 2, 2)
 		specWarnUmbralCollapse:SetAlert(197, "gathershare", 2, 2)
-		specWarnOblivionWrath:SetAlert(198, "watchstep", 2, 2)
+		specWarnOblivionWrath:SetAlert(198, "watchorb", 2, 2)
 		specWarnVoidFall:SetAlert({199, 209}, "carefly", 2, 2)
 		specWarnMarchofEndless:SetAlert(200, "stilldanger", 2, 4)
 		specWarnPitchBulwark:SetAlert(201, "kickcast", 2, 2, 0)
 	end
-	timerShadowsAdvanceCD:SetTimeline({194, 195})
-	timerDarkUpheavalCD:SetTimeline(196)
-	timerUmbralCollapseCD:SetTimeline(197)
-	timerOblivionWrathCD:SetTimeline(198)
-	timerVoidFallCD:SetTimeline({199, 209})
-	timerVoidMarkCD:SetTimeline(419)
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerShadowsAdvanceCD:SetTimeline({194, 195}, onlyColor)
+	timerDarkUpheavalCD:SetTimeline(196, onlyColor)
+	timerUmbralCollapseCD:SetTimeline(197, onlyColor)
+	timerOblivionWrathCD:SetTimeline(198, onlyColor)
+	timerVoidFallCD:SetTimeline({199, 209}, onlyColor)
+	timerVoidMarkCD:SetTimeline(419, onlyColor)
 end
 
 function mod:OnLimitedCombatStart()
@@ -82,9 +90,7 @@ function mod:OnLimitedCombatStart()
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end
@@ -115,7 +121,7 @@ do
 			--Blizzard starts two shadows advance on pull, it's only time 84 exists
 			--We need to deal with special count handling to work around this quirk
 			--Timers passed as string with "d" in front of them to flag allowdouble as true
-			if timer == 84 then--First 72 is actually an 84 but has same bug as 72s
+			if timer == 84 then--First 84 is actually an 72 started 12 seconds early (at same time as the 12). Has same bug as normal 72s
 				--Increment count by 1 since it'll start in parallel to the initial 12 second bar
 				timerShadowsAdvanceCD:TLStart(84, eventID, self:TLCountStart(eventID, "shadow", "shadowCount") + 1)
 				if not timerUmbralCollapseCD:IsBuggedEventID(eventID) then
@@ -237,7 +243,7 @@ do
 					specWarnDarkUpheaval:Play("aesoon")
 				elseif eventType == "oblivion" then
 					specWarnOblivionWrath:Show(eventCount)
-					specWarnOblivionWrath:Play("watchstep")
+					specWarnOblivionWrath:Play("watchorb")
 				elseif eventType == "voidfall" then
 					specWarnVoidFall:Show(eventCount)
 					specWarnVoidFall:Play("carefly")

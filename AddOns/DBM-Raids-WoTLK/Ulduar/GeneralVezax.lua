@@ -5,7 +5,7 @@ if not mod:IsClassic() then--on classic, it's normal10,normal25, defined in toc,
 	mod.statTypes = "normal,timewalker"
 end
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523023544")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(33271)
 if mod:IsPostCata() then
@@ -34,17 +34,17 @@ local warnShadowCrash			= mod:NewTargetNoFilterAnnounce(62660, 4)
 local warnLeechLife				= mod:NewTargetNoFilterAnnounce(63276, 3)
 local warnSaroniteVapor			= mod:NewCountAnnounce(63337, 2)
 
-local specWarnShadowCrash		= mod:NewSpecialWarningDodge(62660, nil, nil, nil, 1, 2)
+local specWarnShadowCrash		= mod:NewSpecialWarningDodge(62660, nil, nil, nil, 1, 2, nil, nil, "runaway")
 local yellShadowCrash			= mod:NewYell(62660)
-local specWarnSurgeDarkness		= mod:NewSpecialWarningDefensive(62662, nil, nil, 2, 1, 2)
-local specWarnLifeLeechYou		= mod:NewSpecialWarningMoveAway(63276, nil, nil, nil, 3, 2)
+local specWarnSurgeDarkness		= mod:NewSpecialWarningDefensive(62662, nil, nil, 2, 1, 2, nil, nil, "defensive")
+local specWarnLifeLeechYou		= mod:NewSpecialWarningMoveAway(63276, nil, nil, nil, 3, 2, nil, nil, "runout")
 local yellLifeLeech				= mod:NewYell(63276)
-local specWarnSearingFlames		= mod:NewSpecialWarningInterruptCount(62661, "HasInterrupt", nil, nil, 1, 2)
+local specWarnSearingFlames		= mod:NewSpecialWarningInterruptCount(62661, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kick1r")
 local specWarnAnimus
 if WOW_PROJECT_ID == (WOW_PROJECT_MAINLINE or 1) then
-	specWarnAnimus			= mod:NewSpecialWarningSwitch("ej17651", nil, nil, nil, 1, 2)
+	specWarnAnimus			= mod:NewSpecialWarningSwitch(-17651, nil, nil, nil, 1, 2)
 else
-	specWarnAnimus			= mod:NewSpecialWarning("specWarnAnimus", nil, nil, nil, 1, 2)
+	specWarnAnimus			= mod:NewSpecialWarning("specWarnAnimus", nil, nil, nil, 1, 2, nil, nil, nil, nil, "bigmob")
 end
 
 local timerEnrage				= mod:NewBerserkTimer(600)

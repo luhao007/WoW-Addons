@@ -33,8 +33,12 @@ L['options_icons_profession_treasures_desc'] = 'Zeigt die Positionen der Schätz
 L['options_icons_safari'] = '{achievement:61091}'
 L['options_icons_safari_desc'] = 'Zeigt die Positionen der Kampfhaustiere für den Erfolg {achievement:61091} an.'
 
+L['options_icons_renowned_beast'] = 'Renowned Beasts'
+L['options_icons_renowned_beast_desc'] = 'Display locations of summonable daily beasts for Skinning'
+L['silverscale_note'] = 'Summoned below the bridge.'
+
 -------------------------------------------------------------------------------
--------------------------------- EVERSONG WOODS --------------------------------
+-------------------------------- EVERSONG WOODS -------------------------------
 -------------------------------------------------------------------------------
 
 L['options_icons_ever_painting'] = '{achievement:62185}'
@@ -49,7 +53,7 @@ L['triple_locked_safebox_note'] = 'Nehme die {object:Brennende Fackel} neben der
 L['incomplete_book_of_sonnets'] = 'Unvollständiges Buch der Sonnete'
 
 -------------------------------------------------------------------------------
------------------------------------ HARANDAR -----------------------------------
+----------------------------------- HARANDAR ----------------------------------
 -------------------------------------------------------------------------------
 
 L['glowing_moth'] = 'Leuchtende Motte'
@@ -87,7 +91,7 @@ L['voidhoarders_corpse'] = 'Leiche des Leerenhorters'
 L['blackcore_note'] = nil
 
 -------------------------------------------------------------------------------
----------------------------------- ZUL'AMAN ----------------------------------
+----------------------------------- ZUL'AMAN ----------------------------------
 -------------------------------------------------------------------------------
 
 L['options_icons_frog_princess'] = '{achievement:62201}'
@@ -111,16 +115,98 @@ L['kalika_note'] = nil
 L['songseeker_ikaja_note'] = nil
 
 -------------------------------------------------------------------------------
+----------------------------------- NAIGTAL -----------------------------------
+-------------------------------------------------------------------------------
+
+L['sleepy_mandrake_note'] = nil
+L['partially_digested_redcap_note'] = nil
+L['ancient_crypt_reliquary'] = nil
+L['squirming_mollusk'] = nil
+L['spiked_shell'] = nil
+
+-------------------------------------------------------------------------------
+------------------------------------- VAL -------------------------------------
+-------------------------------------------------------------------------------
+
+L['enchanted_hilt'] = nil
+L['enchanted_hilt_note'] = nil
+
+-------------------------------------------------------------------------------
 ---------------------------------- ARCANTINA ----------------------------------
 -------------------------------------------------------------------------------
 
 L['share_a_drink_note'] = 'Kaufe {item:251039} von {npc:250495} in der Arcantina und teile ihn mit allen Rassen.'
 
 -------------------------------------------------------------------------------
------------------------------------ DELVES ------------------------------------
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+--------------------------------- RITUAL SITES --------------------------------
+-------------------------------------------------------------------------------
+L['options_icons_ritual_site'] = nil
+L['options_icons_ritual_site_desc'] = nil
+
+L['ritual_site_broken_throne'] = nil
+L['ritual_site_daggerspine_point'] = nil
+
+L['broken_throne_entry_note'] = nil
+L['daggerspine_point_entry_note'] = nil
+
+L['chewed_meat'] = nil
+L['chewed_meat_note'] = nil
+
+L['ritual_circle'] = nil
+L['ritual_circle_note'] = nil
+
+L['updraft'] = nil
+L['void_tainted_nest'] = nil
+L['void_tainted_nest_note'] = nil
+
+L['chubs_note'] = nil
+
+L['rustling_fern'] = nil
+L['rustling_bush'] = nil
+L['rustling_fern_note'] = nil
+L['rustling_bush_note'] = nil
+
+L['soggy_nest'] = nil
+L['soggy_nest_note'] = nil
+
+L['washed_up_kelp'] = nil
+L['washed_up_kelp_note'] = nil
+
+L['floating_egg_note'] = nil
+------------------------------------ DELVES -----------------------------------
 -------------------------------------------------------------------------------
 
 L['sturdy_chest'] = 'Robuste Truhe'
 L['sturdy_chest_suffix'] = 'robuste Truhen geöffnet'
 
 L['gulf_of_memory_chest_note'] = nil
+
+-------------------------------------------------------------------------------
+--------------------------------- COILED ISLES --------------------------------
+-------------------------------------------------------------------------------
+
+L['lost_spirit_note'] = 'Bringt {item:269935} zu {npc:261867} zurück.'
+L['sunken_divers_chest_note'] = 'Tötet den nahegelegenen {npc:263081} und plündert 3x {item:271424}, kombiniert sie dann zu {item:271423}, um den Schatz freizuschalten.'
+L['vulzahn_smuggled_treasure_note'] = '1. Holt {item:271791} von {dot:Blue}{npc:253837}\n\n2. Gebt {item:271791} an {dot:Red}{npc:262204}, um {item:271788} zu erhalten\n\n3. Gebt {item:271788} an {dot:Green}{npc:263265}, um {item:271792} zu erhalten und den Schatz freizuschalten'
+L['grave_of_someone_forgotten_note'] = '1. Sprecht mit {dot:Red}{npc:263242}.\n\n2. Sprecht mit {dot:Green}{npc:263243}.\n\n3. Sprecht mit {dot:Blue}{npc:263241}.\n\n4. Kehrt zum Grab zurueck und plundert es.'
+L['profane_ritual_spoils_note'] = 'Blickt zur Statue und klickt die {npc:263187} in dieser Reihenfolge an: oben rechts, oben links, unten rechts, unten links, um den Schatz zu öffnen.'
+L['abandoned_amani_privateers_cache_note'] = nil
+L['grisly_cod_pool'] = nil
+L['waterlogged_crate'] = nil
+L['broken_urn'] = nil
+L['brine_crusted_chest_note'] = nil
+L['bubbling_clam'] = nil
+
+L['options_icons_coiled_isle_safari'] = '{achievement:62492}'
+L['options_icons_coiled_isle_safari_desc'] = 'Zeigt die Positionen der Kampfhaustiere für den Erfolg {achievement:62492} an.'
+
+L['options_icons_student_of_hissstory'] = '{achievement:63662}'
+L['options_icons_student_of_hissstory_desc'] = 'Zeigt die Positionen der Geschichtsobjekte für den {achievement:63662} Erfolg an.'
+
+L['options_icons_soft_underbelly'] = '{achievement:62601}'
+L['options_icons_soft_underbelly_desc'] = 'Zeigt die Positionen für den {achievement:62601} Erfolg an.'
+
+L['options_icons_the_honored_dead'] = '{achievement:63610}'
+L['options_icons_the_honored_dead_desc'] = 'Zeigt die Positionen für den {achievement:63610} Erfolg an.'

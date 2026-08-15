@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Sapphiron", "DBM-Raids-WoTLK", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15989)
 mod:SetEncounterID(1119)
@@ -25,8 +25,8 @@ local warnAirPhaseSoon	= mod:NewAnnounce("WarningAirPhaseSoon", 3, "Interface\\A
 local warnAirPhaseNow	= mod:NewAnnounce("WarningAirPhaseNow", 4, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp")
 local warnLanded		= mod:NewAnnounce("WarningLanded", 4, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp")
 
-local warnBlizzard		= mod:NewSpecialWarningGTFO(28547, nil, nil, nil, 1, 8)
-local warnDeepBreath	= mod:NewSpecialWarningSpell(28524, nil, nil, nil, 1, 2)
+local warnBlizzard		= mod:NewSpecialWarningGTFO(28547, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local warnDeepBreath	= mod:NewSpecialWarningSpell(28524, nil, nil, nil, 1, 2, nil, nil, "findshelter")
 local yellIceBlock		= mod:NewYell(28522)
 
 local timerDrainLife	= mod:NewCDTimer(22, 28542, nil, nil, nil, 3, nil, DBM_COMMON_L.CURSE_ICON)

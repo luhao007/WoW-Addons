@@ -369,7 +369,7 @@ end
 
 local Global_Set = Sets:RegisterNewSets(GLOBAL_SETS)
 
-local NORMAL_DIFF = Global_Set:AddDifficulty(AL["Normal"], "n")
+local NORMAL_DIFF = Global_Set:AddDifficulty(PLAYER_DIFFICULTY1, "n")
 
 local SOURCE_INFO = Global_Set:AddInfoList("DUMMY")
 

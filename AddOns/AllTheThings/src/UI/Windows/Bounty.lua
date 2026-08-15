@@ -9,6 +9,7 @@ local ipairs, tinsert
 app:CreateWindow("Bounty", {
 	AllowCompleteSound = true,
 	Commands = { "attbounty" },
+	RootCommands = { "bounty" },
 	OnInit = function(self, handlers)
 		self:SetData(app.CreateCustomHeader(app.HeaderConstants.UI_BOUNTY_WINDOW, {
 			visible = true,

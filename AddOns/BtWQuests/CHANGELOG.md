@@ -1,3 +1,13 @@
+# v2.63.1
+
+- Added The Curse of Ula'tek questlines
+- Updated for 12.1.0
+
+# v2.63.0
+
+- Added Legacy of the Amani questline
+- Updated for 12.0.7
+
 # v2.62.0
 
 - Added The War of Light and Shadow campaign

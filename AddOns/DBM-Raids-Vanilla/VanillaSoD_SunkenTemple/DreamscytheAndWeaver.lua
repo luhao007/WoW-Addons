@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("DreamscytheAndWeaverSoD", "DBM-Raids-Vanilla", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260709012018")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(220833, 220864)--Dreamscythe, Weaver
 mod:SetEncounterID(2955)
@@ -34,8 +34,8 @@ local warnPhase						= mod:NewPhaseChangeAnnounce(2, 2, nil, nil, nil, nil, nil,
 local warnAcidBreath				= mod:NewStackAnnounce(442622, 2, nil, "Tank|Healer")--Used by both
 local warnWingFlap					= mod:NewSpellAnnounce(442620, 3)--Used by both
 
-local specWarnWingBuffet			= mod:NewSpecialWarningSpell(443766, nil, nil, nil, 2, 2)
-local specWarnDelayedWingBuffet		= mod:NewSpecialWarningSpell(443830, nil, nil, nil, 2, 2)
+local specWarnWingBuffet			= mod:NewSpecialWarningSpell(443766, nil, nil, nil, 2, 2, nil, nil, "carefly")
+local specWarnDelayedWingBuffet		= mod:NewSpecialWarningSpell(443830, nil, nil, nil, 2, 2, nil, nil, "carefly")
 
 --local timerAcidBreathCD			= mod:NewAITimer(11.3, 442622, nil, "Healer|Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Far to variable
 --local timerTheClawCD				= mod:NewAITimer(15.2, 432062, nil, nil, nil, 3)
@@ -78,7 +78,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerWingBuffetCD:Stop()
 		timerWingBuffetCD:Start(5)
 	elseif spellId == 442622 then
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		--Makes sure the target of the debuff, is highest threat of the caster
 		--(basically filters everyone who's not actively tanking mob such as melee in wrong place)
 		if self:IsTanking(uId, nil, nil, false, args.sourceGUID) then--playerUnitID, enemyUnitID, isName, onlyRequested, enemyGUID

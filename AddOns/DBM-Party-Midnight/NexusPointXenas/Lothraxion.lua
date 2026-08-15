@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2815, "DBM-Party-Midnight", 8, 1316)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260423040903")
+mod:SetRevision("20260714061955")
 mod:SetCreatureID(241546)
 mod:SetEncounterID(3333)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -13,20 +13,21 @@ mod:RegisterCombat("combat")
 
 local warnBrilliantRadiance			= mod:NewCountAnnounce(1255503, 2)
 
-local specWarnSearingRend			= mod:NewSpecialWarningCount(1255335, "Melee", nil, nil, 1, 2)
-local specWarnDivineGuile			= mod:NewSpecialWarningCount(1257567, nil, nil, nil, 2, 2)
-local specWarnFlicker				= mod:NewSpecialWarningDodgeCount(1255531, nil, nil, nil, 2, 2)
+local specWarnSearingRend			= mod:NewSpecialWarningCount(1255335, "Melee", nil, nil, 1, 2, nil, nil, "frontal")
+local specWarnDivineGuile			= mod:NewSpecialWarningCount(1257567, nil, nil, nil, 2, 2, nil, nil, "phasechange")
+local specWarnFlicker				= mod:NewSpecialWarningDodgeCount(1255531, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBrilliantDispersion	= mod:NewSpecialWarningBlizzYou(1255503, nil, nil, nil, 1, 18, nil, nil, "poolyou")
 
 local timerSearingRendCD			= mod:NewCDCountTimer(26, 1255335, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerBrilliantDispersionCD	= mod:NewCDCountTimer(25, 1255503, nil, nil, nil, 3)
 local timerDivineGuileCD			= mod:NewCDCountTimer(52, 1257567, nil, nil, nil, 6, nil, DBM_COMMON_L.IMPORTANT_ICON)
 local timerFlickerCD				= mod:NewCDCountTimer(10, 1255531, nil, nil, nil, 3)
 
---Private Auras
-mod:AddPrivateAuraSoundOption(1255503, true, 1255503, 1, 1, "poolyou", 18)--Brilliant Dispersion
---mod:AddPrivateAuraSoundOption(1255335, false, 1255335, 1, 1)--Searing Rend
-mod:AddPrivateAuraSoundOption(1255310, true, 1255310, 1, 2, "watchfeet", 8)--Radiant Scar
---mod:AddPrivateAuraSoundOption(1271956, false, 1271956, 1, 1)--Mirrored Rend
+--Auras
+--mod:AddAuraSoundOption(1255503, true, 1255503, 1, 1, "poolyou", 18)--Brilliant Dispersion (handled by ENCOUNTER_WARNING intercept)
+--mod:AddAuraSoundOption(1255335, false, 1255335, 1, 1)--Searing Rend
+mod:AddAuraSoundOption(1255310, true, 1255310, 1, 2, "watchfeet", 8)--Radiant Scar
+--mod:AddAuraSoundOption(1271956, false, 1271956, 1, 1)--Mirrored Rend
 
 mod.vb.searingRendCount = 0
 mod.vb.brilliantDispersionCount = 0
@@ -36,7 +37,7 @@ mod.vb.flickerCount = 0
 local badStateDetected = false
 
 ---@param self DBMMod
----@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 local function setFallback(self, dontSetAlerts)
 	if not dontSetAlerts then
 		warnBrilliantRadiance:SetAlert(109, "scattersoon", 2)
@@ -46,10 +47,13 @@ local function setFallback(self, dontSetAlerts)
 		end
 		specWarnFlicker:SetAlert(112, "watchstep", 2)
 	end
-	timerBrilliantDispersionCD:SetTimeline(109)
-	timerDivineGuileCD:SetTimeline(110)
-	timerSearingRendCD:SetTimeline(111)
-	timerFlickerCD:SetTimeline(112)
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerBrilliantDispersionCD:SetTimeline(109, onlyColor)
+	timerDivineGuileCD:SetTimeline(110, onlyColor)
+	timerSearingRendCD:SetTimeline(111, onlyColor)
+	timerFlickerCD:SetTimeline(112, onlyColor)
 end
 
 function mod:OnLimitedCombatStart()
@@ -58,16 +62,13 @@ function mod:OnLimitedCombatStart()
 	self.vb.brilliantDispersionCount = 1
 	self.vb.divineGuileCount = 1
 	self.vb.flickerCount = 1
-	if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+	if DBM.Options.HardcodedTimer and not badStateDetected then
 		self:IgnoreBlizzardAPI()
 		self:RegisterShortTermEvents(
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end
@@ -95,6 +96,7 @@ do
 			timerFlickerCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "flicker", "flickerCount"))
 			handled = true
 		elseif timer == 52 then--Divine Guile
+			timerDivineGuileCD:Stop()--Boss randomly resends this timer, leanest way to silence annoying debug
 			timerDivineGuileCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineGuile", "divineGuileCount"))
 			handled = true
 		end
@@ -128,6 +130,7 @@ do
 					specWarnSearingRend:Play("frontal")
 				elseif eventType == "brilliantDispersion" then
 					warnBrilliantRadiance:Show(eventCount)
+					specWarnBrilliantDispersion:Show(eventCount, "poolyou")
 				elseif eventType == "divineGuile" then
 					specWarnDivineGuile:Show(eventCount)
 					specWarnDivineGuile:Play("phasechange")

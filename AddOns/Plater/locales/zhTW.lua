@@ -4,10 +4,8 @@ do
     local L = languageTable
 
 ------------------------------------------------------------
---[[Translation missing --]]
-L["A /reload may be required to take effect."] = "A /reload may be required to take effect."
---[[Translation missing --]]
-L["CVar, saved within Plater profile and restored when loading the profile."] = "CVar, saved within Plater profile and restored when loading the profile."
+L["A /reload may be required to take effect."] = "可能需要執行 /reload 指令才能生效。"
+L["CVar, saved within Plater profile and restored when loading the profile."] = "CVar 保存在 Plater 設定檔中，並在載入設定檔時恢復。"
 --[[Translation missing --]]
 L["DISABLE_TESTING_AURAS"] = ""
 L["EXPORT"] = "匯出"
@@ -16,8 +14,7 @@ L["EXPORT_CAST_SOUNDS"] = "匯出施法條聲音"
 L["HIGHLIGHT_HOVEROVER"] = "滑鼠懸停顯示"
 L["HIGHLIGHT_HOVEROVER_ALPHA"] = "滑鼠懸停顯示透明度"
 L["HIGHLIGHT_HOVEROVER_DESC"] = "滑鼠在姓名版的懸停顯示效果"
---[[Translation missing --]]
-L["Hold Shift to change the sound of all casts with the audio %s to %s"] = "Hold Shift to change the sound of all casts with the audio %s to %s"
+L["Hold Shift to change the sound of all casts with the audio %s to %s"] = "按住 Shift 鍵，即可將所有音訊為 %s 的施法聲音變更為 %s"
 L["IMPORT"] = "匯入"
 L["IMPORT_CAST_COLORS"] = "匯入施法條顏色"
 L["IMPORT_CAST_SOUNDS"] = "匯入施法條聲音"
@@ -62,126 +59,67 @@ L["OPTIONS_AURA_WIDTH"] = "減益圖示寬度"
 L["OPTIONS_AURAS_ENABLETEST"] = "啟用此選項可隱藏設定時顯示的測試光環"
 L["OPTIONS_AURAS_SORT"] = "光環排序"
 L["OPTIONS_AURAS_SORT_DESC"] = "按剩餘時間排序（默認）"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_ARENA_BG"] = "In Arena / BG"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_ARENA_BG_DESC"] = "Set 'always show nameplates' on when inside arena or battleground."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_DUNGEONS"] = "In Dungeons"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_DUNGEONS_DESC"] = "Set 'always show nameplates' on when inside dungeons."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_MAJOR_CITIES"] = "In Major Cities"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_MAJOR_CITIES_DESC"] = "Set 'always show nameplates' on when inside a major city."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_OPEN_WORLD"] = "In Open World"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_OPEN_WORLD_DESC"] = "Set 'always show nameplates' on when at any place not listed on the other options."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_RAID"] = "In Raid"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ALWAYS_SHOW_IN_RAID_DESC"] = "Set 'always show nameplates' on when inside raids."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_ARENA_BG"] = "In Arena / BG"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_ARENA_BG_DESC"] = "Show enemy nameplates when inside arena or battleground."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_DUNGEONS"] = "In Dungeons"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_DUNGEONS_DESC"] = "Show enemy nameplates when inside dungeons."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_MAJOR_CITIES"] = "In Major Cities"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_MAJOR_CITIES_DESC"] = "Show enemy nameplates when inside a major city."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_OPEN_WORLD"] = "In Open World"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_OPEN_WORLD_DESC"] = "Show enemy nameplates when at any place not listed on the other options."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_RAID"] = "In Raid"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_IN_RAID_DESC"] = "Show enemy nameplates when inside raids."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_NAMEPLATES_IC"] = "Enemy Nameplates in combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_NAMEPLATES_IC_DESC"] = "Automatically enable / disable enemy nameplates in combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_NAMEPLATES_OOC"] = "Enemy Nameplates out of combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_ENEMY_NAMEPLATES_OOC_DESC"] = "Automatically enable / disable enemy nameplates out of combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_ARENA_BG"] = "In Arena / BG"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_ARENA_BG_DESC"] = "Show friendly nameplates when inside arena or battleground."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_DUNGEONS"] = "In Dungeons"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_DUNGEONS_DESC"] = "Show friendly nameplates when inside dungeons."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_MAJOR_CITIES"] = "In Major Cities"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_MAJOR_CITIES_DESC"] = "Show friendly nameplates when inside a major city."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_OPEN_WORLD"] = "In Open World"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_OPEN_WORLD_DESC"] = "Show friendly nameplates when at any place not listed on the other options."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_RAID"] = "In Raid"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_IN_RAID_DESC"] = "Show friendly nameplates when inside raids."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_IC"] = "Friendly Nameplates in combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_IC_DESC"] = "Automatically enable / disable friendly nameplates in combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_OOC"] = "Friendly Nameplates out of combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_OOC_DESC"] = "Automatically enable / disable friendly nameplates out of combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_IC"] = "Hide Blizzard Healthbars in combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_IC_DESC"] = "Automatically enable / disable showing blizzard nameplate healthbars in combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_OOC"] = "Hide Blizzard Healthbars out of combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_OOC_DESC"] = "Automatically enable / disable showing blizzard nameplate healthbars out of combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_ENEMY_PETS"] = "Hide Enemy Pets"
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_ENEMY_PETS_DESC"] = "Disable show enemy pets within a raid or a dungeon."
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_ENEMY_TOTEMS"] = "Hide Enemy Totems"
---[[Translation missing --]]
-L["OPTIONS_AUTO_HIDE_ENEMY_TOTEMS_DESC"] = "Disable show enemy totems within a raid or a dungeon."
---[[Translation missing --]]
-L["OPTIONS_AUTO_SHOWNAMEPLATE_INCOMBAT"] = "Enable 'Always Show Nameplates' in combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_SHOWNAMEPLATE_INCOMBAT_DESC"] = "Automatically enable / disable the 'always show' option in combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_SHOWNAMEPLATE_OUTOFCOMBAT"] = "Enable 'Always Show Nameplates' out of combat"
---[[Translation missing --]]
-L["OPTIONS_AUTO_SHOWNAMEPLATE_OUTOFCOMBAT_DESC"] = "Automatically enable / disable the 'always show' option out of combat."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_ARENA_BG"] = "In Arena / BG"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_ARENA_BG_DESC"] = "Set stacking on when inside arena or battleground."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_DUNGEONS"] = "In Dungeons"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_DUNGEONS_DESC"] = "Set stacking on when inside dungeons."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_MAJOR_CITIES"] = "In Major Cities"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_MAJOR_CITIES_DESC"] = "Set stacking on when inside a major city."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_OPEN_WORLD"] = "In Open World"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_OPEN_WORLD_DESC"] = "Set stacking on when at any place not listed on the other options."
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_RAID"] = "In Raid"
---[[Translation missing --]]
-L["OPTIONS_AUTO_STACKING_IN_RAID_DESC"] = "Set stacking on when inside raids."
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_ARENA_BG"] = "在競技場/戰場中"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_ARENA_BG_DESC"] = "在競技場或戰場內，啟用「始終顯示姓名條」選項。"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_DUNGEONS"] = "在地下城中"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_DUNGEONS_DESC"] = "在地下城內開啟「始終顯示姓名條」選項。"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_MAJOR_CITIES"] = "在主要城市"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_MAJOR_CITIES_DESC"] = "在主要城市內時，啟用「始終顯示姓名條」功能。"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_OPEN_WORLD"] = "在開放世界中"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_OPEN_WORLD_DESC"] = "在其他選項未列出的任何位置，啟用「始終顯示姓名條」選項。"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_RAID"] = "在團隊副本中"
+L["OPTIONS_AUTO_ALWAYS_SHOW_IN_RAID_DESC"] = "在團隊副本中啟用「始終顯示姓名條」。"
+L["OPTIONS_AUTO_ENEMY_IN_ARENA_BG"] = "在競技場/戰場中"
+L["OPTIONS_AUTO_ENEMY_IN_ARENA_BG_DESC"] = "在競技場或戰場內顯示敵方名稱。"
+L["OPTIONS_AUTO_ENEMY_IN_DUNGEONS"] = "在地下城中"
+L["OPTIONS_AUTO_ENEMY_IN_DUNGEONS_DESC"] = "在地下城內顯示敵人姓名條。"
+L["OPTIONS_AUTO_ENEMY_IN_MAJOR_CITIES"] = "在主要城市"
+L["OPTIONS_AUTO_ENEMY_IN_MAJOR_CITIES_DESC"] = "在主要城市內顯示敵方姓名條。"
+L["OPTIONS_AUTO_ENEMY_IN_OPEN_WORLD"] = "在開放世界中"
+L["OPTIONS_AUTO_ENEMY_IN_OPEN_WORLD_DESC"] = "在其他選項未列出的任何地點顯示敵人姓名條。"
+L["OPTIONS_AUTO_ENEMY_IN_RAID"] = "在團隊副本中"
+L["OPTIONS_AUTO_ENEMY_IN_RAID_DESC"] = "在團隊副本中顯示敵人姓名條。"
+L["OPTIONS_AUTO_ENEMY_NAMEPLATES_IC"] = "戰鬥中的敵人姓名條"
+L["OPTIONS_AUTO_ENEMY_NAMEPLATES_IC_DESC"] = "自動啟用/停用戰鬥中的敵人名稱顯示。"
+L["OPTIONS_AUTO_ENEMY_NAMEPLATES_OOC"] = "戰鬥外的敵方姓名條"
+L["OPTIONS_AUTO_ENEMY_NAMEPLATES_OOC_DESC"] = "自動啟用/停用非戰鬥狀態下的敵方姓名條顯示。"
+L["OPTIONS_AUTO_FRIENDLY_IN_ARENA_BG"] = "在競技場/戰場中"
+L["OPTIONS_AUTO_FRIENDLY_IN_ARENA_BG_DESC"] = "在競技場或戰場內顯示友方姓名條。"
+L["OPTIONS_AUTO_FRIENDLY_IN_DUNGEONS"] = "在地下城中"
+L["OPTIONS_AUTO_FRIENDLY_IN_DUNGEONS_DESC"] = "在地下城內顯示友方姓名條。"
+L["OPTIONS_AUTO_FRIENDLY_IN_MAJOR_CITIES"] = "在主要城市中"
+L["OPTIONS_AUTO_FRIENDLY_IN_MAJOR_CITIES_DESC"] = "在主要城市內顯示友方的姓名條。"
+L["OPTIONS_AUTO_FRIENDLY_IN_OPEN_WORLD"] = "在開放世界中"
+L["OPTIONS_AUTO_FRIENDLY_IN_OPEN_WORLD_DESC"] = "在其他選項未列出的任何地點，顯示友方的姓名牌。"
+L["OPTIONS_AUTO_FRIENDLY_IN_RAID"] = "在團隊副本中"
+L["OPTIONS_AUTO_FRIENDLY_IN_RAID_DESC"] = [=[在團隊副本中顯示友方姓名條。
+]=]
+L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_IC"] = "戰鬥中的友軍姓名條"
+L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_IC_DESC"] = "戰鬥中自動啟用/停用友方姓名條。"
+L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_OOC"] = "友方姓名條（非戰鬥狀態）"
+L["OPTIONS_AUTO_FRIENDLY_NAMEPLATES_OOC_DESC"] = "自動啟用/停用非戰鬥狀態下的友軍姓名條。"
+L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_IC"] = "戰鬥中隱藏暴雪內建生命條"
+L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_IC_DESC"] = "自動啟用/停用戰鬥中顯示暴雪內建姓名板生命條。"
+L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_OOC"] = "戰鬥外隱藏暴雪內建生命條"
+L["OPTIONS_AUTO_HIDE_BLIZZARD_HEALTHBARS_OOC_DESC"] = "自動啟用/停用在非戰鬥狀態下顯示暴雪內建姓名板生命條。"
+L["OPTIONS_AUTO_HIDE_ENEMY_PETS"] = "隱藏敵方寵物"
+L["OPTIONS_AUTO_HIDE_ENEMY_PETS_DESC"] = "禁用在團隊副本或地下城中顯示敵方寵物。"
+L["OPTIONS_AUTO_HIDE_ENEMY_TOTEMS"] = "隱藏敵方圖騰"
+L["OPTIONS_AUTO_HIDE_ENEMY_TOTEMS_DESC"] = "禁用在團隊副本或地下城中顯示敵方圖騰。"
+L["OPTIONS_AUTO_SHOWNAMEPLATE_INCOMBAT"] = "啟用“戰鬥中始終顯示姓名板”"
+L["OPTIONS_AUTO_SHOWNAMEPLATE_INCOMBAT_DESC"] = "自動啟用/停用戰鬥中的「始終顯示」選項。"
+L["OPTIONS_AUTO_SHOWNAMEPLATE_OUTOFCOMBAT"] = "啟用「非戰鬥狀態下始終顯示姓名板」功能"
+L["OPTIONS_AUTO_SHOWNAMEPLATE_OUTOFCOMBAT_DESC"] = "在非戰鬥狀態下自動啟用/停用「始終顯示」選項。"
+L["OPTIONS_AUTO_STACKING_IN_ARENA_BG"] = "在競技場/戰場中"
+L["OPTIONS_AUTO_STACKING_IN_ARENA_BG_DESC"] = "在競技場或戰場內開啟堆疊功能。"
+L["OPTIONS_AUTO_STACKING_IN_DUNGEONS"] = "在地下城中"
+L["OPTIONS_AUTO_STACKING_IN_DUNGEONS_DESC"] = "在地下城內開啟堆疊功能。"
+L["OPTIONS_AUTO_STACKING_IN_MAJOR_CITIES"] = "在主要城市中"
+L["OPTIONS_AUTO_STACKING_IN_MAJOR_CITIES_DESC"] = "在主要城市內開啟堆疊功能。"
+L["OPTIONS_AUTO_STACKING_IN_OPEN_WORLD"] = "在開放世界中"
+L["OPTIONS_AUTO_STACKING_IN_OPEN_WORLD_DESC"] = "當前位置未列入選項時，啟用堆疊功能。"
+L["OPTIONS_AUTO_STACKING_IN_RAID"] = "在團隊副本中"
+L["OPTIONS_AUTO_STACKING_IN_RAID_DESC"] = "在團隊副本中開啟堆疊功能。"
 L["OPTIONS_BACKGROUND_ALWAYSSHOW"] = "總是顯示背景"
 L["OPTIONS_BACKGROUND_ALWAYSSHOW_DESC"] = "啟用一個顯示可點擊區域的背景"
 L["OPTIONS_BORDER_COLOR"] = "邊框顏色"
@@ -224,13 +162,10 @@ L["OPTIONS_CASTBAR_SPELLICON"] = "法術圖示"
 L["OPTIONS_CASTBAR_TOGGLE_TEST"] = "施法條測試開關"
 L["OPTIONS_CASTBAR_TOGGLE_TEST_DESC"] = "開始施法條測試，再次點擊停止"
 L["OPTIONS_CASTBAR_WIDTH"] = "施法條寬度"
---[[Translation missing --]]
-L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS"] = "Remove All Sounds"
---[[Translation missing --]]
-L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS_CONFIRM"] = "Are you sure you want to remove all configured cast sounds?"
+L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS"] = "移除所有音效"
+L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS_CONFIRM"] = "您確定要移除所有已配置的施法音效嗎？"
 L["OPTIONS_CASTCOLORS_DISABLECOLORS"] = "禁用所有顏色"
---[[Translation missing --]]
-L["OPTIONS_CASTCOLORS_DISABLECOLORS_CONFIRM"] = "Confirm disable all cast colors?"
+L["OPTIONS_CASTCOLORS_DISABLECOLORS_CONFIRM"] = "確認禁用所有施法條顏色？"
 L["OPTIONS_CLICK_SPACE_HEIGHT"] = "接受滑鼠點擊以選擇目標的區域高度"
 L["OPTIONS_CLICK_SPACE_WIDTH"] = "接受滑鼠點擊以選擇目標的區域寬度"
 L["OPTIONS_COLOR"] = "顔色"
@@ -257,107 +192,48 @@ L["OPTIONS_GENERALSETTINGS_TRANSPARENCY_ANCHOR_TITLE"] = "透明度控制"
 L["OPTIONS_GENERALSETTINGS_TRANSPARENCY_RANGECHECK"] = "範圍檢查"
 L["OPTIONS_GENERALSETTINGS_TRANSPARENCY_RANGECHECK_ALPHA"] = "超出範圍之後的透明度"
 L["OPTIONS_GENERALSETTINGS_TRANSPARENCY_RANGECHECK_SPEC_DESC"] = "適用于此專精的範圍檢測技能。"
---[[Translation missing --]]
-L["OPTIONS_HEALTHBAR"] = "Health Bar"
---[[Translation missing --]]
-L["OPTIONS_HEALTHBAR_HEIGHT"] = "Health Bar Height"
---[[Translation missing --]]
-L["OPTIONS_HEALTHBAR_SIZE_GLOBAL_DESC"] = [=[Change the size of Enemy and Friendly nameplates for players and npcs in combat and out of combat.
-
-Each one of these options can be changed individually on Enemy Npc, Enemy Player tabs.]=]
---[[Translation missing --]]
-L["OPTIONS_HEALTHBAR_WIDTH"] = "Health Bar Width"
---[[Translation missing --]]
-L["OPTIONS_HEIGHT"] = "Height"
+L["OPTIONS_HEALTHBAR"] = "生命值條"
+L["OPTIONS_HEALTHBAR_HEIGHT"] = "生命值條高度"
+L["OPTIONS_HEALTHBAR_SIZE_GLOBAL_DESC"] = "更改戰鬥中和非戰鬥狀態下玩家和NPC的敵我姓名條大小。這些選項均可在「敵方NPC」和「敵方玩家」標籤頁中單獨變更。"
+L["OPTIONS_HEALTHBAR_WIDTH"] = "生命值條寬度"
+L["OPTIONS_HEIGHT"] = "高度"
 L["OPTIONS_HOSTILE"] = "敵對"
---[[Translation missing --]]
-L["OPTIONS_ICON_ELITE"] = "Elite Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_ENEMYCLASS"] = "Enemy Class Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_ENEMYFACTION"] = "Enemy Faction Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_ENEMYSPEC"] = "Enemy Spec Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_FRIENDLY_SPEC"] = "Friendly Spec Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_FRIENDLYCLASS"] = "Friendly Class"
---[[Translation missing --]]
-L["OPTIONS_ICON_FRIENDLYFACTION"] = "Friendly Faction Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_PET"] = "Pet Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_QUEST"] = "Quest Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_RARE"] = "Rare Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_SHOW"] = "Show Icon"
---[[Translation missing --]]
-L["OPTIONS_ICON_SIDE"] = "Show Side"
---[[Translation missing --]]
-L["OPTIONS_ICON_SIZE"] = "Show Size"
---[[Translation missing --]]
-L["OPTIONS_ICON_WORLDBOSS"] = "World Boss Icon"
---[[Translation missing --]]
-L["OPTIONS_ICONROWSPACING"] = "Icon Row Spacing"
---[[Translation missing --]]
-L["OPTIONS_ICONSPACING"] = "Icon Spacing"
---[[Translation missing --]]
-L["OPTIONS_INDICATORS"] = "Indicators"
---[[Translation missing --]]
-L["OPTIONS_INTERACT_OBJECT_NAME_COLOR"] = "Game object name color"
---[[Translation missing --]]
-L["OPTIONS_INTERACT_OBJECT_NAME_COLOR_DESC"] = "Names on objects will get this color."
---[[Translation missing --]]
-L["OPTIONS_INTERRUPT_FILLBAR"] = "Fill Cast Bar On Interrupt"
---[[Translation missing --]]
-L["OPTIONS_INTERRUPT_SHOW_ANIM"] = "Play Interrupt Animation"
---[[Translation missing --]]
-L["OPTIONS_INTERRUPT_SHOW_AUTHOR"] = "Show Interrupt Author"
---[[Translation missing --]]
-L["OPTIONS_MINOR_SCALE_DESC"] = "Slightly adjust the size of nameplates when showing a minor unit (these units has a smaller nameplate by default)."
---[[Translation missing --]]
-L["OPTIONS_MINOR_SCALE_HEIGHT"] = "Minor Unit Height Scale"
---[[Translation missing --]]
-L["OPTIONS_MINOR_SCALE_WIDTH"] = "Minor Unit Width Scale"
---[[Translation missing --]]
-L["OPTIONS_MOVE_HORIZONTAL"] = "Move horizontally."
---[[Translation missing --]]
-L["OPTIONS_MOVE_VERTICAL"] = "Move vertically."
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH"] = "Hide Blizzard Health Bars|cFFFF7700*|r"
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH_DESC"] = [=[While in dungeons or raids, if friendly nameplates are enabled it'll show only the player name.
-If any Plater module is disabled, this will affect these nameplates as well.
-
-|cFFFF7700[*]|r |cFFa0a0a0CVar, saved within Plater profile and restored when loading the profile.|r
-
-|cFFFF2200[*]|r |cFFa0a0a0A /reload may be required to take effect.|r]=]
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATE_OFFSET"] = "Slightly adjust the entire nameplate."
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATE_SHOW_ENEMY"] = "Show Enemy Nameplates|cFFFF7700*|r"
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATE_SHOW_ENEMY_DESC"] = [=[Show nameplate for enemy and neutral units.
-
-|cFFFF7700[*]|r |cFFa0a0a0CVar, saved within Plater profile and restored when loading the profile.|r]=]
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATE_SHOW_FRIENDLY"] = "Show Friendly Nameplates|cFFFF7700*|r"
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATE_SHOW_FRIENDLY_DESC"] = [=[Show nameplate for friendly players.
-
-|cFFFF7700[*]|r |cFFa0a0a0CVar, saved within Plater profile and restored when loading the profile.|r]=]
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATES_OVERLAP"] = "Nameplate Overlap (V)|cFFFF7700*|r"
---[[Translation missing --]]
-L["OPTIONS_NAMEPLATES_OVERLAP_DESC"] = [=[The space between each nameplate vertically when stacking is enabled.
-
-|cFFFFFFFFDefault: 1.10|r
-
-|cFFFF7700[*]|r |cFFa0a0a0CVar, saved within Plater profile and restored when loading the profile.|r
-
-|cFFFFFF00Important |r: if you find issues with this setting, use:
-|cFFFFFFFF/run SetCVar ('nameplateOverlapV', '1.6')|r]=]
+L["OPTIONS_ICON_ELITE"] = "精英圖標"
+L["OPTIONS_ICON_ENEMYCLASS"] = "敵方職業圖標"
+L["OPTIONS_ICON_ENEMYFACTION"] = "敵對陣營圖標"
+L["OPTIONS_ICON_ENEMYSPEC"] = "敵方天賦圖標"
+L["OPTIONS_ICON_FRIENDLY_SPEC"] = "友方天賦圖標"
+L["OPTIONS_ICON_FRIENDLYCLASS"] = "友方職業"
+L["OPTIONS_ICON_FRIENDLYFACTION"] = "友方陣營圖標"
+L["OPTIONS_ICON_PET"] = "寵物圖標"
+L["OPTIONS_ICON_QUEST"] = "任務圖標"
+L["OPTIONS_ICON_RARE"] = "稀有圖標"
+L["OPTIONS_ICON_SHOW"] = "顯示圖標"
+L["OPTIONS_ICON_SIDE"] = "顯示方向"
+L["OPTIONS_ICON_SIZE"] = "顯示尺寸"
+L["OPTIONS_ICON_WORLDBOSS"] = "世界首領圖標"
+L["OPTIONS_ICONROWSPACING"] = "圖標水平間距"
+L["OPTIONS_ICONSPACING"] = "圖標間距"
+L["OPTIONS_INDICATORS"] = "指示"
+L["OPTIONS_INTERACT_OBJECT_NAME_COLOR"] = "遊戲物件名稱顏色"
+L["OPTIONS_INTERACT_OBJECT_NAME_COLOR_DESC"] = "物體上的名稱會顯示這個顏色。"
+L["OPTIONS_INTERRUPT_FILLBAR"] = "打斷時填充施法條"
+L["OPTIONS_INTERRUPT_SHOW_ANIM"] = "播放打斷動畫"
+L["OPTIONS_INTERRUPT_SHOW_AUTHOR"] = "顯示打斷來源"
+L["OPTIONS_MINOR_SCALE_DESC"] = "顯示次要單位時，稍微調整名條的大小（這些單位的名條預設較小）"
+L["OPTIONS_MINOR_SCALE_HEIGHT"] = "次要單位高度比例"
+L["OPTIONS_MINOR_SCALE_WIDTH"] = "次要單位寬度比例"
+L["OPTIONS_MOVE_HORIZONTAL"] = "水平移動。"
+L["OPTIONS_MOVE_VERTICAL"] = "垂直移動。"
+L["OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH"] = "隱藏暴雪生命條|cFFFF7700*|r"
+L["OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH_DESC"] = "在地下城或團隊副本中，如果啟用了友方姓名板，則只會顯示玩家名稱。如果停用任何 Plater 模組，也會影響這些名稱板。 |cFFFF7700[*]|r |cFFa0a0a0CVar，儲存在 Plater 設定檔中，並在載入設定檔時恢復。 |r |cFFFF2200[*]|r |cFFa0a0a0A 可能需要 /reload 才能生效。 |r"
+L["OPTIONS_NAMEPLATE_OFFSET"] = "稍微調整一下整個姓名條。"
+L["OPTIONS_NAMEPLATE_SHOW_ENEMY"] = "顯示敵方姓名條|cFFFF7700*|r"
+L["OPTIONS_NAMEPLATE_SHOW_ENEMY_DESC"] = "顯示敵方和中立單位的姓名條。 |cFFFF7700[*]|r |cFFa0a0a0CVar，儲存在 Plater 設定檔中，並在載入設定檔時恢復。 |r"
+L["OPTIONS_NAMEPLATE_SHOW_FRIENDLY"] = "顯示友方姓名條|cFFFF7700*|r"
+L["OPTIONS_NAMEPLATE_SHOW_FRIENDLY_DESC"] = "顯示友方玩家的姓名條。 |cFFFF7700[*]|r |cFFa0a0a0CVar，儲存在玩家設定檔中，並在載入設定檔時恢復。 |r"
+L["OPTIONS_NAMEPLATES_OVERLAP"] = "姓名條重疊 (V)|cFFFF7700*|r"
+L["OPTIONS_NAMEPLATES_OVERLAP_DESC"] = "在地下城或團隊副本中，如果啟用了友方姓名條，則只會顯示玩家名稱。如果停用任何 Plater 模組，也會影響這些名稱板。 |cFFFF7700[*]|r |cFFa0a0a0CVar，儲存在 Plater 設定檔中，並在載入設定檔時恢復。 |r |cFFFF2200[*]|r |cFFa0a0a0A 可能需要 /reload 才能生效。 |r"
 --[[Translation missing --]]
 L["OPTIONS_NAMEPLATES_STACKING"] = "Stacking Nameplates|cFFFF7700*|r"
 --[[Translation missing --]]

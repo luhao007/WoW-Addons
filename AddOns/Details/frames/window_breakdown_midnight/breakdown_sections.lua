@@ -116,17 +116,25 @@ end
 
 ---@param line detailsbreakdownmidnight_line
 function breakdownMidnight.ApplyLineTextSettingsToLine(line)
-    local textTable = line and line.Texts
-    if (not textTable) then
+    if (not line) then
         return
     end
 
-    for textIndex = 1, #textTable do
-        local fontString = textTable[textIndex]
-        if (fontString and fontString.IsObjectType and fontString:IsObjectType("FontString")) then
-            breakdownMidnight.ApplyLineTextSettings(fontString)
+    local applySettingsToTextTable = function(textTable)
+        if (type(textTable) ~= "table") then
+            return
+        end
+
+        for textIndex = 1, #textTable do
+            local fontString = textTable[textIndex]
+            if (fontString and fontString.IsObjectType and fontString:IsObjectType("FontString")) then
+                breakdownMidnight.ApplyLineTextSettings(fontString)
+            end
         end
     end
+
+    applySettingsToTextTable(line.Texts)
+    applySettingsToTextTable(line.ComparisonTexts)
 end
 
 function breakdownMidnight.ApplyLineTextSettingsToAllLines()
@@ -193,6 +201,26 @@ local createLine = function(self, index) --~line
     line.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
     line.Icon:SetAllPoints()
 
+    line.ExpandButton = CreateFrame("button", "$parentExpandButton", line, "BackdropTemplate")
+    line.ExpandButton:SetSize(sections.lineHeight - 4, sections.lineHeight - 4)
+    line.ExpandButton:RegisterForClicks("LeftButtonUp")
+    line.ExpandButton:Hide()
+
+    line.ExpandTexture = line.ExpandButton:CreateTexture("$parentExpandTexture", "artwork")
+    line.ExpandTexture:SetTexture([[Interface\AddOns\Details\images\arrow_face_down]])
+    line.ExpandTexture:SetSize(sections.lineHeight - 6, sections.lineHeight - 6)
+    line.ExpandTexture:SetPoint("center", line.ExpandButton, "center", 0, 0)
+    line.ExpandTexture:SetAlpha(0.8)
+
+    --clicking anywhere on the line acts like clicking its ExpandButton, but only while that button is shown
+    --(i.e. an expandable spell group). a click toggles the group open; clicking again closes it. sections that
+    --need their own click behavior (players/segments/compare) override this OnClick in their refresh functions.
+    line:SetScript("OnClick", function(clickedLine)
+        if (clickedLine.ExpandButton:IsShown()) then
+            clickedLine.ExpandButton:Click()
+        end
+    end)
+
     local highlight = line.IconFrame:CreateTexture("$parentHighlight", "highlight")
     highlight:SetAllPoints()
     highlight:SetColorTexture(1, 1, 1, 0.1)
@@ -216,6 +244,7 @@ local createLine = function(self, index) --~line
 
     line.Text = line.Texts[1]
     line.Text:SetPoint("left", line.IconFrame, "right", 2, 0)
+    line.ExpandButton:SetPoint("right", line.Texts[2], "left", -2, 0)
 
     line:AddFrameToHeaderAlignment(line.IconFrame)
     for textIndex = 1, #line.Texts do
@@ -480,6 +509,7 @@ function breakdownMidnight.BuildSectionLayout(windowFrame, windowPadding, conten
     mainContainer:SetChildResizerSides(comparisonContainer, {left = false, right = false, top = false, bottom = false})
     windowFrame.ComparisonContainer = comparisonContainer
     windowFrame.ComparisonScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Compare, comparisonContainer, "$parentComparisonScroll", defaultSettings.compare.width, defaultSettings.compare.height, "Comparison", windowFrame.comparisonData)
+    breakdownMidnight.CompareScrollInit(comparisonContainer, windowFrame)
 
     breakdownMidnight.RefreshSectionPoints(windowFrame)
     return mainContainer

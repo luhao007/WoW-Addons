@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("TerestianIllhoof", "DBM-Raids-BC", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15688)
 mod:SetEncounterID(657, 2449)
@@ -20,7 +20,7 @@ local warningWeakened	= mod:NewTargetNoFilterAnnounce(30065, 2)
 local warningImp		= mod:NewSpellAnnounce(30066, 3)
 local warningSacrifice	= mod:NewTargetNoFilterAnnounce(30115, 4)
 
-local specWarnSacrifice	= mod:NewSpecialWarningYou(30115, nil, nil, nil, 1, 2)
+local specWarnSacrifice	= mod:NewSpecialWarningYou(30115, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellSacrifice		= mod:NewYell(30115)
 
 local timerWeakened		= mod:NewBuffActiveTimer(31, 30065, nil, nil, nil, 6)

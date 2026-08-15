@@ -3,7 +3,7 @@ local PC, EV, XU, GameTooltip, L = T.OPieCore, T.Evie, T.exUI, T.NotGameTooltip 
 local api, iapi, configCache, vis = {}, {}, {}, {}
 local max, min, abs, floor, sin, cos = math.max, math.min, math.abs, math.floor, sin, cos
 local GetPartialHintRaw = PC.GetPartialHintRaw
-local MODERN = COMPAT > 11e4
+local MODERN, CI_ANNIVERSARY = COMPAT > 11e4, COMPAT > 2e4 and COMPAT < 3e4
 local MIN_ANIMATION_FPS, LOCKED_FRAMERATE = 20, 60 do
 	local ticks = 0
 	local function unlockTick()
@@ -264,7 +264,7 @@ do -- GhostIndication
 				spareSlices[cell], ret[i] = cell, nil
 			end
 			ret.incident, ret.count = incidentAngle, count
-			ret:SetPoint("CENTER", (mainRadius/0.80+radius)*cos(incidentAngle), (mainRadius/0.80+radius)*sin(incidentAngle))
+			ret:SetPoint("CENTER", (mainRadius/0.80+radius*1.1)*cos(incidentAngle), (mainRadius/0.80+radius*1.1)*sin(incidentAngle))
 			ret:Show()
 		end
 		activeGroup = ret
@@ -304,7 +304,7 @@ do -- GhostIndication
 end
 
 local SwitchIndicatorFactory, ValidateIndicator do
-	local CURRENT_API_LEVEL, REQ_API_LEVEL, CURRENT_API_LEVEL_OOD = 4, 3, MODERN and 4 or 3
+	local CURRENT_API_LEVEL, REQ_API_LEVEL, CURRENT_API_LEVEL_OOD = 4, MODERN and 4 or 3, MODERN and 4 or 3
 	local RequiredIndicatorMethods = {
 		SetPoint=0, SetScale=0, GetScale=0, SetShown=0, SetParent=0,
 		SetIcon=0, SetIconTexCoord=0, SetIconAtlas=3, SetIconVertexColor=0, SetDominantColor=0,
@@ -560,6 +560,9 @@ local function updateSlice(self, originAngle, selected, tok, usable, state, icon
 	cd2 = cd and cd2 or nil
 	qual = qual >= qualModLow and qualMap[qual - qual % qualModLow] or 0
 	self[isAtlasIcon and "SetIconAtlas" or "SetIcon"](self, icon, isAtlasIcon and atlasRatio[icon] or 1)
+	if isAtlasIcon and state % 4194304 >= 2097152 then
+		self:SetIconTexCoord(4/64, 60/64, 4/64, 60/64)
+	end
 	if ext then securecall(applyExtIconCoord, self, ext) end
 	if not (ext and securecall(applyExtIconVertexColor, self, ext)) then
 		self:SetIconVertexColor(1, 1, 1)
@@ -582,7 +585,8 @@ local function updateSlice(self, originAngle, selected, tok, usable, state, icon
 		self:SetOverlayIcon("Interface/Buttons/UI-GroupLoot-DE-Up", 20, 20)
 		self:SetOverlayIconVertexColor(1,1,1)
 	else
-		self:SetOverlayIcon(isQuestStartItem and "Interface\\MINIMAP\\TRACKING\\OBJECTICONS", 21, 28, 40/256, 64/256, 32/64, 1)
+		local o = CI_ANNIVERSARY and -32/256 or 0
+		self:SetOverlayIcon(isQuestStartItem and "Interface\\MINIMAP\\TRACKING\\OBJECTICONS", 21, 28, 40/256 + o, 64/256 + o, 32/64, 1)
 		self:SetOverlayIconVertexColor(1,1,1)
 	end
 	if ActiveIndicatorFactory.supportsShortLabels then
@@ -604,7 +608,7 @@ local function updateSlice(self, originAngle, selected, tok, usable, state, icon
 			self:SetCooldown(0, 0, usableCharge)
 		end
 	else
-		
+		self:SetCooldown(0, 0, usableCharge)
 	end
 	self:SetEquipState(isInContainer, isInInventory)
 	self:SetActive(active)
@@ -835,7 +839,11 @@ function iapi:Show(_, _, fastOpen)
 	EV.SPELL_UPDATE_COOLDOWN = forceMultiUpdate
 end
 function iapi:Hide()
-	setupTransitionAnimation("out", OnUpdate_ZoomOut)
+	if mainFrame:IsVisible() then
+		setupTransitionAnimation("out", OnUpdate_ZoomOut)
+	else
+		mainFrame:Hide()
+	end
 	GhostIndication:Deactivate()
 	if GameTooltip:IsOwned(proxyFrame) then
 		GameTooltip:Hide()
@@ -880,6 +888,9 @@ function api:RegisterIndicatorConstructor(key, info)
 	assert(type(reqAPILevel) == "number" or reqAPILevel == nil, 'RegisterIndicatorConstructor: info.reqAPILevel, if set, must be a number', 2)
 	assert(type(onPAC) == "function" or onPAC == nil, 'RegisterIndicatorConstructor: info.onParentAlphaChanged, if set, must be a function', 2)
 
+	if MODERN and key == "elvui" and apiLevel == 4 then
+		apiLevel = 3 -- Does not implement SetCooldownDuration; can't render cooldowns in combat
+	end
 	local mainPool, err = ValidateIndicator(apiLevel, reqAPILevel, info)
 	local fbKey = key == "elvui" and (MODERN and "fixedFrameBuffering" or COMPAT > 2e4 and "fixedFrameBufferingClassic" or "fixedFrameBufferingEra")
 	if fbKey and not info[fbKey] then

@@ -1,10 +1,10 @@
-﻿local _, addonTable = ...;
-local L=addonTable.locale
+﻿local _, PD = ...;
+local L=PD.locale
 local sub = _G.string.sub
 --
-local Data=addonTable.Data
-local Fun=addonTable.Fun
-local Create=addonTable.Create
+local Data=PD.Data
+local Fun=PD.Fun
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
 local PIGButton = Create.PIGButton
@@ -19,20 +19,7 @@ local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 local PIGUseKeyDown=Fun.PIGUseKeyDown
 --
-local CombatPlusfun=addonTable.CombatPlusfun
---------------------------
-local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME1"],90)
-CombatPlusF:Show()
-CombatPlustabbut:Selected(true)
-function CombatPlusF:Show_OptionsUI()
-	if PIG_OptionsUI:IsShown() then
-		PIG_OptionsUI:Hide()
-	else
-		PIG_OptionsUI:Show()
-		Create.Show_TabBut(CombatPlusfun.fuFrame,CombatPlusfun.fuFrameBut)
-		Create.Show_TabBut_R(CombatPlusfun.RTabFrame,CombatPlusF,CombatPlustabbut)
-	end
-end
+local CombatPlusfun=PD.CombatPlusfun
 --------
 local function IsMarkerOK()
 	if PlaceRaidMarker and GetClassicExpansionLevel() >= LE_EXPANSION_CATACLYSM then
@@ -40,8 +27,8 @@ local function IsMarkerOK()
 	end
 	return false
 end
-CombatPlusF.OpGongnum=0
-CombatPlusF.addGongnum=-26
+local OpGongnum=0
+local addGongnum=-26
 local biaojiW,OptionsTop,GNNmame = 22, 180, "PIG_"
 local GNLsitsName={"markerW","markerR"}
 local GNLsits={
@@ -122,7 +109,7 @@ local function SetAutoShow(peizhiT)
 		pigui.NoGroup=PIGA["CombatPlus"][peizhiT]["NoGroup"]
 		pigui.AutoShow=PIGA["CombatPlus"][peizhiT]["AutoShow"]
 		pigui.NoTarget=PIGA["CombatPlus"][peizhiT]["NoTarget"]
-		if peizhiT=="markerW" and InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) end
+		if peizhiT=="markerW" and InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) end
 		SetAutoShowFun(peizhiT)
 	end
 end
@@ -155,13 +142,13 @@ local function add_barUI(peizhiT)
 	if _G[GNNmame..peizhiT] then return end
 	local SizeHH=GNLsits[peizhiT].barHH+4
 	local listNum=GNLsits[peizhiT].iconNum
-	local bartopV =CombatPlusF.addGongnum
+	local bartopV =addGongnum
 	Data.UILayout[GNNmame..peizhiT]={"TOP", "TOP", 0, bartopV}
 	local biaojiUIx = PIGFrame(UIParent,nil,{(biaojiW+3)*listNum+5,SizeHH},GNNmame..peizhiT)
 	Create.PIG_SetPoint(GNNmame..peizhiT)
 	biaojiUIx.SizeHH=SizeHH+2
 	biaojiUIx.bartopV=bartopV
-	CombatPlusF.addGongnum=CombatPlusF.addGongnum-SizeHH-2
+	addGongnum=addGongnum-SizeHH-2
 	biaojiUIx:PIGSetBackdrop(0.4,0.9,nil,{0.3,0.3,0.3})
 	if PIG_MaxTocversion() then
 		biaojiUIx:Hide()
@@ -184,7 +171,7 @@ local function add_barUI(peizhiT)
 		GameTooltip:Hide() 
 	end)
 	biaojiUIx.yidong:SetScript("OnMouseUp", function (self,Button)
-		if Button=="RightButton" then CombatPlusF:Show_OptionsUI() end
+		if Button=="RightButton" then PD.UpdateOptionsUI() CombatPlusfun.Show_OptionsUI() end
 	end);
 	---
 	biaojiUIx.ButList={}
@@ -278,114 +265,127 @@ local function add_barUI(peizhiT)
 		end
 	end);
 end
-local function add_Options(peizhiT,topHV)
-	local nameGN=GNLsits[peizhiT].name
-	local checkbutOpen = PIGCheckbutton(CombatPlusF,{"TOPLEFT",CombatPlusF,"TOPLEFT",20,topHV-20},{"启用"..nameGN.."按钮","在屏幕上显示"..nameGN.."按钮"})
-	checkbutOpen:SetScript("OnClick", function (self)
-		if peizhiT=="markerW" and InCombatLockdown() then self:SetChecked(PIGA["CombatPlus"][peizhiT]["Open"]) PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-		if self:GetChecked() then
-			PIGA["CombatPlus"][peizhiT]["Open"]=true;
-			add_barUI(peizhiT)
-			self.F:Show()
-		else
-			PIGA["CombatPlus"][peizhiT]["Open"]=false;
-			self.F:Hide()
-			PIG_OptionsUI.RLUI:Show()
-		end
-	end)
-	---
-	checkbutOpen.F = PIGFrame(checkbutOpen,{"TOPLEFT",checkbutOpen,"BOTTOMLEFT",20,-20},{1,1})
-	checkbutOpen.F:Hide()
-	checkbutOpen.F.BGHide= PIGCheckbutton(checkbutOpen.F,{"TOPLEFT",checkbutOpen.F,"TOPLEFT",0,0},{"隐藏背景","隐藏标记按钮背景"})
-	checkbutOpen.F.BGHide:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["CombatPlus"][peizhiT]["BGHide"]=true;
-		else
-			PIGA["CombatPlus"][peizhiT]["BGHide"]=false;
-		end
-		SetBGHide(peizhiT)
-	end);
-	checkbutOpen.F.Lock =PIGCheckbutton(checkbutOpen.F,{"LEFT",checkbutOpen.F.BGHide.Text,"RIGHT",30,0},{LOCK_FRAME,LOCK_FOCUS_FRAME})
-	checkbutOpen.F.Lock:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["CombatPlus"][peizhiT]["Lock"]=true;
-		else
-			PIGA["CombatPlus"][peizhiT]["Lock"]=false;
-		end
-		SetLookUI(peizhiT)
-	end);
-	checkbutOpen.F.Slider = PIGSlider(checkbutOpen.F,{"LEFT",checkbutOpen.F.Lock.Text,"RIGHT",80,0},{0.6,2,0.01,{["Right"]="%d%%"}})
-	checkbutOpen.F.Slider.T = PIGFontString(checkbutOpen.F.Slider,{"RIGHT",checkbutOpen.F.Slider,"LEFT",-10,0},"缩放")
-	function checkbutOpen.F.Slider:PIGOnValueChange(arg1)
-		PIGA["CombatPlus"][peizhiT]["Scale"]=arg1;
-		SetScaleUI(peizhiT)
-	end
-	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Slider,"RIGHT",70,0},{50,22},RESET)
-	checkbutOpen.F.Lock.CZBUT:SetScript("OnClick", function ()
-		Create.PIG_ResPoint(GNNmame..peizhiT)
-		local pigui=_G[GNNmame..peizhiT]
-		if pigui then
-			PIGA["CombatPlus"][peizhiT]["Scale"]=addonTable.Default["CombatPlus"][peizhiT]["Scale"]
-			SetScaleUI(peizhiT)
-		end
-		checkbutOpen.F.Slider:PIGSetValue(PIGA["CombatPlus"][peizhiT]["Scale"])
-	end)
-
-	checkbutOpen.F.AutoShow= PIGCheckbutton(checkbutOpen.F,{"TOPLEFT",checkbutOpen.F,"TOPLEFT",0,-50},{"无权限隐藏","当你没有标记权限时隐藏标记按钮"})
-	checkbutOpen.F.AutoShow:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["CombatPlus"][peizhiT]["AutoShow"]=true;
-		else
-			PIGA["CombatPlus"][peizhiT]["AutoShow"]=false;
-		end
-		SetAutoShow(peizhiT)
-	end);
-	if peizhiT=="markerR" then
-		checkbutOpen.F.NoTarget= PIGCheckbutton(checkbutOpen.F,{"LEFT",checkbutOpen.F.AutoShow,"RIGHT",120,0},{"无目标隐藏","当你没有目标时隐藏标记按钮"})
-		checkbutOpen.F.NoTarget:SetScript("OnClick", function (self)
-			if self:GetChecked() then
-				PIGA["CombatPlus"][peizhiT]["NoTarget"]=true;
-			else
-				PIGA["CombatPlus"][peizhiT]["NoTarget"]=false;
-			end
-			SetAutoShow(peizhiT)
-		end);
-		checkbutOpen.F.NoGroup= PIGCheckbutton(checkbutOpen.F,{"LEFT",checkbutOpen.F.NoTarget,"RIGHT",120,0},{"单人时隐藏","当你单人时隐藏标记按钮"})
-		checkbutOpen.F.NoGroup:SetScript("OnClick", function (self)
-			if self:GetChecked() then
-				PIGA["CombatPlus"][peizhiT]["NoGroup"]=true;
-			else
-				PIGA["CombatPlus"][peizhiT]["NoGroup"]=false;
-			end
-			SetAutoShow(peizhiT)
-		end);
-	end
-	--
-	checkbutOpen.F:HookScript("OnShow", function (self)
-		self.Lock:SetChecked(PIGA["CombatPlus"][peizhiT]["Lock"]);
-		self.BGHide:SetChecked(PIGA["CombatPlus"][peizhiT]["BGHide"]);
-		self.Slider:PIGSetValue(PIGA["CombatPlus"][peizhiT]["Scale"])
-		self.AutoShow:SetChecked(PIGA["CombatPlus"][peizhiT]["AutoShow"]);
-		if self.NoGroup then self.NoGroup:SetChecked(PIGA["CombatPlus"][peizhiT]["NoGroup"]);end
-		if self.NoTarget then self.NoTarget:SetChecked(PIGA["CombatPlus"][peizhiT]["NoTarget"]);end
-	end);
-	CombatPlusF:HookScript("OnShow", function ()
-		checkbutOpen:SetChecked(PIGA["CombatPlus"][peizhiT]["Open"]);
-		if PIGA["CombatPlus"][peizhiT]["Open"] then checkbutOpen.F:Show() end
-	end);
-end
-for i=1,#GNLsitsName do
-	if GNLsits[GNLsitsName[i]].yes then
-		local topHV=-(CombatPlusF.OpGongnum*OptionsTop)
-		if CombatPlusF.OpGongnum>0 then PIGLine(CombatPlusF,"TOP",topHV) end
-		add_Options(GNLsitsName[i],topHV)
-		CombatPlusF.OpGongnum=CombatPlusF.OpGongnum+1
-	end
-end
 function CombatPlusfun.Marker()
 	for i=1,#GNLsitsName do
 		if GNLsits[GNLsitsName[i]].yes then
 			add_barUI(GNLsitsName[i])
 		end
 	end
+end
+--------------------------
+function CombatPlusfun.addOptions_Marker()
+	local Tab2_F,Tab2_Fbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME1"],90)
+	Tab2_F:Show()
+	Tab2_Fbut:Selected(true)
+	function CombatPlusfun.Show_OptionsUI()
+		Create.Show_TabBut(CombatPlusfun.fuFrame,CombatPlusfun.fuFrameBut)
+		Create.Show_TabBut_R(CombatPlusfun.RTabFrame,Tab2_F,Tab2_Fbut)
+	end
+	local function add_Options(peizhiT,topHV)
+		local nameGN=GNLsits[peizhiT].name
+		local checkbutOpen = PIGCheckbutton(Tab2_F,{"TOPLEFT",Tab2_F,"TOPLEFT",20,topHV-20},{"启用"..nameGN.."按钮","在屏幕上显示"..nameGN.."按钮"})
+		checkbutOpen:SetChecked(PIGA["CombatPlus"][peizhiT]["Open"]);
+		checkbutOpen:SetScript("OnClick", function (self)
+			if peizhiT=="markerW" and InCombatLockdown() then self:SetChecked(PIGA["CombatPlus"][peizhiT]["Open"]) PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
+			if self:GetChecked() then
+				PIGA["CombatPlus"][peizhiT]["Open"]=true;
+				add_barUI(peizhiT)
+			else
+				PIGA["CombatPlus"][peizhiT]["Open"]=false;
+				PIG_OptionsUI.RLUI:Show()
+			end
+			checkbutOpen.F.UpdateSetUI()
+		end)
+		---
+		checkbutOpen.F = PIGFrame(Tab2_F,{"TOPLEFT",Tab2_F,"TOPLEFT",0,-50},{1,1})
+		checkbutOpen.F:PIGSetBackdrop(0)
+		checkbutOpen.F:SetPoint("BOTTOMRIGHT",Tab2_F,"BOTTOMRIGHT",0,0);
+
+		checkbutOpen.F.CZBUT = PIGButton(checkbutOpen.F,{"BOTTOMRIGHT",checkbutOpen.F,"TOPRIGHT",-20,10},{60,22},RESET)
+		checkbutOpen.F.CZBUT:SetScript("OnClick", function ()
+			PIGA["CombatPlus"][peizhiT]=CopyTable(PD.Default["CombatPlus"][peizhiT])
+			PIGA["CombatPlus"][peizhiT]["Open"]=true
+			SetScaleUI(peizhiT)
+			SetBGHide(peizhiT)
+			SetAutoShow(peizhiT)
+			Create.PIG_ResPoint(GNNmame..peizhiT)
+			checkbutOpen.F.UpdateSetUI()
+		end)
+
+		checkbutOpen.F.BGHide= PIGCheckbutton(checkbutOpen.F,{"TOPLEFT",checkbutOpen.F,"TOPLEFT",20,-20},{"隐藏背景","隐藏标记按钮背景"})
+		checkbutOpen.F.BGHide:SetScript("OnClick", function (self)
+			if self:GetChecked() then
+				PIGA["CombatPlus"][peizhiT]["BGHide"]=true;
+			else
+				PIGA["CombatPlus"][peizhiT]["BGHide"]=false;
+			end
+			SetBGHide(peizhiT)
+		end);
+		checkbutOpen.F.Lock =PIGCheckbutton(checkbutOpen.F,{"LEFT",checkbutOpen.F.BGHide.Text,"RIGHT",30,0},{LOCK_FRAME,LOCK_FOCUS_FRAME})
+		checkbutOpen.F.Lock:SetScript("OnClick", function (self)
+			if self:GetChecked() then
+				PIGA["CombatPlus"][peizhiT]["Lock"]=true;
+			else
+				PIGA["CombatPlus"][peizhiT]["Lock"]=false;
+			end
+			SetLookUI(peizhiT)
+		end);
+		checkbutOpen.F.Slider = PIGSlider(checkbutOpen.F,{"LEFT",checkbutOpen.F.Lock.Text,"RIGHT",20,0},{0.6,2,0.01,{["Right"]="缩放%d%%"}})
+		function checkbutOpen.F.Slider:PIGOnValueChange(arg1)
+			PIGA["CombatPlus"][peizhiT]["Scale"]=arg1;
+			SetScaleUI(peizhiT)
+		end
+
+		checkbutOpen.F.AutoShow= PIGCheckbutton(checkbutOpen.F,{"TOPLEFT",checkbutOpen.F.BGHide,"BOTTOMLEFT",0,-20},{"无权限隐藏","当你没有标记权限时隐藏标记按钮"})
+		checkbutOpen.F.AutoShow:SetScript("OnClick", function (self)
+			if self:GetChecked() then
+				PIGA["CombatPlus"][peizhiT]["AutoShow"]=true;
+			else
+				PIGA["CombatPlus"][peizhiT]["AutoShow"]=false;
+			end
+			SetAutoShow(peizhiT)
+		end);
+		if peizhiT=="markerR" then
+			checkbutOpen.F.NoTarget= PIGCheckbutton(checkbutOpen.F,{"LEFT",checkbutOpen.F.AutoShow,"RIGHT",120,0},{"无目标隐藏","当你没有目标时隐藏标记按钮"})
+			checkbutOpen.F.NoTarget:SetScript("OnClick", function (self)
+				if self:GetChecked() then
+					PIGA["CombatPlus"][peizhiT]["NoTarget"]=true;
+				else
+					PIGA["CombatPlus"][peizhiT]["NoTarget"]=false;
+				end
+				SetAutoShow(peizhiT)
+			end);
+			checkbutOpen.F.NoGroup= PIGCheckbutton(checkbutOpen.F,{"LEFT",checkbutOpen.F.NoTarget,"RIGHT",120,0},{"单人时隐藏","当你单人时隐藏标记按钮"})
+			checkbutOpen.F.NoGroup:SetScript("OnClick", function (self)
+				if self:GetChecked() then
+					PIGA["CombatPlus"][peizhiT]["NoGroup"]=true;
+				else
+					PIGA["CombatPlus"][peizhiT]["NoGroup"]=false;
+				end
+				SetAutoShow(peizhiT)
+			end);
+		end
+		function checkbutOpen.F.UpdateSetUI()
+			checkbutOpen.F.Lock:SetChecked(PIGA["CombatPlus"][peizhiT]["Lock"]);
+			checkbutOpen.F.BGHide:SetChecked(PIGA["CombatPlus"][peizhiT]["BGHide"]);
+			checkbutOpen.F.Slider:PIGSetValue(PIGA["CombatPlus"][peizhiT]["Scale"])
+			checkbutOpen.F.AutoShow:SetChecked(PIGA["CombatPlus"][peizhiT]["AutoShow"]);
+			if checkbutOpen.F.NoGroup then checkbutOpen.F.NoGroup:SetChecked(PIGA["CombatPlus"][peizhiT]["NoGroup"]);end
+			if checkbutOpen.F.NoTarget then checkbutOpen.F.NoTarget:SetChecked(PIGA["CombatPlus"][peizhiT]["NoTarget"]);end
+			checkbutOpen.F:SetShown(PIGA["CombatPlus"][peizhiT]["Open"])
+		end
+		checkbutOpen.F.UpdateSetUI()
+	end
+	Tab2_F:SetScript("OnShow", function ()
+		if Tab2_F.yiann then return end
+		for i=1,#GNLsitsName do
+			if GNLsits[GNLsitsName[i]].yes then
+				local topHV=-(OpGongnum*OptionsTop)
+				if OpGongnum>0 then PIGLine(Tab2_F,"TOP",topHV) end
+				add_Options(GNLsitsName[i],topHV)
+				OpGongnum=OpGongnum+1
+			end
+		end
+		Tab2_F.yiann=true
+	end);
 end

@@ -2,13 +2,10 @@ local addonName, addonTable = ...;
 local match = _G.string.match
 -------
 local GetItemCooldown=C_Container.GetItemCooldown
-local GetContainerNumSlots = C_Container.GetContainerNumSlots
-local GetContainerItemLink = C_Container.GetContainerItemLink
 local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
 local IsUsableSpell=IsUsableSpell or C_Spell and C_Spell.IsSpellUsable
 local GetSpellBookItemName=GetSpellBookItemName or C_SpellBook and C_SpellBook.GetSpellBookItemName
-local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local GetItemCount=GetItemCount or C_Item and C_Item.GetItemCount
 local IsCurrentItem=IsCurrentItem or C_Item and C_Item.IsCurrentItem
 ---
@@ -19,23 +16,19 @@ local ActionFun={}
 ----------
 local suijizuoqi = [=[/run C_MountJournal.SummonByID(0)]=]
 local function UseKeyDownUpdate(button,gn)
-	if PIG_MaxTocversion(120000,true) or (PIG_MaxTocversion(40000) and PIG_MaxTocversion(20000,true)) then
-		local UseKeyDown =GetCVar("ActionButtonUseKeyDown")
-		if button.gn then
-			if UseKeyDown=="0" then
-				button:RegisterForClicks("AnyUp");
-			elseif UseKeyDown=="1" then
-				button:RegisterForClicks("LeftButtonDown", "RightButtonDown")
-			end
-		else
-			if UseKeyDown=="0" then
-				button:RegisterForClicks("AnyUp");
-			elseif UseKeyDown=="1" then
-				button:RegisterForClicks("AnyUp", "LeftButtonDown", "RightButtonDown");
-			end
+	local UseKeyDown =GetCVar("ActionButtonUseKeyDown")
+	if button.gn then
+		if UseKeyDown=="0" then
+			button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+		elseif UseKeyDown=="1" then
+			button:RegisterForClicks("LeftButtonDown", "RightButtonDown")
 		end
-	else	
-		button:RegisterForClicks("AnyUp");
+	else
+		if UseKeyDown=="0" then
+			button:RegisterForClicks("AnyUp");
+		elseif UseKeyDown=="1" then
+			button:RegisterForClicks("AnyUp", "LeftButtonDown", "RightButtonDown");
+		end
 	end
 end
 function ActionFun.PIGUseKeyDown(button,gn)
@@ -51,6 +44,25 @@ function ActionFun.PIGUseKeyDown(button,gn)
 	end)
 end
 addonTable.Fun.PIGUseKeyDown=ActionFun.PIGUseKeyDown
+
+function ActionFun.addActionButton(fuji,uiname)
+	local piganniu = CreateFrame("CheckButton", uiname, fuji, "ActionBarButtonTemplate")
+	piganniu:UnregisterAllEvents()
+	piganniu:SetScript("OnLoad", nil)
+	piganniu:SetScript("OnAttributeChanged", nil)
+	piganniu:SetScript("OnEvent", nil)
+	--piganniu:SetScript("OnClick", nil)
+	piganniu:SetScript("PostClick", nil)
+	piganniu:SetScript("OnDragStart", nil)
+	piganniu:SetScript("OnReceiveDrag", nil)
+	piganniu:SetScript("OnDragStop", nil)
+	piganniu:SetScript("OnEnter", nil)
+	piganniu:SetScript("OnLeave", nil)
+	piganniu:SetScript("OnShow", nil)
+	piganniu:SetScript("OnHide", nil)
+	return piganniu
+end
+
 function ActionFun.Update_Attribute(self)
 	local Type=self.Type
 	if Type then
@@ -160,7 +172,7 @@ function ActionFun.Update_Cooldown(self)
 				self.cooldown:SetCooldown(start, duration);
 			end
 		elseif Type=="item" then
-			local ItemID = GetItemInfoInstant(SimID)
+			local ItemID = PIGGetItemInfoInstant(SimID)
 			if ItemID then
 				local start, duration, enabled = GetItemCooldown(ItemID)
 				if enabled~=0 and start and duration then
@@ -177,7 +189,7 @@ function ActionFun.Update_Cooldown(self)
 			else
 				local ItemName, ItemLink = GetMacroItem(SimID);
 				if ItemName then
-					local ItemID = GetItemInfoInstant(ItemLink)
+					local ItemID = PIGGetItemInfoInstant(ItemLink)
 					if ItemID then
 						local start, duration, enabled = GetItemCooldown(ItemID);
 						if enabled~=0 and start and duration then
@@ -190,36 +202,34 @@ function ActionFun.Update_Cooldown(self)
 	end
 end
 function ActionFun.Update_Count(self)
-	local Type=self.Type
 	self.Name:SetText();
+	self.Count:SetText()
+	local Type=self.Type
 	if Type then
+		self.Count:SetTextColor(1, 1, 1, 1); 
 		local SimID=self.SimID
 		if Type=="spell" then
 			if PIG_MaxTocversion(120000) then
 				local SPhuafei=IsConsumableSpell(SimID)
 				if SPhuafei then
-					local jiengncailiao = GetSpellCount(SimID)
-					if jiengncailiao>0 then
-			            self.Count:SetText(jiengncailiao)
-			        else
-			        	self.Count:SetText("|cffff0000"..jiengncailiao.."|r")
+					local CountNum = GetSpellCount(SimID)
+					self.Count:SetText(CountNum)
+					if CountNum==0 then
+			        	self.Count:SetTextColor(1, 0, 0, 1);
 			        end
-			    else
-					self.Count:SetText()
 			    end
 			end
 		elseif Type=="item" then
-			local _,dalei,xiaolei = GetItemInfoInstant(SimID)
-			local Ccount = GetItemCount(SimID, false, true) or GetItemCount(SimID)
-			if dalei=="消耗品" then
-				if Ccount>0 then
-					self.Count:SetText(Ccount);
-				else
-					self.Count:SetText("|cffff0000"..Ccount.."|r");
+			local _,dalei,xiaolei = PIGGetItemInfoInstant(SimID)
+			local CountNum = GetItemCount(SimID, false, true) or GetItemCount(SimID)
+			if dalei==BAG_FILTER_CONSUMABLES then
+				self.Count:SetText(CountNum);
+				if CountNum==0 then
+					self.Count:SetTextColor(1, 0, 0, 1);
 				end
 			else
-				if Ccount>1 then
-					self.Count:SetText(Ccount);
+				if CountNum>1 then
+					self.Count:SetText(CountNum);
 				end
 			end
 		elseif Type=="macro" then
@@ -230,31 +240,26 @@ function ActionFun.Update_Count(self)
 				local SPhuafei=IsConsumableSpell(hongSpellID)
 				if SPhuafei then
 					self.Name:SetText();
-					local jiengncailiao = GetSpellCount(hongSpellID)
-					if jiengncailiao>0 then
-			            self.Count:SetText(jiengncailiao)
-			        else
-			        	self.Count:SetText("|cffff0000"..jiengncailiao.."|r")
-			        end
-			    else
-					self.Count:SetText()
+					local CountNum = GetSpellCount(hongSpellID)
+					self.Count:SetText(CountNum)
+					if CountNum==0 then
+						self.Count:SetTextColor(1, 0, 0, 1);
+					end
 			    end
 			else
 				local ItemName, ItemLink = GetMacroItem(SimID);
 				if ItemName then
-					local ItemID = GetItemInfoInstant(ItemLink)
-					local Ccount = GetItemCount(ItemID, false, true) or GetItemCount(ItemID)
-					local _,dalei,xiaolei = GetItemInfoInstant(ItemID)
-					if dalei=="消耗品" then
-						self.Name:SetText();
-						if Ccount>0 then
-							self.Count:SetText(Ccount);
-						else
-							self.Count:SetText("|cffff0000"..Ccount.."|r");
+					local ItemID = PIGGetItemInfoInstant(ItemLink)
+					local CountNum = GetItemCount(ItemID, false, true) or GetItemCount(ItemID)
+					local _,dalei,xiaolei = PIGGetItemInfoInstant(ItemID)
+					if dalei==BAG_FILTER_CONSUMABLES then
+						self.Count:SetText(CountNum)
+						if CountNum==0 then
+							self.Count:SetTextColor(1, 0, 0, 1);
 						end
 					else
-						if Ccount>1 then
-							self.Count:SetText(Ccount);
+						if CountNum>1 then
+							self.Count:SetText(CountNum);
 						end
 					end
 				end
@@ -376,7 +381,7 @@ function ActionFun.Update_State(self)
 			else
 				local ItemName, ItemLink = GetMacroItem(SimID);
 				if ItemName then
-					local ItemID = GetItemInfoInstant(ItemLink)
+					local ItemID = PIGGetItemInfoInstant(ItemLink)
 					if SimID and IsCurrentItem(ItemID) then
 						self:SetChecked(true)
 						return
@@ -565,9 +570,9 @@ end
 local function OnEnter_Item(Type,SimID,ItemID)
 	if SimID then
 		for Bagid=0,4,1 do
-			local numberOfSlots = GetContainerNumSlots(Bagid);
+			local numberOfSlots = PIGGetContainerNumSlots(Bagid);
 			for caowei=1,numberOfSlots,1 do
-				if GetContainerItemLink(Bagid, caowei)==SimID then
+				if PIGGetContainerItemLink(Bagid, caowei)==SimID then
 					GameTooltip:SetBagItem(Bagid,caowei);
 					GameTooltip:Show();
 					return

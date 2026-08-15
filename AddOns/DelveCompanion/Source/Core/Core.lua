@@ -128,7 +128,7 @@ function DelveCompanion:UpdateDelvesData()
         end
     end
 
-    -- Logger:Log("Finished updating Delves data")
+    -- self.Logger:Log("Finished updating Delves data")
 end
 
 --- Check whether information about `Gilded Stash` can be retrieved.
@@ -166,7 +166,7 @@ function DelveCompanion:GetContinentMapIDForMap(mapID)
 end
 
 ---@param self DelveCompanion
----@return Frame
+---@return LootInfoFrame
 function DelveCompanion:GetLootInfoFrame()
     if not DelveCompanion.Variables.LootInfoFrame then
         ---@type LootInfoFrame

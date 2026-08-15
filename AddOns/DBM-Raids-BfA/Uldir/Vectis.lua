@@ -2,7 +2,7 @@
 local mod	= DBM:NewMod(2166, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(134442)--135016 Plague Amalgam
 mod:SetEncounterID(2134)
@@ -38,27 +38,27 @@ local warnplagueBomb						= mod:NewCountAnnounce(266926, 3)
 local warnContagion							= mod:NewCountAnnounce(267242, 3)
 local warnImmunoSupp						= mod:NewCountAnnounce(265206, 3)
 
-local specWarnEvolvingAffliction			= mod:NewSpecialWarningStack(265178, nil, 2, nil, nil, 1, 6)
-local specWarnEvolvingAfflictionOther		= mod:NewSpecialWarningTaunt(265178, nil, nil, nil, 1, 2)
-local specWarnOmegaVector					= mod:NewSpecialWarningYouPos(265129, nil, nil, nil, 1, 2)
-local specWarnOmegaVectorAlt				= mod:NewSpecialWarningYou(265129, nil, nil, nil, 1, 2)--Duplicate, just to avoid the unknown personal alerts
+local specWarnEvolvingAffliction			= mod:NewSpecialWarningStack(265178, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnEvolvingAfflictionOther		= mod:NewSpecialWarningTaunt(265178, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnOmegaVector					= mod:NewSpecialWarningYouPos(265129, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnOmegaVectorAlt				= mod:NewSpecialWarningYou(265129, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Duplicate, just to avoid the unknown personal alerts
 local yellOmegaVector						= mod:NewPosYell(265129)
 local yellOmegaVectorNoIcon					= mod:NewYell(265129)
 local yellOmegaVectorFades					= mod:NewIconFadesYell(265129)
 local yellOmegaVectorFadesNoIcon			= mod:NewShortFadesYell(265129)
-local specWarnGestate						= mod:NewSpecialWarningYou(265212, nil, nil, nil, 1, 2)
+local specWarnGestate						= mod:NewSpecialWarningYou(265212, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellGestate							= mod:NewYell(265212)
-local specWarnGestateNear					= mod:NewSpecialWarningClose(265212, false, nil, 2, 1, 2)
-local specWarnAmalgam						= mod:NewSpecialWarningSwitch("ej18007", "-Healer", nil, 2, 1, 2)
-local specWarnSpawnParasite					= mod:NewSpecialWarningSwitch(275055, "Dps", nil, nil, 1, 2, 4)--Mythic
-local specWarnContagion						= mod:NewSpecialWarningCount(267242, false, nil, 2, 2, 2)
-local specWarnBurstingLesions				= mod:NewSpecialWarningMoveAway(274990, nil, nil, nil, 1, 2)
+local specWarnGestateNear					= mod:NewSpecialWarningClose(265212, false, nil, 2, 1, 2, nil, nil, "runaway")
+local specWarnAmalgam						= mod:NewSpecialWarningSwitch(-18007, "-Healer", nil, 2, 1, 2, nil, nil, "killmob")
+local specWarnSpawnParasite					= mod:NewSpecialWarningSwitch(275055, "Dps", nil, nil, 1, 2, 4, nil, "killmob")--Mythic
+local specWarnContagion						= mod:NewSpecialWarningCount(267242, false, nil, 2, 2, 2, nil, nil, "aesoon")
+local specWarnBurstingLesions				= mod:NewSpecialWarningMoveAway(274990, nil, nil, nil, 1, 2, nil, nil, "range5")
 local yellBurstingLesions					= mod:NewYell(274990, nil, false)--Mythic
 local yellEngorgedParasite					= mod:NewYell(274983)--Mythic
 local yellTerminalEruption					= mod:NewYell(274989, nil, nil, nil, "YELL")--Mythic
-local specWarnLingeringInfection			= mod:NewSpecialWarningStack(265127, nil, 5, nil, nil, 1, 6)
-local specWarnLiquefy						= mod:NewSpecialWarningSpell(265217, nil, nil, nil, 3, 2)
-local specWarnTerminalEruption				= mod:NewSpecialWarningSpell(274989, nil, nil, nil, 2, 2)
+local specWarnLingeringInfection			= mod:NewSpecialWarningStack(265127, nil, 5, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnLiquefy						= mod:NewSpecialWarningSpell(265217, nil, nil, nil, 3, 2, nil, nil, "phasechange")
+local specWarnTerminalEruption				= mod:NewSpecialWarningSpell(274989, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 
 --mod:AddTimerLine(Nexus)
 local timerEvolvingAfflictionCD				= mod:NewCDTimer(8.5, 265178, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)

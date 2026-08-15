@@ -232,6 +232,7 @@ GDKPAuc:RegisterEvent("GROUP_ROSTER_UPDATE");
 GDKPAuc:RegisterEvent("CHAT_MSG_ADDON");
 GDKPAuc:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5)
 	if event=="PLAYER_LOGIN" then
+		--PIGA[xxxx]=PD.Audio.IsAudioNumMaxV(PIGA[xxxx],AudioData)
 		Create.PIG_SetPoint(UIname)
 	elseif event=="GROUP_ROSTER_UPDATE" then
 		C_Timer.After(1,function()

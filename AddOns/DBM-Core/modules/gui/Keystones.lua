@@ -38,7 +38,6 @@ do
 end
 
 -- [ChallengeModeID] = {MapID, TeleportID, bgImage}
-
 local teleportMap = {
 	[161] = {1209, 159898, 1041999}, -- Skyreach
 	[198] = {1466, 424163, 1411855}, -- Darkheart Thicket
@@ -49,9 +48,12 @@ local teleportMap = {
 	[227] = {1651, 373262, 1537283}, -- Return to Karazhan: Lower
 	[234] = {1651, 373262, 1537283}, -- Return to Karazhan: Upper
 	[239] = {1753, 1254551, 1718213}, -- Seat of the Triumvirate
+	[249] = {1762, 1286831, 2178269}, -- King's Rest
+	[250] = {1877, 1286828, 2178273}, -- Temple of Sethraliss
 	[378] = {2287, 354465, 3759908}, -- Halls of Atonement
 	[391] = {2441, 367416, 4182022}, -- Tazavesh: Streets of Wonder
 	[392] = {2441, 367416, 4182022}, -- Tazavesh: So'leah's Gambit
+	[399] = {2521, 393256, 4742927}, -- Ruby Life Pools
 	[402] = {2526, 393273, 4742929}, -- Algeth'ar Academy
 	[499] = {2649, 445444, 5912551}, -- Priority of the Sacred Flame
 	[503] = {2660, 445417, 5912546}, -- Ara-Kara, City of Echoes
@@ -63,6 +65,11 @@ local teleportMap = {
 	[558] = {585, 1254572, 608208}, -- Magister's Terrace
 	[559] = {2915, 1254563, 7570501}, -- Nexus-Point Xenas
 	[560] = {2874, 1254559, 7478529}, -- Maisara Caverns
+	[584] = {2859, 1286801, 7478528}, -- The Blinding Vale
+	[585] = {2923, 1286804, 7479110}, -- Voidscar Arena
+	[586] = {2825, 1286807, 7478530}, -- Den Of Nalorakk
+	[587] = {2813, 1286809, 7467175}, -- Murder Row
+	[588] = {2993, 1286812, 7956179}, -- Altar of Fangs
 }
 local teleports
 local function updateTeleports()
@@ -102,10 +109,11 @@ frame:SetScript("OnDragStop", function(self)
 	DBM.Options.KeystonesPosition = {'TOPLEFT', x, y}
 end)
 
+local closeBtn = CreateFrame("Button", "$parentClose", frame, "UIPanelCloseButtonDefaultAnchors")
+closeBtn:SetFrameLevel(frame.NineSlice:GetFrameLevel() + 10)
+
 frame.Bg:SetTexture("Interface\\FrameGeneral\\UI-Background-Rock")
 frame.Bg:SetColorTexture(0, 0, 0, 0.8)
-
-CreateFrame("Button", nil, frame, "UIPanelCloseButtonDefaultAnchors")
 
 local scroll = CreateFrame("ScrollFrame", nil, frame, "ScrollFrameTemplate")
 scroll:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -30)
@@ -213,24 +221,27 @@ refresh:SetScript("OnClick", function()
 	end
 end)
 local function TeleportTooltipOnEnter(self)
-	GameTooltip:SetOwner(self, "ANCHOR_TOP")
+	if not self.spellID then
+		GameTooltip:SetOwner(self, "ANCHOR_TOP")
+	end
+	GameTooltip_AddNormalLine(GameTooltip, TELEPORT_TO_DUNGEON)
 	if InCombatLockdown() then
-		GameTooltip:SetText(ERR_NOT_IN_COMBAT, 1, 1, 1)
+		GameTooltip_AddColoredLine(GameTooltip, ERR_NOT_IN_COMBAT, HIGHLIGHT_FONT_COLOR)
 	else
 		if not DBMExtraGlobal:IsSpellKnown(self:GetAttribute('spell')) then
-			GameTooltip:SetText(SPELL_FAILED_NOT_KNOWN, 1, 1, 1)
+			GameTooltip_AddColoredLine(GameTooltip, SPELL_FAILED_NOT_KNOWN, HIGHLIGHT_FONT_COLOR)
 		else
 			local start, duration = DBM:GetSpellCooldown(self:GetAttribute('spell'))
 			if start > 0 and duration > 0 then
 				local remainingSec = (start + duration) - GetTime()
 				local hours, minutes = mfloor(remainingSec / 3600), mfloor(remainingSec / 60)
 				if hours > 0 then
-					GameTooltip:SetText(ITEM_COOLDOWN_TIME_HOURS:format(hours), 1, 1, 1)
+					GameTooltip_AddColoredLine(GameTooltip, ITEM_COOLDOWN_TIME_HOURS:format(hours), HIGHLIGHT_FONT_COLOR)
 				else
-					GameTooltip:SetText(ITEM_COOLDOWN_TIME_MIN:format(minutes), 1, 1, 1)
+					GameTooltip_AddColoredLine(GameTooltip, ITEM_COOLDOWN_TIME_MIN:format(minutes), HIGHLIGHT_FONT_COLOR)
 				end
 			else
-				GameTooltip:SetText(LFG_READY_CHECK_PLAYER_IS_READY:format(DBM:GetSpellName(self:GetAttribute('spell'))), 1, 1, 1)
+				GameTooltip_AddColoredLine(GameTooltip, LFG_READY_CHECK_PLAYER_IS_READY:format(DBM:GetSpellName(self:GetAttribute('spell'))), HIGHLIGHT_FONT_COLOR)
 			end
 		end
 	end
@@ -342,11 +353,11 @@ function PartyGuildUpdate(table)
 		textDungeon.Text:SetText(L.KEYSTONE_NAMES[v.mapID] or (v.mapID == 0 and '-') or v.mapID or '?')
 		textDungeon:SetPoint("TOP", titleDungeon, "BOTTOM", 0, offset)
 		textDungeon:SetWidth(titleDungeon:GetWidth())
-		if v.mapID and v.mapID ~= 0 and teleports[v.mapID] then
+		if v.mapID and v.mapID ~= 0 and teleportMap[v.mapID] then
 			textDungeon:SetScript('OnEnter', TeleportTooltipOnEnter)
 			textDungeon:SetScript('OnLeave', GameTooltip_Hide)
 			textDungeon:SetAttribute('type', 'spell')
-			textDungeon:SetAttribute('spell', teleports[v.mapID][2])
+			textDungeon:SetAttribute('spell', teleportMap[v.mapID][2])
 		end
 
 		textRating.Text:SetText(v.playerRating == 0 and '-' or v.playerRating or '?')
@@ -523,10 +534,104 @@ function Keystones:Hide()
 	frame:Hide()
 end
 
+local function delayedKeySlashCheck()
+	-- To note, no other addon gives a crap about intentionally deleting slash commands of other addons
+	-- We're the only ones that actually check first, even for addons that added feature long after us like EllesmereUI
+	local hasFreeSlash = false
+	local overrideSlash = DBM.Options.OverrideKeystoneSlash
+	--Don't override Details
+	if not SLASH_KEYSTONE1 or overrideSlash then
+		hasFreeSlash = true
+		SLASH_KEYSTONE1 = '/keystone'
+	end
+	--Don't override Details or EllesmereUI
+	if (not SLASH_KEYSTONE2 and not SLASH_EUIKEYS1) or overrideSlash then
+		hasFreeSlash = true
+		SLASH_KEYSTONE2 = '/keys'
+	end
+	--Don't override Details or EllesmereUI
+	if (not SLASH_KEYSTONE3 and not SLASH_EUIKEYS3) or overrideSlash then
+		hasFreeSlash = true
+		SLASH_KEYSTONE3 = '/key'
+	end
+	if hasFreeSlash then
+		SlashCmdList["KEYSTONE"] = function()
+			Keystones:Show()
+		end
+	end
+end
+
+local RegisterChallengesUI
+do
+	local initializedChallengesUI = false
+	local iconButtons = {}
+
+	local function CreateChallengeIconButton(icon, spellID)
+		local button = CreateFrame('Button', nil, icon, 'InsecureActionButtonTemplate')
+		button:SetAllPoints(icon)
+		button:RegisterForClicks('AnyDown', 'AnyUp')
+		button:SetScript('OnEnter', function()
+			local parentOnEnter = icon:GetScript('OnEnter')
+			if parentOnEnter then
+				parentOnEnter(icon)
+			end
+			GameTooltip_AddBlankLineToTooltip(GameTooltip)
+			TeleportTooltipOnEnter(button)
+		end)
+		button:SetScript('OnLeave', GameTooltip_Hide)
+		button:SetAttribute('type', 'spell')
+		button:SetAttribute('spell', spellID)
+		button.spellID = spellID
+		return button
+	end
+
+	local function RefreshChallengesUI()
+		if InCombatLockdown() then
+			return
+		end
+		if not ChallengesFrame or not ChallengesFrame.DungeonIcons then
+			return
+		end
+
+		for _, icon in pairs(ChallengesFrame.DungeonIcons) do
+			local data = teleportMap[icon.mapID]
+			if data then
+				if not iconButtons[icon] then
+					iconButtons[icon] = CreateChallengeIconButton(icon, data[2])
+				elseif iconButtons[icon].spellID ~= data[2] then
+					iconButtons[icon]:SetAttribute('spell', data[2])
+					iconButtons[icon].spellID = data[2]
+				end
+			elseif icon.mapID then
+				DBM:Debug("Missing keystone info for challengeMapID: " .. icon.mapID)
+			end
+		end
+	end
+
+	function RegisterChallengesUI()
+		if initializedChallengesUI then
+			return
+		end
+		if not C_AddOns.IsAddOnLoaded('Blizzard_ChallengesUI') then
+			return
+		end
+		if not ChallengesFrame then
+			return
+		end
+		hooksecurefunc(ChallengesFrame, 'Update', RefreshChallengesUI)
+		RefreshChallengesUI()
+		initializedChallengesUI = true
+	end
+end
+
 frame:SetScript('OnEvent', function(_, event, arg1, arg2)
 	if event == 'UNIT_CONNECTION' then
 		if selectedTab == 1 and arg2 then -- isConnected
 			LibKeystone.Request("PARTY")
+		end
+	elseif event == 'ADDON_LOADED' then
+		if arg1 == 'Blizzard_ChallengesUI' then
+			RegisterChallengesUI()
 		end
 	elseif event == 'PLAYER_ENTERING_WORLD' then
 		updateTeleports()
@@ -535,23 +640,26 @@ frame:SetScript('OnEvent', function(_, event, arg1, arg2)
 				keys = {}
 			}
 		end
-		-- Once we're fully logged in, check if nobody has a keystone command, and then inject ours
-		-- We can't check SLASH_KEYSTONE3 because BigWigs murders it
-		if not SLASH_KEYSTONE1 and not SLASH_KEYSTONE2 then
-			SLASH_KEYSTONE1 = '/keystone'
-			SLASH_KEYSTONE2 = '/keys'
-			SLASH_KEYSTONE3 = '/key'
-			SlashCmdList["KEYSTONE"] = function()
-				Keystones:Show()
-			end
-		end
+		C_Timer.After(1, function()
+			--Intentionally delay so addons after we load register their slash first
+			--Larger delay because I don't know evert addon registering slash commands on PLAYER_ENTERING_WORLD
+			delayedKeySlashCheck()
+		end)
 		UpdateKeystones()
+		RegisterChallengesUI()
 	elseif event == 'PLAYER_INTERACTION_MANAGER_FRAME_HIDE' then
 		if arg1 == 3 or arg1 == 49 then
 			UpdateKeystones()
+		end
+	elseif event == 'CHALLENGE_MODE_COMPLETED' then
+		if DBM.Options.ShowKeystoneOnComplete then
+			selectedTab = 1
+			Keystones:Show()
 		end
 	end
 end)
 frame:RegisterEvent('PLAYER_ENTERING_WORLD')
 frame:RegisterEvent('PLAYER_INTERACTION_MANAGER_FRAME_HIDE')
 frame:RegisterEvent('UNIT_CONNECTION')
+frame:RegisterEvent('CHALLENGE_MODE_COMPLETED')
+frame:RegisterEvent('ADDON_LOADED')

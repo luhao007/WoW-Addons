@@ -1,20 +1,17 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
+local addonName, PD = ...;
+local L=PD.locale
 ---
-local Create = addonTable.Create
+local Create = PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGFontString=Create.PIGFontString
-local Data=addonTable.Data
+local Data=PD.Data
 --=======================================
-local ActionBarfun=addonTable.ActionBarfun
-local RTabFrame=ActionBarfun.RTabFrame
-local fuFrame=ActionBarfun.fuFrame
-local fuFrameBut=ActionBarfun.fuFrameBut
+local ActionBarfun=PD.ActionBarfun
 ---add------------------
 local PigMacroEventCount =0;
 local PigMacroDeleted = false;
 local PigMacroCount=0
-local ActionFun=addonTable.Fun.ActionFun
+local ActionFun=PD.Fun.ActionFun
 local PIGUseKeyDown=ActionFun.PIGUseKeyDown
 local Update_Attribute=ActionFun.Update_Attribute
 local Update_Icon=ActionFun.Update_Icon
@@ -28,6 +25,7 @@ local Update_OnEnter=ActionFun.Update_OnEnter
 local Cursor_Fun=ActionFun.Cursor_Fun
 local Update_Macro=ActionFun.Update_Macro
 local Update_Equipment=ActionFun.Update_Equipment
+local addActionButton=ActionFun.addActionButton
 ---
 local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent=unpack(ActionFun.UIdata)
 --
@@ -183,7 +181,8 @@ PIGActionBarActionEventsFrame.events={
     end,
 }
 -------
-local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,RTabFrame,plusF,plusTabBut)
+
+local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange)
 	local NewIndex=CFdata.index
 	local ModeFun=CFdata.Mode
 	local getDataFun=CFdata.getData
@@ -222,13 +221,9 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 	if getDataFun("Lock",NewIndex) then Pig_bar.yidong:Hide() end
 	Pig_bar.yidong:SetScript("OnMouseUp", function (self,Button)
 		if Button=="RightButton" then
-			if PIG_OptionsUI:IsShown() then
-				PIG_OptionsUI:Hide()
-			else
-				PIG_OptionsUI:Show()
-				Create.Show_TabBut(tabF,tabBut)
-				Create.Show_TabBut_R(RTabFrame,plusF,plusTabBut)
-			end
+			PD.UpdateOptionsUI()
+			Create.Show_TabBut(ActionBarfun.fuFrame,ActionBarfun.fuFrameBut)
+			Create.Show_TabBut_R(ActionBarfun.RTabFrame,ActionBarfun.CABarF,ActionBarfun.CABarTabBut)
 		end
 	end)
 	if ModeFun=="cons" then
@@ -236,25 +231,7 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 	end
 	-----
 	for id=1,anniugeshu do
-		local piganniu
-		if PIG_MaxTocversion("old") then
-			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
-		else
-			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionBarButtonTemplate")
-			piganniu:UnregisterAllEvents()
-			piganniu:SetScript("OnLoad", nil)
-			piganniu:SetScript("OnAttributeChanged", nil)
-			piganniu:SetScript("OnEvent", nil)
-			--piganniu:SetScript("OnClick", nil)
-			piganniu:SetScript("PostClick", nil)
-			piganniu:SetScript("OnDragStart", nil)
-			piganniu:SetScript("OnReceiveDrag", nil)
-			piganniu:SetScript("OnDragStop", nil)
-			piganniu:SetScript("OnEnter", nil)
-			piganniu:SetScript("OnLeave", nil)
-			piganniu:SetScript("OnShow", nil)
-			piganniu:SetScript("OnHide", nil)
-		end
+		local piganniu=addActionButton(Pig_bar,"$parent_But"..id)
 		piganniu:SetSize(ActionW, ActionW)
 		if id==1 then
 			piganniu:SetPoint("LEFT",Pig_bar.yidong,"RIGHT",2,0)

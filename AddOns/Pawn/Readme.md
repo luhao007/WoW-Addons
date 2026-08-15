@@ -74,6 +74,8 @@ If you copy and paste that for me, I can see the same item on my computer, and t
 
 Pawn plays along with most other addons, but there are a few that break Pawn that there's no workaround for. Typically this is addons that change the way that stats appear on item tooltips, such as changing "+25 Critical Strike" to "Crit +25".
 
+* Class Codex
+	* ...but you can work around this by going into Class Codex's options, scrolling to Tooltips, unchecking Stat Priority Ranks, and reloading.
 * Combat Numbers Separator + Titan Panel Artifact Power
 * FreeUI
 * TipTac
@@ -81,6 +83,30 @@ Pawn plays along with most other addons, but there are a few that break Pawn tha
 * Undermine Journal
 
 ## Updates
+
+### Version 2.13.14
+
+* Fixed a rare bug in 2.13.12 that might have caused an error to occur when hovering over an item with no stats. (Possibly only when using Bagnon?)
+
+### Version 2.13.13
+
+* Midnight: Additional changes to hide "secret taint" errors.
+
+### Version 2.13.12
+
+* Midnight: Added a workaround for a bug in the game that was causing green arrows to appear next to some items' level even when it wasn't a higher item level than what you've previously equipped in that slot. (The game reports pre-squish item levels 500+ to addons for some items.)
+* 12.1 PTR: Fixed a problem where nearly all items showed up as having special effects on Pawn's Compare tab.
+
+### Version 2.13.11
+
+* Pawn keybindings will now work on the map even when Pawn's quest upgrade advisor feature is turned off.
+* A small change under the hood to make it harder for bag addons to cause problems with Pawn.
+
+### Version 2.13.10
+
+* Midnight: In an attempt to reduce the number of tooltip "secret taint" errors that many players are seeing thanks to bugs in the garbage fire of Midnight addon restrictions, I've disabled Pawn's interactions with world quests entirely, as that seems to be the biggest remaining source of problems. I'll reenable that feature when Blizzard fixes the tooltip bugs.
+	* **This will make it easier to miss upgrades rewarded from world quests!** You can still check to see if a world quest rewards an upgrade by hovering over its icon on the world map and using a Pawn key binding: on most systems you can use the `]` key to open Pawn's Compare tab and show that item. If that doesn't work or you just prefer a different key, open Interface Options, go to Keybindings, then AddOns, and then look for "Compare item (right)".
+* Midnight: Adjusted gem recommendations to account for stat changes that happened since the 12.0 launch. (Sockets on Midnight items will be valued slightly higher after this change.)
 
 ### Version 2.13.9
 

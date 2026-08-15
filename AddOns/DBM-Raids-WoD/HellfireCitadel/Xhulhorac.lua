@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1447, "DBM-Raids-WoD", 1, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260524002240")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(93068)
 mod:SetEncounterID(1800)
@@ -23,6 +23,7 @@ mod:RegisterEventsInCombat(
 )
 
 --(target.id = 94185 or target.id =  94239) and type = "death" or (ability.id = 190223 or ability.id = 190224 or ability.id = 186453 or ability.id = 186783 or ability.id = 186546 or ability.id = 189779 or ability.id = 186490 or ability.id = 189775) and type = "begincast" or (ability.id = 186407 or ability.id = 186333) and type = "cast" or ability.id = 187204 and type = "applybuff"
+DBM:RegisterAltSpellName(189779, 186546)--Empowered Black Hole -> Black Hole
 --Fire Phase
 ----Boss
 local warnFelPortal					= mod:NewSpellAnnounce(187003, 2, nil, nil, nil, nil, nil, 2)
@@ -45,29 +46,29 @@ local warnOverwhelmingChaos			= mod:NewCountAnnounce(187204, 4)
 
 --Fight Wide
 local specWarnFelTouched			= mod:NewSpecialWarningYou(186134, false)
-local specWarnFelsinged				= mod:NewSpecialWarningMove(186073, nil, nil, nil, 1, 2)--Fire GTFO
+local specWarnFelsinged				= mod:NewSpecialWarningMove(186073, nil, nil, nil, 1, 2, nil, nil, "runaway")--Fire GTFO
 local specWarnVoidTouched			= mod:NewSpecialWarningYou(186135, false)
-local specWarnWastingVoid			= mod:NewSpecialWarningMove(186063, nil, nil, nil, 1, 2)--Void GTFO
-local specWarnPhasing				= mod:NewSpecialWarningTaunt(189047, nil, nil, nil, 1, 2)--May need smarter code.
+local specWarnWastingVoid			= mod:NewSpecialWarningMove(186063, nil, nil, nil, 1, 2, nil, nil, "runaway")--Void GTFO
+local specWarnPhasing				= mod:NewSpecialWarningTaunt(189047, nil, nil, nil, 1, 2, nil, nil, "changemt")--May need smarter code.
 --Fire Phase
 ----Boss
 local specWarnFelStrike				= mod:NewSpecialWarningSpell(186271, "Tank")
-local specWarnFelSurge				= mod:NewSpecialWarningYou(186407, nil, nil, nil, 1, 2)
+local specWarnFelSurge				= mod:NewSpecialWarningYou(186407, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellFelSurge					= mod:NewYell(186407)
-local specWarnImps					= mod:NewSpecialWarningSwitchCount("ej11694", "Dps")
+local specWarnImps					= mod:NewSpecialWarningSwitchCount(-11694, "Dps")
 ----Adds
-local specWarnFelBlazeFlurry		= mod:NewSpecialWarningDefensive(186453, "Tank", nil, nil, 3, 2)
+local specWarnFelBlazeFlurry		= mod:NewSpecialWarningDefensive(186453, "Tank", nil, nil, 3, 2, nil, nil, "defensive")
 local specWarnFelChains				= mod:NewSpecialWarningYou(186490)
 local specWarnEmpoweredFelChains	= mod:NewSpecialWarningYou(189775)
 local yellFelChains					= mod:NewYell(186490)
 --Void Phase
 ----Boss
 local specWarnVoidStrike			= mod:NewSpecialWarningSpell(186292, "Tank")
-local specWarnVoidSurge				= mod:NewSpecialWarningYou(186333, nil, nil, nil, 1, 12)
+local specWarnVoidSurge				= mod:NewSpecialWarningYou(186333, nil, nil, nil, 1, 12, nil, nil, "runintofire")
 local yellVoidSurge					= mod:NewYell(186333)
-local specWarnVoids					= mod:NewSpecialWarningCount("ej11714", "Ranged")
+local specWarnVoids					= mod:NewSpecialWarningCount(-11714, "Ranged")
 ----Adds
-local specWarnWitheringGaze			= mod:NewSpecialWarningDefensive(186783, "Tank", nil, nil, 1, 2)
+local specWarnWitheringGaze			= mod:NewSpecialWarningDefensive(186783, "Tank", nil, nil, 1, 2, nil, nil, "defensive")
 local specWarnBlackHole				= mod:NewSpecialWarningCount(186546, nil, nil, nil, 2)
 local specWarnEmpBlackHole			= mod:NewSpecialWarningCount(189779, nil, nil, nil, 2)--Mythic
 
@@ -87,7 +88,7 @@ local timerVoidsCD					= mod:NewNextTimer(30, -11714, nil, "Ranged", nil, 1, 697
 ----Big Add
 local timerWitheringGazeCD			= mod:NewCDTimer(22, 186783, nil, "Tank", 2, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerBlackHoleCD				= mod:NewCDCountTimer(29.5, 186546, nil, "-Tank", 2, 5)
-local timerEmpBlackHoleCD			= mod:NewCDCountTimer(29.5, 189779, 186546, "-Tank", 2, 5, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerEmpBlackHoleCD			= mod:NewCDCountTimer(29.5, 189779, nil, "-Tank", 2, 5, nil, DBM_COMMON_L.DEADLY_ICON)
 --End Phase
 local timerOverwhelmingChaosCD		= mod:NewNextCountTimer(10, 187204, nil, nil, 2, 2, nil, DBM_COMMON_L.HEALER_ICON)
 
@@ -119,7 +120,7 @@ local AddsSeen = {}
 local function ImpRepeater(self)
 	self.vb.impCount = self.vb.impCount + 1
 	self.vb.impActive = self.vb.impActive + 3
-	if self.Options.SpecWarnej11694switchcount then
+	if self.Options["SpecWarn-11694switchcount"] then
 		specWarnImps:Show(self.vb.impCount)
 	else
 		warnImps:Show(self.vb.impCount)
@@ -137,7 +138,7 @@ end
 
 local function VoidsRepeater(self)
 	self.vb.voidCount = self.vb.voidCount + 1
-	if self.Options.SpecWarnej11714count then
+	if self.Options["SpecWarn-11714count"] then
 		specWarnVoids:Show(self.vb.voidCount)
 	else
 		warnVoids:Show(self.vb.voidCount)

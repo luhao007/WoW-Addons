@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(824, "DBM-Raids-MoP", 2, 362)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260709014340")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(69427)
 mod:SetEncounterID(1576)
@@ -31,18 +31,18 @@ local warnAnimaRing					= mod:NewTargetNoFilterAnnounce(136954, 3, nil, "Tank")
 local warnAnimaFont					= mod:NewTargetAnnounce(138691, 3)
 local warnEmpowerGolem				= mod:NewTargetNoFilterAnnounce(138780, 3)
 
-local specWarnCrimsonWakeYou		= mod:NewSpecialWarningRun(138480, nil, nil, nil, 4, 2)--Kiter
-local specWarnCrimsonWake			= mod:NewSpecialWarningGTFO(138485, nil, nil, nil, 1, 8)--Standing in stuff left behind by kiter
+local specWarnCrimsonWakeYou		= mod:NewSpecialWarningRun(138480, nil, nil, nil, 4, 2, nil, nil, "justrun")--Kiter
+local specWarnCrimsonWake			= mod:NewSpecialWarningGTFO(138485, nil, nil, nil, 1, 8, nil, nil, "watchfeet")--Standing in stuff left behind by kiter
 local yellCrimsonWake				= mod:NewShortYell(138480)
-local specWarnMatterSwap			= mod:NewSpecialWarningYou(138609, nil, nil, nil, 1, 5)
-local specWarnExplosiveSlam			= mod:NewSpecialWarningStack(138569, nil, 4, nil, nil, 1, 6)--Assumed value drycode, won't know until cd is observed
-local specWarnExplosiveSlamOther	= mod:NewSpecialWarningTarget(138569, "Tank", nil, nil, 1, 2)--Not black and white, so not using Taunt type warning
+local specWarnMatterSwap			= mod:NewSpecialWarningYou(138609, nil, nil, nil, 1, 5, nil, nil, "teleyou")
+local specWarnExplosiveSlam			= mod:NewSpecialWarningStack(138569, nil, 4, nil, nil, 1, 6, nil, nil, "stackhigh")--Assumed value drycode, won't know until cd is observed
+local specWarnExplosiveSlamOther	= mod:NewSpecialWarningTarget(138569, "Tank", nil, nil, 1, 2, nil, nil, "changemt")--Not black and white, so not using Taunt type warning
 --Boss
-local specWarnAnimaRing				= mod:NewSpecialWarningYou(136954, nil, nil, nil, 1, 2)
-local specWarnAnimaRingOther		= mod:NewSpecialWarningTarget(136954, false, nil, nil, 1, 2)
+local specWarnAnimaRing				= mod:NewSpecialWarningYou(136954, nil, nil, nil, 1, 2, nil, nil, "watchorb")
+local specWarnAnimaRingOther		= mod:NewSpecialWarningTarget(136954, false, nil, nil, 1, 2, nil, nil, "watchorb")
 local yellAnimaRing					= mod:NewYell(136954)
-local specWarnAnimaFont				= mod:NewSpecialWarningYou(138691, nil, nil, nil, 1, 17)
-local specWarnInterruptingJolt		= mod:NewSpecialWarningCast(138763, "SpellCaster", nil, nil, 2, 2)
+local specWarnAnimaFont				= mod:NewSpecialWarningYou(138691, nil, nil, nil, 1, 17, nil, nil, "debuffyou")
+local specWarnInterruptingJolt		= mod:NewSpecialWarningCast(138763, "SpellCaster", nil, nil, 2, 2, nil, nil, "stopcast")
 
 local timerMatterSwap				= mod:NewTargetTimer(12, 138609)--If not dispelled, it ends after 12 seconds regardless
 local timerExplosiveSlam			= mod:NewTargetTimer(25, 138569, nil, "Tank|Healer")
@@ -130,7 +130,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 138569 then
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId, "boss1") then--Only want sprays that are on tanks, not bads standing on tanks.
 			local amount = args.amount or 1
 			warnExplosiveSlam:Show(args.destName, amount)

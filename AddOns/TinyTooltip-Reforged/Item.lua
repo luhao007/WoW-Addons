@@ -1,14 +1,8 @@
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local clientVer, clientBuild, clientDate, clientToc = GetBuildInfo()
 
--- load only on classic wotlk
-if (clientToc == 30400) then
-  local LibInspect = LibStub("LibClassicInspector")
-  local LibDetours = LibStub("LibDetours-1.0")
-  local TinyTooltipGS = TTR_GS
-end
-
 local addon = TinyTooltipReforged
+local L = addon.L or {}
 
 local function FindLine(tooltip, keyword)
     local line, text
@@ -19,6 +13,32 @@ local function FindLine(tooltip, keyword)
             return line, i, _G[tooltip:GetName() .. "TextRight" .. i]
         end
     end
+end
+
+local function GetItemInfoFromLink(linkOrId)
+    if (linkOrId == nil or linkOrId == "") then
+        return nil
+    end
+    local name, link, quality, _, _, _, _, stackCount, _, texture = GetItemInfo(linkOrId)
+    if (not name) then return nil end
+    return {
+        itemLink = link,
+        itemQuality = quality,
+        itemStackCount = stackCount,
+        itemTexture = texture,
+    }
+end
+
+local function GetTooltipTitleColor(tip)
+    if (not tip or not tip.GetName) then return end
+    local left = _G[tip:GetName() .. "TextLeft1"]
+    if (not left or not left.GetTextColor) then return end
+    local ok, r, g, b = pcall(left.GetTextColor, left)
+    if (not ok) then return end
+    if (type(r) ~= "number" or type(g) ~= "number" or type(b) ~= "number") then
+        return
+    end
+    return r, g, b
 end
 
 local function ColorBorder(tip, r, g, b)
@@ -39,24 +59,16 @@ local function ItemIcon(tip, link)
     end
 end
 
-local stacks = setmetatable({}, {
-    __index = function(t,i)
-        local _, _, _, _, _, _, _, stack = C_Item.GetItemInfo(i)
-        t[i] = stack
-        return stack
-    end
-})
-
-local function ItemStackCount(tip, link)
+local function ItemStackCount(tip, itemInfo)
     if (addon.db.item.showStackCount) then
-        local stackCount = select(8, C_Item.GetItemInfo(link))
+        local stackCount = itemInfo and itemInfo.itemStackCount
         if (stackCount and stackCount > 1) then        
             local text = addon:GetLine(tip,1):GetText() .. format(" |cff00eeee/%s|r", stackCount)
             addon:GetLine(tip,1):SetText(text)
         end
     end
     if (addon.db.item.showStackCountAlt) then
-        local stack = stacks[link]
+        local stackCount = itemInfo and itemInfo.itemStackCount
         if (stack and stack > 1) then
             tip:AddLine(format("Stack Size: |cff00eeee%d|r",stack))
 	    tip:Show()
@@ -65,12 +77,25 @@ local function ItemStackCount(tip, link)
 end
 
 LibEvent:attachTrigger("tooltip:item", function(self, tip, link)
-    local quality = select(3, C_Item.GetItemInfo(link)) or 0
-    local name = select(1, C_Item.GetItemInfo(link)) or 0
-    local r, g, b = C_Item.GetItemQualityColor(quality)
+    local general = addon.db.general
+    LibEvent:trigger("tooltip.style.bgfile", tip, general.bgfile)
+    if (general.background) then
+        LibEvent:trigger("tooltip.style.background", tip, unpack(general.background))
+    end
+    LibEvent:trigger("tooltip.style.border.corner", tip, general.borderCorner)
+    if (general.borderCorner == "angular") then
+        LibEvent:trigger("tooltip.style.border.size", tip, general.borderSize)
+    end
+    local itemInfo = GetItemInfoFromLink(link)
+    local quality = (itemInfo and itemInfo.itemQuality) or 0
+    local r, g, b = GetItemQualityColor(quality)
+    local tr, tg, tb = GetTooltipTitleColor(tip)
+    if (tr and tg and tb) then
+        r, g, b = tr, tg, tb
+    end
     ColorBorder(tip, r, g, b)
-    ItemStackCount(tip, link)
-    ItemIcon(tip, link)
+    ItemStackCount(tip, itemInfo)
+    ItemIcon(tip, itemInfo)
 end)
 
 local function EmbeddedItemTooltip_OnTooltipSetItem(self, data)

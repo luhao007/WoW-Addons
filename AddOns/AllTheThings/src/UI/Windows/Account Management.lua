@@ -34,6 +34,15 @@ end
 -- Temporary cache variables (these get replaced in OnLoad!)
 local AccountWideData, CharacterData, CurrentCharacter, LinkedCharacters, OnlineAccounts, SilentlyLinkedCharacters = {}, {}, {}, {}, {}, {}
 
+local DebugOutput
+local function OnDebugOutputToggled(row, button, toggleID, saved)
+	DebugOutput = saved
+end
+local function DebugPrint(...)
+	if not DebugOutput then return end
+	app.print(...)
+end
+
 -- Cache some globals SavedVariables!
 local cachedTotalTimePlayed;
 app:RegisterFuncEvent("TIME_PLAYED_MSG", function(totalTimePlayed)
@@ -132,6 +141,7 @@ local function ProcessSendChunks()
 		end
 		coroutine.yield();
 	until(not any);
+	app:GetWindow("Account Management"):Rebuild();
 end
 local function QueueSendChunks(method, target, detail, chunks)
 	local pending = pendingSendChunksForUser[target];
@@ -241,7 +251,7 @@ local function SendMessageChunks(method, target, detail, msg, chunksize)
 		-- When the message exceeds the length, we have to cut it into sections and deliver it as a set of chunks.
 		--print("Encoded Message exceeded maximum (" .. chunksize .. "): ", encodedLength);
 		local chunks = {};
-		chunksize = chunksize - 32;
+		chunksize = chunksize - 32;	-- extra chunk information in each chunk message takes some space
 		for i=1,encodedLength,chunksize do
 			local chunk;
 			local j = i + chunksize - 1;
@@ -259,26 +269,69 @@ local function SendMessageChunks(method, target, detail, msg, chunksize)
 	end
 end
 local function _SendAddonMessage(target, msg)
+	DebugPrint("SEND.MSG",target,msg:len(),msg:sub(1, 500))
 	C_ChatInfo.SendAddonMessage(AddonMessagePrefix, msg, "WHISPER", target);
 end
 local function SendAddonMessage(target, detail, msg)
 	SendMessageChunks(_SendAddonMessage, target, detail, msg, 255);
 end
 local function _SendBattleNetMessage(target, msg)
+	DebugPrint("SEND.NET",target,msg:len(),msg:sub(1, 500))
 	BNSendGameData(target, AddonMessagePrefix, msg);
 end
 local function SendBattleNetMessage(target, detail, msg)
-	SendMessageChunks(_SendBattleNetMessage, target, detail, msg, 4086);
+	SendMessageChunks(_SendBattleNetMessage, target, detail, msg, 4050);	-- wiki reports 4078 is max
 end
 local function SplitString(separator, text)
 	local sep, res = separator or '%s', {}
 	text:gsub('[^'..sep..']+', function(x) res[#res+1] = x end);
 	return res;
 end
+local function TrimString(str)
+    return str and str:gsub("^%s*(.-)%s*$", "%1");
+end
+local function CamelCaseName(str)
+    if not str or str == "" then return str; end
+    str = TrimString(str):lower();
+    return str:gsub("(%a)([%w]*)", function(first, rest)
+        return first:upper() .. rest;
+    end);
+end
+local function NormalizeLinkedCharacterIdentifier(identifier,identifierRealm)
+	if not identifier or type(identifier) ~= "string" or identifier == "" then return; end
+	local name, realm = identifier:match("^%s*([%w]+)%s*-?%s*([%w ]-)%s*$");
+	if not name or name == "" then
+		name = identifier;
+	end
+	if not realm or realm == "" then
+		realm = identifierRealm or CurrentCharacter.realm
+	end
+    name = CamelCaseName(name);
+	if not name or name == "" then return; end
+	realm = CamelCaseName(realm)
+	return name .. "-" .. realm:gsub("%s+", ""), name;
+end
+local function AddCharacterLookup(characterByInfo, character)
+	local identifier = NormalizeLinkedCharacterIdentifier(character.name, character.realm)
+	if identifier then
+		characterByInfo[identifier] = character
+	end
+	if character.guid then
+		characterByInfo[character.guid] = character
+	end
+end
+local function IsLinkedCharacter(identifier)
+	if LinkedCharacters[identifier] then return true end
+	local fullIdentifier, shortIdentifier = NormalizeLinkedCharacterIdentifier(identifier);
+	return (fullIdentifier and LinkedCharacters[fullIdentifier]) or (shortIdentifier and LinkedCharacters[shortIdentifier]) or false;
+end
 local function UpdateBattleTags()
 	-- Attempt to cache each character's battleTag if it is missing.
 	if C_BattleNet then
 		for guid,character in pairs(CharacterData) do
+			if character.battleTag == "TAG" then
+				character.battleTag = nil
+			end
 			if not character.battleTag then
 				-- We haven't updated this character since the patch, look it up!
 				local accountInfo = C_BattleNet.GetAccountInfoByGUID(guid);
@@ -298,7 +351,7 @@ local function UpdateOnlineAccounts()
 					--print(character.text, gameAccountID);
 					character.gameAccountID = gameAccountID;
 					SilentlyLinkedCharacters[gameAccountID] = true;
-					if character ~= CurrentCharacter then
+					if character ~= CurrentCharacter and guid ~= app.GUID then
 						OnlineAccounts[gameAccountID] = character;
 					end
 				end
@@ -312,8 +365,10 @@ local function SendCharacterMessage(character, detail, msg)
 		local gameAccountID = character.gameAccountID;
 		if BNSendGameData and gameAccountID and EnableBattleNet then
 			SendBattleNetMessage(gameAccountID, detail, msg);
-		elseif character.realm == CurrentCharacter.realm and character.factionID == CurrentCharacter.factionID then
-			SendAddonMessage(character.name, detail, msg);
+		else
+			local identifier = character.Identifier or NormalizeLinkedCharacterIdentifier(character.name, character.realm)
+			character.Identifier = identifier
+			SendAddonMessage(identifier, detail, msg);
 		end
 	end
 end
@@ -321,6 +376,30 @@ local function GetSyncIdentityToken()
 	local battleTag = CurrentCharacter and CurrentCharacter.battleTag;
 	if battleTag and battleTag ~= "" then return battleTag; end
 	return CurrentCharacter and CurrentCharacter.guid or UNKNOWN;
+end
+local function FindCharacterInfo(characterLookup)
+	if not characterLookup then return end
+
+	local identifier
+	if type(characterLookup) == "string" then
+		identifier = NormalizeLinkedCharacterIdentifier(characterLookup)
+	elseif type(characterLookup) == "table" then
+		identifier = NormalizeLinkedCharacterIdentifier(characterLookup.name, characterLookup.realm)
+		if not identifier or identifier == "" then
+			app.print("Failed to determine Identifier from lookup:",characterLookup,"[",characterLookup.name,characterLookup.realm,"]")
+			return
+		end
+	else
+		DebugPrint("Unsupported value type for FindCharacterGuid:",characterLookup,type(characterLookup))
+		return
+	end
+
+	for guid,character in pairs(CharacterData) do
+		local charIdentifier = character.Identifier or NormalizeLinkedCharacterIdentifier(character.name, character.realm)
+		character.Identifier = charIdentifier
+		if identifier == charIdentifier then return character end
+	end
+	DebugPrint("No Character data found for lookup:",characterLookup)
 end
 local function BroadcastMessage(detail, msg)
 	-- Update the last played timestamp. This ensures the sync process does NOT destroy unsaved progress on this character.
@@ -332,57 +411,52 @@ local function BroadcastMessage(detail, msg)
 
 	-- Check for online accounts and send them the check message.
 	local sent = {};
-	for key,character in pairs(OnlineAccounts) do
-		local guid = character.guid;
-		if guid and not sent[guid] then
-			SendCharacterMessage(character, detail, msg);
-			if character.name and character.realm == CurrentCharacter.realm then sent[character.name] = true; end
-			sent[guid] = true;
+	for guid,character in pairs(OnlineAccounts) do
+		DebugPrint("Broadcast.Online",guid,character.guid,character.name,character.realm)
+		SendCharacterMessage(character, detail, msg)
+		sent[character.guid or guid] = true
+		if character.Identifier then
+			sent[character.Identifier] = true
 		end
 	end
 
-	-- Check to see if we have any linked accounts
-	local any = false;
-	for playerName,allowed in pairs(LinkedCharacters) do
+	-- Send to any explicitly linked-allowed accounts.
+	for identifier,allowed in pairs(LinkedCharacters) do
 		if allowed then
-			any = true;
-			break;
-		end
-	end
-	if any then
-		-- Cache characters by their names.
-		local characterByInfo = {};
-		for guid,character in pairs(CharacterData) do
-			local name = character.name;
-			if name and character.realm == CurrentCharacter.realm then characterByInfo[name] = character; end
-			SilentlyLinkedCharacters[guid] = true;
-			characterByInfo[guid] = character;
-		end
-
-		-- Now send to any explicitly linked accounts.
-		for identifier,allowed in pairs(LinkedCharacters) do
-			if allowed then
-				local character = characterByInfo[identifier];
-				if character then
-					local guid = character.guid;
-					if not sent[guid] then
-						SendCharacterMessage(character, detail, msg);
-						sent[guid] = true;
-					end
-				elseif not sent[identifier] then
-					sent[identifier] = true;
-					SendAddonMessage(identifier, detail, msg);
+			local character = FindCharacterInfo(identifier)
+			if character then
+				DebugPrint("Broadcast.Linked",identifier,character.guid,character.name,character.realm)
+				local guid = character.guid;
+				if guid and not sent[guid] then
+					SendCharacterMessage(character, detail, msg);
+					sent[guid] = true;
 				end
+			elseif not sent[identifier] then
+				sent[identifier] = true;
+				SendAddonMessage(identifier, detail, msg);
 			end
 		end
 	end
+end
+
+local IgnoredUnlinkedCharacters = {}
+-- Only linked Senders are allowed to have processed incoming Messages
+local function VerifyLinkedSender(sender)
+	if not IsLinkedCharacter(sender) then
+		if IgnoredUnlinkedCharacters[sender] then return end
+		IgnoredUnlinkedCharacters[sender] = true
+		app.print("Incoming Message from",sender,"was ignored because this Character was not Linked in this Account. Add this Character as a Linked Character in order to perform Sync functionality.")
+		return
+	end
+	return true
 end
 local function ProcessAddonMessageText(self, sender, text, responses)
 	for i,message in ipairs(SplitString("~", text)) do
 		local content = SplitString(",", message);
 		local handler = MESSAGE_HANDLERS[content[1]];
 		if handler then
-			-- app.PrintDebug("HANDLER[" .. content[1]  .. "]:", message);
+			DebugPrint("HANDLER." .. content[1],sender);
+			-- app.PrintTable(content)
 			handler(self, sender, content, responses);
 		else
 			app.print("Undefined handler", message);
@@ -390,6 +464,9 @@ local function ProcessAddonMessageText(self, sender, text, responses)
 	end
 end
 local function ProcessAddonMessageMethod(self, method, sender, text)
+	DebugPrint("RECEIVE",sender,text:sub(1, 500))
+	if not VerifyLinkedSender(sender) then return end
+
 	-- Check for chunks, which are gigantic sets of data.
 	if text:sub(1, 6) == "chunk`" then
 		local content = SplitString("`", text);
@@ -426,6 +503,7 @@ local whiteListedFields = {
 	Artifacts = true,
 	AzeriteEssenceRanks = true,
 	BattlePets = true,
+	Conduits = true,
 	Exploration = true,
 	Factions = true,
 	FirstCrafts = true,
@@ -493,6 +571,7 @@ local AccountWideDataHandlers = setmetatable({
 	IGNORE_QUEST_PRINT = app.EmptyFunction,
 	AzeriteEssenceRanks = RankSyncCharacterData,
 	Quests = PartialSyncCharacterData,
+	Toys = PartialSyncCharacterData,	-- CRIEVE NOTE: Prior to Legion, many items are stored as "ToyEventually".
 }, {
 	__index = function(t, key)
 		return whiteListedFields[key] and DefaultAccountWideDataHandler or app.EmptyFunction;
@@ -506,7 +585,6 @@ else
 	whiteListedFields.Achievements = true;
 	whiteListedFields.BattlePets = true;
 	whiteListedFields.Mounts = true;
-	whiteListedFields.Toys = true;
 end
 local function RecalculateAccountWideData(doPrints)
 	if doPrints then app.print("Recalculating Account Data..."); end
@@ -619,7 +697,6 @@ local b64index = {}
 for i = 1, #b64chars do
     b64index[b64chars:sub(i,i)] = i - 1
 end
-
 local function b64encode(bytes)
     local t = {}
     local n = #bytes
@@ -630,27 +707,33 @@ local function b64encode(bytes)
         local b2 = bytes[i];     i = i + 1
         local b3 = bytes[i];     i = i + 1
 
+        -- Compute 6-bit groups
         local n1 = bit.rshift(b1, 2)
         local n2 = bit.bor(bit.lshift(bit.band(b1, 3), 4), bit.rshift(b2 or 0, 4))
         local n3 = bit.bor(bit.lshift(bit.band(b2 or 0, 15), 2), bit.rshift(b3 or 0, 6))
         local n4 = bit.band(b3 or 0, 63)
 
+        -- Always emit 4 chars, but replace with '=' when needed
         t[#t+1] = b64chars:sub(n1+1, n1+1)
         t[#t+1] = b64chars:sub(n2+1, n2+1)
 
-        if b2 then
+        if b2 == nil then
+            -- Only 1 byte input → 2 chars + '=='
+            t[#t+1] = "="
+            t[#t+1] = "="
+        elseif b3 == nil then
+            -- Only 2 bytes input → 3 chars + '='
             t[#t+1] = b64chars:sub(n3+1, n3+1)
-        end
-        if b3 then
+            t[#t+1] = "="
+        else
+            -- Full 3 bytes → 4 chars
+            t[#t+1] = b64chars:sub(n3+1, n3+1)
             t[#t+1] = b64chars:sub(n4+1, n4+1)
         end
     end
 
     return table.concat(t)
 end
-
--- Web-safe Base64 decode
-
 local function b64decode(str)
     local bytes = {}
     local n = #str
@@ -659,25 +742,41 @@ local function b64decode(str)
     while i <= n do
         local c1 = b64index[str:sub(i,i)]; i = i + 1
         local c2 = b64index[str:sub(i,i)]; i = i + 1
-        local c3 = b64index[str:sub(i,i)]; i = i + 1
-        local c4 = b64index[str:sub(i,i)]; i = i + 1
 
+        local c3char = str:sub(i,i)
+        local c4char = str:sub(i+1,i+1)
+
+        local c3 = b64index[c3char]
+        local c4 = b64index[c4char]
+
+        i = i + 2
+
+        -- byte 1 (always present)
         local b1 = bit.bor(bit.lshift(c1, 2), bit.rshift(c2, 4))
         bytes[#bytes+1] = bit.band(b1, 0xFF)
 
-        if c3 then
+        -- byte 2 (only if c3 is not padding)
+        if c3char ~= "=" then
             local b2 = bit.bor(bit.lshift(bit.band(c2, 15), 4), bit.rshift(c3, 2))
             bytes[#bytes+1] = bit.band(b2, 0xFF)
+        else
+            -- c3 is padding → stop decoding this quartet
+            break
         end
 
-        if c4 then
+        -- byte 3 (only if c4 is not padding)
+        if c4char ~= "=" then
             local b3 = bit.bor(bit.lshift(bit.band(c3, 3), 6), c4)
             bytes[#bytes+1] = bit.band(b3, 0xFF)
+        else
+            -- c4 is padding → stop decoding this quartet
+            break
         end
     end
 
     return bytes
 end
+
 local function rleEncodeBytes(bytes)
     local out = {}
     local n = #bytes
@@ -1226,6 +1325,7 @@ local deserializers = setmetatable({
 	end,
 	__perf = ignoreField,			-- If performance data got captured to saved vars, ignore it
 	__perfscope = ignoreField,		-- If performance data got captured to saved vars, ignore it
+	Identifier = ignoreField,
 	CustomCollects = ignoreField,	-- Related to settings not collection
 	ArtifactRelicItemLevels = ignoreField,
 	gameAccountID = ignoreField,	-- This is a per-account setting, based on session context.
@@ -1454,16 +1554,7 @@ MESSAGE_HANDLERS.ack = function(self, sender, content, responses)
 	pendingChunk.cooldown = 0;
 end
 MESSAGE_HANDLERS.check = function(self, sender, content, responses)
-	-- Validate inputs. Sync identity token MUST be supplied and the account must be linked!
-	local token, isResponding = content[2], content[3];
-	if not token then return false; end
-	local senderWithoutServerName = sender and ("-"):split(sender);
-	if not LinkedCharacters[token] and not LinkedCharacters[senderWithoutServerName] then
-		return false;
-	else
-		-- White list any future communications with this sender for the rest of the session.
-		getmetatable(LinkedCharacters).__index[sender] = true;
-	end
+	local isResponding = content[3];
 
 	-- Clear out any pending chunks for the sender. (so it doesn't get malformed)
 	pendingReceiveChunksForUser[sender] = nil;
@@ -1486,38 +1577,21 @@ MESSAGE_HANDLERS.check = function(self, sender, content, responses)
 	return true;
 end
 MESSAGE_HANDLERS.char = function(self, sender, content, responses)
-	local senderWithoutServerName = ("-"):split(sender);
-	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	local guid, lastPlayed = (":"):split(content[2]);
 	ReceiveCharacterSummary(self, sender, responses, guid, tonumber(lastPlayed) or 0, true);
 end
 MESSAGE_HANDLERS.chars = function(self, sender, content, responses)
-	local senderWithoutServerName = ("-"):split(sender);
-	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	for i=2,#content,1 do
 		local guid, lastPlayed = (":"):split(content[i]);
 		ReceiveCharacterSummary(self, sender, responses, guid, tonumber(lastPlayed) or 0, false);
 	end
 end
 MESSAGE_HANDLERS.link = function(self, sender, content, responses)
-	-- Validate inputs. Sync identity token MUST be supplied and the account must be linked!
-	local token = content[2];
-	if not token then return false; end
-	local senderWithoutServerName = sender and ("-"):split(sender);
-	if not LinkedCharacters[token] and not LinkedCharacters[senderWithoutServerName] then
-		return false;
-	else
-		-- White list any future communications with this sender for the rest of the session.
-		getmetatable(LinkedCharacters).__index[sender] = true;
-	end
-
 	-- Generate the linked string, which gets the character ready on the other end and connects the bnet account
 	tinsert(responses, { detail = CurrentCharacter.text, msg = "linked," .. CurrentCharacter.guid .. "," .. CurrentCharacter.text .. "," .. CurrentCharacter.lastPlayed });
 	return true;
 end
 MESSAGE_HANDLERS.linked = function(self, sender, content, responses)
-	if not LinkedCharacters[sender] then return false; end
-
 	-- Parse the linked string.
 	local guid = content[2];
 	local text = content[3];
@@ -1538,8 +1612,6 @@ MESSAGE_HANDLERS.linked = function(self, sender, content, responses)
 	return true;
 end
 MESSAGE_HANDLERS.rawchar = function(self, sender, content, responses)
-	local senderWithoutServerName = ("-"):split(sender);
-	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	local guid = content[2];
 	if not guid then return false; end
 	tremove(content, 1);
@@ -1571,8 +1643,7 @@ MESSAGE_HANDLERS.rawchar = function(self, sender, content, responses)
 			character[fieldName] = data;
 			-- app.PrintDebug("deserialized",fieldName,"@",fieldDataString:len(),"into",app.CountTable(data),"keys")
 		elseif not ok then
-			app.report("Failed to deserialize",fieldName,fieldDataString)
-			app.print(data)
+			app.report("Failed to deserialize",fieldName,fieldDataString,data)
 		end
 	end
 
@@ -1591,8 +1662,6 @@ MESSAGE_HANDLERS.rawchar = function(self, sender, content, responses)
 	self:Rebuild();
 end
 MESSAGE_HANDLERS.request = function(self, sender, content, responses)
-	local senderWithoutServerName = ("-"):split(sender);
-	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	local guid, lastUpdated = content[2], content[3];
 	if lastUpdated then
 		lastUpdated = tonumber(lastUpdated);
@@ -1631,8 +1700,6 @@ MESSAGE_HANDLERS.request = function(self, sender, content, responses)
 	tinsert(responses, { detail = character.text, msg = rawData });
 end
 MESSAGE_HANDLERS.uptodate = function(self, sender, content, responses)
-	local senderWithoutServerName = ("-"):split(sender);
-	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	local guid = content[2];
 	if guid then
 		local character = CharacterData[guid];
@@ -1838,7 +1905,10 @@ local function OnClickForCharacter(row, button)
 end
 local function OnClickForLinkedAccount(row, button)
 	local identifier = row.ref.datalink;
-	if not identifier then return true; end
+	if not identifier then
+		app.print("This linked character is missing a datalink. Please delete and re-create properly!", row.ref.name)
+		return true
+	end
 
 	if button == "RightButton" then
 		app:ShowPopupDialog("LINKED ACCOUNT: " .. (row.ref.text or RETRIEVING_DATA) .. "\n \nAre you sure you want to delete this?",
@@ -1852,9 +1922,7 @@ local function OnClickForLinkedAccount(row, button)
 		-- Cache characters by their names.
 		local characterByInfo = {};
 		for guid,character in pairs(CharacterData) do
-			local name = character.name;
-			if name then characterByInfo[name] = character; end
-			characterByInfo[guid] = character;
+			AddCharacterLookup(characterByInfo, character);
 		end
 
 		-- Update the last played timestamp. This ensures the sync process does NOT destroy unsaved progress on this character.
@@ -2042,6 +2110,10 @@ end
 local function OnTooltipForLinkedAccount(t, tooltipInfo)
 	if t.unit then
 		tinsert(tooltipInfo, {
+			left = "Linked as",
+			right = t.datalink,
+		});
+		tinsert(tooltipInfo, {
 			left = "This character's account will be synchronized with automatically when they log in. For optimal play, you should whitelist a bank character and probably not your main as to not affect your ability to play your character when syncing account data.",
 			r = 0.8, g = 0.8, b = 1, wrap = true
 		});
@@ -2140,6 +2212,7 @@ end
 -- Implementation
 app:CreateWindow("Account Management", {
 	Commands = { "attsync", "attaccount" },
+	RootCommands = { "sync", "account" },
 	IgnoreQuestUpdates = true,
 	Defaults = {
 		AutoSync = true,
@@ -2158,17 +2231,26 @@ app:CreateWindow("Account Management", {
 		end
 
 		local options = {
+			app.CreateToggle("debugOutput", {
+				name = "Show Debug Output",
+				icon = 236206,
+				description = "ONLY toggle this when needing to enable spammy Debug output for troubleshooting purposes.",
+				OnUpdate = app.AlwaysShowUpdate,
+				OnClickHandler = OnDebugOutputToggled,
+			}),
 			app.CreateRawText("Add Linked Character", {
 				icon = app.asset("Button_Add"),
-				description = "Click here to link a character to your account.\n\nOnce Linked, click on the Linked Character in the list below to initiate a sync with that character.\n\nNOTE: Your character must be on the same faction and server as your current character to sync.",
+				description = "Click here to link a character to your account.\n\nOnce Linked, click on the Linked Character in the list below to initiate a sync with that character.\n\nNOTE: Your character must be on the same faction (and server when not using Battle.net sync) as your current character to sync.",
 				OnUpdate = app.AlwaysShowUpdate,
 				OnClick = function(row, button)
-					app:ShowPopupDialogWithEditBox("Please type the name of the character to link to.", "", function(cmd)
+					app:ShowPopupDialogWithEditBox("Please type the name of the character to link to. You can use Name or Name-Realm as the format. This is case-sensitive!", "", function(cmd)
 						if cmd and cmd ~= "" then
-							-- Prevent server names.
-							cmd = ("-"):split(cmd);
-							LinkedCharacters[cmd] = true;
-							SendAddonMessage(cmd, "Link " .. cmd, "link," .. GetSyncIdentityToken());
+							local fullIdentifier, shortIdentifier = NormalizeLinkedCharacterIdentifier(cmd);
+							cmd = fullIdentifier or shortIdentifier;
+							if cmd then
+								LinkedCharacters[cmd] = true;
+								SendAddonMessage(cmd, "Link " .. cmd, "link," .. GetSyncIdentityToken());
+							end
 							self:Rebuild();
 						end
 					end);
@@ -2186,7 +2268,7 @@ app:CreateWindow("Account Management", {
 			}),
 			app.CreateRawText("Recalculate Account Wide Data", {
 				icon = 132996,
-				description = "Click here to force ATT to recalculate its account wide statistical data. This happens automatically after a sync, but if there's ever a situation where ATT sees that a different character has done a thing, but your current character hasn't and isn't giving you partial credit, you can click this to manually initiate that recalculation.",
+				description = "Click here to force ATT to recalculate its account wide statistical data. This happens automatically after a sync or refresh, but if there's ever a situation where ATT sees that a different character has done a thing, but your current character hasn't and isn't giving you partial credit, you can click this to manually initiate that recalculation.",
 				OnUpdate = app.AlwaysShowUpdate,
 				OnClick = function(row, button)
 					RecalculateAccountWideData(true);
@@ -2195,7 +2277,7 @@ app:CreateWindow("Account Management", {
 			}),
 			app.CreateRawText("Sync All Characters", {
 				icon = app.asset("Button_Sync"),
-				description = "Click here to sync all of your characters.\n\nAlt+Click to toggle automatically syncing characters with your other accounts.\n\nYou must initially have the character stored on this account by Linking a Character and manually initiating a sync with that character. The character on your other account must also assign this character as a Linked Character.\n\nNOTE: Your character must be on the same faction and server as your current character to sync.",
+				description = "Click here to sync all of your characters.\n\nAlt+Click to toggle automatically syncing characters with your other accounts.\n\nYou must initially have the character stored on this account by Linking a Character and manually initiating a sync with that character. The character on your other account must also assign this character as a Linked Character.\n\nNOTE: Your character must be able to send whispers to other Linked characters (when not using Battle.net sync) to sync properly.",
 				OnUpdate = function(t)
 					t.saved = self.Settings.AutoSync;
 					return app.AlwaysShowUpdate(t);
@@ -2271,20 +2353,39 @@ app:CreateWindow("Account Management", {
 			}),
 			app.CreateRawText("Linked Characters", {	-- Linked Characters
 				icon = 526421,
-				description = "This shows all of the linked characters you have defined so far.\n\nClick on a Linked Character in the list below to initiate a sync with that character. The character on your other account must also assign this character as a Linked Character.\n\nNOTE: Your character must be on the same faction and server as your current character to sync.",
+				description = "This shows all of the linked characters you have defined so far.\n\nClick on a Linked Character in the list below to initiate a sync with that character. The character on your other account must also assign this character as a Linked Character.\n\nNOTE: Your character must be able to send whispers to other Linked characters (when not using Battle.net sync) to sync properly.",
 				expanded = true,
 				g = {},
 				OnUpdate = function(data)
 					local g = data.g;
+					local characterByInfo = {};
 					wipe(g);
-					for playerName,allowed in pairs(LinkedCharacters) do
-						tinsert(g, app.CreateUnit(playerName, {
-							datalink = playerName,
-							OnClick = OnClickForLinkedAccount,
-							OnTooltip = OnTooltipForLinkedAccount,
-							OnUpdate = app.AlwaysShowUpdate,
-							parent = data,
-						}));
+					for guid,character in pairs(CharacterData) do
+						AddCharacterLookup(characterByInfo, character);
+					end
+					for identifier,allowed in pairs(LinkedCharacters) do
+						if allowed then
+							local character = characterByInfo[identifier];
+							if character then
+								tinsert(g, app.CreateUnit(character.guid, {
+									datalink = identifier,
+									OnClick = OnClickForLinkedAccount,
+									OnTooltip = OnTooltipForLinkedAccount,
+									OnUpdate = app.AlwaysShowUpdate,
+									parent = data,
+								}));
+							else
+								tinsert(g, app.CreateRawText(identifier, {
+									text = identifier,
+									datalink = identifier,
+									OnClick = OnClickForLinkedAccount,
+									OnTooltip = OnTooltipForLinkedAccount,
+									OnUpdate = app.AlwaysShowUpdate,
+									icon = 526421,
+									parent = data,
+								}));
+							end
+						end
 					end
 
 					if #g < 1 then

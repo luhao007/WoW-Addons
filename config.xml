@@ -1472,6 +1472,11 @@
 		<Title>大秘境工具</Title>
 		<Notes>大秘境工具包</Notes>
 		<Category>副本</Category>
+		<SubAddons>
+			<SubAddon name="MythicDungeonTools_UI">
+				<Title>大秘境工具界面</Title>
+			</SubAddon>
+		</SubAddons>
 	</Addon>
 	<Addon name="MythicPlusTimer">
 		<Title>大秘境计时</Title>

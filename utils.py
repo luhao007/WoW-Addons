@@ -143,12 +143,7 @@ def remove_libs_in_file(path: str | Path, libs: Iterable[str]):
 @functools.lru_cache
 def get_libraries_list() -> list[str]:
     root = Path("AddOns/!!Libs")
-    paths = [
-        root,
-        root / "Ace3",
-        root / "Ace3" / "AceConfig-3.0",
-        root / "LibBabble"
-    ]
+    paths = [root, root / "Ace3", root / "Ace3" / "AceConfig-3.0", root / "LibBabble"]
     libs: list[str] = []
     libs = sum(
         [
@@ -203,7 +198,7 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
     # Remove lib entry in root folder
     lib_files = [
         Path("AddOns") / addon / f"{addon.split('/')[-1]}{postfix}"
-        for postfix in ([".xml"] + TOCS)
+        for postfix in [".xml"] + TOCS
     ]
     root_xmls = ["embeds.xml", "include.xml", "core.xml", "loadLibs.xml"]
     lib_files += [Path("Addons") / addon / file for file in root_xmls]
@@ -215,8 +210,10 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
     xmls = [
         "Includes.xml",
         "Libs.xml",
+        "libs.xml",
         "ExternalLibs.xml",
         "load_libs.xml",
+        "load_core_libs.xml",
         "lib.xml",
         "lib_wrath.xml",
         "main.xml",

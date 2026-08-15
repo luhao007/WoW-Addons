@@ -1,4 +1,4 @@
-local MDT = MDT
+local _, MDT = ...
 local db
 local sizex, sizey
 local canvasDrawLayer = "BORDER"
@@ -27,12 +27,13 @@ function MDT:Maximize()
   f.topPanel:SetMouseClickEnabled(false)
   f.bottomPanel:SetMouseClickEnabled(false)
   local newSizex, newSizey, scale, isNarrow = MDT:GetFullScreenSizes()
+  local navigationSidebarWidth = MDT:GetNavigationSidebarWidth()
   db.scale = scale
   f:ClearAllPoints()
   if not isNarrow then
-    f:SetPoint("TOP", UIParent, "TOP", -(f.sidePanel:GetWidth() / 2), -30)
+    f:SetPoint("TOP", UIParent, "TOP", -((f.sidePanel:GetWidth() - navigationSidebarWidth) / 2), -30)
   else
-    f:SetPoint("LEFT", UIParent, "LEFT")
+    f:SetPoint("LEFT", UIParent, "LEFT", navigationSidebarWidth, 0)
   end
   f:SetSize(newSizex, newSizey)
   f.scrollFrame:SetSize(newSizex, newSizey)
@@ -53,8 +54,7 @@ function MDT:Maximize()
   MDT:UpdateEnemyInfoFrame()
   MDT:UpdateMap()
   if db.devMode then
-    f.devPanel:ClearAllPoints()
-    f.devPanel:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -45)
+    MDT:PositionDevPanel(f, true)
   end
   f.resizer:Hide()
   db.maximized = true
@@ -97,8 +97,7 @@ function MDT:Minimize()
   MDT:UpdateEnemyInfoFrame()
   MDT:UpdateMap()
   if db.devMode then
-    f.devPanel:ClearAllPoints()
-    f.devPanel:SetPoint("TOPRIGHT", f.topPanel, "TOPLEFT", 0, 0)
+    MDT:PositionDevPanel(f, false)
   end
   f.resizer:Show()
 

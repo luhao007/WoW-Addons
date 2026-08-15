@@ -82,7 +82,6 @@ app.AddEventHandler("OnLoad", function()
 	remapping[1666] = 1669; -- TW
 
 	-- Remap SL Timewalking => US
-	-- Maybe mapping is to 1704
 	remapping[1704] = 1703; --
 	remapping[1705] = 1703; --
 	remapping[1706] = 1703; --
@@ -90,6 +89,11 @@ app.AddEventHandler("OnLoad", function()
 	remapping[1708] = 1703; --
 	remapping[1709] = 1703; --
 	remapping[1710] = 1703; --
+
+	-- Remap DF Timewalking => US
+    remapping[1719] = 1722; -- TW
+    remapping[1720] = 1722; -- EU
+    remapping[1721] = 1722; -- KO
 end);
 
 -- Event Cache
@@ -125,17 +129,22 @@ local function GetEventCache()
 	-- app.PrintDebug("GetEventCache")
 	local now = CreateTimeStamp(C_DateAndTime_GetCurrentCalendarTime());
 	local cache = SessionEventCache or AllTheThingsSavedVariables.EventCache;
-	if cache and (cache.lease or 0) > now and (cache.version and cache.version >= CacheVersion) then
+	if cache
+		and (cache.lease or 0) > now
+		and (cache.version and cache.version == CacheVersion)
+		and (cache.attversion and cache.attversion == app.Version)
+	then
 		-- If our cache is still leased, then simply return it.
-		-- app.PrintDebug("GetEventCache.lease")
+		-- app.PrintDebug("GetEventCache.lease",cache.lease)
 		SessionEventCache = cache;
 		return cache;
 	end
 
-	-- Create a new cache with a week long lease.
+	-- Create a new cache with a week long lease (24hr for Git)
 	cache = {
-		lease = now + 604800,
-		version = CacheVersion
+		lease = now + (app.Version == "[Git]" and 86400 or 604800),
+		version = CacheVersion,
+		attversion = app.Version,
 	};
 	if isCalendarAvailable then
 		local C_Calendar_SetAbsMonth, C_Calendar_SetMonth, C_Calendar_GetDayEvent, C_Calendar_GetMonthInfo, C_Calendar_GetNumDayEvents
@@ -222,7 +231,7 @@ local function GetEventCache()
 	end
 
 	-- Save the cache to SavedVariables.
-	-- app.PrintDebug("GetEventCache.cached")
+	-- app.PrintDebug("GetEventCache.cached",cache.lease)
 	AllTheThingsSavedVariables.EventCache = cache;
 	SessionEventCache = cache;
 	return cache;

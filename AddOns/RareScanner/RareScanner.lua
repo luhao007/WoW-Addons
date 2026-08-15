@@ -395,10 +395,18 @@ scanner_button.LootBar.itemFramesPool.UpdateCacheItem = function(self, itemID, e
 			self.totalLoaded = self.totalLoaded + 1
 		end
 		
-		if (self.totalLoaded >= RSConfigDB.GetMaxNumItemsToShow() and self:GetNumActive() == 0) then
-			self:ShowIfReady()
-		elseif (self.totalItems == self.totalLoaded) then
-			self:ShowIfReady()
+		if (self.totalLoaded >= RSConfigDB.GetMaxNumItemsToShow() or self.totalLoaded == self.totalItems) then
+		    if (not self.isScheduledForRender and self:GetNumActive() == 0) then
+		        self.isScheduledForRender = true
+		        
+		        -- Avoids FPS drop
+		        C_Timer.After(0.05, function()
+		            self.isScheduledForRender = false
+		            if (self:GetNumActive() == 0) then
+		                self:ShowIfReady()
+		            end
+		        end)
+		    end
 		end
 	end)
 end

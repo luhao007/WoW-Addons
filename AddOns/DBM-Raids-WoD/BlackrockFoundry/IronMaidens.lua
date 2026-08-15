@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1203, "DBM-Raids-WoD", 2, 457)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260525233107")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(77557, 77231, 77477)
 mod:SetEncounterID(1695)
@@ -36,7 +36,7 @@ local Garan = DBM:EJ_GetSectionInfo(10025)
 --(ability.id = 158078 or ability.id = 156626 or ability.id = 155794 or ability.id = 158008 or ability.id = 156109) and type = "begincast" or ability.id = 164271 and type = "cast" or ability.name = "Sabotage"
 --Ship
 local warnPhase2						= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
-local warnShip							= mod:NewTargetAnnounce("ej10019", 3, 76204, nil, nil, nil, nil, 2)
+local warnShip							= mod:NewTargetAnnounce(-10019, 3, 76204, nil, nil, nil, nil, 2)
 local warnBombardmentAlpha				= mod:NewCountAnnounce(157854, 3)--From ship, but affects NON ship.
 ----Blackrock Deckhand
 local warnProtectiveEarth				= mod:NewSpellAnnounce(158707, 3, nil, false, 2)--Could not verify
@@ -58,9 +58,9 @@ local warnSanguineStrikes				= mod:NewTargetAnnounce(156601, 3, nil, "Healer")
 --Ship
 local specWarnBombardmentOmega			= mod:NewSpecialWarningCount(157886, nil, nil, nil, 3)--From ship, but affects NON ship.
 local specWarnReturnBase				= mod:NewSpecialWarning("specWarnReturnBase")
-local specWarnBoatEnded					= mod:NewSpecialWarningEnd("ej10019")
+local specWarnBoatEnded					= mod:NewSpecialWarningEnd(-10019)
 ----Blackrock Deckhand
-local specWarnEarthenbarrier			= mod:NewSpecialWarningInterrupt(158708, "-Healer", nil, 2, nil, 2)
+local specWarnEarthenbarrier			= mod:NewSpecialWarningInterrupt(158708, "-Healer", nil, 2, nil, 2, nil, nil, "kickcast")
 ----Shattered Hand Deckhand
 local specWarnDeadlyThrow				= mod:NewSpecialWarningSpell(158692, "Tank")
 local specWarnFixate					= mod:NewSpecialWarningYou(158702)
@@ -68,31 +68,31 @@ local specWarnFixate					= mod:NewSpecialWarningYou(158702)
 local specWarnCorruptedBlood			= mod:NewSpecialWarningMove(158683)
 --Ground
 ----Admiral Gar'an
-local specWarnRapidFire					= mod:NewSpecialWarningRun(156631, nil, nil, nil, 4, 2)
+local specWarnRapidFire					= mod:NewSpecialWarningRun(156631, nil, nil, nil, 4, 2, nil, nil, "runout")
 local yellRapidFire						= mod:NewYell(156631)
-local specWarnRapidFireNear				= mod:NewSpecialWarningClose(156631, false, nil, nil, 1, 2)
-local specWarnPenetratingShot			= mod:NewSpecialWarningYou(164271, nil, nil, nil, 1, 2)
+local specWarnRapidFireNear				= mod:NewSpecialWarningClose(156631, false, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnPenetratingShot			= mod:NewSpecialWarningYou(164271, nil, nil, nil, 1, 2, nil, nil, "gathershare")
 local specWarnPenetratingShotOther		= mod:NewSpecialWarningTargetCount(164271, false)
 local yellPenetratingShot				= mod:NewYell(164271)
-local specWarnDeployTurret				= mod:NewSpecialWarningSwitch(158599, "RangedDps", nil, 3, 3, 12)--Switch warning since most need to switch and kill, but on for EVERYONE because tanks/healers need to avoid it while it's up
+local specWarnDeployTurret				= mod:NewSpecialWarningSwitch(158599, "RangedDps", nil, 3, 3, 12, nil, nil, "attackturret")--Switch warning since most need to switch and kill, but on for EVERYONE because tanks/healers need to avoid it while it's up
 ----Enforcer Sorka
-local specWarnBladeDash					= mod:NewSpecialWarningYou(155794, nil, nil, nil, 1, 2)
-local specWarnBladeDashOther			= mod:NewSpecialWarningClose(155794, nil, nil, nil, 1, 2)
-local specWarnConvulsiveShadows			= mod:NewSpecialWarningMoveAway(156214, nil, nil, nil, 1, 2)--Does this still drop lingering shadows, if not moveaway is not appropriate
+local specWarnBladeDash					= mod:NewSpecialWarningYou(155794, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnBladeDashOther			= mod:NewSpecialWarningClose(155794, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnConvulsiveShadows			= mod:NewSpecialWarningMoveAway(156214, nil, nil, nil, 1, 2, nil, nil, "runaway")--Does this still drop lingering shadows, if not moveaway is not appropriate
 local specWarnConvulsiveShadowsOther	= mod:NewSpecialWarningTargetCount(156214, false)
 local yellConvulsiveShadows				= mod:NewYell(156214, nil, false)
-local specWarnDarkHunt					= mod:NewSpecialWarningYou(158315, nil, nil, nil, 1, 2)
+local specWarnDarkHunt					= mod:NewSpecialWarningYou(158315, nil, nil, nil, 1, 2, nil, nil, "defensive")
 local specWarnDarkHuntOther				= mod:NewSpecialWarningTargetCount(158315, false)--Healer may want this, or raid leader
 ----Marak the Blooded
-local specWarnBloodRitual				= mod:NewSpecialWarningYou(158078, nil, nil, nil, 1, 2)
-local specWarnBloodRitualOther			= mod:NewSpecialWarningTargetCount(158078, "Tank", nil, nil, 1, 2)
+local specWarnBloodRitual				= mod:NewSpecialWarningYou(158078, nil, nil, nil, 1, 2, nil, nil, "farfromline")
+local specWarnBloodRitualOther			= mod:NewSpecialWarningTargetCount(158078, "Tank", nil, nil, 1, 2, nil, nil, "helpsoak")
 local yellBloodRitual					= mod:NewYell(158078)
-local specWarnBloodsoakedHeartseeker	= mod:NewSpecialWarningRun(158010, nil, nil, nil, 4, 2)
+local specWarnBloodsoakedHeartseeker	= mod:NewSpecialWarningRun(158010, nil, nil, nil, 4, 2, nil, nil, "scatter")
 local yellHeartseeker					= mod:NewYell(158010, nil, false)
 
 --Ship
 mod:AddTimerLine(Ship)
-local timerShipCD						= mod:NewNextCountTimer(198, "ej10019", nil, nil, nil, 6, 76204, nil, nil, 1, 5)
+local timerShipCD						= mod:NewNextCountTimer(198, -10019, nil, nil, nil, 6, 76204, nil, nil, 1, 5)
 local timerBombardmentAlphaCD			= mod:NewNextTimer(18, 157854, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerWarmingUp					= mod:NewCastTimer(90, 158849, nil, nil, nil, 6, nil, nil, nil, 1, 5)
 --Ground

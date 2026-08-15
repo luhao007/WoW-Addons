@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("MorphazandHazzasSoD", "DBM-Raids-Vanilla", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260709012018")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(221942, 221943)--Morphaz, Hazzas
 mod:SetEncounterID(2958)
@@ -34,7 +34,7 @@ local warnDreamersLament			= mod:NewCountAnnounce(446468, 3)
 local warnCorruptedBreath			= mod:NewStackAnnounce(446487, 2, nil, "Tank|Healer")
 local warnAnimateFlame				= mod:NewSpellAnnounce(446661, 3)
 
-local specWarnBackfire				= mod:NewSpecialWarningCount(446489, nil, nil, nil, 2, 2)
+local specWarnBackfire				= mod:NewSpecialWarningCount(446489, nil, nil, nil, 2, 2, nil, nil, "carefly")
 --local specWarnTheClaw				= mod:NewSpecialWarningYou(432062, nil, nil, nil, 1, 2)
 --local yellTheClaw					= mod:NewYell(432062)
 
@@ -110,7 +110,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 446487 then
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId, nil, nil, false, args.sourceGUID) then
 			local amount = args.amount or 1
 			warnCorruptedBreath:Show(args.destName, amount)

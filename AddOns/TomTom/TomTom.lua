@@ -1424,8 +1424,6 @@ do
                     NameToMapId[name] = id
                 end
             end
-            -- Record just the raw map # as a possible override.
-            NameToMapId["#" .. id] = id
         end
     end
     -- Handle any duplicates
@@ -1458,6 +1456,52 @@ local rightseparator =   "%1" .. (tonumber("1.1") and "." or ",") .. "%2"
 
 -- Make comparison only using lowercase letters and no spaces
 local function lowergsub(s) return s:lower():gsub("[%s]", "") end
+
+-- Resolve a user-supplied zone string to a map ID, returning mapId, zoneName
+-- on success or nil plus a message to display on failure.
+--
+-- A "#1234" zone is parsed as a literal map ID rather than looked up in
+-- NameToMapId.  That table only holds maps Blizzard has typed as a zone,
+-- continent or micro map, so the escape hatch has to bypass it entirely to be
+-- useful for maps that are mistyped (a zone marked as a dungeon, say).  It also
+-- avoids the fuzzy match, where "#12" would match "#120" and every other map
+-- sharing the prefix.
+local function ResolveZone(zone)
+    local forcedId = zone:match("^#(%d+)$")
+    if forcedId then
+        local mapId = tonumber(forcedId)
+        if not hbd.mapData[mapId] then
+            return nil, nil, string.format(L["No map data is available for map #%d."], mapId)
+        end
+        return mapId, hbd:GetLocalizedMap(mapId) or zone
+    end
+
+    local matches = {}
+    local lzone = lowergsub(zone)
+
+    for name in pairs(NameToMapId) do
+        local lname = lowergsub(name)
+        if lname == lzone then
+            -- We have an exact match
+            matches = {name}
+            break
+        elseif lname:match(lzone) then
+            table.insert(matches, name)
+        end
+    end
+
+    if #matches > 7 then
+        return nil, nil, string.format(L["Found %d possible matches for zone %s.  Please be more specific"], #matches, zone)
+    elseif #matches > 1 then
+        table.sort(matches)
+        return nil, nil, string.format(L["Found multiple matches for zone '%s'.  Did you mean: %s"], zone, table.concat(matches, ", "))
+    elseif #matches == 0 then
+        return nil, nil, string.format(L["Could not find any matches for zone %s."], zone)
+    end
+
+    local zoneName = matches[1]
+    return NameToMapId[zoneName], zoneName
+end
 
 addon.SlashWayCommand = function(msg)
     msg = msg:gsub("(%d)[%.,] (%d)", "%1 %2"):gsub(wrongseparator, rightseparator)
@@ -1513,39 +1557,11 @@ addon.SlashWayCommand = function(msg)
             else
                 zone = table.concat(tokens, " ", 2)
             end
-            -- Find a fuzzy match for the zone
-
-            local matches = {}
-            local lzone = lowergsub(zone)
-
-            for name, mapId in pairs(NameToMapId) do
-                local lname = lowergsub(name)
-                if lname == lzone then
-                    -- We have an exact match
-                    matches = {name}
-                    break
-                elseif lname:match(lzone) then
-                    table.insert(matches, name)
-                end
-            end
-
-            if #matches > 7 then
-                local msg = string.format(L["Found %d possible matches for zone %s.  Please be more specific"], #matches, zone)
-                ChatFrame1:AddMessage(msg)
-                return
-            elseif #matches > 1 then
-                table.sort(matches)
-
-                ChatFrame1:AddMessage(string.format(L["Found multiple matches for zone '%s'.  Did you mean: %s"], zone, table.concat(matches, ", ")))
-                return
-            elseif #matches == 0 then
-                local msg = string.format(L["Could not find any matches for zone %s."], zone)
-                ChatFrame1:AddMessage(msg)
+            local mapId, zoneName, errorMsg = ResolveZone(zone)
+            if not mapId then
+                ChatFrame1:AddMessage(errorMsg)
                 return
             end
-
-            local zoneName = matches[1]
-            local mapId = NameToMapId[zoneName]
 
             if notHere then
                 for map, map_waypoints in pairs(waypoints) do
@@ -1607,38 +1623,11 @@ addon.SlashWayCommand = function(msg)
 
         if desc then desc = table.concat(tokens, " ", zoneEnd + 3) end
 
-        -- Find a fuzzy match for the zone
-        local matches = {}
-        local lzone = lowergsub(zone)
-
-        for name,mapId in pairs(NameToMapId) do
-            local lname = lowergsub(name)
-            if lname == lzone then
-                -- We have an exact match
-                matches = {name}
-                break
-            elseif lname:match(lzone) then
-                table.insert(matches, name)
-            end
-        end
-
-        if #matches > 7 then
-            local msg = string.format(L["Found %d possible matches for zone %s.  Please be more specific"], #matches, zone)
-            ChatFrame1:AddMessage(msg)
-            return
-        elseif #matches > 1 then
-            local msg = string.format(L["Found multiple matches for zone '%s'.  Did you mean: %s"], zone, table.concat(matches, ", "))
-            ChatFrame1:AddMessage(msg)
-            return
-        elseif #matches == 0 then
-            local msg = string.format(L["Could not find any matches for zone %s."], zone)
-            ChatFrame1:AddMessage(msg)
+        local mapId, _, errorMsg = ResolveZone(zone)
+        if not mapId then
+            ChatFrame1:AddMessage(errorMsg)
             return
         end
-
-        -- There was only one match, so proceed
-        local zoneName = matches[1]
-        local mapId = NameToMapId[zoneName]
 
         x = x and tonumber(x)
         y = y and tonumber(y)

@@ -1,6 +1,8 @@
 local ADDON_NAME, ns = ...
 local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 
+local provider = { pins = {}, forMapID = nil, canvas = nil, child = nil }
+
 local function DecodeCoord(coord)
     local x = math.floor(coord / 10000) / 100
     local y = (coord % 10000) / 100
@@ -13,12 +15,59 @@ local function CreateMNFlightPin(parent)
     FlightmasterMapIcons:SetSize(Icon_Size, Icon_Size)
     FlightmasterMapIcons:SetFrameStrata("HIGH")
     FlightmasterMapIcons:SetFrameLevel(parent:GetFrameLevel() + 500)
-    FlightmasterMapIcons:EnableMouse(true) -- do not let clicks through = true , let clicks through = false
+    FlightmasterMapIcons:EnableMouse(true)
     FlightmasterMapIcons:SetHitRectInsets(0,0,0,0)
+
     FlightmasterMapIcons.tex = FlightmasterMapIcons:CreateTexture(nil, "OVERLAY")
     FlightmasterMapIcons.tex:SetAllPoints()
     FlightmasterMapIcons.tex:SetTexelSnappingBias(0)
     FlightmasterMapIcons.tex:SetSnapToPixelGrid(false)
+
+    FlightmasterMapIcons:SetScript("OnMouseUp", function(self, button)
+        if button ~= "RightButton" or not IsAltKeyDown() then return end
+        if not (ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.DeleteIcons) then return end
+
+        local data = provider.pins and provider.pins[self]
+        if not data then return end
+
+        StaticPopupDialogs["Delete_Taxi_Icon?"] = {
+            text = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. ": " .. L["Delete this icon"] .. " ? " .. TextIconMNL4:GetIconString(),
+            button1 = YES,
+            button2 = NO,
+            showAlert = true,
+            exclusive = true,
+            whileDead = true,
+            hideOnEscape = true,
+            timeout = 5,
+            OnAccept = function()
+                local mapID = provider.forMapID
+                local coord = data.coord
+                if not (mapID and coord) then return end
+
+                ns.dbProfile = ns.GetDeletedIconsDB and ns:GetDeletedIconsDB()
+                if not ns.dbProfile then return end
+
+                ns.dbProfile.TaxiDeletedIcons[mapID][coord] = true
+
+                self:Hide()
+                provider.pins[self] = nil
+
+                if GameTooltip:IsOwned(self) then
+                    GameTooltip:Hide()
+                end
+
+                print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", FLIGHT_MAP .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
+
+                if RefreshAllData then RefreshAllData() end
+            end,
+            OnCancel = function()
+                print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. "|cffffff00 " .. CALENDAR_DELETE_EVENT .. " " .. "|cffff0000" .. L["canceled"])
+            end,
+        }
+
+        StaticPopup_Show("Delete_Taxi_Icon?")
+    end)
+
     FlightmasterMapIcons:Hide()
     return FlightmasterMapIcons
 end
@@ -78,10 +127,14 @@ local function ShowTaxiDungeonTooltip(pin, node)
         end
     end
 
+    local db = ns.Addon and ns.Addon.db and ns.Addon.db.profile
+    if db and db.TooltipInformations and db.DeleteIcons then
+        GameTooltip:AddDoubleLine( TextIconInfo:GetIconString() .. " " .. "|cffff0000" .. L["< Alt + Right click to delete this icon >"], nil, nil, false )
+    end
+
     GameTooltip:Show()
 end
 
-local provider = { pins = {}, forMapID = nil, canvas = nil, child = nil }
 local hooked = false
 local function RemoveAllPins()
     for pin in pairs(provider.pins) do
@@ -178,13 +231,21 @@ local function RefreshAllData()
 
     local t = ns.nodes and ns.nodes[provider.forMapID]
     if t then
-        for coord, node in pairs(t) do
-            local x, y = DecodeCoord(coord)
-            if x and y and x > 0 and x < 1 and y > 0 and y < 1 then
-                local pin = CreateMNFlightPin(child)
-                ApplyIcon(pin, node)
+        local deletedDB = ns.GetDeletedIconsDB and ns:GetDeletedIconsDB()
 
-                provider.pins[pin] = { x = x, y = y, node = node }
+        for coord, node in pairs(t) do
+            if deletedDB
+               and deletedDB.TaxiDeletedIcons
+               and deletedDB.TaxiDeletedIcons[provider.forMapID]
+               and deletedDB.TaxiDeletedIcons[provider.forMapID][coord] then
+            else
+                local x, y = DecodeCoord(coord)
+                if x and y and x > 0 and x < 1 and y > 0 and y < 1 then
+                    local pin = CreateMNFlightPin(child)
+                    ApplyIcon(pin, node)
+
+                    provider.pins[pin] = { x = x, y = y, node = node, coord = coord }
+                end
             end
         end
     end

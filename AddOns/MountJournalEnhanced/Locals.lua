@@ -137,6 +137,7 @@ L["Carpets"] = "Carpets"
 L["Carrion"] = "Carrion"
 L["Cats"] = "Cats"
 L["Cervid"] = "Cervid"
+L["Chameleon"] = "Chameleon"
 L["Chargers"] = "Chargers"
 L["Chickens"] = "Chickens"
 L["Clefthooves"] = "Clefthooves"
@@ -268,6 +269,7 @@ L["Skyrazor"] = "Skyrazor"
 L["Slateback"] = "Slateback"
 L["Slug"] = "Slug"
 L["Snail"] = "Snail"
+L["Snake"] = "Snake"
 L["Snapdragons"] = "Snapdragons"
 L["Spider Tanks"] = "Spider Tanks"
 L["Spiders"] = "Spiders"
@@ -303,6 +305,7 @@ L["Wasp"] = "Wasp"
 L["Water Striders"] = "Water Striders"
 L["Wilderlings"] = "Wilderlings"
 L["Wind Drakes"] = "Wind Drakes"
+L["Wind Serpent"] = "Wind Serpent"
 L["Wolfhawks"] = "Wolfhawks"
 L["Wolves"] = "Wolves"
 L["Worm"] = "Worm"
@@ -446,6 +449,7 @@ L["Carpets"] = "Teppiche"
 L["Carrion"] = "Aasvogel"
 L["Cats"] = "Katzen"
 L["Cervid"] = "Cervid"
+L["Chameleon"] = "Chamäleon"
 L["Chargers"] = "Streitrosse"
 L["Chickens"] = "Hühner"
 L["Clefthooves"] = "Spalthufe"
@@ -580,6 +584,7 @@ L["Slateback"] = "Schieferrücken"
 L["Slug"] = [=[Nacktschnecke
 ]=]
 L["Snail"] = "Schnecke"
+L["Snake"] = "Schlange"
 L["Snapdragons"] = "Schnappdrachen"
 L["Spider Tanks"] = "Mechaspinnen"
 L["Spiders"] = "Spinnen"
@@ -615,6 +620,7 @@ L["Wasp"] = "Wespe"
 L["Water Striders"] = "Wasserschreiter"
 L["Wilderlings"] = "Wildling"
 L["Wind Drakes"] = "Winddrachen"
+L["Wind Serpent"] = "Windschlange"
 L["Wolfhawks"] = "Wolfsfalken"
 L["Wolves"] = "Wölfe"
 L["Worm"] = "Wurm"
@@ -753,6 +759,7 @@ L["Carpets"] = "Alfombras"
 L["Carrion"] = "Carroña"
 L["Cats"] = "Gatos"
 L["Cervid"] = "Cérvidos"
+L["Chameleon"] = "Camaleones"
 L["Chargers"] = "Destreros"
 L["Chickens"] = "Pollos"
 L["Clefthooves"] = "Uñagrietas"
@@ -884,6 +891,7 @@ L["Skyrazor"] = "Cuchilla del Cielo"
 L["Slateback"] = "Lomopizarra"
 L["Slug"] = "Limacos"
 L["Snail"] = "Caracoles"
+L["Snake"] = "Serpientes"
 L["Snapdragons"] = "Bocadragones"
 L["Spider Tanks"] = "Arañas Mecánicas"
 L["Spiders"] = "Arañas"
@@ -919,6 +927,7 @@ L["Wasp"] = "Avispas"
 L["Water Striders"] = "Záncudos Acuáticos"
 L["Wilderlings"] = "Salvajizos"
 L["Wind Drakes"] = "Dracos del Viento"
+L["Wind Serpent"] = "Serpientes aladas"
 L["Wolfhawks"] = "Lobohalcones"
 L["Wolves"] = "Lobos"
 L["Worm"] = "Gusanos"
@@ -1179,6 +1188,8 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["Cats"] = "Cats"--]] 
 --[[Translation missing --]]
 --[[ L["Cervid"] = "Cervid"--]] 
+--[[Translation missing --]]
+--[[ L["Chameleon"] = "Chameleon"--]] 
 --[[Translation missing --]]
 --[[ L["Chargers"] = "Chargers"--]] 
 --[[Translation missing --]]
@@ -1441,6 +1452,8 @@ L["Lynx"] = "Lince"
 --[[Translation missing --]]
 --[[ L["Snail"] = "Snail"--]] 
 --[[Translation missing --]]
+--[[ L["Snake"] = "Snake"--]] 
+--[[Translation missing --]]
 --[[ L["Snapdragons"] = "Snapdragons"--]] 
 --[[Translation missing --]]
 --[[ L["Spider Tanks"] = "Spider Tanks"--]] 
@@ -1510,6 +1523,8 @@ L["Lynx"] = "Lince"
 --[[ L["Wilderlings"] = "Wilderlings"--]] 
 --[[Translation missing --]]
 --[[ L["Wind Drakes"] = "Wind Drakes"--]] 
+--[[Translation missing --]]
+--[[ L["Wind Serpent"] = "Wind Serpent"--]] 
 --[[Translation missing --]]
 --[[ L["Wolfhawks"] = "Wolfhawks"--]] 
 --[[Translation missing --]]
@@ -1640,8 +1655,7 @@ L["Armoredon"] = "Armoredon"
 L["Basilisks"] = "Basilics"
 L["Bats"] = "Chauves-souris"
 L["Bears"] = "Ours"
---[[Translation missing --]]
---[[ L["Bee"] = "Bee"--]] 
+L["Bee"] = "Abeille"
 L["Beetle"] = "Scarabées"
 L["Bipedal Cat"] = "Chats bipèdes"
 L["Birds"] = "Oiseaux"
@@ -1652,10 +1666,10 @@ L["Brutosaurs"] = "Brutosaures"
 L["Camels"] = "Dromadaires"
 L["Carnivorans"] = "Carnivores"
 L["Carpets"] = "Tapis"
---[[Translation missing --]]
---[[ L["Carrion"] = "Carrion"--]] 
+L["Carrion"] = "Charognards"
 L["Cats"] = "Félins"
 L["Cervid"] = "Cervidés"
+L["Chameleon"] = "Caméléon"
 L["Chargers"] = "Destriers"
 L["Chickens"] = "Poulets"
 L["Clefthooves"] = "Sabot-fourchus"
@@ -1699,8 +1713,7 @@ L["Gronnlings"] = "Gronnlins"
 L["Gryphons"] = "Griffons"
 L["Gyrocopters"] = "Gyrocoptère"
 L["Hands"] = "Mains"
---[[Translation missing --]]
---[[ L["Harrower"] = "Harrower"--]] 
+L["Harrower"] = "Persécuteur"
 L["Hawkstriders"] = "Faucon-pérégrins"
 L["Hedgehog"] = "Hérisson"
 L["Hippogryphs"] = "Hippogriffes"
@@ -1754,13 +1767,10 @@ L["Pandaren Phoenixes"] = "Phénix pandarens"
 L["Pangolin"] = "Pangolin"
 L["Parrots"] = "Psittaciformes"
 L["Peafowl"] = "Paon"
---[[Translation missing --]]
---[[ L["Petalwing"] = "Petalwing"--]] 
+L["Petalwing"] = "Folibri"
 L["Phoenixes"] = "Phénix"
---[[Translation missing --]]
---[[ L["Plant"] = "Plant"--]] 
---[[Translation missing --]]
---[[ L["Primate"] = "Primate"--]] 
+L["Plant"] = "Plante"
+L["Primate"] = "Primate"
 L["Proto-Drakes"] = "Proto-drakes"
 L["Pterrordaxes"] = "Pterreurdactyles"
 L["Quilen"] = "Quilens"
@@ -1791,12 +1801,12 @@ L["Skyrazor"] = "Rasoir-céleste"
 L["Slateback"] = "Ardospine"
 L["Slug"] = "Limaces"
 L["Snail"] = "Escargots"
+L["Snake"] = "Serpent"
 L["Snapdragons"] = "Mordragons"
 L["Spider Tanks"] = "Chars araignée"
 L["Spiders"] = "Araignées"
 L["Sporebat"] = "Sporoptères"
---[[Translation missing --]]
---[[ L["Squirrel"] = "Squirrel"--]] 
+L["Squirrel"] = "Écureuil"
 L["Stag"] = "Cerfs"
 L["Steeds"] = "Palefrois"
 L["Stingrays"] = "Pastenagues"
@@ -1827,6 +1837,7 @@ L["Wasp"] = "Guêpes"
 L["Water Striders"] = "Trotteurs aquatiques"
 L["Wilderlings"] = "Lycodracs"
 L["Wind Drakes"] = "Drakes des vents"
+L["Wind Serpent"] = "Serpent des vents"
 L["Wolfhawks"] = "Loups-faucons"
 L["Wolves"] = "Loups"
 L["Worm"] = "Ver"
@@ -2018,6 +2029,8 @@ L["Carpets"] = "Tappeti"
 --[[ L["Carrion"] = "Carrion"--]] 
 L["Cats"] = "Gattini"
 L["Cervid"] = "Cervide"
+--[[Translation missing --]]
+--[[ L["Chameleon"] = "Chameleon"--]] 
 L["Chargers"] = "Destriero"
 L["Chickens"] = "Polli"
 L["Clefthooves"] = "Mammuceronte"
@@ -2164,6 +2177,8 @@ L["Skyrazor"] = "Sferzacieli"
 L["Slateback"] = "Scistodorso"
 L["Slug"] = "Una lumaca senza guscio"
 L["Snail"] = "Lumaca"
+--[[Translation missing --]]
+--[[ L["Snake"] = "Snake"--]] 
 L["Snapdragons"] = "Drago Carnivoro"
 L["Spider Tanks"] = "Carroragno"
 L["Spiders"] = "Ragni"
@@ -2206,6 +2221,8 @@ L["Wasp"] = "Vespa"
 L["Water Striders"] = "Gerride"
 L["Wilderlings"] = "Selvante"
 L["Wind Drakes"] = " Draco del Vento"
+--[[Translation missing --]]
+--[[ L["Wind Serpent"] = "Wind Serpent"--]] 
 L["Wolfhawks"] = "Falcolupo"
 L["Wolves"] = "Lupi"
 L["Worm"] = "Verme"
@@ -2215,12 +2232,12 @@ L["Yetis"] = "Yeti"
 
 
 elseif locale == "koKR" then
-    L["ANIMATION_FLY"] = "파리"
-L["ANIMATION_FLY_IDLE"] = "제자리에서 비행하다"
-L["ANIMATION_RUN"] = "달리다"
-L["ANIMATION_STAND"] = "서다"
-L["ANIMATION_WALK"] = "가다"
-L["ANIMATION_WALK_BACK"] = "뒤로 물러나다"
+    L["ANIMATION_FLY"] = "비행"
+L["ANIMATION_FLY_IDLE"] = "제자리 비행"
+L["ANIMATION_RUN"] = "달리기"
+L["ANIMATION_STAND"] = "가만히 있기"
+L["ANIMATION_WALK"] = "걷기"
+L["ANIMATION_WALK_BACK"] = "뒤로 걷기"
 L["ASK_FAVORITE_PROFILE_NAME"] = "프로필 이름을 입력하세요:"
 L["AUTO_ROTATE"] = "자동으로 회전"
 L["Black Market"] = "암시장"
@@ -2231,88 +2248,88 @@ L["DRESSUP_LABEL"] = "도감"
 L["EVENT_PLUNDERSTORM"] = "약탈폭풍"
 L["EVENT_SCARAB"] = "스카라베의 부름"
 L["EVENT_SECRETS"] = "아제로스의 비밀"
-L["Family"] = "종류"
+L["Family"] = "종족"
 L["FAVOR_AUTO"] = "새로운 마운트를 자동으로 추가합니다"
 L["FAVOR_DISPLAYED"] = "모두 표시"
 L["FAVORITE_ACCOUNT_PROFILE"] = "계정"
-L["FAVORITE_PROFILE"] = "윤곽"
-L["FILTER_ONLY"] = "오직"
-L["FILTER_ONLY_LATEST"] = "최신 추가 사항만"
+L["FAVORITE_PROFILE"] = "프로필"
+L["FILTER_ONLY"] = "유일"
+L["FILTER_ONLY_LATEST"] = "최근에 추가된 탈것만 표시"
 L["FILTER_PROFILE"] = "프로필"
-L["FILTER_PROFILE_TOOLTIP_TEXT"] = "미리 정의된 필터와 검색 설정을 빠르게 불러옵니다.|n|cffeda55f필터 프로필을 불러오려면 왼쪽 클릭|r을 클릭하세요.|n|cffeda55f필터 프로필을 저장하려면 오른쪽 클릭|r을 클릭하세요."
-L["FILTER_PROFILE_TOOLTIP_TITLE"] = "필터 프로필."
-L["FILTER_RETIRED"] = "더 이상 사용할 수 없습니다"
-L["FILTER_SECRET"] = "게임에 의해 숨겨짐"
+L["FILTER_PROFILE_TOOLTIP_TEXT"] = "미리 정의된 필터와 검색 설정을 빠르게 불러옵니다.필터 프로필을 불러오려면 |n|cffeda55f왼쪽 클릭|r을 클릭하세요.필터 프로필을 저장하려면 |n|cffeda55f오른쪽 클릭|r을 클릭하세요."
+L["FILTER_PROFILE_TOOLTIP_TITLE"] = "필터 프로필"
+L["FILTER_RETIRED"] = "획득불가"
+L["FILTER_SECRET"] = "게임에서 숨겨진 탈것"
 L["Hidden"] = "숨김"
-L["LDB_TIP_NO_FAVORITES_LEFT_CLICK"] = "|cffeda55f마운트 컬렉션을 열려면 왼쪽 클릭|r을 클릭하세요."
-L["LDB_TIP_NO_FAVORITES_RIGHT_CLICK"] = "|cffeda55f마우스 오른쪽 버튼을 클릭|r하여 다른 즐겨찾는 프로필을 선택하세요."
-L["LDB_TIP_NO_FAVORITES_TITLE"] = "아직 즐겨찾기에 등록한 마운트가 없습니다."
+L["LDB_TIP_NO_FAVORITES_LEFT_CLICK"] = "탈것 컬렉션을 열려면 |cffeda55f왼쪽 클릭|r을 클릭하세요."
+L["LDB_TIP_NO_FAVORITES_RIGHT_CLICK"] = "|cffeda55f오른쪽 클릭|r하여 즐겨찾는 다른 프로필을 선택하세요"
+L["LDB_TIP_NO_FAVORITES_TITLE"] = "즐겨찾기에 등록한 탈것이 없습니다"
 L["LINK_WOWHEAD"] = "링크로 Wowhead"
 L["Mite"] = "매우 조그만 것"
-L["Only tradable"] = "교환가능"
+L["Only tradable"] = "거래가능"
 L["Passenger"] = "승객"
 L["PET_ASSIGNMENT_INFO"] = "이 탈것에 애완동물을 배정할 수 있습니다. 탑승 시 애완동물도 소환됩니다.|n|n모든 배정은 모든 캐릭터와 공유됩니다.|n|n펫 항목을 마우스 오른쪽 버튼으로 클릭하여 수동으로 소환할 수 있습니다.|n|n대부분의 지상 애완동물은 플레이어와 함께 날지 않고, 플레이어가 이륙하면 사라집니다. 또한, 비행 애완동물은 일반적으로 플레이어보다 느리기 때문에 플레이어를 따라잡는 데 시간이 걸릴 수 있습니다.|n|n펫 자동 소환은 월드 콘텐츠에서만 활성화됩니다."
-L["PET_ASSIGNMENT_NONE"] = "애완동물이 없는"
-L["PET_ASSIGNMENT_TITLE"] = "애완동물을 마운트에 할당하세요"
-L["PET_ASSIGNMENT_TOOLTIP_CURRENT"] = "현재 배정된 반려동물:"
-L["PET_ASSIGNMENT_TOOLTIP_LEFT"] = "|cffeda55f반려동물 과제를 열려면 왼쪽 클릭|r을 클릭하세요."
-L["PET_ASSIGNMENT_TOOLTIP_RIGHT"] = "|cffeda55f마우스 오른쪽 버튼 클릭|r을 눌러 활성화된 애완동물을 탈것에 할당하세요."
+L["PET_ASSIGNMENT_NONE"] = "없음"
+L["PET_ASSIGNMENT_TITLE"] = "애완동물을 탈것에 할당하세요"
+L["PET_ASSIGNMENT_TOOLTIP_CURRENT"] = "현재 배정된 애완동물:"
+L["PET_ASSIGNMENT_TOOLTIP_LEFT"] = "애완동물 목록을 열려면 |cffeda55f왼쪽 클릭|r을 클릭하세요."
+L["PET_ASSIGNMENT_TOOLTIP_RIGHT"] = "|cffeda55f오른쪽 클릭|r으로 활성화된 애완동물을 탈것에 할당하세요."
 L["Reset filters"] = "필터 초기화"
 L["ROTATE_DOWN"] = "아래로 회전"
 L["ROTATE_UP"] = "위로 회전"
-L["SORT_BY_FAMILY"] = "종류"
+L["SORT_BY_FAMILY"] = "종족"
 L["SORT_BY_LAST_USAGE"] = "마지막 사용"
-L["SORT_BY_LEARNED_DATE"] = "수령일"
+L["SORT_BY_LEARNED_DATE"] = "수집한 날짜"
 L["SORT_BY_TRAVEL_DISTANCE"] = "이동 거리"
 L["SORT_BY_TRAVEL_DURATION"] = "이동 시간"
 L["SORT_BY_USAGE_COUNT"] = "사용 횟수"
 L["SORT_FAVORITES_FIRST"] = "즐겨찾기 먼저"
 L["SORT_REVERSE"] = "역순 정렬"
-L["SORT_UNOWNED_BOTTOM"] = "아래에서 수신되지 않음"
-L["SORT_UNUSABLE_BOTTOM"] = "사용 가능 후 사용 불가능"
+L["SORT_UNOWNED_BOTTOM"] = "보유하지 않은 탈것은 아래로"
+L["SORT_UNUSABLE_BOTTOM"] = "사용가능 탈것이 위로"
 L["SPECIAL_TIP"] = "게임에서 탈것의 특별 애니메이션을 시작합니다."
 L["STATS_TIP_CUSTOMIZATION_COUNT_HEAD"] = "수집된 사용자 정의 옵션 수"
 L["STATS_TIP_LEARNED_DATE_HEAD"] = "보유일"
-L["STATS_TIP_RARITY_DESCRIPTION"] = "이 마운트를 소유한 캐릭터의 %"
-L["STATS_TIP_RARITY_HEAD"] = "품질"
+L["STATS_TIP_RARITY_DESCRIPTION"] = "이 탈것을 소유한 캐릭터의 %"
+L["STATS_TIP_RARITY_HEAD"] = "희귀도"
 L["STATS_TIP_TRAVEL_DISTANCE_HEAD"] = "이동 거리"
-L["STATS_TIP_TRAVEL_TIME_DAYS"] = "일 단위로 "
+L["STATS_TIP_TRAVEL_TIME_DAYS"] = "일"
 L["STATS_TIP_TRAVEL_TIME_HEAD"] = "이동 시간"
 L["STATS_TIP_TRAVEL_TIME_TEXT"] = "시간:분:초"
 L["STATS_TIP_USAGE_COUNT_HEAD"] = "사용 횟수"
-L["SYNC_TARGET_TIP_FLAVOR"] = "여러분의 마운트를 자랑할 준비를 하세요!"
-L["SYNC_TARGET_TIP_TEXT"] = "현재 대상의 마운트를 자동으로 선택합니다."
-L["SYNC_TARGET_TIP_TITLE"] = "대상과 저널 동기화"
+L["SYNC_TARGET_TIP_FLAVOR"] = "탈것 대결을 준비하세요!"
+L["SYNC_TARGET_TIP_TEXT"] = "현재 대상의 탈것을 자동으로 선택합니다."
+L["SYNC_TARGET_TIP_TITLE"] = "대상과 탈것 동기화"
 L["TOGGLE_COLOR"] = "다음 색상 변형 표시"
 L["Transform"] = "변환"
 
     -- Settings
 L["DISPLAY_ALL_SETTINGS"] = "모든 설정 표시"
 L[ [=[RESET_WINDOW_SIZE
-]=] ] = "저널 크기 재설정"
+]=] ] = "창 크기 재설정"
 L["SETTING_ABOUT_AUTHOR"] = "작가"
 L["SETTING_ACHIEVEMENT_POINTS"] = "업적 점수 표시"
 L["SETTING_COLOR_NAMES"] = "희귀도에 따라 목록의 이름에 색상 지정"
-L["SETTING_COMPACT_LIST"] = "간소한 목록"
+L["SETTING_COMPACT_LIST"] = "탈것목록 작게"
 L["SETTING_CURSOR_KEYS"] = "위 아래 화살표 키로 목록 탐색하기"
 L["SETTING_DISPLAY_BACKGROUND"] = "디스플레이의 배경색 변경"
 L["SETTING_HEAD_ABOUT"] = "정보"
-L["SETTING_HEAD_BEHAVIOUR"] = "행동"
+L["SETTING_HEAD_BEHAVIOUR"] = "작동 설정"
 L["SETTING_MOUNT_COUNT"] = "개인 탈것 수 표시"
-L["SETTING_MOUNTSPECIAL_BUTTON"] = "/mountspecial 버튼 표시"
+L["SETTING_MOUNTSPECIAL_BUTTON"] = "/탈것감정표현 버튼 표시"
 L["SETTING_PERSONAL_FILTER"] = "이 캐릭터에만 필터 적용"
-L["SETTING_PERSONAL_HIDDEN_MOUNTS"] = "숨겨진 마운트를 이 캐릭터에만 적용합니다."
+L["SETTING_PERSONAL_HIDDEN_MOUNTS"] = "숨겨진 탈것을 이 캐릭터에만 적용합니다."
 L["SETTING_PERSONAL_UI"] = "이 캐릭터에게만 인터페이스 설정 적용"
 L["SETTING_PREVIEW_LINK"] = "탈것 미리보기에 수집품 버튼 표시"
-L["SETTING_SEARCH_FAMILY_NAME"] = "가족으로도 검색하세요"
+L["SETTING_SEARCH_FAMILY_NAME"] = "종족 이름으로도 검색"
 L["SETTING_SEARCH_MORE"] = "설명 텍스트에서도 검색"
 L["SETTING_SEARCH_NOTES"] = "자신의 노트에서도 검색"
-L["SETTING_SHOW_DATA"] = "디스플레이에 마운트 데이터 표시"
-L["SETTING_SHOW_FILTER_PROFILES_IN_MENU"] = "필터 메뉴에서 필터 프로필을 표시합니다."
-L["SETTING_SHOW_RESIZE_EDGE"] = "창 크기를 조정하려면 하단 모서리의 가장자리를 활성화하세요."
+L["SETTING_SHOW_DATA"] = "디스플레이에 탈것 데이터 표시"
+L["SETTING_SHOW_FILTER_PROFILES_IN_MENU"] = "필터 메뉴에서 필터 프로필을 표시"
+L["SETTING_SHOW_RESIZE_EDGE"] = "하단 모서리 창 크기 조정 활성화"
 L["SETTING_SHOW_TOOLBAR_BUTTONS"] = "툴바 버튼 표시"
-L["SETTING_SUMMONPREVIOUSPET"] = "내릴 때 이전에 활성화되어 있던 애완동물을 다시 소환합니다."
-L["SETTING_TRACK_USAGE"] = "모든 캐릭터의 마운트 사용 동작 추적"
+L["SETTING_SUMMONPREVIOUSPET"] = "내릴 때 이전에 활성화되어 있던 애완동물을 다시 소환"
+L["SETTING_TRACK_USAGE"] = "모든 캐릭터의 탈것 사용 현황 추적"
 L["SETTING_YCAMERA"] = "표시 화면에서 마우스로 Y 축 회전 잠금 해제"
 
     -- Families
@@ -2328,22 +2345,21 @@ L["Armoredon"] = "장갑무소"
 L["Basilisks"] = "바실리스크"
 L["Bats"] = "박쥐"
 L["Bears"] = "곰"
---[[Translation missing --]]
---[[ L["Bee"] = "Bee"--]] 
+L["Bee"] = "꿀벌"
 L["Beetle"] = "딱정벌레"
 L["Bipedal Cat"] = "꿈갈퀴"
-L["Birds"] = "새"
+L["Birds"] = "조류"
 L["Boars"] = "멧돼지"
 L["Bovids"] = "노루"
 L["Broom"] = "빗자루"
 L["Brutosaurs"] = "브루토사우루스"
 L["Camels"] = "낙타"
 L["Carnivorans"] = "육식동물"
-L["Carpets"] = "카페트"
---[[Translation missing --]]
---[[ L["Carrion"] = "Carrion"--]] 
+L["Carpets"] = "양탄자"
+L["Carrion"] = "역병 까마귀"
 L["Cats"] = "고양이과"
 L["Cervid"] = "원시사슴"
+L["Chameleon"] = "카멜레온"
 L["Chargers"] = "군마"
 L["Chickens"] = "닭"
 L["Clefthooves"] = "갈래발굽"
@@ -2352,7 +2368,7 @@ L["Core Hounds"] = "심장부사냥개"
 L["Crabs"] = "게"
 L["Cranes"] = "학"
 L["Crawgs"] = "크로그"
-L["Crocolisks"] = "크로코리스크"
+L["Crocolisks"] = "악어"
 L["Crows"] = "까마귀"
 L["Demonic Hounds"] = "지옥사냥개"
 L["Demonic Steeds"] = "지옥군마"
@@ -2387,8 +2403,7 @@ L["Gronnlings"] = "그론링"
 L["Gryphons"] = "그리폰"
 L["Gyrocopters"] = "자이로콥터"
 L["Hands"] = "손"
---[[Translation missing --]]
---[[ L["Harrower"] = "Harrower"--]] 
+L["Harrower"] = "박해자"
 L["Hawkstriders"] = "매타조"
 L["Hedgehog"] = "고슴도치"
 L["Hippogryphs"] = "히포그리프"
@@ -2436,19 +2451,16 @@ L["N'Zoth Serpents"] = "느조스 뱀"
 L["Others"] = "기타"
 L["Ottuk"] = "오투크"
 L["Owl"] = "올빼미"
-L["Owlbear"] = "올빼미곰의"
+L["Owlbear"] = "달빛야수"
 L["Ox"] = "황소"
 L["Pandaren Phoenixes"] = "판다렌 불사조"
 L["Pangolin"] = "천산갑"
 L["Parrots"] = "앵무새"
 L["Peafowl"] = "공작새"
---[[Translation missing --]]
---[[ L["Petalwing"] = "Petalwing"--]] 
+L["Petalwing"] = "꽃잎날개"
 L["Phoenixes"] = "불사조"
---[[Translation missing --]]
---[[ L["Plant"] = "Plant"--]] 
---[[Translation missing --]]
---[[ L["Primate"] = "Primate"--]] 
+L["Plant"] = "식물"
+L["Primate"] = "영장류"
 L["Proto-Drakes"] = "원시 비룡"
 L["Pterrordaxes"] = "테러닥스"
 L["Quilen"] = "기렌"
@@ -2457,7 +2469,7 @@ L["Rams"] = "산양"
 L["Raptora"] = "육식조"
 L["Raptors"] = "랩터"
 L["Rats"] = "쥐"
-L["Raven"] = "갈가마귀"
+L["Raven"] = "공포까마귀"
 L["Rays"] = "가오리"
 L["Razorwing"] = "칼날날개"
 L["Reptiles"] = "파충류"
@@ -2479,12 +2491,12 @@ L["Skyrazor"] = "하늘발톱"
 L["Slateback"] = "점판등"
 L["Slug"] = "민달팽이"
 L["Snail"] = "달팽이"
+L["Snake"] = "뱀"
 L["Snapdragons"] = "치악룡"
 L["Spider Tanks"] = "거미 전차"
 L["Spiders"] = "거미"
 L["Sporebat"] = "포자박쥐"
---[[Translation missing --]]
---[[ L["Squirrel"] = "Squirrel"--]] 
+L["Squirrel"] = "다람쥐"
 L["Stag"] = "순록"
 L["Steeds"] = "군마"
 L["Stingrays"] = "독침가오리"
@@ -2492,7 +2504,7 @@ L["Stone Cats"] = "고양이 석상"
 L["Stone Drakes"] = "비룡 석상"
 L["Talbuks"] = "탈부크"
 L["Tallstriders"] = "타조"
-L["Talonbirds"] = "탈론 버드"
+L["Talonbirds"] = "발톱까마귀"
 L["Tauralus"] = "타우랄러스"
 L["Thunder Lizard"] = "천둥도마뱀"
 L["Tigers"] = "호랑이"
@@ -2515,6 +2527,7 @@ L["Wasp"] = "말벌"
 L["Water Striders"] = "소금쟁이"
 L["Wilderlings"] = "야생룡"
 L["Wind Drakes"] = "바람 비룡"
+L["Wind Serpent"] = "천둥매"
 L["Wolfhawks"] = "늑대매"
 L["Wolves"] = "늑대"
 L["Worm"] = "벌레"
@@ -2654,6 +2667,8 @@ L["Carpets"] = "Tapetes"
 --[[ L["Carrion"] = "Carrion"--]] 
 L["Cats"] = "Gatos"
 L["Cervid"] = "Cervídeos"
+--[[Translation missing --]]
+--[[ L["Chameleon"] = "Chameleon"--]] 
 L["Chargers"] = "Corcéis"
 L["Chickens"] = "Galinhas"
 L["Clefthooves"] = "Fenocerontes"
@@ -2789,6 +2804,8 @@ L["Skyrazor"] = "Cindecéus"
 L["Slateback"] = "Costadura"
 L["Slug"] = "Lesmas"
 L["Snail"] = "Caracóis"
+--[[Translation missing --]]
+--[[ L["Snake"] = "Snake"--]] 
 L["Snapdragons"] = "Dracoliscos"
 L["Spider Tanks"] = "Tanques Aranha"
 L["Spiders"] = "Aranhas"
@@ -2825,6 +2842,8 @@ L["Wasp"] = "Vespas"
 L["Water Striders"] = "Caminhantes das Águas "
 L["Wilderlings"] = "Silvestritos"
 L["Wind Drakes"] = "Dracos do Vento"
+--[[Translation missing --]]
+--[[ L["Wind Serpent"] = "Wind Serpent"--]] 
 L["Wolfhawks"] = "Falcolobos"
 L["Wolves"] = "Lobos"
 L["Worm"] = "Minhocas"
@@ -2963,6 +2982,8 @@ L["Carpets"] = "Ковры"
 --[[ L["Carrion"] = "Carrion"--]] 
 L["Cats"] = "Кошки"
 L["Cervid"] = "Сервиды"
+--[[Translation missing --]]
+--[[ L["Chameleon"] = "Chameleon"--]] 
 L["Chargers"] = "Скакуны"
 L["Chickens"] = "Курицы"
 L["Clefthooves"] = "Копытни"
@@ -3098,6 +3119,8 @@ L["Skyrazor"] = "Рассекатели небес"
 L["Slateback"] = "Сланцеспин"
 L["Slug"] = "Слизняки"
 L["Snail"] = "Улитки"
+--[[Translation missing --]]
+--[[ L["Snake"] = "Snake"--]] 
 L["Snapdragons"] = "Вараны"
 L["Spider Tanks"] = "Механопауки"
 L["Spiders"] = "Пауки"
@@ -3134,6 +3157,8 @@ L["Wasp"] = "Осы"
 L["Water Striders"] = "Водные долгоноги"
 L["Wilderlings"] = "Чащобники"
 L["Wind Drakes"] = "Драконы Ветра"
+--[[Translation missing --]]
+--[[ L["Wind Serpent"] = "Wind Serpent"--]] 
 L["Wolfhawks"] = "Звероястребы"
 L["Wolves"] = "Волки"
 L["Worm"] = "Черви"
@@ -3256,8 +3281,7 @@ L["Armoredon"] = "厚甲龙"
 L["Basilisks"] = "蜥蜴"
 L["Bats"] = "蝙蝠"
 L["Bears"] = "熊"
---[[Translation missing --]]
---[[ L["Bee"] = "Bee"--]] 
+L["Bee"] = "蜜蜂"
 L["Beetle"] = "甲虫"
 L["Bipedal Cat"] = "梦爪獍"
 L["Birds"] = "鸟类"
@@ -3271,6 +3295,8 @@ L["Carpets"] = "飞毯"
 L["Carrion"] = "腐化鸟"
 L["Cats"] = "猫科"
 L["Cervid"] = "元鹿"
+--[[Translation missing --]]
+--[[ L["Chameleon"] = "Chameleon"--]] 
 L["Chargers"] = "战马"
 L["Chickens"] = "鸡"
 L["Clefthooves"] = "裂蹄牛"
@@ -3371,8 +3397,7 @@ L["Peafowl"] = "孔雀"
 L["Petalwing"] = "瓣翼鸟"
 L["Phoenixes"] = "凤凰"
 L["Plant"] = "植物"
---[[Translation missing --]]
---[[ L["Primate"] = "Primate"--]] 
+L["Primate"] = "灵长类"
 L["Proto-Drakes"] = "始祖幼龙"
 L["Pterrordaxes"] = "啸天龙"
 L["Quilen"] = "魁麟"
@@ -3404,6 +3429,8 @@ L["Skyrazor"] = "剃天者"
 L["Slateback"] = "岩背兽"
 L["Slug"] = "蛞蝓"
 L["Snail"] = "蜗牛"
+--[[Translation missing --]]
+--[[ L["Snake"] = "Snake"--]] 
 L["Snapdragons"] = "毒鳍龙"
 L["Spider Tanks"] = "蜘蛛坦克"
 L["Spiders"] = "蜘蛛"
@@ -3439,6 +3466,8 @@ L["Wasp"] = "巨蜂"
 L["Water Striders"] = "水黾"
 L["Wilderlings"] = "荒蚺"
 L["Wind Drakes"] = "风幼龙"
+--[[Translation missing --]]
+--[[ L["Wind Serpent"] = "Wind Serpent"--]] 
 L["Wolfhawks"] = "狼鹰"
 L["Wolves"] = "狼"
 L["Worm"] = "蠕虫"
@@ -3699,6 +3728,8 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["Cats"] = "Cats"--]] 
 --[[Translation missing --]]
 --[[ L["Cervid"] = "Cervid"--]] 
+--[[Translation missing --]]
+--[[ L["Chameleon"] = "Chameleon"--]] 
 --[[Translation missing --]]
 --[[ L["Chargers"] = "Chargers"--]] 
 --[[Translation missing --]]
@@ -3962,6 +3993,8 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[Translation missing --]]
 --[[ L["Snail"] = "Snail"--]] 
 --[[Translation missing --]]
+--[[ L["Snake"] = "Snake"--]] 
+--[[Translation missing --]]
 --[[ L["Snapdragons"] = "Snapdragons"--]] 
 --[[Translation missing --]]
 --[[ L["Spider Tanks"] = "Spider Tanks"--]] 
@@ -4031,6 +4064,8 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["Wilderlings"] = "Wilderlings"--]] 
 --[[Translation missing --]]
 --[[ L["Wind Drakes"] = "Wind Drakes"--]] 
+--[[Translation missing --]]
+--[[ L["Wind Serpent"] = "Wind Serpent"--]] 
 --[[Translation missing --]]
 --[[ L["Wolfhawks"] = "Wolfhawks"--]] 
 --[[Translation missing --]]

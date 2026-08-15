@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2167, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260524002224")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(135452)--136429 Chamber 01, 137022 Chamber 02, 137023 Chamber 03
 mod:SetEncounterID(2141)
@@ -25,27 +25,29 @@ ability.id = 267787 and type = "begincast"
  or (ability.id = 267795 or ability.id = 267945 or ability.id = 269827 or ability.id = 277973 or ability.id = 277961 or ability.id = 268089 or ability.id = 277742) and type = "cast"
  or ability.id = 269051 and type = "applybuff"
 --]]
+DBM:RegisterAltSpellName(267787, 191540)--Sanitizing Strike -> Strike
+DBM:RegisterAltSpellName(269827, 182908)--Surgical Beam -> Laser
 local warnSanitizingStrike				= mod:NewStackAnnounce(267787, 3, nil, "Tank")
 local warnWindTunnel					= mod:NewSpellAnnounce(267945, 2)
 local warnDepletedEnergy				= mod:NewSpellAnnounce(274205, 1)
 local warnCleansingPurgeFinish			= mod:NewTargetNoFilterAnnounce(268095, 4)
 local warnBacterialOutbreak				= mod:NewSpellAnnounce(279669, 3)
 
-local specWarnSanitizingStrike			= mod:NewSpecialWarningDodge(267787, nil, nil, nil, 1, 2)
-local specWarnPurifyingFlame			= mod:NewSpecialWarningDodge(267795, nil, nil, nil, 2, 2)
-local specWarnClingingCorruption		= mod:NewSpecialWarningInterrupt(268198, "HasInterrupt", nil, nil, 1, 2)
-local specWarnSurgicalBeam				= mod:NewSpecialWarningDodgeLoc(269827, nil, nil, nil, 3, 2)
-local specWarnEndemicVirus				= mod:NewSpecialWarningMoveAway(279662, nil, nil, nil, 1, 2)
+local specWarnSanitizingStrike			= mod:NewSpecialWarningDodge(267787, nil, nil, nil, 1, 2, nil, nil, "shockwave")
+local specWarnPurifyingFlame			= mod:NewSpecialWarningDodge(267795, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnClingingCorruption		= mod:NewSpecialWarningInterrupt(268198, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnSurgicalBeam				= mod:NewSpecialWarningDodgeLoc(269827, nil, nil, nil, 3, 2, nil, nil, "watchstep")
+local specWarnEndemicVirus				= mod:NewSpecialWarningMoveAway(279662, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellEndemicVirus					= mod:NewYell(279662)
 local yellEndemicVirusFades				= mod:NewShortFadesYell(279662)
-local specWarnSpreadingEpidemic			= mod:NewSpecialWarningMoveAway(279663, nil, nil, nil, 1, 2)
+local specWarnSpreadingEpidemic			= mod:NewSpecialWarningMoveAway(279663, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellSpreadingEpidemic				= mod:NewYell(279663)
 
 --mod:AddTimerLine(Nexus)
-local timerSanitizingStrikeCD			= mod:NewNextTimer(23.1, 267787, 191540, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--Short name "Strike"
+local timerSanitizingStrikeCD			= mod:NewNextTimer(23.1, 267787, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--Short name "Strike"
 local timerPurifyingFlameCD				= mod:NewNextTimer(20.1, 267795, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 3)
 local timerWindTunnelCD					= mod:NewNextTimer(39.5, 267945, nil, nil, nil, 2)
-local timerSurgicalBeamCD				= mod:NewCDSourceTimer(30, 269827, 182908, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 3)--Shortname "Laser"
+local timerSurgicalBeamCD				= mod:NewCDSourceTimer(30, 269827, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 3)--Shortname "Laser"
 local timerCleansingFlameCD				= mod:NewCastSourceTimer(180, 268095, nil, nil, nil, 6)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)

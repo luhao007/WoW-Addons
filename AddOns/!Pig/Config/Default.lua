@@ -1,10 +1,11 @@
-local _, addonTable = ...;
-
-addonTable.Default = {
-	["Ver"]={},
+local _, PD = ...;
+local L=PD.locale
+PD.Default = {
 	["VerC"]={},
 	["Error"] = {
 		["ErrorDB"] = {},
+		["NextError"] = false,
+		["IsPig"] = true,
 		["ErrorTishi"] = false,
 	},
 	["Hardcore"] = {
@@ -26,6 +27,7 @@ addonTable.Default = {
 			["level"]= {},
 			["List"]= {},
 			["Player"]= {},
+			["ListWinp"]= {},
 		},
 	},
 	["Common"] = {
@@ -60,6 +62,7 @@ addonTable.Default = {
 		["AFK"]={
 			["Open"] = false,
 			["QuickBut"]=true,
+			["TispTXT"]=L["COMMON_AFKTISPTXT"],
 		},
 	},
 	["TradePlus"] = {
@@ -70,6 +73,7 @@ addonTable.Default = {
 	["MailPlus"] = {
 		["Open"] = true,
 		["Coll"] = {},
+		["Stacking"] = false,
 		["MoneyEdit"] = true,
 		["ALTbatch"] = true,
 		["lianxuMode"] = true,
@@ -96,6 +100,7 @@ addonTable.Default = {
 		["Token"] = {},
 		["Items"] = {},
 		["TradeData"] = {},
+		["MailData"] = {},
 		["Played"] = {},
 	},
 	["AutoSellBuy"] = {
@@ -142,6 +147,7 @@ addonTable.Default = {
 		["Stacking"]={},
 	},
 	["Chat"] = {
+		["GuildLevel"]=true,
 		["FastCopy"]=false,
 		["WhoWhisper"]=true,
 		["WhoWhisperMsg"]="",
@@ -152,7 +158,6 @@ addonTable.Default = {
 		["ShowLinkGem"]=false,
 		["ShowZb"]=true,
 		["LinkShow"]=false,
-		["ClassColor"]=true,
 		["Jianyin"] = false,
 		["AltEX"] = false,
 		["Guolv"] = false,
@@ -189,14 +194,14 @@ addonTable.Default = {
 			["BlackName"]=true,
 			["FilterRepeat"]=true,
 			["IGNORE_DND"]=true,
-			["FBneiNO"]=false,
+			["FBneiNO"]=true,
 			["FilterChannel"]={
 				["CHANNEL"]=true,
 				["YELL"]=true,
 				["SAY"]=false,
 				["WHISPER"]=false,
 			},
-			["Blacks"]="",
+			["BlacksList"]={},
 			["Ignore_P"]={},
 			["Ignore_N"]={},
 			["Precise"]=false,
@@ -270,6 +275,7 @@ addonTable.Default = {
 		["Quest"]=true,
 	},
 	["BagBank"]={
+		["EquipBind"]=true,
 		["BagKongyu"]=true,
 		["Zhenghe"] = true,
 		["SortBagsRightToLeft"] = false,
@@ -331,7 +337,7 @@ addonTable.Default = {
 	},
 	["UnitFrame"] = {
 		["PlayerFrame"] = {
-			["HPFF"] = true,	
+			["HPFF"] = false,	
 		},
 		["TargetFrame"] = {
 			["Plus"] = true,
@@ -350,6 +356,8 @@ addonTable.Default = {
 	["CombatPlus"] = {
 		["PetHappiness"]=true,
 		["ammotips"]=true,
+		["ammoMin1"]=100,
+		["ammoMin2"]=600,
 		["Submerged"]=true,
 		["markerR"] = {
 			["Open"] = true,
@@ -385,6 +393,7 @@ addonTable.Default = {
 		["AttackBar"]={
 			["Open"] = false,
 			["Showshuzhi"]=true,
+			["fubar"]=true,
 			["Scale"]=1,
 			["Xpianyi"]=0,
 			["Ypianyi"]=14,
@@ -392,9 +401,10 @@ addonTable.Default = {
 	},
 	["Map"] = {
 		["MinimapBpaichu"] = {},
-		["MinimapPos"] = -13.62698465698976,
+		["MinimapPos"] = -13.627,
 		["MinimapPointMode"] = 1,
 		["MinimapBut"] = true,
+		["EntertispBox"] = false,
 		["MiniButShouNa_YN"] = 1,
 		["MiniButShouNa_hang"] = 5,
 		["MinimapPointXY"] = {0, 0},
@@ -421,41 +431,17 @@ addonTable.Default = {
 		["EaseUse"]=true,
 		["Fast_Loot"]=false,
 		["Shaman_Blue"]=true,
+		["SpellQueueClass"]=false,
+		["SpellQueueTalent"]={},
 	},
 	["PigLayout"]={
+		["FontMiaobian"]="NORMAL",
 		["TopBar"]={
 			["Open"] = false,
 			["AnchorPoint"]="TOP",
-			["Height"]=22,
+			["Height"]=24,
 			["Backdrop"]=1,
-			["Alpha"]=1,
-		},
-		["MicroMenu"]={
-			["Open"] = false,
-			["Scale"]=1,
-			["Interval"]=0,
-			["AnchorPoint"]="TOP",
-			["AnchorPointX"]=0,
-			["AnchorPointY"]=0,
-			["HideBut"]={},
-		},
-		["ActionBar"] = {
-			["HideShijiu"] = false,
-			["Scale"]=false,
-			["ScaleV"]=0.8,
-			["BarRight"] = false,
-			["Layout"] = 1,
-			["LRInterval"]=20,
-		},
-		["ChatUI"] = {
-			["editMove"] = false,
-			["editPoint"] = {0,0},
-			["Margin"] = false,
-			["MarginPoint"] = {35,35,0,0},
-			["Zhu"] = false,
-			["ZhuPoint"] = {370,200,35,35},
-			["Fu"] = false,
-			["FuPoint"] = {370,200,35,35},
+			["Alpha"]=0.8,
 		},
 		["topMenu"] = {
 			["Open"] = true,
@@ -464,10 +450,11 @@ addonTable.Default = {
 			["Scale"]=1,
 			["HideBut"]={},
 			["TimerMode"]=1,
+			["TimeBGHide"]=false,
 			["daojishiTime"]=10,
-			["Countdown"]=false,
+			["Countdown"]=true,
 			["CountdownAudio"]=1,
-			["CountdownEnd"]=false,
+			["CountdownEnd"]=true,
 			["CountdownEndAudio"]=1,
 		},
 		["topInfoL"] = {
@@ -484,11 +471,41 @@ addonTable.Default = {
 			["Scale"]=1,
 			["HideBut"]={},
 		},
+		["MicroMenu"]={
+			["Open"] = false,
+			["Scale"]=1,
+			["Interval"]=0,
+			["MoveTime"]=false,
+			["AnchorPoint"]="BOTTOMRIGHT",
+			["AnchorPointX"]=0,
+			["AnchorPointY"]=0,
+			["HideBut"]={},
+		},
+		["ActionBar"] = {
+			["HideShijiu"] = false,
+			["HideBarBG"]=false,
+			["HideBarExpBG"]=false,
+			["Scale"]=false,
+			["ScaleV"]=0.8,
+			["BarRight"] = false,
+			["Layout"] = 0,
+			["LRInterval"]=20,
+		},
+		["ChatUI"] = {
+			["editMove"] = false,
+			["editPoint"] = {0,0},
+			["Margin"] = false,
+			["MarginPoint"] = {35,35,0,0},
+			["Zhu"] = false,
+			["ZhuPoint"] = {370,200,35,35},
+			["Fu"] = false,
+			["FuPoint"] = {370,200,35,35},
+		},
 	},
 	["Pig_UI"] = {},
 	["Blizzard_UI"] = {},
 };
-addonTable.Default_Per = {
+PD.Default_Per = {
 	["Pig_UI"] = {},
 	["CombatPlus"] = {
 		["PetFoodList"]={},

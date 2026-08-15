@@ -120,7 +120,21 @@ Definitions.Events = {
     PROGRESS_TRACKER = {
         DELVE_IN_PROGRESS = "DelveCompanion.DelveInProgress",             -- Delve has started.
         DELVE_RESPAWN_ACTIVATED = "DelveCompanion.DelveRespawnActivated", -- Respawn has been activated in the Delve.
-        DELVE_COMPLETED = "DelveCompanion.DelveCompleted",                 -- Delve has been completed.
+        DELVE_COMPLETED = "DelveCompanion.DelveCompleted",                -- Delve has been completed.
         DELVE_EXITED = "DelveCompanion.DelveExited",                      -- Delve has been left.
     }
+}
+
+---@class (exact) UpgradeTrackType
+---@field adventurer number
+---@field veteran number
+---@field champion number
+---@field hero number
+---@field myth number
+Definitions.UpgradeTrackType = {
+    adventurer = 1,
+    veteran = 2,
+    champion = 3,
+    hero = 4,
+    myth = 5
 }

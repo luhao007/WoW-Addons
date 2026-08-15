@@ -1,0 +1,41 @@
+## Interface: 120001, 120005
+## Title: Loon Best In Slot |cff00ff00(Midnight)|r
+## Notes: Shows Best in Slot gear for your class/spec — Midnight Season 1, all 40 specs. Forked from LoonBestInSlot by loonnn_.
+## Author: Seb (fork), loonnn_ (original)
+## OptionalDeps: LinkWrangler
+## SavedVariables: LBISServerSettings
+## SavedVariablesPerCharacter: LBISSettings
+## Version: 1.0.8
+## X-Website: https://www.curseforge.com/wow/addons/loon-best-in-slot
+## X-Category: Gear & Loot
+
+libs\LibDBIcon-1.0.lua
+
+Localization\Localization.xml
+
+Settings.lua
+
+DB\ItemSources.lua
+DB\GemSources.lua
+DB\EnchantSources.lua
+DB\EmbellishmentSources.lua
+DB\TierSources.lua
+
+LoonBestInSlot.lua
+LocalizedNames.lua
+Common.lua
+Guides\Guides.xml
+UpdateTooltips.lua
+UserItemCache.lua
+MinimapButton.lua
+
+UI\LootBrowser.lua
+UI\ItemList.lua
+UI\GemList.lua
+UI\EnchantList.lua
+UI\EmbellishmentList.lua
+UI\CustomEditList.lua
+UI\CustomItemList.lua
+UI\AutoComplete.lua
+UI\SearchFrame.lua
+UI\NewFeaturesWindow.lua

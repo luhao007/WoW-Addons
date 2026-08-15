@@ -1,0 +1,28 @@
+## Interface: 120001, 120005, 120007, 120100
+## Author: Nnoggie
+## Version: 6.2.2
+
+## Title: Mythic Dungeon Tools (MDT) - UI
+## Notes: Load-on-demand interface for Mythic Dungeon Tools
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF大秘境工具|r |cFF69CCF0大秘境工具界面|r
+
+## IconTexture: Interface\AddOns\MythicDungeonTools\Textures\MDTFull
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
+## Dependencies: MythicDungeonTools
+## LoadOnDemand: 1
+
+## X-Part-Of: MythicDungeonTools
+
+# WOW_INTERFACE_TARGETS: mainline-beta, mainline-test, mainline
+..\MythicDungeonTools\libs\load_libs.xml
+Bootstrap.lua
+..\MythicDungeonTools\locales.xml
+..\MythicDungeonTools\AceGUIWidgets\load_widgets.xml
+..\MythicDungeonTools\Utility.lua
+..\MythicDungeonTools\Core\SavedVariables.lua
+..\MythicDungeonTools\MythicDungeonTools.lua
+..\MythicDungeonTools\Core\Lifecycle.lua
+..\MythicDungeonTools\Modules\load_modules.xml
+..\MythicDungeonTools\Midnight\load_midnight.xml [AllowLoadGameType mainline]

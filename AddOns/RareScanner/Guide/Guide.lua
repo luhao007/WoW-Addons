@@ -1001,6 +1001,30 @@ private.NPC_GUIDE = {
 	["2420862413"] = {
 		[RSConstants.FLAG] = { x = 0.6615, y = 0.2549, comment = AL["NOTE_242086_1"] };
 	}; --Aln'sharan <Herald of the Goddess>
+	["2648692599"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3037, y = 0.3868 };
+	}; --The Horror Below
+	["2648702599"] = {
+		[RSConstants.TRANSPORT] = { x = 0.4305, y = 0.7161, comment = AL["NOTE_264870_1"] };
+	}; --Nelgothar <The Forgotten>
+	["2617162599"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5641, y = 0.4933 };
+	}; --Frigid Broodmother
+	["2645692600"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2819, y = 0.5100 };
+	}; --Auredar <Tenebrous Vigilant>
+	["2619652599"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6197, y = 0.7995 };
+	}; --Void-Infused Sleet-Rune
+	["2589202512"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5237, y = 0.4307 };
+	}; --Nar'zira <The Omnilegent>
+	["2652622512"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4415, y = 0.5040 };
+	}; --Vassti, the Exalted Broodmother
+	["2648542512"] = {
+		[RSConstants.FLAG] = { x = 0.5377, y = 0.7202, comment = AL["NOTE_264854_1"] };
+	}; --Farthik the Plunderer
 }
 
 ---============================================================================
@@ -2986,6 +3010,51 @@ private.CONTAINER_GUIDE = {
 	["6182922505"] = {
 		[RSConstants.PATH_START] = { x = 0.5313, y = 0.2154 };
 	}; --Sturdy Chest
+	["6693202512"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3156, y = 0.6490 };
+	}; --Profaned Plaque
+	["6485642512"] = {
+		[RSConstants.STEP1] = { x = 0.5805, y = 0.4879, comment = AL["NOTE_648564_2"] };
+		[RSConstants.STEP2] = { x = 0.5720, y = 0.4846, comment = AL["NOTE_648564_1"] };
+	}; --Vul'zahn's Smuggled Treasure
+	["6199062512"] = {
+		[RSConstants.STEP1] = { x = 0.7342, y = 0.6613, comment = AL["NOTE_619906_1"] };
+		[RSConstants.STEP2] = { x = 0.7268, y = 0.6705, comment = AL["NOTE_619906_2"] };
+		[RSConstants.STEP3] = { x = 0.7242, y = 0.6838, comment = AL["NOTE_619906_3"] };
+		[RSConstants.STEP4] = { x = 0.7309, y = 0.6699, comment = AL["NOTE_619906_4"] };
+	}; --Privateer's Cache
+	["6422052512"] = {
+		[RSConstants.FLAG] = { x = 0.7022, y = 0.6451, comment = AL["NOTE_642205_1"] };
+	}; --A Mysterious Urn
+	["6490852512"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7007, y = 0.7705 };
+		[RSConstants.DOT..1] = { x = 0.6959, y = 0.8248, comment = AL["NOTE_649085_1"] };
+		[RSConstants.DOT..2] = { x = 0.7095, y = 0.8167, comment = AL["NOTE_649085_1"] };
+		[RSConstants.DOT..3] = { x = 0.7161, y = 0.8096, comment = AL["NOTE_649085_1"] };
+		[RSConstants.DOT..4] = { x = 0.7189, y = 0.8284, comment = AL["NOTE_649085_1"] };
+		[RSConstants.DOT..5] = { x = 0.7134, y = 0.8331, comment = AL["NOTE_649085_1"] };
+	}; --Ancient Amani Chest
+	["6686002509"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3941, y = 0.4820 };
+	}; --Funerary Inscription
+	["6685932509"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5496, y = 0.3997 };
+	}; --Funerary Inscription
+	["6685912509"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5495, y = 0.4812 };
+	}; --Funerary Inscription
+	["6685992509"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.4571, y = 0.1092 };
+		[RSConstants.ENTRANCE..2] = { x = 0.4878, y = 0.1094 };
+	}; --Funerary Inscription
+	["6535152512"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4550, y = 0.6493 };
+	}; --Head Mason's Tablet
+	["6455492512"] = {
+		[RSConstants.STEP1] = { x = 0.7041, y = 0.5839, comment = AL["NOTE_645549_1"] };
+		[RSConstants.STEP2] = { x = 0.6642, y = 0.5725, comment = AL["NOTE_645549_2"] };
+		[RSConstants.STEP3] = { x = 0.6904, y = 0.5271, comment = AL["NOTE_645549_3"] };
+	}; --Grave of Someone Forgotten
 }
 
 ---============================================================================

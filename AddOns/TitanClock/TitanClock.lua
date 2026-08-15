@@ -383,7 +383,8 @@ local function Slider_GetTooltip(self)
 	local slider_tooltip = TitanOptionSlider_TooltipText(L["TITAN_CLOCK_CONTROL_TOOLTIP"],
 		GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT");
-	GameTooltip:SetText(slider_tooltip, nil, nil, nil, nil, 1);
+---@diagnostic disable-next-line: param-type-mismatch
+	GameTooltip:SetText(slider_tooltip, nil, nil, nil, nil, true);
 end
 
 ---local Display slider tooltip on mouse over.
@@ -465,13 +466,6 @@ and set the values in the code (Lua)
 	TitanPanelRightClickMenu_SetCustomBackdrop(self)
 end
 
----If dropdown is visible, see if its timer has expired.  If expired, hide frame.
----@param self Frame Plugin option menu frame
----@param elapsed number portion of second since last OnUpdate
-local function Control_OnUpdate(self, elapsed)
-	TitanUtils_CheckFrameCounting(self, elapsed);
-end
-
 -- ====== Create needed frames
 local function Create_Frames()
 	if _G[TITAN_BUTTON] then
@@ -523,7 +517,15 @@ local function Create_Frames()
 		TitanUtils_StartFrameCounting(self, 0.5)
 	end)
 	config:SetScript("OnUpdate", function(self, elapsed)
-		Control_OnUpdate(self, elapsed)
+		local status = TitanUtils_CheckFrameCounting(self, elapsed)
+		if status == "Active" then
+			-- counting down
+		elseif status == "Inactive" then
+			-- user needs time to enter
+		else
+			-- should catch all the edge cases
+			self:Hide()
+		end
 	end)
 
 	-- Config Title

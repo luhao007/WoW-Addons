@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1819, "DBM-Raids-Legion", 4, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260524002232")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(114263, 114361, 114360)--114263 Odyn, 114361 Hymdall, 114360 Hyrja
 mod:SetEncounterID(1958)
@@ -32,9 +32,11 @@ local hyrja = DBM:EJ_GetSectionInfo(14006)
 
 --Stage 1: Halls of Valor was merely a set back
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
+DBM:RegisterAltSpellName(228918, 71466)--Stormforged Spear -> taunt shortname
+
 local warnRevivify					= mod:NewCastAnnounce(228171, 4)
 
-local specWarnBranded				= mod:NewSpecialWarningMoveTo(227503, nil, nil, nil, 3, 6)
+local specWarnBranded				= mod:NewSpecialWarningMoveTo(227503, nil, nil, nil, 3, 6, nil, nil, "mm2")
 local yellBranded					= mod:NewPosYell(227490, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
 
 local timerDrawPowerCD				= mod:NewNextTimer(70, 227503, nil, nil, nil, 6, nil, nil, nil, 1, 4)
@@ -45,8 +47,8 @@ mod:AddNamePlateOption("NPAuraOnBranded", 227503, true)
 mod:AddTimerLine(hymdall)
 local warnDancingBlade				= mod:NewCountAnnounce(228003, 3)--Change if target scanning works, but considering it doesn't in 5 man version of this spell, omitting for now
 
-local specWarnHornOfValor			= mod:NewSpecialWarningMoveAway(228012, nil, nil, nil, 1, 2)
-local specWarnDancingBlade			= mod:NewSpecialWarningMove(228003, nil, nil, nil, 1, 2)
+local specWarnHornOfValor			= mod:NewSpecialWarningMoveAway(228012, nil, nil, nil, 1, 2, nil, nil, "watchorb")
+local specWarnDancingBlade			= mod:NewSpecialWarningMove(228003, nil, nil, nil, 1, 2, nil, nil, "runaway")
 --local yellDancingBlade			= mod:NewYell(228003)
 
 local timerDancingBladeCD			= mod:NewNextTimer(31, 228003, nil, nil, nil, 3)--Alternating two times
@@ -55,9 +57,9 @@ mod:AddTimerLine(hyrja)
 local warnExpelLight				= mod:NewTargetAnnounce(228028, 3)
 local warnShieldofLight				= mod:NewTargetCountAnnounce(228270, 3, nil, nil, nil, nil, nil, nil, true)
 
-local specWarnExpelLight			= mod:NewSpecialWarningMoveAway(228028, nil, nil, nil, 1, 2)
+local specWarnExpelLight			= mod:NewSpecialWarningMoveAway(228028, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellExpelLight				= mod:NewYell(228028)
-local specWarnShieldofLight			= mod:NewSpecialWarningYou(228270, nil, nil, nil, 1, 2)
+local specWarnShieldofLight			= mod:NewSpecialWarningYou(228270, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellShieldofLightFades		= mod:NewFadesYell(228270)
 
 local timerExpelLightCD				= mod:NewNextTimer(32, 228028, nil, nil, nil, 3)--Alternating two times
@@ -68,31 +70,31 @@ mod:AddSetIconOption("SetIconOnShield", 228270, true)
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
 
-local specWarnOdynsTest				= mod:NewSpecialWarningCount(227626, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(5, 159515), nil, 1, 2)
-local specWarnOdynsTestOther		= mod:NewSpecialWarningTaunt(227626, nil, nil, nil, 1, 2)
-local specWarnShatterSpears			= mod:NewSpecialWarningDodge(231013, false, nil, 2, 2, 2)--Every 8 seconds, so off by default
-local specWarnHyrja					= mod:NewSpecialWarningSwitch("ej14006", nil, nil, nil, 1, 2)
-local specWarnHymall				= mod:NewSpecialWarningSwitch("ej14005", nil, nil, nil, 1, 2)
+local specWarnOdynsTest				= mod:NewSpecialWarningCount(227626, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(5, 159515), nil, 1, 2, nil, nil, "changemt")
+local specWarnOdynsTestOther		= mod:NewSpecialWarningTaunt(227626, nil, nil, nil, 1, 2, nil, nil, "changemt")
+local specWarnShatterSpears			= mod:NewSpecialWarningDodge(231013, false, nil, 2, 2, 2, nil, nil, "watchorb")--Every 8 seconds, so off by default
+local specWarnHyrja					= mod:NewSpecialWarningSwitch(-14006, nil, nil, nil, 1, 2, nil, nil, "bigmob")
+local specWarnHymall				= mod:NewSpecialWarningSwitch(-14005, nil, nil, nil, 1, 2, nil, nil, "bigmob")
 
 local timerSpearCD					= mod:NewNextTimer(8, 227697, nil, nil, nil, 3)
-local timerHymdallCD				= mod:NewNextTimer(70, "ej14005", nil, nil, nil, 1, 228012, DBM_COMMON_L.DAMAGE_ICON)
-local timerHyrjaCD					= mod:NewNextTimer(70, "ej14006", nil, nil, nil, 1, 228270, DBM_COMMON_L.DAMAGE_ICON)
+local timerHymdallCD				= mod:NewNextTimer(70, -14005, nil, nil, nil, 1, 228012, DBM_COMMON_L.DAMAGE_ICON)
+local timerHyrjaCD					= mod:NewNextTimer(70, -14006, nil, nil, nil, 1, 228270, DBM_COMMON_L.DAMAGE_ICON)
 --Stage 3: Odyn immitates lei shen
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
 local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
 local warnStormofJustice			= mod:NewTargetAnnounce(227807, 3)
 
-local specWarnStormofJustice		= mod:NewSpecialWarningMoveAway(227807, nil, nil, nil, 1, 2)
+local specWarnStormofJustice		= mod:NewSpecialWarningMoveAway(227807, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellStormofJustice			= mod:NewYell(227807)
-local specWarnStormforgedSpear		= mod:NewSpecialWarningRun(228918, nil, nil, nil, 4, 2)
-local specWarnStormforgedSpearOther	= mod:NewSpecialWarningTaunt(228918, nil, nil, nil, 1, 2)
-local specWarnCleansingFlame		= mod:NewSpecialWarningMove(228683, nil, nil, nil, 1, 2)
+local specWarnStormforgedSpear		= mod:NewSpecialWarningRun(228918, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnStormforgedSpearOther	= mod:NewSpecialWarningTaunt(228918, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnCleansingFlame		= mod:NewSpecialWarningMove(228683, nil, nil, nil, 1, 2, nil, nil, "runaway")
 
 local timerStormOfJusticeCD			= mod:NewNextTimer(10.9, 227807, nil, nil, nil, 3)
-local timerStormforgedSpearCD		= mod:NewNextTimer(10.9, 228918, 71466, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON..DBM_COMMON_L.DEADLY_ICON, nil, 2, 4)
+local timerStormforgedSpearCD		= mod:NewNextTimer(10.9, 228918, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON..DBM_COMMON_L.DEADLY_ICON, nil, 2, 4)
 --Mythic
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
-local specWarnRunicBrand			= mod:NewSpecialWarningYouPos(231297, nil, nil, 2, 3, 6)
+local specWarnRunicBrand			= mod:NewSpecialWarningYouPos(231297, nil, nil, 2, 3, 6, nil, nil, "mm2")
 local yellRunicBrand				= mod:NewPosYell(231297, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
 
 local timerRunicBrandCD				= mod:NewNextTimer(35, 231297, nil, nil, nil, 3, nil, DBM_COMMON_L.HEROIC_ICON, nil, 1, 4)

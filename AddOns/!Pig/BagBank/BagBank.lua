@@ -1,13 +1,13 @@
-local addonName, addonTable = ...;
-local BagBankfun=addonTable.BagBankfun
+local addonName, PD = ...;
+local BagBankfun=PD.BagBankfun
 --================
 function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.BagbankOK then return end
 	BagBankfun.BagbankOK=true
-	local L=addonTable.locale
-	local Data=addonTable.Data
+	local L=PD.locale
+	local Data=PD.Data
 	local match = _G.string.match
-	local Create=addonTable.Create
+	local Create=PD.Create
 	local PIGFrame=Create.PIGFrame
 	local PIGEnter=Create.PIGEnter
 	local PIGFontString=Create.PIGFontString
@@ -17,14 +17,27 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	local wwc,hhc = 24,24
 	local UpdateItemButtonZLVranse=BagBankfun.UpdateItemButtonZLVranse
 	if GetCVar("combinedBags")=="0" then SetCVar("combinedBags","1") end
-	hooksecurefunc(ContainerFrameCombinedBags, "UpdateItems", function()
+	local BusinessInfo=PD.BusinessInfo
+	local function Update_itemnut(self)
+		C_Timer.After(0.01,function()
+			self.JunkIcon:SetShown(true);
+			self.JunkIcon:SetScale(1.2)
+			self.JunkIcon:SetPoint("TOPLEFT", self, -3, 3);
+			if self.ZLV then self.ZLV:SetText("");end
+		end)
+	end
+	hooksecurefunc(ContainerFrameItemButtonMixin, "UpdateJunkItem", function(self, quality, noValue)
 		if not PIGA["BagBank"]["JunkShow"] then return end
-		for i, itemButton in ContainerFrameCombinedBags:EnumerateValidItems() do
-			local bagID = itemButton:GetBagID();
-			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
-			itemButton.JunkIcon:Hide();
+		self.JunkIcon:Hide();
+		local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(self:GetBagID(), self:GetID())
+		if BusinessInfo.ShowSellItemList then
+			if BusinessInfo.ShowSellItemList(self:GetBagID(), self:GetID()) then
+				Update_itemnut(self)
+			end
+		else
+			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(self:GetBagID(), self:GetID())
 			if quality and quality==0 then
-				itemButton.JunkIcon:Show();
+				Update_itemnut(self)
 			end
 		end
 	end)
@@ -167,10 +180,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	-- 		end
 	-- 	end
 	-- end
-	-- hooksecurefunc(BankPanel, "GenerateItemSlotsForSelectedTab", function(self)
-	-- 	Update_ItemSlots(self,tabIDsold[self.selectedTabID])
-	-- 	UpdateItemButtonZLVranse("retailbank")
-	-- end)
+
 	-- BankPanel.bglist={}
 	-- hooksecurefunc(BankPanelTabMixin, "OnEnter", function(self)
 	-- 	if BankPanel.selectedTabID==-1 then return end
@@ -199,12 +209,16 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	-- 		BankPanel.bglist[self.tabData.ID]:Hide()
 	-- 	end
 	-- end);
-	-- BankPanel:HookScript("OnEvent", function (self,event,arg1)
-	-- 	if event == "BAG_UPDATE" then
-	-- 		--self:MarkDirty()
-	-- 		UpdateItemButtonZLVranse("retailbank")
-	-- 	end
-	-- end)
+	hooksecurefunc(BankPanel, "GenerateItemSlotsForSelectedTab", function(self)
+		--Update_ItemSlots(self,tabIDsold[self.selectedTabID])
+		UpdateItemButtonZLVranse("retailbank")
+	end)
+	BankPanel:HookScript("OnEvent", function (self,event,arg1)
+		if event == "BAG_UPDATE" then
+			--self:MarkDirty()
+			UpdateItemButtonZLVranse("retailbank")
+		end
+	end)
 	--处理2级tab
 	-- local function Update_Tab2(self)
 	-- 	self.bankTabPool:ReleaseAll();

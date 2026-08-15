@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2459, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(181224)
 mod:SetEncounterID(2540)
@@ -29,36 +29,38 @@ mod:RegisterEventsInCombat(
  or ability.id = 361750
  or ability.id = 361651 and (type = "applybuff" or type = "removebuff")
 --]]
+DBM:RegisterAltSpellName(365373, 161172)--Disintegration Halo -> short name
+
 --The Fallen Oracle
 local warnInfusedStrikes						= mod:NewStackAnnounce(361966, 2, nil, "Tank|Healer")
 local warnStaggeringBarrage						= mod:NewTargetCountAnnounce(361018, 3, nil, nil, nil, nil, nil, nil, true)
 local warnDominationCore						= mod:NewCountAnnounce(359483, 3)
-local warnDisintegrationHalo					= mod:NewCountAnnounce(365373, 4, nil, nil, 161172)
+local warnDisintegrationHalo					= mod:NewCountAnnounce(365373, 4)
 --Inevitable Dominion
 local warnSiphonReservoir						= mod:NewCountAnnounce(361643, 2)
 
 --The Fallen Oracle
-local specWarnInfusedStrikes					= mod:NewSpecialWarningStack(361966, nil, 8, nil, nil, 1, 6)
-local specWarnInfusedStrikesTaunt				= mod:NewSpecialWarningTaunt(361966, nil, nil, nil, 1, 2)
+local specWarnInfusedStrikes					= mod:NewSpecialWarningStack(361966, nil, 8, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnInfusedStrikesTaunt				= mod:NewSpecialWarningTaunt(361966, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 local yellInfusedStrikes						= mod:NewShortFadesYell(361966)
-local specWarnStaggeringBarrage					= mod:NewSpecialWarningYouPosCount(361018, nil, nil, nil, 1, 2)
+local specWarnStaggeringBarrage					= mod:NewSpecialWarningYouPosCount(361018, nil, nil, nil, 1, 2, nil, nil, "mm1")
 local yellStaggeringBarrage						= mod:NewShortPosYell(361018)
 local yellStaggeringBarrageFades				= mod:NewIconFadesYell(361018)
-local specWarnStaggeringBarrageTarget			= mod:NewSpecialWarningTargetCount(361018, false, nil, nil, 1, 2, 3)--Optional Soak special warning that auto checks no soak debuff
-local specWarnDominationBolt					= mod:NewSpecialWarningInterruptCount(363607, "HasInterrupt", nil, nil, 1, 2)
-local specWarnObliterationArc					= mod:NewSpecialWarningDodgeCount(361513, nil, nil, nil, 2, 2)
-local specWarnDisintegrationHalo				= mod:NewSpecialWarningCount(365373, nil, 161172, nil, 2, 2)
+local specWarnStaggeringBarrageTarget			= mod:NewSpecialWarningTargetCount(361018, false, nil, nil, 1, 2, 3, nil, "helpsoak")--Optional Soak special warning that auto checks no soak debuff
+local specWarnDominationBolt					= mod:NewSpecialWarningInterruptCount(363607, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnObliterationArc					= mod:NewSpecialWarningDodgeCount(361513, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnDisintegrationHalo				= mod:NewSpecialWarningCount(365373, nil, nil, nil, 2, 2, nil, nil, "watchwave")
 --local specWarnGTFO							= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
 --Inevitable Dominion
-local specWarnTotalDominion						= mod:NewSpecialWarningSpell(365418, nil, nil, nil, 3, 2)--Basically soft enrage/wipe mechanic
+local specWarnTotalDominion						= mod:NewSpecialWarningSpell(365418, nil, nil, nil, 3, 2, nil, nil, "stilldanger")--Basically soft enrage/wipe mechanic
 
 --The Fallen Oracle
 local timerUnleashedInfusion					= mod:NewTargetTimer(20, 361967, nil, nil, nil, 2)
 local timerStaggeringBarrageCD					= mod:NewCDCountTimer(35, 361018, nil, nil, nil, 3)
 local timerDominationCoreCD						= mod:NewCDCountTimer(33.5, 359483, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)
 local timerObliterationArcCD					= mod:NewCDCountTimer(35, 361513, nil, nil, nil, 3)
-local timerDisintegrationHaloCD					= mod:NewCDCountTimer(70, 365373, 161172, nil, nil, 3)
-local timerDisintegrationHalo					= mod:NewCastCountTimer(5, 365373, 161172, nil, nil, 5)
+local timerDisintegrationHaloCD					= mod:NewCDCountTimer(70, 365373, nil, nil, nil, 3)
+local timerDisintegrationHalo					= mod:NewCastCountTimer(5, 365373, nil, nil, nil, 5)
 --Inevitable Dominion
 local timerSiphonReservoirCD					= mod:NewCDCountTimer(28.8, 361643, nil, nil, nil, 6)
 

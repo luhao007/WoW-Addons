@@ -126,6 +126,46 @@ LDBToTitan:RegisterEvent("PLAYER_LOGIN")
 local function GenTooltipScripts(frame)
 	local dbg_msg = "LDB-TT "
 	dbg_msg = dbg_msg .. tostring(frame.registry.id)
+
+	--[[ Note on Tooltips: 
+	The LDB spec is unclear on priority of method to choose!
+	The methods include
+	-- .tooltip : Implies LDB will handle update and hide of tooltip frame; dislay addon will handle placement and show only
+	-- OnTooltipShow : Display addon sends a blank GameTooltip type frame to be filled; 
+	dislay addon will handle placement and show / hide
+	-- OnEnter / OnLeave : Implies LDB is taking full control of tooltip; 
+	dislay addon will call when cursor enters / leaves LDB 'button'
+
+
+	2026 Mar :
+	The 'secret' value changes made in Midnight (12.0.0) caused errors in Titan and 3rd part Titan plugins.
+	Titan needed to use its own tooltip based on the same template as GameTooltip.
+	We realized this was the same as the LDB OnTooltipShow method so
+	this routine was rewritten to share tooltip processing with Titan.
+	
+	New registry attributes were added to make implicit agreements with plugins and LDB objects.
+	.tooltip ==> .registry.tooltipDisplayFrame
+	.OnTooltipShow ==> .registry.tooltipTemplateFunction
+
+	Another change was always create the OnEnter and OnLeave scripts on the Titan LDB plugin. 
+	If the LDB OnEnter or OnLeave script does not exist, Titan calls its own OnEnter / OnLeave.
+	This is how Titan implements using only one tooltip method with priority being 
+	1) OnEnter / Leave
+	2) .tooltip
+	3) .OnTooltipShow
+	We believe this meets the intent of the LDB spec and gives developers the flexability they need.
+
+	Example: The data object example in the LDB spec sets OnEnter and OnLeave. OnEnter uses OnTooltipShow.
+	Titan will only call the LDB OnEnter and ignore the OnTooltipShow.
+
+
+	Also always created are OnClick and OnDoubleClick although Titan does not call its respective routines.
+
+	Always creating these scripts may use a few more cycles but removes the need for callbacks and still
+	allows the LDB to update its scripts as needed.
+	Titan will use the updated script for the next On* call.
+	--]]
+
 	-- Technically the spec states only a data source can have .tooltip and .OnTooltipShow
 	-- but the original development allowed them to exist if the LDB dev added them.
 	if frame.ldb_obj.tooltip then
@@ -140,15 +180,6 @@ local function GenTooltipScripts(frame)
 	else
 		-- not on LDB
 	end
-
-	-- 2026 Mar :
-	-- This was rewritten to share tooltip processes with Titan
-	-- by setting a registry attribute for the type of tooltip processing needed.
-	--
-	-- Another change was to always create the On* scripts on the Titan plugin
-	-- then call the LDB routine, if it exists.
-	-- This may use a few more cycle but removes the need for callbacks and still
-	-- allows the LDB to update the scripts. Titan will use them on the next On* call.
 
 	-- OnEnter
 	-- Technically a launcher does not have OnEnter / Onleave but the original developer
@@ -489,14 +520,9 @@ local function TitanLDBCreateObject(self, name_str, obj)
 	-- if found we use it, if not we assume that the DO "name"
 	-- attribute is the same as the actual
 	-- addon name, which might not always be the case.
-	-- Titan defaults again to "General" if no categoy is found
-	-- via a check in the menu implementation, later on.
 	local addoncategory, addonversion;
 	local tempname = obj.tocname or name;
 
-	-- This was a sanity check but does not allow for multiple
-	-- LDB to be within an addon yet act as their own addon.
-	--	if IsAddOnLoaded(tempname) then
 	addoncategory = TitanUtils_GetAddOnMetadata(tempname, "X-Category");
 	registry.category = (addoncategory and xcategories[addoncategory])
 		or (obj.category)
@@ -504,9 +530,12 @@ local function TitanLDBCreateObject(self, name_str, obj)
 	addonversion = TitanUtils_GetAddOnMetadata(tempname, "Version")
 		or (obj.version)
 		or ""
-	registry["version"] = addonversion;
-	registry["notes"] = (TitanUtils_GetAddOnMetadata(tempname, "Notes") or "") .. "\n"
-	--	end
+	registry["version"] = addonversion
+
+	local notes_final = (TitanUtils_GetAddOnMetadata(tempname, "Notes") or "")
+		or (obj.notes)
+		or ""
+	registry["notes"] = notes_final .. "\n" .. notes
 
 	-- Depending on the LDB type set the control and saved Variables appropriately
 	if obj.type == LAUNCHER then
@@ -545,13 +574,7 @@ local function TitanLDBCreateObject(self, name_str, obj)
 	newTitanFrame:SetToplevel(true);
 	newTitanFrame:RegisterForClicks("LeftButtonUp", "RightButtonUp");
 
-	-- Use the routines given by the DO in this precedence
-	-- tooltip > OnEnter > OnTooltipShow >
-	-- or register a callback in case it is created later. Per the 1.1 LDB spec
-	-- 2026 Mar Major rewrite to move tooltip logic into TitanTemplate.
-	-- The two LDB schemes (tooltip and OnTooltipShow) will be captured in the registry
-	-- which makes the schemes available to Titan plugins.
-	GenTooltipScripts(newTitanFrame)
+	GenTooltipScripts(newTitanFrame) -- See notes in this routine for details
 
 	local pew = "event"
 	if Titan__InitializedPEW then

@@ -459,6 +459,14 @@ local keyBindingOptions = {
                             values = addon.Modifiers,
                             get = function() return addon.Options.db.profile.Achievements.Modifiers.ToggleExcluded; end,
                             set = function(_, value) addon.Options.db.profile.Achievements.Modifiers.ToggleExcluded = value; end
+                        },
+                        PopOut = {
+                            order = OrderPP(), type = "select", width = AdjustedWidth(0.93),
+                            name = addon.L["Pop Out"],
+                            desc = addon.L["Pop Out"]:KAF_AddDefaultValueText("Achievements.Modifiers.PopOut", addon.Modifiers),
+                            values = addon.Modifiers,
+                            get = function() return addon.Options.db.profile.Achievements.Modifiers.PopOut; end,
+                            set = function(_, value) addon.Options.db.profile.Achievements.Modifiers.PopOut = value; end
                         }
                     }
                 }
@@ -625,6 +633,13 @@ local debugOptions = {
                     name = addon.L["Export to CSV"],
                     desc = addon.L["Export to CSV Desc"],
                     func = ExportToCsv
+                },
+                Blank7 = {order = OrderPP(), type = "description", width = AdjustedWidth(2), name = ""},
+                MapVerifier = {
+                    order = OrderPP(), type = "execute",
+                    name = "Map Verifier",
+                    desc = "Open the Map Verifier tool to inspect and tag all UiMap IDs.",
+                    func = function() addon.Gui.MapVerifier.Open() end
                 }
             }
         }

@@ -68,7 +68,7 @@ local bmtestmode = generaloptions:CreateButton(L.Button_TestBars, 120, 30)
 bmtestmode.myheight = 0
 bmtestmode:SetPoint("LEFT", bmrange, "RIGHT", 6, 0)
 bmtestmode:SetScript("OnClick", function()
-	DBM:DemoMode()
+	DBM_GUI:CollapseForPreview(DBM:DemoMode())
 end)
 
 if DBM:IsPostMidnight() then
@@ -83,15 +83,13 @@ end
 local moveme = generaloptions:CreateButton(L.Button_MoveBars, 120, 30)
 moveme:SetPoint("TOPLEFT", bmtestmode, "BOTTOMLEFT", 0, -2)
 moveme:SetScript("OnClick", function()
-	DBT:ShowMovableBar()
+	DBM_GUI:CollapseForPreview(DBT:ShowMovableBar())
 end)
 
-local latencySlider = generaloptions:CreateSlider(L.Latency_Text, 50, 750, 5, 210)
-latencySlider:SetPoint("TOPLEFT", bminfo, "BOTTOMLEFT", 4, -20)
-latencySlider:SetValue(DBM.Options.LatencyThreshold)
-latencySlider:HookScript("OnValueChanged", function(self)
-	DBM.Options.LatencyThreshold = self:GetValue()
+local latencySlider = generaloptions:CreateSlider(L.Latency_Text, 50, 750, 5, 210, DBM.Options.LatencyThreshold, function(value)
+	DBM.Options.LatencyThreshold = value
 end)
+latencySlider:SetPoint("TOPLEFT", bminfo, "BOTTOMLEFT", 4, -20)
 
 local resetbutton = generaloptions:CreateButton(L.Button_ResetInfoRange, 120, 16)
 resetbutton:SetPoint("BOTTOMRIGHT", generaloptions.frame, "BOTTOMRIGHT", -5, 5)
@@ -172,7 +170,7 @@ end)
 
 local resizeHeight = resizeOptions:CreateEditBox(L.Editbox_WindowHeight, math.floor(DBM.Options.GUIHeight * 10 ^ 2 + 0.5) / 10 ^ 2)
 resizeHeight.myheight = 10
-resizeHeight:SetPoint("LEFT", resizeWidth, "RIGHT", 40, 0)
+resizeHeight:SetPoint("LEFT", resizeWidth, "RIGHT", 60, 0)
 resizeHeight:SetScript("OnChar", function(self)
 	self:SetText(self:GetText():gsub("[^%.%d]", ""))
 end)
@@ -196,9 +194,9 @@ end)
 
 local UIGroupingOptions = coreoptions:CreateArea(L.UIGroupingOptions)
 UIGroupingOptions:CreateCheckButton(L.AutoExpandSpellGroups2, true, nil, "AutoExpandSpellGroups2")
+UIGroupingOptions:CreateCheckButton(L.ShowWAKeys, true, nil, "ShowWAKeys")
 if not DBM:IsPostMidnight() then
 --	UIGroupingOptions:CreateCheckButton(L.GroupOptionsExcludePrivateAura, true, nil, "GroupOptionsExcludePA")
 	UIGroupingOptions:CreateCheckButton(L.GroupOptionsExcludeIcon, true, nil, "GroupOptionsExcludeIcon")
-	UIGroupingOptions:CreateCheckButton(L.ShowWAKeys, true, nil, "ShowWAKeys")
 end
 --UIGroupingOptions:CreateCheckButton(L.ShowSpellDescWhenExpanded, true, nil, "ShowSpellDescWhenExpanded")

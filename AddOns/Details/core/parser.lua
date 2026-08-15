@@ -5444,6 +5444,10 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 	function Details:Check_ZONE_CHANGED_NEW_AREA()
 		local zoneName, zoneType, difficultyID, difficultyName, _, _, _, zoneMapID = GetInstanceInfo()
 
+		local oldZoneType = Details.zone_type
+		local oldZoneName = Details.zone_name
+		local oldZoneId = Details.zone_id
+
 		Details.zone_type = zoneType
 		Details.zone_id = zoneMapID
 		Details.zone_name = zoneName
@@ -5461,10 +5465,21 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		parser:WipeSourceCache()
 		Details.listener:UnregisterEvent("UNIT_FLAGS")
 
+		if (Details.auto_combatlog) then
+			LoggingCombat(false)
+		end
+
 		_is_in_instance = false
 
 		if (zoneType == "party" or zoneType == "raid") then
 			_is_in_instance = true
+
+			if (Details.auto_combatlog) then
+				LoggingCombat(true)
+				if not InCombatLockdown() then
+					C_CVar.SetCVar("advancedCombatLogging", 1)
+				end
+			end
 		end
 
 		if (Details.last_zone_type ~= zoneType) then
@@ -6719,7 +6734,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		Details222.LoadSavedVariables.CombatSegments()
 
 		--load the profiles
-		Details:LoadConfig()
+		Details222.LoadSavedVariables.LoadConfig()
 
 		Details:UpdateParserGears()
 
@@ -6943,7 +6958,8 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		--save the config
 		tinsert(_detalhes_global.exit_log, "6 - Saving Config.")
 		currentStep = "Saving Config"
-		xpcall(Details.SaveConfig, logSaverError)
+		--xpcall(Details.SaveConfig, logSaverError)
+		xpcall(Details222.SaveVariables.SaveConfig, logSaverError)
 
 		tinsert(_detalhes_global.exit_log, "7 - Saving Profiles.")
 		currentStep = "Saving Profile"
@@ -7753,6 +7769,10 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 	end
 
 	function Details.pvp_parser_frame:ReadPvPData()
+		if detailsFramework.IsAddonApocalypseWow() then
+			return
+		end
+
 		local players = GetNumBattlefieldScores()
 
 		local _player, realmName = UnitFullName("player")

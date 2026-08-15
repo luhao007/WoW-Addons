@@ -72,5 +72,3 @@ function Scaling:NudgeViewers()
         end
     end
 end
-
-CMC_SCALING = Scaling

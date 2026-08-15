@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Akilzon", "DBM-Raids-BC", 9)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(23574)
 mod:SetEncounterID(1189, 2482)
@@ -18,7 +18,7 @@ mod:RegisterEventsInCombat(
 local warnStorm			= mod:NewTargetNoFilterAnnounce(43648, 4)
 --local warnStormSoon		= mod:NewSoonAnnounce(43648, 5, 3)
 
-local specWarnStorm		= mod:NewSpecialWarningSpell(43648, nil, nil, nil, 2, 2)
+local specWarnStorm		= mod:NewSpecialWarningSpell(43648, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
 
 local timerStorm		= mod:NewCastTimer(8, 43648, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
 local timerStormCD		= mod:NewCDTimer(34.1, 43648, nil, nil, nil, 3)--34-55

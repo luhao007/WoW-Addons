@@ -49,7 +49,7 @@
                     <KeyValue key="tooltipAnchor" value="ANCHOR_RIGHT" type="string" />
                 </KeyValues>
                 <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.Keys" relativePoint="RIGHT" x="25" />
+                    <Anchor point="CENTER" />
                 </Anchors>
             </Frame>
             <Frame parentKey="BountyMap"

@@ -28,18 +28,25 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S1 = "Немезида: |cnH
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S2 = "Немезида: |cnHIGHLIGHT_FONT_COLOR:Бур-босс|r~Война Внутри, 2-й сезон"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S3 = "Немезида: |cnHIGHLIGHT_FONT_COLOR:Ки'веза|r~Война Внутри, 3-й сезон"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S1 = "Немезида: |cnHIGHLIGHT_FONT_COLOR:Нуллэй|r~Полночь, 1-й сезон"
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S2 = "Немезида: |cnHIGHLIGHT_FONT_COLOR:Азта'рек|r~Полночь, 2-й сезон"
+-----
 
 -- Интерфейс вылазок
+
+Lockit.UI_DELVES_LIST_MODIFIERS_TEXT = _G["MODIFIERS_COLON"]
 
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "Посетите Каз Алгар, чтобы увидеть прогресс"
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "Посетите Кель'Талас, чтобы увидеть прогресс"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "Появляется только на |cnNORMAL_FONT_COLOR:11-м Уровне|r Многообещающих Вылазок|A:delves-bountiful:16:16|a."
+Lockit.UI_GILDED_STASH_CRESTS_NOTE = "Каждый тайник содержит %d |cnIQ4:Позолоченных гербовых печатей|r (|cnNORMAL_FONT_COLOR:%d в неделю|r всего)."
+Lockit.UI_JOURNEY_LEVEL_REQUIRED = "Требуется уровень известности %d"
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "Нет активных Вылазок"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Нажмите, чтобы отобразить информацию о добыче Вылазок>"
 
 -- Информация о добыче
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "Завершите Вылазку, чтобы получить:"
+Lockit.UI_LOOT_INFO_TIPS = "|A:delves-treasure-upgrade:16:16|a |cnNORMAL_FONT_COLOR:%s|r: Группы противников должны быть убиты до финального босса. Убийство их позже не добавляет награды в сундук. Гербовые печати добавляются за убийство 3+ групп на указанных уровнях сложности.\n\n|T%s:16|t |cnNORMAL_FONT_COLOR:%s|r: Открывается на 4-м уровне известности в Вылазках. Хранилище можно открыть 4 раза в неделю."
 
 -- Delves Gossip
 Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER = "Автоматический вход (уровень %d)" -- %d - это уровень Вылазки (1-11).
@@ -62,9 +69,9 @@ Lockit.UI_SETTING_DELVE_PROGRESS_WIDGETS_NAME = "Информация о про�
 Lockit.UI_SETTING_DELVES_LIST_INFO_WIDGETS_TOOLTIP = "Список вылазок: Отображать прогресс достижений (истории и сундуки)."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_NAME = "Тип отслеживания точек маршрута"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_START = "Выберите, какой тип путевых точек используется для навигации.\n\nВозможные варианты:"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "- Отметка на карте Blizzard (стандартная внутриигровая навигация)"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "- Точки маршрута TomTom"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "- Точки маршрута MapPinEnhanced."
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "   • Отметка на карте Blizzard (стандартная внутриигровая навигация)"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "   • Точки маршрута TomTom"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "   • Точки маршрута MapPinEnhanced."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM_UNAVAILABLE_FORMAT = "%s %s."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_NAME = "Blizzard"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_DESCRIPTION = "Использовать отметки на карте Blizzard."
@@ -93,7 +100,7 @@ Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "В окне, отображ�
 Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Показывать иконку на миникарте"
 Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Отображать иконку на миникарте. Нажав на него, можно быстро получить доступ к информации о текущем сезоне Вылазок."
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Автоматический вход в Вылазки"
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Автоматически входить в Вылазку при приближении к её входу.\n\nВылазка не будет открыта, если:\n- Этот уровень сложности ещё не разблокирован.\n- Это Вылазка Немезиды.\n- Это Многообещающая вылазка, но у Вас нет |cnIQ4:Отреставрированный ключ от сундука|r или достаточного количества |cnIQ3:Осколок ключа от сундука|r для его создания."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Автоматически входить в Вылазку при приближении к её входу.\n\nВылазка не будет открыта, если:\n   • Этот уровень сложности ещё не разблокирован.\n   • Это Вылазка Немезиды.\n   • Это Многообещающая вылазка, но у Вас нет |cnIQ4:Отреставрированный ключ от сундука|r или достаточного количества |cnIQ3:Осколок ключа от сундука|r для его создания."
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "Уровень Вылазки для входа."
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "Задержка перед входом"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "Вход в Вылазку будет осуществлен с задержкой (в секундах).\n\nВ окне, отображаемом при входе в Вылазку, есть кнопка. Нажав на неё, можно отменить автоматический вход до истечения обратного отсчета задержки."
@@ -116,6 +123,11 @@ Lockit.UI_SETTING_LOGS_NAME = "Включить журналы отладки"
 Lockit.UI_SETTING_LOGS_TOOLTIP = "Позволяет выводить отладочные логи в чат. Используется в целях разработки и тестирования."
 
 Lockit.UI_SETTINGS_TRANSLATION_TITLE = "Особая благодарность за помощь с переводом:"
+
+-- The following strings are joined into a list using "\n" (a new line) as a delimiter.
+Lockit.UI_SETTINGS_SLASH_CMD_TEXT = "Слэш-команды:"
+Lockit.UI_SETTINGS_SLASH_CMD_SHOWDELVES = "   • |cnNORMAL_FONT_COLOR:/delvecompanion|r или |cnNORMAL_FONT_COLOR:/delvecomp|r или |cnNORMAL_FONT_COLOR:/delves|r: Открывает доступ к текущему сезону Вылазок в руководстве по приключениям (аналогично нажатию на значок миникарты)."
+-----
 
 Lockit.UI_SETTINGS_LINKS_TITLE = "Ссылки"
 Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_CURSEFORGE = "Нажмите, чтобы скопировать ссылку на страницу аддона |cnNORMAL_FONT_COLOR:CurseForge|r."

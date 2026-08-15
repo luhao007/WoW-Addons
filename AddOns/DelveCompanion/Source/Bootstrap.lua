@@ -48,7 +48,7 @@ function Bootstrap:OnPlayerLogin()
 
     DelveCompanion:InitDelvesData()
     DelveCompanion:UpdateDelvesData()
-    -- DelveCompanion_TooltipExtension_Init() -- Disabled to test whether it causes MoneyFrame taint.
+    DelveCompanion_TooltipExtension_Init()
 
     -- Logger:Log("[DelveCompanion Bootstrap] OnPlayerLogin finish")
 end

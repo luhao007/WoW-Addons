@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2010, "DBM-BrokenIsles", 2, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260523021952")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(124514)
 mod:SetEncounterID(2081)
@@ -20,9 +20,9 @@ local warnInfectedClaws					= mod:NewStackAnnounce(247361, 2, nil, "Tank")
 local warnSlumberingGasp				= mod:NewTargetAnnounce(247389, 2, nil, false)
 local warnGrotesqueSpawn				= mod:NewSpellAnnounce(247443, 2)
 
-local specWarnInfectedClaws				= mod:NewSpecialWarningStack(247361, nil, 6, nil, nil, 1, 6)
-local specWarnInfectedClawsOther		= mod:NewSpecialWarningTaunt(247361, nil, nil, nil, 1, 2)
-local specWarnSlumberingGasp			= mod:NewSpecialWarningDodge(247379, nil, nil, nil, 2, 2)
+local specWarnInfectedClaws				= mod:NewSpecialWarningStack(247361, nil, 6, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnInfectedClawsOther		= mod:NewSpecialWarningTaunt(247361, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnSlumberingGasp			= mod:NewSpecialWarningDodge(247379, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
 
 --local timerInfectedClawsCD				= mod:NewAITimer(13.4, 247361, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerSlumberingGaspCD				= mod:NewCDTimer(54.7, 247379, nil, nil, nil, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)

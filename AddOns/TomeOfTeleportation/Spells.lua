@@ -497,6 +497,7 @@ CreateDestination(
 		CreateItem(265100),				-- Corewarden's Hearthstone
 		CreateItem(257736),				-- Lightcalled Hearthstone
 		CreateItem(263933),				-- Preyseeker's Hearthstone
+		CreateItem(264367),				-- Mycomancer's Hearthspore
 	})
 
 -- Any hearthstones that shouldn't be randomised.
@@ -824,6 +825,7 @@ CreateDestination(
 	{
 		CreateConditionalSpell(201891, AtContinent(ContinentIdBrokenIsles)),		-- Undercurrent
 		CreateConditionalConsumable(162515, InBFAZone),	-- Midnight Salmon
+		CreateConsumable(238379),						-- Warping Wise
 	})
 
 CreateDestination(
@@ -1359,6 +1361,18 @@ CreateDestination(
 	{
 		CreateDungeonSpell(445424, 304, 293),		-- Path of the Twilight Fortress			Grim Batol
 	}).SetExpansion(ExpansionCataclysm)
+
+CreateDestination(
+	LocZone("Slayer's Rise", 2405),
+	{
+		CreateConditionalConsumable(258736, AtZone(2444)),		-- Scroll of Town Portal
+	}).SetExpansion(ExpansionClassic)
+
+CreateDestination(
+	"Umbral Base Camp",
+	{
+		CreateItem(276371)		-- Lightveil Recall Beacon
+	}).SetExpansion(ExpansionMidnight)
 
 CreateDestination(
 	LocZone("Winterspring", 83),

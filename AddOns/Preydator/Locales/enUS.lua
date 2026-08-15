@@ -71,7 +71,6 @@
   L["Show bar during Edit Mode"]         = ""
 
 ---- Dropdown field titles
-  L["Currency Theme"]           = ""
   L["Progress Segments"]        = ""
   L["Sound Channel"]            = ""
   L["Hunt Panel Side"]          = ""
@@ -214,7 +213,7 @@
   L["HINT_VERTICAL_PERCENT_OFFSET"] = "Vertical Percent Offset applies to vertical side/tick-mark side placements. Use tick marks to replace the single percent value."
   L["HINT_VERTICAL_LOCK"]           = "In Vertical mode, only Label Mode and Prefix/Suffix Row are locked here. Stage names and custom labels remain editable."
   L["HINT_AUDIO_SLIDER"]            = "Slider values can be dragged or typed directly. Custom sound input accepts bare names, .ogg, or full addon paths."
-  L["HINT_ADVANCED_NOTES"]          = "Existing installs keep their current saved values. New settings are only applied when a key is missing in PreydatorDB. This panel replaces the old long-form options page but uses the same database. The Inspect feature is compatible with BugSack."
+  L["HINT_ADVANCED_NOTES"]          = "Existing installs keep their current saved values. New settings are only applied when a key is missing in PreydatorDB. This panel replaces the old long-form options page but uses the same database. The Inspect feature opens a built-in copyable report window."
   L["HINT_PANEL_SUBTITLE"]          = "Tabbed options layout with two-column pages. Slider values can be dragged or typed directly."
 
 ---- Print / chat messages
@@ -227,20 +226,14 @@
   L["Preydator Edit Mode"]       = ""
   L["HINT_EDITMODE_SUBTITLE"]    = "Quick layout controls while Blizzard Edit Mode is open. Full Options can be found in Options > Addons > Preydator."
 
----- Currency Tracker windows
-  L["Preydator Currency"]        = ""
-  L["Preydator Warband"]         = ""
-  L["Currency Tracker"]          = ""
-  L["Preydator Updates: New in 2.1.1"] = ""
-  L["WHATS_NEW_BODY"]            = "Preydator 2.1.1 is live.\n\n- Hunt Tracker now shows achievement guidance on hunts that advance incomplete Prey achievements\n- Achievement marker layout, scaling, and count display were refined for the Hunt Table\n- Hunt reward display now supports icon + text, text only, or compact icon + count styles\n- Loot-triggered currency refreshes were trimmed to reduce unnecessary CPU spikes\n\nIf you already have windows placed, your saved layout stays intact."
+---- Preydator 3.0 splash / launcher
+  L["Preydator Updates: New in 3.0"] = ""
+  L["PREYDATOR_3_0_WHATS_NEW_BODY"] = "Preydator 3.0 is live.\n\n- Removed Currency and Warband modules from the core addon.\n- Hunt, Bar, and Sounds features remain intact.\n- Added a safe new splash flow and runtime cleanup.\n\nIf you already have windows placed, your saved layout stays intact."
   L["Got It"]                    = ""
   L["Open Settings"]             = ""
   L["Toggle Tracker"]            = ""
-  L["Toggle Warband"]            = ""
   L["Open Tracker"]              = ""
   L["Close Tracker"]             = ""
-  L["Open Warband"]              = ""
-  L["Close Warband"]             = ""
   L["Gain Color"]                = ""
   L["Spend Color"]               = ""
 
@@ -251,37 +244,6 @@
   L["Reward data pending"]                             = ""
   L["No available hunts"]                              = ""
   L["Use /pd huntdebug at a hunt table to print payload data."] = ""
-
----- Currency config page labels
-  L["Currencies to Track"]          = ""
-  L["Random Hunt Cost (Anguish)"]   = ""
-  L["Panel Layout"]                 = ""
-  L["Adjust"]                       = ""
-  L["Delta Preview"]                = ""
-  L["Normal"]                       = ""
-  L["Hard"]                         = ""
-  L["Nightmare"]                    = ""
-  L["Currency Window"]              = ""
-  L["Warband Window"]               = ""
-
----- Warband column headers
-  L["Realm"]     = ""
-  L["Character"] = ""
-  L["Anguish"]   = ""
-  L["Voidlight"] = ""
-  L["Adv"]       = ""
-  L["Vet"]       = ""
-  L["Champ"]     = ""
-  L["N/H/Ni"]    = ""   -- Difficulty abbreviation (Normal/Hard/Nightmare); translators may provide their own
-
----- Warband dynamic row labels
-  L["Total"]     = ""
-  L["All Realms"] = ""
-  L["Totals"]    = ""
-  L["Subtotal"]  = ""
-
----- Currency tracker summary format
-  L["Normal %d | Hard %d | Nightmare %s"] = ""
 
 ---- Modules page
   L["Module Status"]                                                                                    = ""
@@ -301,10 +263,8 @@
   L["Module changes require a reload to fully apply. Achievement module remains disabled until it is released."] = ""
 
 ---- Minimap / LDB tooltip
-  L["Left Click: Toggle Currency Window"]  = ""
-  L["Right Click: Toggle Warband Window"]  = ""
-  L["Shift + Right Click: Open Options"]   = ""
-  L["Preydator Currency Tracker"]          = ""
+  L["Left Click: Open Options"]          = ""
+  L["Right Click: Open Report Window"]   = ""
 ---- Audit-discovered keys (code-referenced, missing from enUS guide)
   L[" hard="] = ""
   L[" nightmare="] = ""
@@ -474,19 +434,19 @@
   L["Preydator Hunt: unable to accept this quest right now."] = ""
   L["Preydator Hunt: unable to open quest details from this row right now."] = ""
   L["Preydator HuntDebug Report"] = ""
-  L["Preydator HuntDebug: Could not send to BugSack: "] = ""
-  L["Preydator HuntDebug: Could not send to BugSack: %s"] = ""
+  L["Preydator HuntDebug: report window unavailable: "] = ""
+  L["Preydator HuntDebug: report window unavailable: %s"] = ""
   L["Preydator HuntDebug: no hunt snapshot captured yet."] = ""
   L["Preydator HuntDebug: no payload captured yet."] = ""
-  L["Preydator HuntDebug: sent to BugSack via error handler."] = ""
+  L["Preydator HuntDebug: opened in the built-in report window."] = ""
   L["Preydator HuntScanner: snapshot error: %s"] = ""
   L["Preydator memory (KB): before=%s afterGC=%s reclaimed=%s"] = ""
   L["Preydator:"] = ""
   L["Preydator: "] = ""
   L["Preydator: %s"] = ""
   L["Preydator: collectgarbage API unavailable."] = ""
-  L["Preydator: Could not send inspect report to BugSack: "] = ""
-  L["Preydator: Could not send inspect report to BugSack: %s"] = ""
+  L["Preydator: report window unavailable: "] = ""
+  L["Preydator: report window unavailable: %s"] = ""
   L["Preydator: debug commands are 'debug on', 'debug off', 'debug show', 'debug clear'."] = ""
   L["Preydator: Debug log (last %d of %d)"] = ""
   L["Preydator: Debug log cleared."] = ""
@@ -497,8 +457,8 @@
   L["Preydator: Inspect report cached in PreydatorLastInspectReport (%d lines)."] = ""
   L["Preydator: Inspect report cached in PreydatorLastInspectReport (%s lines)."] = ""
   L["Preydator: Inspect report cached in PreydatorLastInspectReport (debug module)."] = ""
-  L["Preydator: Inspect report sent to BugSack via error handler (debug module)."] = ""
-  L["Preydator: Inspect report sent to BugSack via error handler. This is intentional diagnostic output, not a runtime addon bug."] = ""
+  L["Preydator: Inspect report opened in the built-in report window (debug module)."] = ""
+  L["Preydator: Inspect report opened in the built-in report window. This is intentional diagnostic output, not a runtime addon bug."] = ""
   L["Preydator: Progress bar auto mode restored."] = ""
   L["Preydator: Progress bar force show = %s"] = ""
   L["Preydator: Progress bar forced visible."] = ""

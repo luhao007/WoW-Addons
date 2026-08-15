@@ -65,12 +65,6 @@ else
 	end;
 end
 app.CreateDeathClass = app.CreateClass("DeathTracker", "deathCert", fields);
-app.AddEventRegistration("PLAYER_DEAD", function()
-	ATTAccountWideData.Deaths = ATTAccountWideData.Deaths + 1;
-	app.CurrentCharacter.Deaths = app.CurrentCharacter.Deaths + 1;
-	app.Audio:PlayDeathSound();
-	app.HandleEvent("OnRefreshWindows")
-end)
 
 local GetStatistic = GetStatistic;
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData, characterData)
@@ -111,4 +105,10 @@ app.AddEventHandler("OnStartup", AssignOnUpdateFunction);
 -- Track Deaths in the Main List
 app.AddEventHandler("OnBuildDataCache", function(categories)
 	categories.Deaths = app.CreateDeathClass();
+	app.AddEventRegistration("PLAYER_DEAD", function()
+		ATTAccountWideData.Deaths = ATTAccountWideData.Deaths + 1;
+		app.CurrentCharacter.Deaths = app.CurrentCharacter.Deaths + 1;
+		app.Audio:PlayDeathSound();
+		app.DirectGroupRefresh(categories.Deaths)
+	end)
 end);

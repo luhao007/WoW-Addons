@@ -10,96 +10,108 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
-      version = "9.2.2",
-      when = "2026/04/28",
+      version = "9.3.1",
+      when = "2026/08/08",
       topics = {
          {
-            topic = "Alts",
+            topic = "TitanXP",
             lines = {
-               "Fix Gold value disappearing from tooltip on logout",
-            },
-         },
-         {
-            topic = "Gold",
-            lines = {
-               "Fix tooltip for All Servers - special thanks to Liefwing for the code!",
-               "Gold Only option is back",
-            },
-         },
-         {
-            topic = "Titan",
-            lines = {
-               "Time Played : Move override to Utils so both Titan and XP can use.",
-               "Tooltip : Fix 'flash' on cursor leaving plugin, especially if using scale less than 1.",
-            },
-         },
-      },
-   },
-   {
-      version = "9.2.1",
-      when = "2026/04/23",
-      topics = {
-         {
-            topic = "Titan",
-            lines = {
-               "Update : Due to a git hitch, tooltip, an Alts fix, and History were not included in 9.2.0.",
-            },
-         },
-      },
-   },
-   {
-      version = "9.2.0",
-      when = "2026/04/20",
-      topics = {
-         {
-            topic = "Alts",
-            lines = {
-               "New built-in plugin to display profile info on Alts in tooltip format.",
+               "Restore XP kills to level.",
             },
          },
          {
             topic = "TitanUI",
             lines = {
-               "Tools : Added /eventtrace and /api",
-            },
-         },
-         {
-            topic = "Titan",
-            lines = {
-               "Tooltip : Change to revert behavior to be same as GameTooltip - cursor over plugin controls tooltip show / hide.",
-               "Core : TOC retail to 12.0.5; Foundational for Alts profile info",
-               "Config : Fixed string in Import / Export text",
+               "Add lists for key binds and addons.",
             },
          },
       },
    },
    {
-      version = "9.1.7",
-      when = "2026/04/05",
+      version = "9.3.0",
+      when = "2026/07/22",
       topics = {
+         {
+            topic = "Titan",
+            lines = {
+               "Remove frame adjust code.",
+               "Remove old drop down lib code.",
+               "Unused var cleanup.",
+               "Ace3: Checkbox - r1399-alpha.",
+            },
+         },
+      },
+   },
+   {
+      version = "9.2.7",
+      when = "2026/07/21",
+      topics = {
+         {
+            topic = "Titan",
+            lines = {
+               "Update for API changes in 12.1.0.",
+            },
+         },
+         {
+            topic = "Location",
+            lines = {
+               "Fix for top/bottom coords option not working.",
+            },
+         },
+         {
+            topic = "Titan",
+            lines = {
+               "Consolidated merged / grouped routines.",
+               "Cleanup of unused switches.",
+            },
+         },
+      },
+   },
+   {
+      version = "9.2.6",
+      when = "2026/06/10",
+      topics = {
+         {
+            topic = "TOC",
+            lines = {
+               "Update BC:Anniversary to 2.5.6.",
+               "Update TWW to 12.0.7.",
+            },
+         },
+      },
+   },
+   {
+      version = "9.2.5",
+      when = "2026/06/10",
+      topics = {
+         {
+            topic = "TOC",
+            lines = {
+               "Update MoP to 5.5.4.",
+            },
+         },
          {
             topic = "Gold",
             lines = {
-               "Delete Database is back.",
+               "Fix for missing toons on servers with a space in the name.",
             },
          },
          {
             topic = "Titan",
             lines = {
-               "Profile : deletes allowed when using Sync (All) - as long it is not a sync 'source' for any other profile",
+               "Tooltips : Fix for tooltip covering TitanUI menu.",
             },
          },
       },
    },
    {
-      version = "9.1.6",
-      when = "2026/03/25",
+      version = "9.2.4",
+      when = "2026/05/07",
       topics = {
          {
             topic = "Titan",
             lines = {
-               "Scaling : Plugins should properly scale.",
-               "Tooltip : New registry .tooltipTemplateFunction; prevent 'secret' errors.",
+               "Utils : Revert change on frame timer out - it hides control frames (Vol / Clock).",
             },
          },
       },

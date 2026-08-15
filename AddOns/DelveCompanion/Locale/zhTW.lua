@@ -28,18 +28,25 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S1 = "應得的懲罰: |cnHI
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S2 = "應得的懲罰: |cnHIGHLIGHT_FONT_COLOR:The Underpin|r~地心之戰 賽季2"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S3 = "應得的懲罰: |cnHIGHLIGHT_FONT_COLOR:Ky'Veza|r~地心之戰 賽季3"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S1 = "應得的懲罰: |cnHIGHLIGHT_FONT_COLOR:Nullaeus|r~至暗之夜 賽季1"
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S2 = "Nemesis: |cnHIGHLIGHT_FONT_COLOR:Azta'rec|r~Midnight Season 2"
+-----
 
 -- Delves UI
+
+Lockit.UI_DELVES_LIST_MODIFIERS_TEXT = _G["MODIFIERS_COLON"]
 
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "在卡茲阿爾加地區時可獲取鍍金儲物箱進度"
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "造訪奎爾薩拉斯區域來觀看進度"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "僅出現在 |cnNORMAL_FONT_COLOR:難度 11|r 豐碩探究|A:delves-bountiful:16:16|a。"
+Lockit.UI_GILDED_STASH_CRESTS_NOTE = "Each stash contains %d |cnIQ4:Myth Crests|r (|cnNORMAL_FONT_COLOR:%d per week|r in total)."
+Lockit.UI_JOURNEY_LEVEL_REQUIRED = "Requires Journey Level %d"
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "任意難度11豐碩探究可啟動進度"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<點擊來顯示探究的拾取資訊>"
 
 -- Loot Info
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "完成探究可獲得戰利品："
+Lockit.UI_LOOT_INFO_TIPS = "|A:delves-treasure-upgrade:16:16|a |cnNORMAL_FONT_COLOR:%s|r: Enemy groups should be killed before the final boss. Killing them later doesn't add more rewards to the chest. Crests are added killing 3+ groups on the specified Tiers.\n\n|T%s:16|t |cnNORMAL_FONT_COLOR:%s|r: Unlocks at Delves Journey Level 4. The stash is lootable 4 times per week."
 
 -- Delves Gossip
 Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER = "Auto Enter (Tier %d)" -- %d is a Tier number (1-11).
@@ -62,9 +69,9 @@ Lockit.UI_SETTING_DELVE_PROGRESS_WIDGETS_NAME = "探究的進度資訊"
 Lockit.UI_SETTING_DELVES_LIST_INFO_WIDGETS_TOOLTIP = "冒險指南-探究：顯示探究成就進度（劇情和探索）。"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_NAME = "路徑點追蹤類型"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_START = "選擇哪種類型的路徑點用於導航。\n\n可能的選項:"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "- Blizzard的地圖標記 (遊戲內建的導航)"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "- TomTom路徑點"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "- MapPinEnhanced 路徑點。"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "   • Blizzard的地圖標記 (遊戲內建的導航)"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "   • TomTom路徑點"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "   • MapPinEnhanced 路徑點。"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM_UNAVAILABLE_FORMAT = "%s (%s)."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_NAME = "Blizzard"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_DESCRIPTION = "使用Blizzard的地圖標記。"
@@ -93,7 +100,7 @@ Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "在進入探究時在視窗�
 Lockit.UI_SETTING_MINIMAP_ICON_NAME = "顯示小地圖按鈕"
 Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "顯示小地圖圖示。點擊它可以快速訪問本賽季探究資訊。"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "自動進入探究"
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n- The Tier has not been unlocked yet.\n- It's a Nemesis Delve.\n- It's a Bountiful Delve but you don't have a |cnIQ4:Restored Coffer Key|r nor enough |cnIQ3:Coffer Key Shards|r to assemble the key."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n   • The Tier has not been unlocked yet.\n   • It's a Nemesis Delve.\n   • It's a Bountiful Delve but you don't have a |cnIQ4:Restored Coffer Key|r nor enough |cnIQ3:Coffer Key Shards|r to assemble the key."
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "要進入的探究層級。"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "進入延遲"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "將延遲進入探究 (以秒計)。\n\n顯示的視窗中有一個進入探究的按鈕。在延遲時間倒數結束前，可以點選取消自動進入。"
@@ -116,6 +123,11 @@ Lockit.UI_SETTING_LOGS_NAME = "啟用偵錯紀錄"
 Lockit.UI_SETTING_LOGS_TOOLTIP = "允許在聊天中列印偵錯日誌。用於開發和測試目的。"
 
 Lockit.UI_SETTINGS_TRANSLATION_TITLE = "特別鳴謝翻譯者："
+
+-- The following strings are joined into a list using "\n" (a new line) as a delimiter.
+Lockit.UI_SETTINGS_SLASH_CMD_TEXT = "Slash Commands:"
+Lockit.UI_SETTINGS_SLASH_CMD_SHOWDELVES = "   • |cnNORMAL_FONT_COLOR:/delvecompanion|r or |cnNORMAL_FONT_COLOR:/delvecomp|r or |cnNORMAL_FONT_COLOR:/delves|r: Opens the current season Delves encounter in the Adventure Guide (the same behaviour as clicking the minimap icon)." -- The commands themselves should NOT be translated.
+-----
 
 Lockit.UI_SETTINGS_LINKS_TITLE = "連結"
 Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_CURSEFORGE = "點擊複製 |cnNORMAL_FONT_COLOR:CurseForge|r 插件頁面網址。"

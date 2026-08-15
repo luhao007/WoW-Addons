@@ -25,14 +25,14 @@ local ADD_SCALING = {
 	}
 }
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", ADD_SCALING, 1)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", ADD_SCALING, 2)
-local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(AL["Timewalking"], "timewalkingDungeonWithPreset", ADD_SCALING, 24)
+local NORMAL_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "n", ADD_SCALING, 1)
+local HEROIC_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "h", ADD_SCALING, 2)
+local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY_TIMEWALKER, "timewalkingDungeonWithPreset", ADD_SCALING, 24)
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", ADD_SCALING, 17)
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", ADD_SCALING, 14)
-local HEROIC_RAID_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicWithPreset", ADD_SCALING, 15)
-local MYTHIC_RAID_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", ADD_SCALING, 16)
+local RF_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY3, "LFRWithPreset", ADD_SCALING, 17)
+local NORMAL_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "NormalRaidWithPreset", ADD_SCALING, 14)
+local HEROIC_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "HeroicWithPreset", ADD_SCALING, 15)
+local MYTHIC_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY6, "MyhticWithPreset", ADD_SCALING, 16)
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
@@ -40,8 +40,8 @@ local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
 
 local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
 
-local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
-local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
+local DUNGEON_CONTENT = data:AddContentType(DUNGEONS, ATLASLOOT_DUNGEON_COLOR)
+local RAID_CONTENT = data:AddContentType(RAIDS, ATLASLOOT_RAID_COLOR)
 
 -- Shared loot tables
 local MOP_DUNGEON_HERO_AC_TABLE = { --[Pandaria Dungeon Hero]
@@ -3031,7 +3031,7 @@ data["SiegeofOrgrimmar"] = {
 			[MYTHIC_RAID_DIFF] = "AtlasLoot_Collections:TIERSETS:16:m",
 		},
 		{ --ACPage
-			name = AL["Achievements"],
+			name = ACHIEVEMENTS,
 			TableType = AC_ITTYPE,
 			ExtraList = true,
 			CoinTexture = "Achievement",

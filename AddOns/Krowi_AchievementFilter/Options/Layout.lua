@@ -525,6 +525,46 @@ local function WarbandHeaderColorSet(_, value)
     KrowiAF_AchievementsFrame:ForceUpdate();
 end
 
+local function ShowRewardPreviewIconSet(_, value)
+    addon.Options.db.profile.Achievements.ShowRewardPreviewIcon = value
+    if not KrowiAF_AchievementsFrame then
+        return
+    end
+    KrowiAF_SummaryFrame:UpdateAchievementsOnNextShow()
+    KrowiAF_AchievementsFrame:ForceUpdate()
+end
+
+local function RewardPreviewMouseoverShowSet(_, value)
+    addon.Options.db.profile.Achievements.RewardPreviewMouseoverShow = value
+end
+
+local function RewardPreviewInvertVerticalRotationSet(_, value)
+    addon.Options.db.profile.Achievements.RewardPreviewInvertVerticalRotation = value
+end
+
+local function RewardPreviewMaxIndividualIconsSet(_, value)
+    addon.Options.db.profile.Achievements.RewardPreviewMaxIndividualIcons = value
+    if not KrowiAF_AchievementsFrame then
+        return
+    end
+    KrowiAF_SummaryFrame:UpdateAchievementsOnNextShow()
+    KrowiAF_AchievementsFrame:ForceUpdate()
+end
+
+local function RewardPreviewDefaultWidthSet(_, value)
+    addon.Options.db.profile.Achievements.RewardPreviewDefaultWidth = value
+    if KrowiAF_RewardPreview and not KrowiAF_RewardPreview:IsShown() then
+        KrowiAF_RewardPreview:SetWidth(value)
+    end
+end
+
+local function RewardPreviewDefaultHeightSet(_, value)
+    addon.Options.db.profile.Achievements.RewardPreviewDefaultHeight = value
+    if KrowiAF_RewardPreview and not KrowiAF_RewardPreview:IsShown() then
+        KrowiAF_RewardPreview:SetHeight(value)
+    end
+end
+
 local function SetAchievementsMouseWheelPanScalar(_, value)
     if addon.Options.db.profile.Achievements.MouseWheelPanScalar == value then return; end
     addon.Options.db.profile.Achievements.MouseWheelPanScalar = value;
@@ -1150,6 +1190,60 @@ local achievementsOptions = {
                             get = function() return addon.Options.db.profile.Achievements.WarbandHeaderColor; end,
                             set = WarbandHeaderColorSet,
                         },
+                        RewardPreview = {
+                            order = OrderPP(), type = "header",
+                            name = addon.L["Reward Preview"]
+                        },
+                        ShowRewardPreviewIcon = {
+                            order = OrderPP(), type = "toggle", width = AdjustedWidth(1.35),
+                            name = addon.L["Show Reward Preview Icon"]:K_ReplaceVars(addon.L["Reward Preview"]),
+                            desc = addon.L["Show Reward Preview Icon Desc"]:K_ReplaceVars(addon.L["Reward Preview"]):KAF_AddDefaultValueText("Achievements.ShowRewardPreviewIcon"),
+                            get = function() return addon.Options.db.profile.Achievements.ShowRewardPreviewIcon end,
+                            set = ShowRewardPreviewIconSet,
+                        },
+                        RewardPreviewMouseoverShow = {
+                            order = OrderPP(), type = "toggle", width = AdjustedWidth(1.35),
+                            name = addon.L["Show Reward Preview on Mouseover"]:K_ReplaceVars(addon.L["Reward Preview"]),
+                            desc = addon.L["Show Reward Preview on Mouseover Desc"]:K_ReplaceVars(addon.L["Reward Preview"]):KAF_AddDefaultValueText("Achievements.RewardPreviewMouseoverShow"),
+                            get = function() return addon.Options.db.profile.Achievements.RewardPreviewMouseoverShow end,
+                            set = RewardPreviewMouseoverShowSet,
+                            disabled = function() return not addon.Options.db.profile.Achievements.ShowRewardPreviewIcon end
+                        },
+                        RewardPreviewInvertVerticalRotation = {
+                            order = OrderPP(), type = "toggle", width = AdjustedWidth(1.35),
+                            name = addon.L["Invert Reward Preview Vertical Rotation"],
+                            desc = addon.L["Invert Reward Preview Vertical Rotation Desc"]:K_ReplaceVars(addon.L["Reward Preview"]):KAF_AddDefaultValueText("Achievements.RewardPreviewInvertVerticalRotation"),
+                            get = function() return addon.Options.db.profile.Achievements.RewardPreviewInvertVerticalRotation end,
+                            set = RewardPreviewInvertVerticalRotationSet,
+                            disabled = function() return not addon.Options.db.profile.Achievements.ShowRewardPreviewIcon end
+                        },
+                        RewardPreviewMaxIndividualIcons = {
+                            order = OrderPP(), type = "range", width = AdjustedWidth(1.35),
+                            name = addon.L["Reward Preview Max Individual Icons"],
+                            desc = addon.L["Reward Preview Max Individual Icons Desc"]:K_ReplaceVars(addon.L["Reward Preview"]):KAF_AddDefaultValueText("Achievements.RewardPreviewMaxIndividualIcons"),
+                            min = 1, max = 10, step = 1,
+                            get = function() return addon.Options.db.profile.Achievements.RewardPreviewMaxIndividualIcons end,
+                            set = RewardPreviewMaxIndividualIconsSet,
+                            disabled = function() return not addon.Options.db.profile.Achievements.ShowRewardPreviewIcon end
+                        },
+                        RewardPreviewDefaultWidth = {
+                            order = OrderPP(), type = "range", width = AdjustedWidth(1.35),
+                            name = addon.L["Reward Preview Default Width"],
+                            desc = addon.L["Reward Preview Default Width Desc"]:K_ReplaceVars(addon.L["Reward Preview"]):KAF_AddDefaultValueText("Achievements.RewardPreviewDefaultWidth"),
+                            min = 200, max = 600, step = 1,
+                            get = function() return addon.Options.db.profile.Achievements.RewardPreviewDefaultWidth end,
+                            set = RewardPreviewDefaultWidthSet,
+                            disabled = function() return not addon.Options.db.profile.Achievements.ShowRewardPreviewIcon end
+                        },
+                        RewardPreviewDefaultHeight = {
+                            order = OrderPP(), type = "range", width = AdjustedWidth(1.35),
+                            name = addon.L["Reward Preview Default Height"],
+                            desc = addon.L["Reward Preview Default Height Desc"]:K_ReplaceVars(addon.L["Reward Preview"]):KAF_AddDefaultValueText("Achievements.RewardPreviewDefaultHeight"),
+                            min = 220, max = 700, step = 1,
+                            get = function() return addon.Options.db.profile.Achievements.RewardPreviewDefaultHeight end,
+                            set = RewardPreviewDefaultHeightSet,
+                            disabled = function() return not addon.Options.db.profile.Achievements.ShowRewardPreviewIcon end
+                        },
                         Objectives = {
                             order = OrderPP(), type = "header",
                             name = addon.L["Objectives"]
@@ -1505,6 +1599,157 @@ local achievementsOptions = {
     }
 };
 
+local function AutoHideCloseButtonSet(_, value)
+    addon.Options.db.profile.Popout.AutoHideCloseButton = value;
+    addon.Gui.AchievementPopout:RefreshAllChrome();
+end
+
+local function AutoHideResizeButtonSet(_, value)
+    addon.Options.db.profile.Popout.AutoHideResizeButton = value;
+    addon.Gui.AchievementPopout:RefreshAllChrome();
+end
+
+local function FadeWhenNotHoveredSet(_, value)
+    addon.Options.db.profile.Popout.FadeWhenNotHovered = value;
+    addon.Gui.AchievementPopout:RefreshAllChrome();
+end
+
+local function FadedOpacitySet(_, value)
+    addon.Options.db.profile.Popout.FadedOpacity = value;
+    addon.Gui.AchievementPopout:RefreshAllChrome();
+end
+
+local function FadeSpeedSet(_, value)
+    addon.Options.db.profile.Popout.FadeSpeed = value;
+    addon.Gui.AchievementPopout:RefreshAllChrome();
+end
+
+local popoutOptions = {
+    order = OrderPP(), type = "group",
+    name = addon.L["Pop Out"],
+    args = {
+        General = {
+            order = OrderPP(), type = "group", inline = true,
+            name = addon.Util.L["General"],
+            args = {
+                PersistAcrossSessions = {
+                    order = OrderPP(), type = "toggle", width = AdjustedWidth(1.5),
+                    name = addon.L["Persist Across Sessions"],
+                    desc = addon.L["Persist Across Sessions Desc"]:KAF_AddDefaultValueText("Popout.PersistAcrossSessions"),
+                    get = function() return addon.Options.db.profile.Popout.PersistAcrossSessions; end,
+                    set = function(_, value) addon.Options.db.profile.Popout.PersistAcrossSessions = value; end
+                },
+                RememberSize = {
+                    order = OrderPP(), type = "toggle", width = AdjustedWidth(1.5),
+                    name = addon.L["Remember Size"],
+                    desc = addon.L["Remember Size Desc"]:K_ReplaceVars(addon.L["Pop Out"]):KAF_AddDefaultValueText("Popout.RememberSize"),
+                    get = function() return addon.Options.db.profile.Popout.RememberSize; end,
+                    set = function(_, value) addon.Options.db.profile.Popout.RememberSize = value; end
+                },
+                RememberLastPosition = {
+                    order = OrderPP(), type = "toggle", width = AdjustedWidth(1.5),
+                    name = addon.L["Remember Last Position"],
+                    desc = addon.L["Remember Last Position Desc"]:K_ReplaceVars(addon.L["Pop Out"]):KAF_AddDefaultValueText("Popout.RememberLastPosition"),
+                    get = function() return addon.Options.db.profile.Popout.RememberLastPosition; end,
+                    set = function(_, value) addon.Options.db.profile.Popout.RememberLastPosition = value; end
+                },
+                DefaultWidth = {
+                    order = OrderPP(), type = "range", width = AdjustedWidth(1.5),
+                    name = addon.L["Default Width"],
+                    desc = addon.L["Default Width Desc"]:K_ReplaceVars(addon.L["Pop Out"]):KAF_AddDefaultValueText("Popout.DefaultWidth"),
+                    min = 360, max = 800, step = 1,
+                    get = function() return addon.Options.db.profile.Popout.DefaultWidth; end,
+                    set = function(_, value) addon.Options.db.profile.Popout.DefaultWidth = value; end
+                },
+                Blank1 = {order = OrderPP(), type = "description", width = AdjustedWidth(1.5), name = ""},
+                CloseOnEarn = {
+                    order = OrderPP(), type = "toggle", width = AdjustedWidth(1.5),
+                    name = addon.L["Close On Earn"],
+                    desc = addon.L["Close On Earn Desc"]:K_ReplaceVars(addon.L["Pop Out"]):KAF_AddDefaultValueText("Popout.CloseOnEarn"),
+                    get = function() return addon.Options.db.profile.Popout.CloseOnEarn; end,
+                    set = function(_, value) addon.Options.db.profile.Popout.CloseOnEarn = value; end
+                },
+                CloseOnEarnDelay = {
+                    order = OrderPP(), type = "range", width = AdjustedWidth(1.5),
+                    name = addon.L["Close On Earn Delay"],
+                    desc = addon.L["Close On Earn Delay Desc"]:K_ReplaceVars{popout = addon.L["Pop Out"], closeOnEarn = addon.L["Close On Earn"]}:KAF_AddDefaultValueText("Popout.CloseOnEarnDelay"),
+                    min = 0, max = 10, step = 0.5,
+                    get = function() return addon.Options.db.profile.Popout.CloseOnEarnDelay; end,
+                    set = function(_, value) addon.Options.db.profile.Popout.CloseOnEarnDelay = value; end,
+                    disabled = function() return not addon.Options.db.profile.Popout.CloseOnEarn; end
+                },
+                EnableSnapping = {
+                    order = OrderPP(), type = "toggle", width = AdjustedWidth(1.5),
+                    name = addon.L["Enable Snapping"],
+                    desc = addon.L["Enable Snapping Desc"]:KAF_AddDefaultValueText("Popout.EnableSnapping"),
+                    get = function() return addon.Options.db.profile.Popout.EnableSnapping; end,
+                    set = function(_, value) addon.Options.db.profile.Popout.EnableSnapping = value; end
+                },
+                SnapDistance = {
+                    order = OrderPP(), type = "range", width = AdjustedWidth(1.5),
+                    name = addon.L["Snap Distance"],
+                    desc = addon.L["Snap Distance Desc"]:K_ReplaceVars(addon.L["Pop Out"]):KAF_AddDefaultValueText("Popout.SnapDistance"),
+                    min = 5, max = 50, step = 1,
+                    get = function() return addon.Options.db.profile.Popout.SnapDistance; end,
+                    set = function(_, value) addon.Options.db.profile.Popout.SnapDistance = value; end,
+                    disabled = function() return not addon.Options.db.profile.Popout.EnableSnapping; end
+                }
+            }
+        },
+        Buttons = {
+            order = OrderPP(), type = "group", inline = true,
+            name = addon.L["Button"],
+            args = {
+                AutoHideCloseButton = {
+                    order = OrderPP(), type = "toggle", width = AdjustedWidth(1.5),
+                    name = addon.L["Auto-Hide Close Button"],
+                    desc = addon.L["Auto-Hide Close Button Desc"]:K_ReplaceVars(addon.L["Pop Out"]):KAF_AddDefaultValueText("Popout.AutoHideCloseButton"),
+                    get = function() return addon.Options.db.profile.Popout.AutoHideCloseButton; end,
+                    set = AutoHideCloseButtonSet
+                },
+                AutoHideResizeButton = {
+                    order = OrderPP(), type = "toggle", width = AdjustedWidth(1.5),
+                    name = addon.L["Auto-Hide Resize Button"],
+                    desc = addon.L["Auto-Hide Resize Button Desc"]:K_ReplaceVars(addon.L["Pop Out"]):KAF_AddDefaultValueText("Popout.AutoHideResizeButton"),
+                    get = function() return addon.Options.db.profile.Popout.AutoHideResizeButton; end,
+                    set = AutoHideResizeButtonSet
+                }
+            }
+        },
+        Appearance = {
+            order = OrderPP(), type = "group", inline = true,
+            name = addon.L["Appearance"],
+            args = {
+                FadeWhenNotHovered = {
+                    order = OrderPP(), type = "toggle", width = AdjustedWidth(1.5),
+                    name = addon.L["Fade When Not Hovered"],
+                    desc = addon.L["Fade When Not Hovered Desc"]:K_ReplaceVars(addon.L["Pop Out"]):KAF_AddDefaultValueText("Popout.FadeWhenNotHovered"),
+                    get = function() return addon.Options.db.profile.Popout.FadeWhenNotHovered; end,
+                    set = FadeWhenNotHoveredSet
+                },
+                FadedOpacity = {
+                    order = OrderPP(), type = "range", width = AdjustedWidth(1.5),
+                    name = addon.L["Faded Opacity"],
+                    desc = addon.L["Faded Opacity Desc"]:K_ReplaceVars{popout = addon.L["Pop Out"], fadeWhenNotHovered = addon.L["Fade When Not Hovered"]}:KAF_AddDefaultValueText("Popout.FadedOpacity"),
+                    min = 0, max = 1, step = 0.01,
+                    get = function() return addon.Options.db.profile.Popout.FadedOpacity; end,
+                    set = FadedOpacitySet,
+                    disabled = function() return not addon.Options.db.profile.Popout.FadeWhenNotHovered; end
+                },
+                FadeSpeed = {
+                    order = OrderPP(), type = "range", width = AdjustedWidth(1.5),
+                    name = addon.L["Fade Speed"],
+                    desc = addon.L["Fade Speed Desc"]:K_ReplaceVars{popout = addon.L["Pop Out"], fadeWhenNotHovered = addon.L["Fade When Not Hovered"]}:KAF_AddDefaultValueText("Popout.FadeSpeed"),
+                    min = 0, max = 1, step = 0.05,
+                    get = function() return addon.Options.db.profile.Popout.FadeSpeed; end,
+                    set = FadeSpeedSet,
+                    disabled = function() return not addon.Options.db.profile.Popout.FadeWhenNotHovered; end
+                }
+            }
+        }
+    }
+};
+
 local rightClickMenuOptions = {
     order = OrderPP(), type = "group",
     name = addon.L["Right Click Menu"],
@@ -1690,6 +1935,7 @@ options.OptionsTable.args["Layout"] = {
         Categories = categoriesOptions,
         AdjustableCategories = adjustableCategoriesOptions,
         Achievements = achievementsOptions,
+        Popout = popoutOptions,
         RightClickMenu = rightClickMenuOptions,
         Calendar = calendarOptions,
         Criteria = criteriaOptions,

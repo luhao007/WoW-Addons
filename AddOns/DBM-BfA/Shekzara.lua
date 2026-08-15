@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2378, "DBM-BfA", 6, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(154638)
 mod:SetEncounterID(2351)
@@ -17,9 +17,9 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, see which instance ID she's in, 2275,870
-local specWarnSongoftheEmpress			= mod:NewSpecialWarningDodge(314304, nil, nil, nil, 2, 2)
-local specWarnForceandVerve				= mod:NewSpecialWarningMoveTo(314333, nil, nil, nil, 3, 2)
-local specWarnSummonSwarmguard			= mod:NewSpecialWarningSwitch(314307, "-Healer", nil, nil, 1, 2)
+local specWarnSongoftheEmpress			= mod:NewSpecialWarningDodge(314304, nil, nil, nil, 2, 2, nil, nil, "watchwave")
+local specWarnForceandVerve				= mod:NewSpecialWarningMoveTo(314333, nil, nil, nil, 3, 2, nil, nil, "findshelter")
+local specWarnSummonSwarmguard			= mod:NewSpecialWarningSwitch(314307, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
 
 local timerSongoftheEmpressCD			= mod:NewCDTimer(82.0, 314304, nil, nil, nil, 3)
 local timerForceandVerveCD				= mod:NewCDTimer(82.0, 314333, nil, nil, 2, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)

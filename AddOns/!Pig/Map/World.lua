@@ -1,7 +1,7 @@
-local addonName, addonTable = ...;
-local Create = addonTable.Create
+local addonName, PD = ...;
+local Create = PD.Create
 local PIGFontString=Create.PIGFontString
-local Mapfun=addonTable.Mapfun
+local Mapfun=PD.Mapfun
 -------
 local WorldMapScrollChild = WorldMapFrame.ScrollContainer.Child
 local function MouseXY()
@@ -94,7 +94,7 @@ if PIG_MaxTocversion() then
 		if not PIGA["Map"]["WorldMapLV"] and not PIGA["Map"]["WorldMapSkill"] then return end
 		local floor = math.floor
 		local format = string.format
-		local zoneData=addonTable.Mapfun.zoneData
+		local zoneData=Mapfun.zoneData
 		local playerLevel = UnitLevel("player")
 		local AreaLabel_OnUpdate = function(self)
 			self:SetScale(0.6)
@@ -173,6 +173,7 @@ if PIG_MaxTocversion() then
 		end
 	end
 	---战争迷雾
+	Mapfun.MiwuColor={0, 1, 0.1, 0.8}
 	local function Updata_zoneTex(self,fullUpdate,exploredTextureInfo,TILE_SIZE_WIDTH,TILE_SIZE_HEIGHT,fog,yanse)
 		local newR, newG, newB, newA=unpack(yanse)
 		local numTexturesWide = ceil(exploredTextureInfo.textureWidth/TILE_SIZE_WIDTH);
@@ -237,9 +238,9 @@ if PIG_MaxTocversion() then
 	end
 	function Mapfun.WorldMap_Miwu()
 		if not PIGA["Map"]["WorldMapMiwu"] then return end
-		local Reveal=addonTable.Mapfun.Reveal
+		local Reveal=Mapfun.Reveal	
 		local function PIGRefreshOverlays(self,fullUpdate,yanse)
-			local yanse=yanse or PIGA["Map"]["WorldMapMiwuColor"] or Mapfun.WorldMapMiwumorenColor
+			local yanse=yanse or PIGA["Map"]["WorldMapMiwuColor"] or Mapfun.MiwuColor
 			self.overlayTexturePool:ReleaseAll();
 			local mapID = self:GetMap():GetMapID();
 			if not mapID then return end

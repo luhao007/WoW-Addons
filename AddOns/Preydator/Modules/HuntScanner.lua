@@ -769,16 +769,8 @@ local function EnsureSettings()
         settings.huntScannerSide = "right"
     end
 
-    if settings.huntScannerMatchCurrencyTheme == nil then
-        settings.huntScannerMatchCurrencyTheme = true
-    end
-
-    if settings.huntScannerUseCurrencyTheme == nil then
-        settings.huntScannerUseCurrencyTheme = settings.huntScannerMatchCurrencyTheme ~= false
-    end
-
     if type(settings.huntScannerTheme) ~= "string" or settings.huntScannerTheme == "" then
-        settings.huntScannerTheme = settings.currencyTheme or "brown"
+        settings.huntScannerTheme = "brown"
     end
 
     if settings.huntScannerPreviewInOptions == nil then
@@ -1352,9 +1344,7 @@ local function GetTheme()
         return previewTheme
     end
 
-    local useCurrencyTheme = not settings or settings.huntScannerUseCurrencyTheme ~= false
-    local key = useCurrencyTheme and (settings and settings.currencyTheme or "brown") or (settings and settings.huntScannerTheme or "brown")
-    return ResolveThemeValue(key, settings)
+    return ResolveThemeValue(settings and settings.huntScannerTheme or "brown", settings)
 end
 
 local function GetThemeKey()
@@ -1364,8 +1354,7 @@ local function GetThemeKey()
         return settings.themeEditorLoadKey or "brown"
     end
 
-    local useCurrencyTheme = not settings or settings.huntScannerUseCurrencyTheme ~= false
-    return useCurrencyTheme and (settings and settings.currencyTheme or "brown") or (settings and settings.huntScannerTheme or "brown")
+    return settings and settings.huntScannerTheme or "brown"
 end
 
 local function GetCoreState()
@@ -3278,7 +3267,7 @@ local function BuildDebugSnapshotLines(snapshot)
     return lines
 end
 
-local function SendLinesToBugSack(lines)
+local function ShowLinesInReportWindow(title, lines)
     if type(lines) ~= "table" or #lines == 0 then
         return false, "empty report"
     end
@@ -3293,33 +3282,13 @@ local function SendLinesToBugSack(lines)
 
     _G.PreydatorLastHuntDebugReport = payload
 
-    if type(geterrorhandler) ~= "function" then
-        return false, "geterrorhandler unavailable"
+    local reportWindow = Preydator and type(Preydator.GetModule) == "function" and Preydator:GetModule("ReportWindow") or nil
+    if reportWindow and type(reportWindow.ShowReport) == "function" then
+        reportWindow:ShowReport(title or "Preydator HuntDebug Report", payload)
+        return true, "opened"
     end
 
-    local okHandler, handler = pcall(geterrorhandler)
-    if not okHandler or type(handler) ~= "function" then
-        return false, "error handler unavailable"
-    end
-
-    local header = "Preydator HuntDebug Report"
-    local chunkSize = 1800
-    local length = #payload
-    local chunks = math.max(1, math.ceil(length / chunkSize))
-
-    for index = 1, chunks do
-        local startPos = ((index - 1) * chunkSize) + 1
-        local endPos = math.min(index * chunkSize, length)
-        local chunk = string.sub(payload, startPos, endPos)
-        local okSend = pcall(function()
-            handler(string.format("%s [%d/%d]\n%s", header, index, chunks, chunk))
-        end)
-        if not okSend then
-            return false, "handler failed on chunk " .. tostring(index)
-        end
-    end
-
-    return true, "sent"
+    return false, "report window unavailable"
 end
 
 local function RefreshDebugSnapshotFromLiveAPI()
@@ -4405,11 +4374,11 @@ function HuntScannerModule:OnSlashCommand(text, rest)
             end
 
             local lines = BuildDebugSnapshotLines(snapshot)
-            local sent, reason = SendLinesToBugSack(lines)
+            local sent, reason = ShowLinesInReportWindow("Preydator HuntDebug Report", lines)
             if sent then
-                print("Preydator HuntDebug: sent to BugSack via error handler.")
+                print("Preydator HuntDebug: opened in the built-in report window.")
             else
-                print("Preydator HuntDebug: Could not send to BugSack: " .. tostring(reason))
+                print("Preydator HuntDebug: report window unavailable: " .. tostring(reason))
                 for _, line in ipairs(lines) do
                     print(line)
                 end
@@ -4435,11 +4404,11 @@ function HuntScannerModule:OnSlashCommand(text, rest)
                     lines[1] = lastDebugPayload
                 end
 
-                local sent, reason = SendLinesToBugSack(lines)
+                local sent, reason = ShowLinesInReportWindow("Preydator HuntDebug Report", lines)
                 if sent then
-                    print("Preydator HuntDebug: sent to BugSack via error handler.")
+                    print("Preydator HuntDebug: opened in the built-in report window.")
                 else
-                    print("Preydator HuntDebug: Could not send to BugSack: " .. tostring(reason))
+                    print("Preydator HuntDebug: report window unavailable: " .. tostring(reason))
                     print(lastDebugPayload)
                 end
             elseif mode == "" then
@@ -4598,11 +4567,11 @@ function HuntScannerModule:OnSlashCommand(text, rest)
         end
 
         if mode == "bs" then
-            local sent, reason = SendLinesToBugSack(lines)
+            local sent, reason = ShowLinesInReportWindow("Preydator AchInspect Report", lines)
             if sent then
-                print("Preydator AchInspect: sent to BugSack via error handler.")
+                print("Preydator AchInspect: opened in the built-in report window.")
             else
-                print("Preydator AchInspect: Could not send to BugSack: " .. tostring(reason))
+                print("Preydator AchInspect: report window unavailable: " .. tostring(reason))
                 for _, line in ipairs(lines) do print(line) end
             end
         else
@@ -4802,16 +4771,6 @@ function HuntScannerModule:GetQuestZoneMapID(questID)
     if hunt and type(hunt.zoneMapID) == "number" then
         return hunt.zoneMapID
     end
-    if hunt and type(hunt.zone) == "string" and hunt.zone ~= "" then
-        local inferredZoneMapID = GetInferredZoneMapID(hunt.zone)
-        if inferredZoneMapID then
-            questZoneCache[id] = inferredZoneMapID
-            if not questZoneNameCache[id] then
-                questZoneNameCache[id] = hunt.zone
-            end
-            return inferredZoneMapID
-        end
-    end
     -- Primary on-demand: query zone directly from task quest metadata.
     if C_TaskQuest and type(C_TaskQuest.GetQuestZoneID) == "function" then
         local okTaskZone, rawTaskZone = pcall(C_TaskQuest.GetQuestZoneID, id)
@@ -4825,6 +4784,16 @@ function HuntScannerModule:GetQuestZoneMapID(questID)
                 end
             end
             return taskZoneMapID
+        end
+    end
+    if hunt and type(hunt.zone) == "string" and hunt.zone ~= "" then
+        local inferredZoneMapID = GetInferredZoneMapID(hunt.zone)
+        if inferredZoneMapID then
+            questZoneCache[id] = inferredZoneMapID
+            if not questZoneNameCache[id] then
+                questZoneNameCache[id] = hunt.zone
+            end
+            return inferredZoneMapID
         end
     end
     -- Fallback: derive from cached pin coordinates if we have a parent map ID.

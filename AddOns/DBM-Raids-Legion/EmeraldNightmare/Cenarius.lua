@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1750, "DBM-Raids-Legion", 5, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260525233100")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(104636)
 mod:SetEncounterID(1877)
@@ -33,22 +33,22 @@ local warnScornedTouch				= mod:NewTargetAnnounce(211471, 3)
 local warnCleansingGround			= mod:NewCastAnnounce(212630, 1)
 
 --Cenarius
-local specWarnCreepingNightmares	= mod:NewSpecialWarningStack(210279, nil, 16, nil, 2, 1, 6)--Stack warning subject to tuning
+local specWarnCreepingNightmares	= mod:NewSpecialWarningStack(210279, nil, 16, nil, 2, 1, 6, nil, nil, "stackhigh")--Stack warning subject to tuning
 local yellNightmareBrambles			= mod:NewYell(210290, L.BrambleYell)
-local specWarnNightmareBramblesNear	= mod:NewSpecialWarningClose(210290, nil, nil, nil, 1, 2)
-local specWarnNightmareBlast		= mod:NewSpecialWarningDefensive(213162, nil, nil, nil, 1, 2)
-local specWarnNightmareBlastOther	= mod:NewSpecialWarningTaunt(213162, nil, nil, nil, 1, 2)
-local specWarnForcesOfNightmare		= mod:NewSpecialWarningSwitchCount(212726, nil, nil, nil, 1, 2)--Switch warning or just spell warning?
-local specWarnSpearOfNightmares		= mod:NewSpecialWarningDefensive(214529, nil, nil, nil, 1, 2)
-local specWarnSpearOfNightmaresOther= mod:NewSpecialWarningTaunt(214529, nil, nil, nil, 1, 2)
-local specWarnSpearOfNightmaresMelee= mod:NewSpecialWarningRun(214529, nil, nil, nil, 4, 2)
+local specWarnNightmareBramblesNear	= mod:NewSpecialWarningClose(210290, nil, nil, nil, 1, 2, nil, nil, "watchstep")
+local specWarnNightmareBlast		= mod:NewSpecialWarningDefensive(213162, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnNightmareBlastOther	= mod:NewSpecialWarningTaunt(213162, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnForcesOfNightmare		= mod:NewSpecialWarningSwitchCount(212726, nil, nil, nil, 1, 2, nil, nil, "mobsoon")--Switch warning or just spell warning?
+local specWarnSpearOfNightmares		= mod:NewSpecialWarningDefensive(214529, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnSpearOfNightmaresOther= mod:NewSpecialWarningTaunt(214529, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnSpearOfNightmaresMelee= mod:NewSpecialWarningRun(214529, nil, nil, nil, 4, 2, nil, nil, "runout")
 local specWarnEntangledNightmares	= mod:NewSpecialWarningSwitch(214505, "Dps", nil, nil, 1, 2)
-local specWarnBeastsOfNightmare		= mod:NewSpecialWarningDodge(214876, nil, nil, nil, 2, 2)
+local specWarnBeastsOfNightmare		= mod:NewSpecialWarningDodge(214876, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 ----Forces of Nightmare
 local yellRottenBreath				= mod:NewYell(211192)
-local specWarnTouchofLife			= mod:NewSpecialWarningInterrupt(211368, "HasInterrupt")
-local specWarnTouchofLifeDispel		= mod:NewSpecialWarningDispel(211368, "MagicDispeller")
-local specWarnScornedTouch			= mod:NewSpecialWarningMoveAway(211471, nil, nil, nil, 3, 2)
+local specWarnTouchofLife			= mod:NewSpecialWarningInterrupt(211368, "HasInterrupt", nil, nil, nil, nil, nil, nil, "kickcast")
+local specWarnTouchofLifeDispel		= mod:NewSpecialWarningDispel(211368, "MagicDispeller", nil, nil, nil, nil, nil, nil, "dispelnow")
+local specWarnScornedTouch			= mod:NewSpecialWarningMoveAway(211471, nil, nil, nil, 3, 2, nil, nil, "runout")
 local yellScornedTouch				= mod:NewYell(211471)
 
 --Cenarius
@@ -69,7 +69,7 @@ local timerTouchofLifeCD			= mod:NewCDTimer(15, 211368, nil, nil, nil, 4, nil, D
 local timerRottenBreathCD			= mod:NewCDTimer(24.3, 211192, nil, nil, nil, 3)
 local timerDisiccatingStompCD		= mod:NewCDTimer(32, 211073, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
 
-mod:AddSetIconOption("SetIconOnWisps", "ej13348", false, 5)
+mod:AddSetIconOption("SetIconOnWisps", -13348, false, 5)
 mod:AddInfoFrameOption(210279)
 
 mod.vb.addsCount = 0

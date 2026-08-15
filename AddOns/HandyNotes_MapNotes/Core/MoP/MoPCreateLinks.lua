@@ -2,6 +2,32 @@ local ADDON_NAME, ns = ...
 local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 
 local CaCLFrame
+
+do
+    local OriginalSetItemRef = SetItemRef
+
+    SetItemRef = function(link, text, button, chatFrame)
+        local linksEnabled = ns and ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.CreateAndCopyLinks
+
+        if type(link) == "string" and linksEnabled then
+            local linkType, payload = link:match("^([^:]+):(.+)$")
+
+            if linkType == "url" and payload and payload ~= "" then
+                if CaCLFrame and CaCLFrame.editBox then
+                    CaCLFrame:Show()
+                    CaCLFrame.editBox:SetText(payload)
+                    CaCLFrame.editBox:SetFocus()
+                    CaCLFrame.editBox:HighlightText()
+                end
+
+                return
+            end
+        end
+
+        return OriginalSetItemRef(link, text, button, chatFrame)
+    end
+end
+
 local CHAT_TYPES = {
     "SYSTEM", "SAY", "PARTY", "RAID", "RAID_LEADER", "GUILD", "OFFICER", "YELL", "WHISPER", 
     "WHISPER_INFORM", "BN_WHISPER", "REPLY", "EMOTE", "TEXT_EMOTE", "CHANNEL", "AFK", "DND",
@@ -64,20 +90,23 @@ local function makeClickable(self, event, msg, sender, languageName, channelName
 end
 
 local function AddMessage(self, text, ...)
-  if not self._OriginalAddMessage then
-      return
-  end
+    if not self._OriginalAddMessage then
+        return
+    end
 
-  if ns.Addon.db.profile.CreateAndCopyLinks then
-      if ns.questID then
-          text = text:gsub("https://www.wowhead.com/quest=" .. ns.questID, "|cff00ccff|Hurl:%1|h%1|h|r")
-      end
-      if ns.achievementID then
-          text = text:gsub("https://www.wowhead.com/achievement=" .. ns.achievementID, "|cff00ccff|Hurl:%1|h%1|h|r")
-      end
-  end
+    if ns.Addon.db.profile.CreateAndCopyLinks and type(text) == "string" then
+        if ns.questID then
+            local url = "https://www.wowhead.com/quest=" .. ns.questID
+            text = text:gsub(url, formatURL(url))
+        end
 
-  return self._OriginalAddMessage(self, text, ...)
+        if ns.achievementID then
+            local url = "https://www.wowhead.com/achievement=" .. ns.achievementID
+            text = text:gsub(url, formatURL(url))
+        end
+    end
+
+    return self._OriginalAddMessage(self, text, ...)
 end
 
 local function URLClicker_OnHyperlinkShow(self, link)
@@ -129,14 +158,33 @@ function ns.CreateAndCopyLink()
 
     for i = 1, NUM_CHAT_WINDOWS do
         local chatframe = _G["ChatFrame" .. i]
-        if not chatframe._OriginalAddMessage then
+
+        if chatframe and not chatframe._OriginalAddMessage then
             chatframe._OriginalAddMessage = chatframe.AddMessage
             chatframe.AddMessage = AddMessage
         end
     end
 
-    hooksecurefunc("ChatFrame_OnHyperlinkShow", URLClicker_OnHyperlinkShow)
+    local function HookChatHyperlinks()
 
+        if type(ChatFrame_OnHyperlinkShow) == "function" then
+            hooksecurefunc("ChatFrame_OnHyperlinkShow", URLClicker_OnHyperlinkShow)
+            return
+        end
+    
+        if NUM_CHAT_WINDOWS then
+            for i = 1, NUM_CHAT_WINDOWS do
+                local chatFrame = _G["ChatFrame" .. i]
+            
+                if chatFrame and not chatFrame._MapNotesURLClickHooked then
+                    chatFrame:HookScript("OnHyperlinkClick", URLClicker_OnHyperlinkShow)
+                    chatFrame._MapNotesURLClickHooked = true
+                end
+            end
+        end
+    end
+
+    HookChatHyperlinks()
     ns._CreateAndCopyLinkEnabled = true
 end
 
@@ -149,7 +197,8 @@ function ns.DisableCreateAndCopyLink()
 
     for i = 1, NUM_CHAT_WINDOWS do
         local chatframe = _G["ChatFrame" .. i]
-        if chatframe._OriginalAddMessage then
+
+        if chatframe and chatframe._OriginalAddMessage then
             chatframe.AddMessage = chatframe._OriginalAddMessage
             chatframe._OriginalAddMessage = nil
         end

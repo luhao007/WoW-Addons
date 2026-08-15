@@ -1,13 +1,16 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: AtlasQuest Team
-## Version: v5.6.3
+## Version: v5.6.7
 
 ## Title: AtlasQuest
 ## Notes: Shows the Quests for dungeons and battlegrounds.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本任务|r |cFFFFE00AAtlasQuest|r
 ## Notes-zhCN: 副本任务列表
 
+## IconTexture: Interface\lfgframe\lfgicon-quest
+
 ## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+## Group: AtlasQuest
 
 ## RequiredDeps: Atlas
 ## OptionalDeps: DevTool
@@ -21,7 +24,6 @@
 ## X-Credits: AtlasQuest Team
 ## X-Localizations: enUS, deDE, koKR, zhCN, zhTW, ruRU, esES, esMX
 ## X-Curse-Project-ID: 4918
-## X-Date: August 5, 2024
 
 Libs\Libs.xml
 Locales\Locales.xml

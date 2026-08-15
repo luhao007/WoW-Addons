@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260807040841")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15954)
 mod:SetEncounterID(1117)
@@ -17,10 +17,10 @@ mod:SetZone(533)
 mod:RegisterCombat("combat_yell", L.Pull1, L.Pull2, L.Pull3)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 29213 29212 29208",--54835 Add in wrath
+	"SPELL_CAST_SUCCESS 29213 29212 29208",
+	"SPELL_AURA_APPLIED 29213",
+	"SPELL_AURA_REMOVED 29213",
 	"CHAT_MSG_MONSTER_YELL"
---	"CHAT_MSG_RAID_BOSS_EMOTE",
---	"UNIT_SPELLCAST_SUCCEEDED"
 )
 
 --TODO, determine if old way is required or if new way is still functional
@@ -34,12 +34,31 @@ local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 1, "135736")
 local warnCurse			= mod:NewSpellAnnounce(29213, 2)
 local warnBlink			= mod:NewSpellAnnounce(29208, 3)
 
-local specWarnAdds		= mod:NewSpecialWarningAdds(29212, "-Healer", nil, nil, 1, 2)
+local specWarnAdds		= mod:NewSpecialWarningAdds(29252, "-Healer", nil, nil, 1, 2, nil, "136187", "killmob")
+local specWarnCurse 	= mod:NewSpecialWarningDispel(29213, "RemoveCurse", nil, nil, 1, 2, nil, nil, "dispelnow")
 
 local timerTeleport		= mod:NewTimer(90, "TimerTeleport", "135736", nil, nil, 6)
 local timerTeleportBack	= mod:NewTimer(70, "TimerTeleportBack", "135736", nil, nil, 6)
-local timerCurseCD		= mod:NewCDTimer(51, 29213, nil, nil, nil, 5, nil, DBM_COMMON_L.CURSE_ICON)-- 51-116
-local timerAddsCD		= mod:NewAddsTimer(30, 29212, nil, "-Healer")
+local timerCurse       	= mod:NewBuffFadesTimer(10, 29213, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
+local timerCurseCD		= mod:NewVarTimer("v51.8-66.8", 29213, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
+local timerAddsCD		= mod:NewAddsTimer(30, 29252, nil, "-Healer", nil, 1, "136187")
+
+mod:AddInfoFrameOption(29213, "RemoveCurse")
+
+local twipe = table.wipe
+local lines, sortedLines = {}, {}
+local curseTargets = {}
+local function updateInfoFrame()
+	twipe(lines)
+	twipe(sortedLines)
+
+	for name in pairs(curseTargets) do
+		sortedLines[#sortedLines + 1] = name
+		lines[name] = ""
+	end
+
+	return lines, sortedLines
+end
 
 mod.vb.teleCount = 0
 mod.vb.addsCount = 0
@@ -96,21 +115,63 @@ function mod:BackInRoom()
 	self:ScheduleMethod(timer, "Balcony")
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
+	table.wipe(curseTargets)
 	self.vb.teleCount = 0
 	self.vb.addsCount = 0
 	self.vb.curseCount = 0
-	timerAddsCD:Start(12-delay)--12
-	timerCurseCD:Start(9.5-delay)
-	timerTeleport:Start(90.8-delay)
-	warnTeleportSoon:Schedule(70.8-delay)
-	self:ScheduleMethod(90.8-delay, "Balcony")
+	timerAddsCD:Start("v8.1-22.7")
+	timerCurseCD:Start("v6.5-25.9")
+	timerTeleport:Start(90.8)
+	warnTeleportSoon:Schedule(70.8)
+	self:ScheduleMethod(90.8, "Balcony")
+end
+
+function mod:OnCombatEnd()
+	DBM.InfoFrame:Hide()
+	table.wipe(curseTargets)
+end
+
+local function UpdateCurseFrame()
+	if not mod.Options.InfoFrame then return end
+	if next(curseTargets) then
+		if not DBM.InfoFrame:IsShown() then
+			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(29213))
+			DBM.InfoFrame:Show(20, "function", updateInfoFrame)
+		else
+			DBM.InfoFrame:UpdateTable(updateInfoFrame)
+		end
+	else
+		DBM.InfoFrame:Hide()
+		timerCurse:Stop()
+	end
+end
+
+function mod:SPELL_AURA_APPLIED(args)
+	if args:IsSpell(29213) then
+		curseTargets[args.destName] = true
+		UpdateCurseFrame()
+		if self.Options.SpecWarn29213dispel and self:AntiSpam(3, 1) then
+			specWarnCurse:CombinedShow(0.5, args.destName)
+			specWarnCurse:ScheduleVoice(0.5, "dispelnow")
+		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	if args:IsSpell(29213) then
+		curseTargets[args.destName] = nil
+		UpdateCurseFrame()
+	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(29213) then -- Curse of the Plaguebringer
 		self.vb.curseCount = self.vb.curseCount + 1
-		warnCurse:Show()
+		timerCurse:Start()
+		if not self.Options.SpecWarn29213dispel then
+			warnCurse:Show()
+		end
 		if self.vb.teleCount == 2 and self.vb.curseCount == 2 or self.vb.teleCount == 3 and self.vb.curseCount == 1 then
 			timerCurseCD:Start(67)--Niche cases it's 67 and not 53-55
 		elseif self.vb.curseCount < 2 then
@@ -124,28 +185,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_YELL(msg, npc, _, _, target)
+function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.AddsYell or msg:find(L.AddsYell) then
-		self:SendSync("Adds")--Syncing to help unlocalized clients
+		self:SendSync("Adds")
 	end
 end
-
---[[
---These events don't happen in classic, added in wrath
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
-	if msg == L.Adds or msg:find(L.Adds) then
-		self:SendSync("Adds")--Syncing to help unlocalized clients
-	elseif msg == L.AddsTwo or msg:find(L.AddsTwo) then
-		self:SendSync("AddsTwo")--Syncing to help unlocalized clients
-	end
-end
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 29231 and self:AntiSpam() then--Teleport Return
-		self:SendSync("Teleport")
-	end
-end
---]]
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
@@ -155,7 +199,7 @@ function mod:OnSync(msg)
 		specWarnAdds:Play("killmob")
 		if self.vb.teleCount < 4 then
 			if self.vb.teleCount == 0 and self.vb.addsCount < 3 then--3 waves, 12, 34, 34
-				timerAddsCD:Start(34)--30 in Wrath
+				timerAddsCD:Start("v25.9-38.9")
 			elseif self.vb.teleCount == 1 then--3 waves, 3, 34, 30 (3 iffy)
 				if self.vb.addsCount == 1 then
 					timerAddsCD:Start(33.9)
@@ -170,24 +214,5 @@ function mod:OnSync(msg)
 				end
 			end
 		end
-	--Below here can't be used in Classic
-	--[[elseif msg == "AddsTwo" then--Boss away
-		self.vb.addsCount = self.vb.addsCount + 1
-		specWarnAdds:Show()
-		specWarnAdds:Play("killmob")
-		--He won't do anymore adds when teleported way on 4th and later teleport
-		--He'll never do more than 2 waves
-		if self.vb.teleCount < 4 and self.vb.addsCount == 1 then
-			if self.vb.teleCount == 3 then
-				timerAddsCD:Start(60)--2 big waves, 60 seconds apart
-			elseif self.vb.teleCount == 2 then--2 medium waves 46 seconds apart
-				timerAddsCD:Start(46)
-			else--2 smaller waves 30 seconds apart
-				timerAddsCD:Start(30)
-			end
-		end
-	elseif msg == "Teleport" then--Boss away
-		self:UnscheduleMethod("BackInRoom")
-		self:BackInRoom()--]]
 	end
 end

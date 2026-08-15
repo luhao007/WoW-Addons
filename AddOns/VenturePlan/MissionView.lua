@@ -6,6 +6,16 @@ local Animations = {}
 local FollowerList, MissionRewards, BoardEX, CAGHost
 local MissionGroup_HoldUpdate
 
+local function HideOwnedTooltip(self)
+	local GGameTooltip = _G.GameTooltip
+	if self and GameTooltip:IsOwned(self) then
+		GameTooltip:Hide()
+	end
+	if self and GGameTooltip ~= GameTooltip and GGameTooltip:IsOwned(self) then
+		GGameTooltip:Hide()
+	end
+end
+
 local function GetFollowerInfo(fid)
 	local fi = C_Garrison.GetFollowerInfo(fid)
 	fi.autoCombatSpells, fi.autoCombatAutoAttack = C_Garrison.GetFollowerAutoCombatSpells(fid, fi.level)
@@ -427,9 +437,7 @@ local function GetIncomingAAMask(slot, bm)
 end
 local function Puck_OnEnter(self)
 	if not self.name then
-		if GameTooltip:IsOwned(self) then
-			GameTooltip:Hide()
-		end
+		HideOwnedTooltip(self)
 		return
 	end
 	local mid = CovenantMissionFrame.MissionTab.MissionPage.missionInfo.missionID
@@ -452,9 +460,7 @@ local function Puck_OnEnter(self)
 	self:GetBoard():ShowHealthValues()
 end
 local function Puck_OnLeave(self)
-	if GameTooltip:IsOwned(self) then
-		GameTooltip:Hide()
-	end
+	HideOwnedTooltip(self)
 	self:GetBoard():HideHealthValues()
 end
 local function EnvironmentEffect_OnEnter(self)
@@ -478,11 +484,6 @@ local function EnvironmentEffect_OnEnter(self)
 		GameTooltip:AddLine(guideLine, 0.45, 1, 0, 1)
 	end
 	GameTooltip:Show()
-end
-local function EnvironmentEffect_OnLeave(self)
-	if GameTooltip:IsOwned(self) then
-		GameTooltip:Hide()
-	end
 end
 local function EnvironmentEffect_OnNameUpdate(self_name)
 	local ee = self_name:GetParent()
@@ -635,11 +636,6 @@ end
 local function Predictor_OnClick(self)
 	Predictor_DoStart(self)
 	Predictor_ShowResult(self, CAG:GetResult())
-end
-local function Predictor_OnLeave(self)
-	if GameTooltip:IsOwned(self) then
-		GameTooltip:Hide()
-	end
 end
 local function Tact_ScheduledBoardCheck()
 	Tact.pendingBoardCheck = nil
@@ -831,11 +827,6 @@ local function Shuffler_OnEnter(self, source)
 	end
 	GameTooltip:Show()
 end
-local function Shuffler_OnLeave(self)
-	if GameTooltip:IsOwned(self) then
-		GameTooltip:Hide()
-	end
-end
 local function Shuffler_AssignGroup(g, sim)
 	SetSimResultHint(g, sim)
 	MissionGroup_HoldUpdate = GetTime()
@@ -866,7 +857,7 @@ local function Shuffler_OnUpdate(self)
 				PlaySound(SOUNDKIT.UI_ADVENTURES_ADVENTURER_SLOTTED)
 			end
 			Animations.Flare:Restart()
-			Shuffler_OnLeave(self)
+			HideOwnedTooltip(self)
 			return
 		elseif not t and select(2, Tact:IsRunning()) then
 			Animations.Doom:Restart()
@@ -897,7 +888,7 @@ local function Shuffler_OnClick(self)
 			PlaySound(SOUNDKIT.UI_ADVENTURES_ADVENTURER_SLOTTED)
 		end
 		Animations.Flare:Restart()
-		Shuffler_OnLeave(self)
+		HideOwnedTooltip(self)
 	end
 	PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON)
 end
@@ -917,7 +908,7 @@ local function Hinter_OnClick(self)
 	local mid = mi.missionID
 	local ga = U.GetSuggestedGroups(mid, 8, 3, mi.offerEndTime)
 	if ga and #ga.ord > 0 then
-		if GameTooltip:IsOwned(self) then GameTooltip:Hide() end
+		HideOwnedTooltip(self)
 		local gl, sl = T.CreateObject("Singleton", "GroupList")
 		U.FlushMissionPredictionQueue()
 		sl:Acquire(self, nil, 24, nil, true)
@@ -965,7 +956,7 @@ function EV:I_ADVENTURES_UI_LOADED()
 	CAGHost:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 	CAGHost:SetPoint("BOTTOMLEFT", 24, 4)
 	CAGHost:SetScript("OnEnter", Predictor_OnEnter)
-	CAGHost:SetScript("OnLeave", Predictor_OnLeave)
+	CAGHost:SetScript("OnLeave", HideOwnedTooltip)
 	CAGHost:SetScript("OnClick", Predictor_OnClick)
 	local cal = T.CreateObject("CommonHoverTooltip", T.CreateObject("IconButton", MP.Board, 32, "Interface/Icons/INV_Archaeology_80_Witch_Book"))
 	cal:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -986,7 +977,7 @@ function EV:I_ADVENTURES_UI_LOADED()
 		cat:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		cat:SetPoint("TOPLEFT", CAGHost, "TOPRIGHT", 4, 1)
 		cat:SetScript("OnEnter", Shuffler_OnEnter)
-		cat:SetScript("OnLeave", Shuffler_OnLeave)
+		cat:SetScript("OnLeave", HideOwnedTooltip)
 		cat:SetScript("OnClick", Shuffler_OnClick)
 		cat:SetScript("OnHide", Shuffler_OnHide)
 	end
@@ -1008,7 +999,7 @@ function EV:I_ADVENTURES_UI_LOADED()
 		end)
 	end
 	MP.Stage.EnvironmentEffectFrame:SetScript("OnEnter", EnvironmentEffect_OnEnter)
-	MP.Stage.EnvironmentEffectFrame:SetScript("OnLeave", EnvironmentEffect_OnLeave)
+	MP.Stage.EnvironmentEffectFrame:SetScript("OnLeave", HideOwnedTooltip)
 	hooksecurefunc(MP.Stage.EnvironmentEffectFrame.Name, "SetText", EnvironmentEffect_OnNameUpdate)
 	hooksecurefunc(CovenantMissionFrame, "AssignFollowerToMission", MissionGroup_OnUpdate)
 	hooksecurefunc(CovenantMissionFrame, "RemoveFollowerFromMission", MissionGroup_OnUpdate)
@@ -1018,6 +1009,7 @@ function EV:I_ADVENTURES_UI_LOADED()
 	end)
 	MP.StartMissionButton:SetScript("OnClick", MissionStart_OnClick)
 	MP.StartMissionButton:SetScript("OnEnter", MissionStart_OnEnter)
+	MP.StartMissionButton:SetScript("OnLeave", HideOwnedTooltip)
 	MP.StartMissionButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 	MP.StartMissionButton:SetText(L"Assign Party")
 	CovenantMissionFrame.GetSystemSpecificStartMissionFailureMessage = function() end

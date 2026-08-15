@@ -5,7 +5,7 @@ if not mod:IsClassic() then
 	mod.statTypes = "normal,heroic,mythic,challenge,timewalker"
 end
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260709014912")
 mod:SetCreatureID(36494)
 mod:SetEncounterID(1999)
 mod:SetZone(658)
@@ -18,21 +18,21 @@ mod:RegisterCombat("combat")
 if DBM:IsPostMidnight() then
 	local warnThrowSaronite					= mod:NewCountAnnounce(1261286, 3)
 
-	local specWarnOrebreakerYou				= mod:NewSpecialWarningBlizzYou(1261546, nil, nil, nil, 1, 2)--Debuff target
-	local specWarnThrowSaronite				= mod:NewSpecialWarningBlizzYou(1261286, nil, nil, nil, 1, 2)
-	local specWarnOrebreaker				= mod:NewSpecialWarningDodgeCount(1261546, nil, nil, nil, 2, 2)--The dodge 4-5 seconds after orebreaker debuffs
-	local specWarnCryostomp					= mod:NewSpecialWarningCount(1261847, nil, nil, nil, 2, 2)
-	local specWarnGlacialOverload			= mod:NewSpecialWarningCount(1262029, nil, nil, nil, 2, 12)
+	local specWarnOrebreakerYou				= mod:NewSpecialWarningBlizzYou(1261546, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Debuff target
+	local specWarnThrowSaronite				= mod:NewSpecialWarningBlizzYou(1261286, nil, nil, nil, 1, 2, nil, nil, "debuffyou")
+	local specWarnOrebreaker				= mod:NewSpecialWarningDodgeCount(1261546, nil, nil, nil, 2, 2, nil, nil, "watchstep")--The dodge 4-5 seconds after orebreaker debuffs
+	local specWarnCryostomp					= mod:NewSpecialWarningCount(1261847, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+	local specWarnGlacialOverload			= mod:NewSpecialWarningCount(1262029, nil, nil, nil, 2, 12, nil, nil, "breaklos")
 
 	local timerOrebreakerCD					= mod:NewCDCountTimer(20.5, 1261546, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 	local timerCryostompCD					= mod:NewCDCountTimer(20.5, 1261847, nil, nil, nil, 2)
 	local timerThrowSaroniteCD				= mod:NewCDCountTimer(20.5, 1261286, nil, nil, nil, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
 	local timerGlacialOverloadCD			= mod:NewCDCountTimer(20.5, 1262029, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 
-	--Midnight private aura replacements
-	--mod:AddPrivateAuraSoundOption(1261286, true, 1261286, 1, 1, "debuffyou", 17)--Throw Saronite (handed by ENCOUNTER_WARNING now for hardcoded text/flash)
-	--mod:AddPrivateAuraSoundOption(1261540, true, 1261540, 1, 1, "targetyou", 2)--Orebreaker (handed by ENCOUNTER_WARNING now for hardcoded text/flash)
-	mod:AddPrivateAuraSoundOption(1261799, true, 1261799, 1, 2, "watchfeet", 8)--Glacial Overload (GTFO)
+	--Custom Aura Sounds
+	--mod:AddAuraSoundOption(1261286, true, 1261286, 1, 1, "debuffyou", 17)--Throw Saronite (handed by ENCOUNTER_WARNING now for hardcoded text/flash)
+	--mod:AddAuraSoundOption(1261540, true, 1261540, 1, 1, "targetyou", 2)--Orebreaker (handed by ENCOUNTER_WARNING now for hardcoded text/flash)
+	mod:AddAuraSoundOption(1261799, true, 1261799, 1, 2, "watchfeet", 8)--Glacial Overload (GTFO)
 
 	mod.vb.orebreakerCount = 0
 	mod.vb.cryostompCount = 0
@@ -41,8 +41,11 @@ if DBM:IsPostMidnight() then
 	local badStateDetected = false
 
 	---@param self DBMMod
-	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+	---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 	local function setFallback(self, dontSetAlerts)
+		--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
 		--Blizz API fallbacks
 		if not dontSetAlerts then
 			specWarnOrebreakerYou:SetAlert(144, "targetyou", 2, 3, 0)
@@ -50,10 +53,10 @@ if DBM:IsPostMidnight() then
 			specWarnThrowSaronite:SetAlert(146, "debuffyou", 17, 3, 0)
 			specWarnGlacialOverload:SetAlert(147, "breaklos", 12)
 		end
-		timerOrebreakerCD:SetTimeline(144)
-		timerCryostompCD:SetTimeline(145)
-		timerThrowSaroniteCD:SetTimeline(146)
-		timerGlacialOverloadCD:SetTimeline(147)
+		timerOrebreakerCD:SetTimeline(144, onlyColor)
+		timerCryostompCD:SetTimeline(145, onlyColor)
+		timerThrowSaroniteCD:SetTimeline(146, onlyColor)
+		timerGlacialOverloadCD:SetTimeline(147, onlyColor)
 	end
 
 	function mod:OnLimitedCombatStart()
@@ -68,10 +71,7 @@ if DBM:IsPostMidnight() then
 				"ENCOUNTER_TIMELINE_EVENT_ADDED",
 				"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 			)
-			--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-			if DBM.Options.HideDBMBars then
-				setFallback(self, true)
-			end
+			setFallback(self, true)
 		else
 			setFallback(self)
 		end
@@ -159,9 +159,9 @@ else
 	local warnDeepFreeze			= mod:NewTargetNoFilterAnnounce(70381, 2)
 	local warnSaroniteRock			= mod:NewTargetAnnounce(68789, 3)
 
-	local specWarnSaroniteRock		= mod:NewSpecialWarningYou(68789, nil, nil, nil, 1, 2)
+	local specWarnSaroniteRock		= mod:NewSpecialWarningYou(68789, nil, nil, nil, 1, 2, nil, nil, "watchstep")
 	local yellRock					= mod:NewYell(68789)
-	local specWarnPermafrost		= mod:NewSpecialWarningStack(68786, nil, 9, nil, nil, 1, 2)
+	local specWarnPermafrost		= mod:NewSpecialWarningStack(68786, nil, 9, nil, nil, 1, 2, nil, nil, "stackhigh")
 
 	local timerSaroniteRockCD		= mod:NewCDTimer(15.5, 68789, nil, nil, nil, 3)--15.5-20
 	local timerDeepFreezeCD			= mod:NewCDTimer(19, 70381, nil, "Healer", 2, 5, nil, DBM_COMMON_L.HEALER_ICON)
@@ -219,7 +219,7 @@ else
 		if msg == L.SaroniteRockThrow or msg:find(L.SaroniteRockThrow) then
 			targetName = Ambiguate(targetName, "none")
 			if self:AntiSpam(5, targetName) then--Antispam sync by target name, since this doesn't use dbms built in onsync handler.
-				local uId = DBM:GetRaidUnitId(targetName)
+				local uId = DBM:GetRaidUnitId(targetName, true)
 				if uId and not UnitIsUnit(uId, "player") then
 					warnSaroniteRock:Show(targetName)
 				end

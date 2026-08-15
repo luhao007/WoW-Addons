@@ -5,7 +5,6 @@ local Create = addonTable.Create
 local PIGFontString=Create.PIGFontString
 -----------
 local Mapfun=addonTable.Mapfun
---
 function Mapfun.Minimap_XY()
 	if Minimap.PIG_XY then
 		Minimap.PIG_XY:SetShown(PIGA["Map"]["MinimapXY"]) 

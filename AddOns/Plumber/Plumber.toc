@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Peterodox
-## Version: 1.9.1
+## Version: 1.9.4
 
 ## Title: Plumber
 ## Notes: Provides a variety of quality-of-life features.|n|nOpen Settings with Slash Command:|n/plumber
@@ -62,7 +62,6 @@ Modules\ExpansionLandingPage.xml
 Modules\GameTooltipExtension.xml
 Modules\LootUI.xml
 Modules\UnderlightAngler.lua
-Modules\SpellcastInfo.lua
 Modules\ChatOptions.lua
 Modules\NameplateResources.lua
 Modules\NameplateQuestIndicator.lua
@@ -73,8 +72,6 @@ Modules\ItemUpgradeUI.xml
 Modules\Macros.lua
 Modules\ProfessionsBook.lua
 Modules\ExpansionLandingPage\ExpansionLandingPage_Retail.xml
-Modules\BlizzFix_ModelLoading.lua
-Modules\Timerunning\LegionRemix.xml
 Modules\HolidayDungeon.lua
 Modules\QueueStatus.lua
 Modules\RaidCheck\RaidCheck.xml
@@ -88,8 +85,6 @@ Modules\CatalystUI.lua
 Modules\HuntTable.lua
 Modules\PreyQuestSuperTrack.lua
 
-Modules\BlizzFix_EndCaps.lua
-
 #Modules\MerchantUI\MerchantUI.xml
 #Modules\DruidModelFix.lua
 #Modules\MovieSubtitle.lua
@@ -101,3 +96,7 @@ Modules\BlizzFix_EndCaps.lua
 #Modules\AccountStore.lua
 #Modules\MinimapMouseover.lua
 #Modules\ObjectiveTrackerModule.xml
+#Modules\BlizzFix_EndCaps.lua
+#Modules\Timerunning\LegionRemix.xml
+#Modules\SpellcastInfo.lua
+#Modules\BlizzFix_ModelLoading.lua

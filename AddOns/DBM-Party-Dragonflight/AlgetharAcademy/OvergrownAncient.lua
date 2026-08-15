@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2512, "DBM-Party-Dragonflight", 5, 1201)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260709014625")
 mod:SetCreatureID(186951)
 mod:SetEncounterID(2563)
 mod:SetHotfixNoticeRev(20230103000000)
@@ -35,18 +35,22 @@ do
 end
 
 if DBM:IsPostMidnight() then
+	DBM:RegisterAltSpellName(388796, DBM_COMMON_L.SWIRLS)--Germinate -> Swirls
+	DBM:RegisterAltSpellName(388923, DBM_COMMON_L.ADDS)--Burst Forth -> Adds
+	DBM:RegisterAltSpellName(388623, DBM_COMMON_L.BIG_ADD)--Branch Out -> Big Add
+
 	--Note, no eventID for healing touch so no timer or alert for it sadly
-	--Midnight private aura replacements
---	mod:AddPrivateAuraSoundOption(433740, true, 433740, 1)
+	--Custom Aura Sounds
+--	mod:AddAuraSoundOption(433740, true, 433740, 1)
 
-	local specWarnGerminate				= mod:NewSpecialWarningCount(388796, nil, nil, DBM_COMMON_L.SWIRLS, 2, 2)
-	local specWarnBurstForth			= mod:NewSpecialWarningCount(388923, nil, nil, DBM_COMMON_L.ADDS, 2, 2)
-	local specWarnBranchOut				= mod:NewSpecialWarningCount(388623, nil, nil, DBM_COMMON_L.BIG_ADD, 1, 2)
-	local specWarnBarkbreaker			= mod:NewSpecialWarningCount(388544, nil, "Tank|Healer", nil, 1, 2)
+	local specWarnGerminate				= mod:NewSpecialWarningCount(388796, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+	local specWarnBurstForth			= mod:NewSpecialWarningCount(388923, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+	local specWarnBranchOut				= mod:NewSpecialWarningCount(388623, nil, nil, nil, 1, 2, nil, nil, "bigmob")
+	local specWarnBarkbreaker			= mod:NewSpecialWarningCount(388544, nil, "Tank|Healer", nil, 1, 2, nil, nil, "defensive")
 
-	local timerGerminateCD				= mod:NewCDCountTimer(20.5, 388796, DBM_COMMON_L.SWIRLS.." (%s)", nil, nil, 3)
-	local timerBurstForthCD				= mod:NewCDCountTimer(20.5, 388923, DBM_COMMON_L.ADDS.." (%s)", nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)
-	local timerBranchOutCD				= mod:NewCDCountTimer(20.5, 388623, DBM_COMMON_L.BIG_ADD.." (%s)", nil, nil, 1)
+	local timerGerminateCD				= mod:NewCDCountTimer(20.5, 388796, nil, nil, nil, 3)
+	local timerBurstForthCD				= mod:NewCDCountTimer(20.5, 388923, nil, nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)
+	local timerBranchOutCD				= mod:NewCDCountTimer(20.5, 388623, nil, nil, nil, 1)
 	local timerBarkbreakerCD			= mod:NewCDCountTimer(20.5, 388544, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
 	mod.vb.germinateCount = 0
@@ -57,7 +61,7 @@ if DBM:IsPostMidnight() then
 	local badStateDetected = false
 
 	---@param self DBMMod
-	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+	---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 	local function setFallback(self, dontSetAlerts)
 		if not dontSetAlerts then
 			if self:IsTank() then
@@ -67,10 +71,13 @@ if DBM:IsPostMidnight() then
 			specWarnGerminate:SetAlert(284, "watchstep", 2)
 			specWarnBurstForth:SetAlert(285, "aesoon", 2)
 		end
-		timerBarkbreakerCD:SetTimeline(282)
-		timerBranchOutCD:SetTimeline(283)
-		timerGerminateCD:SetTimeline(284)
-		timerBurstForthCD:SetTimeline(285)
+		--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+		timerBarkbreakerCD:SetTimeline(282, onlyColor)
+		timerBranchOutCD:SetTimeline(283, onlyColor)
+		timerGerminateCD:SetTimeline(284, onlyColor)
+		timerBurstForthCD:SetTimeline(285, onlyColor)
 	end
 
 	function mod:OnLimitedCombatStart()
@@ -86,10 +93,7 @@ if DBM:IsPostMidnight() then
 				"ENCOUNTER_TIMELINE_EVENT_ADDED",
 				"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 			)
-			--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-			if DBM.Options.HideDBMBars then
-				setFallback(self, true)
-			end
+			setFallback(self, true)
 		else
 			setFallback(self)
 		end
@@ -185,12 +189,12 @@ else
 	local warnHealingTouch							= mod:NewCastAnnounce(396640, 3)
 	local warnLasherToxin							= mod:NewStackAnnounce(389033, 2, nil, "Tank|Healer|RemoveDisease")
 
-	local specWarnGerminate							= mod:NewSpecialWarningDodge(388796, nil, nil, nil, 2, 2)
-	local specWarnLasherToxin						= mod:NewSpecialWarningStack(389033, nil, 12, nil, nil, 1, 6)
-	local specWarnBurstForth						= mod:NewSpecialWarningSpell(388923, nil, nil, nil, 2, 2)
-	local specWarnBranchOut							= mod:NewSpecialWarningDodge(388623, nil, nil, nil, 2, 2)
-	local specWarnHealingTouch						= mod:NewSpecialWarningInterrupt(396640, "HasInterrupt", nil, nil, 1, 2)
-	local specWarnBarkbreaker						= mod:NewSpecialWarningDefensive(388544, nil, nil, nil, 1, 2)
+	local specWarnGerminate							= mod:NewSpecialWarningDodge(388796, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+	local specWarnLasherToxin						= mod:NewSpecialWarningStack(389033, nil, 12, nil, nil, 1, 6, nil, nil, "stackhigh")
+	local specWarnBurstForth						= mod:NewSpecialWarningSpell(388923, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+	local specWarnBranchOut							= mod:NewSpecialWarningDodge(388623, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+	local specWarnHealingTouch						= mod:NewSpecialWarningInterrupt(396640, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+	local specWarnBarkbreaker						= mod:NewSpecialWarningDefensive(388544, nil, nil, nil, 1, 2, nil, nil, "defensive")
 
 	local timerGerminateCD							= mod:NewCDCountTimer(29.1, 388796, nil, nil, nil, 3)
 	local timerBurstForthCD							= mod:NewCDTimer(58.2, 388923, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--Assumed it's on same cycle as branch out, CD not confirmed

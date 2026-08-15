@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2365, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260526204832")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(156523)
 mod:SetEncounterID(2327)--Obsidian Destroyer ID, but only one left after eliminating all others, should be correct
@@ -34,24 +34,25 @@ mod:RegisterEventsInCombat(
 --]]
 --Stage One: Obsidian Destroyer
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20594))
+DBM:RegisterAltSpellName(308044, 307421)--Stygian Annihilation -> Devoured Abyss
 local warnDevourMagic						= mod:NewTargetAnnounce(307805, 3)
 local warnShadowWounds						= mod:NewStackAnnounce(307399, 2, nil, "Tank")
 local warnAncientCurse						= mod:NewSpellAnnounce(315025, 4)
 
-local specWarnShadowWounds					= mod:NewSpecialWarningStack(307399, nil, 2, nil, nil, 1, 6)
-local specWarnShadowWoundsTaunt				= mod:NewSpecialWarningTaunt(307399, nil, nil, nil, 1, 2)
-local specWarnDevourMagic					= mod:NewSpecialWarningMoveAway(307805, nil, nil, nil, 1, 2)
+local specWarnShadowWounds					= mod:NewSpecialWarningStack(307399, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnShadowWoundsTaunt				= mod:NewSpecialWarningTaunt(307399, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnDevourMagic					= mod:NewSpecialWarningMoveAway(307805, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellDevourMagic						= mod:NewYell(307805)
 local yellDevourMagicFades					= mod:NewShortFadesYell(307805)
-local specWarnStygianAnnihilation			= mod:NewSpecialWarningMoveTo(308044, nil, 307421, nil, 3, 2)
-local specWarnBlackWing						= mod:NewSpecialWarningDodge(305663, nil, nil, nil, 2, 2)
-local specWarnDarkManifestation				= mod:NewSpecialWarningDodge(308903, nil, nil, nil, 2, 2)
-local specWarnAncientCurse					= mod:NewSpecialWarningYou(315025, nil, nil, nil, 1, 2, 4)
+local specWarnStygianAnnihilation			= mod:NewSpecialWarningMoveTo(308044, nil, nil, nil, 3, 2, nil, nil, "findshelter")
+local specWarnBlackWing						= mod:NewSpecialWarningDodge(305663, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnDarkManifestation				= mod:NewSpecialWarningDodge(308903, nil, nil, nil, 2, 2, nil, nil, "justrun")
+local specWarnAncientCurse					= mod:NewSpecialWarningYou(315025, nil, nil, nil, 1, 2, 4, nil, "targetyou")
 local yellAncientCurse						= mod:NewYell(315025, nil, false, 2)
 local yellAncientCurseFades					= mod:NewShortFadesYell(315025)
 
 local timerDevourMagicCD					= mod:NewCDTimer(22, 307805, nil, nil, nil, 3)
-local timerStygianAnnihilationCD			= mod:NewCDTimer(55.3, 308044, 307421, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 4)
+local timerStygianAnnihilationCD			= mod:NewCDTimer(55.3, 308044, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 4)
 local timerBlackWingsCD						= mod:NewCDTimer(20.6, 305663, nil, nil, nil, 3)--20-30
 local timerShadowClawsCD					= mod:NewCDTimer(12.3, 310129, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerDarkManifestationCD				= mod:NewCDCountTimer(35.2, 308903, nil, nil, nil, 1, nil, DBM_COMMON_L.TANK_ICON)
@@ -67,7 +68,7 @@ local warnForbiddenRitual					= mod:NewCountAnnounce(306290, 2, nil, "Healer")
 local warnForbiddenMana						= mod:NewTargetNoFilterAnnounce(306301, 1, nil, false)
 local warnDrainEssence						= mod:NewTargetNoFilterAnnounce(314993, 2, nil, "RemoveMagic")
 
-local specWarnDrainEssence					= mod:NewSpecialWarningMoveAway(314993, nil, nil, nil, 1, 2)
+local specWarnDrainEssence					= mod:NewSpecialWarningMoveAway(314993, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellDrainEssence						= mod:NewYell(314993, nil, false, 2)
 local yellDrainEssenceFades					= mod:NewShortFadesYell(314993)
 

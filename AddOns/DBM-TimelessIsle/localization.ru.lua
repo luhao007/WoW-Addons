@@ -20,5 +20,5 @@ L:SetOptionLocalization({
 L:SetMiscLocalization({
 	shipSummon		= "Ха-ха-ха!",
 	golgSpawn		= "Меня разбудила вечность.",
-	grieversMessage	= "Known TI grievers on your realm: %s"
+	grieversMessage	= "Известные злодеи Вневременного острова в Вашем игровом мире: %s"
 })

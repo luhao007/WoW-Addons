@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Halazzi", "DBM-Raids-BC", 9)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(23577)
 mod:SetEncounterID(1192, 2485)
@@ -22,8 +22,8 @@ local warnFrenzy		= mod:NewSpellAnnounce(43290, 3)
 local warnSpirit		= mod:NewAnnounce("WarnSpirit", 4, 39414)
 local warnNormal		= mod:NewAnnounce("WarnNormal", 4, 39414)
 
-local specWarnTotem		= mod:NewSpecialWarningSpell(43302, "Dps", nil, nil, 1, 2)
-local specWarnEnrage	= mod:NewSpecialWarningDispel(43139, "RemoveEnrage", nil, nil, 1, 6)
+local specWarnTotem		= mod:NewSpecialWarningSpell(43302, "Dps", nil, nil, 1, 2, nil, nil, "attacktotem")
+local specWarnEnrage	= mod:NewSpecialWarningDispel(43139, "RemoveEnrage", nil, nil, 1, 6, nil, nil, "enrage")
 
 local timerShock		= mod:NewTargetTimer(12, 43303, nil, "RemoveMagic", nil, 5, nil, DBM_COMMON_L.MAGIC_ICON)
 

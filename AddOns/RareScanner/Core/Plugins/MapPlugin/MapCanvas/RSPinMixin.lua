@@ -25,6 +25,10 @@ function RSPinMixin:OnAcquired(POI, dataProvider)
 end
 
 function RSPinMixin:ApplyCurrentPosition()
+	if (not self.x or not self.y) then
+		return
+	end
+	
 	local mapFrame = RSWorldMap:GetMapFrame()
 	local canvas = WorldMapFrame:GetCanvasContainer()
 

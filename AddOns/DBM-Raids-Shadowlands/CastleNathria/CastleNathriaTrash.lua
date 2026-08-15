@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("CastleNathriaTrash", "DBM-Raids-Shadowlands", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523021934")
 mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 mod.isTrashMod = true
@@ -20,10 +20,10 @@ local warnConcentrateAnima					= mod:NewTargetNoFilterAnnounce(339525, 3)
 local warnSharedSuffering					= mod:NewTargetNoFilterAnnounce(339607, 3)
 local warnWarpedDesires						= mod:NewStackAnnounce(339528, 2, nil, "Tank|Healer")
 
-local specWarnConcentrateAnima				= mod:NewSpecialWarningMoveAway(310780, nil, nil, nil, 1, 2)
+local specWarnConcentrateAnima				= mod:NewSpecialWarningMoveAway(310780, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellConcentrateAnima					= mod:NewYell(339525)
 local yellConcentrateAnimaFades				= mod:NewShortFadesYell(339525)
-local specWarnSharedSuffering				= mod:NewSpecialWarningYou(339607, nil, nil, nil, 1, 2)
+local specWarnSharedSuffering				= mod:NewSpecialWarningYou(339607, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 --local specWarnDirgefromBelow				= mod:NewSpecialWarningInterrupt(310839, "HasInterrupt", nil, nil, 1, 2)
 
 --local playerName = UnitName("player")

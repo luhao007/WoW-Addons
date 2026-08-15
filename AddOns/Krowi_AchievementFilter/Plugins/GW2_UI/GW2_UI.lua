@@ -892,16 +892,18 @@ local function SkinHeader()
     AchievementFrameFilterDropdown:SetPoint("BOTTOMLEFT", AchievementFrame.SearchBox, "TOPLEFT", 0, 10)
     AchievementFrameFilterDropdown:SetPoint("BOTTOMRIGHT", AchievementFrame.SearchBox, "TOPRIGHT", 0, 10)
 
-    AchievementFrameFilterDropdown.backdrop:ClearAllPoints()
-    AchievementFrameFilterDropdown.backdrop:SetPoint("TOPLEFT", AchievementFrameFilterDropdown, "TOPLEFT", 0, 0)
-    AchievementFrameFilterDropdown.backdrop:SetPoint("BOTTOMRIGHT", AchievementFrameFilterDropdown, "BOTTOMRIGHT", 0, 0)
-    AchievementFrameFilterDropdown.backdrop:SetAlpha(0.5)
+    if AchievementFrameFilterDropdown.backdrop then -- 12.1.0's HeaderDetails.Filters.FilterDropdown has no backdrop
+        AchievementFrameFilterDropdown.backdrop:ClearAllPoints()
+        AchievementFrameFilterDropdown.backdrop:SetPoint("TOPLEFT", AchievementFrameFilterDropdown, "TOPLEFT", 0, 0)
+        AchievementFrameFilterDropdown.backdrop:SetPoint("BOTTOMRIGHT", AchievementFrameFilterDropdown, "BOTTOMRIGHT", 0, 0)
+        AchievementFrameFilterDropdown.backdrop:SetAlpha(0.5)
+    end
 
     GW2_ADDON.HandleNextPrevButton(KrowiAF_AchievementFrameBrowsingHistoryPrevAchievementButton);
     GW2_ADDON.HandleNextPrevButton(KrowiAF_AchievementFrameBrowsingHistoryNextAchievementButton);
     KrowiAF_AchievementFrameBrowsingHistoryPrevAchievementButton:ClearPoint("RIGHT");
     KrowiAF_AchievementFrameBrowsingHistoryNextAchievementButton:ClearPoint("RIGHT");
-    KrowiAF_AchievementFrameBrowsingHistoryPrevAchievementButton:SetPoint("LEFT", AchievementFrameHeader.breadCrumb, "RIGHT", 10, -2);
+    KrowiAF_AchievementFrameBrowsingHistoryPrevAchievementButton:SetPoint("LEFT", AchievementFrame.Header.breadCrumb, "RIGHT", 10, -2);
     KrowiAF_AchievementFrameBrowsingHistoryNextAchievementButton:SetPoint("LEFT", KrowiAF_AchievementFrameBrowsingHistoryPrevAchievementButton, "RIGHT");
 end
 
@@ -1057,14 +1059,14 @@ local function SkinFloatingAchievementTooltip()
     tooltip.CloseButton:ClearAllPoints();
     tooltip.CloseButton:SetPoint("TOPRIGHT", -3, -3);
     tooltip.NineSlice:Hide();
-    tooltip:GwCreateBackdrop({
+    tooltip:GwCreateBackdrop{
         bgFile = "Interface/AddOns/GW2_UI/textures/uistuff/UI-Tooltip-Background",
         edgeFile = "Interface/AddOns/GW2_UI/textures/uistuff/UI-Tooltip-Border",
         tile = false,
         tileSize = 64,
         edgeSize = 32,
         insets = {left = 2, right = 2, top = 2, bottom = 2}
-    });
+    };
 end
 
 function gw2:OnEvent(event, arg1, arg2)

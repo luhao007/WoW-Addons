@@ -23,40 +23,64 @@
         </Scripts>
     </Frame>
 
+    <Frame name="CooldownManagerCentered_SettingsBannerTemplate" inherits="SettingsListElementTemplate" virtual="true">
+        <Size x="635" y="318"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture
+                    parentKey="Banner"
+                    file="Interface\AddOns\CooldownManagerCentered\Media\Preview\in_settings_banner.png"
+                    setAllPoints="true"
+                />
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                SettingsListElementMixin.OnLoad(self);
+                self.Tooltip:Hide();
+                self.Tooltip:EnableMouse(false);
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
      <Button name="LibEQOLcooldownmanagercentered_MultiDropdownTemplate"
         virtual="true"
         inherits="SettingsDropdownControlTemplate"
-        mixin="LibEQOL_MultiDropdownMixin">
-        <Layers>
-            <Layer level="ARTWORK">
-                <!-- Kleiner Summary-Text unterhalb vom Label -->
-                <FontString parentKey="Summary" inherits="GameFontHighlightSmall" justifyH="LEFT" maxLines="1">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativeKey="$parent.Text" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
-                        <Anchor point="RIGHT" x="-4" y="0"/>
-                    </Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
+        mixin="LibEQOLCMC_MultiDropdownMixin">
     </Button>
 
     <Button name="LibEQOLcooldownmanagercentered_ScrollDropdownTemplate"
         virtual="true"
         inherits="SettingsDropdownControlTemplate"
-        mixin="LibEQOL_ScrollDropdownMixin">
+        mixin="LibEQOLCMC_ScrollDropdownMixin">
     </Button>
+
+    <Frame name="LibEQOLcooldownmanagercentered_CompactFontTemplate"
+        virtual="true"
+        inherits="SettingsCheckboxDropdownControlTemplate"
+        mixin="LibEQOLCMC_CompactFontSettingsMixin">
+    </Frame>
+
+    <Frame name="LibEQOLcooldownmanagercentered_CompactSliderMenuTemplate"
+        virtual="true"
+        mixin="LibEQOLCMC_CompactSliderMenuMixin">
+        <Size x="168" y="30"/>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+    </Frame>
 
     <Frame name="LibEQOLcooldownmanagercentered_InputControlTemplate"
         virtual="true"
         inherits="SettingsListElementTemplate"
-        mixin="LibEQOL_InputControlMixin">
+        mixin="LibEQOLCMC_InputControlMixin">
         <Size x="280" y="26"/>
         <Scripts>
             <OnLoad method="OnLoad"/>
         </Scripts>
     </Frame>
 
-    <Frame name="LibEQOLcooldownmanagercentered_ColorOverridesPanel" mixin="LibEQOL_ColorOverridesMixin" virtual="true">
+    <Frame name="LibEQOLcooldownmanagercentered_ColorOverridesPanel" mixin="LibEQOLCMC_ColorOverridesMixin" virtual="true">
 		<Size x="200" y="60"/>
 		<Layers>
 			<Layer level="ARTWORK">
@@ -88,11 +112,11 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="LibEQOLcooldownmanagercentered_ColorOverridesPanelNoHead" 
-		mixin="LibEQOL_ColorOverridesMixin" 
+	<Frame name="LibEQOLcooldownmanagercentered_ColorOverridesPanelNoHead"
+		mixin="LibEQOLCMC_ColorOverridesMixin"
 		inherits="SettingsListElementTemplate"
 		virtual="true"
-	>		
+	>
 	<Size x="200" y="25"/>
 		<Layers>
 			<Layer level="ARTWORK">
@@ -126,10 +150,21 @@
 
 	<Frame name="LibEQOLcooldownmanagercentered_SoundDropdownTemplate"
 		inherits="SettingsListElementTemplate"
-		mixin="LibEQOL_SoundDropdownMixin"
+		mixin="LibEQOLCMC_SoundDropdownMixin"
 		virtual="true"
 	>
 	<Size x="200" y="25"/>
+		<Scripts>
+			<OnLoad method="OnLoad"/>
+		</Scripts>
+	</Frame>
+
+	<Frame name="LibEQOLcooldownmanagercentered_SortableListTemplate"
+		inherits="SettingsListElementTemplate"
+		mixin="LibEQOLCMC_SortableListMixin"
+		virtual="true"
+	>
+	<Size x="200" y="80"/>
 		<Scripts>
 			<OnLoad method="OnLoad"/>
 		</Scripts>

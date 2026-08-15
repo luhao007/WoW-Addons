@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(172, "DBM-Raids-Cata", 5, 73)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035342")
+mod:SetRevision("20260523022021")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(43296)
 mod:SetEncounterID(1023)
@@ -30,9 +30,9 @@ local warnFeud				= mod:NewSpellAnnounce(88872, 3)
 local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2, 3)
 local warnPhase2			= mod:NewPhaseAnnounce(2)
 
-local specWarnFailure		= mod:NewSpecialWarningCount(88853, nil, nil, nil, 3, 2)
-local specWarnMassacre		= mod:NewSpecialWarningCount(82848, nil, nil, nil, 2, 2)
-local specWarnDoubleAttack	= mod:NewSpecialWarningDefensive(88826, nil, nil, nil, 1, 2)
+local specWarnFailure		= mod:NewSpecialWarningCount(88853, nil, nil, nil, 3, 2, nil, nil, "stilldanger")
+local specWarnMassacre		= mod:NewSpecialWarningCount(82848, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnDoubleAttack	= mod:NewSpecialWarningDefensive(88826, nil, nil, nil, 1, 2, nil, nil, "defensive")
 
 local timerBreak			= mod:NewTargetTimer(60, 82881, nil, nil, nil, 5)
 local timerBreakCD			= mod:NewNextTimer(15, 82881, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Also double attack CD

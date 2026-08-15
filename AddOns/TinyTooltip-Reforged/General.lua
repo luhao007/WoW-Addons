@@ -124,7 +124,8 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
     bar.bg:SetVertexColor(0.2, 0.2, 0.2, 0.2)
     bar.TextString = bar:CreateFontString(nil, "OVERLAY")
     bar.TextString:SetPoint("CENTER")
-    bar.TextString:SetFont(NumberFontNormal:GetFont(), 11, "THINOUTLINE")
+    local statusBarFontFile = NumberFontNormal:GetFont()
+    bar.TextString:SetFont(statusBarFontFile, 11, "THINOUTLINE")
     bar.capNumericDisplay = true
     bar.lockShow = 1
     if (not addon.db.general.statusbarEnabled) then GameTooltipStatusBar:Hide() end

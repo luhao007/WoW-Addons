@@ -45,7 +45,7 @@ local function GetMapName(id)
 	return C_Map.GetMapInfo(id).name
 end
 
-local function AtlasLoot_GetClassName(class)
+local function GetClassName(class)
 	if (not LOCALIZED_CLASS_NAMES_MALE[class]) then
 		return nil;
 	end
@@ -54,6 +54,10 @@ local function AtlasLoot_GetClassName(class)
 	else
 		return LOCALIZED_CLASS_NAMES_MALE[class];
 	end
+end
+
+local function GetRaceName(id)
+	return C_CreatureInfo.GetRaceInfo(id).raceName
 end
 
 local IngameLocales = {
@@ -115,13 +119,11 @@ local IngameLocales = {
 	["Ahn'Qiraj"]             = GetMapName(319),
 	["Blackrock Depths"]      = GetMapName(242),
 	["Blackwing Lair"]        = GetMapName(287),
-	["Lower Blackrock Spire"] = GetAchievementName(643),
 	["Molten Core"]           = GetMapName(232),
 	["Orgrimmar"]             = GetMapName(85),
 	["Ruins of Ahn'Qiraj"]    = GetMapName(247),
 	["Shadowfang Keep"]       = GetMapName(310),
 	["Stormwind City"]        = GetMapName(84),
-	["Upper Blackrock Spire"] = GetAchievementName(1307),
 
 	-- Burning Crusade
 	["Black Temple"]          = GetMapName(339),
@@ -185,19 +187,30 @@ local IngameLocales = {
 	-- ######################################################################
 	-- Class
 	-- ######################################################################
-	["DEATHKNIGHT"]           = AtlasLoot_GetClassName("DEATHKNIGHT"),
-	["DEMONHUNTER"]           = AtlasLoot_GetClassName("DEMONHUNTER"),
-	["DRUID"]                 = AtlasLoot_GetClassName("DRUID"),
-	["EVOKER"]                = AtlasLoot_GetClassName("EVOKER"),
-	["HUNTER"]                = AtlasLoot_GetClassName("HUNTER"),
-	["MAGE"]                  = AtlasLoot_GetClassName("MAGE"),
-	["MONK"]                  = AtlasLoot_GetClassName("MONK"),
-	["PALADIN"]               = AtlasLoot_GetClassName("PALADIN"),
-	["PRIEST"]                = AtlasLoot_GetClassName("PRIEST"),
-	["ROGUE"]                 = AtlasLoot_GetClassName("ROGUE"),
-	["SHAMAN"]                = AtlasLoot_GetClassName("SHAMAN"),
-	["WARLOCK"]               = AtlasLoot_GetClassName("WARLOCK"),
-	["WARRIOR"]               = AtlasLoot_GetClassName("WARRIOR"),
+	["DEATHKNIGHT"]           = GetClassName("DEATHKNIGHT"),
+	["DEMONHUNTER"]           = GetClassName("DEMONHUNTER"),
+	["DRUID"]                 = GetClassName("DRUID"),
+	["EVOKER"]                = GetClassName("EVOKER"),
+	["HUNTER"]                = GetClassName("HUNTER"),
+	["MAGE"]                  = GetClassName("MAGE"),
+	["MONK"]                  = GetClassName("MONK"),
+	["PALADIN"]               = GetClassName("PALADIN"),
+	["PRIEST"]                = GetClassName("PRIEST"),
+	["ROGUE"]                 = GetClassName("ROGUE"),
+	["SHAMAN"]                = GetClassName("SHAMAN"),
+	["WARLOCK"]               = GetClassName("WARLOCK"),
+	["WARRIOR"]               = GetClassName("WARRIOR"),
+
+	-- ######################################################################
+	-- Race
+	-- ######################################################################
+	["Orc"]                   = GetRaceName(2),
+	["Dwarf"]                 = GetRaceName(3),
+	["Night Elf"]             = GetRaceName(4),
+	["Troll"]                 = GetRaceName(8),
+	["Draenei"]               = GetRaceName(11),
+	["Vrykul"]                = GetRaceName(16),
+	["Pandaren"]              = GetRaceName(26),
 
 	-- ######################################################################
 	-- Item Slots

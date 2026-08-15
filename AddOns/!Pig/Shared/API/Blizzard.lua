@@ -1,23 +1,23 @@
 local addonName, addonTable = ...;
-
-----
+local format=string.format
+---判断秘密值
 function PIGisSecret(value)
 	if (issecretvalue and issecretvalue(value)) or (issecrettable and issecrettable(value)) then
 		return true 
 	end
 	return false
 end
+--判断硬核
 function PIGIsHardcore()
 	return PIG_MaxTocversion(20000) and C_GameRules.IsHardcoreActive()
 end
+--插件版本信息
 local version, internalVersion, date, tocversion, versionType, buildType = GetBuildInfo()
 function PIG_MaxTocversion(ver,max)
 	if type(ver)=="string" then
 		if ver=="old" then
-			if tocversion<60000 then
-				if tocversion<20000 or tocversion>40000 then
-					return true
-				end
+			if tocversion<20000 then
+				return true
 			end
 		end
 		return false
@@ -38,15 +38,46 @@ function PIG_MaxTocversion(ver,max)
 		end
 	end
 end
+
+--获取移速
+local SPEED7 = BASE_MOVEMENT_SPEED*0.01-0.00001
+local NumberAbbrevOptions = {
+    breakpointData = {
+        { breakpoint = 0, significandDivisor = SPEED7, fractionDivisor = 1, abbreviation = "%", abbreviationIsGlobal = false}
+    }
+}
+function PIGGetUnitSpeed(uix,unit)
+	local currentSpeed, runSpeed, flightSpeed, swimSpeed = GetUnitSpeed(unit);
+	if PIG_MaxTocversion() then
+		local yisuv = Round(currentSpeed/BASE_MOVEMENT_SPEED*100)
+		uix:SetText(yisuv..'%')
+		if yisuv>=100 then
+			uix:SetTextColor(0,1,0,1);
+		elseif yisuv==0 then
+			uix:SetTextColor(0.5,0.5,0.5,1);
+		else
+			uix:SetTextColor(1,0,0,1);
+		end
+	else
+		uix:SetText(AbbreviateNumbers(currentSpeed, NumberAbbrevOptions))
+	end
+end
 ---
 local IsAddOnLoaded = IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 function PIGIsAddOnLoaded(name)
 	return IsAddOnLoaded(name)
 end
----------
+local GetAddOnInfo=GetAddOnInfo or C_AddOns and C_AddOns.GetAddOnInfo
 function PIGGetAddOnInfo(id)
-	local GetAddOnInfo=GetAddOnInfo or C_AddOns and C_AddOns.GetAddOnInfo
 	return GetAddOnInfo(id)
+end
+local EnableAddOn=EnableAddOn or C_AddOns and C_AddOns.EnableAddOn
+function PIGEnableAddOn(id)
+	return EnableAddOn(id)
+end
+local GetAddOnMetadata=C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
+function PIGGetAddOnMetadata(addonName, shuxing)
+	return GetAddOnMetadata(addonName, shuxing)
 end
 
 local PIG_GetAddOnEnableState=C_AddOns and C_AddOns.GetAddOnEnableState
@@ -57,26 +88,36 @@ if PIG_GetAddOnEnableState==nil then
 	end
 end
 PIGGetAddOnEnableState=PIG_GetAddOnEnableState
-function PIGGetAddOnMetadata(addonName, shuxing)
-	local GetAddOnMetadata=GetAddOnMetadata or C_AddOns and C_AddOns.GetAddOnMetadata
-	return GetAddOnMetadata(addonName, shuxing)
-end
+---
 local voiceID = C_TTSSettings.GetVoiceOptionID(0)
-function PIG_PlaySoundFile(url)
-	if url[3] then
-		if PIG_MaxTocversion() then
-			C_VoiceChat.SpeakText(voiceID, url[2], 1, 2, 100)
-		else
-			C_VoiceChat.SpeakText(voiceID, url[2], 2, 100, false)
-		end
+function PIG_PlaySoundFile(url,index)
+	local voiceTxt = url[2]
+	if url[3]=="AI" then
+		if index then voiceTxt=index end
+		C_VoiceChat.SpeakText(voiceID, voiceTxt, 2, 100, true)
 	else
-		PlaySoundFile(url[2], "Master")
+		if index then voiceTxt=url[2]:format(index) end
+		PlaySoundFile(voiceTxt, "Master")
 	end
 end
-----
+--公会刷新
+local GuildRoster=C_GuildInfo and C_GuildInfo.GuildRoster or GuildRoster
+function PIG_GuildRoster()
+	GuildRoster()
+end
+---组队邀请
 local InviteUnit=C_PartyInfo and C_PartyInfo.InviteUnit or InviteUnit
 function PIG_InviteUnit(name)
 	InviteUnit(name)
+end
+--队伍转换
+local ConvertToRaid=C_PartyInfo and C_PartyInfo.ConvertToRaid or ConvertToRaid
+function PIG_ConvertToRaid()
+	ConvertToRaid()
+end
+local ConvertToParty=C_PartyInfo and C_PartyInfo.ConvertToParty or ConvertToParty
+function PIG_ConvertToParty()
+	ConvertToParty()
 end
 ---职业信息
 function PIGGetClassInfo(id)
@@ -195,7 +236,28 @@ function PIGGetSpellCooldown(SpellID)
 	end
 end
 
---获取背包信息===============
+--物品信息=========
+local GetItemInfo=C_Item and C_Item.GetItemInfo or GetItemInfo
+function PIGGetItemInfo(Item)
+	return GetItemInfo(Item)
+end
+local GetDetailedItemLevelInfo=C_Item and C_Item.GetDetailedItemLevelInfo or GetDetailedItemLevelInfo
+function PIGGetDetailedItemLevelInfo(Item)
+	return GetDetailedItemLevelInfo(Item)
+end
+local GetItemInfoInstant=C_Item and C_Item.GetItemInfoInstant or GetItemInfoInstant
+function PIGGetItemInfoInstant(Item)
+	return GetItemInfoInstant(Item)
+end
+local GetItemSpell=C_Item and C_Item.GetItemSpell or GetItemSpell
+function PIGGetItemSpell(Item)
+	return GetItemSpell(Item)
+end
+--背包物品信息===============
+local GetContainerNumFreeSlots=C_Container and C_Container.GetContainerNumFreeSlots or GetContainerNumFreeSlots
+function PIGGetContainerNumFreeSlots(bag)
+	return GetContainerNumFreeSlots(bag)
+end
 function PIGGetContainerItemInfo(bag, slot)
 	if C_Container and C_Container.GetContainerItemInfo then
 		local ItemInfo = C_Container.GetContainerItemInfo(bag, slot)
@@ -206,6 +268,38 @@ function PIGGetContainerItemInfo(bag, slot)
 		local icon, itemCount, locked, quality, readable, lootable, itemLink, isFiltered, noValue, itemID, isBound = GetContainerItemInfo(bag, slot)
 		return itemID, itemLink, icon, stackCount, quality, noValue, lootable, locked, isBound
 	end
+end
+local GetContainerItemID=C_Container and C_Container.GetContainerItemID or GetContainerItemID
+function PIGGetContainerItemID(bag, slot)
+	return GetContainerItemID(bag, slot)
+end
+local GetContainerItemLink=C_Container and C_Container.GetContainerItemLink or GetContainerItemLink
+function PIGGetContainerItemLink(bag, slot)
+	return GetContainerItemLink(bag, slot)
+end
+local GetContainerItemCooldown=C_Container and C_Container.GetContainerItemCooldown or GetContainerItemCooldown
+function PIGGetContainerItemCooldown(bag, slot)
+	return GetContainerItemCooldown(bag, slot)
+end
+local GetContainerNumSlots=C_Container and C_Container.GetContainerNumSlots or GetContainerNumSlots
+function PIGGetContainerNumSlots(bag)
+	return GetContainerNumSlots(bag)
+end
+local UseContainerItem=C_Container and C_Container.UseContainerItem or UseContainerItem
+function PIGUseContainerItem(bag, slot)
+	if BankFrame.GetActiveBankType then
+		UseContainerItem(bag, slot, nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+	else
+		UseContainerItem(bag, slot, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
+	end
+end
+local PickupContainerItem=C_Container and C_Container.PickupContainerItem or PickupContainerItem
+function PIGPickupContainerItem(bag, slot)
+	PickupContainerItem(bag, slot);
+end
+local SplitContainerItem=C_Container and C_Container.SplitContainerItem or SplitContainerItem
+function PIGSplitContainerItem(bag, slot)
+	SplitContainerItem(bag, slot);
 end
 
 --聊天消息=============
@@ -225,18 +319,14 @@ function PIGSendTell(displayName)
 end
 
 function PIGChatFrameAddChannel(ChatFrame,channel)--订购一个聊天框以显示先前加入的聊天频道
-	if PIG_MaxTocversion("old") then
-		ChatFrame_AddChannel(ChatFrame, channel)
-	else
+	if ChatFrame.AddChannel then
 		ChatFrame:AddChannel(channel)
+	else
+		ChatFrame_AddChannel(ChatFrame, channel)
 	end
 end
 function PIGChatFrameRemoveChannel(ChatFrame,channel)
-	if PIG_MaxTocversion("old") then
-		ChatFrame_RemoveChannel(ChatFrame,channel);
-	else
-		ChatFrame:RemoveChannel(channel)
-	end
+	ChatFrame:RemoveChannel(channel)
 end
 function PIGSendChatRaidParty(txt,GroupLeader,extinfo)
 	local Newtxt="[!Pig] "..txt
@@ -267,7 +357,7 @@ function PIGSendChatRaidParty(txt,GroupLeader,extinfo)
 		end
 	end
 end
-local SendAddonMessage=SendAddonMessage or C_ChatInfo and C_ChatInfo.SendAddonMessage
+local SendAddonMessage=C_ChatInfo and C_ChatInfo.SendAddonMessage or SendAddonMessage
 function PIGSendAddonMessage(biaotou,txt,chatType, target)
 	SendAddonMessage(biaotou,txt,chatType, target)
 end

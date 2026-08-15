@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2428, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(164261)
 mod:SetEncounterID(2383)
@@ -33,26 +33,29 @@ mod:RegisterEventsInCombat(
 (ability.id = 334522 or ability.id = 334266 or ability.id = 329455 or ability.id = 329774 or ability.id = 338621) and type = "begincast"
  or ability.id = 329298 and type = "applydebuff"
 --]]
-local warnGluttonousMiasma						= mod:NewTargetNoFilterAnnounce(329298, 4, nil, nil, 212238)
-local warnVolatileEjection						= mod:NewTargetNoFilterAnnounce(334266, 4, nil, nil, 202046)
+DBM:RegisterAltSpellName(329298, 212238)--Gluttonous Miasma -> short name
+DBM:RegisterAltSpellName(334266, 202046)--Volatile Ejection -> Beam
 
-local specWarnGluttonousMiasma					= mod:NewSpecialWarningYouPos(329298, nil, 212238, nil, 1, 2)
+local warnGluttonousMiasma						= mod:NewTargetNoFilterAnnounce(329298, 4)
+local warnVolatileEjection						= mod:NewTargetNoFilterAnnounce(334266, 4)
+
+local specWarnGluttonousMiasma					= mod:NewSpecialWarningYouPos(329298, nil, nil, nil, 1, 2, nil, nil, "mm1")
 local yellGluttonousMiasma						= mod:NewShortPosYell(329298, 212238, false, 2)
-local specWarnEssenceSap						= mod:NewSpecialWarningStack(334755, false, 8, nil, 2, 1, 6)--Mythic, spammy, opt in
-local specWarnConsume							= mod:NewSpecialWarningRunCount(334522, nil, nil, nil, 4, 2)
-local specWarnExpunge							= mod:NewSpecialWarningMoveAway(329725, nil, nil, nil, 1, 2)
-local specWarnVolatileEjectionPerWarn			= mod:NewSpecialWarningSoon(334266, false, 202046, nil, 2, 2)--Optional prewarn special warning, for the cast (before you know the targets)
-local specWarnVolatileEjection					= mod:NewSpecialWarningYou(334266, nil, 202046, nil, 1, 2)
+local specWarnEssenceSap						= mod:NewSpecialWarningStack(334755, false, 8, nil, 2, 1, 6, nil, nil, "stackhigh")--Mythic, spammy, opt in
+local specWarnConsume							= mod:NewSpecialWarningRunCount(334522, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnExpunge							= mod:NewSpecialWarningMoveAway(329725, nil, nil, nil, 1, 2, nil, nil, "scatter")
+local specWarnVolatileEjectionPerWarn			= mod:NewSpecialWarningSoon(334266, false, nil, nil, 2, 2, nil, nil, "specialsoon")--Optional prewarn special warning, for the cast (before you know the targets, "specialsoon")
+local specWarnVolatileEjection					= mod:NewSpecialWarningYou(334266, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellVolatileEjection						= mod:NewYell(334266, 202046)--ShortText "beam". Change to NewPosYell if it's ever added to combat log, can't be trusted as icon yell when relying on syncing
-local specWarnGrowingHunger						= mod:NewSpecialWarningCount(332295, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(6, 332295), nil, 1, 2)
-local specWarnGrowingHungerOther				= mod:NewSpecialWarningTaunt(332295, nil, nil, nil, 1, 2)
-local specWarnOverwhelm							= mod:NewSpecialWarningDefensive(329774, "Tank", nil, nil, 1, 2)
-local specWarnOverwhelmTaunt					= mod:NewSpecialWarningTaunt(329774, nil, nil, nil, 1, 2)
+local specWarnGrowingHunger						= mod:NewSpecialWarningCount(332295, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(6, 332295), nil, 1, 2, nil, nil, "changemt")
+local specWarnGrowingHungerOther				= mod:NewSpecialWarningTaunt(332295, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnOverwhelm							= mod:NewSpecialWarningDefensive(329774, "Tank", nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnOverwhelmTaunt					= mod:NewSpecialWarningTaunt(329774, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 
-local timerGluttonousMiasmaCD					= mod:NewCDCountTimer(23.8, 329298, 212238, nil, nil, 3, nil, nil, nil, 1, 3)--Short text, Miasma
+local timerGluttonousMiasmaCD					= mod:NewCDCountTimer(23.8, 329298, nil, nil, nil, 3, nil, nil, nil, 1, 3)--Short text, Miasma
 local timerConsumeCD							= mod:NewNextCountTimer(119.8, 334522, nil, nil, nil, 2)
 local timerExpungeCD							= mod:NewNextCountTimer(44.3, 329725, nil, nil, nil, 3)
-local timerVolatileEjectionCD					= mod:NewNextCountTimer(35.9, 334266, 202046, nil, nil, 3)--202046 for beam
+local timerVolatileEjectionCD					= mod:NewNextCountTimer(35.9, 334266, nil, nil, nil, 3)--202046 for beam
 local timerDesolateCD							= mod:NewNextCountTimer(59.8, 329455, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
 local timerOverwhelmCD							= mod:NewNextCountTimer(11.9, 329774, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)
 

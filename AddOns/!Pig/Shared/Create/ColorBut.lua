@@ -1,7 +1,15 @@
 local addonName, addonTable = ...;
 local Create = addonTable.Create
+local PIGFontString=Create.PIGFontString
 -----------------------
-function Create.ColorBut(fuF,Point,WH)
+local morenColor = {
+	{0.1,0.1,0.1},
+	{1, 0.6, 0, 1},
+	{1,0.7,0},
+}
+function Create.ColorBut(fuF,Point,text)
+	local www=WH and WH[1] or 18
+	local hhh=WH and WH[2] or www
 	local but
 	if ColorSwatchMixin then
 		but = CreateFrame("Button", nil, fuF, "ColorSwatchTemplate")
@@ -10,11 +18,24 @@ function Create.ColorBut(fuF,Point,WH)
 		but:SetBackdrop({
 			bgFile = Create.bgFile, tile = true, tileSize = 0,
 			edgeFile = Create.edgeFile, edgeSize = 8, 
-			insets = { left = 0, right = 0, top = 0, bottom = 0 }});
-		but:SetBackdropBorderColor(1, 1, 1, 1);
+			insets = { left = 0.4, right = 0.4, top = 0.4, bottom = 0.4 }});
+		but:SetBackdropBorderColor(1, 0.6, 0, 1);
 	end
 	but:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
-	but:SetSize(WH[1],WH[2]);
+	but:SetSize(www,hhh);
+	function but:UpdateSizeBut()
+		but.SwatchBg:SetSize(www,hhh);
+		but.InnerBorder:SetSize(www-2,hhh-2);
+		but.Color:SetSize(www-2,hhh-2);
+	end
+	but:UpdateSizeBut()
+	but:SetScript("OnShow", function (self)
+		but:UpdateSizeBut()
+	end);
+	if text then
+		but.t = PIGFontString(but,{"LEFT",but,"RIGHT",2,0},"背景颜色")
+		but.t:SetTextColor(1, 1, 1, 1);
+	end
 	function but:ShowButColor(newR, newG, newB, newA)
 		if oldversion then
 			self:SetBackdropColor(newR, newG, newB, newA);
@@ -48,7 +69,6 @@ function Create.ColorBut(fuF,Point,WH)
 		self:PIGinitialize()
 		local miyumorenColor=self.pezhiV or self.morenColor
 		local info={}
-		print(miyumorenColor)
 		info.r, info.g, info.b, info.opacity = unpack(miyumorenColor)
 		info.hasOpacity = true
 		info.swatchFunc=self.swatchFunc

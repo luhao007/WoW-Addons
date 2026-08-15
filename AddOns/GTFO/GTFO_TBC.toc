@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Zensunim of Dragonblight
-## Version: 6.5
+## Version: 6.7
 
 ## Title: GTFO
 ## Notes: GTFO, you're dying!
@@ -16,12 +16,6 @@
 
 ## SavedVariables: GTFOData
 
-## X-Min-Interface: 110207
-## X-Min-Interface-Classic: 11508
-## X-Min-Interface-BCC: 20505
-## X-Min-Interface-Wrath: 30403
-## X-Min-Interface-Cata: 40402
-## X-Min-Interface-Mists: 50503
 ## X-WoWI-ID: 17996
 ## X-Curse-Project-ID: 20697
 ## X-Wago-ID: PANz0MK4

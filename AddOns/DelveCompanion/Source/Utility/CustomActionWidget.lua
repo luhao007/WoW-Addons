@@ -37,6 +37,109 @@ local DEFAULT_TOOLTIP_ANCHOR = "ANCHOR_TOP"
 ---@field fontOverride string?
 DelveCompanion_CustomActionWidgetMixin = {}
 
+
+---@param self CustomActionWidget
+function DelveCompanion_CustomActionWidgetMixin:OnLoad()
+    self.Icon:SetSize(self.iconSizeX, self.iconSizeY)
+
+    if self.fontOverride then
+        self.Label:SetFontObject(self.fontOverride)
+    end
+
+    if self.useAutoScaling then
+        Mixin(self.Label, AutoScalingFontStringMixin)
+    end
+
+    if self.useMask then
+        -- TODO: DOESN'T WORK IN MIDNIGHT for some reason???
+
+        -- self.CircleMask:ClearAllPoints()
+        -- self.CircleMask:SetPoint("TOPLEFT", self, "CENTER", self.maskSizeOffset, -self.maskSizeOffset)
+        -- self.CircleMask:SetPoint("BOTTOMRIGHT", self, "CENTER", -self.maskSizeOffset, self.maskSizeOffset)
+        -- self.CircleMask:Show()
+        -- self.Icon:AddMaskTexture(self.CircleMask)
+
+        -- self.Cooldown:SetAllPoints(self.CircleMask)
+        -- self.InteractionBlockedOverlay:SetAllPoints(self.CircleMask)
+    end
+
+    ---@type FramePoint
+    local relPoint = self.labelRelPoint or DEFAULT_LABEL_ANCHOR
+    local relKey = self.useMask and self.CircleMask or self.Icon
+    local offsetX = self.labelOffsetX or DEFAULT_LABEL_OFFSET_X
+    local offsetY = self.labelOffsetY or DEFAULT_LABEL_OFFSET_Y
+    self.Label:ClearAllPoints()
+    if relPoint == "TOPLEFT" then
+        self.Label:SetPoint("TOPRIGHT", relKey, relPoint, offsetX, offsetY)
+    elseif relPoint == "TOPRIGHT" then
+        self.Label:SetPoint("TOPLEFT", relKey, relPoint, offsetX, offsetY)
+    elseif relPoint == "BOTTOMLEFT" then
+        self.Label:SetPoint("BOTTOMRIGHT", relKey, relPoint, offsetX, offsetY)
+    elseif relPoint == "BOTTOMRIGHT" then
+        self.Label:SetPoint("BOTTOMLEFT", relKey, relPoint, offsetX, offsetY)
+    elseif relPoint == "TOP" then
+        self.Label:SetPoint("BOTTOM", relKey, relPoint, offsetX, offsetY)
+    elseif relPoint == "BOTTOM" then
+        self.Label:SetPoint("TOP", relKey, relPoint, offsetX, offsetY)
+    elseif relPoint == "RIGHT" then
+        self.Label:SetPoint("LEFT", relKey, relPoint, offsetX, offsetY)
+        self.Label:SetJustifyH("LEFT")
+    elseif relPoint == "LEFT" then
+        self.Label:SetPoint("RIGHT", relKey, relPoint, offsetX, offsetY)
+    elseif relPoint == "CENTER" then
+        self.Label:SetPoint("CENTER", relKey, relPoint, offsetX, offsetY)
+    end
+
+    self:DisableInteraction()
+
+    -- Logger:Log("CustomActionWidget OnLoad finish")
+end
+
+---@param self CustomActionWidget
+function DelveCompanion_CustomActionWidgetMixin:OnShow()
+    -- Logger:Log("CustomActionWidget OnShow start")
+
+    self:RefreshWidget()
+end
+
+---@param self CustomActionWidget
+function DelveCompanion_CustomActionWidgetMixin:OnHide()
+    -- Logger:Log("CustomActionWidget OnHide start")
+end
+
+---@param self CustomActionWidget
+function DelveCompanion_CustomActionWidgetMixin:OnEnter()
+    local type, code = self.frameType, self.frameCode
+    if not (type and code) then
+        return
+    end
+
+    local tooltip = GameTooltip
+    tooltip:SetOwner(self, self.tooltipAnchor or DEFAULT_TOOLTIP_ANCHOR)
+
+    local codeTypes = DelveCompanion.Definitions.CodeType
+    if type == codeTypes.Item then
+        tooltip:SetItemByID(code)
+    elseif type == codeTypes.Spell then
+        tooltip:SetSpellByID(code)
+    elseif type == codeTypes.Currency then
+        tooltip:SetCurrencyByID(code)
+    elseif type == codeTypes.Achievement then
+        tooltip:SetHyperlink(GetAchievementLink(code))
+    elseif type == codeTypes.Toy then
+        tooltip:SetToyByItemID(code)
+    else
+        Logger:Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(codeTypes), type)
+    end
+
+    tooltip:Show()
+end
+
+---@param self CustomActionWidget
+function DelveCompanion_CustomActionWidgetMixin:OnLeave()
+    securecall(GameTooltip.Hide, GameTooltip)
+end
+
 --- Set `OnClick` script.
 ---@param self CustomActionWidget
 ---@param func function
@@ -74,6 +177,12 @@ end
 function DelveCompanion_CustomActionWidgetMixin:DisableInteraction()
     self.ClickCatcher:SetEnabled(false)
     self.InsecureAction:SetEnabled(false)
+end
+
+---@param self CustomActionWidget
+---@param desaturated boolean
+function DelveCompanion_CustomActionWidgetMixin:SetDesaturated(desaturated)
+    self.Icon:SetDesaturated(desaturated)
 end
 
 ---@param self CustomActionWidget
@@ -172,113 +281,20 @@ end
 
 ---@param self CustomActionWidget
 function DelveCompanion_CustomActionWidgetMixin:RefreshWidget()
+    self.Label:SetShown(self.displayLabel)
     self:UpdateIcon()
     self:UpdateCooldown()
 end
 
 ---@param self CustomActionWidget
-function DelveCompanion_CustomActionWidgetMixin:OnLoad()
-    -- Logger:Log("CustomActionWidget `%s` OnLoad start", self:GetName())
-
-    self.Icon:SetSize(self.iconSizeX, self.iconSizeY)
-    self.Label:SetShown(self.displayLabel)
-
-    if self.fontOverride then
-        self.Label:SetFontObject(self.fontOverride)
-    end
-
-    if self.useAutoScaling then
-        Mixin(self.Label, AutoScalingFontStringMixin)
-    end
-
-    if self.useMask then
-        -- TODO: DOESN'T WORK IN MIDNIGHT for some reason???
-
-        -- self.CircleMask:ClearAllPoints()
-        -- self.CircleMask:SetPoint("TOPLEFT", self, "CENTER", self.maskSizeOffset, -self.maskSizeOffset)
-        -- self.CircleMask:SetPoint("BOTTOMRIGHT", self, "CENTER", -self.maskSizeOffset, self.maskSizeOffset)
-        -- self.CircleMask:Show()
-        -- self.Icon:AddMaskTexture(self.CircleMask)
-
-        -- self.Cooldown:SetAllPoints(self.CircleMask)
-        -- self.InteractionBlockedOverlay:SetAllPoints(self.CircleMask)
-    end
-
-    ---@type FramePoint
-    local relPoint = self.labelRelPoint or DEFAULT_LABEL_ANCHOR
-    local relKey = self.useMask and self.CircleMask or self.Icon
-    local offsetX = self.labelOffsetX or DEFAULT_LABEL_OFFSET_X
-    local offsetY = self.labelOffsetY or DEFAULT_LABEL_OFFSET_Y
-    self.Label:ClearAllPoints()
-    if relPoint == "TOPLEFT" then
-        self.Label:SetPoint("TOPRIGHT", relKey, relPoint, offsetX, offsetY)
-    elseif relPoint == "TOPRIGHT" then
-        self.Label:SetPoint("TOPLEFT", relKey, relPoint, offsetX, offsetY)
-    elseif relPoint == "BOTTOMLEFT" then
-        self.Label:SetPoint("BOTTOMRIGHT", relKey, relPoint, offsetX, offsetY)
-    elseif relPoint == "BOTTOMRIGHT" then
-        self.Label:SetPoint("BOTTOMLEFT", relKey, relPoint, offsetX, offsetY)
-    elseif relPoint == "TOP" then
-        self.Label:SetPoint("BOTTOM", relKey, relPoint, offsetX, offsetY)
-    elseif relPoint == "BOTTOM" then
-        self.Label:SetPoint("TOP", relKey, relPoint, offsetX, offsetY)
-    elseif relPoint == "RIGHT" then
-        self.Label:SetPoint("LEFT", relKey, relPoint, offsetX, offsetY)
-        self.Label:SetJustifyH("LEFT")
-    elseif relPoint == "LEFT" then
-        self.Label:SetPoint("RIGHT", relKey, relPoint, offsetX, offsetY)
-    elseif relPoint == "CENTER" then
-        self.Label:SetPoint("CENTER", relKey, relPoint, offsetX, offsetY)
-    end
-
-    self:DisableInteraction()
-
-    -- Logger:Log("CustomActionWidget OnLoad finish")
-end
-
----@param self CustomActionWidget
-function DelveCompanion_CustomActionWidgetMixin:OnShow()
-    -- Logger:Log("CustomActionWidget OnShow start")
-
-    self:RefreshWidget()
-end
-
----@param self CustomActionWidget
-function DelveCompanion_CustomActionWidgetMixin:OnHide()
-    -- Logger:Log("CustomActionWidget OnHide start")
-end
-
----@param self CustomActionWidget
-function DelveCompanion_CustomActionWidgetMixin:OnEnter()
-    local type, code = self.frameType, self.frameCode
-    if not (type and code) then
-        return
-    end
-
-    local tooltip = GameTooltip
-    tooltip:SetOwner(self, self.tooltipAnchor or DEFAULT_TOOLTIP_ANCHOR)
-
-    local codeTypes = DelveCompanion.Definitions.CodeType
-    if type == codeTypes.Item then
-        tooltip:SetItemByID(code)
-    elseif type == codeTypes.Spell then
-        tooltip:SetSpellByID(code)
-    elseif type == codeTypes.Currency then
-        tooltip:SetCurrencyByID(code)
-    elseif type == codeTypes.Achievement then
-        tooltip:SetHyperlink(GetAchievementLink(code))
-    elseif type == codeTypes.Toy then
-        tooltip:SetToyByItemID(code)
+---@param colorData ItemQualityColorData
+function DelveCompanion_CustomActionWidgetMixin:DisplayBorderForQuality(colorData)
+    if colorData then
+        self.IconBorder:SetVertexColor(colorData.r, colorData.g, colorData.b)
+        self.IconBorder:Show()
     else
-        Logger:Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(codeTypes), type)
+        self.IconBorder:Hide()
     end
-
-    tooltip:Show()
-end
-
----@param self CustomActionWidget
-function DelveCompanion_CustomActionWidgetMixin:OnLeave()
-    GameTooltip:Hide()
 end
 
 --#region Xml annotations
@@ -286,6 +302,7 @@ end
 --- `DelveCompanionCustomActionWidgetTemplate`
 ---@class (exact) CustomActionWidgetXml : Frame
 ---@field Icon Texture
+---@field IconBorder Texture
 ---@field CircleMask MaskTexture
 ---@field InteractionBlockedOverlay Texture
 ---@field Label FontString

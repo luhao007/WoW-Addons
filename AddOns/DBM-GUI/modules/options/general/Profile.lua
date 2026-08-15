@@ -50,9 +50,6 @@ end
 copyProfile:SetScript("OnShow", function()
 	copyProfile.value = nil
 	copyProfile.text = nil
-	if copyProfile.mytype == "dropdown" then
-		_G[copyProfile:GetName() .. "Text"]:SetText("")
-	end
 end)
 
 local deleteProfileArea		= profilePanel:CreateArea(L.Area_DeleteProfile)
@@ -67,9 +64,6 @@ end
 deleteProfile:SetScript("OnShow", function()
 	deleteProfile.value = nil
 	deleteProfile.text = nil
-	if copyProfile.mytype == "dropdown" then
-		_G[deleteProfile:GetName() .. "Text"]:SetText("")
-	end
 end)
 
 local dualProfileArea		= profilePanel:CreateArea(L.Area_DualProfile)
@@ -91,13 +85,15 @@ local function actuallyImport(importTable)
 		LibStub("LibDBIcon-1.0"):Show("DBM")
 	end
 	DBT:SetOption("Skin", DBT.Options.Skin) -- Forces a hard update on bars.
-	DBM:AddMsg("Profile imported.")
+	DBM:AddMsg(L.ProfileImported)
 end
 
 local importExportProfilesArea = profilePanel:CreateArea(L.Area_ImportExportProfile)
 local importExportText = importExportProfilesArea:CreateText(L.ImportExportInfo, nil, true)
 local exportProfile = importExportProfilesArea:CreateButton(L.ButtonExportProfile, 120, 20, function()
 	DBM_GUI:CreateExportProfile({
+		payloadType = "Profile",
+		payloadVersion = 1,
 		DBM		= DBM.Options,
 		DBT		= DBT_AllPersistentOptions[_G["DBM_UsedProfile"]],
 		minimap	= DBM_MinimapIcon
@@ -120,10 +116,14 @@ local localeTable = {
 ---@class DBMImportProfileButton: DBMPanelButton
 local importProfile = importExportProfilesArea:CreateButton(L.ButtonImportProfile, 120, 20, function()
 	DBM_GUI:CreateImportProfile(function(importTable)
+		if type(importTable.DBM) ~= "table" or type(importTable.DBT) ~= "table" or type(importTable.minimap) ~= "table" then
+			DBM:AddMsg(L.ImportProfileFailed)
+			return false
+		end
 		local errors = {}
 		-- Check if voice pack missing
 		local activeVP = importTable.DBM.ChosenVoicePack2
-		if activeVP ~= "None" then
+		if not DBM:IsNoneValue(activeVP) then
 			if not DBM.VoiceVersions[activeVP] or (DBM.VoiceVersions[activeVP] and DBM.VoiceVersions[activeVP] == 0) then
 				if activeVP ~= "VEM" then
 					DBM:AddMsg(L.ImportVoiceMissing:format(activeVP))
@@ -137,7 +137,7 @@ local importProfile = importExportProfilesArea:CreateButton(L.ButtonImportProfil
 			"EventSoundWipe", "EventSoundEngage2", "EventSoundMusic", "EventSoundDungeonBGM", "RangeFrameSound1", "RangeFrameSound2"
 		}) do
 			local activeSound = importTable.DBM[soundSetting]
-			if type(activeSound) == "string" and activeSound:lower() ~= "none" and not DBM:ValidateSound(activeSound, true, true) then
+			if type(activeSound) == "string" and not DBM:IsNoneValue(activeSound) and not DBM:ValidateSound(activeSound, true, true) then
 				DBM:AddMsg(L.ImportErrorOn:format(L[localeTable[soundSetting]] or soundSetting))
 				tinsert(errors, soundSetting)
 			end
@@ -156,10 +156,77 @@ local importProfile = importExportProfilesArea:CreateButton(L.ButtonImportProfil
 		else
 			actuallyImport(importTable)
 		end
-	end)
+		return true
+	end, "Profile", 1)
 end)
 importProfile.myheight = 12
 importProfile:SetPoint("LEFT", exportProfile, "RIGHT", 2, 0)
+
+local function exportSpellRenameData()
+	local exportRenames = {}
+	if type(DBM.Options) == "table" and type(DBM.Options.SpellRenames) == "table" then
+		for spellId, rename in pairs(DBM.Options.SpellRenames) do
+			local normalizedSpellId = DBM:NormalizeSpellRenameKey(spellId)
+			local sanitizedRename = DBM:SanitizeSpellRename(rename)
+			local explicitClear = type(rename) == "string" and rename:match("^%s*$") ~= nil
+			if normalizedSpellId and (sanitizedRename or explicitClear) then
+				exportRenames[normalizedSpellId] = sanitizedRename or ""
+			end
+		end
+	end
+	return exportRenames
+end
+
+local function importSpellRenameData(importTable)
+	if type(importTable) ~= "table" then
+		return false
+	end
+	local importedRenames = {}
+	local sourceEntries, validEntries, invalidEntries = 0, 0, 0
+	for spellId, rename in pairs(importTable) do
+		sourceEntries = sourceEntries + 1
+		local normalizedSpellId = DBM:NormalizeSpellRenameKey(spellId)
+		local sanitizedRename = DBM:SanitizeSpellRename(rename)
+		local explicitClear = type(rename) == "string" and rename:match("^%s*$") ~= nil
+		if normalizedSpellId and (sanitizedRename or explicitClear) then
+			importedRenames[normalizedSpellId] = sanitizedRename or ""
+			validEntries = validEntries + 1
+		else
+			invalidEntries = invalidEntries + 1
+		end
+	end
+	if invalidEntries > 0 or (sourceEntries > 0 and validEntries == 0) then
+		DBM:AddMsg(L.ImportSpellRenamesFailed)
+		return false
+	end
+	if type(DBM.Options) ~= "table" then
+		DBM:AddMsg(L.ImportSpellRenamesFailed)
+		return false
+	end
+	if DBM:ReplaceSpellRenames(importedRenames) == false then
+		DBM:AddMsg(L.ImportSpellRenamesFailed)
+		return false
+	end
+	DBM:AddMsg(L.SpellRenamesImported)
+	C_Timer.After(0.05, function()
+		if DBM_GUI and DBM_GUI.UpdateModList then
+			DBM_GUI:UpdateModList()
+		end
+	end)
+	return true
+end
+
+local importExportSpellRenamesArea = profilePanel:CreateArea(L.Area_ImportExportSpellRenames)
+local importExportSpellRenamesText = importExportSpellRenamesArea:CreateText(L.ImportExportSpellRenamesInfo, nil, true)
+local exportSpellRenames = importExportSpellRenamesArea:CreateButton(L.ButtonExportSpellRenames, 160, 20, function()
+	DBM_GUI:CreateExportSpellRenames(exportSpellRenameData())
+end)
+exportSpellRenames:SetPoint("TOPLEFT", importExportSpellRenamesText, "BOTTOMLEFT", 0, -12)
+local importSpellRenames = importExportSpellRenamesArea:CreateButton(L.ButtonImportSpellRenames, 160, 20, function()
+	DBM_GUI:CreateImportSpellRenames(importSpellRenameData)
+end)
+importSpellRenames.myheight = 12
+importSpellRenames:SetPoint("LEFT", exportSpellRenames, "RIGHT", 2, 0)
 
 function Create()
 	if createTextbox:GetText() then
@@ -178,7 +245,7 @@ function Refresh()
 	table.wipe(profileDropdown)
 	for name, _ in pairs(DBM_AllSavedOptions) do
 		table.insert(profileDropdown, {
-			text	= name,
+			text	= DBM:GetLocalizedProfileName(name),
 			value	= name
 		})
 	end

@@ -1,83 +1,75 @@
-local addonName, addonTable = ...;
-local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
-local PIGFrame=Create.PIGFrame
-local PIGLine=Create.PIGLine
-local PIGButton = Create.PIGButton
-local PIGOptionsList=Create.PIGOptionsList
-local PIGCheckbutton_R=Create.PIGCheckbutton_R
-local PIGModCheckbutton=Create.PIGModCheckbutton
-local PIGQuickBut=Create.PIGQuickBut
-
-------
+local addonName, PD = ...;
 local TardisInfo = {}
-addonTable.TardisInfo=TardisInfo
-------------
-local QuickBut_ID=20
-local fuFrame,fuFrameBut,adddata = unpack(Data.Ext[addonName])
-if not adddata.open then return end
-fuFrame.IsOpenUpdate=nil
+PD.TardisInfo=TardisInfo
+local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
+local adddata=L.ExtList[addonName]
 local GnName,GnUI,FrameLevel = adddata.nameLocale,"PIG_TardisUI",30
-local GnIcon =PIG_MaxTocversion(30000) and PIG_MaxTocversion(20000,true) and "legioninvasion-map-icon-portal-large" or "groupfinder-eye-frame"
-TardisInfo.uidata={GnName,GnUI,GnIcon,FrameLevel,QuickBut_ID}
-Data.TardisUI=GnUI
-local QuickButUI=_G[Data.QuickButUIname]
-TardisInfo.fuFrame,TardisInfo.fuFrameBut=fuFrame,fuFrameBut
----
-
-function TardisInfo.ADD_Options()
+local GnIcon =132327
+TardisInfo.uidata={GnName,GnUI,GnIcon,FrameLevel,20}
+local tablists = {
+	{"Farm",L["TARDIS_FARM"]},
+	{"Plane",L["TARDIS_PLANE"]},
+	{"Yell",L["TARDIS_YELL"]},
+}
+if PIG_MaxTocversion(20000) then
+	table.insert(tablists,#tablists,{"Invite",GROUPS})
+end
+TardisInfo.tablists=tablists
+------------
+adddata.LoadFun=function()
+	TardisInfo.ADD_UI()
+end
+local UIfun_yijiazai
+adddata.Update_SetUI=function()
+	if adddata.open==false then return end
+	if UIfun_yijiazai then return end
+	UIfun_yijiazai=true
+	local fuFrame,fuFrameBut=unpack(adddata.SetUIData)
+	----
+	local PIGFrame=Create.PIGFrame
+	local PIGLine=Create.PIGLine
+	local PIGButton = Create.PIGButton
+	local PIGOptionsList=Create.PIGOptionsList
+	local PIGCheckbutton=Create.PIGCheckbutton
+	local PIGModCheckbutton=Create.PIGModCheckbutton
+	------
 	fuFrame.Open = PIGModCheckbutton(fuFrame,{GnName,Tooltip},{"TOPLEFT",fuFrame,"TOPLEFT",20,-20})
 	fuFrame.Open:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["Tardis"]["Open"]=true;
-			fuFrame.SetListF:Show()
 			TardisInfo.ADD_UI()
 		else
 			PIGA["Tardis"]["Open"]=false;
-			fuFrame.SetListF:Hide()
 			PIG_OptionsUI.RLUI:Show()
 		end
-		QuickButUI.ButList[QuickBut_ID]()
-		QuickButUI.ButList[QuickBut_ID+1]()
+		Fun.QuickBut_Update()
+		fuFrame.SetListF.Update_SetUI()
 	end);
 	fuFrame.Open.QKBut:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["Tardis"]["AddBut"]=true
-			QuickButUI.ButList[QuickBut_ID]()
 		else
 			PIGA["Tardis"]["AddBut"]=false
-			PIG_OptionsUI.RLUI:Show();
 		end
+		Fun.QuickBut_Update()
 	end);
-	QuickButUI.ButList[QuickBut_ID]=function()	
-		if PIGA["QuickBut"]["Open"] and PIGA["Tardis"]["Open"] and PIGA["Tardis"]["AddBut"] then
-			if QuickButUI.TardisOpen then return end
-			QuickButUI.TardisOpen=true
-			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF打开"..GnName.."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r"
-			local QkBut=PIGQuickBut(nil,QuickTooltip,GnIcon,GnUI,FrameLevel)
-			QkBut:HookScript("OnClick", function(self,button)
-				if button=="RightButton" then
-					if PIG_OptionsUI:IsShown() then
-						PIG_OptionsUI:Hide()
-					else
-						PIG_OptionsUI:Show()
-						Create.Show_TabBut(fuFrame,fuFrameBut)
-					end
-				end
-			end);
-		end
-	end
-	QuickButUI.ButList[QuickBut_ID]()
-	---重置配置
-	fuFrame.CZ = PIGButton(fuFrame,{"TOPRIGHT",fuFrame,"TOPRIGHT",-20,-20},{60,22},RESET);  
-	fuFrame.CZ:SetScript("OnClick", function ()
-		StaticPopup_Show ("HUIFU_INVITE_INFO");
+	fuFrame.Open:SetChecked(PIGA["Tardis"]["Open"])
+	fuFrame.Open.QKBut:SetChecked(PIGA["Tardis"]["AddBut"])
+	---------
+	fuFrame.SetListF = PIGFrame(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",0,-50})
+	fuFrame.SetListF:SetPoint("BOTTOMRIGHT",fuFrame,"BOTTOMRIGHT",0,0);
+	fuFrame.SetListF:PIGSetBackdrop(0)
+	---重置
+	fuFrame.SetListF.CZ = PIGButton(fuFrame.SetListF,{"BOTTOMRIGHT",fuFrame.SetListF,"TOPRIGHT",-20,10},{60,22},RESET);  
+	fuFrame.SetListF.CZ:SetScript("OnClick", function ()
+		StaticPopup_Show("PIGRESET_INVITE_INFO");
 	end);
-	StaticPopupDialogs["HUIFU_INVITE_INFO"] = {
-		text = "此操作将\124cffff0000重置\124r"..GnName.."所有配置，需重载界面。\n确定重置?",
+	StaticPopupDialogs["PIGRESET_INVITE_INFO"] = {
+		text = string.format(L["RELOADUI2"],GnName),
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
-			PIGA["Tardis"] = Default["Tardis"];
+			PIGA["Tardis"] = CopyTable(Default["Tardis"])
 			PIGA["Tardis"]["Open"] = true;
 			ReloadUI()
 		end,
@@ -85,24 +77,9 @@ function TardisInfo.ADD_Options()
 		whileDead = true,
 		hideOnEscape = true,
 	}
-	TardisInfo.ADD_UI()
-	---------
-	fuFrame.SetListline = PIGLine(fuFrame,"TOP",-66)
-	fuFrame.SetListF = PIGFrame(fuFrame)
-	fuFrame.SetListF:SetPoint("TOPLEFT",fuFrame.SetListline,"BOTTOMLEFT",0,0);
-	fuFrame.SetListF:SetPoint("BOTTOMRIGHT",fuFrame,"BOTTOMRIGHT",0,0);
 	--
-	local shelistx = {	
-		{"Chedui",L["TARDIS_CHEDUI"]},
-		{"Farm",L["TARDIS_FARM"]},
-		{"Plane",L["TARDIS_PLANE"]},
-		{"Yell",L["TARDIS_YELL"]},
-	}
-	if PIG_MaxTocversion(20000) then
-		table.insert(shelistx,#shelistx,{"Invite",GROUPS})
-	end
-	local function ADD_setckbut(peizhiV,txtV,Activate)
-		local SetListBut = PIGCheckbutton_R(fuFrame.SetListF,{ENABLE..txtV})
+	local function ADD_setckbut(peizhiV,txtV,i)
+		local SetListBut = PIGCheckbutton(fuFrame.SetListF,{"TOPLEFT",fuFrame.SetListF,"TOPLEFT",20,-40*(i-1)-20},{ENABLE..txtV})
 		SetListBut:SetScript("OnClick", function (self)
 			if self:GetChecked() then
 				PIGA["Tardis"][peizhiV]["Open"]=true
@@ -111,78 +88,18 @@ function TardisInfo.ADD_Options()
 			end
 			PIG_OptionsUI.RLUI:Show()
 		end);
-		SetListBut:HookScript("OnShow", function (self)
-			self:SetChecked(PIGA["Tardis"][peizhiV]["Open"])
-		end);
-		----
-		TardisInfo[peizhiV](Activate)
+		SetListBut:SetChecked(PIGA["Tardis"][peizhiV]["Open"])
 	end
-	for i=1,#shelistx do
-		if i==1 then
-			ADD_setckbut(shelistx[i][1],shelistx[i][2],true)
-		else
-			ADD_setckbut(shelistx[i][1],shelistx[i][2])
-		end
+	for i=1,#tablists do
+		ADD_setckbut(tablists[i][1],tablists[i][2],i)
 	end
-	-- if PIG_MaxTocversion() then
-	-- 	fuFrame.SetListF.cheduiLanguage = PIGFrame(fuFrame.SetListF)
-	-- 	fuFrame.SetListF.cheduiLanguage:SetPoint("BOTTOMLEFT",fuFrame.SetListF,"BOTTOMLEFT",0,0);
-	-- 	fuFrame.SetListF.cheduiLanguage:SetPoint("BOTTOMRIGHT",fuFrame.SetListF,"BOTTOMRIGHT",0,0);
-	-- 	fuFrame.SetListF.cheduiLanguage:SetHeight(260);
-	-- 	local enabled = C_LFGList.GetLanguageSearchFilter();
-	-- 	-- local languages = C_LFGList.GetAvailableLanguageSearchFilter();--系统过滤器选择列表
-	-- 	-- for k,v in pairs(languages) do
-	-- 	-- 	enabled[k] = true;
-	-- 	-- end
-	-- 	local defaults = C_LFGList.GetDefaultLanguageSearchFilter();--默认过滤
-	-- 	for k,v in pairs(defaults) do
-	-- 		enabled[k] = true;
-	-- 	end
-	-- 	enabled["enUS"] = true;
-	-- 	enabled["zhTW"] = true;
-	-- 	enabled["zhCN"] = true;
-	-- 	C_LFGList.SaveLanguageSearchFilter(enabled)
-	-- 	for k,v in pairs(enabled) do
-	-- 		local text = _G["LFG_LIST_LANGUAGE_"..string.upper(k)];
-	-- 		local langua = PIGCheckbutton_R(fuFrame.SetListF.cheduiLanguage,{text,text})
-	-- 		langua:Disable()
-	-- 		langua:SetChecked(v)
-	-- 		langua:SetScript("OnClick", function (self)
-	-- 			self:SetChecked(true)
-	-- 		end);
-	-- 	end
-	-- end
+	--======
+	function fuFrame.SetListF.Update_SetUI()
+		fuFrame.SetListF:SetShown(PIGA["Tardis"]["Open"])
+	end
+	fuFrame.SetListF.Update_SetUI()
 end
---======
-fuFrame:HookScript("OnShow", function (self)
-	if self.yiGenxing then
-		self.UpdateVer:Show()
-	end
-	self.Open:SetChecked(PIGA["Tardis"]["Open"])
-	self.Open.QKBut:SetChecked(PIGA["Tardis"]["AddBut"])
-	if PIGA["Tardis"]["Open"] then
-		self.SetListF:Show()
-	else
-		self.SetListF:Hide()
-	end
-end);
---===================================
-fuFrame:RegisterEvent("ADDON_LOADED")   
-fuFrame:RegisterEvent("PLAYER_LOGIN");
-fuFrame:RegisterEvent("CHAT_MSG_ADDON"); 
-fuFrame:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5)
-	if event=="CHAT_MSG_ADDON" then
-		PIG_OptionsUI.GetExtVerInfo(self,addonName,PIG_OptionsUI:GetVer_NUM(addonName), arg1, arg2, arg3, arg4, arg5)
-	elseif event=="PLAYER_LOGIN" then
-		PIG_OptionsUI.SendExtVerInfo(addonName.."#U#"..PIG_OptionsUI:GetVer_NUM(addonName),addonName,self)
-		TardisInfo.ADD_Options()
-	elseif event=="ADDON_LOADED" and arg1 == addonName then
-		self:UnregisterEvent("ADDON_LOADED")
-		addonTable.Load_Config()
-		PIG_OptionsUI:SetVer_EXT(arg1,self)
-	end
-end)
--------
+--============================
 function PIGCompartmentClick_Tardis()
 end
 function PIGCompartmentEnter_Tardis(addonName, menuButtonFrame)

@@ -3,6 +3,7 @@ local TardisInfo=addonTable.TardisInfo
 function TardisInfo.Farm(Activate)
 	if not PIGA["Tardis"]["Farm"]["Open"] then return end
 	local Create, Data, Fun, L= unpack(PIG)
+	local PlayerInfo=Data.PlayerInfo
 	local PIGFrame=Create.PIGFrame
 	local PIGEnter=Create.PIGEnter
 	local PIGLine=Create.PIGLine
@@ -13,7 +14,6 @@ function TardisInfo.Farm(Activate)
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
 	local InvF=_G[GnUI]
 	local pindao,hang_Height,hang_NUM,xuanzhongBG=InvF.pindao,InvF.hang_Height,InvF.hang_NUM,InvF.xuanzhongBG
-	local GetPIGID=Fun.GetPIGID
 	local gnindexID=3
 	local GetInfoMsg=Data.Tardis.GetMsg[gnindexID]
 	local shenqingMSG_T = Data.Tardis.SqMsg[gnindexID]
@@ -22,7 +22,7 @@ function TardisInfo.Farm(Activate)
 	local shenqingMSG = shenqingMSG_T..shenqingMSG_V;
 	local tihuankuohao=Fun.tihuankuohao
 	----
-	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_FARM"],80,"Bot")
+	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_FARM"],80)
 	if Activate then fujiF:Show() fujiTabBut:Selected(true) end
 	----------------------------------
 	fujiF.JieshouInfoList={};
@@ -38,7 +38,6 @@ function TardisInfo.Farm(Activate)
 			self:daojishiCDFUN()
 		else
 			InvF:PIGSendAddonMsg("Farm",fujiF,gnindexID)
-			self:CZdaojishi()
 		end
 	end);
 	fujiF.GetBut.daojishiJG=PIGA["Tardis"]["Farm"]["DaojishiCD"]
@@ -48,8 +47,8 @@ function TardisInfo.Farm(Activate)
 		fujiF.Update_hang()
 	end
 	-------------
-	fujiF.nr=PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",4,-60})
-	fujiF.nr:SetPoint("BOTTOMRIGHT", fujiF, "BOTTOMRIGHT", -4, 4);
+	fujiF.nr=PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",0,-60})
+	fujiF.nr:SetPoint("BOTTOMRIGHT", fujiF, "BOTTOMRIGHT", 0, 0);
 	fujiF.nr:PIGSetBackdrop()
 	local biaotiName={{"",0},{"LV",6},{"目的地",40},{"司机",240},{"乘客",360},{"详情",460},{"操作",800}}
 	for i=1,#biaotiName do
@@ -261,7 +260,7 @@ function TardisInfo.Farm(Activate)
 						if fujiF.yishenqingList[ItemsData[dangqian][2]] then
 							hangui.miyu:SetText("已发送");
 						else
-							if ItemsData[dangqian][2]==PIG_OptionsUI.Name then
+							if ItemsData[dangqian][2]==PlayerInfo.Name then
 								hangui.miyu:SetText("自己");
 							else
 								hangui.miyu:Enable()

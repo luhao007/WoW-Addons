@@ -69,7 +69,7 @@ local pluginOnEnter = nil;
 
 -- Used for drag and drop, assuming one can only drag one plugin :)
 local TITAN_PANEL_MOVE_ADDON = "";
-local TITAN_PANEL_DROPOFF_ADDON = "";
+--local TITAN_PANEL_DROPOFF_ADDON = "";
 local FROM_BAR_SHORT = ""
 
 -- Library instances
@@ -324,8 +324,15 @@ local function TitanPanelButton_SetTooltip(self)
 			-- Used by Titan auto hide to better determine which bar the 'pin' / icon is on.
 			self.plugin_id = id
 			self.plugin_frame = TitanUtils_ButtonName(id)
+
+			-- Tooltip method order : 
+			-- 1) LDB object OnEnter / OnLeave OVERRIDES!!! This routine will not be called.
+			-- 2) tooltipDisplayFrame
+			-- 3) tooltipTemplateFunction 
+			-- 4) tooltipCustomFunction
+			-- 5) tooltipTextFunction
 			if (plugin and plugin.tooltipDisplayFrame) then
-				-- 2026 Mar : Added from LDB to take advantage of Titan processing.
+				-- 2026 Mar : Added from LDB .tooltip to take advantage of Titan processing.
 				-- Plugin is expected to handle its frame!
 				-- Titan will position and show only!
 				-- Plugin must handle any timeout and any other features.
@@ -340,6 +347,7 @@ local function TitanPanelButton_SetTooltip(self)
 				plugin.tooltipDisplayFrame:Show() -- now show it
 			elseif (plugin and plugin.tooltipTemplateFunction) then
 				-- 2026 Mar Added to pass a tooltip frame to a plugin as an explicit agreement.
+				-- Combines the Titan tooltip and LDB OnTooltipShow
 				-- This acts as Blizz GameTooltip so plugin can 'add line' etc.
 
 				-- Hide the Titan Tooltip in case it is open.
@@ -365,7 +373,7 @@ local function TitanPanelButton_SetTooltip(self)
 				-- changing GameTooltip for custom tooltips creates a hybrid mess...
 
 				-- This should be treated as deprecated as of 2026 Mar.
-				-- It is left so older plugins will work - but they error as of Midnight (12.0.0)
+				-- It is left so older plugins will work - but they can error as of Midnight (12.0.0)
 				-- Use tooltipTemplateFunction instead!
 				local custom_f = GameTooltip
 				SetPanelTooltip(self, id, custom_f);
@@ -582,6 +590,7 @@ local function TitanPanelButton_OnDragStop(self)
 		local bar
 		local tbar = "" -- bar short name
 		local fbar = TitanGetVar(plugin_id, "ForceBar")
+		local gbar = _G[bar]
 
 		str = "_OnDragStop "
 			.. " " .. tostring(plugin_id) .. ""
@@ -590,7 +599,8 @@ local function TitanPanelButton_OnDragStop(self)
 			-- Find which bar it was dropped on
 			for idx, v in pairs(TitanBarData) do
 				bar = idx
-				if (bar and MouseIsOver(_G[bar])) then
+--				if (bar and MouseIsOver(_G[bar])) then
+				if (bar and gbar:MouseIsOver()) then
 					tbar = TitanBarData[bar].name
 				end
 			end
@@ -711,14 +721,11 @@ function TitanPanelButton_OnClick(self, button)
 					rel_point = "TOP"
 				end
 
-				local x = 0
-				local y = 0
-
 				controlFrame:ClearAllPoints();
 				controlFrame:SetPoint(point .. "LEFT", parent, rel_point, 0, 0) -- default left of plugin
 
 				-- Adjust control frame position if it's off the screen
-				local offscreenX, offscreenY = TitanUtils_GetOffscreen(controlFrame);
+				local offscreenX = TitanUtils_GetOffscreen(controlFrame);
 				if (offscreenX == -1) then
 					-- Off to left of screen which should not happen...
 				elseif (offscreenX == 1) then
@@ -1033,7 +1040,7 @@ local function TitanPanelButton_SetComboButtonWidth(id, setButtonWidth)
 		local twid = text:GetWidth()
 		local bwid = button:GetWidth()
 
-		local iconWidth, iconButtonWidth, newButtonWidth;
+		local iconButtonWidth, newButtonWidth;
 
 		-- Get icon button width
 		iconButtonWidth = 0;
@@ -1144,7 +1151,8 @@ function TitanPanelPluginHandle_OnUpdate(table, oldarg)
 
 		if (updateType == TITAN_PANEL_UPDATE_TOOLTIP
 				or updateType == TITAN_PANEL_UPDATE_ALL)
-			and MouseIsOver(_G[TitanUtils_ButtonName(id)]) then
+			and (_G[TitanUtils_ButtonName(id)]:IsMouseOver()) then
+--			and MouseIsOver(_G[TitanUtils_ButtonName(id)]) then
 			TitanPanelButton_SetTooltip(_G[TitanUtils_ButtonName(id)])
 		end
 	end
@@ -1307,80 +1315,23 @@ end
 -- Set tool tip scripts
 -- OnUpdate starts as soon as OnShow is done...
 local tt_frame = TitanPanelTooltip
-local tt_init_timeout = .5
-
---[===[ GameTooltip does not stay if cursor moves off plugin...
-tt_frame:SetScript("OnShow", function(self)
-	local time_out = TitanPanelGetVar("TooltipTimeout")
-	local dbg_msg = "OnShow"
-		.. " timeout: " .. tostring(time_out) .. ""
-		.. " USING:  " .. tostring(tt_init_timeout) .. ""
-		.. " isCounting: " .. tostring(self.isCounting) .. ""
-		.. " timer: " .. tostring(self.frameTimer) .. ""
-		.. " plugin: " .. tostring(self.registry_id) .. ""
-		.. " plugin_frame: " .. tostring(self.plugin_frame_str) .. ""
-	Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
-
-	-- OnShow will start the OnUpdate.
-	-- If user enters plugin, the tooltip will show
-	-- BUT if the user never enters the tooltip, it will keep showing because
-	-- the OnLeave did not kick the timer.
-	TitanUtils_StartFrameCounting(self, tt_init_timeout)
-end)
-tt_frame:SetScript("OnEnter", function(self)
-	local time_out = TitanPanelGetVar("TooltipTimeout")
-
-	local dbg_msg = "OnEnter"
-		.. " timeout: " .. tostring(time_out) .. ""
-		.. " isCounting: " .. tostring(self.isCounting) .. ""
-		.. " timer: " .. tostring(self.frameTimer) .. ""
-	Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
-
-	TitanUtils_StopFrameCounting(self)
-end)
-tt_frame:SetScript("OnLeave", function(self)
-	local time_out = TitanPanelGetVar("TooltipTimeout")
-
-	local dbg_msg = "OnLeave"
-		.. " timeout: " .. tostring(time_out) .. ""
-		.. " isCounting: " .. tostring(self.isCounting) .. ""
-		.. " timer: " .. tostring(self.frameTimer) .. ""
-	Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
-
-	if time_out < 0.1 then
-		tt_frame:Hide() -- hide right away
-	else
-		TitanUtils_StartFrameCounting(self, time_out)
-	end
-end)
---]===]
 
 local debug_over = false
 local debug_over_new = false
 tt_frame:SetScript("OnUpdate", function(self, elapsed)
-	local time_out = TitanPanelGetVar("TooltipTimeout")
-
-	--[[ -- Be VERY careful enabling this debug :)
-	local dbg_msg = "TT OnUpdate"
-		.. " timeout: " .. tostring(time_out) .. ""
-		.. " isCounting: " .. tostring(self.isCounting) .. ""
-		.. " timer: " .. tostring(self.frameTimer) .. ""
-	--Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
-	if self.isCounting == nil then
-		Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
-	elseif self.frameTimer <= 0.01 then
-		Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
-	else
-	end
-	--]]
-
 	-- Keep tooltip open as long as the curser stays over plugin 
 	local is_over = self.plugin_frame:IsMouseOver()
 	if is_over then
 		TitanUtils_StopFrameCounting(self)
 		debug_over_new = true
 	else
-		TitanUtils_CheckFrameCounting(self, elapsed);
+		local status = TitanUtils_CheckFrameCounting(self, elapsed)
+		if status == "Active" then
+			-- counting down
+		else
+			-- should catch all the edge cases
+			self:Hide()
+		end
 		debug_over = false
 	end
 

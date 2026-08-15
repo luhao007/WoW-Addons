@@ -1,36 +1,37 @@
-local _, addonTable = ...;
-local L=addonTable.locale
-local Data=addonTable.Data
+local _, PD = ...;
+local L=PD.locale
+local Data=PD.Data
+local PlayerInfo=Data.PlayerInfo
 local Quality = Data.Quality
+local bagIDMax= Data.bagData["bagIDMax"]
 --
-local Fun=addonTable.Fun
+local Fun=PD.Fun
 
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
 local PIGDiyBut=Create.PIGDiyBut
 local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
-local PIGModbutton=Create.PIGModbutton
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local Show_TabBut_R=Create.Show_TabBut_R
 --
-local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local IsUsableItem=IsUsableItem or C_Item and C_Item.IsUsableItem
-local bagIDMax= addonTable.Data.bagData["bagIDMax"]
----
-local BusinessInfo=addonTable.BusinessInfo
-local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
-local Width,Height,biaotiH  = 340, 550, 21;
---父框架
-function BusinessInfo.AutoSellBuy_ADDUI(QuickButUI_index)
-	if not PIGA["AutoSellBuy"]["Open"] then return end
-	if _G[GnUI] then return end	
-	PIGModbutton(GnName,GnIcon,GnUI,FrameLevel)
 
+---
+local BusinessInfo=PD.BusinessInfo
+local Width,Height,biaotiH  = 340, 550, 21;
+local GnName,GnUI,FrameLevel,QuickButUI_index = L["TRADESELLBUY_TABNAME"],"PIG_AutoSellBuy",20,10
+local GnIcon =PIG_MaxTocversion(30000) and PIG_MaxTocversion(20000,true) and 132836 or 134152
+BusinessInfo.uiData={GnName,GnUI,GnIcon,FrameLevel,QuickButUI_index}
+--父框架
+function BusinessInfo.add_AutoSellBuyUI()
+	if not PIGA["AutoSellBuy"]["Open"] then return end
+	if _G[GnUI] then return end
+	Create.PIGModbutton(GnName,GnIcon,GnUI,FrameLevel)
 	local SellBuy=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,100},{Width, Height},GnUI,true)
 	SellBuy:PIGSetBackdrop()
 	SellBuy:PIGClose()
@@ -50,24 +51,65 @@ function BusinessInfo.AutoSellBuy_ADDUI(QuickButUI_index)
 	BusinessInfo.FastSave()
 end
 function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
-	local function GetConfigRef()
+	local function IsChognfu_2(old,newv)
+		local yiyang=true
+		for i=1,#old do
+			if old[i]~=newv[i] then
+				yiyang=false
+				break
+			end		
+		end
+		return yiyang
+	end
+	local function IsChognfu_1(cddatax,newv)
+		for i=1,#cddatax do
+			if IsChognfu_2(cddatax[i],newv) then
+				return true
+			end
+		end
+		return false
+	end
+	local function SaveData_1(cddatax,lydata,AppendOpen)
+		if AppendOpen then
+			for i=1,#lydata do
+				if not IsChognfu_1(cddatax,lydata[i]) then
+					table.insert(cddatax,lydata[i])
+				end
+			end
+			return cddatax
+		else
+			return lydata
+		end
+	end
+	local function GetConfigRef(lydata,AppendOpen)
 		if hangName=="Buy" or hangName=="Save" or hangName=="Take" then
 			if hangName=="Buy" and PIGA["AutoSellBuy"][hangName.."_Class"] then
-			local classId = PIG_OptionsUI.ClassData.classId
-			PIGA["AutoSellBuy"][hangName.."_List"][classId] = PIGA["AutoSellBuy"][hangName.."_List"][classId] or {}
-			return PIGA["AutoSellBuy"][hangName.."_List"][classId]
+				local classId = PlayerInfo.ClassData.classId
+				PIGA["AutoSellBuy"][hangName.."_List"][classId] = PIGA["AutoSellBuy"][hangName.."_List"][classId] or {}
+				if lydata then
+					PIGA["AutoSellBuy"][hangName.."_List"][classId]=SaveData_1(PIGA["AutoSellBuy"][hangName.."_List"][classId],lydata,AppendOpen)
+				else
+					return PIGA["AutoSellBuy"][hangName.."_List"][classId]
+				end
 			else
-				return PIGA_Per["AutoSellBuy"][hangName.."_List"]
+				if lydata then
+					PIGA_Per["AutoSellBuy"][hangName.."_List"]=SaveData_1(PIGA_Per["AutoSellBuy"][hangName.."_List"],lydata,AppendOpen)
+				else
+					return PIGA_Per["AutoSellBuy"][hangName.."_List"]
+				end
 			end
 		else
-			return PIGA["AutoSellBuy"][hangName.."_List"]
+			if lydata then
+				PIGA["AutoSellBuy"][hangName.."_List"]=SaveData_1(PIGA["AutoSellBuy"][hangName.."_List"],lydata,AppendOpen)
+			else
+				return PIGA["AutoSellBuy"][hangName.."_List"]
+			end
 		end
 	end
 	fuFrame.GetConfigRef=GetConfigRef
+
 	local FiltraConfig0 = PIGA["AutoSellBuy"][hangName.."_Lsit_Filtra"]
-
 	local Width,hang_Height,addBag_hang_NUM = fuFrame:GetWidth()-12,24,19
-
 	local function IsItemExist(Conf,idx)
 		for ix=1,#Conf do
 			if idx==Conf[ix][1] then
@@ -81,13 +123,13 @@ function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
 		local itemLink=Fun.GetItemLinkJJ(itemLink)
 		if fuFrame.List.addList.lx=="filtra" and ly~="Cursor" then
 			if IsItemExist(FiltraConfig0,itemID) then
-				PIG_OptionsUI:ErrorMsg(L["TRADESELLBUY_ERROR1"],"R");
+				PIGErrorMsg(L["TRADESELLBUY_ERROR1"],"R");
 				return false
 			end
 			table.insert(FiltraConfig0,1,{itemID,itemLink,itemTexture,itemStackCount,itemStackCount,false})
 		else
 			if IsItemExist(Config0,itemID) then
-				PIG_OptionsUI:ErrorMsg(string.format(L["TRADESELLBUY_ERROR2"],Title),"R");
+				PIGErrorMsg(string.format(L["TRADESELLBUY_ERROR2"],Title),"R");
 				return false
 			end
 			table.insert(Config0,1,{itemID,itemLink,itemTexture,itemStackCount,itemStackCount,false})
@@ -164,11 +206,14 @@ function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
 	fuFrame.List:PIGSetBackdrop()
 	fuFrame.List.chu = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame.List,"TOPLEFT",0,4},{44,20},L["CONFIG_DAOCHU"]);
 	fuFrame.List.chu:SetScript("OnClick", function(self)
-		Fun.Config_CHU(self,GetConfigRef())
+		Fun.Config_CHU("SellBuy",GetConfigRef())
 	end)
 	fuFrame.List.ru = PIGButton(fuFrame,{"LEFT",fuFrame.List.chu,"RIGHT",4,0},{44,20},L["CONFIG_DAORU"]);
 	fuFrame.List.ru:SetScript("OnClick", function(self)
-		Fun.Config_RU(self,Config1)
+		Fun.Config_RU("SellBuy",function(lydata,Append)
+			GetConfigRef(lydata,Append)
+			fuFrame.UpdateListHang()
+		end)
 	end)
 	fuFrame.List.biaoti = PIGFontString(fuFrame.List,{"BOTTOM", fuFrame.List, "TOP", 0, 6},string.format(L["TRADESELLBUY_TITLE1"],Title))
 	fuFrame.List.addBag = PIGButton(fuFrame,{"BOTTOMRIGHT",fuFrame.List,"TOPRIGHT",0,4},{44,20},ADD);
@@ -291,7 +336,7 @@ function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
 					if jieguo then
 						InsertItemData(NewVVV,itemLink,itemTexture,itemStackCount)
 					else
-						PIG_OptionsUI:ErrorMsg(errtishi,"R") 
+						PIGErrorMsg(errtishi,"R") 
 					end	
 				end
 			end
@@ -356,7 +401,7 @@ function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
 			fuFrame.List.addList.filtraTips:Hide()
 			fuFrame.List.addList.addall:SetText(L["TRADESELLBUY_ADDALL"])
 			for bag=0,bagIDMax do
-				local NumSlots=GetContainerNumSlots(bag)
+				local NumSlots=PIGGetContainerNumSlots(bag)
 				for slot=1,NumSlots do
 					local itemID, itemLink, icon, _,quality = PIGGetContainerItemInfo(bag, slot)
 					if itemID and itemID~=6948 then
@@ -364,7 +409,7 @@ function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
 							local itemStackCount, itemEquipLoc, itemTexture,sellPrice,classID,subclassID= select(8, GetItemInfo(itemLink))
 							local jieguo = IsItemMay(false,itemLink,quality,sellPrice,classID,subclassID,bag, slot)
 							if jieguo then
-								local ItemLevel = GetDetailedItemLevelInfo(itemLink)
+								local ItemLevel = PIGGetDetailedItemLevelInfo(itemLink)
 								table.insert(bagshujuy,{itemID,itemLink,icon,itemStackCount,itemStackCount,false,ItemLevel})
 							end
 						end
@@ -475,7 +520,7 @@ function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
 		hang.item.link = PIGFontString(hang,{"LEFT", hang.item, "LEFT", hang_Height+4,0})
 		function hang.item:ShowInfoFun(itemLink)
 			self.itemLink=itemLink
-			local ItemLevel = GetDetailedItemLevelInfo(itemLink)
+			local ItemLevel = PIGGetDetailedItemLevelInfo(itemLink)
 			local ItemLevel=ItemLevel or "*"
 			self.link:SetText(ItemLevel..itemLink);	
 		end
@@ -588,7 +633,7 @@ function BusinessInfo.ADDScroll(fuFrame,Title,hangName,hang_NUM,Config1)
 		if jieguo then
 			InsertItemData(chazhaowupinID,itemLink,itemTexture,itemStackCount,"Cursor")
 		else
-			PIG_OptionsUI:ErrorMsg(errtishi,"R") 
+			PIGErrorMsg(errtishi,"R") 
 		end	
 		chazhaowupinID = nil
 		chazhaowupinlink = nil

@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: geligasi
-## Version: 1.73
+## Version: 1.81
 
 ## Title: !Pig_GDKP
 ## Notes: GDKP Assistant
@@ -29,5 +29,5 @@ Tops.lua
 RaidInfo.lua
 FenG.lua
 History.lua
-Check.lua
+Tool.lua
 TradeInfo.lua

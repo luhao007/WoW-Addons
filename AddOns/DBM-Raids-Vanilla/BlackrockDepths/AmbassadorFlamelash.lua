@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr"
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(226302)
 mod:SetEncounterID(3047)
@@ -26,19 +26,19 @@ mod:RegisterEventsInCombat(
 or (ability.id = 464379 or ability.id = 470330) and type = "begincast"
 --]]
 local warnMagmaInfusion						= mod:NewCountAnnounce(470164, 2)
-local warnMagmaSweep						= mod:NewCountAnnounce(464379, 3, nil, nil, nil ,nil, nil, 17)
+local warnMagmaSweep						= mod:NewCountAnnounce(464379, 3, nil, nil, nil, nil, nil, 17)
 local warnSummonFirestarters				= mod:NewCountAnnounce(470244, 3)
 local warnExplosiveDemise					= mod:NewCastAnnounce(470330, 4)
 local warnAnchorsRemaining					= mod:NewAddsLeftAnnounce(464771, 2)
 
-local specWarnCremate						= mod:NewSpecialWarningMoveTo(470203, nil, nil, nil, 1, 2)
+local specWarnCremate						= mod:NewSpecialWarningMoveTo(470203, nil, nil, nil, 1, 2, nil, nil, "helpsoak")
 local yellCremate							= mod:NewShortYell(470203)
 local yellCremateFades						= mod:NewShortFadesYell(470203)
-local specWarnFlamelash						= mod:NewSpecialWarningTaunt(470207, nil, nil, nil, 1, 2)
+local specWarnFlamelash						= mod:NewSpecialWarningTaunt(470207, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 local yellSweep								= mod:NewShortYell(464379, DBM_COMMON_L.FRONTAL)
-local specWarnFixate						= mod:NewSpecialWarningYou(464981, nil, nil, nil, 1, 2)
-local specWarnSummonFlamewalker				= mod:NewSpecialWarningSwitchCount(464378, "-Healer", nil, nil, 1, 2)
-local specWarnPortalAnchors					= mod:NewSpecialWarningSwitchCount(464771, nil, nil, nil, 1, 2)
+local specWarnFixate						= mod:NewSpecialWarningYou(464981, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnSummonFlamewalker				= mod:NewSpecialWarningSwitchCount(464378, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnPortalAnchors					= mod:NewSpecialWarningSwitchCount(464771, nil, nil, nil, 1, 2, nil, nil, "targetchange")
 
 local timerCremateCD						= mod:NewCDCountTimer(33, 470203, DBM_COMMON_L.GROUPSOAK.." (%s)", nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerMagmaInfusionCD					= mod:NewCDCountTimer(33, 470164, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)

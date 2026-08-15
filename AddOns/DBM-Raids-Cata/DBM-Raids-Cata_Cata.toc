@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r259
+## Version: r262
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (Cata)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C大地的裂变|r
@@ -27,7 +27,7 @@
 ## X-DBM-Mod-Name-ruRU: Рейды (Катаклизм)
 ## X-DBM-Mod-Sort: 801
 ## X-DBM-Mod-MapID: 967,720,951,754,671,669,757
-## X-DBM-Mod-MinCoreRevision: 20230525000000
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 3
 ## X-Curse-Project-ID: 43971
 ## X-WoWI-ID: 21469

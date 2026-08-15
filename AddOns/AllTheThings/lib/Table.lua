@@ -69,6 +69,44 @@ app.TableConcat = function(tbl, field, def, sep, i, j)
 	end
 	return "";
 end
+-- Performs table.concat(tbl, sep, i, j) on the given array, but safely handles concat manually if any values are secrets
+-- Currently table.concat will throw an exception if tbl contains any secrets values, but repeated use of .. is acceptable
+app.TableConcatWithSecrets = function(tbl, sep, i, j)
+	if tbl then
+		sep = sep or ""
+		-- testing /dump ATTC.TableConcatWithSecrets({secretwrap(1,2,3)}," : ")
+		if issecrettable(tbl) then
+			app.PrintDebug("table is secret??")
+			app.PrintTable(tbl)
+		else
+			-- if any value is a secret, table.concat fails
+			local issecret
+			local issecretvalue = issecretvalue
+			for i=1,#tbl do
+				if issecretvalue(tbl[i]) then
+					issecret = true
+					break
+				end
+			end
+			if issecret then
+				local s = ""
+				local c = #tbl
+				if c == 0 then return s end
+				if c == 1 then return tbl[1] end
+				local last = tbl[c]
+				c = c - 1
+				for i=1,c do
+					s = s..tbl[i]..sep
+				end
+				s = s..last
+				return s
+			else
+				return table_concat(tbl, sep, i, j)
+			end
+		end
+	end
+	return ""
+end
 -- Concats all the key/value pairs in the table into a string
 app.StringifyTable = function(tbl, sep)
 	if tbl then
@@ -98,6 +136,48 @@ app.ArrayAppend = function(a1, ...)
 		end
 	end
 	return a1;
+end
+-- Allows efficiently appending the unique content of multiple arrays (in sequence) onto the end of the provided array, or new empty array
+app.ArrayAppendDistinct = function(a1, ...)
+	local arrs = select("#", ...)
+	if arrs > 0 then
+		a1 = a1 or {}
+		-- either simply use contains checks for small counts or a temp hash table check
+		if #a1 > 200 then
+			local h = {}
+			for i=1,#a1 do
+				h[a1[i]] = true
+			end
+			local a, b
+			for n=1,arrs do
+				a = select(n, ...)
+				if a then
+					for ai=1,#a do
+						b = a[ai]
+						if not h[b] then
+							h[b] = true
+							a1[#a1 + 1] = b
+						end
+					end
+				end
+			end
+		else
+			local a, b
+			local contains = app.contains
+			for n=1,arrs do
+				a = select(n, ...)
+				if a then
+					for ai=1,#a do
+						b = a[ai]
+						if not contains(a1, b) then
+							a1[#a1 + 1] = a[ai]
+						end
+					end
+				end
+			end
+		end
+	end
+	return a1
 end
 -- Allows for returning a reversed array. Will do nothing for un-ordered tables or tables with a single entry
 app.ReverseOrder = function(a)
@@ -157,3 +237,18 @@ app.CountTable = function(a)
     end
     return c
 end
+app.UnpackTable = function(t,withKeys)
+    local tmp = {}
+	local tostring = tostring
+	if withKeys then
+		for k,v in next,t do
+			tmp[#tmp+1] = tostring(k)..":"..tostring(v)
+		end
+	else
+		for _,v in next,t do
+			tmp[#tmp+1] = v
+		end
+	end
+    return unpack(tmp)
+end
+

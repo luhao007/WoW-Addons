@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1829, "DBM-Raids-Legion", 4, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260525233100")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(114537)
 mod:SetEncounterID(2008)
@@ -36,23 +36,26 @@ or (ability.id = 228300 or ability.id = 228300) and type = "removebuff" or abili
 --TODO, more work with Corrupted Axion and Dark Hatred?
 --Stage One: Low Tide
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
+DBM:RegisterAltSpellName(227967, 21131)--Bilewater Breath -> tank breath shortname
+DBM:RegisterAltSpellName(228565, 21131)--Corrupted Breath -> tank breath shortname
+
 local warnOrbOfCorruption			= mod:NewTargetAnnounce(229119, 3)
 local warnTaintOfSea				= mod:NewTargetAnnounce(228054, 2)
 
-local specWarnOrbOfCorruption		= mod:NewSpecialWarningYou(229119, nil, nil, nil, 1, 5)
+local specWarnOrbOfCorruption		= mod:NewSpecialWarningYou(229119, nil, nil, nil, 1, 5, nil, nil, "orbrun")
 local yellOrbOfCorruption			= mod:NewShortPosYell(229119)
-local specWarnTaintofSeaPre			= mod:NewSpecialWarningYou(228088, "false", nil, nil, 1, 2)
-local specWarnTaintofSea			= mod:NewSpecialWarningDodge(228088, nil, nil, nil, 1, 2)
+local specWarnTaintofSeaPre			= mod:NewSpecialWarningYou(228088, "false", nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnTaintofSea			= mod:NewSpecialWarningDodge(228088, nil, nil, nil, 1, 2, nil, nil, "watchstep")
 local yellTaint						= mod:NewShortPosYell(228088, nil, false)
-local specWarnBilewaterBreath		= mod:NewSpecialWarningCount(227967, nil, nil, nil, 2, 2)
-local specWarnBilewaterRedox		= mod:NewSpecialWarningTaunt(227982, nil, nil, nil, 1, 2)
-local specWarnBilewaterCorrosion	= mod:NewSpecialWarningMove(227998, nil, nil, nil, 1, 2)
-local specWarnBilewaterSlimes		= mod:NewSpecialWarningSwitch("ej14217", "Dps", nil, nil, 1, 2)
+local specWarnBilewaterBreath		= mod:NewSpecialWarningCount(227967, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
+local specWarnBilewaterRedox		= mod:NewSpecialWarningTaunt(227982, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnBilewaterCorrosion	= mod:NewSpecialWarningMove(227998, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnBilewaterSlimes		= mod:NewSpecialWarningSwitch(-14217, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
 local specWarnTentacleStrike		= mod:NewSpecialWarningTarget(228730, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.spell:format(228730), nil, 2)
 
-local timerOrbOfCorruptionCD		= mod:NewNextTimer(25, 229119, "OrbsTimerText", nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 4)
+local timerOrbOfCorruptionCD		= mod:NewNextTimer(25, 229119, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 4)
 local timerTaintOfSeaCD				= mod:NewCDTimer(14.5, 228088, nil, nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)
-local timerBilewaterBreathCD		= mod:NewNextCountTimer(40, 227967, 21131, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)--On for everyone though so others avoid it too
+local timerBilewaterBreathCD		= mod:NewNextCountTimer(40, 227967, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)--On for everyone though so others avoid it too
 local timerTentacleStrikeCD			= mod:NewNextCountTimer(30, 228730, nil, nil, nil, 5)
 local timerTentacleStrike			= mod:NewCastSourceTimer(6, 228730, nil, nil, nil, 5)
 local timerExplodingOozes			= mod:NewCastTimer(20.5, 227992, nil, nil, nil, 2, nil, DBM_COMMON_L.DAMAGE_ICON, nil, 1, 4)
@@ -62,18 +65,18 @@ mod:AddSetIconOption("SetIconOnOrbs", 229119, true)--Healer (Star), Tank (Circle
 --Stage Two: From the Mists (65%)
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
-local warnTentaclesRemaining		= mod:NewAddsLeftAnnounce("ej14309", 2, 228797)
+local warnTentaclesRemaining		= mod:NewAddsLeftAnnounce(-14309, 2, 228797)
 local warnFetidRot					= mod:NewTargetAnnounce(193367, 3)
 local warnMistInfusion				= mod:NewCastAnnounce(228854, 4, nil, nil, false)
 
 local specWarnFuryofMaw				= mod:NewSpecialWarningCount(228032, nil, nil, nil, 2)
-local specWarnGrimeLord				= mod:NewSpecialWarningSwitch("ej14263", "Tank", nil, nil, 1, 2)
-local specWarnSludgeNova			= mod:NewSpecialWarningRun(228390, "Melee", nil, nil, 4, 3)
-local specWarnFetidRot				= mod:NewSpecialWarningMoveAway(193367, nil, nil, nil, 1, 2)
+local specWarnGrimeLord				= mod:NewSpecialWarningSwitch(-14263, "Tank", nil, nil, 1, 2, nil, nil, "bigmob")
+local specWarnSludgeNova			= mod:NewSpecialWarningRun(228390, "Melee", nil, nil, 4, 3, nil, nil, "runout")
+local specWarnFetidRot				= mod:NewSpecialWarningMoveAway(193367, nil, nil, nil, 1, 2, nil, nil, "range5")
 local yellFetidRot					= mod:NewFadesYell(193367)
-local specWarnAnchorSlam			= mod:NewSpecialWarningTaunt(228519, nil, nil, nil, 1, 2)
+local specWarnAnchorSlam			= mod:NewSpecialWarningTaunt(228519, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 local specWarnLanternofDarkness		= mod:NewSpecialWarningSpell(228619, nil, nil, nil, 2, 2)
-local specWarnGiveNoQuarter			= mod:NewSpecialWarningDodge(228633, nil, nil, nil, 1, 2)
+local specWarnGiveNoQuarter			= mod:NewSpecialWarningDodge(228633, nil, nil, nil, 1, 2, nil, nil, "watchstep")
 
 local timerFuryofMaw				= mod:NewBuffActiveTimer(32, 228032, nil, nil, nil, 2)
 local timerFuryofMawCD				= mod:NewNextCountTimer(44.5, 228032, nil, nil, nil, 2)
@@ -92,11 +95,11 @@ local warnDarkHatred				= mod:NewTargetAnnounce(232488, 3)
 local warnOrbOfCorrosion			= mod:NewTargetAnnounce(230267, 3)
 
 local specWarnCorruptedBreath		= mod:NewSpecialWarningCount(228565, nil, nil, nil, 2)
-local specWarnOrbOfCorrosion		= mod:NewSpecialWarningYou(230267, nil, nil, nil, 1, 5)
+local specWarnOrbOfCorrosion		= mod:NewSpecialWarningYou(230267, nil, nil, nil, 1, 5, nil, nil, "orbrun")
 local yellOrbOfCorrosion			= mod:NewShortPosYell(230267)
 
-local timerCorruptedBreathCD		= mod:NewCDCountTimer(40, 228565, 21131, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
-local timerOrbOfCorrosionCD			= mod:NewNextTimer(17, 230267, "OrbsTimerText", nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 4)
+local timerCorruptedBreathCD		= mod:NewCDCountTimer(40, 228565, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerOrbOfCorrosionCD			= mod:NewNextTimer(17, 230267, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 4)
 local berserkTimer					= mod:NewBerserkTimer(660)
 
 local seenMobs = {}

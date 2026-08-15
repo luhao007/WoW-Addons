@@ -5,37 +5,46 @@
 
 ---@diagnostic disable: undefined-global
 
-local sub, parent = KROWI_LIBMAN:NewSubmodule('GameTooltipWithProgressBar', 0)
+local sub, parent = KROWI_LIBMAN:NewSubmodule('GameTooltipWithProgressBar', 1)
 if not sub or not parent then return end
 
-sub.ProgressBar = parent:GetNew(GameTooltip);
+sub.Tooltip = Krowi_ProgressBarTooltip
+sub.ProgressBar = parent:GetNew(Krowi_ProgressBarTooltip)
 local progressBar = sub.ProgressBar
 
-hooksecurefunc(GameTooltip, 'Hide', function()
-	if progressBar then
-		progressBar:Hide();
+function sub:Show(ownerFrame, anchor, title, min, max, value1, value2, value3, value4, color1, color2, color3, color4, text)
+	local tooltip = Krowi_ProgressBarTooltip
+	tooltip:SetOwner(ownerFrame, anchor or 'ANCHOR_NONE')
+	if anchor == nil then
+		tooltip:SetPoint('TOPLEFT', ownerFrame, 'TOPRIGHT', -3, -3)
 	end
-end);
-
-function sub:Show(gameTooltip, min, max, value1, value2, value3, value4, color1, color2, color3, color4, text)
-	progressBar:SetParent(gameTooltip);
-	progressBar:Reset();
-	progressBar:Add(gameTooltip, min, max, value1, value2, value3, value4, color1, color2, color3, color4, text);
-	progressBar:Show();
+	tooltip:SetMinimumWidth(128, true)
+	GameTooltip_SetTitle(tooltip, title)
+	progressBar:Reset()
+	progressBar:Add(min, max, value1, value2, value3, value4, color1, color2, color3, color4, text)
+	progressBar:Show()
+	tooltip:SetMinimumWidth(140)
+	tooltip:Show()
 end
 
-function progressBar:Add(gameTooltip, min, max, value1, value2, value3, value4, color1, color2, color3, color4, text)
-	GameTooltip_AddBlankLinesToTooltip(gameTooltip, 1);
-	local numLines = gameTooltip:NumLines();
+function sub:Hide()
+	Krowi_ProgressBarTooltip:Hide()
+end
+
+function progressBar:Add(min, max, value1, value2, value3, value4, color1, color2, color3, color4, text)
+	local tooltip = Krowi_ProgressBarTooltip
+	GameTooltip_AddBlankLinesToTooltip(tooltip, 1)
+	local numLines = tooltip:NumLines()
 	if not text then
-		text = '';
+		text = ''
 	end
-	self:SetPoint('LEFT', gameTooltip:GetName() .. 'TextLeft' .. numLines, 'LEFT', 0, -2);
-	self:SetPoint('RIGHT', gameTooltip, 'RIGHT', -9, 0);
-	self:SetHeight(25);
-	self.TextLeft:SetText(text);
-	self:SetMinMaxValues(min, max);
-	self:SetValues(value1, value2, value3, value4);
-	self:SetColors(color1, color2, color3, color4);
-	self:UpdateTextures();
+	self:ClearAllPoints()
+	self:SetPoint('LEFT', tooltip:GetName() .. 'TextLeft' .. numLines, 'LEFT', 0, -2)
+	self:SetPoint('RIGHT', tooltip, 'RIGHT', -9, 0)
+	self:SetHeight(25)
+	self.TextLeft:SetText(text)
+	self:SetMinMaxValues(min, max)
+	self:SetValues(value1, value2, value3, value4)
+	self:SetColors(color1, color2, color3, color4)
+	self:UpdateTextures()
 end

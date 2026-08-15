@@ -7,7 +7,7 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-BfA", 3, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(creatureID)--Dooms Howl 138122, Lion's Roar 137374
 --mod:SetEncounterID(encounterID)
@@ -35,12 +35,12 @@ local warnSiegeMode					= mod:NewSpellAnnounce(271223)
 local warnDemoCannon				= mod:NewTargetNoFilterAnnounce(271246, 2, nil, false)--Not part of global filter, in case healer wants to turn it on for heal targets
 
 --Mobile
-local specWarnShatteringPulse		= mod:NewSpecialWarningSpell(271163, "Tank", nil, 3, 1, 2)
+local specWarnShatteringPulse		= mod:NewSpecialWarningSpell(271163, "Tank", nil, 3, 1, 2, nil, nil, "carefly")
 --Siege
-local specWarnDoomsHowlEngineer		= mod:NewSpecialWarningSwitch("ej18702", "-Healer", nil, nil, 1, 2)
-local specWarnLionsHowlEngineer		= mod:NewSpecialWarningSwitch("ej18682", "-Healer", nil, nil, 1, 2)
-local specWarnFieldRepair			= mod:NewSpecialWarningInterrupt(271797, "HasInterrupt", nil, nil, 1, 2)
-local specWarnSentry				= mod:NewSpecialWarningMove(271783, false, nil, 2, 1, 2)
+local specWarnDoomsHowlEngineer		= mod:NewSpecialWarningSwitch(-18702, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnLionsHowlEngineer		= mod:NewSpecialWarningSwitch(-18682, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnFieldRepair			= mod:NewSpecialWarningInterrupt(271797, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnSentry				= mod:NewSpecialWarningMove(271783, false, nil, 2, 1, 2, nil, nil, "moveboss")
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
 --Mobile

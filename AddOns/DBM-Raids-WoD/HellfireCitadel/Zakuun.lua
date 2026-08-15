@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1391, "DBM-Raids-WoD", 1, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260524002240")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(89890)
 mod:SetEncounterID(1777)
@@ -21,6 +21,7 @@ mod:RegisterEventsInCombat(
 --TODO, auto send latent energy targets down for disembodied?
 --TODO, maybe add a "breaking soon" to 189031 or 189032
 --(ability.id = 179406) and type = "begincast" or (ability.id = 181508 or ability.id = 181515 or ability.id = 179709 or ability.id = 179582) and type = "cast" or (ability.id = 179667 or ability.id = 179681)
+DBM:RegisterAltSpellName(179582, 161600)--Rumbling Fissure -> Fissure
 --Encounter-Wide Mechanics
 local warnLatentEnergy					= mod:NewTargetAnnounce(182008, 3, nil, false)--Spammy, optional
 local warnEnrage						= mod:NewSpellAnnounce(179681, 3, nil, nil, nil, nil, nil, 2)
@@ -32,22 +33,22 @@ local warnDisembodied					= mod:NewTargetCountAnnounce(179407, 2)--Needed to kno
 local warnSeedofDestruction				= mod:NewTargetCountAnnounce(181508, 4)
 
 --Encounter-Wide Mechanics
-local specWarnWakeofDestruction			= mod:NewSpecialWarningSpell(181499, nil, nil, nil, 2, 2)--Triggered by 3 different things
+local specWarnWakeofDestruction			= mod:NewSpecialWarningSpell(181499, nil, nil, nil, 2, 2, nil, nil, "watchwave")--Triggered by 3 different things
 --Armed
 local specWarnDisarmedEnd				= mod:NewSpecialWarningEnd(179667)
-local specWarnSoulCleave				= mod:NewSpecialWarningCount(179406, "Melee", nil, nil, 1, 12)
+local specWarnSoulCleave				= mod:NewSpecialWarningCount(179406, "Melee", nil, nil, 1, 12, nil, nil, "soulcleave")
 local specWarnDisembodiedYou			= mod:NewSpecialWarningYou(179407)
 local specWarnDisembodied				= mod:NewSpecialWarningTaunt(179407)
 local specWarnBefouled					= mod:NewSpecialWarningMoveAway(179711)--Aoe damage was disabled on ptr, bug?
 local specWarnBefouledOther				= mod:NewSpecialWarningTargetCount(179711, false)
 --Disarmed
 local specWarnDisarmed					= mod:NewSpecialWarningSpell(179667)
-local specWarnSeedofDestruction			= mod:NewSpecialWarningYou(181508, nil, nil, nil, 3, 4)
+local specWarnSeedofDestruction			= mod:NewSpecialWarningYou(181508, nil, nil, nil, 3, 4, nil, nil, "runout")
 local specWarnSeedPosition				= mod:NewSpecialWarningYouPos(181508, nil, false, nil, 1, 4)--Mythic Position Assignment. No option, connected to specWarnMarkedforDeath
 local yellSeedsofDestruction			= mod:NewYell(181508)
 
 --Armed
-local timerRumblingFissureCD			= mod:NewNextTimer(39, 179582, 161600, nil, nil, 5)
+local timerRumblingFissureCD			= mod:NewNextTimer(39, 179582, nil, nil, nil, 5)
 local timerBefouledCD					= mod:NewNextTimer(38, 179711, nil, nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)
 local timerSoulCleaveCD					= mod:NewNextTimer(40, 179406, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerCavitationCD					= mod:NewNextTimer(40, 181461, nil, nil, nil, 2)

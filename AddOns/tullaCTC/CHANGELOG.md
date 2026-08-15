@@ -1,5 +1,22 @@
 # tullaCTC Version History
 
+## v12.1.3
+
+* Update TOCs for World of Warcraft 12.1.0
+
+## v12.1.2
+
+* Added support for World of Warcraft 1.15.9 (Vanilla)
+
+## v12.1.1
+
+* Added support for World of Warcraft 2.5.6 (Burning Crusade Classic)
+
+## v12.1.0
+
+* Added support for World of Warcraft 12.0.7 (Retail PTR)
+* Adjusted active cooldown frame handling to hopefully better handle secret frames
+
 ## v12.0.10
 
 * Fixed rounding issues for tenths of seconds

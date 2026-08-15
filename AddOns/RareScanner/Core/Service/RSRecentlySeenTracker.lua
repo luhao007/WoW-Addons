@@ -176,7 +176,7 @@ function RSRecentlySeenTracker.RemoveRecentlySeen(entityID)
 	local min = math.min(unpack(distances))
 	
 	-- Avoid hiding incorrect icons
-	if (min >= 0.001) then
+	if (min >= 0.01) then
 		RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[distancia=%s] (No devuelve contenedor por no haberse encontrado uno lo suficientemente cerca)", min))
 		return nil
 	end
@@ -185,11 +185,11 @@ function RSRecentlySeenTracker.RemoveRecentlySeen(entityID)
 		if (distance == min) then
 			local x, y = strsplit("_", xy)
 			if (RSUtils.GetTableLength(recently_seen_entities[entityID]) == 1) then
-				--RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[%s,x=%s,y=%s] (multi/last)", entityID, x, y))
+				RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[%s,x=%s,y=%s] (multi/last)", entityID, x, y))
 				recently_seen_entities[entityID] = nil
 				RSGeneralDB.DeleteRecentlySeen(entityID)
 			else
-				--RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[%s,x=%s,y=%s] (multi)", entityID, x, y))
+				RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[%s,x=%s,y=%s] (multi)", entityID, x, y))
 				recently_seen_entities[entityID][xy] = nil
 			end
 			

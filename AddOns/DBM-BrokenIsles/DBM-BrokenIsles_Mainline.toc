@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r63
+## Version: r66
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff10ff10World Bosses (Legion)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0户外|r |cFF22B14C破碎群岛|r
@@ -29,7 +29,7 @@
 ## X-DBM-Mod-Sort: 507
 ## X-DBM-Mod-MapID: 1220,1779
 ## X-DBM-Mod-LoadCID: 107023,106981,106984,106982,109943,109331,110378,99929,108879,110321,108678,112350,108829,117239,121124,117470,117303,102075,124625,124555,124719,124592,124492,124514
-## X-DBM-Mod-MinCoreRevision: 20210721040757
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 6
 ## X-Curse-Project-ID: 301324
 ## X-WoWI-ID: 24905

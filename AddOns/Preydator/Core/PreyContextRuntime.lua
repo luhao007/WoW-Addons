@@ -6,6 +6,10 @@ end
 local PreyContextRuntime = {}
 Preydator:RegisterModule("PreyContextRuntime", PreyContextRuntime)
 
+local BLOCKED_PREY_MAP_IDS = {
+    [2509] = true,
+}
+
 local MAP_ID_EQUIVALENTS = {
     -- Canonicalize equivalent map pairs to one stable ID so comparisons
     -- succeed regardless of which side returns parent vs sub-map.
@@ -45,8 +49,15 @@ local function IsKnownPreyMapID(mapID)
         return false
     end
 
-    -- Known prey maps are maintained in MAP_ID_EQUIVALENTS keys/values.
-    return MAP_ID_EQUIVALENTS[canonicalMapID] ~= nil
+    if BLOCKED_PREY_MAP_IDS[canonicalMapID] == true then
+        return false
+    end
+
+    -- New Blizzard zones are valid even when they are not in the alias table yet.
+    -- The important rule for this runtime is that we only compare positive map IDs
+    -- and normalize known parent/sub-map aliases; we should not require a manual
+    -- whitelist for every prey zone in the game.
+    return canonicalMapID > 0
 end
 
 local function SafeToNumber(value)
@@ -303,6 +314,7 @@ function PreyContextRuntime:RefreshInPreyZoneStatus(questID, force, state, ctx)
 
     local shouldRefresh = force == true
         or state.inPreyZone == nil
+        or state.inPreyZone == false
         or state.zoneCacheDirty == true
     if not shouldRefresh then
         return state.inPreyZone
@@ -336,6 +348,27 @@ function PreyContextRuntime:RefreshInPreyZoneStatus(questID, force, state, ctx)
         questMapID = CanonicalizeMapID(SafeToNumber(state.preyZoneMapID))
     end
 
+    -- If the current live player map disagrees with a stale cached quest-zone map,
+    -- do not keep reusing the stale map as authoritative. The next pass will let
+    -- the widget-certification fallback decide whether the current map is valid.
+    if questMapID and playerMapID and questMapID ~= playerMapID then
+        local hasFreshQuestMapEvidence = false
+        if type(ctx) == "table" and ctx.taskQuestApi and type(ctx.taskQuestApi.GetQuestZoneID) == "function" then
+            local okCurrentQuestZone, rawCurrentQuestZone = pcall(ctx.taskQuestApi.GetQuestZoneID, questID)
+            if okCurrentQuestZone and rawCurrentQuestZone ~= nil then
+                local currentQuestZoneMapID = CanonicalizeMapID(SafeToNumber(rawCurrentQuestZone))
+                if currentQuestZoneMapID and currentQuestZoneMapID == playerMapID then
+                    hasFreshQuestMapEvidence = true
+                end
+            end
+        end
+
+        if not hasFreshQuestMapEvidence then
+            state.preyZoneMapID = nil
+            questMapID = nil
+        end
+    end
+
     if not questMapID then
         questMapID = CanonicalizeMapID(SafeToNumber(state.confirmedPreyZoneMapID))
     end
@@ -354,7 +387,11 @@ function PreyContextRuntime:RefreshInPreyZoneStatus(questID, force, state, ctx)
 
     local inPreyZone = nil
     if questMapID and playerMapID then
-        inPreyZone = (playerMapID == questMapID)
+        if BLOCKED_PREY_MAP_IDS[playerMapID] == true then
+            inPreyZone = false
+        else
+            inPreyZone = (playerMapID == questMapID)
+        end
     end
 
     if inPreyZone == true then

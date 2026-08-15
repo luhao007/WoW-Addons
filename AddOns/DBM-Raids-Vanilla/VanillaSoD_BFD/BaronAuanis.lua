@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("BaronAuanisSoD", "DBM-Raids-Vanilla", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(202699)
 mod:SetEncounterID(2694)--2765 is likely 5 man version in instance type 201 (which has Old Serra'kis instead of Baron)
@@ -23,7 +23,7 @@ mod:RegisterEventsInCombat(
 --ability.id = 404806 and type = "cast" or ability.id = 413664 and (type = "applybuff" or type = "removebuff")
 local warningDepthCharge		= mod:NewTargetNoFilterAnnounce(404806, 4)
 
-local specWarnDepthCharge		= mod:NewSpecialWarningMoveTo(404806, nil, nil, nil, 3, 2)
+local specWarnDepthCharge		= mod:NewSpecialWarningMoveTo(404806, nil, nil, nil, 3, 2, nil, nil, "bombyou")
 local yellDepthCharge			= mod:NewYell(404806)
 local yellDepthChargeFades		= mod:NewShortFadesYell(404806)
 

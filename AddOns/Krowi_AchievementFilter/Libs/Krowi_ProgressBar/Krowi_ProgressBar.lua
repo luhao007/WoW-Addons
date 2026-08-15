@@ -5,7 +5,7 @@
 
 ---@diagnostic disable: undefined-global
 
-local lib = KROWI_LIBMAN:NewLibrary('Krowi_ProgressBar_2', 2, {
+local lib = KROWI_LIBMAN:NewLibrary('Krowi_ProgressBar_2', 3, {
     SetCurrent = true,
     SetUtil = true,
 })

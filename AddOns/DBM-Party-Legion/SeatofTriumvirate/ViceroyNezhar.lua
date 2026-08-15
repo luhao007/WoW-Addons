@@ -1,20 +1,24 @@
 local mod	= DBM:NewMod(1981, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260709014625")
 mod:SetCreatureID(124874)
 mod:SetEncounterID(2067)
+mod:SetZone(1753)
 
 mod:RegisterCombat("combat")
 
+DBM:RegisterAltSpellName(1263528, 28405)--Repulse -> Knockback
+DBM:RegisterAltSpellName(1277358, DBM_COMMON_L.ORBS)--Gates of the Abyss -> Orbs
+
 if DBM:IsPostMidnight() then
 	--NOTE: Repulse being cast signals a restart of the ability sequence
-	local warnMindBlast					= mod:NewCountAnnounce(244750, 2)
+	local warnMindBlast					= mod:NewCountAnnounce(244750, 2, nil, "HasInterrupt")
 	local warnMassVoidInfusion			= mod:NewCountAnnounce(1263542, 2)
 
-	local specWarnUmbralTentacles		= mod:NewSpecialWarningCount(1263538, nil, nil, nil, 1, 2)
-	local specWarnRepulse				= mod:NewSpecialWarningCount(1263528, nil, nil, nil, 2, 2)
-	local specWarnGatesOfAbyss			= mod:NewSpecialWarningCount(1277358, nil, nil, nil, 2, 2)
+	local specWarnUmbralTentacles		= mod:NewSpecialWarningCount(1263538, nil, nil, nil, 1, 2, nil, nil, "mobsoon")
+	local specWarnRepulse				= mod:NewSpecialWarningCount(1263528, nil, nil, nil, 2, 2, nil, nil, "carefly")
+	local specWarnGatesOfAbyss			= mod:NewSpecialWarningCount(1277358, nil, nil, nil, 2, 2, nil, nil, "watchorb")
 
 	local timerMindBlastCD				= mod:NewCDCountTimer(20.5, 244750, nil, nil, nil, 4, nil, DBM_COMMON_L.INTERRUPT_ICON..DBM_COMMON_L.TANK_ICON)
 	local timerMassVoidCD				= mod:NewCDCountTimer(20.5, 1263542, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
@@ -22,8 +26,8 @@ if DBM:IsPostMidnight() then
 	local timerRepulseCD				= mod:NewCDCountTimer(20.5, 1263528, nil, nil, nil, 2)
 	local timerGatesCD					= mod:NewCDCountTimer(20.5, 1277358, nil, nil, nil, 3)
 
-	mod:AddPrivateAuraSoundOption(1263542, false, 1263542, 1, 1, "debuffyou", 17)--Mass Void Infusion (just minor rot damage, off by default)
-	mod:AddPrivateAuraSoundOption(1263532, true, 1263532, 1, 1, "watchfeet", 8)--Void Storm (GTFO)
+	mod:AddAuraSoundOption(1263542, false, 1263542, 1, 1, "debuffyou", 17)--Mass Void Infusion (just minor rot damage, off by default)
+	mod:AddAuraSoundOption(1263532, true, 1263532, 1, 1, "watchfeet", 8)--Void Storm (GTFO)
 
 	mod.vb.mindBlastCount = 0
 	mod.vb.massVoidCount = 0
@@ -36,18 +40,21 @@ if DBM:IsPostMidnight() then
 	local badStateDetected = false
 
 	---@param self DBMMod
-	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+	---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 	local function setFallback(self, dontSetAlerts)
 		if not dontSetAlerts then
 			specWarnUmbralTentacles:SetAlert(246, "mobsoon", 1, 2)
 			specWarnRepulse:SetAlert(247, "carefly", 2, 2)
-			specWarnGatesOfAbyss:SetAlert(376, "watchwave", 2, 2)
+			specWarnGatesOfAbyss:SetAlert(376, "watchorb", 2, 2)
 		end
-		timerMindBlastCD:SetTimeline(244)
-		timerMassVoidCD:SetTimeline(245)
-		timerUmbralTentaclesCD:SetTimeline(246)
-		timerRepulseCD:SetTimeline(247)
-		timerGatesCD:SetTimeline(376)
+		--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+		timerMindBlastCD:SetTimeline(244, onlyColor)
+		timerMassVoidCD:SetTimeline(245, onlyColor)
+		timerUmbralTentaclesCD:SetTimeline(246, onlyColor)
+		timerRepulseCD:SetTimeline(247, onlyColor)
+		timerGatesCD:SetTimeline(376, onlyColor)
 	end
 
 	function mod:OnLimitedCombatStart()
@@ -59,16 +66,13 @@ if DBM:IsPostMidnight() then
 		self.vb.umbralTentaclesCount = 1
 		self.vb.repulseCount = 1
 		self.vb.gatesCount = 1
-		if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+		if DBM.Options.HardcodedTimer and not badStateDetected then
 			self:IgnoreBlizzardAPI()
 			self:RegisterShortTermEvents(
 				"ENCOUNTER_TIMELINE_EVENT_ADDED",
 				"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 			)
-			--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-			if DBM.Options.HideDBMBars then
-				setFallback(self, true)
-			end
+			setFallback(self, true)
 		else
 			setFallback(self)
 		end
@@ -146,7 +150,7 @@ if DBM:IsPostMidnight() then
 						specWarnRepulse:Play("carefly")
 					elseif eventType == "gatesofabyss" then
 						specWarnGatesOfAbyss:Show(eventCount)
-						specWarnGatesOfAbyss:Play("watchwave")
+						specWarnGatesOfAbyss:Play("watchorb")
 					end
 				end
 			elseif eventState == 3 then
@@ -170,9 +174,9 @@ else
 	local warnAddsLeft						= mod:NewAddsLeftAnnounce(-16424, 2)
 	local warnTentacles						= mod:NewSpellAnnounce(244769, 2)
 
-	local specWarnHowlingDark				= mod:NewSpecialWarningInterrupt(244751, "HasInterrupt", nil, nil, 1, 2)
-	local specWarnEntropicForce				= mod:NewSpecialWarningSpell(246324, nil, nil, nil, 1, 2)
-	local specWarnAdds						= mod:NewSpecialWarningAdds(249336, "-Healer", nil, nil, 1, 2)
+	local specWarnHowlingDark				= mod:NewSpecialWarningInterrupt(244751, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+	local specWarnEntropicForce				= mod:NewSpecialWarningSpell(246324, nil, nil, nil, 1, 2, nil, nil, "keepmove")
+	local specWarnAdds						= mod:NewSpecialWarningAdds(249336, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
 
 	local timerUmbralTentaclesCD			= mod:NewCDTimer(30.4, 244769, nil, nil, nil, 1)
 	local timerHowlingDarkCD				= mod:NewCDTimer(28.0, 244751, nil, nil, nil, 4, nil, DBM_COMMON_L.INTERRUPT_ICON)

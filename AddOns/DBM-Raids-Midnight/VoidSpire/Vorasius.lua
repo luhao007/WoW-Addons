@@ -1,7 +1,7 @@
-local mod	= DBM:NewMod(2734, "DBM-Raids-Midnight", 3, 1307)
+local mod	= DBM:NewMod(2734, "DBM-Raids-Midnight", 4, 1307)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260428075631")
+mod:SetRevision("20260708211617")
 mod:SetCreatureID(240434)
 mod:SetEncounterID(3177)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -13,22 +13,25 @@ mod:RegisterCombat("combat")
 --TODO< https://www.wowhead.com/spell=1244346/colossal-throw has an event ID but doesn't exist on encounter?
 --TODO, probably drop either 59 or 60 for eventIDs, one is for parent activation and one is for the additional slams we probably want to ignore/filter
 --Hardcoded Objects that use Blizz api as fallback
-local specWarnShadowclawSlam			= mod:NewSpecialWarningCount(1241836, nil, 182557, nil, 2, 2)
-local specWarnVoidBreath				= mod:NewSpecialWarningDodgeCount(1243853, nil, 17088, nil, 2, 2)
-local specWarnParasiteExpulsion			= mod:NewSpecialWarningDodgeCount(1254199, nil, nil, DBM_COMMON_L.ADDS, 2, 2)
-local specWarnPrimordialRoar			= mod:NewSpecialWarningCount(1260046, nil, 140459, nil, 2, 2)
+DBM:RegisterAltSpellName(1241836, 182557)--Shadowclaw Slam -> Slam
+DBM:RegisterAltSpellName(1243853, 17088)--Void Breath -> Breath
+DBM:RegisterAltSpellName(1260046, 140459)--Primordial Roar -> Roar
+DBM:RegisterAltSpellName(1254199, DBM_COMMON_L.ADDS)--Parasite Expulsion -> Adds
+local specWarnShadowclawSlam			= mod:NewSpecialWarningCount(1241836, nil, nil, nil, 2, 2, nil, nil, "slamincoming")
+local specWarnVoidBreath				= mod:NewSpecialWarningDodgeCount(1243853, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
+local specWarnParasiteExpulsion			= mod:NewSpecialWarningDodgeCount(1254199, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnPrimordialRoar			= mod:NewSpecialWarningCount(1260046, nil, nil, nil, 2, 2, nil, nil, "pullin")
 --local specWarnFixateParasite			= mod:NewSpecialWarningYou(1254112, nil, nil, nil, 1, 2)
 
-local timerShadowclawSlamCD				= mod:NewCDCountTimer("d20.5", 1241836, 182557, nil, 2, 5, nil, DBM_COMMON_L.TANK_ICON)--Shortname "Slam"
---local timerVoidBreathCD				= mod:NewCDCountTimer(20.5, 1243853, 17088, nil, nil, 3)--Shortname "Breath"
-local timerParasiteExpulsionCD			= mod:NewCDCountTimer(20.5, 1254199, DBM_COMMON_L.ADDS.." (%s)", nil, nil, 1)
-local timerPrimordialRoarCD				= mod:NewCDCountTimer(20.5, 1260046, 140459, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--Shortname "Roar"
+local timerShadowclawSlamCD				= mod:NewCDCountTimer("d20.5", 1241836, nil, nil, 2, 5, nil, DBM_COMMON_L.TANK_ICON)--Shortname "Slam"
+--local timerVoidBreathCD				= mod:NewCDCountTimer(20.5, 1243853, nil, nil, nil, 3)--Shortname "Breath"
+local timerParasiteExpulsionCD			= mod:NewCDCountTimer(20.5, 1254199, nil, nil, nil, 1)
+local timerPrimordialRoarCD				= mod:NewCDCountTimer(20.5, 1260046, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--Shortname "Roar"
 
-mod:AddPrivateAuraSoundOption(1243270, true, 1243270, 1, 2, "watchfeet", 8)--Dark Goo
-mod:AddPrivateAuraSoundOption(1241844, false, 1241836, 1, 3, "debuffyou", 17)--Smashed (debuff from shadowclaw slam)
-mod:AddPrivateAuraSoundOption(1272527, false, 1272527, 1, 1, "debuffyou", 17)--Creep Spit
-mod:AddPrivateAuraSoundOption(1259186, true, 1259186, 1, 1, "debuffyou", 17)--Blisterburst
-mod:AddPrivateAuraSoundOption(1254113, true, 1254113, 1, 2, "fixateyou", 19)--Fixate
+mod:AddAuraSoundOption(1243270, true, 1243270, 1, 2, "watchfeet", 8)--Dark Goo
+mod:AddAuraSoundOption(1241844, false, 1241836, 1, 3, "debuffyou", 17)--Smashed (debuff from shadowclaw slam)
+mod:AddAuraSoundOption(1272527, false, 1272527, 1, 1, "debuffyou", 17)--Creep Spit
+mod:AddAuraSoundOption(1254113, true, 1254113, 1, 2, "fixateyou", 19)--Fixate
 
 mod.vb.clawCount = 0
 mod.vb.breathCount = 0
@@ -46,10 +49,13 @@ local function setFallback(self, dontSetAlerts)
 		specWarnParasiteExpulsion:SetAlert(62, "watchstep", 2, 2)
 		specWarnPrimordialRoar:SetAlert(133, "pullin", 12, 3)
 	end
-	timerShadowclawSlamCD:SetTimeline({59, 60})
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerShadowclawSlamCD:SetTimeline({59, 60}, onlyColor)
 --	timerVoidBreathCD:SetTimeline(61)
-	timerParasiteExpulsionCD:SetTimeline(62)
-	timerPrimordialRoarCD:SetTimeline(133)
+	timerParasiteExpulsionCD:SetTimeline(62, onlyColor)
+	timerPrimordialRoarCD:SetTimeline(133, onlyColor)
 --	specWarnFixateParasite:SetAlert(557, "fixateyou", 19, 3, 0)
 end
 
@@ -66,9 +72,7 @@ function mod:OnLimitedCombatStart()
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end

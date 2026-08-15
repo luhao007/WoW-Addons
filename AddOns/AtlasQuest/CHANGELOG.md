@@ -1,5 +1,23 @@
 # Changelog
 
+## 5.6.7 - August 12, 2026
+### Changed
+- Retail: Update TOC to 12.1.0
+- Updated libraries
+
+## 5.6.6 - July 21, 2026
+### Changed
+- Classic Era: Added category, group and icon to TOC
+- Classic Era: Update TOC to 1.15.9
+
+## 5.6.5 - July 7, 2026
+### Changed
+- TBC: Update TOC to 2.5.6
+
+## 5.6.4 - June 16, 2026
+### Changed
+- Retail: Update TOC to 12.0.7
+
 ## 5.6.3 - April 25, 2026
 ### Changed
 - Retail: Update TOC to 12.0.5

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2435, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260524002215")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(175611)
 mod:SetEncounterID(2423)
@@ -47,17 +47,17 @@ local warnRemantPhysical							= mod:NewCountAnnounce(352384, 2, nil, nil, false
 local warnRemantShadow								= mod:NewCountAnnounce(352387, 2, nil, nil, false)--Shadow
 local warnRemnantFire								= mod:NewCountAnnounce(352392, 2, nil, nil, false)--Fire
 
-local specWarnOverpower								= mod:NewSpecialWarningDefensive(346985, nil, nil, nil, 1, 2)
-local specWarnCrushedArmor							= mod:NewSpecialWarningTaunt(346986, nil, nil, nil, 1, 2)
-local specWarnChainsofEternity						= mod:NewSpecialWarningYou(347269, nil, nil, nil, 1, 2)
+local specWarnOverpower								= mod:NewSpecialWarningDefensive(346985, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnCrushedArmor							= mod:NewSpecialWarningTaunt(346986, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnChainsofEternity						= mod:NewSpecialWarningYou(347269, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellChainsofEternity							= mod:NewYell(347269)
 local yellChainsofEternityFades						= mod:NewShortFadesYell(347269)
-local specWarnAnnihilatingSmash						= mod:NewSpecialWarningYou(347274, nil, nil, nil, 1, 2)
-local specWarnPredatorsHowl							= mod:NewSpecialWarningMoveAway(347283, nil, nil, nil, 1, 2)
+local specWarnAnnihilatingSmash						= mod:NewSpecialWarningYou(347274, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnPredatorsHowl							= mod:NewSpecialWarningMoveAway(347283, nil, nil, nil, 1, 2, nil, nil, "range5")
 local yellPredatorsHowl								= mod:NewYell(347283, nil, false)--Lots of targets, so opt in?
-local specWarnHungeringMist							= mod:NewSpecialWarningDodge(347679, nil, nil, nil, 2, 2)
+local specWarnHungeringMist							= mod:NewSpecialWarningDodge(347679, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 --local specWarnGraspofDeath						= mod:NewSpecialWarningInterrupt(347668, "HasInterrupt", nil, nil, 1, 2)
-local specWarnFuryoftheAges							= mod:NewSpecialWarningDispel(347490, "RemoveEnrage", nil, nil, 1, 2)
+local specWarnFuryoftheAges							= mod:NewSpecialWarningDispel(347490, "RemoveEnrage", nil, nil, 1, 2, nil, nil, "enrage")
 --local specWarnGTFO								= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
 
 local timerOverpowerCD								= mod:NewCDCountTimer(27.1, 346985, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
@@ -65,7 +65,7 @@ local timerChainsofEternityCD						= mod:NewCDCountTimer(27.1, 347269, nil, nil,
 local timerPedatorsHowlCD							= mod:NewCDCountTimer(25.5, 347283, nil, nil, nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
 local timerHungeringMistCD							= mod:NewNextCountTimer(92.4, 347679, nil, nil, nil, 6, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerHungeringMist							= mod:NewCastCountTimer(4.8, 347679, nil, nil, nil, 5, nil, DBM_COMMON_L.DEADLY_ICON)
-local timerRemnantofForgottenTormentsCD				= mod:NewCDCountTimer(30.4, 352368, L.Remnant, nil, nil, 2, nil, DBM_COMMON_L.HEROIC_ICON)
+local timerRemnantofForgottenTormentsCD				= mod:NewCDCountTimer(30.4, 352368, nil, nil, nil, 2, nil, DBM_COMMON_L.HEROIC_ICON)
 local timerGraspofDeathCD							= mod:NewCDCountTimer(26.7, 347668, nil, nil, nil, 4, nil, DBM_COMMON_L.INTERRUPT_ICON)
 local timerFuryoftheAgesCD							= mod:NewCDCountTimer(36.4, 347490, nil, "Tank|RemoveEnrage", nil, 5, nil, DBM_COMMON_L.ENRAGE_ICON)
 local timerRP										= mod:NewRPTimer(15.4)

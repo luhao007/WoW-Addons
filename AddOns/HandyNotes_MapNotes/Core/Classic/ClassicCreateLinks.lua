@@ -62,16 +62,19 @@ end
 
 local function AddMessage(self, text, ...)
   if not self._OriginalAddMessage then
-      return
+    return
   end
 
-  if ns.Addon.db.profile.CreateAndCopyLinks then
-      if ns.questID then
-          text = text:gsub("https://www.wowhead.com/quest=" .. ns.questID, "|cff00ccff|Hurl:%1|h%1|h|r")
-      end
-      if ns.achievementID then
-          text = text:gsub("https://www.wowhead.com/achievement=" .. ns.achievementID, "|cff00ccff|Hurl:%1|h%1|h|r")
-      end
+  if ns.Addon.db.profile.CreateAndCopyLinks and type(text) == "string" then
+    if ns.questID then
+      local url = "https://www.wowhead.com/quest=" .. ns.questID
+      text = text:gsub(url, formatURL(url))
+    end
+
+    if ns.achievementID then
+      local url = "https://www.wowhead.com/achievement=" .. ns.achievementID
+      text = text:gsub(url, formatURL(url))
+    end
   end
 
   return self._OriginalAddMessage(self, text, ...)
@@ -133,13 +136,30 @@ function ns.CreateAndCopyLink()
 
     for i = 1, NUM_CHAT_WINDOWS do
         local chatframe = _G["ChatFrame" .. i]
-        if not chatframe._OriginalAddMessage then
+
+        if chatframe and not chatframe._OriginalAddMessage then
             chatframe._OriginalAddMessage = chatframe.AddMessage
             chatframe.AddMessage = AddMessage
         end
     end
 
-    hooksecurefunc("ChatFrame_OnHyperlinkShow", URLClicker_OnHyperlinkShow)
+    local function HookChatHyperlinks()
+        if type(ChatFrame_OnHyperlinkShow) == "function" then
+            hooksecurefunc("ChatFrame_OnHyperlinkShow", URLClicker_OnHyperlinkShow)
+            return
+        end
+
+        for i = 1, NUM_CHAT_WINDOWS do
+            local chatFrame = _G["ChatFrame" .. i]
+
+            if chatFrame and not chatFrame._MapNotesURLClickHooked then
+                chatFrame:HookScript("OnHyperlinkClick", URLClicker_OnHyperlinkShow)
+                chatFrame._MapNotesURLClickHooked = true
+            end
+        end
+    end
+
+    HookChatHyperlinks()
 
     ns._CreateAndCopyLinkEnabled = true
 end

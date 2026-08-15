@@ -10,7 +10,6 @@ local C_Map = _G.C_Map
 local C_TaskQuest = _G.C_TaskQuest
 local C_AddOns = _G.C_AddOns
 local IsInInstance = _G.IsInInstance
-local geterrorhandler = _G.geterrorhandler
 local GetTime = _G.GetTime
 local GetZoneText = _G.GetZoneText
 local GetQuestLink = _G.GetQuestLink
@@ -90,48 +89,6 @@ local function FormatTablePairs(tbl)
     end
     table.sort(parts)
     return "{" .. table.concat(parts, ", ") .. "}"
-end
-
-local function SendToErrorHandler(reportText, headerText)
-    if type(reportText) ~= "string" or reportText == "" then
-        return false, "empty report"
-    end
-
-    if type(geterrorhandler) ~= "function" then
-        return false, "geterrorhandler unavailable"
-    end
-
-    local okHandler, handler = pcall(geterrorhandler)
-    if not okHandler or type(handler) ~= "function" then
-        return false, "error handler unavailable"
-    end
-
-    local header = type(headerText) == "string" and headerText ~= "" and headerText or "Preydator Inspect Report"
-    local chunkSize = 1800
-    local length = #reportText
-    local chunks = math.max(1, math.ceil(length / chunkSize))
-    for index = 1, chunks do
-        local startPos = ((index - 1) * chunkSize) + 1
-        local endPos = math.min(index * chunkSize, length)
-        local chunk = string.sub(reportText, startPos, endPos)
-        local payload = nil
-        local okPayload, builtPayload = pcall(string.format, "%s [%d/%d]\n%s", header, index, chunks, chunk)
-        if okPayload and type(builtPayload) == "string" and builtPayload ~= "" then
-            payload = builtPayload
-        else
-            payload = header .. " [" .. tostring(index) .. "/" .. tostring(chunks) .. "]\n" .. chunk
-        end
-
-        local okSend = pcall(function()
-            handler(payload)
-        end)
-
-        if not okSend then
-            return false, "handler failed on chunk " .. tostring(index)
-        end
-    end
-
-    return true, "sent"
 end
 
 local function BuildQuestInspectReport(requestedQuestID)
@@ -562,6 +519,16 @@ local function BuildInspectReport()
     return lines, reportText
 end
 
+    local function ShowReportWindow(title, reportText)
+        local reportWindow = Preydator and type(Preydator.GetModule) == "function" and Preydator:GetModule("ReportWindow") or nil
+        if reportWindow and type(reportWindow.ShowReport) == "function" then
+            reportWindow:ShowReport(title, reportText)
+            return true
+        end
+
+        return false
+    end
+
 local DebugInspectModule = {}
 
 function DebugInspectModule:OnSlashCommand(text, rest)
@@ -585,7 +552,7 @@ function DebugInspectModule:OnSlashCommand(text, rest)
 
     for _, token in ipairs(tokens) do
         if token == "bs" then
-            mode = "bugsack"
+            mode = "report"
         elseif isQuestInspect and requestedQuestID == nil then
             local parsedQuestID = tonumber(token)
             if parsedQuestID and parsedQuestID > 0 then
@@ -611,21 +578,17 @@ function DebugInspectModule:OnSlashCommand(text, rest)
         end
     end
 
-    if mode == "bugsack" then
+    if mode == "report" then
         local header = isQuestInspect and "Preydator Quest Inspect Report" or "Preydator Inspect Report"
-        local okSendCall, sent, reason = pcall(SendToErrorHandler, reportText, header)
-        if not okSendCall then
-            sent = false
-            reason = "handler dispatch fault"
-        end
-        if sent then
+        local okOpened, opened = pcall(ShowReportWindow, header, reportText)
+        if okOpened and opened then
             if isQuestInspect then
-                print("Preydator: Quest inspect report sent to BugSack via error handler (debug module).")
+                print("Preydator: Quest inspect report opened in the built-in report window.")
             else
-                print("Preydator: Inspect report sent to BugSack via error handler (debug module).")
+                print("Preydator: Inspect report opened in the built-in report window.")
             end
         else
-            print("Preydator: Could not send inspect report to BugSack: " .. tostring(reason))
+            print("Preydator: Report window is unavailable; printing to chat instead.")
             for _, line in ipairs(lines) do
                 print(line)
             end

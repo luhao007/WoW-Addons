@@ -96,7 +96,6 @@ end
 ---local Setup the plugin on the given bar.
 ---@param self table Titan bar frame
 local function Titan_AutoHide_OnLoad(self)
-	local frame = self:GetName()
 	local bar = self.short_name
 
 	self.registry = {

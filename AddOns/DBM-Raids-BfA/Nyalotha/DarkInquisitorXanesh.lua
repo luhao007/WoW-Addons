@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2377, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(156575)
 mod:SetEncounterID(2328)
@@ -35,13 +35,13 @@ local warnFanaticism						= mod:NewTargetNoFilterAnnounce(314179, 3, nil, "Tank|
 local warnSummonRitualObelisk				= mod:NewCountAnnounce(306495, 2)
 local warnSoulFlay							= mod:NewTargetCountAnnounce(306311, 2)
 
-local specWarnVoidRitual					= mod:NewSpecialWarningCount(312336, false, nil, nil, 1, 2)--Option in, since only certain players may be assigned
-local specWarnAbyssalStrike					= mod:NewSpecialWarningStack(311551, nil, 2, nil, nil, 1, 6)
-local specWarnAbyssalStrikeTaunt			= mod:NewSpecialWarningTaunt(311551, nil, nil, nil, 1, 2)
-local specWarnSoulFlay						= mod:NewSpecialWarningRun(306311, nil, nil, nil, 4, 2)
-local specWarnTorment						= mod:NewSpecialWarningDodgeCount(306208, nil, nil, nil, 2, 2)
-local specWarnTerrorWave					= mod:NewSpecialWarningInterruptCount(316211, "HasInterrupt", nil, nil, 1, 2)
-local specWarnGTFO							= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8)
+local specWarnVoidRitual					= mod:NewSpecialWarningCount(312336, false, nil, nil, 1, 2, nil, nil, "specialsoon")--Option in, since only certain players may be assigned
+local specWarnAbyssalStrike					= mod:NewSpecialWarningStack(311551, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnAbyssalStrikeTaunt			= mod:NewSpecialWarningTaunt(311551, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnSoulFlay						= mod:NewSpecialWarningRun(306311, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnTorment						= mod:NewSpecialWarningDodgeCount(306208, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnTerrorWave					= mod:NewSpecialWarningInterruptCount(316211, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kick2r")
+local specWarnGTFO							= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerAbyssalStrikeCD					= mod:NewCDTimer(40, 311551, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--42.9-47
 local timerVoidRitualCD						= mod:NewNextCountTimer(79.7, 312336, nil, nil, nil, 5, nil, nil, nil, 1, 4)
@@ -52,7 +52,7 @@ local berserkTimer							= mod:NewBerserkTimer(600)
 
 mod:AddInfoFrameOption(312406, true)
 mod:AddSetIconOption("SetIconOnVoidWoken2", 312406, false, 0, {1, 2, 3})
-mod:AddSetIconOption("SetIconOnAdds", "ej21227", true, 5, {4, 5, 6, 7, 8})
+mod:AddSetIconOption("SetIconOnAdds", -21227, true, 5, {4, 5, 6, 7, 8})
 mod:AddDropdownOption("InterruptBehavior", {"Four", "Five", "Six", "NoReset"}, "Four", "misc", nil, 316211)
 
 mod.vb.ritualCount = 0

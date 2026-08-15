@@ -1,6 +1,7 @@
 
 -- App locals
 local _, app = ...;
+local L = app.L;
 
 if app.GameBuildVersion < 100000 then
 	app.CreateMountMod = app.CreateUnimplementedClass("MountMod", "mountmodID");
@@ -52,7 +53,7 @@ do
 		CACHE = function() return CACHE end,
 		name = function(t)
 			local info = FirstCraftInfoMeta[t[KEY]]
-			return info.name
+			return L.FIRST_CRAFTS .. ": " .. info.name
 		end,
 		icon = function(t)
 			local info = FirstCraftInfoMeta[t[KEY]]

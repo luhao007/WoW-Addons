@@ -408,7 +408,15 @@ local function Create_Frames()
 		TitanUtils_StartFrameCounting(self, 0.5)
 	end)
 	config:SetScript("OnUpdate", function(self, elapsed)
-		TitanUtils_CheckFrameCounting(self, elapsed)
+		local status = TitanUtils_CheckFrameCounting(self, elapsed)
+		if status == "Active" then
+			-- counting down
+		elseif status == "Inactive" then
+			-- user needs time to enter
+		else
+			-- should catch all the edge cases
+			self:Hide()
+		end
 	end)
 
 	local mute_button = CreateFrame("CheckButton", mname, config, "UICheckButtonTemplate")

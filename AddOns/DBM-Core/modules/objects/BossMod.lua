@@ -36,6 +36,8 @@ local mt = {__index = bossModPrototype}
 ---@field OnInitialize fun(self: DBMMod, mod: DBMMod)
 ---@field OnTimerRecovery fun(self: DBMMod)
 ---@field CustomHealthUpdate fun(self: DBMMod): string
+---@field Options table<string, any>
+---@field DefaultOptions table<string, any>
 ---@field stats ModStats
 ---@field registeredUnitEvents table<string, boolean>?
 ---@field bossHealthUpdateTime number?
@@ -48,9 +50,12 @@ local mt = {__index = bossModPrototype}
 ---@field soloChallenge boolean?
 ---@field disableHealthCombat boolean?
 ---@field isCustomMod boolean?
+---@field lastKillTime number? Timestamp of the most recent completed combat.
+---@field lastWipeTime number? Timestamp of the most recent wiped combat.
 ---@field sendMainBossGUID boolean? Used to force enable nameplate timers for main boss
 ---@field paSounds table<number, number[]>?
 ---@field pendingPASoundsByZone table<number, table<integer, table>>?
+---@field tlCountValue number? Cached encounter timeline countdown highlight duration (5000 or 10000 ms).
 
 ---@param name string|number Name of mod is usually journalID for auto translation or a unique string
 ---@param modId string? Must match parent module name (ie DBM-Party-Classic) or it won't appear in GUI
@@ -72,6 +77,7 @@ function DBM:NewMod(name, modId, modSubTab, instanceId, nameModifier)
 	---@class DBMMod
 	local obj = setmetatable(
 		{
+			---@type table<string, any>
 			Options = {
 				Enabled = true,
 			},
@@ -604,11 +610,19 @@ end
 
 do
 	local interruptSpells = {
-		[1766] = true,--Rogue Kick
+		[72] = true,--Warrior Shield Bash (Rank 1)
+		[1671] = true,--Warrior Shield Bash (Rank 2)
+		[1672] = true,--Warrior Shield Bash (Rank 3)
+		[1766] = true,--Rogue Kick (Rank 1)
+		[1767] = true,--Rogue Kick (Rank 2)
+		[1768] = true,--Rogue Kick (Rank 3)
+		[1769] = true,--Rogue Kick (Rank 4)
 		[2139] = true,--Mage Counterspell
-		[6552] = true,--Warrior Pummel
+		[6552] = true,--Warrior Pummel (Rank 1)
+		[6554] = true,--Warrior Pummel (Rank 2)
 		[15487] = true,--Priest Silence
-		[19647] = true,--Warlock pet Spell Lock
+		[19244] = true,--Warlock pet Spell Lock (Rank 1)
+		[19647] = true,--Warlock pet Spell Lock (Rank 2)
 		[47528] = true,--Death Knight Mind Freeze
 		[57994] = true,--Shaman Wind Shear
 		[78675] = true,--Druid Solar Beam
@@ -618,11 +632,14 @@ do
 		[116705] = true,--Monk Spear Hand Strike
 		[147362] = true,--Hunter Countershot
 		[183752] = true,--Demon Hunter Disrupt
-		[202137] = true,--Demon Hunter Sigil of Silence (Not uncommented because CheckInterruptFilter doesn't properly handle dual interrupts for single class yet)
+		[202137] = true,--Demon Hunter Sigil of Silence
 		[351338] = true,--Evoker Quell
 	}
-	if private.isClassic then
+	if private.isClassic or private.isBCC then
 		interruptSpells[8042] = true -- Shaman Earth Shock
+		interruptSpells[16979] = true -- Druid Feral Charge
+	elseif private.isWrath then
+		interruptSpells[16979] = true -- Druid Feral Charge
 	end
 	---@param sourceGUID string source GUID of the caster
 	---@param checkOnlyTandF boolean? is used when CheckInterruptFilter is actually being used for a simpe target/focus check and nothing more.
@@ -899,7 +916,28 @@ function bossModPrototype:GetFromTimersTable(table, difficultyName, phase, spell
 	return prev
 end
 
----Returns true when timer matches expected value within rounding variance.
+---Helper for routing timeline durations with controlled tolerance.
+---
+---Why this exists:
+---Encounter timeline durations can drift slightly across logs/builds (for example 49.96 vs 50.02),
+---and many hardcoded mods route abilities by duration buckets. This helper provides a consistent
+---"within range" check so modules remain stable without hardcoding brittle exact comparisons.
+---
+---Behavior:
+---Returns true when `timer` is inside `[expected - variance, expected + variance]`.
+---Default variance is 1 second.
+---
+---Recommended usage patterns:
+--- - Use small variance for high precision (for example 0.1-0.3) on tight overlaps.
+--- - Order checks from most specific to most general so broad ranges don't steal matches.
+--- - When there is no overlap/collision risk, prefer one broader bucket over multiple narrow
+---   adjacent buckets (for example prefer expected=22, variance=1 over separate checks around
+---   21.5/22.5). This keeps routing simpler and avoids redundant branching.
+--- - Keep routing on duration (`timer`/rounded bucket), but pass raw `timerExact` into TLStart
+---   and resolver context APIs when recording/starting events.
+---
+---This pattern is especially useful in complex mods (such as Vaelgor-style multi-stage lanes)
+---where small timer variance and overlapping buckets are common.
 ---@param timer number
 ---@param expected number
 ---@param variance number? Defaults to 1 second.
@@ -954,11 +992,21 @@ do
 		end
 	end
 
-	---Reserve a timeline count for a hardcoded event.
+	---Reserve (claim) a count slot for a timeline event when its bar is started.
+	---
+	---Use this from ENCOUNTER_TIMELINE_EVENT_ADDED at the same time you call TLStart.
+	---The reservation is keyed by eventID so parallel same-type events keep stable counts.
+	---
+	---Lifecycle:
+	--- - TLCountStart(eventID, ...): reserve count
+	--- - TLCountFinish(eventID): commit reservation + advance vb counter
+	--- - TLCountCancel(eventID): drop reservation without advancing
+	---
+	---For non-count events (stage markers, etc.), omit countKey.
 	---@param eventID number
 	---@param eventType string Name of event type checked in mod for ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED
 	---@param countKey string? Name of the vb count field to reserve against. Omit for non-count events.
-	---@return number? count
+	---@return number? count Reserved cast count for this event instance (nil when countKey is omitted).
 	function bossModPrototype:TLCountStart(eventID, eventType, countKey)
 		local state = getTLCountState(self)
 		if state.events[eventID] then
@@ -987,15 +1035,27 @@ do
 		return eventInfo.count
 	end
 
-	---Commit a reserved timeline count when an event finishes.
+	---Commit a previously reserved timeline count when an event reaches finished state.
+	---
+	---Behavior:
+	--- - Returns the reserved eventType (and count, when present).
+	--- - Advances self.vb[countKey] to the next value after the committed count.
+	--- - Reindexes pending reservations of the same eventType so parallel bars stay correct.
+	---
+	---If onlyEventType is provided, commit occurs only when the reserved eventType matches.
+	---When no reservation exists (or type does not match), returns nil,nil.
 	---@param eventID number
-	---@return string? eventType Returns eventType cached by TLCountStart in TLStart
-	---@return number? count Returns event count before incrementing the vb countKey
-	function bossModPrototype:TLCountFinish(eventID)
+	---@param onlyEventType string? Only commit/advance count when reserved eventType matches this value
+	---@return string? eventType Event type cached at TLCountStart time.
+	---@return number? count Reserved count for this event instance (before vb increment).
+	function bossModPrototype:TLCountFinish(eventID, onlyEventType)
 		local state = self.tlCountState
 		if not state then return nil, nil end
 		local eventInfo = state.events[eventID]
 		if not eventInfo then return nil, nil end
+		if onlyEventType and eventInfo.eventType ~= onlyEventType then
+			return nil, nil
+		end
 		state.events[eventID] = nil
 		local eventType = eventInfo.eventType
 		local eventCount = eventInfo.count
@@ -1016,9 +1076,15 @@ do
 		return eventType, eventCount
 	end
 
-	---Discard a reserved timeline count when an event is canceled.
+	---Cancel a reserved timeline event without advancing its vb count.
+	---
+	---Use this when timeline state changes to canceled (or when replacing an existing
+	---reservation for the same eventID). This removes the reservation and reindexes remaining
+	---pending entries for that eventType so later finishes keep correct cast numbers.
+	---
+	---Returns nil when no reservation exists for eventID.
 	---@param eventID number
-	---@return string? eventType
+	---@return string? eventType Event type that was canceled.
 	function bossModPrototype:TLCountCancel(eventID)
 		local state = self.tlCountState
 		if not state then return nil end
@@ -1033,17 +1099,51 @@ do
 		return eventInfo.eventType
 	end
 
-	---Reset all reserved timeline count state for this mod.
+	---Clear all TLCount reservation state for this mod.
+	---
+	---Call at encounter boundaries (combat start/end) to ensure no pending reservations
+	---from prior pulls leak into new routing/count decisions.
+	---
+	---This resets TLCount only; TLResolve context is separate (use TLResolveReset for that).
 	function bossModPrototype:TLCountReset()
 		self.tlCountState = nil
 	end
 
-	---Reset recent hardcoded timeline resolver context.
+	---Reset short-term resolver history used by hardcoded timeline disambiguation.
+	---Use this at encounter boundaries (combat start/end) so stale context from prior pulls
+	---cannot influence current routing decisions.
+	---
+	---Typical usage in mods:
+	--- - OnLimitedCombatStart: self:TLResolveReset()
+	--- - OnCombatEnd: self:TLResolveReset()
+	---
+	---This does NOT affect TLCount state; TLCount* APIs are separate and should be reset
+	---independently with TLCountReset.
 	function bossModPrototype:TLResolveReset()
 		self.tlResolveState = nil
 	end
 
-	---Push latest resolved hardcoded timeline event context.
+	---Record one resolved timeline decision for later ambiguity checks.
+	---
+	---Purpose:
+	---Some encounters emit overlapping/ambiguous timer buckets (same rounded duration can map
+	---to multiple abilities). Hardcoded mods can resolve such overlaps by looking at the most
+	---recent resolved event(s) via TLResolvePeek.
+	---
+	---Recommended flow in ENCOUNTER_TIMELINE_EVENT_ADDED handlers:
+	--- 1) Route event using local rules (duration/stage/occurrence/context).
+	--- 2) Start bar with TLStart(...).
+	--- 3) Push resolved context with TLResolvePush(eventType, timerExact).
+	---
+	---Data semantics:
+	--- - eventType: stable module-local key used by that mod's state machine (for example
+	---   "voidstalkerSting", "grasp", "nullCorona").
+	--- - timer: timer value to persist as context for future decisions. For hardcoded timeline
+	---   mods this should usually be the raw exact duration (timerExact), not rounded timer.
+	---
+	---History window:
+	---Only the most recent maxEntries values are retained (default 4). Increase only if the
+	---encounter genuinely requires deeper lookback.
 	---@param eventType string
 	---@param timer number
 	---@param maxEntries number? default 4
@@ -1062,7 +1162,20 @@ do
 		end
 	end
 
-	---Peek previously resolved hardcoded timeline context.
+	---Read previously stored resolver context without mutating it.
+	---
+	---Common use case:
+	---When current duration is ambiguous, inspect most recent context to decide which ability
+	---the event should map to, then call TLResolvePush for the newly resolved result.
+	---
+	---Offset rules:
+	--- - offset 0 (default): latest resolved event.
+	--- - offset 1: one event before latest.
+	--- - offset N: N events before latest.
+	---
+	---Return contract:
+	---Returns nil,nil when no history exists (or offset is out of range). Callers should always
+	---nil-check both return values before using them in branch logic.
 	---@param offset number? 0 = latest, 1 = one before latest, etc.
 	---@return string? eventType
 	---@return number? timer
@@ -1075,19 +1188,134 @@ do
 	end
 end
 
+do
+	local function getTLBatchState(self)
+		if not self.tlBatchState then
+			self.tlBatchState = {
+				latestByTimer = {},
+				timerByEvent = {},
+				initialGate = {},
+			}
+		end
+		return self.tlBatchState
+	end
+
+	local function cleanupTLBatchState(self, state)
+		if not next(state.latestByTimer) and not next(state.timerByEvent) and not next(state.initialGate) then
+			self.tlBatchState = nil
+		end
+	end
+
+	---Track a timeline event as the latest entry for its rounded timer bucket.
+	---
+	---Purpose:
+	---Some encounters emit batched duplicate timeline rows where earlier rows in the same
+	---timer bucket are immediately canceled. This helper keeps only the latest event per
+	---timer and cancels the previous reservation automatically.
+	---
+	---Behavior:
+	--- - Optional filter via trackedTimers set (for example {[4]=true, [6]=true}).
+	--- - If an older event exists for this timer, calls TLCountCancel(oldEventID).
+	--- - Marks eventID as latest for this timer and records reverse lookup for cleanup.
+	---
+	---Call this from ENCOUNTER_TIMELINE_EVENT_ADDED before TLStart/TLCountStart for buckets
+	---affected by the batch bug.
+	---@param timer number Rounded timer bucket used by module routing.
+	---@param eventID number Encounter timeline runtime eventID.
+	---@param trackedTimers table<number, boolean>? Optional timer set to limit which buckets are deduped.
+	---@return number? replacedEventID Previous eventID replaced/canceled for this timer (if any).
+	function bossModPrototype:TLBatchTrackLatest(timer, eventID, trackedTimers)
+		if trackedTimers and not trackedTimers[timer] then
+			return nil
+		end
+		local state = getTLBatchState(self)
+		local replacedEventID = state.latestByTimer[timer]
+		if replacedEventID and replacedEventID ~= eventID then
+			self:TLCountCancel(replacedEventID)
+			state.timerByEvent[replacedEventID] = nil
+		end
+		state.latestByTimer[timer] = eventID
+		state.timerByEvent[eventID] = timer
+		return replacedEventID
+	end
+
+	---Release one timeline event from batch-tracking state.
+	---
+	---Use from ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED for any state transition so the
+	---internal latest/reverse maps stay compact and never leak between events.
+	---@param eventID number Encounter timeline runtime eventID.
+	---@return number? timer Rounded timer bucket this event was tracked under.
+	function bossModPrototype:TLBatchUntrack(eventID)
+		local state = self.tlBatchState
+		if not state then return nil end
+		local timer = state.timerByEvent[eventID]
+		if not timer then return nil end
+		if state.latestByTimer[timer] == eventID then
+			state.latestByTimer[timer] = nil
+		end
+		state.timerByEvent[eventID] = nil
+		cleanupTLBatchState(self, state)
+		return timer
+	end
+
+	---Ignore initial timeline batch noise until a known unlock timer appears.
+	---
+	---Purpose:
+	---Some encounters emit one known-bad initial batch at pull. Modules previously handled
+	---this with local booleans. This helper centralizes that gate logic.
+	---
+	---Behavior:
+	--- - First call for gateKey initializes the gate as locked.
+	--- - While locked, returns true (caller should ignore current event).
+	--- - If timer matches unlockTimer while locked, unlocks gate and still returns true for
+	---   that unlock event (preserves existing module behavior that drops the whole bad set).
+	--- - After unlock, returns false.
+	---@param gateKey string Module-local key for one gate (for example "opener").
+	---@param timer number Rounded timer for current event.
+	---@param unlockTimer number Timer bucket that marks end of initial bad batch.
+	---@return boolean shouldIgnore True when caller should skip current event.
+	function bossModPrototype:TLBatchIgnoreInitialUntil(gateKey, timer, unlockTimer)
+		local state = getTLBatchState(self)
+		if state.initialGate[gateKey] == nil then
+			state.initialGate[gateKey] = true
+		end
+		if state.initialGate[gateKey] then
+			if timer == unlockTimer then
+				state.initialGate[gateKey] = false
+			end
+			return true
+		end
+		return false
+	end
+
+	---Clear all timeline batch utility state for this mod.
+	---
+	---Call at encounter boundaries (combat start/end) alongside TLCountReset.
+	function bossModPrototype:TLBatchReset()
+		self.tlBatchState = nil
+	end
+end
+
 
 ----------------------------------
 --  Private/Secret API Methods  --
 ----------------------------------
 do
-	local wowToC = DBM:GetTOC()
+	local AddAuraSound = C_UnitAuras.AddAuraSound
+	local AddPrivateAuraAppliedSound = C_UnitAuras.AddPrivateAuraAppliedSound
+	local RemoveAuraSound = C_UnitAuras.RemoveAuraSound or C_UnitAuras.RemovePrivateAuraAppliedSound
 
-	-- Helper function to register a private aura sound for a single spell ID
+	-- Helper function to register an aura sound for a single spell ID
 	---@param self DBMMod
 	---@param optionId number
 	---@param spellId number
 	---@param media number|string
-	local function registerPrivateAuraSound(self, optionId, spellId, media)
+	---@param soundType number? UnitAuraSoundTrigger: 0 = added, 1 = applications increased, 2 = removed
+	local function registerAuraSound(self, optionId, spellId, media, soundType)
+		if not AddAuraSound and not AddPrivateAuraAppliedSound then
+			DBM:Debug("Attempting to register aura sound failed because no aura sound API is available for mod " .. self.id, 2)
+			return
+		end
 		local soundSetting = DBM.Options.UseSoundChannel or "Master"
 		if not self.paSounds then
 			self.paSounds = {}
@@ -1095,34 +1323,34 @@ do
 		if not self.paSounds[optionId] then
 			self.paSounds[optionId] = {}
 		end
-		local privateAuraSoundId
+		local soundInfo = {
+			spellID = spellId,
+			unitToken = "player",
+			outputChannel = soundSetting,
+		}
 		--Absolute media path is still a number, so at this point we know it's file data Id, we need to set soundFileID
 		if type(media) == "number" then
-			privateAuraSoundId = C_UnitAuras.AddPrivateAuraAppliedSound({
-				spellID = spellId,
-				unitToken = "player",
-				soundFileID = media,
-				outputChannel = soundSetting,
-			})
+			soundInfo.soundFileID = media
 		else--It's a string, so it's not an ID, we need to set soundFileName instead
-			privateAuraSoundId = C_UnitAuras.AddPrivateAuraAppliedSound({
-				spellID = spellId,
-				unitToken = "player",
-				--Another cause of LuaLS being stupid for some reason
-				---@diagnostic disable-next-line: assign-type-mismatch
-				soundFileName = media,
-				outputChannel = soundSetting,
-			})
+			soundInfo.soundFileName = media
 		end
-		self.paSounds[optionId][#self.paSounds[optionId] + 1] = privateAuraSoundId
+		local auraSoundId
+		if AddAuraSound then
+			auraSoundId = AddAuraSound(soundType or 0, soundInfo)
+		else
+			auraSoundId = AddPrivateAuraAppliedSound(soundInfo)
+		end
+		self.paSounds[optionId][#self.paSounds[optionId] + 1] = auraSoundId
 	end
 
 	---@param self DBMMod
 	---@param optionId number
-	local function disablePrivateAuraSoundOption(self, optionId)
+	local function disableAuraSoundOption(self, optionId)
 		if not self.paSounds or not self.paSounds[optionId] then return end
 		for _, id in ipairs(self.paSounds[optionId]) do
-			C_UnitAuras.RemovePrivateAuraAppliedSound(id)
+			if RemoveAuraSound then
+				RemoveAuraSound(id)
+			end
 		end
 		self.paSounds[optionId] = nil
 		if not next(self.paSounds) then
@@ -1143,7 +1371,7 @@ do
 		local soundId = customOption and self.Options[customOption .. "SWSound"] or self.Options[optionType .. optionId .. "SWSound"] or DBM.Options.SpecialWarningSound--Shouldn't be nil value, but just in case options fail to load, fallback to default SW1 sound
 		local mediaPath
 		local chosenVoice = DBM.Options.ChosenVoicePack2
-		if chosenVoice ~= "None" and not private.voiceSessionDisabled and voiceVersion <= private.swFilterDisabled then
+		if not DBM:IsNoneValue(chosenVoice) and not private.voiceSessionDisabled and voiceVersion <= private.swFilterDisabled then
 			local isVoicePackUsed
 			--Vet if user has voice pack enabled by sound ID
 			if notSpecial or type(soundId) == "number" and soundId < 5 then--Value 1-4 are SW1 defaults, otherwise it's file data ID and handled by Custom
@@ -1164,10 +1392,11 @@ do
 
 	--Internal function for zone-based registration of a single pending PA sound entry
 	---@param mod DBMMod
-	---@param auraspellId number|number[] ID(s) of the private aura(s) to register sound for
+	---@param auraspellId number|number[] ID(s) of the aura(s) to register sound for
 	---@param voice VPSound voice pack media path
 	---@param voiceVersion number Required voice pack version (if not met, falls back to default special warning sounds)
-	local function enablePrivateAuraSound(mod, auraspellId, voice, voiceVersion)
+	---@param soundType number? UnitAuraSoundTrigger: 0 = added, 1 = applications increased, 2 = removed
+	local function enableAuraSound(mod, auraspellId, voice, voiceVersion, soundType)
 		local optionId
 		if type(auraspellId) == "table" then
 			optionId = auraspellId[1]
@@ -1175,51 +1404,51 @@ do
 			optionId = auraspellId
 		end
 		if type(optionId) ~= "number" then
-			DBM:Debug("Attempting to register private aura sound failed due to invalid optionId type for mod " .. mod.id, 2)
+			DBM:Debug("Attempting to register aura sound failed due to invalid optionId type for mod " .. mod.id, 2)
 			return
 		end
-		if InCombatLockdown() then
-			DBM:Debug("Attempting to register private aura sound for spell ID " .. optionId .. " failed due to combat restriction. This sound will not be registered.", 2)
+		if C_ChatInfo.InChatMessagingLockdown() then
+			DBM:Debug("Attempting to register aura sound for spell ID " .. optionId .. " failed due to combat restriction. This sound will not be registered.", 2)
 			return
 		end
-		if not C_UnitAuras.AuraIsPrivate(optionId) then
-			DBM:Debug("Attempting to register private aura sound for spell ID " .. optionId .. " which is not a private aura. This sound will not be registered.", 2)
+		if not DBM:GetSpellInfo(optionId) then
+			DBM:Debug("Attempting to register aura sound for spell ID " .. optionId .. " which is not a valid spell ID. This sound will not be registered.", 2)
 			return
 		end
 		if DBM.Options.DontPlayPrivateAuraSound then return end
 		if optionId and mod.Options["PrivateAuraSound" .. optionId] then
 			local mediaPath = checkValidVPSound(mod, "PrivateAuraSound", optionId, voice, voiceVersion)
-			if mediaPath == "None" then return end--Don't register if media path is none, even if option is enabled
+			if DBM:IsNoneValue(mediaPath) then return end--Don't register if media path is none, even if option is enabled
 			if type(auraspellId) == "table" then
 				for _, spellId in ipairs(auraspellId) do
-					registerPrivateAuraSound(mod, optionId, spellId, mediaPath)
+					registerAuraSound(mod, optionId, spellId, mediaPath, soundType)
 				end
 			else
-				registerPrivateAuraSound(mod, optionId, auraspellId, mediaPath)
+				registerAuraSound(mod, optionId, auraspellId, mediaPath, soundType)
 			end
 		end
 	end
 
-	---Called by DBM-Core's SecondaryLoadCheck when entering a zone.
-	---Registers only the pending private aura sounds stored for the current zone.
+	---Called by Loading's SecondaryLoadCheck when entering a zone.
+	---Registers only the pending aura sounds stored for the current zone.
 	---@param mapID number
-	function bossModPrototype:RegisterZonePASounds(mapID)
+	function bossModPrototype:RegisterZoneAuraSounds(mapID)
 		if not self.pendingPASoundsByZone then return end
 		local zoneEntries = self.pendingPASoundsByZone[mapID]
 		if not zoneEntries then return end
 		for _, entry in ipairs(zoneEntries) do
-			enablePrivateAuraSound(self, entry[1], entry[2], entry[3])
+			enableAuraSound(self, entry[1], entry[2], entry[3], entry[4])
 		end
 	end
 
-	---Refresh a single currently active private aura sound option for this mod using the player's current zone.
+	---Refresh a single currently active aura sound option for this mod using the player's current zone.
 	---@param optionId number
 	---@return boolean refreshed Returns false if the refresh could not be performed safely.
-	function bossModPrototype:RefreshPrivateAuraSound(optionId)
-		if InCombatLockdown() then
+	function bossModPrototype:RefreshAuraSound(optionId)
+		if C_ChatInfo.InChatMessagingLockdown() then
 			return false
 		end
-		disablePrivateAuraSoundOption(self, optionId)
+		disableAuraSoundOption(self, optionId)
 		local mapID = DBM:GetCurrentArea()
 		if not mapID or mapID <= 0 or not self.pendingPASoundsByZone then
 			return true
@@ -1231,35 +1460,35 @@ do
 		for _, entry in ipairs(zoneEntries) do
 			local entryOptionId = type(entry[1]) == "table" and entry[1][1] or entry[1]
 			if entryOptionId == optionId then
-				enablePrivateAuraSound(self, entry[1], entry[2], entry[3])
+				enableAuraSound(self, entry[1], entry[2], entry[3], entry[4])
 			end
 		end
 		return true
 	end
 
-	---Refresh currently active private aura sounds for this mod using the player's current zone.
+	---Refresh currently active aura sounds for this mod using the player's current zone.
 	---@return boolean refreshed Returns false if the refresh could not be performed safely.
-	function bossModPrototype:RefreshPrivateAuraSounds()
+	function bossModPrototype:RefreshAuraSounds()
 		--Restriction must remain because adding sounds still combat restricted
-		if InCombatLockdown() then
+		if C_ChatInfo.InChatMessagingLockdown() then
 			return false
 		end
-		self:DisablePrivateAuraSounds()
+		self:DisableAuraSounds()
 		local mapID = DBM:GetCurrentArea()
 		if mapID and mapID > 0 then
-			self:RegisterZonePASounds(mapID)
+			self:RegisterZoneAuraSounds(mapID)
 		end
 		return true
 	end
 
-	function bossModPrototype:DisablePrivateAuraSounds()
+	function bossModPrototype:DisableAuraSounds()
 		--Removal doesn't have same restrictions as adding (allowed in combat)
 		while self.paSounds do
 			local optionId = next(self.paSounds)
 			if not optionId then
 				break
 			end
-			disablePrivateAuraSoundOption(self, optionId)
+			disableAuraSoundOption(self, optionId)
 		end
 	end
 
@@ -1267,28 +1496,37 @@ do
 	---@param optionId number spellId or JournalId that must match option ID
 	---@param encounterEventId number|table EncounterEventID from EncounterEvent.db2 that matches event we're targetting
 	---@param customOption string? Used when event supports hardcoded timers and needs different option table lookup
-	function bossModPrototype:EnableTimelineOptions(optionId, encounterEventId, customOption)
-		if DBM.Options.HideDBMBars then return end
+	---@param onlyColor boolean? Set to true to only set color and not countdown sounds, used for non timer events that still want color options
+	function bossModPrototype:EnableTimelineOptions(optionId, encounterEventId, customOption, onlyColor)
 		--Set Color (done outside option check since right now option check isnt supported until a future patch
 		--And we want to set colors on any bar even if it's "disabled" for now
 		if not DBM.Options.DontSetTimelineColors then
 			local colorType = customOption and self.Options[customOption .. "TColor"] or self.Options["CustomTimerOption" .. optionId .. "TColor"] or 0
-			local timerRed, timerGreen, timerBlue = DBT:GetColorForType(colorType, true)
+			local timerStartRed, timerStartGreen, timerStartBlue = DBT:GetColorForType(colorType)
+			local timerEndRed, timerEndGreen, timerEndBlue = DBT:GetColorForType(colorType, true)
 			if type(encounterEventId) == "table" then
 				for _, id in ipairs(encounterEventId) do
-					C_EncounterEvents.SetEventColor(id, {r = timerRed, g = timerGreen, b = timerBlue})
+					DBM:EE_SetEventColor(id, timerStartRed, timerStartGreen, timerStartBlue, timerEndRed, timerEndGreen, timerEndBlue)
 				end
 			else
-				C_EncounterEvents.SetEventColor(encounterEventId, {r = timerRed, g = timerGreen, b = timerBlue})
+				DBM:EE_SetEventColor(encounterEventId, timerStartRed, timerStartGreen, timerStartBlue, timerEndRed, timerEndGreen, timerEndBlue)
 			end
 		end
-		if optionId and (customOption and self.Options[customOption] or self.Options["CustomTimerOption" .. optionId]) then
+		if not onlyColor and optionId and (customOption and self.Options[customOption] or self.Options["CustomTimerOption" .. optionId]) then
 			--Set Countdown
+			--Known Caveats. If a bar starts with a duration shorter than highlight duration (ie a 3 second bar starts already highlighted, countdown will start at 3 and count from 5
+			--This is far less likely to happen when using a highlight value of 5000 ms but with a value of 10000ms it might happen quite a bit for initial timers that are < 10
 			local timerCountdown = not DBM.Options.DontPlayCountdowns and (customOption and self.Options[customOption .. "CVoice"] or self.Options["CustomTimerOption" .. optionId .. "CVoice"]) or 0
-			if timerCountdown ~= 0 then
+			if timerCountdown ~= 0 and self.tlCountValue then
 				if not self.tlTimerEvents then self.tlTimerEvents = {} end
 				local maxCount = DBM:GetCountMaxCountForVoice(timerCountdown)
-				local countSizePath = (maxCount == 3 or DBM.Options.CountSize == 3) and "threecount.ogg" or "fivecount.ogg"
+				local countSizePath
+				if maxCount == 3 or DBM.Options.CountSize == 3 then
+					countSizePath = self.tlCountValue == 10000 and "threecount_5s.ogg" or "threecount.ogg"
+				else
+					countSizePath = self.tlCountValue == 10000 and "fivecount_5s.ogg" or "fivecount.ogg"
+				end
+				local path
 				if type(timerCountdown) == "string" then
 					path = timerCountdown..countSizePath
 				elseif timerCountdown == 2 then
@@ -1298,7 +1536,7 @@ do
 				elseif timerCountdown == 1 then
 					path = "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\" .. countSizePath
 				end
-				--Unlike private aura sounds, this api accepts both file data ID AND path
+				--Unlike aura sounds, this api accepts both file data ID AND path
 				local soundSetting = DBM.Options.UseSoundChannel or "Master"
 				if type(encounterEventId) == "table" then
 					for _, id in ipairs(encounterEventId) do
@@ -1364,13 +1602,13 @@ do
 			--if optionId and (customOption and self.Options[customOption] or self.Options["CustomTimerOption" .. optionId]) then
 			local enabled = customOption and self.Options[customOption] or self.Options["CustomAlertOption" .. optionId]
 			local mediaPath = checkValidVPSound(self, "CustomAlertOption", optionId, voice, voiceVersion, customOption, notSpecial)
-			if enabled and mediaPath ~= "None" then
+			if enabled and not DBM:IsNoneValue(mediaPath) then
 				if not self.tlSoundEvents then
 					self.tlSoundEvents = {}
 					self:DisableSpecialWarningSounds()
 				end
 				local soundSetting = DBM.Options.UseSoundChannel or "Master"
-				--Unlike private aura sounds, this api accepts both file data ID AND path
+				--Unlike aura sounds, this api accepts both file data ID AND path
 				if type(encounterEventId) == "table" then
 					for _, id in ipairs(encounterEventId) do
 						--Once again working around bugs in Wow Api extension

@@ -70,6 +70,11 @@ function bParser.GetAttributeTypeFromDisplay(mainDisplay, subDisplay)
     if (mainDisplay == 2 and subDisplay == 8) then --heal potions
         displayType = -10
     end
+
+    if not displayType then
+        displayType = 0
+    end
+
     return displayType
 end
 
@@ -86,6 +91,8 @@ local onEvent = function(event, instance, ...)
     ---@cast instance instance
     if event == "DETAILS_INSTANCE_CHANGEATTRIBUTE" then
         local mainDisplay, subDisplay = ...
+        --Details222.BParser.SetTitleText(instance, "")
+
         if bParser.IsDamageMeterSwapped() then
             local damageMeterType = bParser.GetAttributeTypeFromDisplay(mainDisplay, subDisplay)
             if damageMeterType < 100 then

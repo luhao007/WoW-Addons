@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("EmerissVanilla", "DBM-Azeroth")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 
 if DBM:IsSeasonal("SeasonOfDiscovery") then
@@ -27,7 +27,7 @@ mod:RegisterEventsInCombat(
 --TODO, Needs valid spellIDs for Classic
 local warnNoxiousBreath			= mod:NewStackAnnounce(24818, 2, nil, "Tank", 2)
 
-local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2)
+local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 --local specWarnMushroom			= mod:NewSpecialWarningYou(243451, nil, nil, nil, 1, 2)
 
 --local timerNoxiousBreathCD		= mod:NewCDTimer(18.3, 24818, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Iffy

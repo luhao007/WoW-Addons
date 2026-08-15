@@ -1,15 +1,20 @@
 <Ui>
     <Script file="Api.lua" />
     <Script file="AchievementDataApi.lua" />
+    <Script file="AchievementDataBuilder.lua" />
     <Script file="BuildVersionDataApi.lua" />
+    <Script file="BuildVersionDataBuilder.lua" />
+    <Script file="CategoryDataBuilder.lua" />
     <Script file="CategoryDataApi.lua" />
     <Script file="CustomCriteriaApi.lua" />
     <Script file="EventDataApi.lua" />
     <Script file="PetBattleLinkDataApi.lua" />
     <Script file="PluginsApi.lua" />
+    <Script file="RewardPreviewDataApi.lua" />
     <Script file="TabDataApi.lua" />
     <Script file="TooltipDataApi.lua" />
     <Script file="TransmogSetDataApi.lua" />
     <Script file="UtilApi.lua" />
     <Script file="ZoneDataApi.lua" />
+    <Script file="ZoneDataBuilder.lua" />
 </Ui>

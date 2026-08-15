@@ -255,7 +255,7 @@ function Details:ApplyProfile(profileName, bNoSave, bIsCopy)
 
 	--apply the skin
 		--first save the local instance configs
-		Details:SaveLocalInstanceConfig()
+		Details222.SaveVariables.SaveLocalInstanceConfig()
 
 		local saved_skins = profile.instances
 		local instance_limit = Details.instances_amount
@@ -554,7 +554,7 @@ function Details:SaveProfile (saveas)
 		end
 	end
 	Details.do_not_save_skins = nil
-	Details:SaveLocalInstanceConfig()
+	Details222.SaveVariables.SaveLocalInstanceConfig()
 
 	return profile
 end
@@ -1199,7 +1199,11 @@ local default_player_data = {
 			last_coach_name = false,
 		},
 
+		auto_combatlog = false,
+
+		apocalypse_hashes = {},
 		apocalypse_savedsegments = {},
+		apocalypes_info = {},
 
 		arena_data_headers = {},
 		arena_data_compressed = {}, --store data for arena the character did
@@ -1491,6 +1495,7 @@ local default_global_data = {
 
 	--keystone cache
 		keystone_cache = {},
+		keystone_alts_cache = {},
 
 	--all switch settings (panel shown when right click the title bar)
 		all_switch_config = {
@@ -1730,6 +1735,8 @@ local default_global_data = {
 			mythicrun_time_type = 1, --1: combat time (the amount of time the player is in combat) 2: run time (the amount of time it took to finish the mythic+ run)
 		}, --implementar esse time_type quando estiver dando refresh na janela
 
+		mythic_small_window_pos = {},
+
 	--plugin window positions
 		plugin_window_pos = {},
 
@@ -1944,7 +1951,7 @@ end
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 --~export ~ import ~profile
-
+--these are keys in the profile that should not be exported
 local exportProfileBlacklist = {
 	custom = true,
 	cached_specs = true,
@@ -1986,7 +1993,35 @@ local exportProfileBlacklist = {
 	installed_skins_cache = true,
 	trinket_data = true,
 	keystone_cache = true,
+	keystone_alts_cache = true,
 	performance_profiles = true,
+	coach = true,
+	apocalypse_savedsegments = true,
+	apocalypse_hashes = true,
+	apocalypes_info = true,
+	arena_data_headers = true,
+	arena_data_compressed = true, --store data for arena the character did
+	arena_data_index_selected = true, --index of the arena data selected to be shown in the arena data panel
+	player_stats = true,
+	combat_log = true,
+	data_harvest_for_charsts = true,
+	data_harvested_for_charts = true,
+	ocd_tracker = true,
+	mythic_plus_log = true,
+	cached_roles = true,
+	last_day = true,
+	last_instance_id = true,
+	last_instance_time = true,
+	mythic_dungeon_id = true,
+	local_instances_config = true,
+	on_death_menu = true,
+	damage_meter_sessions = true,
+	damage_meter_session_info = true,
+	current_exp_raid_encounters = true,
+	savedCustomSpells = true,
+	recent_players = true,
+	third_party = true,
+	mythic_small_window_pos = true,
 }
 
 --transform the current profile into a string which can be shared in the internet
@@ -2037,7 +2072,8 @@ function Details:ExportCurrentProfile(profileName)
 		version = 1,
 	}
 
-	local compressedData = Details:CompressData (exportedData, "print")
+	local bUseBlizzardEncoding = true
+	local compressedData = Details:CompressData (exportedData, "print", bUseBlizzardEncoding)
 	return compressedData
 end
 
@@ -2059,7 +2095,6 @@ function Details:ImportProfile (profileString, newProfileName, bImportAutoRunCod
 
 	local dataTable = Details:DecompressData (profileString, "print")
 	if (dataTable) then
-
 		local profileObject = Details:GetProfile (newProfileName, false)
 		local nameWasDuplicate = false
     if not overwriteExisting then

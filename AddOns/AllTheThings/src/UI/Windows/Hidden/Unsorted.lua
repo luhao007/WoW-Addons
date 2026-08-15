@@ -9,6 +9,7 @@ local tinsert = tinsert;
 -- Implementation
 app:CreateWindow("Unsorted", {
 	Commands = { "attunsorted" },
+	RootCommands = { "unsorted" },
 	HideFromSettings = true,
 	Preload = true,
 	OnInit = function(self)

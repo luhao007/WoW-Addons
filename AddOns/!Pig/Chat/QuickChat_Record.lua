@@ -19,8 +19,9 @@ local PIGFontStringBG=Create.PIGFontStringBG
 local PIGDiyBut=Create.PIGDiyBut
 -----------------------------------------
 local Fun=addonTable.Fun
-local TihuanBiaoqing=Fun.TihuanBiaoqing
+local ReplaceEmoji=Fun.ReplaceEmoji
 local Data=addonTable.Data
+local PlayerInfo=Data.PlayerInfo
 local QuickChatfun=addonTable.QuickChatfun
 GMChatStatusFrameDescription=GMChatStatusFrameDescription or CreateFrame("Frame")
 GMChatStatusFrameTitleText=GMChatStatusFrameTitleText or CreateFrame("Frame")
@@ -139,7 +140,7 @@ function QuickChatfun.QuickBut_Jilu()
 	miyijiluF.shezhiF:PIGSetBackdrop()
 	miyijiluF.shezhiF:PIGClose()
 	miyijiluF.shezhiF:Hide()
-	miyijiluF.shezhiF.biaoti=PIGFontString(miyijiluF.shezhiF,{"TOP", miyijiluF.shezhiF, "TOP", 0, -4},L["OPTUI_SET"])
+	miyijiluF.shezhiF.biaoti=PIGFontString(miyijiluF.shezhiF,{"TOP", miyijiluF.shezhiF, "TOP", 0, -4},SETTINGS)
 	PIGLine(miyijiluF.shezhiF,"TOP",-20)
 
 	miyijiluF.shezhiF.kaiguan = PIGCheckbutton(miyijiluF.shezhiF,{"TOPLEFT", miyijiluF.shezhiF, "TOPLEFT", 10,-30},{ENABLE..L["CHAT_WHISPER"]..GUILD_BANK_LOG,ENABLE..L["CHAT_WHISPER"]..GUILD_BANK_LOG})
@@ -445,7 +446,7 @@ function QuickChatfun.QuickBut_Jilu()
 				PIGSendBNetTell(displayName)
 			else
 				local nameyc1, nameyc2 = strsplit("-", nameinfo, 2)
-				if nameyc2 and nameyc2==PIG_OptionsUI.Realm then
+				if nameyc2 and nameyc2==PlayerInfo.Realm then
 					nameinfo=nameyc1;
 				end
 				if button=="LeftButton" then
@@ -520,7 +521,7 @@ function QuickChatfun.QuickBut_Jilu()
 						local coords = CLASS_ICON_TCOORDS[shuju[1][dangqian][2]]
 						hang.zhiye:SetTexCoord(unpack(coords));
 						local name1,name2 = strsplit("-", shuju[1][dangqian][1], 2);
-						if name2 and name2 ~= PIG_OptionsUI.Realm then
+						if name2 and name2 ~= PlayerInfo.Realm then
 							hang.name:SetText(name1.."(*)");
 						else
 							hang.name:SetText(name1);
@@ -672,7 +673,7 @@ function QuickChatfun.QuickBut_Jilu()
 				if realm and realm~="" and realm~=" " then
 					self.miyuren=arg2.."-"..realm
 				else
-					self.miyuren=arg2.."-"..PIG_OptionsUI.Realm
+					self.miyuren=arg2.."-"..PlayerInfo.Realm
 				end
 			end
 		elseif arg13 then
@@ -719,7 +720,7 @@ function QuickChatfun.QuickBut_Jilu()
 	local pindaoColor = {["PARTY"]={0.6667, 0.6667, 1},["RAID"]={1, 0.498, 0},["GUILD"]={0.25, 1, 0.25}};
 	local pindaoColorCFF={["PARTY"]="AAAAFF",["RAID"]="FF7F00",["GUILD"]="40FF40",["INSTANCE_CHAT"]="FF7F00"};
 	local JJM = L["CHAT_QUKBUTNAME"]
-	local JXname = L["CHAT_JXNAME"]
+	local JXname = L["CHAT_SIMPLIFYNAME"]
 	local function format_msg(Event,info2,info3,info5,wjname,info4_jiluxiaoxineirong)
 		local textCHATINFO=""
 		if Event=="CHAT_MSG_PARTY_LEADER" then
@@ -746,7 +747,7 @@ function QuickChatfun.QuickBut_Jilu()
 	ChatRecordF:PIGSetBackdrop()
 	ChatRecordF:PIGSetMovableNoSave()
 	ChatRecordF:PIGClose()
-	ChatRecordF.biaoti=PIGFontString(ChatRecordF,{"TOP", ChatRecordF, "TOP", 0, -4},L["CHAT_TABNAME"]..GUILD_BANK_LOG)
+	ChatRecordF.biaoti=PIGFontString(ChatRecordF,{"TOP", ChatRecordF, "TOP", 0, -4},CHAT..GUILD_BANK_LOG)
 	PIGLine(ChatRecordF,"TOP",-20)
 
 	--保存天数
@@ -1084,10 +1085,10 @@ function QuickChatfun.QuickBut_Jilu()
 				local info3 =jilulist[x][3];
 				local info4_jiluxiaoxineirong =jilulist[x][4];
 				local info5 =jilulist[x][5];
-				local info4_jiluxiaoxineirong = TihuanBiaoqing(info4_jiluxiaoxineirong)
+				local info4_jiluxiaoxineirong = ReplaceEmoji(info4_jiluxiaoxineirong)
 				local textCHATINFO,wjname=""," ";
 				local FGname, fuwuqi = strsplit("-", info3, 2)
-				if fuwuqi==PIG_OptionsUI.Realm then
+				if fuwuqi==PlayerInfo.Realm then
 					wjname=FGname
 				else
 					wjname=info3

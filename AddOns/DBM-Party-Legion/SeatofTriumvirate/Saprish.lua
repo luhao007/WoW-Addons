@@ -1,9 +1,10 @@
 local mod	= DBM:NewMod(1980, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260709014625")
 mod:SetCreatureID(124872)
 mod:SetEncounterID(2066)
+mod:SetZone(1753)
 
 mod:RegisterCombat("combat")
 
@@ -11,8 +12,8 @@ if DBM:IsPostMidnight() then
 	local warnPhaseDash					= mod:NewCountAnnounce(1280064, 2)
 	local warnShadowPounce				= mod:NewCountAnnounce(245738, 2)
 
-	local specWarnVoidBomb				= mod:NewSpecialWarningCount(247175, nil, nil, nil, 1, 2)
-	local specWarnOverload				= mod:NewSpecialWarningCount(1263523, nil, nil, nil, 2, 2)
+	local specWarnVoidBomb				= mod:NewSpecialWarningCount(247175, nil, nil, nil, 1, 2, nil, nil, "bombsoon")
+	local specWarnOverload				= mod:NewSpecialWarningCount(1263523, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 
 	local timerVoidBombCD				= mod:NewCDCountTimer(20.5, 247175, nil, nil, nil, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
 	local timerPhaseDashCD				= mod:NewCDCountTimer(20.5, 1280064, nil, nil, nil, 3)
@@ -20,8 +21,8 @@ if DBM:IsPostMidnight() then
 	local timerOverloadCD				= mod:NewCDCountTimer(20.5, 1263523, nil, nil, nil, 2)
 
 	mod:AddCustomAlertSoundOption(248831, "HasInterrupt", 2)--Dread Screech
-	mod:AddPrivateAuraSoundOption(1280064, true, 1280064, 1, 1, "lineyou", 17)--Phase Dash
-	mod:AddPrivateAuraSoundOption(245742, true, 245742, 2, 1, "targetyou", 2)--Shadow Pounce
+	mod:AddAuraSoundOption(1280064, true, 1280064, 1, 1, "lineyou", 17)--Phase Dash
+	--mod:AddAuraSoundOption(245742, true, 245742, 2, 1, "targetyou", 2)--Shadow Pounce
 
 	mod.vb.voidBombCount = 0
 	mod.vb.phaseDashCount = 0
@@ -32,16 +33,19 @@ if DBM:IsPostMidnight() then
 	local badStateDetected = false
 
 	---@param self DBMMod
-	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+	---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 	local function setFallback(self, dontSetAlerts)
 		if not dontSetAlerts then
 			specWarnVoidBomb:SetAlert(234, "bombsoon", 1, 2)
 			specWarnOverload:SetAlert(243, "aesoon", 2, 2)
 		end
-		timerVoidBombCD:SetTimeline(234)
-		timerPhaseDashCD:SetTimeline(235)
-		timerShadowPounceCD:SetTimeline(237)
-		timerOverloadCD:SetTimeline(243)
+		--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+		timerVoidBombCD:SetTimeline(234, onlyColor)
+		timerPhaseDashCD:SetTimeline(235, onlyColor)
+		timerShadowPounceCD:SetTimeline(237, onlyColor)
+		timerOverloadCD:SetTimeline(243, onlyColor)
 	end
 
 	function mod:OnLimitedCombatStart()
@@ -54,16 +58,13 @@ if DBM:IsPostMidnight() then
 		self.vb.phaseDashCount = 1
 		self.vb.shadowPounceCount = 1
 		self.vb.overloadCount = 1
-		if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+		if DBM.Options.HardcodedTimer and not badStateDetected then
 			self:IgnoreBlizzardAPI()
 			self:RegisterShortTermEvents(
 				"ENCOUNTER_TIMELINE_EVENT_ADDED",
 				"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 			)
-			--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-			if DBM.Options.HideDBMBars then
-				setFallback(self, true)
-			end
+			setFallback(self, true)
 		else
 			setFallback(self)
 		end
@@ -160,11 +161,11 @@ else
 	--local warnDreadScreech					= mod:NewCastAnnounce(248831, 2)
 
 	--local specWarnHuntersRush				= mod:NewSpecialWarningDefensive(247145, nil, nil, nil, 1, 2)
-	local specWarnOverloadTrap				= mod:NewSpecialWarningDodge(247206, nil, nil, nil, 2, 2)
-	local specWarnUmbralFlanking			= mod:NewSpecialWarningMoveAway(247245, nil, nil, nil, 1, 2)
+	local specWarnOverloadTrap				= mod:NewSpecialWarningDodge(247206, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+	local specWarnUmbralFlanking			= mod:NewSpecialWarningMoveAway(247245, nil, nil, nil, 1, 2, nil, nil, "scatter")
 	local yellUmbralFlanking				= mod:NewYell(247245)
-	local specWarnRavagingDarkness			= mod:NewSpecialWarningDodge(245802, nil, nil, nil, 2, 2)
-	local specWarnDreadScreech				= mod:NewSpecialWarningInterrupt(248831, "HasInterrupt", nil, nil, 1, 2)
+	local specWarnRavagingDarkness			= mod:NewSpecialWarningDodge(245802, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+	local specWarnDreadScreech				= mod:NewSpecialWarningInterrupt(248831, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
 	local timerVoidTrapCD					= mod:NewCDTimer(15.8, 246026, nil, nil, nil, 3)
 	local timerOverloadTrapCD				= mod:NewCDTimer(20.6, 247206, nil, nil, nil, 3)

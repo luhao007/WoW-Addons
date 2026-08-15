@@ -169,9 +169,7 @@ L["STRING_CUSTOM_TARGET_DESC"] = [=[행위자의 대상입니다.
 
 오른쪽에 있는 버튼은 공격대 전투 중 npc들의 목록을 표시합니다.]=]
 L["STRING_CUSTOM_TEMPORARILY"] = " (|cFFFFC000임시|r)"
-L["STRING_CUSTOM_TEXTURE_GUIDE"] = [=[월드 오브 워크래프트 클라이언트에서 텍스쳐 파일을 열기 위해서는 .TGA 형식의 파일이 필요하며, 높이와 너비는 8의 배수여야 합니다.
-
-텍스쳐를 /WoW Install Folder/retail/Interface/ 에 넣으십시요.]=]
+L["STRING_CUSTOM_TEXTURE_GUIDE"] = "월드 오브 워크래프트 클라이언트에서 텍스쳐 파일을 열기 위해서는 .TGA 형식의 파일이 필요하며, 높이와 너비는 8의 배수여야 합니다. 텍스쳐를 /WoW Install Folder/retail/Interface/ 에 넣으십시요."
 L["STRING_DAMAGE"] = "피해"
 L["STRING_DAMAGE_DPS_IN"] = "받은 DPS:"
 L["STRING_DAMAGE_FROM"] = "피해 출처"
@@ -437,6 +435,10 @@ L["STRING_OPTIONS_ANIMATESCROLL_DESC"] = "활성화하면 스크롤 바가 표�
 L["STRING_OPTIONS_APPEARANCE"] = "외형"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT"] = "제목 문자 설정"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT_DESC"] = "창의 제목 문자를 조정하는 옵션입니다."
+--[[Translation missing --]]
+L["STRING_OPTIONS_AUTO_COMBATLOG"] = "Auto Start Combatlog"
+--[[Translation missing --]]
+L["STRING_OPTIONS_AUTO_COMBATLOG_DESC"] = "Automatically start and stop logging combat to the combatlog.txt file when you enter or leave a raid or dungeon."
 L["STRING_OPTIONS_AUTO_SWITCH"] = "모든 역할 |cFFFFAA00(전투 중)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_COMBAT"] = "|cFFFFAA00(전투 중)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_DAMAGER_DESC"] = "공격 담당일 때 이 창에 선택한 항목이나 플러그인을 표시합니다."
@@ -922,6 +924,10 @@ L["STRING_OPTIONS_PICONS_DIRECTION_DESC"] = "체크하면 메뉴 버튼의 오�
 --[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME"] = "Player Name"
 --[[Translation missing --]]
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Auto Alignment"
+--[[Translation missing --]]
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Disable this only if you experience player name alignment issues."
+--[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"] = "Length Auto"
 --[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME_WIDTH"] = "Length"
@@ -1273,6 +1279,10 @@ L["STRING_OPTIONS_TOOLTIPS_BACKGROUNDCOLOR_DESC"] = "배경에 사용할 색상�
 L["STRING_OPTIONS_TOOLTIPS_BORDER_COLOR_DESC"] = "테두리 색상을 변경합니다."
 L["STRING_OPTIONS_TOOLTIPS_BORDER_SIZE_DESC"] = "테두리 크기를 변경합니다."
 L["STRING_OPTIONS_TOOLTIPS_BORDER_TEXTURE_DESC"] = "테두리 텍스쳐 파일을 수정합니다."
+--[[Translation missing --]]
+L["STRING_OPTIONS_TOOLTIPS_DISABLE"] = "Disable Tooltips"
+--[[Translation missing --]]
+L["STRING_OPTIONS_TOOLTIPS_DISABLE_DESC"] = "Disable tooltips for the selected window."
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR"] = "문자 색상"
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR_DESC"] = "툴팁 문자에 사용할 색상을 변경합니다."
 L["STRING_OPTIONS_TOOLTIPS_FONTFACE"] = "문자 글꼴"
@@ -1429,6 +1439,8 @@ L["STRING_OPTIONSMENU_TOOLTIP"] = "툴팁"
 L["STRING_OPTIONSMENU_WALLPAPER"] = "창: 배경화면"
 L["STRING_OPTIONSMENU_WINDOW"] = "창: 일반"
 L["STRING_OPTIONSMENU_WINDOWBODY"] = "창 설정"
+--[[Translation missing --]]
+L["STRING_OR"] = "Or"
 L["STRING_OVERALL"] = "종합"
 L["STRING_OVERHEAL"] = "초과 치유"
 L["STRING_OVERHEALED"] = "초과 치유됨"

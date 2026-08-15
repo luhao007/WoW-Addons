@@ -313,7 +313,7 @@ do
 
 	-- app.AddCollectionReportFormatFunc("HeirloomLevel", function(t)
 	-- 	local itemID, link = t.itemID, t.link or t.silentLink
-	-- 	app.print(L.ITEM_ID_ADDED_RANK:format(link, itemID, (select(5, C_Heirloom_GetHeirloomInfo(itemID)) or 1)))
+	-- 	app.report(L.ITEM_ID_ADDED_RANK:format(link, itemID, (select(5, C_Heirloom_GetHeirloomInfo(itemID)) or 1)))
 	-- end)
 	app.AddEventRegistration("HEIRLOOMS_UPDATED", function(itemID, kind, ...)
 		-- app.PrintDebug("HEIRLOOMS_UPDATED",itemID,kind,...)

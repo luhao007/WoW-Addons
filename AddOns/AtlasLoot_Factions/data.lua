@@ -5,7 +5,7 @@ local data = AtlasLoot.ItemDB:Add(addonname)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
+local NORMAL_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "n", nil, 1)
 local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE, "alliance", nil, 1)
 local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE, "horde", nil, 1)
 
@@ -210,9 +210,10 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 206, 256614,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Elder
 				{ 207, 267259,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Sage
 				{ 208, 267260,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Seer
-				-- { 101, "f2704rep48" }, -- decor?
-				{ 210, "f2704rep49" },
-				{ 211, 252014,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Cerulean Sporeglider
+				{ 210, "f2704rep48" },                                                                                                              -- decor?
+				{ 211, 263019,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Haranir Pennant
+				{ 213, "f2704rep49" },
+				{ 214, 252014,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Cerulean Sporeglider
 				{ 216, "f2704rep50" },
 				{ 217, 258014,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Guardian's Armor
 				{ 218, 258013,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Scout's Outfit

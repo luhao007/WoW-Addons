@@ -200,6 +200,11 @@ ns.defaults = {
       MapChanging = false,
       NpcNameTargetingChatText = false,
       TooltipInformations = true,
+      TooltipFont = "default",
+      TooltipFontFlag = 1,
+      TooltipBackground = 3,
+      TooltipBorderColor = 0,
+      MultiInstancePrefixMode = 1,
       DeleteIcons = false,
       CreateAndCopyLinks = false,
       RestoreAllIcons = false,
@@ -208,6 +213,8 @@ ns.defaults = {
       RestoreAzerothDeletedIcons = false,
       RestoreDungeonDeletedIcons = false,
       RestoreCapitalsDeletedIcons = false,
+      RestoreTaxiDeletedIcons = false,
+      RestoreDelveDeletedIcons = false,
 
     -- 2.0 MiniMap Classic
       minimapScale = 1,
@@ -784,6 +791,8 @@ ns.defaults = {
         DungeonDeletedIcons = { ['*'] = {} },
         CapitalsDeletedIcons = { ['*'] = {} },
         MinimapCapitalsDeletedIcons = { ['*'] = {} },
+        TaxiDeletedIcons = { ['*'] = {} },
+        DelveDeletedIcons = { ['*'] = {} },
       },
 
     --12 FogOfWarColor

@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r63
+## Version: r66
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (Legion)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C军团再临|r
@@ -27,7 +27,7 @@
 ## X-DBM-Mod-Name-ruRU: Рейды (Легион)
 ## X-DBM-Mod-Sort: 501
 ## X-DBM-Mod-MapID: 1712, 1676, 1530, 1648, 1520
-## X-DBM-Mod-MinCoreRevision: 20230617000000
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 6
 ## X-Curse-Project-ID: 301324
 ## X-WoWI-ID: 24905

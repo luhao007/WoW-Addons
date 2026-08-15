@@ -21,7 +21,7 @@ local CATA_DIFF = data:AddDifficulty(EXPANSION_NAME3)
 local WOTLK_DIFF = data:AddDifficulty(EXPANSION_NAME2)
 local BC_DIFF = data:AddDifficulty(EXPANSION_NAME1)
 local CLASSIC_DIFF = data:AddDifficulty(EXPANSION_NAME0)
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"])
+local NORMAL_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1)
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local CRAFTING_ITTYPE = data:AddItemTableType("Item", "Profession")
@@ -68,6 +68,26 @@ data["Alchemy"] = {
 				{ 17, 212305, 430614, [ATLASLOOT_IT_AMOUNT1] = 4 },                                  -- Phial of Concentrated Ingenuity
 				{ 18, 212311, 430616, [ATLASLOOT_IT_AMOUNT1] = 4 },                                  -- Phial of Enhanced Ambidexterity
 				{ 19, 212308, 430615, [ATLASLOOT_IT_AMOUNT1] = 4 },                                  -- Phial of Truesight
+			},
+			[DF_DIFF] = {
+				{ 1,  191318, 370438, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Phial of the Eye in the Storm
+				{ 2,  197720, 381270, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Aerated Phial of Quick Hands
+				{ 3,  191336, 370463, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Phial of Static Empowerment
+				{ 4,  191342, 370472, [ATLASLOOT_IT_AMOUNT1] = 10 }, -- Aerated Phial of Deftness
+				{ 5,  191330, 370460, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Phial of Charged Isolation
+				{ 6,  191348, 370476, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Charged Phial of Alacrity
+				{ 7,  191321, 370453, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Phial of Still Air
+				{ 8,  191327, 370457, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Iced Phial of Corrupting Rage
+				{ 9,  191345, 370473, [ATLASLOOT_IT_AMOUNT1] = 10 }, -- Steaming Phial of Finesse
+				{ 10, 191324, 370456, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Phial of Icy Preservation
+				{ 11, 191339, 370465, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Phial of Tepid Versatility
+				{ 12, 191333, 370462, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Phial of Glacial Fury
+				{ 13, 191354, 370483, [ATLASLOOT_IT_AMOUNT1] = 10 }, -- Crystalline Phial of Perception
+				{ 14, 191357, 370504, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Phial of Elemental Chaos
+			},
+			[SL_DIFF] = {
+				{ 1, 171276, 307101 }, -- Spectral Flask of Power
+				{ 2, 171278, 307103 }, -- Spectral Flask of Stamina
 			},
 			[BFA_DIFF] = {
 				{ 1,  152639, 252351 }, -- Flask of Endless Fathoms
@@ -174,6 +194,48 @@ data["Alchemy"] = {
 				{ 12, 212251, 430595,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Draught of Shocking Revelations
 				{ 13, 212248, 430594,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Draught of Silent Footfalls
 				{ 14, 248331, 1246966, [ATLASLOOT_IT_AMOUNT1] = 5, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Umbral Essentia
+			},
+			[DF_DIFF] = {
+				{ 1,  191384, 370547, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Aerated Mana Potion
+				{ 2,  204370, 405832, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Stinky Bright Potion
+				{ 3,  191372, 370533, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Residual Neural Channeling Agent
+				{ 4,  191360, 370521, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Bottled Putrescence
+				{ 5,  191396, 370558, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of Gusts
+				{ 6,  191393, 370556, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of the Hushed Zephyr
+				{ 7,  191399, 370561, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of Shocking Disclosure
+				{ 8,  207021, 415628, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Dreamwalker's Healing Potion
+				{ 9,  191375, 370536, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Delicate Suspension of Spores
+				{ 10, 191363, 370524, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of Frozen Focus
+				{ 11, 191378, 370539, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Refreshing Healing Potion
+				{ 12, 191369, 370528, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of Withering Vitality
+				{ 13, 191351, 370478, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of Frozen Fatality
+				{ 14, 191366, 370525, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of Chilled Clarity
+				{ 15, 207039, 415810, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of Withering Dreams
+				{ 16, 191381, 370543, [ATLASLOOT_IT_AMOUNT1] = 20 }, -- Elemental Potion of Ultimate Power
+				{ 17, 191387, 370551, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Elemental Potion of Power
+			},
+			[SL_DIFF] = {
+				{ 1,  171271, 307094 }, -- Potion of Hardened Shadows
+				{ 2,  171275, 307098 }, -- Potion of Spectral Strength
+				{ 3,  171268, 301683 }, -- Spiritual Mana Potion
+				{ 4,  176811, 322301 }, -- Potion of Sacrificial Anima
+				{ 5,  171272, 307095 }, -- Potion of Spiritual Clarity
+				{ 6,  171351, 307384 }, -- Potion of Deathly Fixation
+				{ 7,  171267, 301578 }, -- Spiritual Healing Potion
+				{ 8,  171269, 261423 }, -- Spiritual Rejuvenation Potion
+				{ 9,  171273, 307096 }, -- Potion of Spectral Intellect
+				{ 10, 187802, 359870 }, -- Cosmic Healing Potion
+				{ 11, 171349, 307382 }, -- Potion of Phantom Fire
+				{ 12, 171270, 307093 }, -- Potion of Spectral Agility
+				{ 13, 171274, 307097 }, -- Potion of Spectral Stamina
+				{ 14, 171350, 307383 }, -- Potion of Divine Awakening
+				{ 15, 171352, 307381 }, -- Potion of Empowered Exorcisms
+				{ 16, 171266, 261424 }, -- Potion of the Hidden Spirit
+				{ 17, 171370, 256133 }, -- Potion of Specter Swiftness
+				{ 18, 184090, 344316 }, -- Potion of the Psychopomp's Speed
+				{ 19, 183823, 342887 }, -- Potion of Unhindered Passing
+				{ 20, 171264, 295084 }, -- Potion of Shaded Sight
+				{ 21, 171263, 256134 }, -- Potion of Soul Purity
 			},
 			[BFA_DIFF] = {
 				{ 1,   163225, 279165 }, -- Battle Potion of Stamina
@@ -395,7 +457,7 @@ data["Alchemy"] = {
 			},
 		},
 		{ --AlchemyMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[MIDNIGHT_DIFF] = {
 				{ 1, 241340, 1230885 }, -- Magister's Alchemist Stone
 				{ 2, 241291, 1230861 }, -- Primal Philosopher's Stone
@@ -410,6 +472,57 @@ data["Alchemy"] = {
 				{ 7, 212563, 432204 },                          -- Harmonious Horticulture
 				{ 8, 228404, 462122 },                          -- Petal Powder
 				{ 9, 228401, 462121 },                          -- Bubbling Mycobloom Culture
+			},
+			[DF_DIFF] = {
+				{ 1,  191492, 370677 },                 -- Alacritous Alchemist Stone
+				{ 2,  191491, 370676 },                 -- Sustaining Alchemist Stone
+				{ 4,  204633, 405879 },                 -- Cauldron of Extracted Putrescence
+				{ 5,  191488, 370673, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Cauldron of the Pooka
+				{ 6,  191482, 370668 },                 -- Potion Cauldron of Power
+				{ 7,  204238, 406106 },                 -- Draconic Phial Cauldron
+				{ 8,  191485, 370672 },                 -- Potion Cauldron of Ultimate Power
+				{ 10, 191493, 370717, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Primal Convergent
+				{ 11, 191496, 370722 },                 -- Omnium Draconis
+				{ 13, 203407, 400270 },                 -- Draconic Suppression Powder
+				{ 16, 191514, 370730, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Brood Salt
+				{ 17, 191520, 370732, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Agitating Potion Augmentation
+				{ 18, 191511, 370729, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Stable Fluidic Draconium
+				{ 19, 191517, 370731, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Writhefire Oil
+				{ 20, 191523, 370733, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Reactive Phial Embellishment
+				{ 21, 191529, 370735 },                 -- Illustrious Insight
+				{ 22, 191532, 370738 },                 -- Potion Absorption Inhibitor
+				{ 24, 191499, 370723, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Sagacious Incense
+				{ 25, 191502, 370724, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Somniferous Incense
+				{ 26, 191505, 370725, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Exultant Incense
+				{ 27, 191508, 370728, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Fervid Incense
+			},
+			[SL_DIFF] = {
+				{ 1,  171323, 307200 }, -- Spiritual Alchemy Stone
+				{ 3,  171284, 307087 }, -- Eternal Cauldron
+				{ 5,  171301, 307100 }, -- Spiritual Anti-Venom
+				{ 7,  183942, 343675 }, -- Novice Crafter's Mark
+				{ 8,  187827, 360014 }, -- Infusion: Corpse Purification
+				{ 9,  187742, 359673 }, -- Crafter's Mark of the First Ones
+				{ 10, 187741, 359666 }, -- Crafter's Mark IV
+				{ 11, 173383, 343677 }, -- Crafter's Mark III
+				{ 12, 173382, 343678 }, -- Crafter's Mark II
+				{ 13, 187850, 360318 }, -- Sustaining Armor Polish
+				{ 14, 173381, 343679 }, -- Crafter's Mark I
+				{ 15, 173384, 343676 }, -- Crafter's Mark of the Chained Isle
+				{ 16, 171288, 307121 }, -- Ground Vigil's Torch
+				{ 17, 171290, 307123 }, -- Ground Marrowroot
+				{ 18, 171292, 307125 }, -- Ground Nightshade
+				{ 19, 171287, 307120 }, -- Ground Death Blossom
+				{ 20, 171289, 307122 }, -- Ground Widowbloom
+				{ 21, 171291, 307124 }, -- Ground Rising Glory
+				{ 22, 171286, 307119 }, -- Embalmer's Oil
+				{ 23, 171285, 307118 }, -- Shadowcore Oil
+				{ 25, 186699, 354882 }, -- Widow Burst
+				{ 26, 186698, 354884 }, -- Torch Burst
+				{ 27, 186701, 354881 }, -- Glory Burst
+				{ 28, 186697, 354885 }, -- Blossom Burst
+				{ 29, 186700, 354880 }, -- Marrow Burst
+				{ 30, 180751, 334413 }, -- Red Noggin Candle
 			},
 			[BFA_DIFF] = {
 				{ 1,  162519, 276975 }, -- Mystical Cauldron
@@ -522,6 +635,20 @@ data["Alchemy"] = {
 				{ 12, 223884, 430620 }, -- Volatile Weaving
 				-- { 13, 223884, 430621 }, -- Volatile Stone (ends up being the same as Weaving)
 				{ 13, 211802, 449575 }, -- Volatile Coalescence
+			},
+			[DF_DIFF] = {
+				{ 1, 190327, 370711, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Transmute: Awakened Air
+				{ 2, 190329, 370708, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Transmute: Awakened Frost
+				{ 3, 190316, 370710, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Transmute: Awakened Earth
+				{ 4, 190321, 370707, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Transmute: Awakened Fire
+				{ 5, 192182, 370714 },                 -- Transmute: Decay to Elements
+				{ 6, 192181, 370715 },                 -- Transmute: Order to Elements
+				{ 7, 204463, 405847 },                 -- Transmute: Dracothyst
+			},
+			[SL_DIFF] = {
+				{ 1, 186694, 307144 },                 -- Stones to Ore
+				{ 2, 171428, 307142, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Shadowghast Ingot
+				{ 3, 180457, 307143 },                 -- Shadestone
 			},
 			[BFA_DIFF] = {
 				{ 1,  152668, 251832 }, -- Transmute: Expulsom
@@ -829,7 +956,7 @@ data["Blacksmithing"] = {
 	TableType = CRAFTING_ITTYPE,
 	items = {
 		{ --SmithingArmor
-			name = AL["Armor"],
+			name = ARMOR,
 			[MIDNIGHT_DIFF] = {
 				{ 1,  244463, 1230766 },                          -- Murder Row Fleet Feet
 				{ 2,  244472, 1230767 },                          -- Knight-Commander's Palisade
@@ -886,6 +1013,113 @@ data["Blacksmithing"] = {
 				{ 23, 217148, 438919, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Plate Pauldrons
 				{ 24, 217144, 438915, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Plate Sabatons
 				{ 25, 217149, 438920, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Plate Waistguard
+			},
+			[DF_DIFF] = {
+				{ 1,   190526, 367614 }, -- Allied Wristguard of Companionship
+				{ 2,   190519, 367615 }, -- Allied Chestplate of Generosity
+				{ 3,   191623, 367618 }, -- Unstable Frostfire Belt
+				{ 4,   190523, 367619 }, -- Frostfire Legguards of Preparation
+				{ 5,   210646, 426332 }, -- Flourishing Dream Helm
+				{ 6,   190498, 367605 }, -- Primal Molten Helm
+				{ 7,   190497, 367606 }, -- Primal Molten Gauntlets
+				{ 8,   190496, 367607 }, -- Primal Molten Sabatons
+				{ 9,   190495, 367608 }, -- Primal Molten Breastplate
+				{ 10,  190502, 367601 }, -- Primal Molten Vambraces
+				{ 11,  190501, 367602 }, -- Primal Molten Greatbelt
+				{ 12,  190500, 367603 }, -- Primal Molten Pauldrons
+				{ 13,  190499, 367604 }, -- Primal Molten Legplates
+				{ 14,  201954, 395881 }, -- Explorer's Expert Greaves
+				{ 15,  189539, 367609 }, -- Explorer's Plate Bracers
+				{ 16,  189537, 367610 }, -- Explorer's Plate Boots
+				{ 17,  201951, 395883 }, -- Explorer's Expert Helm
+				{ 18,  201953, 395879 }, -- Explorer's Expert Gauntlets
+				{ 19,  201955, 367611 }, -- Explorer's Expert Clasp
+				{ 20,  189538, 395886 }, -- Explorer's Plate Chestguard
+				{ 21,  201952, 395880 }, -- Explorer's Expert Spaulders
+				{ 23,  191985, 367616 }, -- Infurious Warboots of Impunity
+				{ 24,  190522, 367617 }, -- Infurious Helm of Vengeance
+				{ 25,  211569, 430089 }, -- Draconic Combatant's Draconium Waistguard
+				{ 26,  211567, 430085 }, -- Draconic Combatant's Draconium Greaves
+				{ 27,  211566, 430086 }, -- Draconic Combatant's Draconium Helm
+				{ 28,  211568, 430087 }, -- Draconic Combatant's Draconium Pauldrons
+				{ 29,  211564, 430088 }, -- Draconic Combatant's Draconium Sabatons
+				{ 30,  211570, 430082 }, -- Draconic Combatant's Draconium Armguards
+				{ 101, 211563, 430083 }, -- Draconic Combatant's Draconium Breastplate
+				{ 102, 211565, 430084 }, -- Draconic Combatant's Draconium Gauntlets
+				{ 103, 208264, 419032 }, -- Verdant Combatant's Draconium Breastplate
+				{ 104, 208266, 419033 }, -- Verdant Combatant's Draconium Gauntlets
+				{ 105, 208268, 419034 }, -- Verdant Combatant's Draconium Greaves
+				{ 106, 208267, 419035 }, -- Verdant Combatant's Draconium Helm
+				{ 107, 208269, 419036 }, -- Verdant Combatant's Draconium Pauldrons
+				{ 108, 208265, 419037 }, -- Verdant Combatant's Draconium Sabatons
+				{ 109, 208271, 419031 }, -- Verdant Combatant's Draconium Armguards
+				{ 110, 208270, 419038 }, -- Verdant Combatant's Draconium Waistguard
+				{ 111, 204123, 403160 }, -- Obsidian Combatant's Draconium Gauntlets
+				{ 112, 204126, 403163 }, -- Obsidian Combatant's Draconium Pauldrons
+				{ 113, 204125, 403161 }, -- Obsidian Combatant's Draconium Greaves
+				{ 114, 204122, 403164 }, -- Obsidian Combatant's Draconium Sabatons
+				{ 115, 204124, 403162 }, -- Obsidian Combatant's Draconium Helm
+				{ 116, 204127, 403165 }, -- Obsidian Combatant's Draconium Waistguard
+				{ 117, 204121, 403159 }, -- Obsidian Combatant's Draconium Breastplate
+				{ 118, 204128, 403158 }, -- Obsidian Combatant's Draconium Armguards
+				{ 119, 193602, 376618 }, -- Crimson Combatant's Draconium Breastplate
+				{ 120, 193604, 376619 }, -- Crimson Combatant's Draconium Gauntlets
+				{ 121, 193606, 376620 }, -- Crimson Combatant's Draconium Greaves
+				{ 122, 193605, 376621 }, -- Crimson Combatant's Draconium Helm
+				{ 123, 193607, 376622 }, -- Crimson Combatant's Draconium Pauldrons
+				{ 124, 193608, 376624 }, -- Crimson Combatant's Draconium Waistguard
+				{ 125, 193603, 376623 }, -- Crimson Combatant's Draconium Sabatons
+				{ 126, 193609, 376617 }, -- Crimson Combatant's Draconium Armguards
+			},
+			[SL_DIFF] = {
+				{ 1,   171444, 322589 }, -- Shadowsteel Gauntlets
+				{ 2,   171447, 322593 }, -- Shadowsteel Pauldrons
+				{ 3,   171445, 322590 }, -- Shadowsteel Helm
+				{ 4,   171448, 322594 }, -- Shadowsteel Waistguard
+				{ 5,   171442, 322587 }, -- Shadowsteel Breastplate
+				{ 6,   171446, 322591 }, -- Shadowsteel Greaves
+				{ 7,   171443, 322588 }, -- Shadowsteel Sabatons
+				{ 8,   171449, 322595 }, -- Shadowsteel Armguards
+				{ 9,   171375, 307664 }, -- Ceremonious Sabatons
+				{ 10,  171381, 307670 }, -- Ceremonious Armguards
+				{ 11,  171380, 307669 }, -- Ceremonious Waistguard
+				{ 12,  171376, 307665 }, -- Ceremonious Gauntlets
+				{ 13,  171374, 307663 }, -- Ceremonious Breastplate
+				{ 14,  171378, 307667 }, -- Ceremonious Greaves
+				{ 15,  171377, 307666 }, -- Ceremonious Helm
+				{ 16,  171379, 307668 }, -- Ceremonious Pauldrons
+				{ 18,  171413, 338969 }, -- Shadowghast Sabatons
+				{ 19,  171413, 332047 }, -- Shadowghast Sabatons
+				{ 20,  171413, 332012 }, -- Shadowghast Sabatons
+				{ 21,  171413, 307711 }, -- Shadowghast Sabatons
+				{ 23,  171419, 338976 }, -- Shadowghast Armguards
+				{ 24,  171419, 332041 }, -- Shadowghast Armguards
+				{ 25,  171419, 332006 }, -- Shadowghast Armguards
+				{ 26,  171419, 307705 }, -- Shadowghast Armguards
+				{ 101, 171414, 338970 }, -- Shadowghast Gauntlets
+				{ 102, 171414, 332046 }, -- Shadowghast Gauntlets
+				{ 103, 171414, 332011 }, -- Shadowghast Gauntlets
+				{ 104, 171414, 307710 }, -- Shadowghast Gauntlets
+				{ 106, 171418, 338975 }, -- Shadowghast Waistguard
+				{ 107, 171418, 332042 }, -- Shadowghast Waistguard
+				{ 108, 171418, 332007 }, -- Shadowghast Waistguard
+				{ 109, 171418, 307706 }, -- Shadowghast Waistguard
+				{ 111, 171417, 338974 }, -- Shadowghast Pauldrons
+				{ 112, 171417, 332043 }, -- Shadowghast Pauldrons
+				{ 113, 171417, 332008 }, -- Shadowghast Pauldrons
+				{ 114, 171417, 307707 }, -- Shadowghast Pauldrons
+				{ 116, 171412, 338968 }, -- Shadowghast Breastplate
+				{ 117, 171412, 332048 }, -- Shadowghast Breastplate
+				{ 118, 171412, 332013 }, -- Shadowghast Breastplate
+				{ 119, 171412, 307712 }, -- Shadowghast Breastplate
+				{ 121, 171416, 338972 }, -- Shadowghast Greaves
+				{ 122, 171416, 332044 }, -- Shadowghast Greaves
+				{ 123, 171416, 332009 }, -- Shadowghast Greaves
+				{ 124, 171416, 307708 }, -- Shadowghast Greaves
+				{ 126, 171415, 338971 }, -- Shadowghast Helm
+				{ 127, 171415, 332045 }, -- Shadowghast Helm
+				{ 128, 171415, 332010 }, -- Shadowghast Helm
+				{ 129, 171415, 307709 }, -- Shadowghast Helm
 			},
 			[BFA_DIFF] = {
 				{ 1,   152811, 253190 }, -- Stormsteel Girdle
@@ -1573,6 +1807,47 @@ data["Blacksmithing"] = {
 				{ 102, 225377, 455004, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Sword
 				{ 103, 225373, 455000, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Shield
 			},
+			[DF_DIFF] = {
+				{ 1,  205046, 408283 }, -- Shadowed Razing Annihilator
+				{ 2,  205168, 408326 }, -- Shadowed Impact Buckler
+				{ 3,  192081, 367623 }, -- Shield of the Hearth
+				{ 4,  190515, 367588 }, -- Obsidian Seared Halberd
+				{ 5,  190511, 367587 }, -- Obsidian Seared Hexsword
+				{ 6,  190518, 367593 }, -- Obsidian Seared Slicer
+				{ 7,  190514, 367590 }, -- Obsidian Seared Claymore
+				{ 8,  190512, 367594 }, -- Obsidian Seared Runeaxe
+				{ 9,  190516, 367591 }, -- Obsidian Seared Crusher
+				{ 10, 190517, 367592 }, -- Obsidian Seared Invoker
+				{ 11, 190513, 367589 }, -- Obsidian Seared Facesmasher
+				{ 12, 190509, 367586 }, -- Primal Molten Mace
+				{ 13, 190510, 365734 }, -- Primal Molten Greataxe
+				{ 14, 190508, 365729 }, -- Primal Molten Warglaive
+				{ 15, 190505, 365730 }, -- Primal Molten Shortblade
+				{ 16, 190506, 365731 }, -- Primal Molten Spellblade
+				{ 17, 190507, 367585 }, -- Primal Molten Longsword
+				{ 18, 190503, 367622 }, -- Primal Molten Defender
+				{ 19, 190485, 367595 }, -- Draconium Knuckles
+				{ 20, 190483, 367596 }, -- Draconium Dirk
+				{ 21, 190482, 367597 }, -- Draconium Stiletto
+				{ 22, 190486, 367598 }, -- Draconium Great Mace
+				{ 23, 190484, 367599 }, -- Draconium Sword
+				{ 24, 201324, 393416 }, -- Draconium Great Axe
+				{ 25, 190487, 367600 }, -- Draconium Axe
+				{ 26, 201322, 393404 }, -- Draconium Defender
+			},
+			[SL_DIFF] = {
+				{ 1,  171382, 307675 }, -- Ceremonious Rapier
+				{ 2,  171390, 307679 }, -- Ceremonious Blade
+				{ 3,  171388, 307672 }, -- Ceremonious Axe
+				{ 4,  171389, 307676 }, -- Ceremonious Reaper
+				{ 5,  171385, 307680 }, -- Ceremonious Shanker
+				{ 6,  171384, 307677 }, -- Ceremonious Smasher
+				{ 7,  171386, 307681 }, -- Ceremonious Spear
+				{ 8,  171387, 307674 }, -- Ceremonious Mace
+				{ 9,  171383, 307678 }, -- Ceremonious Claymore
+				{ 10, 171392, 307682 }, -- Ceremonious Warglaive
+				{ 11, 171391, 307671 }, -- Ceremonious Shield
+			},
 			[BFA_DIFF] = {
 				{ 1,   159857, 269476 }, -- Honorable Combatant's Shanker
 				{ 2,   159857, 269477 }, -- Honorable Combatant's Shanker
@@ -1857,7 +2132,7 @@ data["Blacksmithing"] = {
 			},
 		},
 		{ --SmithingMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[MIDNIGHT_DIFF] = {
 				{ 1, 238197, 1230761 },                                      -- Refulgent Copper Ingot
 				{ 2, 238202, 1230762 },                                      -- Gloaming Alloy
@@ -1878,6 +2153,39 @@ data["Blacksmithing"] = {
 				{ 11, 225660, 450283 },                                   -- Earthen Master's Hammer
 				{ 12, 222520, 450291 },                                   -- Coreforged Repair Hammer
 				{ 13, 222523, 450292, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Coreforged Skeleton Key
+			},
+			[DF_DIFF] = {
+				{ 1,  190533, 367713, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Obsidian Seared Alloy
+				{ 2,  204995, 408282, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Shadowed Alloy
+				{ 3,  190530, 367712, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Frostfire Alloy
+				{ 4,  190536, 367714, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Infurious Alloy
+				{ 5,  189541, 365735, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Primal Molten Alloy
+				{ 7,  194542, 377281 },                 -- Prototype Explorer's Barding Framework
+				{ 8,  194541, 377280 },                 -- Prototype Regal Barding Framework
+				{ 10, 191304, 388279 },                 -- Sturdy Expedition Shovel
+				{ 11, 201366, 393853 },                 -- Master's Hammer
+				{ 12, 191256, 371394, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Serevite Skeleton Key
+				{ 13, 205038, 408299 },                 -- Heat-Resistant Rescue Ring
+				{ 14, 191260, 371395 },                 -- Serevite Repair Hammer
+				{ 15, 191250, 371349 },                 -- Armor Spikes
+				{ 16, 205043, 408288 },                 -- Shadowed Belt Clasp
+				{ 17, 203408, 400808 },                 -- Ancient Ceremonial Trident
+				{ 18, 204832, 409224 },                 -- Reclaimed Gauntlet Chassis
+				{ 19, 191529, 376700 },                 -- Illustrious Insight
+				{ 21, 191886, 371403 },                 -- Alvin the Anvil
+			},
+			[SL_DIFF] = {
+				{ 1,  171428, 307611, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Shadowghast Ingot
+				{ 3,  171441, 307721 },                 -- Laestrite Skeleton Key
+				{ 5,  187784, 359700 },                 -- Vestige of the Eternal
+				{ 6,  185960, 352439 },                 -- Vestige of Origins
+				{ 7,  187742, 359671 },                 -- Crafter's Mark of the First Ones
+				{ 8,  173384, 343188 },                 -- Crafter's Mark of the Chained Isle
+				{ 9,  187741, 359665 },                 -- Crafter's Mark IV
+				{ 10, 173383, 343186 },                 -- Crafter's Mark III
+				{ 11, 173382, 343185 },                 -- Crafter's Mark II
+				{ 12, 173381, 343184 },                 -- Crafter's Mark I
+				{ 13, 183942, 343662 },                 -- Novice Crafter's Mark
 			},
 			[BFA_DIFF] = {
 				{ 1,  152812, 253110 }, -- Monel-Hardened Hoofplates
@@ -1935,6 +2243,17 @@ data["Blacksmithing"] = {
 				{ 1, 222502, 450285, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Ironclaw Whetstone
 				{ 2, 222508, 450287, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Ironclaw Weightstone
 				{ 3, 222505, 450286 },                 -- Ironclaw Razorstone
+			},
+			[DF_DIFF] = {
+				{ 1, 191933, 371650, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Primal Whetstone
+				{ 2, 191943, 371674, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Primal Weightstone
+				{ 3, 191948, 371682, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Primal Razorstone
+			},
+			[SL_DIFF] = {
+				{ 1, 171439, 307720 }, -- Shaded Weightstone
+				{ 2, 171437, 307718 }, -- Shaded Sharpening Stone
+				{ 3, 171438, 307719 }, -- Porous Weightstone
+				{ 4, 171436, 307717 }, -- Porous Sharpening Stone
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  127731, 187514, [PRICE_EXTRA_ITTYPE] = "109118:60" }, -- Savage Steelforged Essence (Sold, Ashran)
@@ -2009,6 +2328,25 @@ data["Blacksmithing"] = {
 				{ 21, 222481, 450268 },                          -- Proficient Pickaxe
 				{ 22, 222480, 450267 },                          -- Proficient Sickle
 				{ 23, 222482, 450269 },                          -- Proficient Skinning Knife
+			},
+			[DF_DIFF] = {
+				{ 1,  191228, 371372 }, -- Black Dragon Touched Hammer
+				{ 2,  191224, 371365 }, -- Khaz'gorite Sickle
+				{ 3,  191888, 371412 }, -- Khaz'gorite Blacksmith's Hammer
+				{ 4,  191226, 371368 }, -- Khaz'gorite Needle Set
+				{ 5,  191229, 371371 }, -- Khaz'gorite Leatherworker's Toolset
+				{ 6,  191230, 371374 }, -- Khaz'gorite Blacksmith's Toolbox
+				{ 7,  191227, 371369 }, -- Khaz'gorite Leatherworker's Knife
+				{ 8,  191225, 371367 }, -- Khaz'gorite Skinning Knife
+				{ 9,  191223, 371366 }, -- Khaz'gorite Pickaxe
+				{ 16, 191238, 371338 }, -- Draconium Leatherworker's Knife
+				{ 17, 191235, 371364 }, -- Draconium Blacksmith's Toolbox
+				{ 18, 191239, 371302 }, -- Draconium Needle Set
+				{ 19, 191240, 371304 }, -- Draconium Skinning Knife
+				{ 20, 191241, 371343 }, -- Draconium Sickle
+				{ 21, 191237, 371344 }, -- Draconium Blacksmith's Hammer
+				{ 22, 191236, 371360 }, -- Draconium Leatherworker's Toolset
+				{ 23, 191242, 371309 }, -- Draconium Pickaxe
 			},
 		},
 		{ -- SmithingDecor
@@ -2264,6 +2602,14 @@ data["Enchanting"] = {
 				{ 1, 224405, 445355 }, -- Scepter of Radiant Magics
 				{ 2, 224404, 445324 }, -- Enchanted Spearwood Wand
 			},
+			[DF_DIFF] = {
+				{ 1, 200642, 391179 }, -- Torch of Primal Awakening
+				{ 2, 204401, 405803 }, -- Spore Keeper's Baton
+				{ 3, 200641, 391176 }, -- Enchanted Writhebark Wand
+			},
+			[SL_DIFF] = {
+				{ 1, 172462, 265105 }, -- Enchanted Twilight Wand
+			},
 			[BFA_DIFF] = {
 				{ 1,  159922, 269715 }, -- Honorable Combatant's Sorcerous Scepter
 				{ 2,  159922, 269716 }, -- Honorable Combatant's Sorcerous Scepter
@@ -2299,6 +2645,28 @@ data["Enchanting"] = {
 				{ 7, 223779, 445339 }, -- Enchant Weapon - Authority of Radiant Power
 				{ 8, 223770, 445336 }, -- Enchant Weapon - Authority of Storms
 				{ 9, 223782, 445341 }, -- Enchant Weapon - Authority of the Depths
+			},
+			[DF_DIFF] = {
+				{ 1,  204621, 405076 }, -- Shadowflame Wreathe
+				{ 2,  199968, 389549 }, -- Earthen Devotion
+				{ 3,  207085, 416047 }, -- Dreaming Devotion
+				{ 4,  199970, 389550 }, -- Sophic Devotion
+				{ 5,  199974, 389558 }, -- Wafting Devotion
+				{ 6,  199966, 389547 }, -- Burning Devotion
+				{ 7,  199972, 389551 }, -- Frozen Devotion
+				{ 8,  199969, 389540 }, -- Earthen Writ
+				{ 9,  204613, 404859 }, -- Spore Tender
+				{ 10, 199971, 389542 }, -- Sophic Writ
+				{ 11, 199967, 389537 }, -- Burning Writ
+				{ 12, 199973, 389543 }, -- Frozen Writ
+				{ 13, 199975, 389546 }, -- Wafting Writ
+			},
+			[SL_DIFF] = {
+				{ 1, 172370, 309620 }, -- Lightless Force
+				{ 2, 172365, 309622 }, -- Ascended Vigor
+				{ 3, 172367, 309621 }, -- Eternal Grace
+				{ 4, 172368, 309623 }, -- Sinful Revelation
+				{ 5, 172366, 309627 }, -- Celestial Guidance
 			},
 			[BFA_DIFF] = {
 				{ 1,   153479, 255129, [ATLASLOOT_IT_AMOUNT1] = "10%" }, -- Weapon Enchant - Torrent of Elements
@@ -2449,6 +2817,16 @@ data["Enchanting"] = {
 				{ 2, 223651, 445368, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Enchant Boots - Scout's March
 				{ 3, 223618, 445335, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Enchant Boots - Cavalry's March
 			},
+			[DF_DIFF] = {
+				{ 1, 199934, 389479 }, -- Plainsrunner's Breeze
+				{ 2, 199935, 389480 }, -- Rider's Reassurance
+				{ 3, 199936, 389484 }, -- Watcher's Loam
+			},
+			[SL_DIFF] = {
+				{ 1, 172413, 309532 }, -- Agile Soulwalker
+				{ 2, 177661, 323609 }, -- Soul Treads
+				{ 3, 172419, 309534 }, -- Eternal Agility
+			},
 			[MOP_DIFF] = {
 				{ 1, 74718, 104414 }, -- Enchant Boots - Pandaren's Step : =ds=#sr# 575 : =ds=AtlasLoot["Trainer"]
 				{ 2, 74717, 104409 }, -- Enchant Boots - Blurred Speed : =ds=#sr# 550 : =ds=AtlasLoot["Trainer"]
@@ -2510,6 +2888,20 @@ data["Enchanting"] = {
 				{ 2, 223687, 445321 },                          -- Enchant Chest - Oathsworn's Strength
 				{ 3, 223681, 445353 },                          -- Enchant Chest - Stormrider's Agility
 				{ 4, 223684, 445322, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Enchant Chest - Council's Intellect
+			},
+			[DF_DIFF] = {
+				{ 1, 199943, 389416 }, -- Accelerated Agility
+				{ 2, 199944, 389417 }, -- Reserve of Intellect
+				{ 3, 199946, 389410 }, -- Waking Stats
+				{ 4, 199945, 389419 }, -- Sustained Strength
+			},
+			[SL_DIFF] = {
+				{ 1, 177659, 323760 }, -- Eternal Skirmish
+				{ 2, 177716, 323762 }, -- Sacred Stats
+				{ 3, 172418, 309535 }, -- Eternal Bulwark
+				{ 4, 177715, 323761 }, -- Eternal Bounds
+				{ 5, 177962, 324773 }, -- Eternal Stats
+				{ 6, 183738, 342316 }, -- Eternal Insight
 			},
 			[MOP_DIFF] = {
 				{ 1, 74708, 104395 }, -- Enchant Chest - Glorious Stats : =ds=#sr# 575 : =ds=AtlasLoot["Trainer"]
@@ -2590,6 +2982,26 @@ data["Enchanting"] = {
 				{ 10, 223675, 445375 }, -- Enchant Ring - Radiant Mastery
 				{ 11, 223672, 445320 }, -- Enchant Ring - Radiant Haste
 				{ 12, 223660, 445387 }, -- Enchant Ring - Radiant Critical Strike
+			},
+			[DF_DIFF] = {
+				{ 1, 199955, 389294 }, -- Devotion of Mastery
+				{ 2, 199954, 389293 }, -- Devotion of Haste
+				{ 3, 199956, 389295 }, -- Devotion of Versatility
+				{ 4, 199953, 389292 }, -- Devotion of Critical Strike
+				{ 5, 199958, 389135 }, -- Writ of Haste
+				{ 6, 199960, 389151 }, -- Writ of Versatility
+				{ 7, 199959, 389136 }, -- Writ of Mastery
+				{ 8, 199957, 388930 }, -- Writ of Critical Strike
+			},
+			[SL_DIFF] = {
+				{ 1, 172362, 309617 }, -- Tenet of Haste
+				{ 2, 172364, 309619 }, -- Tenet of Versatility
+				{ 3, 172361, 309616 }, -- Tenet of Critical Strike
+				{ 4, 172363, 309618 }, -- Tenet of Mastery
+				{ 5, 172358, 309613 }, -- Bargain of Haste
+				{ 6, 172360, 309615 }, -- Bargain of Versatility
+				{ 7, 172357, 309612 }, -- Bargain of Critical Strike
+				{ 8, 172359, 309614 }, -- Bargain of Mastery
 			},
 			[BFA_DIFF] = {
 				{ 1,  153442, 255075, [ATLASLOOT_IT_AMOUNT1] = "9" }, -- Pact of Critical Strike
@@ -2720,9 +3132,19 @@ data["Enchanting"] = {
 				{ 8, 223702, 445380, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Enchant Tool - Algari Perception
 				{ 9, 223705, 445398, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Enchant Tool - Algari Resourcefulness
 			},
+			[DF_DIFF] = {
+				{ 1, 198716, 390825 }, -- Runed Khaz'gorite Rod
+				{ 2, 198715, 390823 }, -- Runed Draconium Rod
+				{ 3, 201601, 394189 }, -- Runed Serevite Rod
+				{ 5, 199964, 389525 }, -- Draconic Perception
+				{ 6, 199962, 389513 }, -- Draconic Finesse
+				{ 7, 199961, 389508 }, -- Draconic Deftness
+				{ 8, 199963, 389519 }, -- Draconic Ingenuity
+				{ 9, 199965, 389530 }, -- Draconic Resourcefulness
+			},
 		},
 		{ --EnchantingMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[MIDNIGHT_DIFF] = {
 				{ 1,  243733, 1236491, [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Thalassian Phoenix Oil
 				{ 2,  243735, 1236492, [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Oil of Dawn
@@ -2787,6 +3209,54 @@ data["Enchanting"] = {
 				{ 102, 224322, 445397 },                                                      -- Gleeful Glamour - Worgen
 				{ 103, 224323, 445345 },                                                      -- Gleeful Glamour - Zandalari Troll
 				{ 104, 249706, 1249469 },                                                     -- Gleeful Glamour - Ethereal
+			},
+			[DF_DIFF] = {
+				{ 1,   200479, 390831 }, -- Sophic Amalgamation
+				{ 2,   200469, 390855 }, -- Khadgar's Disenchanting Rod
+				{ 4,   211519, 429947 }, -- Enchanted Aspect's Awakened Crest
+				{ 5,   211518, 429945 }, -- Enchanted Wyrm's Awakened Crest
+				{ 6,   211520, 429948 }, -- Enchanted Whelpling's Awakened Crest
+				{ 7,   206961, 414989 }, -- Enchanted Aspect's Dreaming Crest
+				{ 8,   206960, 414988 }, -- Enchanted Wyrm's Dreaming Crest
+				{ 9,   206977, 414985 }, -- Enchanted Whelpling's Dreaming Crest
+				{ 10,  204697, 406418 }, -- Enchanted Aspect's Shadowflame Crest
+				{ 11,  204682, 406413 }, -- Enchanted Wyrm's Shadowflame Crest
+				{ 12,  204681, 406108 }, -- Enchanted Whelpling's Shadowflame Crest
+				{ 13,  204673, 405937 }, -- Titan Training Matrix V
+				{ 16,  203410, 400809 }, -- Glowing Crystal Bookmark
+				{ 17,  210003, 422338 }, -- Shalasar's Sophic Vellum
+				{ 18,  191529, 391202 }, -- Illustrious Insight
+				{ 19,  200618, 391185 }, -- Primal Invocation Extract
+				{ 21,  200470, 390839 }, -- Illusion: Primal Mastery
+				{ 22,  200883, 391813 }, -- Illusion: Primal Air
+				{ 23,  200905, 391814 }, -- Illusion: Primal Earth
+				{ 24,  200906, 391815 }, -- Illusion: Primal Fire
+				{ 25,  200907, 391816 }, -- Illusion: Primal Frost
+				{ 26,  204567, 405650 }, -- Illusory Adornment: Spores
+				{ 27,  201310, 391809 }, -- Illusory Adornment: Frost
+				{ 28,  201316, 391810 }, -- Illusory Adornment: Air
+				{ 29,  201313, 391811 }, -- Illusory Adornment: Earth
+				{ 30,  200616, 390951 }, -- Illusory Adornment: Fire
+				{ 101, 201319, 391812 }, -- Illusory Adornment: Order
+				{ 102, 206969, 414946 }, -- Illusory Adornment: Dreams
+				{ 103, 201161, 391806 }, -- Scepter of Spectacle: Air
+				{ 104, 201160, 391807 }, -- Scepter of Spectacle: Earth
+				{ 105, 201158, 391808 }, -- Scepter of Spectacle: Order
+				{ 106, 200535, 391197 }, -- Scepter of Spectacle: Frost
+				{ 107, 200472, 391196 }, -- Scepter of Spectacle: Fire
+			},
+			[SL_DIFF] = {
+				{ 1,  172438, 309637 },                 -- Enchanted Heavy Callous Hide
+				{ 2,  172439, 309638 },                 -- Enchanted Lightless Silk
+				{ 3,  172437, 309636 },                 -- Enchanted Elethium Bar
+				{ 4,  172231, 309645, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Eternal Crystal
+				{ 5,  172230, 309644, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Sacred Shard
+				{ 7,  187825, 360013 },                 -- Cosmic Protoweave
+				{ 8,  187823, 360007 },                 -- Magically Regulated Automa Core
+				{ 9,  173382, 343683 },                 -- Crafter's Mark II
+				{ 10, 173381, 343684 },                 -- Crafter's Mark I
+				{ 11, 183942, 343680 },                 -- Novice Crafter's Mark
+				{ 13, 186973, 355184 },                 -- Anima-ted Leash
 			},
 			[BFA_DIFF] = {
 				{ 1, 162110, 278418 }, -- Disenchanting Rod
@@ -2930,6 +3400,19 @@ data["Enchanting"] = {
 				{ 5, 223717, 445325, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Enchant Bracer - Chant of Armored Leech
 				{ 6, 223711, 445334, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Enchant Bracer - Chant of Armored Avoidance
 			},
+			[DF_DIFF] = {
+				{ 1, 199937, 389301 }, -- Devotion of Avoidance
+				{ 2, 199938, 389303 }, -- Devotion of Leech
+				{ 3, 199939, 389304 }, -- Devotion of Speed
+				{ 4, 199941, 389298 }, -- Writ of Leech
+				{ 5, 199942, 389300 }, -- Writ of Speed
+				{ 6, 199940, 389297 }, -- Writ of Avoidance
+			},
+			[SL_DIFF] = {
+				{ 1, 172416, 309610 }, -- Shaded Hearthing
+				{ 2, 172414, 309608 }, -- Illuminated Soul
+				{ 3, 172415, 309609 }, -- Eternal Intellect
+			},
 			[BFA_DIFF] = {
 				{ 1,  160328, 271366 }, -- Safe Hearthing
 				{ 2,  160330, 271433 }, -- Cooled Hearthing
@@ -3015,6 +3498,20 @@ data["Enchanting"] = {
 				{ 5, 223735, 445393 }, -- Enchant Cloak - Chant of Leeching Fangs
 				{ 6, 223729, 445386 }, -- Enchant Cloak - Chant of Winged Grace
 			},
+			[DF_DIFF] = {
+				{ 1, 199947, 389403 }, -- Graceful Avoidance
+				{ 2, 199948, 389405 }, -- Homebound Speed
+				{ 3, 199949, 389404 }, -- Regenerative Leech
+				{ 4, 199952, 389400 }, -- Writ of Speed
+				{ 5, 199951, 389398 }, -- Writ of Leech
+				{ 6, 199950, 389397 }, -- Writ of Avoidance
+			},
+			[SL_DIFF] = {
+				{ 1, 177660, 323755 }, -- Soul Vitality
+				{ 2, 172411, 309530 }, -- Fortified Avoidance
+				{ 3, 172412, 309531 }, -- Fortified Leech
+				{ 4, 172410, 309528 }, -- Fortified Speed
+			},
 			[LEGION_DIFF] = {
 				{ 1,  128549, 190878 }, -- Binding of Agility
 				{ 2,  128549, 191004 }, -- Binding of Agility
@@ -3093,6 +3590,11 @@ data["Enchanting"] = {
 		},
 		{ --EnchantingGloves
 			name = AL["Gloves"],
+			[SL_DIFF] = {
+				{ 1, 172408, 309526 }, -- Eternal Strength
+				{ 2, 172406, 309524 }, -- Shadowlands Gathering
+				{ 3, 172407, 309525 }, -- Strength of Soul
+			},
 			[BFA_DIFF] = {
 				{ 1,  159466, 267482 }, -- Zandalari Mining
 				{ 2,  159471, 267498 }, -- Zandalari Crafting
@@ -3238,7 +3740,7 @@ data["Engineering"] = {
 	TableType = CRAFTING_ITTYPE,
 	items = {
 		{ --EngineeringArmorWeapons
-			name = AL["Armor"].." & "..AL["Weapons"],
+			name = ARMOR.." & "..AL["Weapons"],
 			[MIDNIGHT_DIFF] = {
 				{ 1,   244746, 1229873 },                          -- Aetherlume Sun Guard
 				{ 2,   244774, 1229881 },                          -- Aetherlume Stompers
@@ -3316,6 +3818,41 @@ data["Engineering"] = {
 				{ 21, 217157, 438928, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Mail Bracers
 				{ 22, 217158, 438929, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Plate Bracers
 				{ 23, 225370, 455005, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Rifle
+			},
+			[DF_DIFF] = {
+				{ 1,  198327, 382318 }, -- Needlessly Complex Wristguards
+				{ 2,  198332, 382319 }, -- Complicated Cuffs
+				{ 3,  198333, 382320 }, -- Difficult Wrist Protectors
+				{ 4,  198322, 382317 }, -- Overengineered Sleeve Extenders
+				{ 5,  198324, 382389 }, -- Peripheral Vision Projectors
+				{ 6,  198325, 382390 }, -- Oscillating Wilderness Opticals
+				{ 7,  198326, 382391 }, -- Battle-Ready Binoculars
+				{ 8,  198323, 382388 }, -- Lightweight Ocular Lenses
+				{ 9,  198331, 382386 }, -- Sentry's Stabilized Specs
+				{ 10, 198328, 382383 }, -- Quality-Assured Optics
+				{ 11, 198329, 382384 }, -- Milestone Magnifiers
+				{ 12, 198330, 382385 }, -- Deadline Deadeyes
+				{ 14, 198335, 382321 }, -- Ol' Smoky
+				{ 15, 198334, 382387 }, -- P.E.W. x2
+				{ 16, 211612, 430093 }, -- Draconic Combatant's Cloth Goggles
+				{ 17, 211613, 430094 }, -- Draconic Combatant's Leather Goggles
+				{ 18, 211614, 430095 }, -- Draconic Combatant's Mail Goggles
+				{ 19, 211615, 430096 }, -- Draconic Combatant's Plate Goggles
+				{ 20, 208313, 419042 }, -- Verdant Combatant's Cloth Goggles
+				{ 21, 208314, 419043 }, -- Verdant Combatant's Leather Goggles
+				{ 22, 208315, 419044 }, -- Verdant Combatant's Mail Goggles
+				{ 23, 208316, 419045 }, -- Verdant Combatant's Plate Goggles
+				{ 24, 205278, 409351 }, -- Obsidian Combatant's Cloth Goggles
+				{ 25, 205279, 409353 }, -- Obsidian Combatant's Leather Goggles
+				{ 26, 205280, 409355 }, -- Obsidian Combatant's Mail Goggles
+				{ 27, 205281, 409356 }, -- Obsidian Combatant's Plate Goggles
+			},
+			[SL_DIFF] = {
+				{ 1, 172905, 310501 }, -- Flexible Ectoplasmic Specs
+				{ 2, 172906, 310504 }, -- Grounded Ectoplasmic Specs
+				{ 3, 172908, 310509 }, -- Reinforced Ectoplasmic Specs
+				{ 4, 172907, 310507 }, -- Articulated Ectoplasmic Specs
+				{ 6, 172923, 310536 }, -- Precision Lifeforce Inverter
 			},
 			[BFA_DIFF] = {
 				{ 1,   160488, 272056 }, -- AZ3-R1-T3 Synthetic Specs
@@ -3557,6 +4094,30 @@ data["Engineering"] = {
 				{ 10, 221959, 447368,  [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Portable Profession Possibility Projector
 				{ 11, 232985, 1213620, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- 22H Slicks
 			},
+			[DF_DIFF] = {
+				{ 1,  198275, 382328, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- S.A.V.I.O.R.
+				{ 2,  198264, 382368 },                     -- Centralized Precipitation Emitter
+				{ 3,  192443, 382371 },                     -- Element-Infused Rocket Helmet
+				{ 4,  198206, 382369 },                     -- Environmental Emulator
+				{ 5,  204818, 408230 },                     -- Mallard Mortar
+				{ 6,  201930, 382336 },                     -- H.E.L.P.
+				{ 7,  198227, 382370 },                     -- Giggle Goggles
+				{ 8,  207092, 416149 },                     -- Portable Party Platter
+				{ 9,  198173, 382408 },                     -- Atomic Recalibrator
+				{ 10, 198156, 382367 },                     -- Wyrmhole Generator: Dragon Isles
+				{ 11, 199414, 387246 },                     -- Zapthrottle Soul Inhaler
+				{ 12, 202087, 396777 },                     -- Tinker Removal Kit
+				{ 13, 198268, 382337 },                     -- Portable Tinker's Workbench
+				{ 14, 198265, 382338 },                     -- Portable Alchemist's Lab Bench
+				{ 15, 198247, 382407, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Neural Silencer Mk3
+			},
+			[SL_DIFF] = {
+				{ 1, 172924, 310535 }, -- Wormhole Generator: Shadowlands
+				{ 2, 172912, 310490 }, -- Momentum Redistributor Boots
+				{ 3, 172914, 310492 }, -- Gravimetric Scrambler Cannon
+				{ 4, 184308, 345179 }, -- Disposable Spectrophasic Reanimator
+				{ 5, 172915, 310493 }, -- 50UL-TR4P
+			},
 			[BFA_DIFF] = {
 				{ 1,  153573, 256070 }, -- Electroshock Mount Motivator
 				{ 2,  153573, 256071 }, -- Electroshock Mount Motivator
@@ -3592,6 +4153,12 @@ data["Engineering"] = {
 				{ 2, 221917, 447355 }, -- Impeccable Cogwheel
 				{ 3, 221914, 447354 }, -- Overclocked Cogwheel
 				{ 4, 221911, 447353 }, -- Serrated Cogwheel
+			},
+			[DF_DIFF] = {
+				{ 1, 198236, 382363 }, -- Meticulously-Tuned Gear
+				{ 2, 198307, 382364 }, -- One-Size-Fits-All Gear
+				{ 3, 198231, 382362 }, -- Rapidly Ticking Gear
+				{ 4, 198174, 382361 }, -- Razor-Sharp Gear
 			},
 			[MOP_DIFF] = {
 				{ 1, 77544, 131211 }, -- Flashing Tinker's Gear : =ds=#sr# 535 : =ds=AtlasLoot["Trainer"]
@@ -3656,6 +4223,22 @@ data["Engineering"] = {
 				{ 13, 221799, 447334 }, -- Miner's Bismuth Hoard
 				{ 14, 221786, 447322 }, -- Spring-Loaded Bismuth Fabric Cutters
 			},
+			[DF_DIFF] = {
+				{ 1,  198235, 382342 }, -- Lapidary's Khaz'gorite Clamps
+				{ 2,  198246, 382399 }, -- Khaz'gorite Encased Samophlange
+				{ 3,  194126, 382340 }, -- Spring-Loaded Khaz'gorite Fabric Cutters
+				{ 4,  198205, 382400 }, -- Khaz'gorite Brainwave Amplifier
+				{ 5,  198226, 382329 }, -- Khaz'gorite Fisherfriend
+				{ 6,  198244, 382341 }, -- Khaz'gorite Delver's Helmet
+				{ 7,  198263, 382339 }, -- Bottomless Mireslush Ore Satchel
+				{ 8,  198225, 382394 }, -- Draconium Fisherfriend
+				{ 9,  198204, 382398 }, -- Draconium Brainwave Amplifier
+				{ 10, 198234, 382395 }, -- Lapidary's Draconium Clamps
+				{ 11, 198243, 382392 }, -- Draconium Delver's Helmet
+				{ 12, 194125, 382396 }, -- Spring-Loaded Draconium Fabric Cutters
+				{ 13, 198245, 382397 }, -- Draconium Encased Samophlange
+				{ 14, 198262, 382393 }, -- Bottomless Stonecrust Ore Satchel
+			},
 		},
 		{ --EngineeringReagents
 			name = AL["Reagents"],
@@ -3683,6 +4266,38 @@ data["Engineering"] = {
 				{ 19, 221859, 447338 }, -- Gyrating Gear
 				{ 20, 221853, 447336 }, -- Handful of Bismuth Bolts
 				{ 21, 221856, 447337 }, -- Whimsical Wiring
+			},
+			[DF_DIFF] = {
+				{ 1,  198192, 382378, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Greased-Up Gears
+				{ 2,  198198, 382380 },                     -- Reinforced Machine Chassis
+				{ 3,  198183, 382375, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Handful of Serevite Bolts
+				{ 4,  198189, 382377, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Everburning Blasting Powder
+				{ 5,  198195, 382379 },                     -- Arclight Capacitor
+				{ 6,  198650, 382374, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Rummage Through Scrap
+				{ 7,  198186, 382376, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Shock-Spring Coil
+				{ 8,  198201, 382345, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Assorted Safety Fuses
+				{ 10, 198256, 382351 },                     -- Magazine of Healing Darts
+				{ 11, 198259, 382349 },                     -- Critical Failure Prevention Unit
+				{ 12, 198253, 382350 },                     -- Calibrated Safety Switch
+				{ 13, 198619, 384491 },                     -- Spring-Loaded Capacitor Casing
+				{ 16, 191529, 382381 },                     -- Illustrious Insight
+				{ 17, 198216, 382346, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Haphazardly Tethered Wires
+				{ 18, 198219, 382348, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Overcharged Overclocker
+			},
+			[SL_DIFF] = {
+				{ 1,  172936, 310525, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Mortal Coiled Spring
+				{ 2,  172937, 310526, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Wormfed Gear Assembly
+				{ 3,  172935, 310524, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Porous Polishing Abrasive
+				{ 4,  172934, 310522, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Handful of Laestrite Bolts
+				{ 6,  187831, 360088 },                     -- Pure-Air Sail Extensions
+				{ 7,  187836, 360126 },                     -- Erratic Genesis Matrix
+				{ 9,  187742, 359674 },                     -- Crafter's Mark of the First Ones
+				{ 10, 173384, 343103 },                     -- Crafter's Mark of the Chained Isle
+				{ 11, 187741, 359664 },                     -- Crafter's Mark IV
+				{ 12, 173383, 343102 },                     -- Crafter's Mark III
+				{ 13, 173382, 343100 },                     -- Crafter's Mark II
+				{ 14, 173381, 343099 },                     -- Crafter's Mark I
+				{ 15, 183942, 343661 },                     -- Novice Crafter's Mark
 			},
 			[WOD_DIFF] = {
 				{ 1, 111366, 169080, [ATLASLOOT_IT_AMOUNT1] = "8+" }, -- Gearspring Parts (Learnt by item 111921)
@@ -3747,6 +4362,15 @@ data["Engineering"] = {
 				{ 1, 257745, 1261866 }, -- Farstrider's Hawkeye
 				{ 2, 257747, 1261893 }, -- Smuggler's Lynxeye
 			},
+			[DF_DIFF] = {
+				{ 1, 198316, 382326 }, -- High Intensity Thermal Scanner
+				{ 2, 198313, 382325 }, -- Projectile Propulsion Pinion
+				{ 3, 198310, 382402 }, -- Gyroscopic Kaleidoscope
+			},
+			[SL_DIFF] = {
+				{ 1, 172921, 310534 }, -- Infra-green Reflex Sight
+				{ 2, 172920, 310533 }, -- Optical Target Embiggener
+			},
 			[BFA_DIFF] = {
 				{ 1,  158203, 265097 }, -- Incendiary Ammunition
 				{ 2,  158203, 265098 }, -- Incendiary Ammunition
@@ -3789,10 +4413,21 @@ data["Engineering"] = {
 			},
 		},
 		{ --EngineeringMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[MIDNIGHT_DIFF] = {
 				{ 1, 257751, 1261913 }, -- Weighted Boomshots
 				{ 2, 257749, 1261895 }, -- Laced Zoomshots
+			},
+			[DF_DIFF] = {
+				{ 1, 198163, 382366, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Endless Stack of Needles
+				{ 2, 198160, 382365, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Completely Safe Rockets
+				{ 4, 204856, 407170 },                 -- Inspired Order Recalibrator
+				{ 5, 203411, 400810 },                 -- Gnomish Voicebox
+			},
+			[SL_DIFF] = {
+				{ 1, 172917, 310495 }, -- Dimensional Shifter
+				{ 2, 172918, 310496 }, -- Electro-Jump
+				{ 3, 172919, 310497 }, -- Damage Retaliator
 			},
 			[BFA_DIFF] = {
 				{ 1,  162107,      278411 }, -- Makeshift Azerite Detector
@@ -3960,9 +4595,15 @@ data["Engineering"] = {
 			},
 		},
 		{ --EngineeringMountsPets
-			name = AL["Mounts"].." & "..AL["Pets"],
+			name = MOUNTS.." & "..PETS,
 			[TWW_DIFF] = {
 				{ 1, 221967, 447373 }, -- Crowd Pummeler 2-30
+			},
+			[DF_DIFF] = {
+				{ 1, 193572, 382332 }, -- Quack-E
+			},
+			[SL_DIFF] = {
+				{ 1, 180208, 331007 }, -- PHA7-YNX
 			},
 			[BFA_DIFF] = {
 				{ 1, 161134, 274621 }, -- Mecha-Mogul Mk2
@@ -3996,6 +4637,16 @@ data["Engineering"] = {
 			[TWW_DIFF] = {
 				{ 1, 221904, 447350 }, -- Tinker: Earthen Delivery Drill
 				{ 2, 221908, 447351 }, -- Tinker: Heartseeking Health Injector
+			},
+			[DF_DIFF] = {
+				{ 1, 198298, 382401 }, -- Tinker: Plane Displacer
+				{ 2, 198301, 382359 }, -- Tinker: Supercollide-O-Tron
+				{ 3, 198304, 382344 }, -- Tinker: Grounded Circuitry
+				{ 4, 198295, 382324 }, -- Tinker: Breath of Neltharion
+				{ 5, 201407, 393796 }, -- Tinker: Arclight Vital Correctors
+				{ 6, 198289, 382334 }, -- Tinker: Alarm-O-Turret
+				{ 7, 205014, 408052 }, -- Tinker: Shadowflame Rockets
+				{ 8, 199188, 386667 }, -- Tinker: Polarity Amplifier
 			},
 			[LEGION_DIFF] = {
 				{ 1,  132509, 198972 }, -- Deployable Bullet Dispenser
@@ -4045,6 +4696,28 @@ data["Engineering"] = {
 				{ 2, 221876, 447343, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Potion Bomb of Recovery
 				{ 3, 221872, 447342, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Potion Bomb of Speed
 				{ 4, 224586, 447374 },                 -- Box o' Booms
+			},
+			[DF_DIFF] = {
+				{ 1,  198166, 382354 },                     -- Suspiciously Ticking Crate
+				{ 2,  198169, 382358 },                     -- Suspiciously Silent Crate
+				{ 3,  198281, 382333, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Sticky Warp Grenade
+				{ 4,  198180, 382331 },                     -- D.U.C.K.O.Y.
+				{ 5,  204823, 407005, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Polarity Bomb
+				{ 6,  198292, 382323, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Grease Grenade
+				{ 7,  198239, 382330, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Creature Combustion Canister
+				{ 8,  198278, 382322, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Primal Deconstruction Charge
+				{ 9,  198228, 382343, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Gravitational Displacer
+				{ 10, 198157, 382353, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- I.W.I.N. Button Mk10
+				{ 11, 198210, 382357, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- EZ-Thro Primal Deconstruction Charge
+				{ 12, 204827, 407006, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- EZ-Thro Polarity Bomb
+				{ 13, 198213, 382356, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- EZ-Thro Gravitational Displacer
+				{ 14, 199193, 386670, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- EZ-Thro Grease Grenade
+				{ 15, 198207, 382355, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- EZ-Thro Creature Combustion Canister
+			},
+			[SL_DIFF] = {
+				{ 1, 172902, 310486, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Bomb Bola Launcher
+				{ 2, 172903, 310484, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Nutcracker Grenade
+				{ 3, 172904, 310485, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Shadow Land Mine
 			},
 			[BFA_DIFF] = {
 				{ 1,  153494, 255395 }, -- Thermo-Accelerated Plague Spreader
@@ -4116,6 +4789,14 @@ data["Engineering"] = {
 		},
 		{ --EngineeringFirework
 			name = AL["Firework"],
+			[DF_DIFF] = {
+				{ 1, 198172, 382327 },                     -- Bundle of Fireworks
+				{ 2, 198222, 382403, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Blue Fireflight
+				{ 3, 198224, 382335, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Green Fireflight
+				{ 4, 198550, 384314, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Bronze Fireflight
+				{ 5, 198549, 384313, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Black Fireflight
+				{ 6, 198223, 382404, [ATLASLOOT_IT_AMOUNT1] = "2-3" }, -- Red Fireflight
+			},
 			[NORMAL_DIFF] = {
 				{ 1,  89991, 131353 },                 -- Pandaria Firework : =ds=#sr# 500 : =ds=AtlasLoot["Trainer"]
 				{ 2,  89893, 131256, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Autumn Flower Firework : =ds=#sr# 500 : #ITEMID:89991#
@@ -4263,6 +4944,18 @@ data["Inscription"] = {
 				{ 5, 225369, 455008, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Staff
 				{ 6, 225368, 455007, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Pillar
 			},
+			[DF_DIFF] = {
+				{ 1, 194897, 383542 }, -- Kinetic Pillar of the Isles
+				{ 2, 194898, 383541 }, -- Illuminating Pillar of the Isles
+				{ 3, 194894, 383545 }, -- Weathered Explorer's Stave
+				{ 4, 194893, 383543 }, -- Overseer's Writhebark Stave
+				{ 5, 194892, 383544 }, -- Pioneer's Writhebark Stave
+
+			},
+			[SL_DIFF] = {
+				{ 1, 173428, 311688 }, -- Soul Keeper's Column
+				{ 2, 173054, 311689 }, -- Soul Keeper's Spire
+			},
 			[NORMAL_DIFF] = {
 				{ 1,   "113134:Stage6W", 187518 },                        -- Crystalfire Spellstaff (Stage 6)
 				{ 2,   "113134:Stage5W", 187494 },                        -- Crystalfire Spellstaff (Stage 5)
@@ -4306,6 +4999,13 @@ data["Inscription"] = {
 				{ 1, 222565, 444196 },                          -- Inquisitor's Torch
 				{ 2, 222566, 444197 },                          -- Vagabond's Torch
 				{ 3, 225372, 455006, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Lamp
+			},
+			[DF_DIFF] = {
+				{ 1, 194879, 383540 }, -- Crackling Codex of the Isles
+				{ 2, 194877, 383539 }, -- Core Explorer's Compendium
+			},
+			[SL_DIFF] = {
+				{ 1, 173050, 311408 }, -- Newly Departed Codex
 			},
 			[BFA_DIFF] = {
 				{ 1, 159940, 269741 }, -- Honorable Combatant's Etched Vessel
@@ -4366,6 +5066,31 @@ data["Inscription"] = {
 				{ 6, 219933, 444338, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Emblem
 				{ 7, 219932, 444337, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Insignia of Alacrity
 				{ 8, 219931, 444336, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Medallion
+			},
+			[DF_DIFF] = {
+				{ 1,  198478, 383770 }, -- Darkmoon Deck Box: Dance
+				{ 2,  198477, 383767 }, -- Darkmoon Deck Box: Rime
+				{ 3,  194872, 383325 }, -- Darkmoon Deck Box: Inferno
+				{ 4,  198481, 383772 }, -- Darkmoon Deck Box: Watcher
+				{ 6,  211608, 430092 }, -- Draconic Combatant's Emblem
+				{ 7,  211607, 430091 }, -- Draconic Combatant's Insignia of Alacrity
+				{ 8,  211606, 430090 }, -- Draconic Combatant's Medallion
+				{ 9,  208309, 419041 }, -- Verdant Combatant's Emblem
+				{ 10, 208308, 419040 }, -- Verdant Combatant's Insignia of Alacrity
+				{ 11, 208307, 419039 }, -- Verdant Combatant's Medallion
+				{ 12, 204166, 403168 }, -- Obsidian Combatant's Emblem
+				{ 13, 204165, 403167 }, -- Obsidian Combatant's Insignia of Alacrity
+				{ 14, 204164, 403166 }, -- Obsidian Combatant's Medallion
+				{ 15, 203377, 400028 }, -- Crimson Combatant's Emblem
+				{ 16, 203376, 400027 }, -- Crimson Combatant's Insignia of Alacrity
+				{ 17, 203375, 400026 }, -- Crimson Combatant's Medallion
+			},
+			[SL_DIFF] = {
+				{ 1, 177874, 324035 }, -- Darkmoon Card of Voracity
+				{ 2, 177875, 324037 }, -- Darkmoon Card of Putrescence
+				{ 3, 177873, 324039 }, -- Darkmoon Card of the Indomitable
+				{ 4, 173066, 311441 }, -- Darkmoon Card of Death
+				{ 5, 177876, 324036 }, -- Darkmoon Card of Repose
 			},
 			[BFA_DIFF] = {
 				{ 1,  153598, 256246 }, -- Darkmoon Card of War
@@ -4459,6 +5184,23 @@ data["Inscription"] = {
 				{ 9,  249704, 1249468 },                          -- Deal: Cartel Om
 				{ 10, 249700, 1249463 },                          -- Deal: Cartel Zo
 			},
+			[DF_DIFF] = {
+				{ 1, 204993, 408278 }, -- Contract: Loamm Niffen
+				{ 2, 198500, 383591 }, -- Contract: Maruuk Centaur
+				{ 3, 198506, 383593 }, -- Contract: Dragonscale Expedition
+				{ 4, 198494, 383588 }, -- Contract: Iskaara Tuskarr
+				{ 5, 198497, 383590 }, -- Contract: Valdrakken Accord
+				{ 6, 210244, 425263 }, -- Contract: Dream Wardens
+				{ 7, 198503, 383592 }, -- Contract: Artisan's Consortium
+			},
+			[SL_DIFF] = {
+				{ 1, 173062, 311412 }, -- Contract: Court of Harvesters
+				{ 2, 187796, 359786 }, -- Contract: Enlightened Brokers
+				{ 3, 175924, 311411 }, -- Contract: The Undying Army
+				{ 4, 173051, 311409 }, -- Contract: The Ascended
+				{ 5, 173053, 311410 }, -- Contract: The Wild Hunt
+				{ 6, 186522, 354000 }, -- Contract: Death's Advance
+			},
 			[BFA_DIFF] = {
 				{ 1,  153661, 256275 }, -- Contract: Proudmoore Admiralty
 				{ 2,  153661, 256276 }, -- Contract: Proudmoore Admiralty
@@ -4507,6 +5249,14 @@ data["Inscription"] = {
 				{ 5, 222573, 444204 }, -- Lightweight Scribe's Quill
 				{ 6, 222575, 444206 }, -- Hasty Alchemist's Mixing Rod
 			},
+			[DF_DIFF] = {
+				{ 1, 194875, 383548 }, -- Scribe's Resplendent Quill
+				{ 2, 191231, 383550 }, -- Alchemist's Brilliant Mixing Rod
+				{ 3, 191232, 383552 }, -- Chef's Splendid Rolling Pin
+				{ 4, 194874, 383547 }, -- Scribe's Fastened Quill
+				{ 5, 191234, 383549 }, -- Alchemist's Sturdy Mixing Rod
+				{ 6, 191233, 383551 }, -- Chef's Smooth Rolling Pin
+			},
 		},
 		{ --InscriptionReagents
 			name = AL["Reagents"],
@@ -4548,17 +5298,50 @@ data["Inscription"] = {
 				{ 18, 222555, 444190 },                          -- Codified Greenwood
 				{ 19, 222558, 444191 },                          -- Boundless Cipher
 			},
+			[DF_DIFF] = {
+				{ 1,  194570, 383554 },                 -- Draconic Missive of the Aurora
+				{ 2,  192553, 383556 },                 -- Draconic Missive of the Fireflash
+				{ 3,  194576, 383560 },                 -- Draconic Missive of the Harmonious
+				{ 4,  194567, 383555 },                 -- Draconic Missive of the Feverflare
+				{ 5,  194573, 383562 },                 -- Draconic Missive of the Quickblade
+				{ 6,  194579, 383561 },                 -- Draconic Missive of the Peerless
+				{ 8,  198534, 390847 },                 -- Draconic Missive of Ingenuity
+				{ 9,  200565, 390848 },                 -- Draconic Missive of Resourcefulness
+				{ 10, 200568, 390849 },                 -- Draconic Missive of Multicraft
+				{ 11, 200571, 390850 },                 -- Draconic Missive of Crafting Speed
+				{ 12, 200580, 390853 },                 -- Draconic Missive of Deftness
+				{ 13, 200574, 390851 },                 -- Draconic Missive of Finesse
+				{ 14, 200577, 390852 },                 -- Draconic Missive of Perception
+				{ 16, 194754, 383790, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Cosmic Ink
+				{ 17, 194760, 383791, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Burnished Ink
+				{ 18, 194850, 383787, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Flourishing Ink
+				{ 19, 194751, 383786, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Blazing Ink
+				{ 20, 194856, 383788, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Serene Ink
+				{ 22, 194862, 383530 },                 -- Runed Writhebark
+				{ 23, 194859, 383531 },                 -- Chilled Rune
+				{ 24, 191529, 391781 },                 -- Illustrious Insight
+				{ 26, 198431, 383538 },                 -- Jetscale Sigil
+				{ 27, 194868, 383535 },                 -- Emberscale Sigil
+				{ 28, 194870, 383536 },                 -- Bronzescale Sigil
+				{ 29, 194871, 383533 },                 -- Azurescale Sigil
+				{ 30, 194869, 383534 },                 -- Sagescale Sigil
+			},
+			[SL_DIFF] = {
+				{ 1,  175970, 321029 }, -- Tranquil Ink
+				{ 2,  173059, 311406 }, -- Luminous Ink
+				{ 3,  173058, 311405 }, -- Umbral Ink
+				{ 5,  173162, 324196 }, -- Missive of Mastery
+				{ 6,  173160, 324198 }, -- Missive of Haste
+				{ 7,  173163, 324195 }, -- Missive of Versatility
+				{ 8,  173161, 324197 }, -- Missive of Critical Strike
+				{ 10, 173382, 343689 }, -- Crafter's Mark II
+				{ 11, 173381, 343691 }, -- Crafter's Mark I
+				{ 12, 183942, 343686 }, -- Novice Crafter's Mark
+			},
 			[BFA_DIFF] = {
-				{ 1,  152511, 256223 }, -- Mass Mill Sea Stalk
-				{ 2,  152505, 256217 }, -- Mass Mill Riverbud
-				{ 3,  152506, 256218 }, -- Mass Mill Star Moss
-				{ 4,  152507, 256219 }, -- Mass Mill Akunda's Bite
-				{ 5,  152508, 256220 }, -- Mass Mill Winter's Kiss
-				{ 6,  152509, 256221 }, -- Mass Mill Siren's Pollen
-				{ 7,  152510, 256308 }, -- Mass Mill Anchor Weed
-				{ 16, 158189, 264778 }, -- Viridescent Ink
-				{ 17, 158187, 264776 }, -- Ultramarine Ink
-				{ 18, 158188, 264777 }, -- Crimson Ink
+				{ 1, 158189, 264778 }, -- Viridescent Ink
+				{ 2, 158187, 264776 }, -- Ultramarine Ink
+				{ 3, 158188, 264777 }, -- Crimson Ink
 			},
 			[LEGION_DIFF] = {
 				{ 1, 129100, 209658 }, -- Mass Mill Aethril
@@ -4595,7 +5378,7 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionRunes
-			name = AL["Runes"],
+			name = RUNES,
 			[MIDNIGHT_DIFF] = {
 				{ 1, 245879, 1230050 }, -- Vantus Rune: Radiant
 			},
@@ -4603,6 +5386,20 @@ data["Inscription"] = {
 				{ 1, 226034, 444203 },                           -- Vantus Rune: Nerub-ar Palace
 				{ 2, 232935, 472951,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Vantus Rune: Liberation of Undermine
 				{ 3, 244147, 1236908, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Vantus Rune: Manaforge Omega
+			},
+			[DF_DIFF] = {
+				{ 1, 210247, 425954 },                 -- Vantus Rune: Amirdrassil, the Dream's Hope
+				{ 2, 204858, 408272 },                 -- Vantus Rune: Aberrus, the Shadowed Crucible
+				{ 3, 198491, 383546 },                 -- Vantus Rune: Vault of the Incarnates
+				{ 5, 194824, 383525, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Chirping Rune
+				{ 6, 194817, 383529, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Howling Rune
+				{ 7, 194821, 383527, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Buzzing Rune
+				{ 8, 204971, 408271, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Hissing Rune
+			},
+			[SL_DIFF] = {
+				{ 1, 187805, 359890 }, -- Vantus Rune: Sepulcher of the First Ones
+				{ 2, 173067, 311453 }, -- Vantus Rune: Castle Nathria
+				{ 3, 186662, 354394 }, -- Vantus Rune: Sanctum of Domination
 			},
 			[BFA_DIFF] = {
 				{ 1, 153673, 256303 }, -- Vantus Rune: Uldir
@@ -4700,9 +5497,22 @@ data["Inscription"] = {
 				{ 10, 222649, 444236 }, -- Algari Treatise on Skinning
 				{ 11, 222547, 444186 }, -- Algari Treatise on Tailoring
 			},
+			[DF_DIFF] = {
+				{ 1,  194697, 383522 }, -- Draconic Treatise on Alchemy
+				{ 2,  198454, 383517 }, -- Draconic Treatise on Blacksmithing
+				{ 3,  194702, 383523 }, -- Draconic Treatise on Enchanting
+				{ 4,  198510, 383844 }, -- Draconic Treatise on Engineering
+				{ 5,  194704, 383515 }, -- Draconic Treatise on Herbalism
+				{ 6,  194699, 383759 }, -- Draconic Treatise on Inscription
+				{ 7,  194703, 383524 }, -- Draconic Treatise on Jewelcrafting
+				{ 8,  194700, 383519 }, -- Draconic Treatise on Leatherworking
+				{ 9,  194708, 383516 }, -- Draconic Treatise on Mining
+				{ 10, 201023, 392944 }, -- Draconic Treatise on Skinning
+				{ 11, 194698, 383520 }, -- Draconic Treatise on Tailoring
+			},
 		},
 		{ --InscriptionMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[MIDNIGHT_DIFF] = {
 				{ 1, 265337, 1230062, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Aln'hara Sprigshot
 				{ 2, 265336, 1230058, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Faunatender's Trust
@@ -4710,6 +5520,45 @@ data["Inscription"] = {
 			},
 			[TWW_DIFF] = {
 				{ 1, 246809, 1243994, [PRICE_EXTRA_ITTYPE] = "money:5000000" }, -- Inspired Writer's Quill
+			},
+			[DF_DIFF] = {
+				{ 1,   209998, 422337 }, -- Lydiara's Binding Rune
+				{ 2,   203412, 400811 }, -- Arcane Dispelling Rune
+				{ 3,   194827, 383512 }, -- Bundle O' Cards: Dragon Isles
+				{ 4,   194829, 384949 }, -- Serene Fortune
+				{ 5,   194829, 384948 }, -- Flourishing Fortune
+				{ 6,   194829, 383563 }, -- Blazing Fortune
+				{ 8,   197362, 383582 }, -- Renewed Proto-Drake: Spined Crest
+				{ 9,   197347, 383586 }, -- Renewed Proto-Drake: Silver and Blue Armor
+				{ 10,  197377, 383581 }, -- Renewed Proto Drake: Bovine Horns
+				{ 11,  197394, 383580 }, -- Renewed Proto-Drake: Predator Pattern
+				{ 12,  197352, 383587 }, -- Renewed Proto-Drake: Steel and Yellow Armor
+				{ 13,  197592, 383584 }, -- Windborne Velocidrake: Spined Head
+				{ 14,  197578, 391832 }, -- Windborne Velocidrake: Silver and Blue Armor
+				{ 15,  197579, 391848 }, -- Windborne Velocidrake: Steel and Orange Armor
+				{ 16,  197597, 383583 }, -- Windborne Velocidrake: Black Fur
+				{ 17,  197634, 383585 }, -- Windborne Velocidrake: Windswept Pattern
+				{ 18,  196988, 383575 }, -- Cliffside Wylderdrake: Red Hair
+				{ 19,  196968, 391846 }, -- Cliffside Wylderdrake: Steel and Yellow Armor
+				{ 20,  196981, 383574 }, -- Cliffside Wylderdrake: Conical Head
+				{ 21,  196963, 391836 }, -- Cliffside Wylderdrake: Silver and Blue Armor
+				{ 22,  196980, 383576 }, -- Cliffside Wylderdrake: Triple Head Horns
+				{ 23,  207761, 425961 }, -- Grotto Netherwing Drake: Chin Tendrils
+				{ 24,  207773, 425959 }, -- Grotto Netherwing Drake: Spiked Jaw
+				{ 25,  197117, 383577 }, -- Highland Drake: Black Hair
+				{ 26,  197154, 383579 }, -- Highland Drake: Spined Neck
+				{ 27,  197091, 391834 }, -- Highland Drake: Silver and Blue Armor
+				{ 28,  197096, 391845 }, -- Highland Drake: Steel and Yellow Armor
+				{ 29,  197108, 383578 }, -- Highland Drake: Spined Head
+				{ 30,  203314, 408222 }, -- Winding Slitherdrake: Curved Chin Horn
+				{ 101, 203324, 408221 }, -- Winding Slitherdrake: White Hair
+				{ 102, 203364, 408223 }, -- Winding Slitherdrake: Small Finned Throat
+				{ 103, 203300, 408218 }, -- Winding Slitherdrake: Blue and Silver Armor
+				{ 104, 203311, 425958 }, -- Winding Slitherdrake: Hairy Chin
+				{ 105, 203304, 408220 }, -- Winding Slitherdrake: Yellow and Silver Armor
+			},
+			[SL_DIFF] = {
+				{ 1, 180755, 334537 }, -- Fae Revel Masque
 			},
 			[BFA_DIFF] = {
 				{ 1, 162114, 278422 }, -- Crimson Ink Well
@@ -4846,6 +5695,22 @@ data["Inscription"] = {
 		},
 		{ --InscriptionScrolls
 			name = AL["Scrolls"],
+			[DF_DIFF] = {
+				{ 1, 197718, 385197, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Scroll of Sales
+				{ 2, 194732, 384869, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Illusion Parchment: Love Charm
+				{ 3, 194737, 383572, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Illusion Parchment: Spell Shield
+				{ 4, 194731, 383565, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Illusion Parchment: Magma Missile
+				{ 5, 194734, 383569, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Illusion Parchment: Whirling Breeze
+				{ 6, 194738, 383573, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Illusion Parchment: Shadow Orb
+				{ 7, 194735, 383570, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Illusion Parchment: Arcane Burst
+				{ 8, 194733, 383567, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Illusion Parchment: Aqua Torrent
+				{ 9, 194736, 383571, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Illusion Parchment: Chilling Wind
+			},
+			[SL_DIFF] = {
+				{ 1, 173049, 311425 }, -- Tome of the Still Mind
+				{ 2, 173065, 311423 }, -- Writ of Grave Robbing
+				{ 3, 173048, 311424 }, -- Codex of the Still Mind
+			},
 			[BFA_DIFF] = {
 				{ 1,  153647, 256235 }, -- Tome of the Quiet Mind
 				{ 2,  153647, 256236 }, -- Tome of the Quiet Mind
@@ -4936,7 +5801,7 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionItemEnhancements
-			name = AL["Item Enhancements"],
+			name = AUCTION_CATEGORY_ITEM_ENHANCEMENT,
 			[NORMAL_DIFF] = {
 				{ 1,   128018,     178248, [PRICE_EXTRA_ITTYPE] = "119297:5" }, -- Ensorcelled Tarot (Sold, Ashran)
 				{ 2,   127718,     187495, [PRICE_EXTRA_ITTYPE] = "114931:20" }, -- Mighty Ensorcelled Tarot (Sold, Ashran)
@@ -4968,7 +5833,7 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionDeathKnight
-			name = AL["Glyphs"].." - "..ALIL["DEATHKNIGHT"],
+			name = GLYPHS.." - "..ALIL["DEATHKNIGHT"],
 			[NORMAL_DIFF] = {
 				{ 1, 43535,  57209 }, -- Glyph of the Geist
 				{ 2, 43551,  57224 }, -- Glyph of Foul Menagerie
@@ -4979,7 +5844,7 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionDemonHunter
-			name = AL["Glyphs"].." - "..ALIL["DEMONHUNTER"],
+			name = GLYPHS.." - "..ALIL["DEMONHUNTER"],
 			[NORMAL_DIFF] = {
 				{ 1, 133796 }, -- Glyph of Fearsome Metamorphosis
 				{ 2, 139362, 225529 }, -- Glyph of Mana Touched Souls
@@ -4988,10 +5853,11 @@ data["Inscription"] = {
 				{ 5, 139436, 192852 }, -- Glyph of Tattered Wings
 				{ 6, 139437, 225528 }, -- Glyph of Fel-Enemies
 				{ 7, 139438, 225530 }, -- Glyph of Shadow-Enemies
+				{ 8, 203762, 408277 }, -- Glyph of the Chosen Glaive
 			},
 		},
 		{ --InscriptionDruid
-			name = AL["Glyphs"].." - "..ALIL["DRUID"],
+			name = GLYPHS.." - "..ALIL["DRUID"],
 			[NORMAL_DIFF] = {
 				{ 1,  40919,  56948 }, -- Glyph of the Orca
 				{ 2,  43334,  58287 }, -- Glyph of the Ursol Chameleon
@@ -5005,10 +5871,19 @@ data["Inscription"] = {
 				{ 10, 162029, 276121 }, -- Glyph of the Humble Flyer
 				{ 11, 162022, 276059 }, -- Glyph of the Dolphin
 				{ 12, 162027, 276088 }, -- Glyph of the Tideskipper
+				{ 13, 187931, 360880 }, -- Mark of the Regal Dredbat
+				{ 14, 187884, 360539 }, -- Mark of the Twilight Runestag
+				{ 15, 187934, 360885 }, -- Mark of the Midnight Runestag
+				{ 16, 188164, 362412 }, -- Glyph of the Wild Mushroom
+				{ 17, 187888, 360545 }, -- Mark of the Shimmering Ardenmoth
+				{ 18, 187887, 360542 }, -- Mark of the Gloomstalker Dredbat
+				{ 19, 187936, 360899 }, -- Mark of the Sable Ardenmoth
+				{ 20, 211400, 429149 }, -- Glyph of the Lunar Chameleon
+				{ 21, 210735, 427956 }, -- Mark of the Auric Dreamstag
 			},
 		},
 		{ --InscriptionHunter
-			name = AL["Glyphs"].." - "..ALIL["HUNTER"],
+			name = GLYPHS.." - "..ALIL["HUNTER"],
 			[NORMAL_DIFF] = {
 				{ 1, 43350,  58301 }, -- Glyph of Lesser Proportion
 				{ 2, 137238, 225543 }, -- Glyph of the Trident
@@ -5021,7 +5896,7 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionMage
-			name = AL["Glyphs"].." - "..ALIL["MAGE"],
+			name = GLYPHS.." - "..ALIL["MAGE"],
 			[NORMAL_DIFF] = {
 				{ 1, 42751,  56986 }, -- Glyph of Crittermorph
 				{ 2, 104104, 148270 }, -- Glyph of the Unbound Elemental
@@ -5032,7 +5907,7 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionMonk
-			name = AL["Glyphs"].." - "..ALIL["MONK"],
+			name = GLYPHS.." - "..ALIL["MONK"],
 			[NORMAL_DIFF] = {
 				{ 1, 87881,  112462 }, -- Glyph of Crackling Tiger Lightning
 				{ 2, 87883,  112464 }, -- Glyph of Honor
@@ -5043,7 +5918,7 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionPaladin
-			name = AL["Glyphs"].." - "..ALIL["PALADIN"],
+			name = GLYPHS.." - "..ALIL["PALADIN"],
 			[NORMAL_DIFF] = {
 				{ 1, 41100,  57032 }, -- Glyph of the Luminous Charger
 				{ 2, 43366,  58312 }, -- Glyph of Winged Vengeance
@@ -5053,40 +5928,36 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionPriest
-			name = AL["Glyphs"].." - "..ALIL["PRIEST"],
-			[LEGION_DIFF] = {
-				-- 7.3.0
-				{ 1, 153036, 254238 }, -- Glyph of Dark Absolution
-				{ 2, 153033, 254231 }, -- Glyph of the Voidling
-				{ 3, 153031, 254227 }, -- Glyph of the Lightspawn
-			},
+			name = GLYPHS.." - "..ALIL["PRIEST"],
 			[NORMAL_DIFF] = {
-				{ 1, 43373,  58320 }, -- Glyph of Shackle Undead
-				{ 2, 79538,  124466 }, -- Glyph of the Heavens
-				{ 3, 87277,  126696 }, -- Glyph of the Val'kyr
-				{ 4, 87392,  126800 }, -- Glyph of Shadowy Friends
-				{ 5, 104120, 148276 }, -- Glyph of the Sha
-				{ 6, 104122, 148278 }, -- Glyph of Inspired Hymns
-				{ 7, 129017, 192838 }, -- Glyph of Ghostly Fade
+				{ 1,  43373,  58320 }, -- Glyph of Shackle Undead
+				{ 2,  79538,  124466 }, -- Glyph of the Heavens
+				{ 3,  87277,  126696 }, -- Glyph of the Val'kyr
+				{ 4,  87392,  126800 }, -- Glyph of Shadowy Friends
+				{ 5,  104120, 148276 }, -- Glyph of the Sha
+				{ 6,  104122, 148278 }, -- Glyph of Inspired Hymns
+				{ 7,  129017, 192838 }, -- Glyph of Ghostly Fade
+				{ 8,  153036, 254238 }, -- Glyph of Dark Absolution
+				{ 9,  153033, 254231 }, -- Glyph of the Voidling
+				{ 10, 153031, 254227 }, -- Glyph of the Lightspawn
+				{ 11, 207088, 416137 }, -- Glyph of the Shath'Yar
 			},
 		},
 		{ --InscriptionRogue
-			name = AL["Glyphs"].." - "..ALIL["ROGUE"],
-			[TWW_DIFF] = {
-				{ 1, 234246, 1213515 },                                    -- Glyph of the Admiral's Pistol Shot
-				{ 2, 234245, 1213517 },                                    -- Glyph of the Ashvane Pistol Shot
-				{ 3, 234247, 1213514, [PRICE_EXTRA_ITTYPE] = "flameBlessedIron:350" }, -- Glyph of the Gilded Pistol Shot
-				{ 4, 234248, 1213512, [PRICE_EXTRA_ITTYPE] = "flameBlessedIron:350" }, -- Glyph of the Twilight Pistol Shot
-			},
+			name = GLYPHS.." - "..ALIL["ROGUE"],
 			[NORMAL_DIFF] = {
-				{ 1, 45768,  64260 }, -- Glyph of Disguise
-				{ 2, 129020, 225549 }, -- Glyph of Flash Bang
-				{ 3, 139358, 192841 }, -- Glyph of Blackout
-				{ 4, 139442, 225548 }, -- Glyph of Burnout
+				{ 1, 45768,  64260 },                                      -- Glyph of Disguise
+				{ 2, 129020, 225549 },                                     -- Glyph of Flash Bang
+				{ 3, 139358, 192841 },                                     -- Glyph of Blackout
+				{ 4, 139442, 225548 },                                     -- Glyph of Burnout
+				{ 5, 234246, 1213515 },                                    -- Glyph of the Admiral's Pistol Shot
+				{ 6, 234245, 1213517 },                                    -- Glyph of the Ashvane Pistol Shot
+				{ 7, 234247, 1213514, [PRICE_EXTRA_ITTYPE] = "flameBlessedIron:350" }, -- Glyph of the Gilded Pistol Shot
+				{ 8, 234248, 1213512, [PRICE_EXTRA_ITTYPE] = "flameBlessedIron:350" }, -- Glyph of the Twilight Pistol Shot
 			},
 		},
 		{ --InscriptionShaman
-			name = AL["Glyphs"].." - "..ALIL["SHAMAN"],
+			name = GLYPHS.." - "..ALIL["SHAMAN"],
 			[NORMAL_DIFF] = {
 				{ 1, 43386,  58332 }, -- Glyph of the Spectral Wolf
 				{ 2, 104126, 148281 }, -- Glyph of Spirit Raptors
@@ -5095,10 +5966,12 @@ data["Inscription"] = {
 				{ 5, 137288, 225552 }, -- Glyph of Pebbles
 				{ 6, 137289, 225551 }, -- Glyph of Flickering
 				{ 7, 139289, 225550 }, -- Glyph of Critterhex
+				{ 8, 190378, 367389 }, -- Glyph of the Spectral Lupine
+				{ 9, 190380, 367393 }, -- Glyph of the Spectral Vulpine
 			},
 		},
 		{ --InscriptionWarlock
-			name = AL["Glyphs"].." - "..ALIL["WARLOCK"],
+			name = GLYPHS.." - "..ALIL["WARLOCK"],
 			[NORMAL_DIFF] = {
 				{ 1,  42459,  57263 }, -- Glyph of Felguard
 				{ 2,  43394,  58341 }, -- Glyph of Soulwell
@@ -5113,17 +5986,18 @@ data["Inscription"] = {
 			},
 		},
 		{ --InscriptionWarrior
-			name = AL["Glyphs"].." - "..ALIL["WARRIOR"],
+			name = GLYPHS.." - "..ALIL["WARRIOR"],
 			[NORMAL_DIFF] = {
-				{ 1, 43398,  58345 }, -- Glyph of Gushing Wound
-				{ 2, 43400,  58347 }, -- Glyph of Mighty Victory
-				{ 3, 49084,  68166 }, -- Glyph of Thunder Strike
-				{ 4, 80587,  112429 }, -- Glyph of Hawk Feast
-				{ 5, 80588,  112430 }, -- Glyph of Burning Anger
-				{ 6, 85221,  123781 }, -- Glyph of the Blazing Trail
-				{ 7, 104138, 148292 }, -- Glyph of the Weaponmaster
-				{ 8, 137188, 225560 }, -- Glyph of the Blazing Savior
-				{ 9, 141898, 228381 }, -- Glyph of Falling Thunder
+				{ 1,  43398,  58345 }, -- Glyph of Gushing Wound
+				{ 2,  43400,  58347 }, -- Glyph of Mighty Victory
+				{ 3,  49084,  68166 }, -- Glyph of Thunder Strike
+				{ 4,  80587,  112429 }, -- Glyph of Hawk Feast
+				{ 5,  80588,  112430 }, -- Glyph of Burning Anger
+				{ 6,  85221,  123781 }, -- Glyph of the Blazing Trail
+				{ 7,  104138, 148292 }, -- Glyph of the Weaponmaster
+				{ 8,  137188, 225560 }, -- Glyph of the Blazing Savior
+				{ 9,  141898, 228381 }, -- Glyph of Falling Thunder
+				{ 10, 203763, 408273 }, -- Glyph of the Heaved Armament
 			},
 		},
 	}
@@ -5153,6 +6027,24 @@ data["Jewelcrafting"] = {
 				{ 6, 213748, 435321, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Cognitive Bloodstone
 				{ 7, 213749, 435322, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Determined Bloodstone
 				{ 8, 213747, 435320, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Enduring Bloodstone
+			},
+			[DF_DIFF] = {
+				{ 1, 192983, 374467 }, -- Fierce Illimited Diamond
+				{ 2, 192980, 374465 }, -- Inscribed Illimited Diamond
+				{ 3, 192986, 374468 }, -- Skillful Illimited Diamond
+				{ 4, 192989, 374470 }, -- Resplendent Illimited Diamond
+			},
+			[SL_DIFF] = {
+				{ 1,  173130, 311864 }, -- Masterful Jewel Cluster
+				{ 2,  173128, 311865 }, -- Quick Jewel Cluster
+				{ 3,  173129, 311859 }, -- Versatile Jewel Cluster
+				{ 4,  173127, 311863 }, -- Deadly Jewel Cluster
+				{ 5,  173126, 311867 }, -- Straddling Jewel Doublet
+				{ 6,  173122, 311871 }, -- Quick Jewel Doublet
+				{ 7,  173121, 311868 }, -- Deadly Jewel Doublet
+				{ 8,  173124, 311869 }, -- Masterful Jewel Doublet
+				{ 9,  173123, 311866 }, -- Versatile Jewel Doublet
+				{ 10, 173125, 311870 }, -- Revitalizing Jewel Doublet
 			},
 			[BFA_DIFF] = {
 				{ 1,  153709, 256702 }, -- Kraken's Eye of Intellect
@@ -5240,6 +6132,13 @@ data["Jewelcrafting"] = {
 				{ 3, 213453, 434550 }, -- Quick Ruby
 				{ 4, 213459, 434552 }, -- Versatile Ruby
 			},
+			[DF_DIFF] = {
+				{ 1, 192917, 374442 }, -- Crafty Alexstraszite
+				{ 2, 192920, 374443 }, -- Sensei's Alexstraszite
+				{ 3, 192926, 374445 }, -- Deadly Alexstraszite
+				{ 4, 192923, 374444 }, -- Radiant Alexstraszite
+				{ 5, 192900, 374437 }, -- Crafty Queen's Ruby
+			},
 			[MOP_DIFF] = {
 				{ 1,  76696, 107705 }, -- Bold Primordial Ruby : =ds=#sr# 550 : =ds=AtlasLoot["Discovery"]: spell131686
 				{ 2,  76694, 107706 }, -- Brilliant Primordial Ruby : =ds=#sr# 550 : =ds=AtlasLoot["Discovery"]: spell131686
@@ -5321,6 +6220,13 @@ data["Jewelcrafting"] = {
 				{ 3, 213468, 434554 }, -- Quick Sapphire
 				{ 4, 213474, 434563 }, -- Versatile Sapphire
 			},
+			[DF_DIFF] = {
+				{ 1, 192933, 374447 }, -- Energized Malygite
+				{ 2, 192936, 374448 }, -- Zen Malygite
+				{ 3, 192929, 374446 }, -- Radiant Malygite
+				{ 4, 192940, 374449 }, -- Stormy Malygite
+				{ 5, 192903, 374438 }, -- Zen Mystic Sapphire
+			},
 			[LEGION_DIFF] = {
 				{ 1, 151585, 247774 }, -- Versatile Labradorite
 			},
@@ -5395,6 +6301,13 @@ data["Jewelcrafting"] = {
 				{ 2, 213480, 434543 }, -- Masterful Emerald
 				{ 3, 213486, 434542 }, -- Quick Emerald
 				{ 4, 213483, 434544 }, -- Versatile Emerald
+			},
+			[DF_DIFF] = {
+				{ 1, 192953, 374455 }, -- Quick Ysemerald
+				{ 2, 192946, 374453 }, -- Keen Ysemerald
+				{ 3, 192943, 374450 }, -- Crafty Ysemerald
+				{ 4, 192950, 374454 }, -- Energized Ysemerald
+				{ 5, 192906, 374439 }, -- Energized Vibrant Emerald
 			},
 			[MOP_DIFF] = {
 				{ 1,   76646, 106960 }, -- Balanced Wild Jade : =ds=#sr# 550 : =ds=AtlasLoot["Discovery"]: spell131688
@@ -5546,6 +6459,13 @@ data["Jewelcrafting"] = {
 				{ 3, 213492, 434546 }, -- Quick Onyx
 				{ 4, 213495, 434548 }, -- Versatile Onyx
 			},
+			[DF_DIFF] = {
+				{ 1, 192959, 374457 }, -- Keen Neltharite
+				{ 2, 192965, 374459 }, -- Fractured Neltharite
+				{ 3, 192956, 374456 }, -- Sensei's Neltharite
+				{ 4, 192962, 374458 }, -- Zen Neltharite
+				{ 5, 192910, 374440 }, -- Sensei's Sundered Onyx
+			},
 			[LEGION_DIFF] = {
 				{ 1, 151584, 247773 }, -- Masterful Argulite
 			},
@@ -5687,6 +6607,29 @@ data["Jewelcrafting"] = {
 				{ 2, 215133, 435382 }, -- Binding of Binding
 				{ 3, 215130, 435379 }, -- Malleable Band
 				{ 4, 215137, 435386 }, -- Algari Competitor's Signet
+			},
+			[DF_DIFF] = {
+				{ 1, 193000, 374498 }, -- Ring-Bound Hourglass
+				{ 2, 192999, 374497 }, -- Signet of Titanic Insight
+				{ 3, 194082, 376233 }, -- Band of New Beginnings
+				{ 5, 211536, 430056 }, -- Draconic Combatant's Jeweled Signet
+				{ 6, 208237, 419005 }, -- Verdant Combatant's Jeweled Signet
+				{ 7, 204094, 403132 }, -- Obsidian Combatant's Jeweled Signet
+				{ 8, 192997, 374496 }, -- Crimson Combatant's Jeweled Signet
+			},
+			[SL_DIFF] = {
+				{ 1,  173133, 311885 }, -- Quick Oxxein Ring
+				{ 2,  173131, 311887 }, -- Versatile Solenium Ring
+				{ 3,  173134, 311884 }, -- Deadly Sinvyr Ring
+				{ 4,  173132, 311886 }, -- Masterful Phaedrum Ring
+				{ 5,  173137, 311881 }, -- Quick Laestrite Band
+				{ 6,  173135, 311883 }, -- Versatile Laestrite Band
+				{ 7,  173138, 311880 }, -- Deadly Laestrite Band
+				{ 8,  173136, 311882 }, -- Masterful Laestrite Band
+				{ 10, 178926, 338978 }, -- Shadowghast Ring
+				{ 11, 178926, 332074 }, -- Shadowghast Ring
+				{ 12, 178926, 332039 }, -- Shadowghast Ring
+				{ 13, 178926, 327920 }, -- Shadowghast Ring
 			},
 			[BFA_DIFF] = {
 				{ 1,  153686, 256510 }, -- Amberblaze Loop
@@ -5881,6 +6824,30 @@ data["Jewelcrafting"] = {
 				{ 3, 215134, 435383 }, -- Fractured Gemstone Locket
 				{ 4, 215144, 435387 }, -- Algari Competitor's Amulet
 			},
+			[DF_DIFF] = {
+				{ 1, 193001, 374499 }, -- Elemental Lariat
+				{ 2, 193002, 374501 }, -- Choker of Shielding
+				{ 3, 201759, 394621 }, -- Torc of Passed Time
+				{ 4, 192996, 374494 }, -- Pendant of Impending Perils
+				{ 6, 211537, 430055 }, -- Draconic Combatant's Jeweled Amulet
+				{ 7, 208238, 419004 }, -- Verdant Combatant's Jeweled Amulet
+				{ 8, 204095, 403131 }, -- Obsidian Combatant's Jeweled Amulet
+				{ 9, 192998, 374495 }, -- Crimson Combatant's Jeweled Amulet
+			},
+			[SL_DIFF] = {
+				{ 1,  173146, 311907 }, -- Quick Oxxein Necklace
+				{ 2,  173144, 311909 }, -- Versatile Solenium Necklace
+				{ 3,  173147, 311906 }, -- Deadly Sinvyr Necklace
+				{ 4,  173145, 311908 }, -- Masterful Phaedrum Necklace
+				{ 5,  173142, 311903 }, -- Quick Laestrite Choker
+				{ 6,  173140, 311905 }, -- Versatile Laestrite Choker
+				{ 7,  173143, 311902 }, -- Deadly Laestrite Choker
+				{ 8,  173141, 311904 }, -- Masterful Laestrite Choker
+				{ 10, 178927, 338977 }, -- Shadowghast Necklace
+				{ 11, 178927, 332075 }, -- Shadowghast Necklace
+				{ 12, 178927, 332040 }, -- Shadowghast Necklace
+				{ 13, 178927, 327921 }, -- Shadowghast Necklace
+			},
 			[LEGION_DIFF] = {
 				{ 1,   136712, 209604 }, -- Queen's Opal Pendant
 				{ 2,   136712, 209607 }, -- Queen's Opal Pendant
@@ -6026,7 +6993,7 @@ data["Jewelcrafting"] = {
 			},
 		},
 		{ --JewelMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[MIDNIGHT_DIFF] = {
 				{ 1,  240974, 1230474 }, -- Kaleidoscopic Prism
 				{ 2,  240972, 1230475 }, -- Sin'dorei Lens
@@ -6059,6 +7026,62 @@ data["Jewelcrafting"] = {
 				{ 19, 213788, 435369 },                                   -- Algari Onyx Prism
 				{ 20, 213782, 435338 },                                   -- Algari Emerald Prism
 				{ 22, 235712, 1226650 },                                  -- Design: Void-Crystal Panther
+			},
+			[DF_DIFF] = {
+				{ 1,   193887, 374510 },                     -- Jeweled Ruby Whelpling
+				{ 2,   193886, 374512 },                     -- Jeweled Sapphire Whelpling
+				{ 3,   193889, 374514 },                     -- Jeweled Onyx Whelpling
+				{ 4,   193885, 374516 },                     -- Jeweled Amber Whelpling
+				{ 5,   193888, 374511 },                     -- Jeweled Emerald Whelpling
+				{ 7,   193371, 375063 },                     -- "Rhinestone" Sunglasses
+				{ 8,   194748, 377960 },                     -- Split-Lens Specs
+				{ 9,   205045, 408231 },                     -- B.B.F. Fist
+				{ 10,  193033, 374525 },                     -- Convergent Prism
+				{ 11,  193032, 374522 },                     -- Jeweled Offering
+				{ 12,  193029, 374518, [ATLASLOOT_IT_AMOUNT1] = "1-2" }, -- Projection Prism
+				{ 14,  204217, 403483 },                     -- Unstable Elementium
+				{ 15,  192992, 374472 },                     -- Tiered Medallion Setting
+				{ 16,  192893, 374551 },                     -- Jeweled Dragon's Heart
+				{ 17,  192889, 374547 },                     -- Dreamer's Vision
+				{ 18,  192891, 374549 },                     -- Earthwarden's Prize
+				{ 19,  192888, 374546 },                     -- Queen's Gift
+				{ 20,  192890, 374548 },                     -- Keeper's Glory
+				{ 21,  192892, 374550 },                     -- Timewatcher's Patience
+				{ 23,  204909, 408397 },                     -- Statuette of Foreseen Power
+				{ 24,  205171, 408398 },                     -- Figurine of the Gathering Storm
+				{ 25,  194723, 377804 },                     -- Kalu'ak Figurine
+				{ 26,  193007, 374502 },                     -- Narcissist's Sculpture
+				{ 27,  193011, 374506 },                     -- Revitalizing Red Carving
+				{ 28,  193015, 374508 },                     -- Statue of Tyr's Herald
+				{ 29,  193019, 374509, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Djaradin's "Pinata"
+				{ 101, 204854, 407161 },                     -- Immaculate Coalescing Dracothyst
+				{ 102, 203413, 400812 },                     -- Crystal Tuning Fork
+				{ 103, 200938, 392697 },                     -- Empty Soul Cage
+				{ 104, 192887, 374553, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Elemental Harmony
+				{ 105, 192834, 374475 },                     -- Shimmering Clasp
+				{ 106, 192883, 374480, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Glossy Stone
+				{ 107, 191474, 374477, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Draconic Vial
+				{ 108, 192876, 374478, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Frameless Lens
+				{ 110, 208746, 420740 },                     -- Dreamtender's Charm
+				{ 111, 191529, 391782 },                     -- Illustrious Insight
+				{ 112, 192894, 374483, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Blotting Sand
+				{ 113, 192897, 374484, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Pounce
+			},
+			[SL_DIFF] = {
+				{ 1,  186982, 355189 }, -- Shaded Stone Statue
+				{ 2,  186981, 355187 }, -- Porous Stone Statue
+				{ 4,  180760, 334548 }, -- Crown of the Righteous
+				{ 6,  185960, 352443 }, -- Vestige of Origins
+				{ 7,  187784, 359701 }, -- Vestige of the Eternal
+				{ 8,  187742, 359672 }, -- Crafter's Mark of the First Ones
+				{ 9,  173384, 343694 }, -- Crafter's Mark of the Chained Isle
+				{ 10, 187741, 359663 }, -- Crafter's Mark IV
+				{ 11, 173383, 343695 }, -- Crafter's Mark III
+				{ 12, 173382, 343696 }, -- Crafter's Mark II
+				{ 13, 173381, 343697 }, -- Crafter's Mark I
+				{ 14, 183942, 343693 }, -- Novice Crafter's Mark
+				{ 16, 187849, 360317 }, -- Devourer Essence Stone
+				{ 17, 187829, 360016 }, -- Aealic Harmonizing Stone
 			},
 			[BFA_DIFF] = {
 				{ 1, 162112, 278419 }, -- Kaleidoscopic Lens
@@ -6165,6 +7188,16 @@ data["Jewelcrafting"] = {
 				{ 7, 215119, 435375 },                          -- Right-Handed Magnifying Glass
 				{ 8, 215117, 435377 },                          -- Storyteller's Glasses
 			},
+			[DF_DIFF] = {
+				{ 1, 193039, 374538 }, -- Fine-Print Trifocals
+				{ 2, 193040, 374540 }, -- Magnificent Margin Magnifier
+				{ 3, 193041, 374542 }, -- Alexstraszite Loupes
+				{ 4, 193042, 374543 }, -- Resonant Focus
+				{ 5, 193035, 374530 }, -- Bold-Print Bifocals
+				{ 6, 193037, 374532 }, -- Sundered Onyx Loupe
+				{ 7, 193036, 374531 }, -- Left-Handed Magnifying Glass
+				{ 8, 193038, 374537 }, -- Chromatic Focus
+			},
 		},
 		{ -- JewelcraftingDecor
 			name = ALIL["Decor"],
@@ -6232,6 +7265,13 @@ data["Jewelcrafting"] = {
 				{ 3, 213504, 434538 }, -- Quick Amber
 				{ 4, 213510, 434540 }, -- Versatile Amber
 				{ 5, 213515, 434536 }, -- Solid Amber
+			},
+			[DF_DIFF] = {
+				{ 1, 192971, 374461 }, -- Forceful Nozdorite
+				{ 2, 192974, 374462 }, -- Puissant Nozdorite
+				{ 3, 192968, 374460 }, -- Jagged Nozdorite
+				{ 4, 192977, 374463 }, -- Steady Nozdorite
+				{ 5, 192913, 374441 }, -- Solid Eternity Amber
 			},
 			[LEGION_DIFF] = {
 				{ 1, 151580, 247771 }, -- Deadly Deep Chemirine
@@ -6621,6 +7661,12 @@ data["Jewelcrafting"] = {
 		},
 		{ --JewelTrinkets
 			name = AL["Trinkets"],
+			[DF_DIFF] = {
+				{ 1, 193004, 374488 }, -- Idol of the Spell-Weaver
+				{ 2, 193003, 374486 }, -- Idol of the Life-Binder
+				{ 3, 193006, 374493 }, -- Idol of the Earth-Warder
+				{ 4, 193005, 374490 }, -- Idol of the Dreamer
+			},
 			[CATA_DIFF] = {
 				{ 1, 52199, 73640 }, -- Figurine - Demon Panther : =ds=#sr# 475 : =ds=#QUESTID:25047#
 				{ 2, 52354, 73643 }, -- Figurine - Dream Owl : =ds=#sr# 475 : =ds=#QUESTID:28777#
@@ -6668,7 +7714,7 @@ data["Leatherworking"] = {
 	TableType = CRAFTING_ITTYPE,
 	items = {
 		{ --LeatherLeatherArmor
-			name = AL["Leather"].." "..AL["Armor"],
+			name = AL["Leather"].." "..ARMOR,
 			[MIDNIGHT_DIFF] = {
 				{ 1,  244612, 1237486, [PRICE_EXTRA_ITTYPE] = "leatherworkingMoxie:150:voidlightMarl:1500" }, -- Row Walker's Deflectors
 				{ 2,  244613, 1237487 },                                                          -- Row Walker's Insurance
@@ -6730,6 +7776,116 @@ data["Leatherworking"] = {
 				{ 27, 217129, 438901, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Shoulderpads
 				{ 28, 217131, 438903, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Trousers
 				{ 29, 217133, 438905, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Wristwraps
+			},
+			[DF_DIFF] = {
+				{ 1,   193451, 375142 }, -- Slimy Expulsion Boots
+				{ 2,   193452, 375143 }, -- Toxic Thorn Footwraps
+				{ 3,   204706, 406266 }, -- Spore Colony Shoulderguards
+				{ 4,   193494, 375197 }, -- Flaring Cowl
+				{ 5,   193454, 375145 }, -- Old Spirit's Wristwraps
+				{ 6,   193457, 375147 }, -- String of Spiritual Knick-Knacks
+				{ 7,   193458, 375146 }, -- Snowball Makers
+				{ 8,   193453, 375144 }, -- Allied Heartwarming Fur Coat
+				{ 9,   193456, 375148 }, -- Infurious Spirit's Hood
+				{ 10,  193455, 375149 }, -- Infurious Footwraps of Indemnity
+				{ 11,  193407, 375115 }, -- Life-Bound Belt
+				{ 12,  193400, 375112 }, -- Life-Bound Cap
+				{ 13,  193419, 375116 }, -- Life-Bound Bindings
+				{ 14,  193399, 375109 }, -- Life-Bound Chestpiece
+				{ 15,  193408, 375113 }, -- Life-Bound Trousers
+				{ 16,  193398, 375110 }, -- Life-Bound Boots
+				{ 17,  193406, 375114 }, -- Life-Bound Shoulderpads
+				{ 18,  193418, 375111 }, -- Life-Bound Gloves
+				{ 19,  193390, 375105 }, -- Pioneer's Leather Tunic
+				{ 20,  201941, 395864 }, -- Pioneer's Practiced Cowl
+				{ 21,  201942, 395868 }, -- Pioneer's Practiced Shoulderpads
+				{ 22,  201945, 395863 }, -- Pioneer's Practiced Belt
+				{ 23,  201944, 395867 }, -- Pioneer's Practiced Leggings
+				{ 24,  193388, 375104 }, -- Pioneer's Leather Wristguards
+				{ 25,  193386, 375103 }, -- Pioneer's Leather Boots
+				{ 26,  201943, 395865 }, -- Pioneer's Practiced Gloves
+				{ 28,  211540, 430057 }, -- Draconic Combatant's Resilient Mask
+				{ 29,  211541, 430060 }, -- Draconic Combatant's Resilient Shoulderpads
+				{ 30,  211542, 430064 }, -- Draconic Combatant's Resilient Belt
+				{ 101, 211544, 430061 }, -- Draconic Combatant's Resilient Gloves
+				{ 102, 211539, 430058 }, -- Draconic Combatant's Resilient Chestpiece
+				{ 103, 211538, 430062 }, -- Draconic Combatant's Resilient Boots
+				{ 104, 211543, 430059 }, -- Draconic Combatant's Resilient Trousers
+				{ 105, 211545, 430063 }, -- Draconic Combatant's Resilient Wristwraps
+				{ 106, 208244, 419008 }, -- Verdant Combatant's Resilient Trousers
+				{ 107, 208246, 419012 }, -- Verdant Combatant's Resilient Wristwraps
+				{ 108, 208242, 419009 }, -- Verdant Combatant's Resilient Shoulderpads
+				{ 109, 208243, 419013 }, -- Verdant Combatant's Resilient Belt
+				{ 110, 208241, 419006 }, -- Verdant Combatant's Resilient Mask
+				{ 111, 208245, 419010 }, -- Verdant Combatant's Resilient Gloves
+				{ 112, 208240, 419007 }, -- Verdant Combatant's Resilient Chestpiece
+				{ 113, 208239, 419011 }, -- Verdant Combatant's Resilient Boots
+				{ 114, 204098, 403133 }, -- Obsidian Combatant's Resilient Mask
+				{ 115, 204101, 403135 }, -- Obsidian Combatant's Resilient Trousers
+				{ 116, 204103, 403139 }, -- Obsidian Combatant's Resilient Wristwraps
+				{ 117, 204099, 403136 }, -- Obsidian Combatant's Resilient Shoulderpads
+				{ 118, 204100, 403140 }, -- Obsidian Combatant's Resilient Belt
+				{ 119, 204102, 403137 }, -- Obsidian Combatant's Resilient Gloves
+				{ 120, 204097, 403134 }, -- Obsidian Combatant's Resilient Chestpiece
+				{ 121, 204096, 403138 }, -- Obsidian Combatant's Resilient Boots
+				{ 122, 193432, 375126 }, -- Crimson Combatant's Resilient Mask
+				{ 123, 193436, 375130 }, -- Crimson Combatant's Resilient Gloves
+				{ 124, 193433, 375129 }, -- Crimson Combatant's Resilient Shoulderpads
+				{ 125, 193434, 375133 }, -- Crimson Combatant's Resilient Belt
+				{ 126, 193431, 375127 }, -- Crimson Combatant's Resilient Chestpiece
+				{ 127, 193430, 375131 }, -- Crimson Combatant's Resilient Boots
+				{ 128, 193435, 375128 }, -- Crimson Combatant's Resilient Trousers
+				{ 129, 193437, 375132 }, -- Crimson Combatant's Resilient Wristwraps
+			},
+			[SL_DIFF] = {
+				{ 1,   172255, 309235 }, -- Shadebound Pauldrons
+				{ 2,   172252, 309232 }, -- Shadebound Gauntlets
+				{ 3,   172256, 309236 }, -- Shadebound Waistguard
+				{ 4,   172253, 309233 }, -- Shadebound Helm
+				{ 5,   172257, 309237 }, -- Shadebound Armguards
+				{ 6,   172251, 309230 }, -- Shadebound Treads
+				{ 7,   172254, 309234 }, -- Shadebound Leggings
+				{ 8,   172250, 309231 }, -- Shadebound Vest
+				{ 9,   172234, 309175 }, -- Desolate Leather Vest
+				{ 10,  172239, 309179 }, -- Desolate Leather Pauldrons
+				{ 11,  172235, 309174 }, -- Desolate Leather Treads
+				{ 12,  172238, 309178 }, -- Desolate Leather Leggings
+				{ 13,  172237, 309177 }, -- Desolate Leather Helm
+				{ 14,  172241, 309181 }, -- Desolate Leather Armguards
+				{ 15,  172240, 309180 }, -- Desolate Leather Waistguard
+				{ 16,  172236, 309176 }, -- Desolate Leather Gauntlets
+				{ 18,  172320, 338985 }, -- Umbrahide Waistguard
+				{ 19,  172320, 332055 }, -- Umbrahide Waistguard
+				{ 20,  172320, 332020 }, -- Umbrahide Waistguard
+				{ 21,  172320, 309204 }, -- Umbrahide Waistguard
+				{ 23,  172321, 338986 }, -- Umbrahide Armguards
+				{ 24,  172321, 332056 }, -- Umbrahide Armguards
+				{ 25,  172321, 332021 }, -- Umbrahide Armguards
+				{ 26,  172321, 309205 }, -- Umbrahide Armguards
+				{ 101, 172314, 338979 }, -- Umbrahide Vest
+				{ 102, 172314, 332050 }, -- Umbrahide Vest
+				{ 103, 172314, 332015 }, -- Umbrahide Vest
+				{ 104, 172314, 309199 }, -- Umbrahide Vest
+				{ 106, 172318, 338983 }, -- Umbrahide Leggings
+				{ 107, 172318, 332053 }, -- Umbrahide Leggings
+				{ 108, 172318, 332018 }, -- Umbrahide Leggings
+				{ 109, 172318, 309202 }, -- Umbrahide Leggings
+				{ 111, 172319, 338984 }, -- Umbrahide Pauldrons
+				{ 112, 172319, 332054 }, -- Umbrahide Pauldrons
+				{ 113, 172319, 332019 }, -- Umbrahide Pauldrons
+				{ 114, 172319, 309203 }, -- Umbrahide Pauldrons
+				{ 116, 172315, 338980 }, -- Umbrahide Treads
+				{ 117, 172315, 332049 }, -- Umbrahide Treads
+				{ 118, 172315, 332014 }, -- Umbrahide Treads
+				{ 119, 172315, 309198 }, -- Umbrahide Treads
+				{ 121, 172317, 338982 }, -- Umbrahide Helm
+				{ 122, 172317, 332052 }, -- Umbrahide Helm
+				{ 123, 172317, 332017 }, -- Umbrahide Helm
+				{ 124, 172317, 309201 }, -- Umbrahide Helm
+				{ 126, 172316, 338981 }, -- Umbrahide Gauntlets
+				{ 127, 172316, 332051 }, -- Umbrahide Gauntlets
+				{ 128, 172316, 332016 }, -- Umbrahide Gauntlets
+				{ 129, 172316, 309200 }, -- Umbrahide Gauntlets
 			},
 			[BFA_DIFF] = {
 				{ 1,   162468, 256767 }, -- Emblazoned Tempest Boots
@@ -7336,7 +8492,7 @@ data["Leatherworking"] = {
 			},
 		},
 		{ --LeatherMailArmor
-			name = AL["Mail"].." "..AL["Armor"],
+			name = AL["Mail"].." "..ARMOR,
 			[MIDNIGHT_DIFF] = {
 				{ 1,  244602, 1237515 },                          -- Ranger-General's Grips
 				{ 2,  244605, 1237516 },                          -- Axe-Flingin' Bands
@@ -7398,6 +8554,115 @@ data["Leatherworking"] = {
 				{ 27, 217138, 438910, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Girdle
 				{ 28, 217139, 438911, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Leggings
 				{ 29, 217134, 438906, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Treads
+			},
+			[DF_DIFF] = {
+				{ 1,   193466, 375151 }, -- Acidic Hailstone Treads
+				{ 2,   193460, 375150 }, -- Venom-Steeped Stompers
+				{ 3,   193459, 375153 }, -- Ancestor's Dew Drippers
+				{ 4,   193465, 375154 }, -- Scale Rein Grips
+				{ 5,   193463, 375152 }, -- Wind Spirit's Lasso
+				{ 6,   193462, 375156 }, -- Infurious Chainhelm Protector
+				{ 7,   193464, 375157 }, -- Allied Legguards of Sansok Khan
+				{ 8,   193461, 375155 }, -- Infurious Boots of Reprieve
+				{ 9,   204704, 406267 }, -- Adaptive Dracothyst Armguards
+				{ 10,  193427, 375119 }, -- Flame-Touched Handguards
+				{ 11,  193423, 375120 }, -- Flame-Touched Helmet
+				{ 12,  193426, 375121 }, -- Flame-Touched Legguards
+				{ 13,  193424, 375122 }, -- Flame-Touched Spaulders
+				{ 14,  193425, 375123 }, -- Flame-Touched Chain
+				{ 15,  193428, 375124 }, -- Flame-Touched Cuffs
+				{ 16,  193422, 375117 }, -- Flame-Touched Chainmail
+				{ 17,  193421, 375118 }, -- Flame-Touched Treads
+				{ 18,  193394, 375108 }, -- Trailblazer's Scale Vest
+				{ 19,  201948, 395845 }, -- Trailblazer's Toughened Grips
+				{ 20,  201947, 395851 }, -- Trailblazer's Toughened Spikes
+				{ 21,  201946, 395839 }, -- Trailblazer's Toughened Coif
+				{ 22,  201949, 395847 }, -- Trailblazer's Toughened Legguards
+				{ 23,  193393, 375107 }, -- Trailblazer's Scale Bracers
+				{ 24,  193392, 375106 }, -- Trailblazer's Scale Boots
+				{ 25,  201950, 395844 }, -- Trailblazer's Toughened Chainbelt
+				{ 27,  211549, 430068 }, -- Draconic Combatant's Adamant Epaulets
+				{ 28,  211550, 430072 }, -- Draconic Combatant's Adamant Girdle
+				{ 29,  211548, 430065 }, -- Draconic Combatant's Adamant Cowl
+				{ 30,  211552, 430069 }, -- Draconic Combatant's Adamant Gauntlets
+				{ 101, 211547, 430066 }, -- Draconic Combatant's Adamant Chainmail
+				{ 102, 211546, 430070 }, -- Draconic Combatant's Adamant Treads
+				{ 103, 211551, 430067 }, -- Draconic Combatant's Adamant Leggings
+				{ 104, 211553, 430071 }, -- Draconic Combatant's Adamant Cuffs
+				{ 105, 208254, 419020 }, -- Verdant Combatant's Adamant Cuffs
+				{ 106, 208250, 419017 }, -- Verdant Combatant's Adamant Epaulets
+				{ 107, 208251, 419021 }, -- Verdant Combatant's Adamant Girdle
+				{ 108, 208252, 419016 }, -- Verdant Combatant's Adamant Leggings
+				{ 109, 208249, 419014 }, -- Verdant Combatant's Adamant Cowl
+				{ 110, 208253, 419018 }, -- Verdant Combatant's Adamant Gauntlets
+				{ 111, 208248, 419015 }, -- Verdant Combatant's Adamant Chainmail
+				{ 112, 208247, 419019 }, -- Verdant Combatant's Adamant Treads
+				{ 113, 204109, 403143 }, -- Obsidian Combatant's Adamant Leggings
+				{ 114, 204111, 403147 }, -- Obsidian Combatant's Adamant Cuffs
+				{ 115, 204107, 403144 }, -- Obsidian Combatant's Adamant Epaulets
+				{ 116, 204108, 403148 }, -- Obsidian Combatant's Adamant Girdle
+				{ 117, 204106, 403141 }, -- Obsidian Combatant's Adamant Cowl
+				{ 118, 204110, 403145 }, -- Obsidian Combatant's Adamant Gauntlets
+				{ 119, 204105, 403142 }, -- Obsidian Combatant's Adamant Chainmail
+				{ 120, 204104, 403146 }, -- Obsidian Combatant's Adamant Treads
+				{ 121, 193441, 375134 }, -- Crimson Combatant's Adamant Cowl
+				{ 122, 193445, 375138 }, -- Crimson Combatant's Adamant Gauntlets
+				{ 123, 193440, 375135 }, -- Crimson Combatant's Adamant Chainmail
+				{ 124, 193439, 375139 }, -- Crimson Combatant's Adamant Treads
+				{ 125, 193444, 375136 }, -- Crimson Combatant's Adamant Leggings
+				{ 126, 193446, 375140 }, -- Crimson Combatant's Adamant Cuffs
+				{ 127, 193442, 375137 }, -- Crimson Combatant's Adamant Epaulets
+				{ 128, 193443, 375141 }, -- Crimson Combatant's Adamant Girdle
+			},
+			[SL_DIFF] = {
+				{ 1,   172258, 309239 }, -- Shadowscale Vest
+				{ 2,   172263, 309243 }, -- Shadowscale Pauldrons
+				{ 3,   172260, 309240 }, -- Shadowscale Gauntlets
+				{ 4,   172264, 309244 }, -- Shadowscale Waistguard
+				{ 5,   172261, 309241 }, -- Shadowscale Helm
+				{ 6,   172265, 309245 }, -- Shadowscale Armguards
+				{ 7,   172259, 309238 }, -- Shadowscale Treads
+				{ 8,   172262, 309242 }, -- Shadowscale Leggings
+				{ 9,   172246, 309186 }, -- Desolate Scale Greaves
+				{ 10,  172242, 309183 }, -- Desolate Scale Vest
+				{ 11,  172249, 309189 }, -- Desolate Scale Armguards
+				{ 12,  172248, 309188 }, -- Desolate Scale Waistguard
+				{ 13,  172244, 309184 }, -- Desolate Scale Gauntlets
+				{ 14,  172247, 309187 }, -- Desolate Scale Pauldrons
+				{ 15,  172245, 309185 }, -- Desolate Scale Helm
+				{ 16,  172243, 309182 }, -- Desolate Scale Treads
+				{ 18,  172328, 338993 }, -- Boneshatter Waistguard
+				{ 19,  172328, 332063 }, -- Boneshatter Waistguard
+				{ 20,  172328, 332028 }, -- Boneshatter Waistguard
+				{ 21,  172328, 309212 }, -- Boneshatter Waistguard
+				{ 23,  172329, 338994 }, -- Boneshatter Armguards
+				{ 24,  172329, 332064 }, -- Boneshatter Armguards
+				{ 25,  172329, 332029 }, -- Boneshatter Armguards
+				{ 26,  172329, 309213 }, -- Boneshatter Armguards
+				{ 101, 172322, 338987 }, -- Boneshatter Vest
+				{ 102, 172322, 332058 }, -- Boneshatter Vest
+				{ 103, 172322, 332023 }, -- Boneshatter Vest
+				{ 104, 172322, 309207 }, -- Boneshatter Vest
+				{ 106, 172326, 338991 }, -- Boneshatter Greaves
+				{ 107, 172326, 332061 }, -- Boneshatter Greaves
+				{ 108, 172326, 332026 }, -- Boneshatter Greaves
+				{ 109, 172326, 309210 }, -- Boneshatter Greaves
+				{ 111, 172327, 338992 }, -- Boneshatter Pauldrons
+				{ 112, 172327, 332062 }, -- Boneshatter Pauldrons
+				{ 113, 172327, 332027 }, -- Boneshatter Pauldrons
+				{ 114, 172327, 309211 }, -- Boneshatter Pauldrons
+				{ 116, 172323, 338988 }, -- Boneshatter Treads
+				{ 117, 172323, 332057 }, -- Boneshatter Treads
+				{ 118, 172323, 332022 }, -- Boneshatter Treads
+				{ 119, 172323, 309206 }, -- Boneshatter Treads
+				{ 121, 172325, 338990 }, -- Boneshatter Helm
+				{ 122, 172325, 332060 }, -- Boneshatter Helm
+				{ 123, 172325, 332025 }, -- Boneshatter Helm
+				{ 124, 172325, 309209 }, -- Boneshatter Helm
+				{ 126, 172324, 338989 }, -- Boneshatter Gauntlets
+				{ 127, 172324, 332059 }, -- Boneshatter Gauntlets
+				{ 128, 172324, 332024 }, -- Boneshatter Gauntlets
+				{ 129, 172324, 309208 }, -- Boneshatter Gauntlets
 			},
 			[BFA_DIFF] = {
 				{ 1,   161961, 256771 }, -- Mistscale Boots
@@ -7882,6 +9147,16 @@ data["Leatherworking"] = {
 				{ 3, 219909, 444102,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Stormbound Armor Kit
 				{ 4, 235335, 1216520, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Charged Armor Kit
 			},
+			[DF_DIFF] = {
+				{ 1, 193559, 375164 }, -- Reinforced Armor Kit
+				{ 2, 193556, 375161 }, -- Frosted Armor Kit
+				{ 3, 193557, 375162 }, -- Fierce Armor Kit
+				{ 4, 204700, 406214 }, -- Lambent Armor Kit
+			},
+			[SL_DIFF] = {
+				{ 1, 172347, 324088 }, -- Heavy Desolate Armor Kit
+				{ 2, 172346, 324087 }, -- Desolate Armor Kit
+			},
 			[WOD_DIFF] = {
 				{ 1, 128014, 171286, [PRICE_EXTRA_ITTYPE] = "118721:5" }, -- Burnished Essence (Sold, Ashran)
 				{ 2, 127712, 187489, [PRICE_EXTRA_ITTYPE] = "110609:60" }, -- Mighty Burnished Essence (Sold, Ashran)
@@ -7972,18 +9247,36 @@ data["Leatherworking"] = {
 				{ 6,  219876, 444115, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Earthen Jeweler's Cover
 				{ 7,  219872, 444106, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Nerubian Alchemist's Hat
 				{ 8,  219867, 444113, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Stonebound Herbalist's Pack
-				{ 16, 219866, 444105 },                                   -- Apothecary's Cap
-				{ 17, 219873, 444107 },                                   -- Steelsmith's Apron
-				{ 18, 219875, 444114 },                                   -- Gemcutter's Apron
-				{ 19, 219864, 444110 },                                   -- Scrapsmith's Gloves
-				{ 20, 219865, 444116 },                                   -- Hideshaper's Cover
-				{ 21, 219862, 444118 },                                   -- Hideseeker's Pack
-				{ 22, 219861, 444112 },                                   -- Gardener's Basket
-				{ 23, 219863, 444120 },                                   -- Hideseeker's Hat
+				{ 9,  219866, 444105 },                                   -- Apothecary's Cap
+				{ 10, 219873, 444107 },                                   -- Steelsmith's Apron
+				{ 11, 219875, 444114 },                                   -- Gemcutter's Apron
+				{ 12, 219864, 444110 },                                   -- Scrapsmith's Gloves
+				{ 13, 219865, 444116 },                                   -- Hideshaper's Cover
+				{ 14, 219862, 444118 },                                   -- Hideseeker's Pack
+				{ 15, 219861, 444112 },                                   -- Gardener's Basket
+				{ 16, 219863, 444120 },                                   -- Hideseeker's Hat
+			},
+			[DF_DIFF] = {
+				{ 1,  193489, 375190 }, -- Reinforced Pack
+				{ 2,  193492, 375194 }, -- Masterwork Smock
+				{ 3,  193490, 375191 }, -- Expert Skinner's Cap
+				{ 4,  193613, 375195 }, -- Flameproof Apron
+				{ 5,  193616, 375192 }, -- Resplendent Cover
+				{ 6,  193493, 375196 }, -- Expert Alchemist's Hat
+				{ 7,  193488, 375189 }, -- Lavish Floral Pack
+				{ 8,  193491, 375193 }, -- Shockproof Gloves
+				{ 9,  193482, 375183 }, -- Skinner's Cap
+				{ 10, 193612, 375187 }, -- Smithing Apron
+				{ 11, 193615, 375184 }, -- Jeweler's Cover
+				{ 12, 193487, 375188 }, -- Alchemist's Hat
+				{ 13, 193485, 375185 }, -- Protective Gloves
+				{ 14, 193480, 375182 }, -- Durable Pack
+				{ 15, 193486, 375186 }, -- Resilient Smock
+				{ 16, 193479, 375181 }, -- Floral Basket
 			},
 		},
 		{ --LeatherMiscellaneous
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[MIDNIGHT_DIFF] = {
 				{ 1, 244639, 1237547 }, -- Void-touched Drums
 				{ 3, 244603, 1237577 }, -- Blessed Pango Charm
@@ -7995,6 +9288,37 @@ data["Leatherworking"] = {
 				{ 1, 219905, 444122 }, -- Thunderous Drums
 				{ 3, 219495, 441460 }, -- Blessed Weapon Grip
 				{ 4, 219504, 441461 }, -- Writhing Armor Banding
+			},
+			[DF_DIFF] = {
+				{ 1,  193470, 409555 }, -- Lustrous Scaled Drums
+				{ 2,  193470, 409557 }, -- Hide-Bound Drums
+				{ 3,  193470, 375168 }, -- Leather-Bound Drums
+				{ 5,  193469, 375160 }, -- Toxified Armor Patch
+				{ 6,  208187, 418579 }, -- Verdant Conduit
+				{ 7,  204708, 406275 }, -- Shadowflame-Tempered Armor Patch
+				{ 8,  193468, 375159 }, -- Fang Adornments
+				{ 9,  191529, 375166 }, -- Illustrious Insight
+				{ 10, 203414, 400814 }, -- Reinforced Pristine Leather
+				{ 11, 209351, 422330 }, -- Erden's Glowspore Grip
+				{ 13, 197719, 381547 }, -- Artisan's Sign
+				{ 14, 193476, 375171 }, -- Gnoll Tent
+				{ 15, 193478, 375172 }, -- Tuskarr Beanbag
+			},
+			[SL_DIFF] = {
+				{ 1,  172233, 309173 }, -- Drums of Deathly Ferocity
+				{ 3,  187784, 359702 }, -- Vestige of the Eternal
+				{ 4,  185960, 352444 }, -- Vestige of Origins
+				{ 5,  187742, 359669 }, -- Crafter's Mark of the First Ones
+				{ 6,  173384, 343189 }, -- Crafter's Mark of the Chained Isle
+				{ 7,  187741, 359662 }, -- Crafter's Mark IV
+				{ 8,  173383, 343192 }, -- Crafter's Mark III
+				{ 9,  173382, 343193 }, -- Crafter's Mark II
+				{ 10, 173381, 343195 }, -- Crafter's Mark I
+				{ 11, 183942, 343660 }, -- Novice Crafter's Mark
+				{ 13, 168419, 324735 }, -- Comfortable Rider's Barding
+				{ 14, 186985, 355354 }, -- Elusive Pet Treat
+				{ 15, 186686, 354797 }, -- Pallid Oracle Bones
+				{ 16, 186702, 354800 }, -- Pallid Bone Flute
 			},
 			[BFA_DIFF] = {
 				{ 1,  162122, 278423 }, -- Amber Rallying Horn
@@ -8069,6 +9393,20 @@ data["Leatherworking"] = {
 				{ 5, 219886, 444077 }, -- Writhing Hide
 				{ 6, 219898, 444086 }, -- Chitin Armor Banding
 				{ 7, 219901, 444087 }, -- Storm-Touched Weapon Wrap
+			},
+			[DF_DIFF] = {
+				{ 1, 197735, 381849 },                 -- Finished Prototype Explorer's Barding
+				{ 2, 197736, 381848 },                 -- Finished Prototype Regal Barding
+				{ 3, 193226, 375173, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Stonecrust Hide
+				{ 4, 193229, 375174, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Mireslush Hide
+				{ 5, 193236, 375176, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Infurious Hide
+				{ 6, 193245, 375179, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Frostbite Scales
+				{ 7, 193242, 375178, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Earthshine Scales
+				{ 8, 193248, 375180, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Infurious Scales
+			},
+			[SL_DIFF] = {
+				{ 1, 172097, 308897 }, -- Heavy Callous Hide
+				{ 2, 172096, 308899 }, -- Heavy Desolate Leather
 			},
 			[BFA_DIFF] = {
 				{ 1, 152542, 272278 }, -- Hardened Tempest Hide
@@ -8160,6 +9498,17 @@ data["Leatherworking"] = {
 		},
 		{ --LeatherWeapons
 			name = AL["Weapons"],
+			[DF_DIFF] = {
+				{ 1, 193449, 375125 }, -- Bow of the Dragon Hunters
+				{ 2, 193496, 375199 }, -- Witherrot Tome
+				{ 3, 193383, 375102 }, -- Bonewrought Crossbow
+			},
+			[SL_DIFF] = {
+				{ 1, 172349, 309190 }, -- Bone Bound Knuckles
+				{ 2, 172348, 309191 }, -- Desolate Leather Cestus
+				{ 3, 172350, 309192 }, -- Composite Bow
+				{ 4, 172351, 309193 }, -- Composite Crossbow
+			},
 			[BFA_DIFF] = {
 				{ 1,  154162, 256779 }, -- Mistscale Knuckles
 				{ 2,  154162, 256780 }, -- Mistscale Knuckles
@@ -8363,7 +9712,7 @@ data["Tailoring"] = {
 	TableType = CRAFTING_ITTYPE,
 	items = {
 		{ --TailoringArmor
-			name = AL["Armor"],
+			name = ARMOR,
 			[MIDNIGHT_DIFF] = {
 				{ 1,   239658, 1228982 },                          -- Sunfire Cloak
 				{ 2,   239659, 1228983 },                          -- Sunfire Treads
@@ -8435,6 +9784,131 @@ data["Tailoring"] = {
 				{ 101, 217118, 438890, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Shoulderpads
 				{ 102, 217119, 438891, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Treads
 				{ 103, 217123, 438895, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Tunic
+			},
+			[DF_DIFF] = {
+				{ 1,   193512, 376505 }, -- Chronocloth Sash
+				{ 2,   193527, 376503 }, -- Chronocloth Gloves
+				{ 3,   193537, 376504 }, -- Chronocloth Leggings
+				{ 4,   193520, 376502 }, -- Azureweave Mantle
+				{ 5,   193525, 376501 }, -- Azureweave Slippers
+				{ 6,   193536, 376500 }, -- Azureweave Robe
+				{ 7,   193530, 376497 }, -- Allied Wristguards of Time Dilation
+				{ 8,   193521, 376492 }, -- Hood of Surging Time
+				{ 9,   193526, 376493 }, -- Amice of the Blue
+				{ 10,  193532, 376496 }, -- Blue Dragon Soles
+				{ 11,  205025, 408318 }, -- Undulating Sporecloak
+				{ 12,  193511, 376510 }, -- Vibrant Wildercloth Shawl
+				{ 13,  193509, 376511 }, -- Vibrant Wildercloth Vestments
+				{ 14,  193519, 376512 }, -- Vibrant Wildercloth Slippers
+				{ 15,  193504, 376513 }, -- Vibrant Wildercloth Handwraps
+				{ 16,  193523, 376514 }, -- Vibrant Wildercloth Headcover
+				{ 17,  193518, 376515 }, -- Vibrant Wildercloth Slacks
+				{ 18,  193508, 376516 }, -- Vibrant Wildercloth Shoulderspikes
+				{ 19,  193516, 376517 }, -- Vibrant Wildercloth Girdle
+				{ 20,  193510, 376518 }, -- Vibrant Wildercloth Wristwraps
+				{ 21,  201938, 395813 }, -- Surveyor's Seasoned Gloves
+				{ 22,  201939, 395814 }, -- Surveyor's Seasoned Pants
+				{ 23,  201937, 395815 }, -- Surveyor's Seasoned Shoulders
+				{ 24,  193497, 376509 }, -- Surveyor's Cloth Bands
+				{ 25,  193498, 376508 }, -- Surveyor's Cloth Treads
+				{ 26,  193515, 376507 }, -- Surveyor's Cloth Robe
+				{ 27,  193500, 376506 }, -- Surveyor's Tailored Cloak
+				{ 28,  201940, 395809 }, -- Surveyor's Seasoned Cord
+				{ 29,  201936, 395807 }, -- Surveyor's Seasoned Hood
+				{ 101, 193513, 376494 }, -- Infurious Binding of Gesticulation
+				{ 102, 193524, 376495 }, -- Infurious Legwraps of Possibility
+				{ 103, 211560, 430074 }, -- Draconic Combatant's Wildercloth Tunic
+				{ 104, 211556, 430075 }, -- Draconic Combatant's Wildercloth Treads
+				{ 105, 211559, 430076 }, -- Draconic Combatant's Wildercloth Gloves
+				{ 106, 211558, 430077 }, -- Draconic Combatant's Wildercloth Hood
+				{ 107, 211562, 430073 }, -- Draconic Combatant's Wildercloth Cloak
+				{ 108, 211554, 430078 }, -- Draconic Combatant's Wildercloth Leggings
+				{ 109, 211555, 430079 }, -- Draconic Combatant's Wildercloth Shoulderpads
+				{ 110, 211561, 430080 }, -- Draconic Combatant's Wildercloth Sash
+				{ 111, 211557, 430081 }, -- Draconic Combatant's Wildercloth Bands
+				{ 112, 208255, 419027 }, -- Verdant Combatant's Wildercloth Leggings
+				{ 113, 208260, 419025 }, -- Verdant Combatant's Wildercloth Gloves
+				{ 114, 208256, 419028 }, -- Verdant Combatant's Wildercloth Shoulderpads
+				{ 115, 208262, 419029 }, -- Verdant Combatant's Wildercloth Sash
+				{ 116, 208263, 419022 }, -- Verdant Combatant's Wildercloth Cloak
+				{ 117, 208261, 419023 }, -- Verdant Combatant's Wildercloth Tunic
+				{ 118, 208258, 419030 }, -- Verdant Combatant's Wildercloth Bands
+				{ 119, 208257, 419024 }, -- Verdant Combatant's Wildercloth Treads
+				{ 120, 208259, 419026 }, -- Verdant Combatant's Wildercloth Hood
+				{ 121, 204118, 403150 }, -- Obsidian Combatant's Wildercloth Tunic
+				{ 122, 204120, 403149 }, -- Obsidian Combatant's Wildercloth Cloak
+				{ 123, 204114, 403151 }, -- Obsidian Combatant's Wildercloth Treads
+				{ 124, 204112, 403154 }, -- Obsidian Combatant's Wildercloth Leggings
+				{ 125, 204116, 403153 }, -- Obsidian Combatant's Wildercloth Hood
+				{ 126, 204117, 403152 }, -- Obsidian Combatant's Wildercloth Gloves
+				{ 127, 204113, 403155 }, -- Obsidian Combatant's Wildercloth Shoulderpads
+				{ 128, 204119, 403156 }, -- Obsidian Combatant's Wildercloth Sash
+				{ 129, 204115, 403157 }, -- Obsidian Combatant's Wildercloth Bands
+				{ 130, 193522, 376519 }, -- Crimson Combatant's Wildercloth Cloak
+				{ 201, 193514, 376520 }, -- Crimson Combatant's Wildercloth Tunic
+				{ 202, 193503, 376521 }, -- Crimson Combatant's Wildercloth Treads
+				{ 203, 193507, 376522 }, -- Crimson Combatant's Wildercloth Gloves
+				{ 204, 193502, 376525 }, -- Crimson Combatant's Wildercloth Shoulderpads
+				{ 205, 193517, 376526 }, -- Crimson Combatant's Wildercloth Sash
+				{ 206, 193501, 376524 }, -- Crimson Combatant's Wildercloth Leggings
+				{ 207, 193506, 376523 }, -- Crimson Combatant's Wildercloth Hood
+				{ 208, 193505, 376527 }, -- Crimson Combatant's Wildercloth Bands
+			},
+			[SL_DIFF] = {
+				{ 1,   173221, 310903 }, -- Shadowlace Cord
+				{ 2,   173216, 310896 }, -- Shadowlace Footwraps
+				{ 3,   173214, 310897 }, -- Shadowlace Tunic
+				{ 4,   173215, 310898 }, -- Shadowlace Cloak
+				{ 5,   173218, 310900 }, -- Shadowlace Cowl
+				{ 6,   173217, 310899 }, -- Shadowlace Handwraps
+				{ 7,   173222, 310904 }, -- Shadowlace Cuffs
+				{ 8,   173220, 310902 }, -- Shadowlace Mantle
+				{ 9,   173219, 310901 }, -- Shadowlace Trousers
+				{ 10,  173200, 310876 }, -- Shrouded Cloth Belt
+				{ 11,  173201, 310877 }, -- Shrouded Cloth Bracers
+				{ 12,  173193, 310870 }, -- Shrouded Cloth Robe
+				{ 13,  173195, 310869 }, -- Shrouded Cloth Sandals
+				{ 14,  173194, 310871 }, -- Shrouded Cloth Cape
+				{ 15,  173196, 310872 }, -- Shrouded Cloth Mittens
+				{ 16,  173197, 310873 }, -- Shrouded Cloth Hood
+				{ 17,  173198, 310874 }, -- Shrouded Cloth Pants
+				{ 18,  173199, 310875 }, -- Shrouded Cloth Spaulders
+				{ 20,  173248, 339003 }, -- Grim-Veiled Belt
+				{ 21,  173248, 332072 }, -- Grim-Veiled Belt
+				{ 22,  173248, 332037 }, -- Grim-Veiled Belt
+				{ 23,  173248, 310885 }, -- Grim-Veiled Belt
+				{ 25,  173249, 339004 }, -- Grim-Veiled Bracers
+				{ 26,  173249, 332073 }, -- Grim-Veiled Bracers
+				{ 27,  173249, 332038 }, -- Grim-Veiled Bracers
+				{ 28,  173249, 310886 }, -- Grim-Veiled Bracers
+				{ 101, 173243, 338997 }, -- Grim-Veiled Sandals
+				{ 102, 173243, 332065 }, -- Grim-Veiled Sandals
+				{ 103, 173243, 332030 }, -- Grim-Veiled Sandals
+				{ 104, 173243, 310878 }, -- Grim-Veiled Sandals
+				{ 106, 173241, 338996 }, -- Grim-Veiled Robe
+				{ 107, 173241, 332066 }, -- Grim-Veiled Robe
+				{ 108, 173241, 332031 }, -- Grim-Veiled Robe
+				{ 109, 173241, 310879 }, -- Grim-Veiled Robe
+				{ 111, 173242, 338995 }, -- Grim-Veiled Cape
+				{ 112, 173242, 332067 }, -- Grim-Veiled Cape
+				{ 113, 173242, 332032 }, -- Grim-Veiled Cape
+				{ 114, 173242, 310880 }, -- Grim-Veiled Cape
+				{ 116, 173244, 338998 }, -- Grim-Veiled Mittens
+				{ 117, 173244, 332068 }, -- Grim-Veiled Mittens
+				{ 118, 173244, 332033 }, -- Grim-Veiled Mittens
+				{ 119, 173244, 310881 }, -- Grim-Veiled Mittens
+				{ 121, 173245, 339000 }, -- Grim-Veiled Hood
+				{ 122, 173245, 332069 }, -- Grim-Veiled Hood
+				{ 123, 173245, 332034 }, -- Grim-Veiled Hood
+				{ 124, 173245, 310882 }, -- Grim-Veiled Hood
+				{ 126, 173246, 339001 }, -- Grim-Veiled Pants
+				{ 127, 173246, 332070 }, -- Grim-Veiled Pants
+				{ 128, 173246, 332035 }, -- Grim-Veiled Pants
+				{ 129, 173246, 310883 }, -- Grim-Veiled Pants
+				{ 201, 173247, 339002 }, -- Grim-Veiled Spaulders
+				{ 202, 173247, 332071 }, -- Grim-Veiled Spaulders
+				{ 203, 173247, 332036 }, -- Grim-Veiled Spaulders
+				{ 204, 173247, 310884 }, -- Grim-Veiled Spaulders
 			},
 			[BFA_DIFF] = {
 				{ 1,   162476, 257121 }, -- Emblazoned Deep Sea Gloves
@@ -9151,6 +10625,17 @@ data["Tailoring"] = {
 				{ 25, 222863, 446986, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Prodigy's Toolbox
 				{ 26, 224852, 454431 },                                   -- The Severed Satchel
 			},
+			[DF_DIFF] = {
+				{ 1, 194018, 376529 }, -- Azureweave Expedition Pack
+				{ 2, 194020, 376561 }, -- Chronocloth Reagent Bag
+				{ 3, 202287, 405974 }, -- Paw-Made Winterpelt Reagent Bag
+				{ 4, 194017, 376528 }, -- Wildercloth Bag
+				{ 5, 194019, 376560 }, -- Simply Stitched Reagent Bag
+			},
+			[SL_DIFF] = {
+				{ 1, 184480, 345986 }, -- Lightless Silk Pouch
+				{ 2, 184479, 345985 }, -- Shrouded Cloth Bag
+			},
 			[BFA_DIFF] = {
 				{ 1,  154695, 257125 }, -- Deep Sea Bag
 				{ 2,  154695, 257126 }, -- Deep Sea Bag
@@ -9222,6 +10707,11 @@ data["Tailoring"] = {
 				{ 7, 238046, 1228338, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Pure Energizing Fiber
 				{ 8, 238044, 1228342, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Pure Precise Fiber
 			},
+			[DF_DIFF] = {
+				{ 1, 194014, 376540 }, -- Temporal Spellthread
+				{ 2, 194011, 376539 }, -- Frozen Spellthread
+				{ 3, 194008, 376538 }, -- Vibrant Spellthread
+			},
 			[BFA_DIFF] = {
 				{ 1, "prof279182" }, -- Resilient Spellthread
 				{ 2, "prof279183" }, -- Discreet Spellthread
@@ -9292,9 +10782,23 @@ data["Tailoring"] = {
 				{ 12, 222841, 446964 },                                   -- Weavercloth Gardening Hat
 				{ 13, 222844, 446967 },                                   -- Weavercloth Tailor's Coat
 			},
+			[DF_DIFF] = {
+				{ 1,  193540, 376546 }, -- Dragoncloth Tailoring Vestments
+				{ 2,  193544, 376544 }, -- Master's Wildercloth Alchemist's Robe
+				{ 3,  193545, 376548 }, -- Master's Wildercloth Chef's Hat
+				{ 4,  193543, 376552 }, -- Master's Wildercloth Fishing Cap
+				{ 5,  193533, 376550 }, -- Master's Wildercloth Enchanter's Hat
+				{ 6,  193542, 376554 }, -- Master's Wildercloth Gardening Hat
+				{ 7,  193541, 376545 }, -- Wildercloth Tailor's Coat
+				{ 8,  193539, 376549 }, -- Wildercloth Enchanter's Hat
+				{ 9,  193538, 376553 }, -- Wildercloth Gardening Hat
+				{ 10, 193528, 376543 }, -- Wildercloth Alchemist's Robe
+				{ 11, 193534, 376547 }, -- Wildercloth Chef's Hat
+				{ 12, 193529, 376551 }, -- Wildercloth Fishing Cap
+			}
 		},
 		{ --TailoringMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[MIDNIGHT_DIFF] = {
 				{ 1,  240166, 1228961 }, -- Arcanoweave Lining
 				{ 2,  240164, 1228960 }, -- Sunfire Silk Lining
@@ -9314,6 +10818,46 @@ data["Tailoring"] = {
 				{ 5, 222882, 446997 }, -- Weavercloth Embroidery Thread
 				{ 6, 222885, 446995 }, -- Preserving Embroidery Thread
 				{ 7, 224440, 447002 }, -- Weavercloth Bandage
+			},
+			[DF_DIFF] = {
+				{ 1,  194048, 376530 },                 -- Wildercloth Bandage
+				{ 2,  194042, 376531 },                 -- Explorer's Banner of Herbology
+				{ 3,  194045, 376532 },                 -- Explorer's Banner of Geology
+				{ 5,  205411, 409839 },                 -- Medical Wrap Kit
+				{ 6,  193941, 376542 },                 -- Bronzed Grip Wrappings
+				{ 7,  193944, 376541 },                 -- Blue Silken Lining
+				{ 8,  205012, 408304 },                 -- Reserve Parachute
+				{ 9,  210671, 426434 },                 -- Verdant Tether
+				{ 10, 193950, 376533, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Abrasive Polishing Cloth
+				{ 11, 193956, 376535, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Blazing Embroidery Thread
+				{ 12, 193962, 376537, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Shimmering Embroidery Thread
+				{ 13, 193953, 376534, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Vibrant Polishing Cloth
+				{ 14, 193959, 376536, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Chromatic Embroidery Thread
+				{ 15, 191529, 376699 },                 -- Illustrious Insight
+				{ 16, 203415, 400815 },                 -- Traditional Morqut Kite
+				{ 17, 194537, 376563 },                 -- Fiddle with Draconium Fabric Cutters
+				{ 18, 194538, 376564 },                 -- Fiddle with Khaz'gorite Fabric Cutters
+				{ 20, 194060, 376570 },                 -- Dragonscale Expedition's Expedition Tent
+				{ 21, 194057, 376567 },                 -- Cushion of Time Travel
+				{ 22, 194058, 376568 },                 -- Cold Cushion
+				{ 23, 194056, 376565 },                 -- Duck-Stuffed Duck Lovie
+				{ 24, 194059, 376569 },                 -- Market Tent
+				{ 25, 194052, 376566 },                 -- Forlorn Funeral Pall
+			},
+			[SL_DIFF] = {
+				{ 1,  173191, 310923 }, -- Heavy Shrouded Cloth Bandage
+				{ 2,  173192, 310924 }, -- Shrouded Cloth Bandage
+				{ 4,  187784, 359703 }, -- Vestige of the Eternal
+				{ 5,  185960, 352445 }, -- Vestige of Origins
+				{ 6,  173384, 343200 }, -- Crafter's Mark of the Chained Isle
+				{ 7,  187742, 359670 }, -- Crafter's Mark of the First Ones
+				{ 8,  187741, 359661 }, -- Crafter's Mark IV
+				{ 9,  173383, 343201 }, -- Crafter's Mark III
+				{ 10, 173382, 343202 }, -- Crafter's Mark II
+				{ 11, 173381, 343204 }, -- Crafter's Mark I
+				{ 12, 183942, 343659 }, -- Novice Crafter's Mark
+				{ 14, 180752, 334499 }, -- Pink Party Hat
+				{ 15, 186975, 355183 }, -- Shrouded Hand Towel
 			},
 			[BFA_DIFF] = {
 				{ 1,  159792, 268983 }, -- Hooked Deep Sea Net
@@ -9368,6 +10912,13 @@ data["Tailoring"] = {
 				{ 2, 222801, 446928, [ATLASLOOT_IT_AMOUNT1] = "2" }, -- Dawnweave Bolt
 				{ 3, 224832, 454397 },                   -- Exquisite Weavercloth Bolt
 				{ 4, 222804, 446929 },                   -- Weavercloth Bolt
+			},
+			[DF_DIFF] = {
+				{ 1, 193938, 376556 }, -- Azureweave Bolt
+				{ 2, 193935, 376557 }, -- Chronocloth Bolt
+				{ 3, 193929, 376558 }, -- Vibrant Wildercloth Bolt
+				{ 4, 193932, 376559 }, -- Infurious Wildercloth Bolt
+				{ 5, 193926, 376555 }, -- Wildercloth Bolt
 			},
 			[BFA_DIFF] = {
 				{ 1, 158378, 272440 }, -- Embroidered Deep Sea Satin
@@ -9521,7 +11072,7 @@ data["Archaeology"] = {
 	TableType = CRAFTING_ITTYPE,
 	items = {
 		{ --ArchaeologyArmorWeapons
-			name = AL["Armor"].." & "..AL["Weapons"],
+			name = ARMOR.." & "..AL["Weapons"],
 			[NORMAL_DIFF] = {
 				{ 1,  64885,  92163 }, -- Scimitar of the Sirocco : AL["Tol'vir"]
 				{ 2,  64460,  90997 }, -- Nifflevar Bearded Axe : AL["Vrykul"]
@@ -9545,7 +11096,7 @@ data["Archaeology"] = {
 			},
 		},
 		{ --ArchaeologyMisc
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[NORMAL_DIFF] = {
 				{ 1,  67538,  91790 }, -- Recipe: Vial of the Sands : AL["Tol'vir"] : (p1 525)
 				{ 2,  60954,  90619 }, -- Fossilized Raptor : AL["Fossil"]
@@ -9667,7 +11218,7 @@ data["Archaeology"] = {
 			},
 		},
 		{ --ArchaeologyPandaren
-			name = AL["Pandaren"],
+			name = ALIL["Pandaren"],
 			[MOP_DIFF] = {
 				{ 1,  89685, 113981 }, -- Spear of Xuen : #ACHIEVEMENTID:7333# : nil
 				{ 3,  79903, 113977 }, -- Apothecary Tins : =ds=#sr# 525 : #ACHIEVEMENTID:7332#
@@ -9717,7 +11268,7 @@ data["Archaeology"] = {
 			},
 		},
 		{ --ArchaeologyVrykul
-			name = AL["Vrykul"],
+			name = ALIL["Vrykul"],
 			[WOTLK_DIFF] = {
 				{ 1,  64460, 90997 }, -- Nifflevar Bearded Axe : =ds=#sr# 350 : =ds=#h1#, #w1#
 				{ 3,  64464, 91014 }, -- Fanged Cloak Pin : =ds=#sr# 350 : nil
@@ -9729,7 +11280,7 @@ data["Archaeology"] = {
 			},
 		},
 		{ --ArchaeologyDraenei
-			name = AL["Draenei"],
+			name = ALIL["Draenei"],
 			[BC_DIFF] = {
 				{ 1,  64456, 90983 }, -- Arrival of the Naaru : =ds=#sr# 300 : nil
 				{ 3,  64440, 90853 }, -- Anklet with Golden Bells : =ds=#sr# 300 : nil
@@ -9744,7 +11295,7 @@ data["Archaeology"] = {
 			},
 		},
 		{ --ArchaeologyOrc
-			name = AL["Orc"],
+			name = ALIL["Orc"],
 			[BC_DIFF] = {
 				{ 1,  64644, 90843 }, -- Headdress of the First Shaman : =ds=#sr# 300 : =ds=#s1#, #a3#
 				{ 3,  64436, 90831 }, -- Fiendish Whip : =ds=#sr# 300 : nil
@@ -9759,7 +11310,7 @@ data["Archaeology"] = {
 			},
 		},
 		{ --ArchaeologyDwarf
-			name = AL["Dwarf"],
+			name = ALIL["Dwarf"],
 			[CLASSIC_DIFF] = {
 				{ 1,   64489, 91227 }, -- Staff of Sorcerer-Thane Thaurissan : =ds=#sr# 75 : =ds=#w9#
 				{ 3,   64372, 90521 }, -- Clockwork Gnome : =ds=#sr# 75 : =ds=#e13#
@@ -9817,7 +11368,7 @@ data["Archaeology"] = {
 			},
 		},
 		{ --ArchaeologyNightElf
-			name = AL["Night Elf"],
+			name = ALIL["Night Elf"],
 			[CLASSIC_DIFF] = {
 				{ 1,  64645, 91757 }, -- Tyrande's Favorite Doll : =ds=#sr# 75
 				{ 2,  64643, 90616 }, -- Queen Azshara's Dressing Gown : =ds=#sr# 75
@@ -9847,7 +11398,7 @@ data["Archaeology"] = {
 			},
 		},
 		{ --ArchaeologyTroll
-			name = AL["Troll"],
+			name = ALIL["Troll"],
 			[CLASSIC_DIFF] = {
 				{ 1,  64377, 90608 }, -- Zin'rokh, Destroyer of Worlds : =ds=#sr# 75 : =ds=#h2#, #w10#
 				{ 4,  64348, 90429 }, -- Atal'ai Scepter : =ds=#sr# 1 : #ACHIEVEMENTID:4858#
@@ -9877,7 +11428,7 @@ data["Cooking"] = {
 	TableType = CRAFTING_ITTYPE,
 	items = {
 		{ --CookingAttributes
-			name = AL["Attributes"],
+			name = STAT_CATEGORY_ATTRIBUTES,
 			[MIDNIGHT_DIFF] = {
 				{ 1, 242275, 1226171, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Royal Roast
 				{ 2, 255847, 1259654, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Impossibly Royal Roast
@@ -9895,6 +11446,22 @@ data["Cooking"] = {
 				{ 6, 222724, 445104, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Sizzling Honey Roast
 				{ 7, 222725, 445105, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Mycobloom Risotto
 				{ 8, 222727, 445107, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Angler's Delight
+			},
+			[DF_DIFF] = {
+				{ 1,  204072, 403018, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Deviously Deviled Eggs
+				{ 2,  197792, 381412 },                 -- Fated Fortune Cookie
+				{ 3,  197788, 381403, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Braised Bruffalon Brisket
+				{ 4,  197774, 381385, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Charred Hornswog Steaks
+				{ 5,  197789, 381404, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Riverside Picnic
+				{ 6,  197790, 381407, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Roast Duck Delight
+				{ 7,  197791, 381411, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Salted Meat Mash
+				{ 8,  197775, 381386, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Scrambled Basilisk Eggs
+				{ 9,  197777, 381389, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Hopefully Healthy
+				{ 10, 197776, 381388, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Thrice-Spiced Mammoth Kabob
+			},
+			[SL_DIFF] = {
+				{ 1, 172069, 308415, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Banana Beef Pudding
+				{ 2, 172068, 308414 },                 -- Pickled Meat Smoothie
 			},
 			[WOD_DIFF] = {
 				{ 1, 122347, 180760 },                    -- Whiptail Fillet (Sold, Garrison)
@@ -10020,6 +11587,29 @@ data["Cooking"] = {
 				{ 24, 222728, 445108,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Beledar's Bounty
 				{ 25, 235805, 1218414, [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Authentic Undermine Clam Chowder
 				{ 26, 223967, 447871,  [PRICE_EXTRA_ITTYPE] = "kej:1500" },                       -- Protein Slurp
+			},
+			[DF_DIFF] = {
+				{ 1,  202290, 398438, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Firewater Sorbet
+				{ 2,  197784, 381398, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Sizzling Seafood Medley
+				{ 3,  197786, 381400, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Thousandbone Tongueslicer
+				{ 4,  197787, 381402, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Great Cerulean Sea
+				{ 5,  197783, 381397, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Aromatic Seafood Platter
+				{ 6,  197785, 381399, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Revenge, Served Cold
+				{ 7,  197782, 381396, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Feisty Fish Sticks
+				{ 8,  197778, 381391, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Timely Demise
+				{ 9,  197781, 381395, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Salt-Baked Fishcake
+				{ 10, 197780, 381393, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Seamoth Surprise
+				{ 11, 197779, 381392, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Filet of Fangs
+			},
+			[SL_DIFF] = {
+				{ 1, 172041, 308400, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Spinefin Souffle and Fries
+				{ 2, 172049, 308413, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Iridescent Ravioli with Apple Sauce
+				{ 3, 172051, 308426, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Steak a la Mode
+				{ 4, 172045, 308405, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Tenebrous Crown Roast Aspic
+				{ 5, 172044, 308404, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Cinnamon Bonefish Stew
+				{ 6, 172048, 308412, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Meaty Apple Dumplings
+				{ 7, 172040, 308397, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Butterscotch Marinated Ribs
+				{ 8, 172050, 308425, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Sweet Silvergill Sausages
 			},
 			[BFA_DIFF] = {
 				{ 1, 154887, 259436, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Loa Loaf
@@ -10197,6 +11787,18 @@ data["Cooking"] = {
 				{ 3, 222732, 445112, [ATLASLOOT_IT_AMOUNT1] = "5" },                                     -- Feast of the Divine Day
 				{ 4, 222735, 445115, [ATLASLOOT_IT_AMOUNT1] = "3", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1000" }, -- Everything Stew
 			},
+			[DF_DIFF] = {
+				{ 1, 197794, 381418, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Gral's Devotion
+				{ 2, 197794, 381415, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Gral's Reverence
+				{ 3, 197794, 381417, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Gral's Veneration
+				{ 4, 197793, 381413, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Yusa's Hearty Stew
+				{ 5, 197795, 381420 },                 -- Hoard of Draconic Delicacies
+			},
+			[SL_DIFF] = {
+				{ 1, 187648, 359333 }, -- Empty Kettle of Stone Soup
+				{ 2, 172043, 308403 }, -- Feast of Gluttonous Hedonism
+				{ 3, 172042, 308402 }, -- Surprisingly Palatable Feast
+			},
 			[BFA_DIFF] = {
 				{ 1, 156526, 259422 }, -- Bountiful Captain's Feast
 				{ 2, 156525, 259418 }, -- Galley Banquet
@@ -10235,7 +11837,7 @@ data["Cooking"] = {
 			},
 		},
 		{ --CookingSpecial
-			name = AL["Special"],
+			name = SPECIAL,
 			[MIDNIGHT_DIFF] = {
 				{ 1, 242298, 1226194, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Argentleaf Tea
 				{ 2, 242299, 1226195, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Sanguithorn Tea
@@ -10250,6 +11852,23 @@ data["Cooking"] = {
 				{ 6, 222749, 445484, [ATLASLOOT_IT_AMOUNT1] = "10",                [PRICE_EXTRA_ITTYPE] = "mereldarDerbyMark:10" }, -- Melted Candlebar
 				{ 7, 223966, 447870, [ATLASLOOT_IT_AMOUNT1] = "2",                 [PRICE_EXTRA_ITTYPE] = "kej:1500" }, -- Everything-on-a-Stick
 				{ 7, 223971, 447875, [PRICE_EXTRA_ITTYPE] = "kej:1500" },                                               -- Azj-Kahet Special
+			},
+			[DF_DIFF] = {
+				{ 1, 197767, 381377, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Blubbery Muffin
+				{ 2, 204845, 407066, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Rocks on the Rocks
+				{ 3, 197768, 381378 },                 -- Celebratory Cake
+				{ 4, 197769, 381380, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Tasty Hatchling's Treat
+				{ 5, 197766, 381376, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Snow in a Cone
+				{ 6, 197772, 381383 },                 -- Churnbelly Tea
+				{ 7, 207054, 416001, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Slumbering Peacebloom Tea
+				{ 8, 204848, 407100, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Charitable Cheddar
+				{ 9, 203409, 400807 },                 -- Sparkling Spice Pouch
+			},
+			[SL_DIFF] = {
+				{ 1, 172062, 308419, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Smothered Shank
+				{ 2, 172061, 308417, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Seraph Tenders
+				{ 3, 172063, 308420, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Fried Bonefish
+				{ 4, 186726, 354768, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Porous Rock Candy
 			},
 			[BFA_DIFF] = {
 				{ 1, 163781, 280282, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Heartsbane Hexwurst
@@ -10303,6 +11922,22 @@ data["Cooking"] = {
 			},
 			[TWW_DIFF] = {
 				{ 1, 222744, 445479, [ATLASLOOT_IT_AMOUNT1] = "10", [PRICE_EXTRA_ITTYPE] = "money:200000" }, -- Cinder Nectar
+			},
+			[DF_DIFF] = {
+				{ 1, 197763, 381371, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Breakfast of Draconic Champions
+				{ 2, 197762, 381370, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Sweet and Sour Clam Chowder
+				{ 3, 197758, 381365, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Twice-Baked Potato
+				{ 4, 197759, 381367, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Cheese and Quackers
+				{ 5, 197761, 381369, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Probably Protein
+				{ 6, 197760, 381368, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Mackerel Snackerel
+				{ 7, 197771, 381382, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Delicious Dragon Spittle
+				{ 8, 197770, 381381, [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Zesty Water
+			},
+			[SL_DIFF] = {
+				{ 1, 172047, 308411, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Candied Amberjack Cakes
+				{ 2, 186725, 354766, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Bonemeal Bread
+				{ 3, 172046, 308410 },                 -- Biscuits and Caviar
+				{ 4, 186704, 354764, [ATLASLOOT_IT_AMOUNT1] = 3 }, -- Twilight Tea
 			},
 			[BFA_DIFF] = {
 				{ 1, 154889, 259430, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Grilled Catfish
@@ -10397,6 +12032,32 @@ data["Cooking"] = {
 				{ 25, 27666,                                      33295 },                       -- Golden Fish Sticks : =ds=#sr# 325 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Terokkar Forest"]
 				{ 26, 27665,                                      33294 },                       -- Poached Bluefish : =ds=#sr# 320 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Nagrand"]
 				{ 27, [ATLASLOOT_IT_ALLIANCE] = { 44840, 62049 }, [ATLASLOOT_IT_HORDE] = { 44840, 66035 } }, -- Cranberry Chutney : =ds=#sr# 160 : =ds=AtlasLoot["Vendor"]
+			},
+		},
+		{ -- CookingDecor
+			name = ALIL["Decor"],
+			[TWW_DIFF] = {
+				{ 1, 239170, 1245993 }, -- Dornic Mine and Cheese Platter
+				{ 2, 246708, 1245995 }, -- Dornic Sliced Mineloaf
+				{ 3, 245326, 1266541 }, -- Kaheti Predator's Assortment
+				{ 4, 246709, 1245994 }, -- Earthen Hospitality Cheese-Like Brick
+			},
+			[DF_DIFF] = {
+				{ 1, 247222, 1266555 }, -- Drake Kebab Platter
+				{ 2, 247224, 1260331 }, -- Valdrakken Blossomfruit Platter
+				{ 3, 247225, 1260333 }, -- Bruffalon Rib Platter
+			},
+			[SL_DIFF] = {
+				{ 1, 246705, 1260334 }, -- Caramel Mint Noodle Dish
+			},
+			[BFA_DIFF] = {
+				{ 1, 245484, 1260337 }, -- Boralus-Style Lobster Platter
+			},
+			[WOD_DIFF] = {
+				{ 1, 245428, 1266560 }, -- Hungry Human's Platter
+			},
+			[MOP_DIFF] = {
+				{ 1, 247220, 1266563 }, -- Mushan Dumpling Stack
 			},
 		},
 	}

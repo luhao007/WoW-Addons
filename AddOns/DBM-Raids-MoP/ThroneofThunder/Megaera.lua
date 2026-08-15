@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(821, "DBM-Raids-MoP", 2, 362)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260709014340")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(68065, 70235, 70247)--Frozen 70235, Venomous 70247 (only 2 heads that ever start in front, so no need to look for combat with arcane or fire for combat detection)
 mod:SetEncounterID(1578)
@@ -34,17 +34,17 @@ local warnCinders				= mod:NewTargetAnnounce(139822, 4)
 local warnTorrentofIce			= mod:NewTargetAnnounce(139889, 4)
 local warnRampageEnded			= mod:NewEndAnnounce(139458, 1)
 
-local specWarnRampage			= mod:NewSpecialWarningCount(139458, nil, nil, nil, 2, 2)
-local specWarnArcticFreeze		= mod:NewSpecialWarningStack(139843, nil, 2, nil, nil, 1, 6)
-local specWarnIgniteFlesh		= mod:NewSpecialWarningStack(137731, nil, 2, nil, nil, 1, 6)
-local specWarnRotArmor			= mod:NewSpecialWarningStack(139840, nil, 2, nil, nil, 1, 6)
-local specWarnArcaneDiffusion	= mod:NewSpecialWarningStack(139993, nil, 2, nil, nil, 1, 6)
-local specWarnCinders			= mod:NewSpecialWarningYou(139822, nil, nil, 2, 4, 15)
+local specWarnRampage			= mod:NewSpecialWarningCount(139458, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnArcticFreeze		= mod:NewSpecialWarningStack(139843, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnIgniteFlesh		= mod:NewSpecialWarningStack(137731, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnRotArmor			= mod:NewSpecialWarningStack(139840, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnArcaneDiffusion	= mod:NewSpecialWarningStack(139993, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnCinders			= mod:NewSpecialWarningYou(139822, nil, nil, 2, 4, 15, nil, nil, "flameyou")
 local yellCinders				= mod:NewShortYell(139822)
-local specWarnTorrentofIceYou	= mod:NewSpecialWarningRun(139866, nil, nil, 2, 4)
+local specWarnTorrentofIceYou	= mod:NewSpecialWarningRun(139866, nil, nil, 2, 4, nil, nil, nil, "runout")
 local yellTorrentofIce			= mod:NewShortYell(139866)
-local specWarnNetherTear		= mod:NewSpecialWarningSwitch(-7816, "Dps", nil, nil, 1, 2)
-local specWarnGTFO				= mod:NewSpecialWarningGTFO(139836, nil, nil, nil, 1, 8)--Fire left on ground after the fact
+local specWarnNetherTear		= mod:NewSpecialWarningSwitch(-7816, "Dps", nil, nil, 1, 2, nil, nil, "targetchange")
+local specWarnGTFO				= mod:NewSpecialWarningGTFO(139836, nil, nil, nil, 1, 8, nil, nil, "watchfeet")--Fire left on ground after the fact
 
 local timerRampage				= mod:NewBuffActiveTimer(21, 139458, nil, nil, nil, 6, nil, DBM_COMMON_L.HEALER_ICON)
 mod:AddBoolOption("timerBreaths", "Tank|Healer", "timer")--Better to have one option for breaths than 4
@@ -212,7 +212,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 139843 then
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
 			warnArcticFreeze:Show(args.destName, amount)
@@ -228,7 +228,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif spellId == 137731 then
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
 			warnIgniteFlesh:Show(args.destName, amount)
@@ -240,7 +240,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerBreathsCD:DelayedStart(0.3)
 		end
 	elseif spellId == 139840 then
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
 			warnRotArmor:Show(args.destName, amount)
@@ -256,7 +256,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif spellId == 139993 then
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
 			warnArcaneDiffusion:Show(args.destName, amount)

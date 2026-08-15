@@ -1,11 +1,11 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: geligasi
-## Version: 1.88
+## Version: 2.00
 
 ## Title: !Pig_Tardis
 ## Notes: Invite enhancement
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFFPig工具箱|r |cFF69CCF0时空之门|r
-## Notes-zhCN: |cffFF8C00!Pig组队增强功能|r
+## Notes-zhCN: |cffFF8C00寻找车头/老板/换位面/便捷喊话(智能邀请回复)|r
 
 ## IconTexture: Interface/AddOns/!Pig/Media/logo32.blp
 
@@ -25,7 +25,6 @@
 Default.lua
 Options.lua
 UI.lua
-LFG/LFG.xml
 Farm.lua
 Plane.lua
 Invite.lua

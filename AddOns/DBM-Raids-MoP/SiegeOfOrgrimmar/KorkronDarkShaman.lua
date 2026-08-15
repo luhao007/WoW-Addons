@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(856, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260525233115")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(71859, 71858)--haromm, Kardris
 mod:SetEncounterID(1606)
@@ -39,20 +43,20 @@ local warnFoulGeyser				= mod:NewTargetNoFilterAnnounce(143990, 4)
 local warnIronPrison				= mod:NewTargetAnnounce(144330, 3)
 
 --Earthbreaker Haromm
-local specWarnFroststormStrike		= mod:NewSpecialWarningStack(144215, nil, 5, nil, nil, 1, 6)
-local specWarnFroststormStrikeOther	= mod:NewSpecialWarningTaunt(144215, nil, nil, nil, 1, 2)
-local specWarnFoulStreamYou			= mod:NewSpecialWarningYou(144090, nil, nil, nil, 1, 2)
+local specWarnFroststormStrike		= mod:NewSpecialWarningStack(144215, nil, 5, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnFroststormStrikeOther	= mod:NewSpecialWarningTaunt(144215, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnFoulStreamYou			= mod:NewSpecialWarningYou(144090, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellFoulStream				= mod:NewYell(144090)
-local specWarnFoulStream			= mod:NewSpecialWarningDodge(144090, nil, nil, nil, 2, 2)
-local specWarnAshenWall				= mod:NewSpecialWarningDodge(144070, nil, nil, nil, 2, 2)
-local specWarnIronTomb				= mod:NewSpecialWarningDodge(144328, nil, nil, nil, 2, 2)
+local specWarnFoulStream			= mod:NewSpecialWarningDodge(144090, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnAshenWall				= mod:NewSpecialWarningDodge(144070, nil, nil, nil, 2, 2, nil, nil, "farfromline")
+local specWarnIronTomb				= mod:NewSpecialWarningDodge(144328, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 --Wavebinder Kardris
-local specWarnToxicStorm			= mod:NewSpecialWarningYou(144017, nil, nil, nil, 1, 2)--Spellid changed to force an option default reset. melee default was for ptr version that always targeted tank
+local specWarnToxicStorm			= mod:NewSpecialWarningYou(144017, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Spellid changed to force an option default reset. melee default was for ptr version that always targeted tank
 local yellToxicStorm				= mod:NewYell(144005)
-local specWarnFoulGeyser			= mod:NewSpecialWarningSpell(143990, nil, nil, nil, 2, 2)
+local specWarnFoulGeyser			= mod:NewSpecialWarningSpell(143990, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 local yellFoulGeyser				= mod:NewYell(143990)
-local specWarnFallingAsh			= mod:NewSpecialWarningPreWarn(143973, nil, 3, nil, 2, 1, 2)
-local specWarnIronPrison			= mod:NewSpecialWarningPreWarn(144330, nil, 4, nil, nil, 1, 2)--If this generic isn't too clear i'll localize it. this is warning that it's about to expire not that it's just been applied
+local specWarnFallingAsh			= mod:NewSpecialWarningPreWarn(143973, nil, 3, nil, 2, 1, 2, nil, nil, "watchstep")
+local specWarnIronPrison			= mod:NewSpecialWarningPreWarn(144330, nil, 4, nil, nil, 1, 2, nil, nil, "defensive")--If this generic isn't too clear i'll localize it. this is warning that it's about to expire not that it's just been applied
 local yellIronPrisonFades			= mod:NewYell(144330, L.PrisonYell, false)--Off by default since it's an atypical yell (it's not used for avoiding person it's used to get healer attention to person)
 
 --Earthbreaker Haromm

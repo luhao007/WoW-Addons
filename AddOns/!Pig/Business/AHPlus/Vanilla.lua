@@ -14,6 +14,7 @@ local PIGFontString=Create.PIGFontString
 local PIGSetFont=Create.PIGSetFont
 ---
 local Data=addonTable.Data
+local PlayerInfo=Data.PlayerInfo
 local Fun = addonTable.Fun
 local BusinessInfo=addonTable.BusinessInfo
 ---------------------------------
@@ -40,7 +41,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		StaticPopup_Show("PIG_AUCTION_SIMPLEMODE",PIGA["AHPlus"]["SimpleMode"] and DISABLE or not PIGA["AHPlus"]["SimpleMode"] and ENABLE);
 	end);
 	StaticPopupDialogs["PIG_AUCTION_SIMPLEMODE"] = {
-		text = "%s"..string.format(L["OPTUI_OPENGN"],SimpleModename),
+		text = string.format(L["RELOADUI1"],"%s",SimpleModename),
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
@@ -515,12 +516,12 @@ function BusinessInfo.AHPlus_Vanilla()
 					local hejiinfo = PIGA["AHPlus"]["Coll"]
 					for kk=1,#hejiinfo do
 						if hejiinfo[kk][1]==name then
-							PIG_OptionsUI:ErrorMsg("<|c"..hex..name.."|r>"..L["LIB_COLLERR1"],"R")
+							PIGErrorMsg("<|c"..hex..name.."|r>"..L["LIB_COLLERR1"],"R")
 							return
 						end
 					end
 					table.insert(PIGA["AHPlus"]["Coll"],{name,texture,quality})
-					PIG_OptionsUI:ErrorMsg("<|c"..hex..name.."|r>"..L["LIB_ADDCOLL"])
+					PIGErrorMsg("<|c"..hex..name.."|r>"..L["LIB_ADDCOLL"])
 					AuctionFrame.collTabF:UpdateAllList()
 				end
 			end
@@ -800,11 +801,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	---时光徽章-------------------
 	BrowseWowTokenResults.qushibut = PIGButton(BrowseWowTokenResults,{"CENTER",BrowseWowTokenResults,"CENTER",3,10},{80,24},L["TRADEAH_PRICETREND"],nil,nil,nil,nil,0,ElvUIopen)
 	BrowseWowTokenResults.qushibut:HookScript("OnClick",function(self)
-		if BusinessInfo.StatsInfoUI then
-			BusinessInfo.StatsInfoUI:TabShow(AuctionFrame)
-		else
-			PIG_OptionsUI:ErrorMsg(BusinessInfo.ADD_qushiError)
-		end
+		BusinessInfo.IsBusinessOpen(BusinessInfo.TabShowTime,AuctionFrame)
 	end)
 
 	--关注------------------------
@@ -939,7 +936,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			local caozuoID = self:GetID()
 			if button=="LeftButton" then
 				if PIGA["AHPlus"]["SimpleMode"] then
-					PIG_OptionsUI:ErrorMsg(string.format(L["TRADEAH_TICLOGMODETISP1"],SimpleModename))
+					PIGErrorMsg(string.format(L["TRADEAH_TICLOGMODETISP1"],SimpleModename))
 					return 
 				end
 				AuctionFrameBrowse_Reset(BrowseResetButton)
@@ -1044,6 +1041,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	UIDropDownMenu_SetWidth(PriceDropDown, 140)
 	PriceDropDown:ClearAllPoints();
 	PriceDropDown:SetPoint("TOPLEFT",AuctionFrameAuctions,"TOPLEFT",30,-174);
+	CASTING_BAR_ALPHA_STEP=CASTING_BAR_ALPHA_STEP or 0.05;
 	--价格
 	StartPrice:ClearAllPoints();
 	StartPrice:SetPoint("TOPLEFT",AuctionFrameAuctions,"TOPLEFT",33,-214);
@@ -1089,7 +1087,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		end
 	end);
 	--默认堆叠数
-	if type(PIGA["AHPlus"]["Stacking"])=="number" then PIGA["AHPlus"]["Stacking"]=addonTable.Default["AHPlus"]["Stacking"] end
+	if type(PIGA["AHPlus"]["Stacking"])=="number" then PIGA["AHPlus"]["Stacking"]=CopyTable(addonTable.Default["AHPlus"]["Stacking"]) end
 	local StackingLsit={0,1,2,4,5,6,7,9,11,12,13,15}
 	if PIG_MaxTocversion(20000,true) then
 		table.insert(StackingLsit,4,3)
@@ -1243,7 +1241,7 @@ function BusinessInfo.AHPlus_Vanilla()
 		else
 			count,minBid,buyoutPrice,owner=unpack(SellListF.CacheBuy[AuctionsItemButton.OldName])
 		end
-		if owner and owner~=PIG_OptionsUI.Name then
+		if owner and owner~=PlayerInfo.Name then
 			yajiaGV=1
 		end
 		local StackSize = AuctionsStackSizeEntry:GetNumber()
@@ -1338,7 +1336,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	AuctionsItemButton.OldGlist={}
 	AuctionsCreateAuctionButton:HookScript("OnClick", function(self)
 		if AuctionsItemButton.OldName then
-			AuctionsItemButton.OldGlist[AuctionsItemButton.OldName]={LAST_ITEM_COUNT,LAST_ITEM_START_BID,LAST_ITEM_BUYOUT,PIG_OptionsUI.Name}
+			AuctionsItemButton.OldGlist[AuctionsItemButton.OldName]={LAST_ITEM_COUNT,LAST_ITEM_START_BID,LAST_ITEM_BUYOUT,PlayerInfo.Name}
 		end
 	end);
 	SellListF.NewbuyPriceG={}
@@ -1435,7 +1433,7 @@ function BusinessInfo.AHPlus_Vanilla()
 				SellListF:SetShown(name)
 				if name then
 					AuctionsItemButton.OldName=name
-					local _, itemType, itemSubType, _, _, classID=C_Item.GetItemInfoInstant(itemID)
+					local _, itemType, itemSubType, _, _, classID=PIGGetItemInfoInstant(itemID)
 					local XclassID=tostring(classID)
 					local StackingNum=PIGA["AHPlus"]["Stacking"][XclassID]
 					local classStack="("..ACTION_SPELL_AURA_APPLIED_DOSE
@@ -1524,7 +1522,7 @@ function BusinessInfo.AHPlus_Vanilla()
 						if itemID then
 							if PIGIsAddOnLoaded("Blizzard_AuctionUI") then
 								AuctionFrameTab_OnClick(AuctionFrameTab3)
-								C_Container.UseContainerItem(self:GetParent():GetID(), self:GetID(), nil, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
+								PIGUseContainerItem(self:GetParent():GetID(), self:GetID());
 							end
 						end
 					end
@@ -1535,7 +1533,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			itemButton:HookScript("OnMouseUp", function(self, button)
 				if button== "LeftButton" and IsModifiedClick() then
 				else
-					PIG_OptionsUI:ErrorMsg(L["TRADEAH_BAGTISP2"])
+					PIGErrorMsg(L["TRADEAH_BAGTISP2"])
 				end
 			end)
 		else
@@ -1546,7 +1544,7 @@ function BusinessInfo.AHPlus_Vanilla()
 						BrowseName:SetText('"'..info.itemName..'"')
 						AuctionFrameBrowse_Search()
 					elseif AuctionFrame.selectedTab==3 then
-						C_Container.UseContainerItem(self:GetParent():GetID(), self:GetID(), nil, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
+						PIGUseContainerItem(self:GetParent():GetID(), self:GetID());
 					end
 				end
 			end)
@@ -1568,7 +1566,7 @@ function BusinessInfo.AHPlus_Vanilla()
 				SetItemButtonTexture(itemButton, texture);
 				SetItemButtonQuality(itemButton, quality, itemID);
 				SetItemButtonDesaturated(itemButton, locked);
-				local _, itemType, itemSubType, _, _, classID, subClassID=C_Item.GetItemInfoInstant(itemID)
+				local _, itemType, itemSubType, _, _, classID, subClassID=PIGGetItemInfoInstant(itemID)
 				local Nid=GetClassHebing(classID)
 				if not tabBagF.itemCount[itemID] then
 					tabBagF.itemCount[itemID]=itemCount
@@ -1759,24 +1757,14 @@ function BusinessInfo.AHPlus_Vanilla()
 		["UnitNameFriendlyMinionName"]="0",
 	}	
 	local OLD_CVarName={}
+	local OLD_Frame_width=713
 	local function TradeSkill_ShowHide(bot)
-		if bot then
-			if PIGA["AHPlus"]["AHUIoff"] then
-				if TradeSkillFrame and TradeSkillFrame:IsShown() then
-					UIPanelWindows[TradeSkillFrame].width = 20
-				end
-				if CraftFrame and CraftFrame:IsShown() then
-					UIPanelWindows[CraftFrame].width = 20
-				end
+		if PIGA["AHPlus"]["AHUIoff"] then
+			if TradeSkillFrame then
+				UIPanelWindows["TradeSkillFrame"].width = bot and 20 or OLD_Frame_width
 			end
-		else
-			if PIGA["AHPlus"]["AHUIoff"] then
-				if TradeSkillFrame and TradeSkillFrame:IsShown() then
-					UIPanelWindows[TradeSkillFrame].width = 713
-				end
-				if CraftFrame and CraftFrame:IsShown() then
-					UIPanelWindows[CraftFrame].width = 713
-				end
+			if CraftFrame then
+				UIPanelWindows["CraftFrame"].width = bot and 20 or OLD_Frame_width
 			end
 		end
 	end

@@ -5,7 +5,7 @@ if not mod:IsClassic() then--on classic, it's normal10,normal25, defined in toc,
 	mod.statTypes = "normal,timewalker"
 end
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(33288)
 if mod:IsPostCata() then
@@ -51,13 +51,13 @@ local warnBrainPortalSoon			= mod:NewAnnounce("WarnBrainPortalSoon", 2, 57687)
 local warnEmpowerSoon				= mod:NewSoonAnnounce(64465, 4)
 local warnDominateMind				= mod:NewTargetNoFilterAnnounce(63042, 3)--Pre nerf mind control
 
-local specWarnBrainLink 			= mod:NewSpecialWarningYou(63802, nil, nil, nil, 1, 2)
+local specWarnBrainLink 			= mod:NewSpecialWarningYou(63802, nil, nil, nil, 1, 2, nil, nil, "linegather")
 local specWarnSanity 				= mod:NewSpecialWarning("SpecWarnSanity", nil, nil, nil, 1, nil, nil, nil, 63050)--Warning, no voice pack support
 local specWarnMadnessOutNow			= mod:NewSpecialWarning("SpecWarnMadnessOutNow", nil, nil, nil, 1, nil, nil, nil, 64059)--Warning, no voice pack support
-local specWarnDeafeningRoar			= mod:NewSpecialWarningSpell(64189, nil, nil, nil, 1, 2)
-local specWarnFervor				= mod:NewSpecialWarningYou(63138, nil, nil, nil, 1, 2)
-local specWarnMalady				= mod:NewSpecialWarningYou(63830, nil, nil, nil, 1, 2)
-local specWarnMaladyNear			= mod:NewSpecialWarningClose(63830, nil, nil, nil, 1, 2)
+local specWarnDeafeningRoar			= mod:NewSpecialWarningSpell(64189, nil, nil, nil, 1, 2, nil, nil, "silencesoon")
+local specWarnFervor				= mod:NewSpecialWarningYou(63138, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnMalady				= mod:NewSpecialWarningYou(63830, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnMaladyNear			= mod:NewSpecialWarningClose(63830, nil, nil, nil, 1, 2, nil, nil, "runaway")
 local yellMalady					= mod:NewYell(63830)
 local yellSqueeze					= mod:NewYell(64125)
 

@@ -6,6 +6,7 @@ local DESCRIPTION_SEPARATOR = app.DESCRIPTION_SEPARATOR;
 -- Implementation
 app:CreateWindow("Hidden Currency Triggers", {
 	Commands = { "atthct", "atthcts" },
+	RootCommands = { "hct" },
 	HideFromSettings = true,
 	Preload = true,
 	OnInit = function(self)

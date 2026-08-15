@@ -1,19 +1,20 @@
 local _, core = ...
 
+local category
+
 OptionsPanelTemplateMixin = {}
 function OptionsPanelTemplateMixin:Open()
-    Settings.OpenToCategory(MURLOKEXPORT_TITLE, true);
+    Settings.OpenToCategory(category:GetID())
 end
 
 function OptionsPanelTemplateMixin:Register()
-    local category = Settings.RegisterCanvasLayoutCategory(self, MURLOKEXPORT_TITLE);
-    category.ID = MURLOKEXPORT_TITLE
+    category = Settings.RegisterCanvasLayoutCategory(self, MURLOKEXPORT_TITLE)
     Settings.RegisterAddOnCategory(category)
 end
 
 function OptionsPanelTemplateMixin:OnLoad()
-    self.Title:SetText(MURLOKEXPORT_TITLE);
-    self.SubText:SetText(MURLOKEXPORT_OPTIONS_SUBTEXT);
+    self.Title:SetText(MURLOKEXPORT_TITLE)
+    self.SubText:SetText(MURLOKEXPORT_OPTIONS_SUBTEXT)
 end
 
 function OptionsPanelTemplateMixin:CompactViewCheckButtonOnShow()

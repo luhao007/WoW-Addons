@@ -286,7 +286,7 @@ end
 ---Gets the total number of free bag slots.
 ---@return number
 function Container.GetTotalFreeBagSlots()
-	return CalculateTotalNumberOfFreeBagSlots()
+	return C_Container.CalculateTotalNumberOfFreeBagSlots()
 end
 
 ---Returns whether or not an item can be deposited into the warbank.

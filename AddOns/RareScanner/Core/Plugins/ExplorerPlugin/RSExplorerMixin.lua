@@ -1729,6 +1729,9 @@ function RSExplorerLoot:Initialize(mainFrame)
 	
 	self.initialized = true
 	self.mainFrame = mainFrame
+	self.mainFrame.Tooltip = CreateFrame("GameTooltip", "ExplorerTooltip", nil, "GameTooltipTemplate")
+	self.mainFrame.Tooltip:SetScale(UIParent:GetScale())
+	self.mainFrame.Tooltip.minimumWidth = 150
 	self.ControlFrame.mainFrame = mainFrame
 	
 	-- Control panel

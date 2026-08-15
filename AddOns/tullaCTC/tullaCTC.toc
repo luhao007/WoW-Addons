@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Tuller
-## Version: v12.0.10
+## Version: v12.1.3
 
 ## Title: tullaCTC
 ## Notes: Cooldown Text Customizer

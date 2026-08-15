@@ -6816,7 +6816,8 @@ local buildSegmentTooltip = function(self, deltaTime, allInOneWindowFrame)
 	if (parameters_table[2] > 0.15) then
 		self:SetScript("OnUpdate", nil)
 
-		if false and detailsFramework.IsAddonApocalypseWow() then --
+		--
+		if false and detailsFramework.IsAddonApocalypseWow() then --false and
 			local frame = Details222.SegmentSelectionMidnight.Show(instance)
 			frame:ClearAllPoints()
 			frame:SetPoint("bottom", self, "top", 0, 5)
@@ -6824,6 +6825,7 @@ local buildSegmentTooltip = function(self, deltaTime, allInOneWindowFrame)
 			frame:SetPoint("bottom", self, "top", x, y+5)
 			return
 		end
+		--
 
 		gameCooltip:Reset()
 		gameCooltip:SetType("menu")
@@ -6885,7 +6887,19 @@ local buildSegmentTooltip = function(self, deltaTime, allInOneWindowFrame)
 					tm = combatTime
 				end
 
-				gameCooltip:AddLine(sessionName, tm and detailsFramework:IntegerToTimer(tm) or "nil", 1, "white")
+				local segment
+				if (sessionId == 0) then
+					segment = Details222.B.GetSegment("Type", 1, 0)
+				else
+					segment = Details222.B.GetSegment("ID", sessionId, 0)
+				end
+				local sessionInfo = Details222.BParser.GetSessionInfo(sessionName, Details222.B.GetSegmentInfo(segment))
+				if (sessionInfo) then
+					--print(sessionInfo.zoneName, sessionInfo.elapsedTime)
+					--dumpt(sessionInfo)
+				end
+
+				gameCooltip:AddLine(sessionInfo and sessionInfo.zoneName or sessionName, (sessionInfo and detailsFramework:IntegerToTimer(sessionInfo.elapsedTime)) or (tm and detailsFramework:IntegerToTimer(tm)) or "nil", 1, "white")
 				gameCooltip:AddMenu(1, selectExpired, sessionId)
 				gameCooltip:AddIcon(icon or Details:GetTextureAtlas("segment-icon-current"), "main", "left")
 
@@ -8666,16 +8680,26 @@ function Details:RefreshTitleBarText()
 		local sName = self:GetInstanceAttributeText()
 		local instanceMode = self:GetMode()
 
+		local segmentId
+		if detailsFramework.IsAddonApocalypseWow() then
+			if self:GetApocalypseSourceType() == Details222.Apocalypse.TypeGame then
+				segmentId = self:GetSegmentType()
+			else
+				segmentId = self:GetSegment()
+			end
+		else
+			segmentId = self:GetSegment()
+		end
+
 		if (instanceMode == DETAILS_MODE_GROUP or instanceMode == DETAILS_MODE_ALL) then
-			local segment = self:GetSegment()
-			if (segment == DETAILS_SEGMENTID_OVERALL) then
+			if (segmentId == DETAILS_SEGMENTID_OVERALL) then
 				local dynamicOverallDataCustomID = Details222.GetCustomDisplayIDByName(Loc["STRING_CUSTOM_DYNAMICOVERAL"])
 				if ((dynamicOverallDataCustomID ~= self.sub_atributo) and self.atributo ~= 5) then
 					sName = sName .. " " .. Loc["STRING_OVERALL"]
 				end
 
-			elseif (segment >= 2) then
-				sName = sName .. " [" .. segment .. "]"
+			elseif (segmentId >= 2) then
+				sName = sName .. " [" .. segmentId .. "]"
 
 			elseif self:GetApocalypseSourceType() == Details222.Apocalypse.TypeGame then
 				if self:GetSegmentType() == 0 then
@@ -8706,6 +8730,7 @@ function Details:SetTitleBarText(text)
 	local titleBarFontString = self:GetTitleBarFontString()
 	if (titleBarFontString) then
 		titleBarFontString:SetText(text)
+		--print(debugstack())
 	end
 end
 

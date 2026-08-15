@@ -198,7 +198,7 @@ do
 			sound = arg1.sound
 		end
 		DBM.Options[option] = sound
-		if sound ~= "none" then
+		if not DBM:IsNoneValue(sound) then
 			DBM:PlaySoundFile(sound)
 		end
 	end
@@ -394,11 +394,11 @@ do
 		end
 		soundUpdate = GetTime()
 		if num == 1 then
-			if DBM.Options.RangeFrameSound1 ~= "none" then
+			if not DBM:IsNoneValue(DBM.Options.RangeFrameSound1) then
 				DBM:PlaySoundFile(DBM.Options.RangeFrameSound1)
 			end
 		elseif num > 1 then
-			if DBM.Options.RangeFrameSound2 ~= "none" then
+			if not DBM:IsNoneValue(DBM.Options.RangeFrameSound2) then
 				DBM:PlaySoundFile(DBM.Options.RangeFrameSound2)
 			end
 		end
@@ -809,7 +809,7 @@ end)
 local restoreRange, restoreFilter, restoreThreshold, restoreReverse
 
 function rangeCheck:Show(range, filter, forceshow, redCircleNumPlayers, reverse, hideTime, onlySummary)
-	if (DBM:GetNumRealGroupMembers() < 2 or DBM.Options.DontShowRangeFrame or DBM.Options.SpamSpecInformationalOnly) and not forceshow then
+	if (DBM:GetNumRealGroupMembers() < 2 or DBM.Options.DontShowRangeFrame) and not forceshow then
 		return
 	end
 	DBM:UpdateMapRestrictions()--Probably redundant but one place I feel good about a redundant call. this isn't something that spams like an update handler

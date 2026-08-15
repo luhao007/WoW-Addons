@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("NightbaneRaid", "DBM-Raids-BC", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(17225)
 mod:SetEncounterID(662, 2454)
@@ -26,8 +26,8 @@ local warningAsh			= mod:NewTargetAnnounce(30130, 2, nil, false)
 local WarnAir				= mod:NewAnnounce("DBM_NB_AIR_WARN", 2, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp")
 local warningBone			= mod:NewSpellAnnounce(37098, 3)
 
-local specWarnCharred		= mod:NewSpecialWarningGTFO(30129, nil, nil, nil, 1, 6)
-local specWarnSmoke			= mod:NewSpecialWarningTarget(30128, "Healer", nil, nil, 1, 2)
+local specWarnCharred		= mod:NewSpecialWarningGTFO(30129, nil, nil, nil, 1, 6, nil, nil, "watchfeet")
+local specWarnSmoke			= mod:NewSpecialWarningTarget(30128, "Healer", nil, nil, 1, 2, nil, nil, "targetchange")
 
 local timerNightbane		= mod:NewCombatTimer(36)
 local timerFearCD			= mod:NewCDTimer(31.5, 36922, nil, nil, nil, 2)

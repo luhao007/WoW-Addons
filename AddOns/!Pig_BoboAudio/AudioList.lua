@@ -1,8 +1,11 @@
-local addonName, addonTable = ...;
+local addonName = ...;
 local Url="Interface/AddOns/"..addonName.."/Audio/"
-local AudioList = {
+local list = {
 	["Countdown"]={--倒计时语音
-		{"倒计时语音(饽饽)",Url.."Countdown"},
+		{"12345(饽饽)",Url.."Countdown"},
+	},
+	["EndAudio"]={--倒计时结束语音
+		{"攻击(饽饽)",Url.."EndAudio.ogg"},
 	},
 	["QuestEnd"]={--任务完成
 		{"任务完成(饽饽)",Url.."QuestEnd_1.ogg"},
@@ -20,4 +23,5 @@ local AudioList = {
 		{"拍卖结束(饽饽)",Url.."GDKP_End_1.ogg"},
 	},
 }
-addonTable.AudioList=AudioList
+local Create, Data, Fun, L, Default, Default_Per,Audio= unpack(PIG)
+Audio.AddFun(list)

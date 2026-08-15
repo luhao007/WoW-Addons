@@ -126,5 +126,9 @@
 		</Scripts>
 	</Frame>
 	
+	<GameTooltip name="Krowi_ProgressBarTooltip" inherits="GameTooltipTemplate" parent="UIParent" frameStrata="TOOLTIP" hidden="true">
+		<Size x="128" y="64"/>
+	</GameTooltip>
+
 	<Script file='Krowi_GameTooltipWithProgressBar.lua'/>
 </Ui>

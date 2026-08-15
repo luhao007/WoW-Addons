@@ -131,7 +131,7 @@ app.AddSimpleCollectibleSwap(CLASSNAME, CACHE)
 -- Title Refresh
 app.AddEventHandler("OnRefreshCollections", function()
 	local saved, none = {}, {}
-	for i=1,GetNumTitles(),1 do
+	for i=1,GetNumTitles() do
 		if IsTitleKnown(i) then
 			saved[i] = true
 		else
@@ -141,6 +141,16 @@ app.AddEventHandler("OnRefreshCollections", function()
 	-- Character Cache
 	app.SetBatchCached(CACHE, saved, 1)
 	app.SetBatchCached(CACHE, none)
-	-- Account Cache (removals handled by Sync)
-	app.SetBatchAccountCached(CACHE, saved, 1)
+end);
+
+app.AddEventRegistration("KNOWN_TITLES_UPDATE", function(unit)
+	-- app.PrintDebug("KNOWN_TITLES_UPDATE",unit)
+	if unit ~= "player" then return end
+
+	local IsCached = app.IsCached
+	for i=1,GetNumTitles() do
+		if not IsCached(CACHE, i) and IsTitleKnown(i) then
+			app.SetThingCollected(KEY, i, nil, true)
+		end
+	end
 end);

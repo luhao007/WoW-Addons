@@ -1,21 +1,22 @@
 local mod	= DBM:NewMod(1982, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260709014625")
 mod:SetCreatureID(124870)--124745 Greater Rift Warden
 mod:SetEncounterID(2068)
+mod:SetZone(1753)
 
 mod:RegisterCombat("combat")
 
 if DBM:IsPostMidnight() then
 	local warnDiscordantbeam			= mod:NewCountAnnounce(1265426, 2)
 
-	local specWarnDiscordantbeam		= mod:NewSpecialWarningBlizzYou(1265426, nil, nil, nil, 1, 19)
-	local specWarnDirge					= mod:NewSpecialWarningCount(1265421, nil, nil, nil, 2, 2)
-	local specWarnDisintegrate			= mod:NewSpecialWarningDodgeCount(1264151, nil, nil, nil, 2, 2)
-	local specWarnGrimChorus			= mod:NewSpecialWarningCount(1265689, nil, nil, nil, 2, 2)
-	local specWarnSymphony				= mod:NewSpecialWarningCount(1266003, nil, nil, nil, 3, 2)
-	local specWarnBacklash				= mod:NewSpecialWarningCount(1266001, nil, nil, nil, 2, 2)
+	local specWarnDiscordantbeam		= mod:NewSpecialWarningBlizzYou(1265426, nil, nil, nil, 1, 19, nil, nil, "beamyou")
+	local specWarnDirge					= mod:NewSpecialWarningCount(1265421, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+	local specWarnDisintegrate			= mod:NewSpecialWarningDodgeCount(1264151, nil, nil, nil, 2, 2, nil, nil, "farfromline")
+	local specWarnGrimChorus			= mod:NewSpecialWarningCount(1265689, nil, nil, nil, 2, 2, nil, nil, "stilldanger")
+	local specWarnSymphony				= mod:NewSpecialWarningCount(1266003, nil, nil, nil, 3, 2, nil, nil, "watchstep")
+	local specWarnBacklash				= mod:NewSpecialWarningCount(1266001, nil, nil, nil, 2, 2, nil, nil, "carefly")
 
 	local timerDirgeCD					= mod:NewCDCountTimer(20.5, 1265421, nil, nil, nil, 2)
 	local timerDiscordantBeamCD			= mod:NewCDCountTimer(20.5, 1265426, nil, nil, nil, 3)
@@ -24,7 +25,7 @@ if DBM:IsPostMidnight() then
 	local timerSymphonyCD				= mod:NewCastTimer(20.5, 1266003, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
 	local timerBacklashCD				= mod:NewCastTimer(20.5, 1266001, nil, nil, nil, 2)
 
-	--mod:AddPrivateAuraSoundOption(1265426, true, 1265426, 2, 1, "beamyou", 19)
+	--mod:AddAuraSoundOption(1265426, true, 1265426, 2, 1, "beamyou", 19)
 
 	mod.vb.dirgeCount = 0
 	mod.vb.discordantBeamCount = 0
@@ -38,7 +39,7 @@ if DBM:IsPostMidnight() then
 	local badStateDetected = false
 
 	---@param self DBMMod
-	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+	---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 	local function setFallback(self, dontSetAlerts)
 		if not dontSetAlerts then
 			specWarnDiscordantbeam:SetAlert(250, "beamyou", 19, 2, 0)
@@ -48,12 +49,15 @@ if DBM:IsPostMidnight() then
 			specWarnSymphony:SetAlert(253, "watchstep", 3, 2)
 			specWarnBacklash:SetAlert(254, "carefly", 2, 2)
 		end
-		timerDirgeCD:SetTimeline(249)
-		timerDiscordantBeamCD:SetTimeline(250)
-		timerDisintegrateCD:SetTimeline(251)
-		timerGrimChorusCD:SetTimeline(252)
-		timerSymphonyCD:SetTimeline(253)
-		timerBacklashCD:SetTimeline(254)
+		--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+		timerDirgeCD:SetTimeline(249, onlyColor)
+		timerDiscordantBeamCD:SetTimeline(250, onlyColor)
+		timerDisintegrateCD:SetTimeline(251, onlyColor)
+		timerGrimChorusCD:SetTimeline(252, onlyColor)
+		timerSymphonyCD:SetTimeline(253, onlyColor)
+		timerBacklashCD:SetTimeline(254, onlyColor)
 	end
 
 	function mod:OnLimitedCombatStart()
@@ -65,16 +69,13 @@ if DBM:IsPostMidnight() then
 		self.vb.grimChorusCount = 1
 		self.vb.symphonyCount = 1
 		self.vb.backlashCount = 1
-		if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+		if DBM.Options.HardcodedTimer and not badStateDetected then
 			self:IgnoreBlizzardAPI()
 			self:RegisterShortTermEvents(
 				"ENCOUNTER_TIMELINE_EVENT_ADDED",
 				"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 			)
-			--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-			if DBM.Options.HideDBMBars then
-				setFallback(self, true)
-			end
+			setFallback(self, true)
 		else
 			setFallback(self)
 		end
@@ -173,9 +174,9 @@ else
 	local warnBacklash						= mod:NewTargetAnnounce(247816, 1)
 	local warnNaarusLamen					= mod:NewTargetAnnounce(248535, 2)
 
-	local specWarnCalltoVoid				= mod:NewSpecialWarningSwitch(247795, nil, nil, nil, 1, 2)
-	local specWarnFragmentOfDespair			= mod:NewSpecialWarningSpell(245164, nil, nil, nil, 1, 2)
-	local specWarnGrandShift				= mod:NewSpecialWarningDodge(249009, nil, nil, nil, 2, 2)
+	local specWarnCalltoVoid				= mod:NewSpecialWarningSwitch(247795, nil, nil, nil, 1, 2, nil, nil, "killmob")
+	local specWarnFragmentOfDespair			= mod:NewSpecialWarningSpell(245164, nil, nil, nil, 1, 2, nil, nil, "helpsoak")
+	local specWarnGrandShift				= mod:NewSpecialWarningDodge(249009, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 	--local timerCalltoVoidCD				= mod:NewAITimer(12, 247795, nil, nil, nil, 1)
 	local timerGrandShiftCD					= mod:NewCDTimer(14.6, 249009, nil, nil, nil, 3, nil, DBM_COMMON_L.HEROIC_ICON)

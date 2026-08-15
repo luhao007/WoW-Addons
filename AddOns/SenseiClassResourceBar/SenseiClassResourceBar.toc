@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Sensei
-## Version: 1.5.21
+## Version: 1.5.24
 
 ## Title: Sensei Class Resource Bar
 ## Notes: Separate resource bars for all classes

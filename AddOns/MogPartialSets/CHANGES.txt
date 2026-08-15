@@ -1,16 +1,14 @@
-lightweight tag 446f2810a046d0803b8bc0ec4c12b042456b0c19 v4.1.0
+lightweight tag 0aef04b1548e24f70ed9e67a7ba8390d7af36386 v4.2.0
 Author:	romdeau23 <43295566+romdeau23@users.noreply.github.com>
-Date:	Wed Mar 4 20:43:59 2026 +0100
+Date:	Fri Jul 10 18:14:18 2026 +0200
 
-commit 446f2810a046d0803b8bc0ec4c12b042456b0c19
+commit 0aef04b1548e24f70ed9e67a7ba8390d7af36386
 Author: romdeau23 <43295566+romdeau23@users.noreply.github.com>
-Date:   Wed Mar 4 20:43:59 2026 +0100
+Date:   Fri Jul 10 18:14:18 2026 +0200
 
-    Bump version
-
-commit d53928d95a243bda2d3375ba40896050cd82e3fc
-Author: DoubiZhou <zhougz520@gmail.com>
-Date:   Thu Mar 5 03:41:53 2026 +0800
-
-    Add localization support for multiple languages (#5)
+    4.2.0
+    
+    Fix tooltip
+    Fix set filtering with many ignored/hidden slots
+    Update TOC
 

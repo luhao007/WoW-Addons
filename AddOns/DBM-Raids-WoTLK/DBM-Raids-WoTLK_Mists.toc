@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r348
+## Version: r352
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (WoTLK)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C巫妖王之怒|r
@@ -27,7 +27,7 @@
 ## X-DBM-Mod-Name-ruRU: Рейды (Король-лич)
 ## X-DBM-Mod-Sort: 901
 ## X-DBM-Mod-MapID: 724, 631, 649, 249, 603, 616, 615, 533, 624
-## X-DBM-Mod-MinCoreRevision: 20230521000000
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 2
 ## X-Curse-Project-ID: 43970
 ## X-WoWI-ID: 21522

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("DSTrash", "DBM-Raids-Cata", 1, 187)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035342")
+mod:SetRevision("20260523022021")
 mod:DisableHardcodedOptions()
 mod:SetModelID(39378)
 mod:SetZone(967)
@@ -18,7 +18,7 @@ local warnDrakesLeft		= mod:NewAnnounce("DrakesLeft", 2, 61248)
 
 local specWarnBoulder		= mod:NewSpecialWarningMoveAway(107597, nil, nil, nil, 1, 2)
 local yellBoulder			= mod:NewYell(107597)
-local specWarnFlames		= mod:NewSpecialWarningGTFO(105579, nil, nil, nil, 1, 8)
+local specWarnFlames		= mod:NewSpecialWarningGTFO(105579, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerDrakes			= mod:NewTimer(253, "TimerDrakes", 61248, nil, nil, 6)
 local timerRoleplay			= mod:NewTimer(45.5, "timerRoleplay", "237538", nil, nil, 6)

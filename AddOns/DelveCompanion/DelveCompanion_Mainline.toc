@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: FunDeliveryGames
-## Version: v2026.04.2
+## Version: v2026.08.1
 
 ## Title: Delve Companion
 ## Notes: One-stop addon to make Delves experience even better!

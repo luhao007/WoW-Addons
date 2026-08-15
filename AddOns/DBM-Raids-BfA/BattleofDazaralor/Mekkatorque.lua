@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2334, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260525233052")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(144796)
 mod:SetEncounterID(2276)
@@ -34,6 +34,8 @@ mod:RegisterEvents(
 --https://www.warcraftlogs.com/reports/GXfwVbyY4cDRd37K#fight=last&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20282205%20or%20ability.id%20%3D%20287952%20or%20ability.id%20%3D%20287929%20or%20ability.id%20%3D%20282153%20or%20ability.id%20%3D%20288410%20or%20ability.id%20%3D%20287751%20or%20ability.id%20%3D%20287797%20or%20ability.id%20%3D%20286693%20or%20ability.id%20%3D%20288041%20or%20ability.id%20%3D%20288049%20or%20ability.id%20%3D%20289537%20or%20ability.id%20%3D%20287691)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20287757%20or%20ability.id%20%3D%20286597)%20and%20type%20%3D%20%22cast%22
 --TODO, nameplate aura for tampering protocol, if it has actual debuff diration (wowhead does not)
 --TODO, adjust electroshock stacks?
+DBM:RegisterAltSpellName(282153, 88891)--Buster Cannon -> Cannon
+DBM:RegisterAltSpellName(287952, 67833)--Wormhole Generator -> Wormhole
 local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 --Ground Phase
 local warnShrunk						= mod:NewTargetNoFilterAnnounce(284168, 1)
@@ -46,46 +48,46 @@ local warnGigavoltCharge				= mod:NewTargetAnnounce(286646, 3)
 local warnHyperDrive					= mod:NewTargetNoFilterAnnounce(286051, 3)
 
 --Ground Phase
-local specWarnBusterCannon				= mod:NewSpecialWarningDodgeCount(282153, nil, nil, nil, 2, 2)
-local specWarnBlastOff					= mod:NewSpecialWarningDodgeCount(282205, nil, nil, nil, 4, 2)
+local specWarnBusterCannon				= mod:NewSpecialWarningDodgeCount(282153, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnBlastOff					= mod:NewSpecialWarningDodgeCount(282205, nil, nil, nil, 4, 2, nil, nil, "justrun")
 --local specWarnCrashDown				= mod:NewSpecialWarningDodge(287797, nil, nil, nil, 2, 2)
-local specWarnElectroshockAmp			= mod:NewSpecialWarningCount(289699, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(8, 289699), nil, 1, 2)
-local specWarnElectroshockAmpOther		= mod:NewSpecialWarningTaunt(289699, nil, nil, nil, 1, 2)
-local specWarnGigaVoltCharge			= mod:NewSpecialWarningYouPos(286646, nil, nil, nil, 1, 2)
+local specWarnElectroshockAmp			= mod:NewSpecialWarningCount(289699, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(8, 289699), nil, 1, 2, nil, nil, "changemt")
+local specWarnElectroshockAmpOther		= mod:NewSpecialWarningTaunt(289699, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnGigaVoltCharge			= mod:NewSpecialWarningYouPos(286646, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellGigaVoltCharge				= mod:NewPosYell(286646)
 local yellGigaVoltChargeFades			= mod:NewIconFadesYell(286646)
 local specWarnGigaVoltChargeFading		= mod:NewSpecialWarningMoveTo(286646, nil, nil, nil, 3, 2)
-local specWarnGigaVoltChargeTaunt		= mod:NewSpecialWarningTaunt(286646, nil, nil, nil, 1, 2)
-local specWarnWormholeGenerator 		= mod:NewSpecialWarningCount(287952, nil, nil, nil, 2, 5)
-local specWarnDiscombobulation			= mod:NewSpecialWarningDispel(287167, "Healer", nil, nil, 1, 2, 4)--Mythic
-local specWarnDeploySparkBot			= mod:NewSpecialWarningSwitchCount(288410, false, nil, nil, 1, 2)
-local specWarnShrunk					= mod:NewSpecialWarningYou(284168, nil, nil, nil, 1, 2)
+local specWarnGigaVoltChargeTaunt		= mod:NewSpecialWarningTaunt(286646, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnWormholeGenerator 		= mod:NewSpecialWarningCount(287952, nil, nil, nil, 2, 5, nil, nil, "teleyou")
+local specWarnDiscombobulation			= mod:NewSpecialWarningDispel(287167, "Healer", nil, nil, 1, 2, 4, nil, "helpdispel")--Mythic
+local specWarnDeploySparkBot			= mod:NewSpecialWarningSwitchCount(288410, false, nil, nil, 1, 2, nil, nil, "targetchange")
+local specWarnShrunk					= mod:NewSpecialWarningYou(284168, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellShrunk						= mod:NewShortYell(284168)--Shrunk will just say with white letters
 local yellShrunkRepeater				= mod:NewPlayerRepeatYell(284168)
 local yellTamperingRepeater				= mod:NewPlayerRepeatYell(286105, nil, nil, nil, "YELL")
-local specWarnShrunkTaunt				= mod:NewSpecialWarningTaunt(284168, nil, nil, nil, 1, 2)
-local specWarnEnormous					= mod:NewSpecialWarningYou(289023, nil, nil, nil, 1, 2, 4)--Mythic
+local specWarnShrunkTaunt				= mod:NewSpecialWarningTaunt(284168, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnEnormous					= mod:NewSpecialWarningYou(289023, nil, nil, nil, 1, 2, 4, nil, "watchstep")--Mythic
 local yellEnormous						= mod:NewYell(289023)--Enormous will shout with red letters
-local specWarnMisCalcTele				= mod:NewSpecialWarningYou(287114, nil, nil, nil, 1, 2, 4)--Mythic
+local specWarnMisCalcTele				= mod:NewSpecialWarningYou(287114, nil, nil, nil, 1, 2, 4, nil, "carefly")--Mythic
 local yellMisCalcTele					= mod:NewYell(287114)
-local specWarnBlingstorm				= mod:NewSpecialWarningRun(289864, "Melee", nil, nil, 4, 2)
-local specWarnGoldChainLightning		= mod:NewSpecialWarningInterrupt(289870, "HasInterrupt", nil, nil, 1, 2)
+local specWarnBlingstorm				= mod:NewSpecialWarningRun(289864, "Melee", nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnGoldChainLightning		= mod:NewSpecialWarningInterrupt(289870, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 --Intermission: Evasive Maneuvers!
-local specWarnExplodingSheep			= mod:NewSpecialWarningDodge(287929, nil, nil, nil, 2, 2)
+local specWarnExplodingSheep			= mod:NewSpecialWarningDodge(287929, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))
 --Ground Phase
-local timerBusterCannonCD				= mod:NewNextCountTimer(25, 282153, 88891, nil, nil, 3)--Shorttext "Cannon"
+local timerBusterCannonCD				= mod:NewNextCountTimer(25, 282153, nil, nil, 3)
 local timerBlastOffCD					= mod:NewNextCountTimer(55, 282205, nil, nil, nil, 2)
 local timerCrashDownCD					= mod:NewCastTimer(4.5, 287797, nil, nil, nil, 3)
 local timerGigaVoltChargeCD				= mod:NewNextCountTimer(14.1, 286646, nil, nil, nil, 3, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 4)
-local timerWormholeGeneratorCD			= mod:NewNextCountTimer(55, 287952, 67833, nil, nil, 3, nil, DBM_COMMON_L.HEROIC_ICON, nil, 3, 4)--Shorttext "Wormhole"
+local timerWormholeGeneratorCD			= mod:NewNextCountTimer(55, 287952, nil, nil, nil, 3, nil, DBM_COMMON_L.HEROIC_ICON, nil, 3, 4)--Shorttext "Wormhole"
 local timerDeploySparkBotCD				= mod:NewNextCountTimer(55, 288410, nil, nil, nil, 1)
 local timerWorldEnlargerCD				= mod:NewNextCountTimer(90, 288049, nil, nil, nil, 3, nil, nil, nil, 1, 4)
 --Intermission: Evasive Maneuvers!
 local timerIntermission					= mod:NewStageTimer(64.8)
-local timerExplodingSheepCD				= mod:NewNextCountTimer(55, 287929, 222529, nil, nil, 3)--Shorttext "Exploding Sheep"
+local timerExplodingSheepCD				= mod:NewNextCountTimer(55, 287929, nil, nil, nil, 3)
 local timerRP							= mod:NewRPTimer(15.4)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)

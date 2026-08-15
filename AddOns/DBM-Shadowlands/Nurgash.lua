@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2433, "DBM-Shadowlands", nil, 1192)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523021934")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(167526)
 mod:SetEncounterID(2408)
@@ -22,8 +22,8 @@ local warnStoneFist							= mod:NewSpellAnnounce(338858, 3, nil, "Tank")
 local warnStoneStomp						= mod:NewSpellAnnounce(338863, 3)
 local warnDeepSlumber						= mod:NewCastAnnounce(338868, 2)
 
-local specWarnEarthenBlast					= mod:NewSpecialWarningDodge(338864, nil, nil, nil, 2, 2)
-local specWarnHailofStones					= mod:NewSpecialWarningMoveTo(338867, nil, nil, nil, 3, 2)
+local specWarnEarthenBlast					= mod:NewSpecialWarningDodge(338864, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnHailofStones					= mod:NewSpecialWarningMoveTo(338867, nil, nil, nil, 3, 2, nil, nil, "movecenter")
 --local specWarnSummonSwarmguard			= mod:NewSpecialWarningSwitch(314307, "-Healer", nil, nil, 1, 2)
 
 local timerStoneFistCD						= mod:NewAITimer(82.0, 338858, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)

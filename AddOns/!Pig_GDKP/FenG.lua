@@ -99,7 +99,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 				end
 			end
 			if duiwuF.tongzhi.fenGren==0 then
-				PIG_OptionsUI:ErrorMsg("请先选择分G人");
+				PIGErrorMsg("请先选择分G人");
 				return
 			end
 			local fenGrenname=fujiF.nr.raidbutlist[p].butlist[duiwuF.tongzhi.fenGren].Name.t:GetText()
@@ -133,7 +133,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 					end)
 				end
 			else
-				PIG_OptionsUI:ErrorMsg("当前分G人已离线或不在团队内，请选择其他未离线成员");
+				PIGErrorMsg("当前分G人已离线或不在团队内，请选择其他未离线成员");
 			end	
 		end);
 		duiwuF.biaoti = PIGFontString(duiwuF,{"LEFT", duiwuF.tongzhi, "RIGHT", 0,1},"\124cff00FF00"..p.."队\124r", "OUTLINE",15);
@@ -181,13 +181,13 @@ function GDKPInfo.ADD_fenG(RaidR)
 				if button=="LeftButton" then
 					if UnitIsConnected(playerbut.AllName) then
 						if PIGA["GDKP"]["Raidinfo"][p][pp][9] then
-							PIG_OptionsUI:ErrorMsg(playerbut.AllName.."已完成工资发放");
+							PIGErrorMsg(playerbut.AllName.."已完成工资发放");
 							return
 						end
 						RaidR.PIGTradeF.fenGModeV=playerbut.fenGV_V
 						InitiateTrade(playerbut.AllName);
 					else
-						PIG_OptionsUI:ErrorMsg(playerbut.AllName.."-已离线或不在团队内，右键可设为邮寄模式");
+						PIGErrorMsg(playerbut.AllName.."-已离线或不在团队内，右键可设为邮寄模式");
 					end
 				else
 					if PIGA["GDKP"]["Raidinfo"][p][pp][7] then
@@ -227,7 +227,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 					PIGA["GDKP"]["Raidinfo"][p][pp][8]=1;
 					RaidR.Update_FenG()
 				else
-					PIG_OptionsUI:ErrorMsg("请先打开邮箱发件页面");
+					PIGErrorMsg("请先打开邮箱发件页面");
 				end
 			end);
 			playerbut.fenG = CreateFrame("Frame", nil, playerbut);

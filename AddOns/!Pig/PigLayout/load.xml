@@ -1,0 +1,10 @@
+<Ui>
+	<Script file="Options.lua" />
+	<Script file="General.lua" />
+	<Script file="TopBar.lua" />
+	<Script file="ToolInfoFun.lua" />
+	<Script file="ToolBar.lua" />
+	<Script file="InfoBar.lua" />
+	<Script file="ActionBar.lua" />
+	<Script file="ChatUI.lua" />
+</Ui>

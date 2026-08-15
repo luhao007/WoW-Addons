@@ -5,7 +5,7 @@ function FramePlusfun.BuffTime()
 	if not PIGA["FramePlus"]["BuffTime"] then return end
 	if PIG_MaxTocversion(119999,true) then return end
 	local function Buff_UpdateTime(seconds)
-		local d, h, m, s = ChatFrame_TimeBreakDown(seconds);
+		local d, h, m, s = ChatFrameUtil.TimeBreakDown(seconds);
 		if( d > 1 ) then
 			return "%dd", d
 		elseif d == 1 then

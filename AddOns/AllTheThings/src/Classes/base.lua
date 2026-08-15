@@ -209,9 +209,9 @@ local DefaultFields = {
 		local u = GetRelativeValue(t, "u");
 		if u then
 			if u < 3 then
-				score = score + 100000;
+				score = score + 1000000;
 			elseif u < 4 then
-				score = score + 10;
+				score = score + 100000;
 			else
 				score = score + 1 + u;
 			end
@@ -269,6 +269,39 @@ local DefaultFields = {
 		end
 		return canretry
 	end,
+	-- Future ProviderDB implementation for global object 'provider' content
+	-- providerinfo = function(t)
+	-- 	local k = t.key
+	-- 	local id = t[k]
+	-- 	local providersByType = app.ProviderDB[k]
+	-- 	return providersByType and providersByType[id] or nil
+	-- end,
+	-- Legacy Shim to handle code references to 'providers' after ProviderDB implementation
+	-- providers = function(t)
+	-- 	-- If cached, return immediately
+	-- 	local providers = t._providers
+	-- 	if providers ~= nil then return providers or nil end
+
+	-- 	local info = t.providerinfo
+	-- 	if not info then
+	-- 		t._providers = false	-- sentinel
+	-- 		return
+	-- 	end
+
+	-- 	-- Build synthetic legacy provider list
+	-- 	providers = {}
+
+	-- 	for providerType,idList in pairs(info) do
+	-- 		for i=1,#idList do
+	-- 			providers[#providers+1] = { providerType, idList[i] }
+	-- 		end
+	-- 	end
+
+	-- 	-- Cache it
+	-- 	t._providers = providers
+
+	-- 	return providers
+	-- end,
 };
 
 
@@ -282,7 +315,7 @@ end
 local function ClassError(...)
 	local params = {...}
 	local err = app.TableConcat(params, nil, "", " ")
-	error(err)
+	app.report("ClassError",err)
 end
 -- Generates a metatable to use for the given class name based on the provided field functions
 local CreateClassMeta = not app.__perf and function(fields, className)
@@ -457,8 +490,10 @@ local function CreateClassInstance(key, id, t)
 			end
 		end
 	end
-	app.PrintDebug(app.Modules.Color.Colorize("CreateClassInstance::Failed to Find Class Constructor for",app.Colors.ChatLinkError),key,id)
-	app.PrintTable(t)
+	if next(t) then
+		app.PrintDebug(app.Modules.Color.Colorize("CreateClassInstance::Failed to Find Class Constructor",app.Colors.ChatLinkError))
+		app.PrintTable(t)
+	end
 	-- if the t has absolutely no useable data to become a valid object, then just use the BaseClass to ensure it at least has some
 	-- proper handling if sent into a row
 	return setmetatable(t, app.BaseClass)
@@ -1057,6 +1092,8 @@ app.CreateRawText = app.CreateClass("RawText", "strKey", {
 
 local DLOBaseOverrides = {
 	visible = true,
+	total = 0,
+	progress = 0,
 }
 -- Returns an object which contains no data, but can return values from an overrides table, and be loaded/created when a specific field is attempted to be referenced
 -- i.e. Create a data group which contains no information but will attempt to populate itself when [loadField] is referenced

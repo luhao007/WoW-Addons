@@ -150,6 +150,104 @@ function Create.PIGCheckbutton(fuF,Point,Text,WH,UIName,id,mode,Single)--,nil,ni
 		return add_Checkbutton(false,fuF,Point,Text,WH,UIName,id,Single)
 	end
 end
+function Create.PIGCheckSingle(fuF,butlist,datax,Point,WH)
+	for i=1,#datax do
+		local tabbut = Create.PIGCheckbutton(fuF,nil,datax[i].tisp,nil,nil,nil,nil,1)
+		butlist[i]=tabbut
+		if i==1 then
+			tabbut:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
+		else
+			tabbut:SetPoint("LEFT",butlist[i-1].Text,"RIGHT",Point[6] or 10,0)
+		end
+		tabbut:HookScript("OnClick", function (self)
+			for _,butx in pairs(butlist) do
+				butx:SetChecked(false)
+			end
+			self:SetChecked(true)
+			datax[i].click(i)
+		end)
+	end
+end
+--图标
+function Create.PIGCheckDiy(fuF,Point,Text,WH,UIName)
+	local Www = WH and WH[1] or 20
+	local Hhh = WH and WH[2] or Www
+	local HighlightTex = WH and WH[6] or 130718
+	local But = CreateFrame("CheckButton", nil, fuF);
+	But.Highlight = But:CreateTexture();
+	But.Highlight:SetTexture(HighlightTex);
+	But.Highlight:SetAllPoints(But)
+	But.Highlight:SetBlendMode("ADD")
+	But.Highlight:Hide()
+	But:SetSize(Www,Hhh);
+	if Point then
+		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
+	end
+	But:SetHitRectInsets(0,-34,0,0);
+	But:SetMotionScriptsWhileDisabled(true)
+	But:Hide()
+	But.Text = But:CreateFontString();
+	But.Text:SetPoint("LEFT",But,"RIGHT",-2,0);
+	PIGSetFont(But.Text,Zihao,"OUTLINE")
+	But.Text:SetTextColor(1, 0.1, 1, 1);
+	But.MR_TextColor={1, 0.1, 1, 1}
+	if Text then
+		But.Text:SetText(Text[1]);
+		But.tooltip = Text[2] or Text[1]
+	end
+	local WwwTex = WH and WH[3] or Www-2
+	local HhhTex = WH and WH[4] or WwwTex
+	local icontex = WH and WH[5] or 604882
+	local iconX = WH and WH[7] or 0
+	local iconY = WH and WH[8] or 0
+	But.icon = But:CreateTexture();
+	if type(icontex)=="number" then
+		But.icon:SetTexture(icontex);
+	else
+		But.icon:SetAtlas(icontex)
+	end
+	But.MR_iconPoint={"CENTER","CENTER",iconX,iconY}
+	But.icon:SetPoint("CENTER",iconX,iconY);
+	But.icon:SetSize(WwwTex,HhhTex);
+	But:HookScript("OnEnter", function(self)
+		But.Highlight:Show()
+		GameTooltip:ClearLines();
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+		GameTooltip:AddLine(self.tooltip)
+		GameTooltip:Show();
+	end);
+	But:HookScript("OnLeave", function(self)
+		But.Highlight:Hide()
+		GameTooltip:ClearLines();
+		GameTooltip:Hide() 
+	end);
+	function But:UpdateHitRectInsets()
+		local wrappedWidth = self.Text:GetWrappedWidth()
+		self:SetHitRectInsets(0,-wrappedWidth,0,0)
+	end
+	But:HookScript("OnMouseDown", function (self)
+		if self:IsEnabled() and self.icon then
+			self.icon:SetPoint(self.MR_iconPoint[1],self,self.MR_iconPoint[2],self.MR_iconPoint[3]-1.5,self.MR_iconPoint[4]-1.5);
+		end
+	end);
+	But:HookScript("OnMouseUp", function (self)
+		if self.icon then
+			self.icon:SetPoint(self.MR_iconPoint[1],self,self.MR_iconPoint[2],self.MR_iconPoint[3],self.MR_iconPoint[4]);
+		end
+	end);
+	hooksecurefunc(But, "SetChecked", function(self,bool)
+		if bool then
+			self.Text:SetTextColor(unpack(self.MR_TextColor));
+			self.icon:SetDesaturated(false)
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
+		else
+			self.Text:SetTextColor(0.5, 0.5, 0.5, 1);
+			self.icon:SetDesaturated(true)
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
+		end
+	end);
+	return But
+end
 --自动排列选择框
 function Create.PIGCheckbutton_R(fuF,text,vertical,lienum,Vjiange,WH,UIName)
 	local lienum=lienum or 11

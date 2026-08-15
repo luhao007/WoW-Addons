@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(868, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260709014340")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(72311, 72560, 72249, 73910, 72302, 72561, 73909)--Boss needs to engage off friendly NCPS, not the boss. I include the boss too so we don't detect a win off losing varian. :)
 mod:SetEncounterID(1622)
@@ -49,18 +53,18 @@ local warnTowerGrunt				= mod:NewAnnounce("warnTowerGrunt", 3, 89253)
 ----High Enforcer Thranok (Road)
 local warnShatteringCleave			= mod:NewSpellAnnounce(146849, 3, nil, "Tank")
 
-local specWarnProto					= mod:NewSpecialWarningSpell(-8587, nil, nil, nil, 1, 2)
-local specWarnWarBanner				= mod:NewSpecialWarningSwitch(147328, "-Healer", nil, nil, 1, 2)
-local specWarnChainheal				= mod:NewSpecialWarningInterrupt(146757, "HasInterrupt", nil, nil, 1, 2)
+local specWarnProto					= mod:NewSpecialWarningSpell(-8587, nil, nil, nil, 1, 2, nil, nil, "bigmob")
+local specWarnWarBanner				= mod:NewSpecialWarningSwitch(147328, "-Healer", nil, nil, 1, 2, nil, nil, "targetchange")
+local specWarnChainheal				= mod:NewSpecialWarningInterrupt(146757, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
 ----High Enforcer Thranok (Road)
-local specWarnCrushersCall			= mod:NewSpecialWarningSpell(146769, false, nil, nil, 2, 12)--optional pre warning for the grip soon. although melee/tank probably don't really care and ranged are 50/50
+local specWarnCrushersCall			= mod:NewSpecialWarningSpell(146769, false, nil, nil, 2, 12, nil, nil, "pullin")--optional pre warning for the grip soon. although melee/tank probably don't really care and ranged are 50/50
 ----Korgra the Snake (Road)
-local specWarnPoisonCloud			= mod:NewSpecialWarningGTFO(147705, nil, nil, nil, 1, 8)
+local specWarnPoisonCloud			= mod:NewSpecialWarningGTFO(147705, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 ----Master Cannoneer Dragryn (Tower)
-local specWarnMuzzleSpray			= mod:NewSpecialWarningDodge(147824, nil, nil, nil, 2, 2)
+local specWarnMuzzleSpray			= mod:NewSpecialWarningDodge(147824, nil, nil, nil, 2, 2, nil, nil, "shockwave")
 ----Lieutenant General Krugruk (Tower)
-local specWarnArcingSmash			= mod:NewSpecialWarningDodge(147688, nil, nil, nil, 2, 2)
+local specWarnArcingSmash			= mod:NewSpecialWarningDodge(147688, nil, nil, nil, 2, 2, nil, nil, "shockwave")
 
 local timerCombatStarts				= mod:NewCombatTimer(34.5)
 local timerAddsCD					= mod:NewNextCountTimer(54.7, -8553, nil, nil, nil, 1, "134170")
@@ -80,13 +84,13 @@ local warnFlamesofGalakrondTarget	= mod:NewTargetAnnounce(147068, 4)
 local warnFlamesofGalakrond			= mod:NewStackAnnounce(147029, 2, nil, "Tank")
 local warnPulsingFlames				= mod:NewCountAnnounce(147042, 3, nil, false)
 
-local specWarnFlamesofGalakrondYou	= mod:NewSpecialWarningYou(147068, nil, nil, nil, 1, 2)
+local specWarnFlamesofGalakrondYou	= mod:NewSpecialWarningYou(147068, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellFlamesofGalakrond			= mod:NewYell(147068)
-local specWarnFlamesofGalakrondStack= mod:NewSpecialWarningStack(147029, nil, 6, nil, nil, 1, 6)
-local specWarnFlamesofGalakrondOther= mod:NewSpecialWarningTarget(147029, "Tank", nil, nil, 1, 2)
+local specWarnFlamesofGalakrondStack= mod:NewSpecialWarningStack(147029, nil, 6, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnFlamesofGalakrondOther= mod:NewSpecialWarningTarget(147029, "Tank", nil, nil, 1, 2, nil, nil, "tauntboss")
 
 local timerFlamesofGalakrondCD		= mod:NewCDTimer(5.7, 147068, nil, nil, nil, 3)
-local timerFlamesofGalakrond		= mod:NewTargetTimer(15, 147029, nil, "Tank", nil, 5)
+local timerFlamesofGalakrond		= mod:NewTargetTimer(15, 147029, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerPulsingFlamesCD			= mod:NewNextCountTimer(25, 147042, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
 local timerPulsingFlames			= mod:NewBuffActiveTimer(7, 147042)
 
@@ -109,6 +113,7 @@ local function protos(self)
 	timerAddsCD:Start(nil, self.vb.addsCount + 1)
 end
 
+---@param self DBMMod
 local function initialYellMissed(self)
 	if self.vb.addsCount == 0 then
 		self.vb.addsCount = self.vb.addsCount + 1
@@ -209,7 +214,7 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 				specWarnFlamesofGalakrondStack:Play("stackhigh")
 			end
 		else
-			local uId = DBM:GetRaidUnitId(args.destName)
+			local uId = DBM:GetRaidUnitId(args.destName, true)
 			if self:IsTanking(uId, nil, nil, false, args.sourceGUID) then
 				timerFlamesofGalakrond:Start(args.destName)
 				if amount >= 6 and not DBM:UnitDebuff("player", spellId) then

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2139, "DBM-BfA", 2, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(132701)
 --mod:SetEncounterID(1880)
@@ -19,11 +19,11 @@ mod:RegisterEventsInCombat(
 
 local warnConsumingSpirits			= mod:NewTargetAnnounce(261605, 3)
 
-local specWarnCrushingSlam			= mod:NewSpecialWarningDefensive(262004, nil, nil, nil, 1, 2)
-local specWarnCrushingSlamOther		= mod:NewSpecialWarningTaunt(262004, nil, nil, nil, 1, 2)
-local specWarnCoalescedEssence		= mod:NewSpecialWarningDodge(261600, nil, nil, nil, 2, 2)
-local specWarnConsumingSpirits		= mod:NewSpecialWarningMoveAway(261605, nil, nil, nil, 1, 2)
-local specWarnTerrorWall			= mod:NewSpecialWarningDodge(261552, nil, nil, nil, 3, 2)
+local specWarnCrushingSlam			= mod:NewSpecialWarningDefensive(262004, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnCrushingSlamOther		= mod:NewSpecialWarningTaunt(262004, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnCoalescedEssence		= mod:NewSpecialWarningDodge(261600, nil, nil, nil, 2, 2, nil, nil, "watchorb")
+local specWarnConsumingSpirits		= mod:NewSpecialWarningMoveAway(261605, nil, nil, nil, 1, 2, nil, nil, "runout")
+local specWarnTerrorWall			= mod:NewSpecialWarningDodge(261552, nil, nil, nil, 3, 2, nil, nil, "shockwave")
 
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 

@@ -9,10 +9,12 @@ local Map = ns.Map
 local LoreObject = ns.node.LoreObject
 local PT = ns.node.ProfessionTreasures
 local Rare = ns.node.Rare
+local RareElite = ns.node.RareElite
 local Safari = ns.node.Safari
 local SkyridingGlyph = ns.node.SkyridingGlyph
 local Telescope = ns.node.Telescope
 local Treasure = ns.node.Treasure
+local RenownedBeast = ns.node.RenownedBeast
 
 local Achievement = ns.reward.Achievement
 local Decor = ns.reward.Decor
@@ -211,14 +213,6 @@ slr.nodes[46334094] = Rare({
     },
     parent = map.id
 }) -- Rakshur the Bonegrinder
-
-local RareElite = ns.Class('RareElite', Rare, {
-    rlabel = '(' .. ns.color.Gray(L['elite']) .. ')',
-    icon = 'star_skull_b',
-    scale = 1.6
-})
-
-ns.node.RareElite = RareElite
 
 map.nodes[53946272] = RareElite({
     id = 256821,
@@ -480,7 +474,7 @@ map.nodes[24827001] = Treasure({
 -- 64457565 Oceanic Vortex
 -- fishing pool, looted Abundant Token (currency 3376)
 -- Lost Shadowstep Supplies 39306383 (quest 91308)
----------------------------- MIDNIGHT LORE HUNTER -----------------------------
+----------------------------- MIDNIGHT LORE HUNTER ----------------------------
 
 map.nodes[40485863] = LoreObject({
     quest = 94395,
@@ -605,7 +599,7 @@ slr.nodes[53745167] = PT.Leatherworking({
     id = 238592,
     parent = map.id
 }) -- Patterns: Beyond the Void
-map.nodes[41843821] = PT.Mining({quest = 89150, id = 238602}) -- Star Metal Deposit
+slr.nodes[34237605] = PT.Mining({quest = 89150, id = 238602, parent = map.id}) -- Star Metal Deposit
 slr.nodes[28733856] = PT.Mining({quest = 89148, id = 238600, parent = map.id}) -- Glimmering Void Pearl
 slr.nodes[54245159] = PT.Mining({quest = 89146, id = 238598, parent = map.id}) -- Lost Voidstorm Satchel
 slr.nodes[30486907] = PT.Mining({quest = 89144, id = 238596, parent = map.id}) -- Miner's Guide to Voidstorm
@@ -665,7 +659,7 @@ map.nodes[49278746] = SkyridingGlyph({
 }) -- The Gorging Pit, Voidstorm
 
 -------------------------------------------------------------------------------
--------------------------------- SAFARI ---------------------------------------
+------------------------------------ SAFARI -----------------------------------
 -------------------------------------------------------------------------------
 
 map.nodes[40803860] = Safari.DevouringRunt({
@@ -680,7 +674,7 @@ map.nodes[31104390] = Safari.Blistercreepling({
 map.nodes[63307370] = Safari.RiftbladeFamiliar({})
 
 -------------------------------------------------------------------------------
--------------------------- STORMARION ASSUALT ---------------------------------
+------------------------------ STORMARION ASSUALT -----------------------------
 -------------------------------------------------------------------------------
 
 local maps = {
@@ -709,3 +703,22 @@ local STORMARION_ASSAULT_AREA_POIS = {
 
 ns.hooks.areapoievent.Add(ns.groups.STORMARION_ASSAULT,
     STORMARION_ASSAULT_AREA_POIS)
+
+------------------------------- RENOWNED BEASTS -------------------------------
+
+map.nodes[54646534] = RenownedBeast({
+    label = '{npc:247096}',
+    quest = 88532,
+    rewards = {ns.reward.Item({item = 238529}), ns.reward.Item({item = 238528})},
+    requires = ns.requirement.Item(238655)
+})
+
+map.nodes[43078268] = RenownedBeast({
+    label = '{npc:247101}',
+    quest = 88524,
+    rewards = {
+        ns.reward.Item({item = 238529}), ns.reward.Item({item = 238530}),
+        ns.reward.Item({item = 238528})
+    },
+    requires = ns.requirement.Item(238656)
+})

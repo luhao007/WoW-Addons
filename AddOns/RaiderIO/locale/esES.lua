@@ -1,3 +1,4 @@
+-- Generated from CurseForge on Sat Aug 15 08:10:31 UTC 2026
 local ns = select(2, ...) ---@class ns @The addon namespace.
 
 if ns:IsSameLocale("esES") then
@@ -7,7 +8,7 @@ if ns:IsSameLocale("esES") then
 
 	L.LOCALE_NAME = "esES"
 
-	L["ALLOW_IN_LFD"] = "Permitir en buscador de mazmorras"
+L["ALLOW_IN_LFD"] = "Permitir en buscador de mazmorras"
 L["ALLOW_IN_LFD_CLASSIC"] = "Permitir en Buscador de grupos"
 L["ALLOW_IN_LFD_CLASSIC_DESC"] = "Haga clic con el botón derecho del ratón en los grupos o candidatos del Buscador de grupos para copiar la URL del perfil de Raider.IO."
 L["ALLOW_IN_LFD_DESC"] = "Click derecho en los grupos o aplicantes en el buscador de mazmorras para copiar la URL de su perfil de Raider.IO"
@@ -34,6 +35,112 @@ L["BINDING_HEADER_RAIDERIO_REPLAYUI"] = "Replay UI"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TIMING_BOSS"] = "Ajustar el tiempo a la hora del boss"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TIMING_DUNGEON"] = "Ajusta el tiempo a la hora de la mazmorra"
 L["BINDING_NAME_RAIDERIO_REPLAYUI_TOGGLE"] = "Alternar Replay UI"
+--[[Translation missing --]]
+--[[ L["BUILDS_DUNGEON_BRACKET_10-99"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_DUNGEON_BRACKET_15-99"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_DUNGEON_BRACKET_20-99"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_DUNGEON_BRACKET_6-9"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_DUNGEONS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_DUNGEONS_ALL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_DUNGEONS_SPECIFIC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_ENCOUNTER_DIFFICULY_all"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_ENCOUNTER_DIFFICULY_heroic"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_ENCOUNTER_DIFFICULY_mythic"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_ENCOUNTER_DIFFICULY_normal"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_ACTIVE_LOADOUT_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_ALTERNATE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_COPY_COMPARELINK_ACTION_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_COPY_COMPARELINK_POPUP_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_COPY_LOADOUT_ACTION_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_COPY_LOADOUT_LINK_ACTION_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_COPY_LOADOUT_LINK_POPUP_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_COPY_LOADOUT_POPUP_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_ERROR_CREATING_LOADOUT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_FAILED_IMPORTING_BUILD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_HERO_FORMAT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_IMPORTED_BUILD_TO_LOADOUT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_LOAD_LOADOUT_ACTION_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_LOADOUT_IS_ALREADY_ACTIVE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_LOADOUT_NAME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_NO_DATA"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_RECOMMENDED"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_STATS_FORMAT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_STATS_SUFFIX_KILLS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_STATS_SUFFIX_RUNS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_SWITCHING_TO_EXISTING_LOADOUT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_SWITCHING_TO_LOADOUT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_UNABLE_TO_DELETE_LOADOUT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_PROFILE_UPDATED_BUILD_TO_LOADOUT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_RAIDS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_RAIDS_ENCOUNTERS_ALL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_SPEED_all"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_SPEED_fast"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_SPEED_median"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_TITLE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_TITLE_FULL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_WEAPON_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_WEAPON_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_WEAPON_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_WEAPON_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_WEAPON_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_WEAPON_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["BUILDS_WEAPON_all"] = ""--]] 
 L["CANCEL"] = "Cancelar"
 L["CHANGES_REQUIRES_UI_RELOAD"] = "Los cambios se han guardado, pero debes recargar la interfaz para que surtan efecto. ¿Quieres recargar ahora?"
 L["CHARACTER_LF_GUILD_MPLUS"] = "Buscando Hermandad Mythic+"
@@ -62,24 +169,34 @@ L["DB_MODULES_HEADER_MYTHIC_PLUS"] = "Míticas+"
 L["DB_MODULES_HEADER_RAIDING"] = "Incursión"
 L["DB_MODULES_HEADER_RECRUITMENT"] = "Reclutamiento"
 L["DISABLE_DEBUG_MODE_RELOAD"] = "Estás desactivando el modo Debug. Al hacer clic en Confirmar se recargará de nuevo tu interfaz."
+--[[Translation missing --]]
+--[[ L["DISABLE_DROPDOWN_MENU_BUTTON"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["DISABLE_DROPDOWN_MENU_BUTTON_DESC"] = ""--]] 
 L["DISABLE_RWF_MODE_BUTTON"] = "Desactivar"
 L["DISABLE_RWF_MODE_BUTTON_TOOLTIP"] = "Haz clic para desactivar el modo Race World First. Esto hará que su interfaz se vuelva a cargar."
 L["DISABLE_RWF_MODE_RELOAD"] = "Estás desactivando el modo Race World First. Al hacer clic en Confirmar, volverá a cargar su interfaz."
 L["DPS"] = "DPS"
 L["DUNGEON_SHORT_NAME_AA"] = "Academia Algeth'ar - AA"
 L["DUNGEON_SHORT_NAME_AD"] = "Atal'Dazar - AD"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_AOF"] = ""--]] 
 L["DUNGEON_SHORT_NAME_ARAK"] = "Ara-Kara - ARAK"
 L["DUNGEON_SHORT_NAME_ARC"] = "La Arquería - ARC"
 L["DUNGEON_SHORT_NAME_AV"] = "Cámara Azur - AV"
 L["DUNGEON_SHORT_NAME_BH"] = "Hondonada Frondacuero - BH"
 L["DUNGEON_SHORT_NAME_BREW"] = "Lagar de Tragoceniza - BREW"
 L["DUNGEON_SHORT_NAME_BRH"] = "Torreón Grajo Negro - BRH"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_BV"] = ""--]] 
 L["DUNGEON_SHORT_NAME_COEN"] = "Catedral de la Noche Eterna - CoEN"
 L["DUNGEON_SHORT_NAME_COS"] = "Corte de las Estrellas - COS"
 L["DUNGEON_SHORT_NAME_COT"] = "Ciudad Tejida - COT"
 L["DUNGEON_SHORT_NAME_DAWN"] = "El Rompealbas - DAWN"
 L["DUNGEON_SHORT_NAME_DFC"] = "Grieta de Flama Oscura - DFC"
 L["DUNGEON_SHORT_NAME_DHT"] = "Arboleda Corazón Oscuro - DHT"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_DON"] = ""--]] 
 L["DUNGEON_SHORT_NAME_DOS"] = "El Otro Lado - DOS"
 L["DUNGEON_SHORT_NAME_EB"] = "El Vergel Eterno - EB"
 L["DUNGEON_SHORT_NAME_EDA"] = "Ecodomo Al'dani - EDA"
@@ -101,6 +218,8 @@ L["DUNGEON_SHORT_NAME_MC"] = "Cavernas de Maisara - MC"
 L["DUNGEON_SHORT_NAME_MISTS"] = "Nieblas de Tirna Scithe - MISTS"
 L["DUNGEON_SHORT_NAME_ML"] = "VETA MADRE - ML"
 L["DUNGEON_SHORT_NAME_MOS"] = "Acantilados Boca Infernal - MOS"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_MR"] = ""--]] 
 L["DUNGEON_SHORT_NAME_MT"] = "Bancal del Magister - MT"
 L["DUNGEON_SHORT_NAME_NELT"] = "Neltharus - NELT"
 L["DUNGEON_SHORT_NAME_NL"] = "Guarida de Neltharion - NL"
@@ -133,6 +252,8 @@ L["DUNGEON_SHORT_NAME_UNDR"] = "Catacumbas Putrefactas - UNDR"
 L["DUNGEON_SHORT_NAME_UPPR"] = "Karazhan: Superior - UPPR"
 L["DUNGEON_SHORT_NAME_VOTW"] = "Cámara de las Celadoras - VOTW"
 L["DUNGEON_SHORT_NAME_VP"] = "Cumbre del Vórtice - VP"
+--[[Translation missing --]]
+--[[ L["DUNGEON_SHORT_NAME_VSA"] = ""--]] 
 L["DUNGEON_SHORT_NAME_WM"] = "Mansión Crestavía - WM"
 L["DUNGEON_SHORT_NAME_WORK"] = "Mechagon: Taller - WORK"
 L["DUNGEON_SHORT_NAME_WS"] = "Aguja Brisaveloz - WS"
@@ -187,16 +308,24 @@ L["MINIMAP_SHORTCUT_ENABLE_DESC"] = "Habilitar para mostrar el icono alrededor d
 L["MINIMAP_SHORTCUT_HEADER"] = "Minimapa"
 L["MINIMAP_SHORTCUT_HELP"] = "|A:newplayertutorial-icon-mouse-leftbutton:16:12|a Búsqueda |A:newplayertutorial-icon-mouse-rightbutton:16:12|a Configuración"
 L["MINIMAP_SHORTCUT_HELP_LEFT_CLICK"] = "Clic izquierdo"
+--[[Translation missing --]]
+--[[ L["MINIMAP_SHORTCUT_HELP_OPEN_MENU"] = ""--]] 
 L["MINIMAP_SHORTCUT_HELP_RIGHT_CLICK"] = "Clic derecho"
 L["MINIMAP_SHORTCUT_HELP_SEARCH"] = "Búsqueda"
 L["MINIMAP_SHORTCUT_HELP_SETTINGS"] = "Configuración"
 L["MINIMAP_SHORTCUT_LOCK"] = "Bloquear Botón"
+--[[Translation missing --]]
+--[[ L["MINIMAP_SHORTCUT_MENU_BUILDS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["MINIMAP_SHORTCUT_MENU_COPY_BUILD"] = ""--]] 
 L["MINIMAP_SHORTCUT_MINIMAP_ENABLE"] = "Habilitar el botón del minimapa"
 L["MINIMAP_SHORTCUT_MINIMAP_ENABLE_DESC"] = "Habilitar para mostrar el icono alrededor del minimapa."
 L["MINIMAP_SHORTCUT_MINIMAP_LOCK"] = "Bloquear botón del minimapa"
 --[[Translation missing --]]
 --[[ L["MISC_SETTINGS"] = ""--]] 
 L["MODULE_AMERICAS"] = "América"
+--[[Translation missing --]]
+--[[ L["MODULE_CHINA"] = ""--]] 
 L["MODULE_EUROPE"] = "Europa"
 L["MODULE_KOREA"] = "Corea"
 L["MODULE_TAIWAN"] = "Taiwan"
@@ -515,6 +644,8 @@ L["RAID_BOSS_NP_6"] = "Nexus-Princess"
 L["RAID_BOSS_NP_7"] = "Silken Court"
 L["RAID_BOSS_NP_8"] = "Queen Ansurek"
 L["RAID_BOSS_RS_1"] = "Halion"
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SF_1"] = ""--]] 
 L["RAID_BOSS_SFO_1"] = "Guardián vigilante"
 L["RAID_BOSS_SFO_10"] = "Rygelon"
 L["RAID_BOSS_SFO_11"] = "El Carcelero"
@@ -536,6 +667,34 @@ L["RAID_BOSS_SOD_6"] = "Forjapenas Raznal"
 L["RAID_BOSS_SOD_7"] = "Guardián de los Primeros"
 L["RAID_BOSS_SOD_8"] = "Escriba del destino Roh-Kalo"
 L["RAID_BOSS_SOD_9"] = "Kel'Thuzad"
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_10"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_11"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_12"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_13"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_14"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_8"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_SOO_9"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_ToES_1"] = ""--]] 
 --[[Translation missing --]]
@@ -580,6 +739,22 @@ L["RAID_BOSS_SOD_9"] = "Kel'Thuzad"
 --[[ L["RAID_BOSS_TOT_9"] = ""--]] 
 L["RAID_BOSS_TOTFW_1"] = "El Cónclave del Viento"
 L["RAID_BOSS_TOTFW_2"] = "Al'Akir"
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VA_8"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VOTI_1"] = ""--]] 
 --[[Translation missing --]]
@@ -653,12 +828,20 @@ L["RAID_MQD"] = "Marcha a Quel'Danas - MQD"
 L["RAID_MSV"] = "Cámaras Mogu'shan"
 L["RAID_NP"] = "Palacio Nerub'ar - NP"
 L["RAID_RS"] = "El Sagrario Rubí - RS"
+--[[Translation missing --]]
+--[[ L["RAID_SF"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_SOO"] = ""--]] 
 L["RAID_ToES"] = "Veranda de la Primavera Eterna - ToES"
 L["RAID_TOES"] = "Veranda de la Primavera Eterna"
 L["RAID_TOT"] = "Solio del Trueno - ToT"
 L["RAID_TOTFW"] = "Trono de los Cuatro Vientos - TOTFW"
+--[[Translation missing --]]
+--[[ L["RAID_VA"] = ""--]] 
 L["RAID_VS"] = "Aguja del Vacío - VS"
 L["RAID_VS_DR_MQD"] = "AV/FO/MQD"
+--[[Translation missing --]]
+--[[ L["RAIDERIO"] = ""--]] 
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "Puntuación media de +%s en tiempo"
 L["RAIDERIO_BEST_RUN"] = "Mejor resultado M+ de Raider.IO"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Personalización del cliente de RaiderIO"
@@ -797,6 +980,5 @@ L["WARNING_LOCK_POSITION_FRAME_AUTO"] = "RaiderIO: primero debes deshabilitar el
 L["WARNING_RWF_MODE_ENABLE"] = "|cffFFFFFF%s|r Race World First.-Está activado. Puedes desactivarlo introduciendo |cffFFFFFF/raiderio rwf|r."
 L["WIPE_RWF_MODE_BUTTON"] = "Wipe"
 L["WIPE_RWF_MODE_BUTTON_TOOLTIP"] = "Haga clic para borrar el Registro del almacenamiento. Esto hará que la interfaz se recargue."
-
 
 end

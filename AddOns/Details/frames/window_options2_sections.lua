@@ -2152,7 +2152,7 @@ do
             {type = "label", get = function() return Loc ["STRING_OPTIONS_PLAYERNAME"] end, text_template = subSectionTitleTextTemplate,
             hidden = not detailsFramework.IsAddonApocalypseWow()},
 
-            {--automatic player name length
+            {--automatic player name length | length auto
                 type = "toggle",
                 get = function() return currentInstance.row_info.playername_size_auto end,
                 set = function(self, fixedparam, value)
@@ -2162,6 +2162,19 @@ do
                 end,
                 name = Loc ["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"],
                 desc = Loc ["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"],
+                hidden = not detailsFramework.IsAddonApocalypseWow(),
+            },
+
+            {--automatic player name alignment | alignment auto
+                type = "toggle",
+                get = function() return currentInstance.row_info.playername_alignment_auto end,
+                set = function(self, fixedparam, value)
+                    editInstanceSetting(currentInstance, "row_info", "playername_alignment_auto", value)
+                    afterUpdate()
+                    Details:RefreshMainWindow(-1, true)
+                end,
+                name = "Auto Alignment", --L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Auto Alignment"
+                desc = "Disable this only if you experience player name alignment issues.", --L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Disable this only if you experience player name alignment issues."
                 hidden = not detailsFramework.IsAddonApocalypseWow(),
             },
 
@@ -2373,7 +2386,7 @@ do
                 hidden = detailsFramework.IsAddonApocalypseWow(),
             },
 
-            {type = "blank", hidden = detailsFramework.IsAddonApocalypseWow(),},
+            {type = "blank", hidden = detailsFramework.IsAddonApocalypseWow()},
 
             {type = "label", get = function() return Loc["STRING_SIMPLE_TEXT_FORMAT_TITLE"] end, text_template = subSectionTitleTextTemplate},
 
@@ -2507,7 +2520,10 @@ do
                 group = "simpletext",
             },
 
-            {type = "blank", hidden = not detailsFramework.IsAddonApocalypseWow()},
+            --{type = "blank", hidden = not detailsFramework.IsAddonApocalypseWow()},
+
+            {type = "label", get = function() return Loc["STRING_OR"] end, text_template = subSectionTitleTextTemplate,
+            hidden = not detailsFramework.IsAddonApocalypseWow()},
 
             {--use alignment
                 type = "toggle",
@@ -2538,6 +2554,7 @@ do
                 name = Loc["STRING_OPTIONS_TEXT_SHOW_PERCENT"],
                 desc = Loc["STRING_OPTIONS_TEXT_SHOW_PERCENT"],
                 hidden = not detailsFramework.IsAddonApocalypseWow(),
+                id = "show_percent_toggle",
                 group = "alignmenttext",
             },
 
@@ -2561,6 +2578,8 @@ do
             },
         }
 
+        --local previewLine = CreateFrame()
+
         sectionFrame.sectionOptions = sectionOptions
         sectionOptions.always_boxfirst = true
         C_Timer.After(0.15, function()
@@ -2579,6 +2598,7 @@ do
             local selectTemplate = sectionFrame:GetWidgetById("selecttemplate_dropdown")
             local useAlignment = sectionFrame:GetWidgetById("use_alignment_toggle")
             local alignmentSpace = sectionFrame:GetWidgetById("alignment_space_range")
+            local showPercent = sectionFrame:GetWidgetById("show_percent_toggle")
 
             function sectionFrame.UpdateRightTextOption()
                 if Details.righttext_simple_formatting.enabled then
@@ -2586,17 +2606,19 @@ do
                     formatTSP:Enable()
                     formatTS:Enable()
                     formatTP:Enable()
+                    selectTemplate:Enable()
                     useAlignment:SetChecked(false)
                     alignmentSpace:Disable()
-                    selectTemplate:Disable()
+                    showPercent:Disable()
                 else
                     useSimpleText:SetChecked(false)
                     formatTSP:Disable()
                     formatTS:Disable()
                     formatTP:Disable()
+                    selectTemplate:Disable()
                     --useAlignment:Enable()
                     alignmentSpace:Enable()
-                    selectTemplate:Enable()
+                    showPercent:Enable()
                 end
             end
 
@@ -5109,7 +5131,7 @@ do
                     afterUpdate()
                 end,
                 min = 230,
-                max = 370,
+                max = 550,
                 step = 1,
                 name = "Tooltip Width",
                 desc = "Set the width of the midnight tooltip",
@@ -5117,6 +5139,20 @@ do
                 disableif = function() return Details.tooltip.apocalypse_width_useline and true end,
             },
 
+            {type = "breakline"},
+            {type = "label", get = function() return Loc ["STRING_OPTIONS_ADVANCED"] end, text_template = subSectionTitleTextTemplate},
+
+            --toogle to not show tooltips at all (line_no_tooltip)
+            {--disable tooltips
+                type = "toggle",
+                get = function() return currentInstance.line_no_tooltip end,
+                set = function(self, fixedparam, value)
+                    currentInstance.line_no_tooltip = value
+                    afterUpdate()
+                end,
+                name = Loc ["STRING_OPTIONS_TOOLTIPS_DISABLE"],
+                desc = Loc ["STRING_OPTIONS_TOOLTIPS_DISABLE_DESC"],
+            },
         }
 
         sectionFrame.sectionOptions = sectionOptions
@@ -7629,6 +7665,19 @@ do
         end
 
         local sectionOptions = {
+            {type = "label", get = function() return "Combatlog.txt:" end, text_template = subSectionTitleTextTemplate},
+            {
+                type = "toggle",
+                get = function() return Details.auto_combatlog end,
+                set = function(self, fixedparam, value)
+                    Details.auto_combatlog = value
+                    afterUpdate()
+                end,
+                name = Loc ["STRING_OPTIONS_AUTO_COMBATLOG"],
+                desc = Loc ["STRING_OPTIONS_AUTO_COMBATLOG_DESC"],
+            },
+            {type = "blank"},
+
             {type = "label", get = function() return "Death Log Options:" end, text_template = subSectionTitleTextTemplate},
             {--reverse death logs
                 type = "toggle",

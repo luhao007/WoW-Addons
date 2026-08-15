@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(725, "DBM-Pandaria", nil, 322, 1) -- 322 = Pandaria/Outdoor I assume
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260525233115")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(62346)
 mod:SetEncounterID(1563)
@@ -16,8 +16,8 @@ mod:RegisterEventsInCombat(
 
 local warnCannonBarrage		= mod:NewSpellAnnounce(121600, 3)
 
-local specWarnStomp			= mod:NewSpecialWarningSpell(121787, nil, nil, nil, 2, 2)
-local specWarnWarmonger		= mod:NewSpecialWarningSwitch(-6200, "-Healer", nil, nil, 1, 2)
+local specWarnStomp			= mod:NewSpecialWarningSpell(121787, nil, nil, nil, 2, 2, nil, nil, "stunsoon")
+local specWarnWarmonger		= mod:NewSpecialWarningSwitch(-6200, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
 
 local timerCannonBarrageCD	= mod:NewNextTimer(60, 121600, nil, "Tank", 2, 5)
 local timerStompCD			= mod:NewNextTimer(60, 121787, nil, nil, nil, 2)

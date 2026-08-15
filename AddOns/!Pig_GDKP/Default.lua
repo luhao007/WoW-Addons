@@ -76,10 +76,10 @@ local function shezhiquxiaoFUN()
 		end
 	end
 end
-function addonTable.Load_Config()
+EventUtil.ContinueOnAddOnLoaded(addonName, function()
 	PIGA["GDKP"] = PIGA["GDKP"] or extDefault
 	PIGA_Per["GDKP"] = PIGA_Per["GDKP"] or extDefault_Per
 	Fun.Load_DefaultData(PIGA["GDKP"],extDefault, 0)
 	Fun.Load_DefaultData(PIGA_Per["GDKP"],extDefault_Per, 0, true)
 	shezhiquxiaoFUN()
-end
+end)

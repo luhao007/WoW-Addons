@@ -1,5 +1,5 @@
-local addonName = ...
-local MDT = MDT
+local _, MDT = ...
+local addonName = MDT.AddonName
 local L = MDT.L
 local dungeonIndex = 155
 MDT.dungeonList[dungeonIndex] = L["NexusPointXenas"]
@@ -287,12 +287,14 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["magic"] = true,
       },
       [1249818] = {
+        ["interruptible"] = true,
       },
       [1252218] = {
       },
       [1277451] = {
       },
       [1278882] = {
+        ["interruptible"] = true,
       },
       [1285445] = {
         ["interruptible"] = true,
@@ -488,6 +490,12 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["g"] = 22,
         ["sublevel"] = 1,
       },
+      [19] = {
+        ["x"] = 724.5009879109,
+        ["y"] = -165.7173245725,
+        ["g"] = 22,
+        ["sublevel"] = 1,
+      },
     },
   },
   [5] = {
@@ -503,6 +511,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1257124] = {
       },
       [1269283] = {
+        ["interruptible"] = true,
       },
       [1282950] = {
       },
@@ -734,6 +743,36 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["g"] = 15,
         ["sublevel"] = 1,
       },
+      [2] = {
+        ["x"] = 604.79984396132,
+        ["y"] = -393.20678847021,
+        ["sublevel"] = 1,
+      },
+      [3] = {
+        ["x"] = 569.06113750256,
+        ["y"] = -273.04279844496,
+        ["sublevel"] = 1,
+      },
+      [4] = {
+        ["x"] = 651.21652557241,
+        ["y"] = -364.47145537942,
+        ["sublevel"] = 1,
+      },
+      [5] = {
+        ["x"] = 686.29885992304,
+        ["y"] = -321.87392624787,
+        ["sublevel"] = 1,
+      },
+      [6] = {
+        ["x"] = 596.07204465246,
+        ["y"] = -252.16508914983,
+        ["sublevel"] = 1,
+      },
+      [7] = {
+        ["x"] = 545.6278186546,
+        ["y"] = -306.25495912763,
+        ["sublevel"] = 1,
+      },
     },
   },
   [10] = {
@@ -805,7 +844,9 @@ MDT.dungeonEnemies[dungeonIndex] = {
       },
       [1281637] = {
       },
-      [1264295] = {},
+      [1264295] = {
+        ["interruptible"] = true,
+      },
     },
     ["clones"] = {
       [1] = {
@@ -865,6 +906,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1252417] = {
       },
       [1252429] = {
+        ["interruptible"] = true,
       },
     },
     ["clones"] = {
@@ -1026,18 +1068,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["g"] = 56,
         ["sublevel"] = 1,
       },
-      [11] = {
-        ["x"] = 496.71749200189,
-        ["y"] = -166.36166816854,
-        ["g"] = 48,
-        ["sublevel"] = 1,
-      },
-      [12] = {
-        ["x"] = 502.09957050866,
-        ["y"] = -172.60309843834,
-        ["g"] = 48,
-        ["sublevel"] = 1,
-      },
       [13] = {
         ["x"] = 474.56541453658,
         ["y"] = -171.93418180368,
@@ -1183,6 +1213,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["instanceID"] = 0,
     ["spells"] = {
       [1250553] = {
+        ["interruptible"] = true,
       },
       [1251626] = {
       },
@@ -1312,6 +1343,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["level"] = 90,
     ["spells"] = {
       [1257268] = {
+        ["interruptible"] = true,
       },
     },
     ["clones"] = {
@@ -1344,7 +1376,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
   },
   [22] = {
-    ["name"] = "Null Guardian",
+    ["name"] = "Dreadflail",
     ["id"] = 251024,
     ["count"] = 0,
     ["health"] = 556910,
@@ -1373,7 +1405,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
   },
   [23] = {
-    ["name"] = "Wretched Supplicant",
+    ["name"] = "Grand Nullifier",
     ["id"] = 251031,
     ["count"] = 0,
     ["health"] = 326286,

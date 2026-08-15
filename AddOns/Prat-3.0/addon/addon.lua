@@ -44,6 +44,8 @@ local strfind = strfind
 local IsSecureCmd = IsSecureCmd
 local wipe = table.wipe
 
+local issecretvalue = issecretvalue or function() return false end
+
 --[[ END STANDARD HEADER ]] --
 
 --[==[@debug@
@@ -51,7 +53,7 @@ Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff" .. "DEBUG" .. "|r)"
 --@end-debug@]==]
 
 --@non-debug@
-Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.100".."|r)"
+Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.104".."|r)"
 --@end-non-debug@
 
 local am = {}
@@ -131,10 +133,8 @@ local defaults = {
 			["CustomFilters"] = 2,
 			["EventNames"] = 2,
 			["Substitutions"] = 2,
-			["Experimental"] = 2,
 			["Filtering"] = 2,
 			["KeyBindings"] = 3,
-			["OriginalEditbox"] = 2,
 			["ChatTabs"] = 2,
 			["SideTabs"] = 2,
 			["*"] = 3
@@ -352,6 +352,12 @@ function addon:FCF_CopyChatSettings(chatFrame)
 
 		if not IsCombatLog(chatFrame) then
 			Prat.HookedFrames[name] = chatFrame
+
+			if ChatFrameMixin and ChatFrameMixin.MessageEventHandler then
+				chatFrame.MessageEventHandler = function(frame, event, ...)
+					return addon:ChatFrame_MessageEventHandler(frame, event, ...)
+				end
+			end
 		end
 
 		Prat.callbacks:Fire(Prat.Events.FRAMES_UPDATED, name, chatFrame)
@@ -441,7 +447,7 @@ function addon:ChatEdit_ParseText(editBox, send)
 	wipe(m)
 	Prat.CurrentMessage = m
 
-	if issecretvalue and issecretvalue(command) then
+	if issecretvalue(command) then
 		m.MESSAGE = command
 	else
 		m.MESSAGE = command:gsub("^%s*(.-)%s*$", "%1") -- trim whitespace
@@ -540,7 +546,7 @@ function addon:ChatFrame_MessageEventHandler(this, event, ...)
 	local POST_ADDMESSAGE_BLOCKED = "Prat_PostAddMessageBlocked"
 
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15 = ...
-	local isSecret = issecretvalue and issecretvalue(arg1)
+	local isSecret = issecretvalue(arg1)
 
 	Prat.loading = nil -- clear any batch message loading that may be happening
 
@@ -608,7 +614,7 @@ function addon:ChatFrame_MessageEventHandler(this, event, ...)
 	-- for that chatframe
 	local proxy = Prat.CreateProxy(this)
 	m.CAPTUREOUTPUT = proxy
-	if isSecret then
+	if isSecret or issecretvalue(this.chatTarget) then
 		Prat.MessageEventHandler(proxy, event, ...)
 	elseif ChatFrame_MessageEventHandler then
 		CMEResult = self.hooks["ChatFrame_MessageEventHandler"](proxy, event, ...)

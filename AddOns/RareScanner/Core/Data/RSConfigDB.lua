@@ -432,18 +432,18 @@ function RSConfigDB.IsNpcFiltered(npcID)
 		return true
 	end
 	
-	-- If weekly filter
+	-- If filtering by reputation
 	local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
 	if (npcInfo and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
-		if (npcInfo.warbandQuestID) then
-			for _, questID in ipairs(npcInfo.warbandQuestID) do
-				if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
-					return true
+		-- Monozone
+		if (RSNpcDB.IsInternalNpcMonoZone(npcID) and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION, npcInfo.zoneID) and RSUtils.Contains(RSConstants.CONTINENTS_WARBAND_REPUTATION, RSMapDB.GetContinentOfMap(npcInfo.zoneID))) then
+			if (npcInfo.warbandQuestID) then
+				for _, questID in ipairs(npcInfo.warbandQuestID) do
+					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+						return true
+					end
 				end
-			end
-		-- Also filter one time kill rare NPCs at Khaz Algar or rare NPCs without quest (monozone)
-		elseif (RSNpcDB.IsInternalNpcMonoZone(npcID) and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION, npcInfo.zoneID) and RSUtils.Contains(RSConstants.CONTINENTS_WARBAND_REPUTATION, RSMapDB.GetContinentOfMap(npcInfo.zoneID))) then
-			if (npcInfo.questID) then
+			elseif (npcInfo.questID) then
 				for _, questID in ipairs(npcInfo.questID) do
 					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
 						return true
@@ -452,9 +452,9 @@ function RSConfigDB.IsNpcFiltered(npcID)
 			else
 				return true
 			end
-		-- Also filter one time kill rare NPCs at Khaz Algar or rare NPCs without quest (multizone)
+		-- Multizone
 		elseif (RSNpcDB.IsInternalNpcMultiZone(npcID) and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID)) then
-			local khazAlgar = false
+			local zoneWithReputation = false
 			for mapID, _ in pairs (npcInfo.zoneID) do
 				-- If dungeons/delve/raid ignore
 				local mapInfo = C_Map.GetMapInfo(mapID)
@@ -463,13 +463,19 @@ function RSConfigDB.IsNpcFiltered(npcID)
 				end
 				
 				if (not RSUtils.Contains(RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION, mapID) and RSUtils.Contains(RSConstants.CONTINENTS_WARBAND_REPUTATION, RSMapDB.GetContinentOfMap(mapID))) then
-					khazAlgar = true
+					zoneWithReputation = true
 					break
 				end
 			end
 			
-			if (khazAlgar) then
-				if (npcInfo.questID) then
+			if (zoneWithReputation) then
+				if (npcInfo.warbandQuestID) then
+					for _, questID in ipairs(npcInfo.warbandQuestID) do
+						if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+							return true
+						end
+					end
+				elseif (npcInfo.questID) then
 					for _, questID in ipairs(npcInfo.questID) do
 						if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
 							return true
@@ -1850,6 +1856,14 @@ end
 
 function RSConfigDB.SetShowingTooltipsState(value)
 	private.db.map.tooltipsState = value
+end
+
+function RSConfigDB.IsShowingTooltipsCounters()
+	return private.db.map.tooltipsCounters
+end
+
+function RSConfigDB.SetShowingTooltipsCounters(value)
+	private.db.map.tooltipsCounters = value
 end
 
 function RSConfigDB.IsShowingTooltipsCommands()

@@ -2,6 +2,7 @@ if GetLocale() ~= "itIT" then return end
 if not DBM_CORE_L then DBM_CORE_L = {} end
 
 local L = DBM_CORE_L
+L.AURA_FONT_RESET = "Invalid aura text font settings were detected and reset to defaults."
 
 local dateTable = date("*t")
 if dateTable.day and dateTable.month and dateTable.day == 1 and dateTable.month == 4 then
@@ -11,7 +12,7 @@ end
 
 L.HOW_TO_USE_MOD					= "Benvenuto in "..L.DBM..". Scrivi /dbm help per avere una lista dei comandi supportati. Per accedere alle opzioni scrivi in chat /dbm. Carica le zone specifiche per configurare manualmente ogni settaggio di ogni boss. "..L.DBM.." prova a farlo per te controllando la tua specializzazione alla prima esecuzione, ma alcuni potrebbero volere alcune opzioni attivate."
 L.SILENT_REMINDER					= "Avviso: "..L.DBM.." è in modalità silente."
-L.NEWS_UPDATE						= "|h|c11ff1111News|r|h: This update changes mod structure around so classic and mainline now use unified (same) modules. This means that Vanilla, TBC, Wrath, and Cata modules are now installed separately using same packages as retail. Read more about it |Hgarrmission:DBM:news|h|cff3588ff[here]|r|h"--UPDATE ME
+L.NEWS_UPDATE						= "|h|c11ff1111Notizie|r|h: DBM è stato aggiornato con la funzione di rinomina delle abilità. Digita /dbm, vai alla categoria dei mod (incursioni, spedizioni, ecc.) e apri il mod in cui vuoi rinominare le abilità."
 
 --L.COPY_URL_DIALOG_NEWS					= "To read latest news, visit link below"
 
@@ -82,7 +83,7 @@ L.AFK_WARNING				= "Sei AFK e in combattimento (%d percento di vita rimanente), 
 L.RAID_DIFFICULTY_CHANGED				= "Il livello di difficoltà del raid è stato impostato su %s."
 L.DUNGEON_DIFFICULTY_CHANGED			= "Il livello di difficoltà del dungeon è stato impostato su %s."
 
-L.PROFILE_NOT_FOUND			= "<"..L.DBM.."> Il tuo profilo attuale è corrotto. "..L.DBM.." caricherà il profilo 'Predefinito'."
+L.PROFILE_NOT_FOUND			= "<"..L.DBM.."> Il tuo profilo attuale è corrotto. "..L.DBM.." caricherà il profilo '%s'."
 L.PROFILE_CREATED			= "Profilo '%s' creato."
 L.PROFILE_CREATE_ERROR		= "Creazione profilo fallita. Nome profilo non valido."
 L.PROFILE_CREATE_ERROR_D		= "Creazione profilo fallita. Il profilo '%s' esistente."
@@ -91,9 +92,9 @@ L.PROFILE_APPLY_ERROR		= "Applicazione profilo fallita. Il profilo '%s' non esis
 L.PROFILE_COPIED				= "Profilo '%s' copiato."
 L.PROFILE_COPY_ERROR			= "Copia profilo fallita. Il profilo '%s' non esiste."
 L.PROFILE_COPY_ERROR_SELF	= "Impossibile copiare il profilo su se stesso."
-L.PROFILE_DELETED			= "Profilo '%s' eliminato. Verrà applicato il profilo 'Predefinito'."
+L.PROFILE_DELETED			= "Profilo '%s' eliminato. Verrà applicato il profilo '%s'."
 L.PROFILE_DELETE_ERROR		= "Cancellazione prodilo fallita. Il profilo '%s' non esiste."
-L.PROFILE_CANNOT_DELETE		= "Impossibile eliminare il profilo 'Predefinito'."
+L.PROFILE_CANNOT_DELETE		= "Impossibile eliminare il profilo '%s'."
 L.MPROFILE_COPY_SUCCESS		= "Le impostazioni mod di %s (spec %d) sono state copiate."
 L.MPROFILE_COPY_SELF_ERROR	= "Impossibile copiare le impostazioni personaggio sullo stesso"
 L.MPROFILE_COPY_S_ERROR		= "Sorgente corrotta. Impostazioni non copiate o parziali. Copia fallita."
@@ -209,7 +210,7 @@ L.HARDCODED_FALLBACK				= L.DBM .. " ha rilevato un risultato inatteso in una mo
 
 L.MOVABLE_BAR				= "Trascinami!"
 
-L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h ti ha mandato un Timer "..L.DBM..": '%2$s'\n|Hgarrmission:DBM:cancella:%2$s:nil|h|cff3588ff[Cancella questo Timer]|r|h |Hgarrmission:DBM:ignora:%2$s:%1$s|h|cff3588ff[Ignora timer da %1$s]|r|h"
+L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h ti ha mandato un Timer "..L.DBM..": '%2$s'\n|Haddon:DBM:cancel:%2$s:nil|h|cff3588ff[Cancella questo Timer]|r|h |Haddon:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignora timer da %1$s]|r|h"
 --L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h ti ha inviato un temporizzatore "..L.DBM..""
 L.PIZZA_CONFIRM_IGNORE			= "Sei sicuro di voler ignorare i Timer DMB da %s per questa sessione?"
 L.PIZZA_ERROR_USAGE				= "Uso: /dbm [broadcast] timer <time> <text>"
@@ -243,6 +244,7 @@ L.RANGERADAR_IN_RANGE_TEXTONE= "%s (%0.1fm)" -- One target
 --L.INFOFRAME_TITLE						= "DBM Info Frame"
 L.INFOFRAME_SHOW_SELF		= "Visualizza sempre la tua forza"		-- Always show your own power value even if you are below the threshold
 L.INFOFRAME_SETLINES			= "Imposta linee massime"
+L.INFOFRAME_SETSTRATA			= "Imposta livello del riquadro"
 --L.INFOFRAME_SETCOLS						= "Set max columns"
 L.INFOFRAME_LINESDEFAULT		= "Imposta per mod"
 L.INFOFRAME_LINES_TO			= "%d linee"
@@ -277,8 +279,13 @@ L.SLASHCMD_HELP2						= {--AI translated (check me)
 	"/range <numero> o /distance <numero>: Mostra il riquadro di distanza. /rrange o /rdistance per invertire i colori.",
 	"/hudar <numero>: Mostra il rilevatore di distanza HUD.",
 	"/dbm arrow: Mostra la freccia " .. L.DBM .. ", vedere '/dbm arrow help' per dettagli.",
-	"/dbm hud: Mostra l'HUD " .. L.DBM .. ", vedere '/dbm hud' per dettagli."
+	"/dbm hud: Mostra l'HUD " .. L.DBM .. ", vedere '/dbm hud' per dettagli.",
+	"/dbm dbtdebug: Mostra diagnostica delle barre del tempo ripulita per le segnalazioni di errore."
 }
+L.DBT_DEBUG_HEADER			= "Diagnostica DBT (ripulita; nessun testo di incontro o segreto)"
+L.DBT_DEBUG_EMPTY			= "Nessun aggiornamento di stile DBT è stato acquisito dal ricaricamento dell'interfaccia."
+L.DBT_DEBUG_DISABLED			= "L'acquisizione è disattivata. Abilita la modalità di debug di DBM prima di riprodurre il problema."
+L.DBT_DEBUG_NOTICE			= "Includi questo output della chat nella segnalazione di errore."
 L.TIMER_USAGE	= {
 	"Comandi Temporizzatore "..L.DBM..":",
 	"-----------------",
@@ -322,6 +329,7 @@ L.AUTO_ANNOUNCE_TEXTS.spell			= "%s"
 L.AUTO_ANNOUNCE_TEXTS.ends 			= "%s terminato"
 L.AUTO_ANNOUNCE_TEXTS.endtarget		= "%s terminato: >%%s<"
 L.AUTO_ANNOUNCE_TEXTS.fades			= "%s svanito"
+L.AUTO_ANNOUNCE_TEXTS.fadesoon		= "%s sta per svanire"
 L.AUTO_ANNOUNCE_TEXTS.addsleft		= "%s rimanenti: %%d"
 L.AUTO_ANNOUNCE_TEXTS.cast			= "Castando %s: %.1f s"
 L.AUTO_ANNOUNCE_TEXTS.soon			= "%s a breve"
@@ -348,6 +356,7 @@ L.AUTO_ANNOUNCE_OPTIONS.spell		= "Mostra avvisi per $spell:%s"
 L.AUTO_ANNOUNCE_OPTIONS.ends			= "Mostra avviso al termine di $spell:%s"
 L.AUTO_ANNOUNCE_OPTIONS.endtarget	= "Mostra avviso al termine di $spell:%s"
 L.AUTO_ANNOUNCE_OPTIONS.fades		= "Mostra avviso allo svanire di $spell:%s"
+L.AUTO_ANNOUNCE_OPTIONS.fadesoon		= "Mostra avviso quando $spell:%s sta per svanire"
 L.AUTO_ANNOUNCE_OPTIONS.addsleft		= "Annuncia la quantità di $spell:%s rimanenti"
 L.AUTO_ANNOUNCE_OPTIONS.cast			= "Mostra avviso al cast di $spell:%s"
 L.AUTO_ANNOUNCE_OPTIONS.soon			= prewarnOption
@@ -383,6 +392,7 @@ L.AUTO_SPEC_WARN_TEXTS.blizztarget		= "%s (%%s) su >%%s< "
 L.AUTO_SPEC_WARN_TEXTS.blizzyou				= "%s (%%s) su di te"
 L.AUTO_SPEC_WARN_TEXTS.defensive			= "%s - difensivi"
 L.AUTO_SPEC_WARN_TEXTS.taunt				= "%s su >%%s< - tauntalo subito"
+L.AUTO_SPEC_WARN_TEXTS.tauntsecret			= "%s su %%s - tauntalo subito"
 L.AUTO_SPEC_WARN_TEXTS.close				= "%s su >%%s< vicino a te"
 L.AUTO_SPEC_WARN_TEXTS.move				= "%s - spostati"
 L.AUTO_SPEC_WARN_TEXTS.keepmove			= "%s - continua a muoverti"
@@ -588,7 +598,7 @@ L.AUTO_INFO_FRAME_OPTION_TEXT2	= "Mostra riquadro informativo per la panoramica 
 --L.AUTO_INFO_FRAME_OPTION_TEXT3			= "Show info frame for $spell:%s (when threshold of %%s is met)"
 L.AUTO_READY_CHECK_OPTION_TEXT	= "Riproduti il suono controllo gruppo al pull del boss (anche se non bersagliato)"
 --L.AUTO_SPEEDCLEAR_OPTION_TEXT			= "Mostra timer per il completamento più veloce di questa zona"
---L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Play DBM sound alerts for $spell:%s private auras on this fight."
+--L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Play DBM sound alerts for $spell:%s auras on this fight."
 
 -- New special warnings
 L.MOVE_WARNING_BAR			= "Annunci mobili"

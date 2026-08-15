@@ -10,7 +10,11 @@ local Lockit = DelveCompanion.Lockit
 
 --#region Constants
 
+---@type string
 local STATIC_POPUP_ADDON_LINK_ID = "StaticPopup_DelveCompanionAddonLink"
+
+---@type string
+local ADDON_METADATA_VERSION = "Version"
 --#endregion
 
 ---@class (exact) AddonSettingsFrame : AddonSettingsFrameXml
@@ -33,7 +37,7 @@ local function SetupLinkButton(self, data, tooltipText)
         tooltip:Show()
     end)
     self:SetScript("OnLeave", function()
-        GameTooltip:Hide()
+        securecall(GameTooltip.Hide, GameTooltip)
     end)
 end
 
@@ -41,8 +45,15 @@ end
 function DelveCompanionSettingsFrameMixin:OnLoad()
     -- Logger:Log("SettingsFrame OnLoad start...")
 
+    -- Title panel
     self.TitlePanel.Text:SetText(Lockit.UI_ADDON_NAME)
-    self.TitlePanel.Version:SetText(C_AddOns.GetAddOnMetadata(addonName, "Version"))
+    self.TitlePanel.Version:SetText(C_AddOns.GetAddOnMetadata(addonName, ADDON_METADATA_VERSION))
+
+    -- Slash Commands section
+    local slashCmdText = string.join("\n", Lockit.UI_SETTINGS_SLASH_CMD_TEXT
+    , Lockit.UI_SETTINGS_SLASH_CMD_SHOWDELVES
+    )
+    self.SlashCmdInfo.Text:SetText(slashCmdText)
 
     -- Localization section
     self.LocalizationSection.Title:SetText(Lockit.UI_SETTINGS_TRANSLATION_TITLE)
@@ -97,6 +108,9 @@ StaticPopupDialogs[STATIC_POPUP_ADDON_LINK_ID] = {
 ---@field Text FontString
 ---@field Version FontString
 
+---@class (exact) AddonSettingsFrameSlashCmdInfoXml : Frame
+---@field Text FontString
+
 ---@class (exact) AddonSettingsFrameLocalizationElementXml : Frame
 ---@field FlagIcon Texture
 ---@field Name FontString
@@ -120,6 +134,7 @@ StaticPopupDialogs[STATIC_POPUP_ADDON_LINK_ID] = {
 --- `DelveCompanionSettingsFrameTemplate`
 ---@class (exact) AddonSettingsFrameXml : Frame
 ---@field TitlePanel AddonSettingsFrameTitlePanelXml
+---@field SlashCmdInfo AddonSettingsFrameSlashCmdInfoXml
 ---@field LocalizationSection AddonSettingsFrameLocalizationSectionXml
 ---@field Footer AddonSettingsFrameFooterXml
 --#endregion

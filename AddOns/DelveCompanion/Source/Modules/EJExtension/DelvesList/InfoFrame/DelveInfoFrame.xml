@@ -711,7 +711,7 @@
                             GameTooltip:SetText(self.title:GetText(), nil, nil, nil, nil, true);
                         end
                     </OnEnter>
-                    <OnLeave>GameTooltip:Hide();</OnLeave>
+                    <OnLeave>securecall(GameTooltip.Hide, GameTooltip);</OnLeave>
                 </Scripts>
             </Button>
             <Frame parentKey="overviewDescription" inherits="EncounterDescriptionTemplate">

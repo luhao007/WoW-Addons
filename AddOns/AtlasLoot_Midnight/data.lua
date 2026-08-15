@@ -20,19 +20,19 @@ local ADD_SCALING = {
 	}
 }
 
-local NORMAL_DUNGEON_DIFF = data:AddDifficulty(AL["Normal"], "DungeonWithPreset", ADD_SCALING, 1)
-local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithPreset", ADD_SCALING, 2)
-local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeonWithPreset", ADD_SCALING, 23)
+local NORMAL_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "DungeonWithPreset", ADD_SCALING, 1)
+local HEROIC_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "HeroicDungeonWithPreset", ADD_SCALING, 2)
+local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY6, "MythicDungeonWithPreset", ADD_SCALING, 23)
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", ADD_SCALING, 17)
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", ADD_SCALING, 14)
-local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicWithPreset", ADD_SCALING, 15)
-local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", ADD_SCALING, 16)
+local RF_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY3, "LFRWithPreset", ADD_SCALING, 17)
+local NORMAL_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "NormalRaidWithPreset", ADD_SCALING, 14)
+local HEROIC_PRE_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "HeroicWithPreset", ADD_SCALING, 15)
+local MYTHIC_PRE_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY6, "MyhticWithPreset", ADD_SCALING, 16)
 
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
 
-local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
-local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
+local DUNGEON_CONTENT = data:AddContentType(DUNGEONS, ATLASLOOT_DUNGEON_COLOR)
+local RAID_CONTENT = data:AddContentType(RAIDS, ATLASLOOT_RAID_COLOR)
 
 
 -- /////////////////////////////////
@@ -631,6 +631,65 @@ data["Voidscar Arena"] = {
 	}
 }
 
+data["WorldBossesMidnight"] = {
+	name = AL["World Bosses"],
+	ContentType = RAID_CONTENT,
+	items = {
+		{ -- Lu'ashal
+			EncounterJournalID = 2827,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 250451 }, -- Dawncrazed Beast Cleaver
+				{ 2, 250453 }, -- Scepter of the Unbound Light
+				{ 3, 250447 }, -- Radiant Eversong Scepter
+				{ 4, 250459 }, -- Bramblestalker's Feathered Cowl
+				{ 5, 250458 }, -- Host Commander's Casque
+				{ 6, 250456 }, -- Wretched Scholar's Gilded Robe
+				{ 7, 250457 }, -- Devouring Outrider's Chausses
+				{ 8, 250462 }, -- Forgotten Farstrider's Insignia
+			},
+		},
+		{ -- Thorm'belan
+			EncounterJournalID = 2829,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 250455 }, -- Beastly Blossombarb
+				{ 2, 250452 }, -- Blooming Thornblade
+				{ 3, 250449 }, -- Skulking Nettledirk
+				{ 4, 250459 }, -- Bramblestalker's Feathered Cowl
+				{ 5, 250458 }, -- Host Commander's Casque
+				{ 6, 250456 }, -- Wretched Scholar's Gilded Robe
+				{ 7, 250457 }, -- Devouring Outrider's Chausses
+				{ 8, 250462 }, -- Forgotten Farstrider's Insignia
+			},
+		},
+		{ -- Predaxas
+			EncounterJournalID = 2828,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 250454 }, -- Devouring Vanguard's Soulcleaver
+				{ 2, 250448 }, -- Voidbender's Spire
+				{ 3, 250460 }, -- Encroaching Shadow Signet
+				{ 4, 250459 }, -- Bramblestalker's Feathered Cowl
+				{ 5, 250458 }, -- Host Commander's Casque
+				{ 6, 250456 }, -- Wretched Scholar's Gilded Robe
+				{ 7, 250457 }, -- Devouring Outrider's Chausses
+				{ 8, 250462 }, -- Forgotten Farstrider's Insignia
+			},
+		},
+		{ -- Cragpine
+			EncounterJournalID = 2782,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 250450 }, -- Forest Sentinel's Savage Longbow
+				{ 2, 250446 }, -- Cragtender Bulwark
+				{ 3, 250461 }, -- Chain of the Ancient Watcher
+				{ 4, 250459 }, -- Bramblestalker's Feathered Cowl
+				{ 5, 250458 }, -- Host Commander's Casque
+				{ 6, 250456 }, -- Wretched Scholar's Gilded Robe
+				{ 7, 250457 }, -- Devouring Outrider's Chausses
+				{ 8, 250462 }, -- Forgotten Farstrider's Insignia
+			},
+		},
+	}
+}
+
 data["Voidspire"] = {
 	EncounterJournalID = 1307,
 	MapID = 2529,
@@ -928,60 +987,41 @@ data["March on Quel'Danas"] = {
 	}
 }
 
-data["WorldBossesMidnight"] = {
-	name = AL["World Bosses"],
+data["Sporefall"] = {
+	EncounterJournalID = 1305,
+	MapID = 2427,
+	AtlasMapID = "Sporefall",
 	ContentType = RAID_CONTENT,
+	TableType = RAID_ITTYPE,
 	items = {
-		{ -- Lu'ashal
-			EncounterJournalID = 2827,
+		{ -- Rotmire
+			EncounterJournalID = 2711,
 			[NORMAL_RAID_DIFF] = {
-				{ 1, 250451 }, -- Dawncrazed Beast Cleaver
-				{ 2, 250453 }, -- Scepter of the Unbound Light
-				{ 3, 250447 }, -- Radiant Eversong Scepter
-				{ 4, 250459 }, -- Bramblestalker's Feathered Cowl
-				{ 5, 250458 }, -- Host Commander's Casque
-				{ 6, 250456 }, -- Wretched Scholar's Gilded Robe
-				{ 7, 250457 }, -- Devouring Outrider's Chausses
-				{ 8, 250462 }, -- Forgotten Farstrider's Insignia
+				{ 1,  268283 }, -- Festerbloom Crown
+				{ 2,  268291 }, -- Rotmire's Sporeheart
+				{ 3,  268284 }, -- Mycomancer's Rot Robes
+				{ 4,  268285 }, -- Putrid Tender's Battleplate
+				{ 5,  268289 }, -- Girdle of Devouring Rot
+				{ 6,  268286 }, -- Sash of the Putrid Giant
+				{ 7,  268288 }, -- Fungarian Folly Faulds
+				{ 8,  268287 }, -- Grudgefiend Stompers
+				{ 9,  268282 }, -- Luxurious Loamstriders
+				{ 10, 268290 }, -- Sporecaller's Blooming Loop
+				{ 11, 268292 }, -- Sporelord's Mycelial Insignia
+				{ 13, 264313 }, -- Madcap Redcap
+				{ 14, 264367 }, -- Mycomancer's Hearthspore
+				{ 15, 268280 }, -- Sporelord's Shroom Cap
+				{ 16, 247235 }, -- Luminous Rotshroom
+				{ 17, 269245, 269240 }, -- Delicious Sporesnack -> Luminous Sporeglider
 			},
-		},
-		{ -- Thorm'belan
-			EncounterJournalID = 2829,
-			[NORMAL_RAID_DIFF] = {
-				{ 1, 250455 }, -- Beastly Blossombarb
-				{ 2, 250452 }, -- Blooming Thornblade
-				{ 3, 250449 }, -- Skulking Nettledirk
-				{ 4, 250459 }, -- Bramblestalker's Feathered Cowl
-				{ 5, 250458 }, -- Host Commander's Casque
-				{ 6, 250456 }, -- Wretched Scholar's Gilded Robe
-				{ 7, 250457 }, -- Devouring Outrider's Chausses
-				{ 8, 250462 }, -- Forgotten Farstrider's Insignia
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
-		},
-		{ -- Predaxas
-			EncounterJournalID = 2828,
-			[NORMAL_RAID_DIFF] = {
-				{ 1, 250454 }, -- Devouring Vanguard's Soulcleaver
-				{ 2, 250448 }, -- Voidbender's Spire
-				{ 3, 250460 }, -- Encroaching Shadow Signet
-				{ 4, 250459 }, -- Bramblestalker's Feathered Cowl
-				{ 5, 250458 }, -- Host Commander's Casque
-				{ 6, 250456 }, -- Wretched Scholar's Gilded Robe
-				{ 7, 250457 }, -- Devouring Outrider's Chausses
-				{ 8, 250462 }, -- Forgotten Farstrider's Insignia
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
-		},
-		{ -- Cragpine
-			EncounterJournalID = 2782,
-			[NORMAL_RAID_DIFF] = {
-				{ 1, 250450 }, -- Forest Sentinel's Savage Longbow
-				{ 2, 250446 }, -- Cragtender Bulwark
-				{ 3, 250461 }, -- Chain of the Ancient Watcher
-				{ 4, 250459 }, -- Bramblestalker's Feathered Cowl
-				{ 5, 250458 }, -- Host Commander's Casque
-				{ 6, 250456 }, -- Wretched Scholar's Gilded Robe
-				{ 7, 250457 }, -- Devouring Outrider's Chausses
-				{ 8, 250462 }, -- Forgotten Farstrider's Insignia
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 		},
 	}

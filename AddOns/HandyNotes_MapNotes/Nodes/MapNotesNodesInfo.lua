@@ -859,6 +859,8 @@ nodes[2536] = { } -- Atal'Aman
 nodes[2393] = { } -- Silvermoon
 nodes[2444] = { } -- Schlächteranhöhe
 nodes[2576] = { } -- Rootlands
+nodes[2512] = { } -- Gewundene Isle
+nodes[2509] = { } -- Chambers of Atal'Utek
 -- Dungeon map nodes
 nodes[2515] = { } -- Terrasse der Magister - Inside Dungeon Map
 nodes[2492] = { } -- Windläuferturm - Inside Dungeon Map
@@ -870,6 +872,8 @@ nodes[2500] = { } -- Das blendende Tal - Inside Dungeon Map
 nodes[2531] = { } -- Der Traumriss - Inside Dungeon Map
 nodes[2533] = { } -- Marsch auf Quel'Danas - Inside Dungeon Map      
 nodes[2529] = { } -- Die Leerenspitze - Inside Dungeon Map
+nodes[2588] = { } -- Altar der Fänge - Inside Dungeon Map
+nodes[2606] = { } -- Der Giftige Abgrund - Inside Dungeon Map
 -- Delves map nodes
 nodes[2505] = { } -- Kluft der Erinnerung - Inside Delves Map
 nodes[2577] = { } -- Die Mördergasse - Inside Delves Map
@@ -882,4 +886,6 @@ nodes[2547] = { } -- Akademischer Aufruhr - Inside Delves Map
 nodes[2502] = { } -- Die Schattenenklave - Inside Delves Map
 nodes[2503] = { } -- Gruften der Zwielichtklinge - Inside Delves Map
 nodes[2535] = { } -- Zul'Aman - Inside Delves Map
+nodes[2633] = { } -- The Ring of Glory -  Inside Delve Map
+nodes[2635] = { } -- Gnarldor Isle -  Inside Delve Map
 end

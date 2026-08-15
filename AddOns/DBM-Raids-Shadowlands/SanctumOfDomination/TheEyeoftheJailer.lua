@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2442, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(175725)
 mod:SetEncounterID(2433)
@@ -39,6 +39,9 @@ mod:RegisterEventsInCombat(
  or (ability.id = 350803 or ability.id = 350453 or ability.id = 348074) and type = "begincast"
  or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
 --]]
+DBM:RegisterAltSpellName(350604, 31589)--Hopeless Lethargy -> Slow
+DBM:RegisterAltSpellName(350764, 182908)--Annihilating Glare -> Beam
+
 --General
 local warnPhase								= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 
@@ -50,20 +53,20 @@ mod:AddOptionLine(DBM:EJ_GetSectionInfo(22896), "announce")
 local warnPiercingLens						= mod:NewCastAnnounce(350803, 2, nil, nil, false)--Boss effectively spams this every 1-4 seconds
 local warnDraggingChains					= mod:NewTargetNoFilterAnnounce(358609, 2)
 local warnAssailingLance					= mod:NewCastAnnounce(348074, 4)
-local warnHopelessLethargy					= mod:NewTargetNoFilterAnnounce(350604, 2, nil, nil, 31589)--Mythic
+local warnHopelessLethargy					= mod:NewTargetNoFilterAnnounce(350604, 2)--Mythic
 
-local specWarnDeathlink						= mod:NewSpecialWarningDefensive(350828, nil, nil, nil, 3, 2)
-local specWarnDeathlinkTaunt				= mod:NewSpecialWarningTaunt(350828, nil, nil, nil, 1, 2)
-local specWarnDraggingChains				= mod:NewSpecialWarningYou(358609, nil, nil, nil, 1, 2)
+local specWarnDeathlink						= mod:NewSpecialWarningDefensive(350828, nil, nil, nil, 3, 2, nil, nil, "defensive")
+local specWarnDeathlinkTaunt				= mod:NewSpecialWarningTaunt(350828, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnDraggingChains				= mod:NewSpecialWarningYou(358609, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellDraggingChains					= mod:NewYell(358609)
-local specWarnHopelessLethargy				= mod:NewSpecialWarningMoveAway(350604, nil, 31589, nil, 1, 2, 4)--Mythic
+local specWarnHopelessLethargy				= mod:NewSpecialWarningMoveAway(350604, nil, nil, nil, 1, 2, 4, nil, "runout")--Mythic
 local yellHopelessLethargy					= mod:NewYell(350604, 31589)
-local specWarnAnnihilatingGlare				= mod:NewSpecialWarningDodge(350764, nil, 182908, nil, 3, 2)
+local specWarnAnnihilatingGlare				= mod:NewSpecialWarningDodge(350764, nil, nil, nil, 3, 2, nil, nil, "laserrun")
 
 local timerDeathlinkCD						= mod:NewCDCountTimer(10.9, 350828, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.DEADLY_ICON..DBM_COMMON_L.TANK_ICON)
-local timerHopelessLethargyCD				= mod:NewCDCountTimer(47.3, 350604, 31589, nil, nil, 3, nil, DBM_COMMON_L.MYTHIC_ICON)--Shortname "Slow"
+local timerHopelessLethargyCD				= mod:NewCDCountTimer(47.3, 350604, nil, nil, nil, 3, nil, DBM_COMMON_L.MYTHIC_ICON)--Shortname "Slow"
 local timerFractureSoulCD					= mod:NewCDCountTimer(11, 350022, nil, nil, nil, 3)
-local timerAnnihilatingGlareCD				= mod:NewCDCountTimer(47.3, 350764, 182908, nil, nil, 3)--Shortname "Beam"
+local timerAnnihilatingGlareCD				= mod:NewCDCountTimer(47.3, 350764, nil, nil, nil, 3)--Shortname "Beam"
 --local timerStygianAbductorCD				= mod:NewCDCountTimer(20.6, 346767, nil, nil, nil, 3, nil, nil, nil, 1, 3)--Not actual spellID, but compatible one
 ----Add
 local timerAssailingLanceCD					= mod:NewCDTimer(8.5, 348074, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.DEADLY_ICON..DBM_COMMON_L.TANK_ICON)--Add
@@ -75,12 +78,12 @@ local warnShatteredSoul						= mod:NewTargetAnnounce(350034, 2)
 local warnSlothfulCorruption				= mod:NewTargetNoFilterAnnounce(350713, 2, nil, "RemoveMagic")
 local warnSpreadingMisery					= mod:NewTargetAnnounce(351827, 2)
 
-local specWarnDesolationBeam				= mod:NewSpecialWarningMoveAway(358610, nil, nil, nil, 1, 2)
+local specWarnDesolationBeam				= mod:NewSpecialWarningMoveAway(358610, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellDesolationBeam					= mod:NewYell(358610)
 local yellDesolationBeamFades				= mod:NewShortFadesYell(358610)
-local specWarnShatteredSoul					= mod:NewSpecialWarningYou(350034, nil, nil, nil, 1, 2)--Debuff of Soul Shatter
-local specWarnSlothfulCorruption			= mod:NewSpecialWarningYou(350713, nil, nil, nil, 1, 2)
-local specWarnSpreadingMisery				= mod:NewSpecialWarningMoveAway(351827, nil, nil, nil, 1, 2)
+local specWarnShatteredSoul					= mod:NewSpecialWarningYou(350034, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Debuff of Soul Shatter
+local specWarnSlothfulCorruption			= mod:NewSpecialWarningYou(350713, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnSpreadingMisery				= mod:NewSpecialWarningMoveAway(351827, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellSpreadingMisery					= mod:NewYell(351827)
 local yellSpreadingMiseryFades				= mod:NewShortFadesYell(351827)
 local yellScornandIre						= mod:NewIconRepeatYell(355232)--Mythic

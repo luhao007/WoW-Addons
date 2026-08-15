@@ -3,6 +3,7 @@ local TardisInfo=addonTable.TardisInfo
 function TardisInfo.Plane(Activate)
 	if not PIGA["Tardis"]["Plane"]["Open"] then return end
 	local Create, Data, Fun, L= unpack(PIG)
+	local PlayerInfo=Data.PlayerInfo
 	local sub = _G.string.sub 
 	---------------------------
 	local PIGFrame=Create.PIGFrame
@@ -17,7 +18,6 @@ function TardisInfo.Plane(Activate)
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
 	local InvF=_G[GnUI]
 	local pindao,hang_Height,hang_NUM,xuanzhongBG=InvF.pindao,InvF.hang_Height,InvF.hang_NUM,InvF.xuanzhongBG
-	local GetPIGID=Fun.GetPIGID
 	local gnindexID=4
 	local GetInfoMsg=Data.Tardis.GetMsg[gnindexID]
 	local shenqingMSG_T = Data.Tardis.SqMsg[gnindexID]
@@ -25,7 +25,7 @@ function TardisInfo.Plane(Activate)
 	local qianzhui=Data.Tardis.qianzhui[gnindexID]
 	local shenqingMSG = shenqingMSG_T..shenqingMSG_V;
 	-----
-	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_PLANE"],80,"Bot")
+	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_PLANE"],80)
 	if Activate then fujiF:Show() fujiTabBut:Selected(true) end
 	-----------------
 	fujiF.ZJbiaoti = PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-8},"你的位面:");
@@ -61,7 +61,6 @@ function TardisInfo.Plane(Activate)
 				return 
 			end
 			InvF:PIGSendAddonMsg("Plane",fujiF,gnindexID)
-			self:CZdaojishi()
 		end
 	end);
 	fujiF.GetBut.daojishiJG=PIGA["Tardis"]["Plane"]["DaojishiCD"]
@@ -91,7 +90,7 @@ function TardisInfo.Plane(Activate)
 			local DaojishiCD = PIGA["Tardis"]["Plane"]["AutoInviteCD"]
 			local shengyu = 86400-(GetServerTime()-DaojishiCD)
 			if shengyu>0 then
-				PIG_OptionsUI:ErrorMsg(L["TARDIS_PLANE"].."通道充能中...(剩余"..Fun.disp_time(shengyu).."分)","R")
+				PIGErrorMsg(L["TARDIS_PLANE"].."通道充能中...(剩余"..Fun.disp_time(shengyu).."分)","R")
 				self:SetChecked(false)
 				return 
 			end
@@ -134,8 +133,8 @@ function TardisInfo.Plane(Activate)
 		GameTooltip:Hide() 
 	end);
 	-------------
-	fujiF.nr=PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",4,-60})
-	fujiF.nr:SetPoint("BOTTOMRIGHT", fujiF, "BOTTOMRIGHT", -4, 4);
+	fujiF.nr=PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",0,-60})
+	fujiF.nr:SetPoint("BOTTOMRIGHT", fujiF, "BOTTOMRIGHT", 0, 0);
 	fujiF.nr:PIGSetBackdrop()
 	local biaotiName={{L["TARDIS_PLANE"],20},{"区域ID",90},{"玩家名(|cffFF80FF点击"..L["CHAT_WHISPER"].."|r)",220},{"位置",420},{"自动接受申请",620},{"操作",740}}
 	for i=1,#biaotiName do
@@ -330,9 +329,9 @@ function TardisInfo.Plane(Activate)
 	function fujiF.filtrateData()
 		fujiF.New_ZhuCzoneID = {};
 		fujiF.New_WMindexID = {};
-		for i=#PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm],1,-1 do
-			if type(PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm][i][1])=="string" then
-				table.remove(PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm],i)
+		for i=#PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm],1,-1 do
+			if type(PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm][i][1])=="string" then
+				table.remove(PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm],i)
 			end
 		end
 		local dqTime=GetServerTime()
@@ -347,12 +346,12 @@ function TardisInfo.Plane(Activate)
 				end
 			end
 			if #fujiF.New_ZhuCzoneID>0 then
-				PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=updateInfoList(PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm], fujiF.New_ZhuCzoneID)
+				PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm]=updateInfoList(PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm], fujiF.New_ZhuCzoneID)
 			end
 		end
 		--刷新存储的位面序列
-		for i=1,#PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm] do
-			table.insert(fujiF.New_WMindexID,PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm][i][1])
+		for i=1,#PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm] do
+			table.insert(fujiF.New_WMindexID,PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm][i][1])
 		end
 		fujiF.GetBut.err:SetText("");
 		local ZJExactly,ZJDQlayerID = findExactOrClosest(fujiF.New_WMindexID, fujiF.DQZoneID)
@@ -417,7 +416,7 @@ function TardisInfo.Plane(Activate)
 				end
 			end
 			if #fujiF.New_ZhuCzoneID>0 then
-				PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=updateInfoList(PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm], fujiF.New_ZhuCzoneID)
+				PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm]=updateInfoList(PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm], fujiF.New_ZhuCzoneID)
 			end
 			local ItemsData = fujiF.New_JieshouInfoList
 			local PlanesNum = #ItemsData;
@@ -485,13 +484,21 @@ function TardisInfo.Plane(Activate)
 		self:UpdateZoneID()
 	end);
 	function fujiF:UpdateZoneID()
-		if self.DQZoneID and self:IsShown() then
+		if not self:IsShown() then return end
+		if self.DQZoneID then
 			self.ZJZoneID:SetText(self.DQZoneID);
-			self.filtrateData()
+		else
+			self.ZJZoneID:SetText("点击NPC获取");
 		end
+		self.filtrateData()
 	end
 	-------
-	function fujiF:GetWeimianID()
+	function fujiF:GetWeimianID(qiehuan)
+		if qiehuan then
+			fujiF.JieshouInfoList={}
+			self.DQZoneID=nil
+			self:UpdateZoneID()
+		end
 		if UnitIsPlayer("target") then return end
 		local inInstance =IsInInstance()
 		if inInstance then return end
@@ -505,7 +512,7 @@ function TardisInfo.Plane(Activate)
 				if MapID then
 					self.WeimianInfo=self.DQZoneID.."^"..MapID
 					if IsMapIDzhucheng(MapID) then
-						local oldinfo = PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]
+						local oldinfo = PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm]
 						for x=1,#oldinfo do
 							if self.DQZoneID==oldinfo[x][1] then
 								return
@@ -545,7 +552,7 @@ function TardisInfo.Plane(Activate)
 	end
 	local function fasongBendiMsg(self,waname)
 		if not self.WeimianInfo then return end
-		if waname == PIG_OptionsUI.Name or waname == PIG_OptionsUI.AllName then return end
+		if waname == PlayerInfo.Name or waname == PlayerInfo.AllName then return end
 		if IsRestingInGroup() then
 			local kaiguanzhuangtai="Y^"
 			if PIGA["Tardis"]["Plane"]["AutoInvite"] then
@@ -566,8 +573,8 @@ function TardisInfo.Plane(Activate)
 	fujiF:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5,_,_,_,arg9)
 		--print(event, arg1, arg2, arg3, arg4, arg5,_,_,_,arg9)
 		if event=="PLAYER_ENTERING_WORLD" then
-			PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm] or {}
-			self:GetWeimianID()
+			PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm]=PIGA["Tardis"]["Plane"]["InfoList"][PlayerInfo.Realm] or {}
+			self:GetWeimianID(true)
 		elseif event=="PLAYER_TARGET_CHANGED" then
 			self:GetWeimianID()
 		elseif event=="CHAT_MSG_CHANNEL" then
@@ -589,7 +596,7 @@ function TardisInfo.Plane(Activate)
 								else
 									PIG_InviteUnit(arg5)
 									PIGA["Tardis"]["Plane"]["HelpNum"]=PIGA["Tardis"]["Plane"]["HelpNum"]+1
-									PIG_OptionsUI:ErrorMsg("功德+"..PIGA["Tardis"]["Plane"]["HelpNum"])
+									PIGErrorMsg("功德+"..PIGA["Tardis"]["Plane"]["HelpNum"])
 								end
 							end
 						end

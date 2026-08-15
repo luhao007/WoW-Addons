@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2342, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(145261)
 mod:SetEncounterID(2271)
@@ -45,34 +45,34 @@ local warnPhase2						= mod:NewPhaseAnnounce(2, 2)
 local warnLiquidGold					= mod:NewTargetAnnounce(287072, 2)
 
 --The Zandalari Crown Jewels
-local specWarnGrosslyIncandescent		= mod:NewSpecialWarningYou(284798, nil, nil, nil, 1, 2)
+local specWarnGrosslyIncandescent		= mod:NewSpecialWarningYou(284798, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellGrosslyIncandescent			= mod:NewYell(284798)
 --Stage One: Raiding The Vault
 ----General
-local specWarnCrush						= mod:NewSpecialWarningDodge(283606, nil, nil, nil, 2, 2)
-local specWarnChaoticDisplacement		= mod:NewSpecialWarningYou(289383, nil, nil, nil, 3, 2, 4)
+local specWarnCrush						= mod:NewSpecialWarningDodge(283606, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnChaoticDisplacement		= mod:NewSpecialWarningYou(289383, nil, nil, nil, 3, 2, 4, nil, "targetyou")
 local yellChaoticDisplacement			= mod:NewYell(289383, nil, false)
 ----The Hand of In'zashi
-local specWarnVolatileCharge			= mod:NewSpecialWarningMoveAway(283507, nil, nil, nil, 1, 2)
+local specWarnVolatileCharge			= mod:NewSpecialWarningMoveAway(283507, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellVolatileCharge				= mod:NewYell(283507)
 local yellVolatileChargeFade			= mod:NewFadesYell(283507)
 ----Yalat's Bulwark
-local specWarnFlamesofPunishment		= mod:NewSpecialWarningDodge(282939, nil, nil, nil, 2, 8)
+local specWarnFlamesofPunishment		= mod:NewSpecialWarningDodge(282939, nil, nil, nil, 2, 8, nil, nil, "behindboss")
 ----Traps
-local specWarnHexofLethargy				= mod:NewSpecialWarningYou(284470, nil, nil, nil, 1, 2)
+local specWarnHexofLethargy				= mod:NewSpecialWarningYou(284470, nil, nil, nil, 1, 2, nil, nil, "stopmove")
 local yellHexofLethargy					= mod:NewYell(284470)
 local yellHexofLethargyFade				= mod:NewFadesYell(284470)
 --Stage Two: Toppling the Guardian
-local specWarnLiquidGold				= mod:NewSpecialWarningMoveAway(287072, nil, nil, nil, 1, 2)
+local specWarnLiquidGold				= mod:NewSpecialWarningMoveAway(287072, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellLiquidGold					= mod:NewYell(287072)
 local yellLiquidGoldFade				= mod:NewFadesYell(287072)
-local specWarnSpiritsofGold				= mod:NewSpecialWarningSwitch(285995, "Dps", nil, nil, 1, 2)
-local specWarnCoinShower				= mod:NewSpecialWarningMoveTo(285014, "-Tank", nil, 2, 1, 2)
+local specWarnSpiritsofGold				= mod:NewSpecialWarningSwitch(285995, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnCoinShower				= mod:NewSpecialWarningMoveTo(285014, "-Tank", nil, 2, 1, 2, nil, nil, "gathershare")
 local yellCoinShower					= mod:NewYell(285014, nil, nil, nil, "YELL")
 local yellCoinShowerFade				= mod:NewFadesYell(285014, nil, nil, nil, "YELL")
-local specWarnWailofGreed				= mod:NewSpecialWarningCount(284941, nil, nil, nil, 2, 2)
-local specWarnCoinSweep					= mod:NewSpecialWarningTaunt(287037, nil, nil, nil, 1, 2)
-local specWarnSurgingGold				= mod:NewSpecialWarningDodge(289155, nil, nil, nil, 2, 2)
+local specWarnWailofGreed				= mod:NewSpecialWarningCount(284941, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnCoinSweep					= mod:NewSpecialWarningTaunt(287037, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnSurgingGold				= mod:NewSpecialWarningDodge(289155, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
 --General

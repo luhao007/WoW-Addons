@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2352, "DBM-Raids-BfA", 2, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(151881)
 mod:SetEncounterID(2298)
@@ -41,28 +41,28 @@ local warnCrushingReverb				= mod:NewCastAnnounce(295332, 2, nil, nil, "Melee")
 
 local yellRimefrostFades				= mod:NewIconFadesYell(300701)
 local yellSepticTaintFades				= mod:NewIconFadesYell(300705)
-local specWarnFrostMark					= mod:NewSpecialWarningYouPos(294711, nil, nil, nil, 1, 9)--voice 9
-local specWarnToxicMark					= mod:NewSpecialWarningYouPos(294715, nil, nil, nil, 1, 9)--voice 9
+local specWarnFrostMark					= mod:NewSpecialWarningYouPos(294711, nil, nil, nil, 1, 9, nil, nil, "frost")--voice 9
+local specWarnToxicMark					= mod:NewSpecialWarningYouPos(294715, nil, nil, nil, 1, 9, nil, nil, "toxic")--voice 9
 local yellMark							= mod:NewPosYell(294726, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION, true, 2)
-local specWarnFrozenBlood				= mod:NewSpecialWarningKeepMove(295795, nil, nil, nil, 1, 2)
-local specWarnVenomousBlood				= mod:NewSpecialWarningStopMove(295796, nil, nil, nil, 1, 2)
-local specWarnOverwhelmingBarrage		= mod:NewSpecialWarningDodge(296551, nil, nil, nil, 3, 2)
-local specWarnOverflowingChill			= mod:NewSpecialWarningMoveAway(295348, nil, nil, nil, 1, 2)
+local specWarnFrozenBlood				= mod:NewSpecialWarningKeepMove(295795, nil, nil, nil, 1, 2, nil, nil, "keepmove")
+local specWarnVenomousBlood				= mod:NewSpecialWarningStopMove(295796, nil, nil, nil, 1, 2, nil, nil, "stopmove")
+local specWarnOverwhelmingBarrage		= mod:NewSpecialWarningDodge(296551, nil, nil, nil, 3, 2, nil, nil, "aesoon")
+local specWarnOverflowingChill			= mod:NewSpecialWarningMoveAway(295348, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellOverflowingChill				= mod:NewShortPosYell(295348)
 local yellOverflowingChillFades			= mod:NewIconFadesYell(295348)
-local specWarnOverflowingVenom			= mod:NewSpecialWarningMoveAway(295421, nil, nil, nil, 1, 2)
+local specWarnOverflowingVenom			= mod:NewSpecialWarningMoveAway(295421, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellOverflowingVenom				= mod:NewShortPosYell(295421)
 local yellOverflowingVenomFades			= mod:NewIconFadesYell(295421)
-local specWarnInversion					= mod:NewSpecialWarningMoveAway(295791, nil, nil, nil, 3, 2)
-local specWarnInversionSicknessFrost	= mod:NewSpecialWarningYou(300882, nil, nil, nil, 1, 2)--Separate warning in case user wants to customize sound based on type
-local specWarnInversionSicknessToxic	= mod:NewSpecialWarningYou(300883, nil, nil, nil, 1, 2)--Separate warning in case user wants to customize sound based on type
+local specWarnInversion					= mod:NewSpecialWarningMoveAway(295791, nil, nil, nil, 3, 2, nil, nil, "scatter")
+local specWarnInversionSicknessFrost	= mod:NewSpecialWarningYou(300882, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Separate warning in case user wants to customize sound based on type
+local specWarnInversionSicknessToxic	= mod:NewSpecialWarningYou(300883, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Separate warning in case user wants to customize sound based on type
 local yellInversionSickness				= mod:NewYell(300882)
 local yellInversionSicknessFades		= mod:NewIconFadesYell(300882)
-local specWarnFrostJav					= mod:NewSpecialWarningYou(295606, nil, nil, nil, 1, 2)
+local specWarnFrostJav					= mod:NewSpecialWarningYou(295606, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellFrostJav						= mod:NewShortPosYell(295606)
-local specWarnToxicJav					= mod:NewSpecialWarningYou(295607, nil, nil, nil, 1, 2)
+local specWarnToxicJav					= mod:NewSpecialWarningYou(295607, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellToxicJav						= mod:NewShortPosYell(295607)
-local specWarnGTFO						= mod:NewSpecialWarningGTFO(300961, nil, nil, nil, 1, 8)
+local specWarnGTFO						= mod:NewSpecialWarningGTFO(300961, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerCrushingReverbCD				= mod:NewCDTimer(22.3, 295332, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, mod:IsMelee() and 2 or nil, 4)
 local timerOverwhelmingBarrageCD		= mod:NewCDTimer(40, 296551, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 4)

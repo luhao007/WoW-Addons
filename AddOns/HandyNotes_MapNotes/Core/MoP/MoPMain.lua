@@ -886,7 +886,7 @@ local function setWaypoint(uiMapID, coord)
     return x, y
   end
 
-  if IsAddOnLoaded("TomTom") and TomTom and type(TomTom.AddWaypoint) == "function" then
+  if TomTom and type(TomTom.AddWaypoint) == "function" then
     local x, y = getCoordinatesForTomTom(coord)
 
     local mnIDName = dungeon.mnID and getMNIDName(dungeon.mnID) or nil

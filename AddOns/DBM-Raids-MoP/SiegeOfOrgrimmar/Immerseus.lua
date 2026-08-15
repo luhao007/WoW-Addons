@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(852, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260523022011")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(71543)
 mod:SetEncounterID(1602)
@@ -15,31 +19,29 @@ mod:RegisterKill("yell", L.Victory)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 143436 143309",
-	"SPELL_AURA_APPLIED 143459 143524 143297 143574",
+	"SPELL_AURA_APPLIED 143459 143524 143297",
 	"SPELL_AURA_APPLIED_DOSE 143459 143524",
-	"SPELL_AURA_REMOVED 143459 143524 143574",
+	"SPELL_AURA_REMOVED 143459 143524",
 	"SPELL_PERIODIC_DAMAGE 143297",
 	"SPELL_PERIODIC_MISSED 143297",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
 	"CHAT_MSG_RAID_BOSS_EMOTE"
 )
 
-local warnSplit							= mod:NewSpellAnnounce(143020, 2, nil, false)--Blizzard ones are loud enough
-local warnReform						= mod:NewSpellAnnounce(143469, 2, nil, false)--These are redundant, but some DO like them for the DBM sound vs blizz one so not completely removed
-local warnSwellingCorruptionCast		= mod:NewSpellAnnounce(143578, 2, 143574)--Heroic (this is the boss spellcast trigger spell NOT personal debuff warning)
+local warnSplit							= mod:NewSpellAnnounce(143020, 2)--Blizzard ones are loud enough
+local warnReform						= mod:NewSpellAnnounce(143469, 2)--These are redundant, but some DO like them for the DBM sound vs blizz one so not completely removed
+local warnSwellingCorruptionCast		= mod:NewSpellAnnounce(143574, 2)--Heroic (this is the boss spellcast trigger spell NOT personal debuff warning)
 
-local specWarnBreath					= mod:NewSpecialWarningSpell(143436, "Tank|Healer", nil, nil, 1, 2)
-local specWarnShaSplash					= mod:NewSpecialWarningMove(143297, nil, nil, nil, 1, 2)
-local specWarnSwirl						= mod:NewSpecialWarningSpell(143309, nil, nil, nil, 2, 2)
-local specWarnSwellingCorruptionTarget	= mod:NewSpecialWarningTarget(143578, false)
-local specWarnSwellingCorruptionFades	= mod:NewSpecialWarningFades(143578, false)
+local specWarnBreath					= mod:NewSpecialWarningSpell(143436, "Tank|Healer", nil, nil, 1, 2, nil, nil, "breathsoon")
+local specWarnShaSplash					= mod:NewSpecialWarningMove(143297, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnSwirl						= mod:NewSpecialWarningSpell(143309, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 local timerBreathCD						= mod:NewCDTimer(35, 143436, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--35-65 second variation wtf?
 local timerSwirl						= mod:NewBuffActiveTimer(13, 143309)
 local timerSwirlCD						= mod:NewCDTimer(48.5, 143309, nil, nil, nil, 2)
 local timerShaResidue					= mod:NewBuffFadesTimer(10, 143459, nil, false)
 local timerPurifiedResidue				= mod:NewBuffFadesTimer(15, 143524, nil, false)
-local timerSwellingCorruptionCD			= mod:NewCDTimer(75, 143578, nil, nil, nil, 1, 143574)
+local timerSwellingCorruptionCD			= mod:NewCDTimer(75, 143574, nil, nil, nil, 1)
 
 local berserkTimer						= mod:NewBerserkTimer(605)
 
@@ -79,8 +81,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 143297 and args:IsPlayer() and self:AntiSpam(2, 1) and not self:IsTrivial() then
 		specWarnShaSplash:Show()
 		specWarnShaSplash:Play("runaway")
-	elseif spellId == 143574 then
-		specWarnSwellingCorruptionTarget:Show(args.destName)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -91,8 +91,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerShaResidue:Cancel()
 	elseif spellId == 143524 and args:IsPlayer() then
 		timerPurifiedResidue:Cancel()
-	elseif spellId == 143574 then
-		specWarnSwellingCorruptionFades:Show()
 	end
 end
 

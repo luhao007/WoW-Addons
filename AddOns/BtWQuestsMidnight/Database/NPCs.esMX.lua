@@ -150,6 +150,24 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [239810] = {
         name = "Alto exarca Turalyon",
     },
+    [239826] = {
+        name = "Alleria Brisaveloz",
+    },
+    [239828] = {
+        name = "Magíster Umbric",
+    },
+    [240255] = {
+        name = "Primera Arcanista Thalyssra",
+    },
+    [240295] = {
+        name = "Vereesa Brisaveloz",
+    },
+    [240302] = {
+        name = "Primera Arcanista Thalyssra",
+    },
+    [240334] = {
+        name = "Shandris Plumaluna",
+    },
     [240403] = {
         name = "Magíster Meledor",
     },
@@ -251,6 +269,12 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [244454] = {
         name = "Belath Hojalba",
+    },
+    [244699] = {
+        name = "Vereesa Brisaveloz",
+    },
+    [244701] = {
+        name = "Gran magíster Rommath",
     },
     [244929] = {
         name = "Décimo",
@@ -417,6 +441,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [250888] = {
         name = "Solwin Brillocostura",
     },
+    [250958] = {
+        name = "Senescal Ulen",
+    },
     [251891] = {
         name = "Espectro persistente",
     },
@@ -456,6 +483,15 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [253523] = {
         name = "Caballero Anais",
     },
+    [253651] = {
+        name = "Portavoz loa Kinduru",
+    },
+    [253805] = {
+        name = "Máscara amani encantada",
+    },
+    [253833] = {
+        name = "Máscara amani confundida",
+    },
     [253948] = {
         name = "Leona Pasoscuro",
     },
@@ -470,6 +506,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     },
     [254513] = {
         name = "Avizora de fallas Maella",
+    },
+    [254654] = {
+        name = "Primera Arcanista Thalyssra",
     },
     [254665] = {
         name = "Anciana Doru",
@@ -486,6 +525,9 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [255852] = {
         name = "Exploradora Zel'kanra",
     },
+    [256046] = {
+        name = "Primera Arcanista Thalyssra",
+    },
     [256206] = {
         name = "Abisario consciente",
     },
@@ -498,11 +540,29 @@ BtWQuestsDatabase:UpdateNPCsTable({
     [257092] = {
         name = "Viejo Teo'zan",
     },
+    [257298] = {
+        name = "Portavoz loa Yl'mul",
+    },
     [257384] = {
         name = "Magistrix abatida",
     },
     [257393] = {
         name = "Fern Sombrestrella",
+    },
+    [258755] = {
+        name = "Capitán Tokka",
+    },
+    [263327] = {
+        name = "Ofi, la Astuta",
+    },
+    [263618] = {
+        name = "Exploradora Oma'ema",
+    },
+    [265173] = {
+        name = "Kul'amara, la Feroz",
+    },
+    [271885] = {
+        name = "Mok'sa, la Piedra",
     },
 })
 ]])()

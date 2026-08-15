@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Janalai", "DBM-Raids-BC", 9)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(23578)
 mod:SetEncounterID(1191, 2484)
@@ -19,8 +19,8 @@ local warnFlame			= mod:NewTargetNoFilterAnnounce(43140, 3)
 local warnAddsSoon		= mod:NewSoonAnnounce(43962, 3)
 
 local specWarnAdds		= mod:NewSpecialWarningSpell(43962, "dps", nil, nil, 1, 2)
-local specWarnBomb		= mod:NewSpecialWarningDodge(42630, nil, nil, nil, 2, 2)
-local specWarnBreath	= mod:NewSpecialWarningYou(43140, nil, nil, nil, 1, 2)
+local specWarnBomb		= mod:NewSpecialWarningDodge(42630, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBreath	= mod:NewSpecialWarningYou(43140, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellFlamebreath	= mod:NewYell(43140)
 
 local timerBomb			= mod:NewCastTimer(12, 42630, nil, nil, nil, 3)--Cast bar?

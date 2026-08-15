@@ -1,5 +1,5 @@
-local addonName = ...
-local MDT = MDT
+local _, MDT = ...
+local addonName = MDT.AddonName
 local L = MDT.L
 local dungeonIndex = 154
 MDT.dungeonList[dungeonIndex] = L["MaisaraCaverns"]
@@ -9,7 +9,7 @@ MDT.mapInfo[dungeonIndex] = {
   englishName = "Maisara Caverns",
   mapID = 560
 };
-local zones = { 2501 }
+local zones = { 2437, 2501 }
 for _, zone in ipairs(zones) do
   MDT.zoneIdToDungeonIdx[zone] = dungeonIndex
 end
@@ -605,6 +605,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["level"] = 90,
     ["spells"] = {
       [1255964] = {
+        ["interruptible"] = true,
       },
       [1255966] = {
       },
@@ -1640,6 +1641,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [1256047] = {
       },
       [1256059] = {
+        ["bleed"] = true,
       },
     },
     ["clones"] = {
@@ -2428,13 +2430,11 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [9] = {
         ["x"] = 715.28632594435,
         ["y"] = -380.02957770262,
-        ["g"] = 91,
         ["sublevel"] = 1,
       },
       [10] = {
         ["x"] = 722.7490588534,
         ["y"] = -385.50210005185,
-        ["g"] = 91,
         ["sublevel"] = 1,
       },
       [11] = {
@@ -2890,7 +2890,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
   },
   [25] = {
-    ["name"] = "Zil'jan",
+    ["name"] = "Zaib'yan",
     ["id"] = 253458,
     ["count"] = 7,
     ["health"] = 607538,
@@ -2938,13 +2938,13 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["sublevel"] = 1,
       },
       [2] = {
-        ["x"] = 728.20820981006,
-        ["y"] = -456.22560216309,
+        ["x"] = 583.57469857946,
+        ["y"] = -476.3032643356,
         ["sublevel"] = 1,
       },
       [3] = {
-        ["x"] = 708.32189050146,
-        ["y"] = -451.50632865555,
+        ["x"] = 565.91911242856,
+        ["y"] = -477.5329246162,
         ["sublevel"] = 1,
       },
       [4] = {

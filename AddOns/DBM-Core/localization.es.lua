@@ -2,6 +2,7 @@ if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 if not DBM_CORE_L then DBM_CORE_L = {} end
 
 local L = DBM_CORE_L
+L.AURA_FONT_RESET = "Se detectaron configuraciones de fuente de texto de aura no válidas y se restablecieron a los valores predeterminados."
 
 local dateTable = date("*t")
 if dateTable.day and dateTable.month and dateTable.day == 1 and dateTable.month == 4 then
@@ -11,7 +12,7 @@ end
 
 L.HOW_TO_USE_MOD			= "Bienvenido a " .. L.DBM .. ". Escribe '/dbm help' para ver la lista de comandos. Para acceder a la configuración no tienes más que escribir '/dbm'."
 L.SILENT_REMINDER			= "Recordatorio: " .. L.DBM .. " sigue en modo silencioso."
-L.NEWS_UPDATE				= "|h|c11ff1111Noticias|r|h: Esta actualización cambia la estructura del módulo para que ahora el clásico y el juego principal utilizan módulos unificados (iguales). Esto significa que los módulos de Vanilla, TBC, Wrath y Cata ahora se instalan por separado utilizando los mismos paquetes que el juego original. Lee más al respecto |Hgarrmission:DBM:news|h|cff3588ff[aquí]|r|h"
+L.NEWS_UPDATE				= "|h|c11ff1111Noticias|r|h: DBM se ha actualizado con la función para renombrar habilidades. Escribe /dbm, ve a la categoría de módulos (bandas, mazmorras, etc.) y entra en el módulo en el que quieras renombrar habilidades."
 L.NEWS_UPDATE_REPEAT 		= "|h|c11ff1111Noticias|r|h: Esta actualización cambia la estructura del módulo para que ahora el clásico y el juego principal utilizan módulos unificados (iguales). Esto significa que los módulos de Vanilla, TBC, Wrath y Cata ahora se instalan por separado utilizando los mismos paquetes que el juego original. Actualmente estás en una banda que tiene un módulo faltante. Este mensaje seguirá apareciendo (y no tendrás anuncios funcionales para esta zona) hasta que hayas instalado el módulo de banda faltante."
 
 L.COPY_URL_DIALOG_NEWS		= "Para leer las últimas noticias, visita el enlace a continuación"
@@ -29,7 +30,7 @@ L.LOAD_MOD_DISABLED			= "%s está instalado pero se encuentra desactivado. Este 
 L.LOAD_MOD_DISABLED_PLURAL	= "%s están instalados pero se encuentran desactivados. Estos módulos no se cargarán hasta que los actives."
 
 L.COPY_URL_DIALOG			= "Copiar enlace"
-L.COPY_WA_DIALOG			= "Copiar clave WA"
+L.COPY_WA_DIALOG			= "Copiar clave de hechizo"
 
 --Post Patch 7.1
 L.TEXT_ONLY_RANGE			= "El marco de distancia está limitado a texto únicamente debido a restricciones de API en esta área."
@@ -57,8 +58,8 @@ L.SCENARIO_STARTED				= "%s iniciado. ¡Buena suerte!"
 L.SCENARIO_STARTED_IN_PROGRESS	= "Te has unido a %s mientras estaba en curso. ¡Buena suerte!"
 L.BOSS_DOWN						= "¡%s ha sido derrotado en %s!"
 L.BOSS_DOWN_I					= "¡%s ha sido derrotado! Tienes %d |4victoria:victorias; en total."
-L.BOSS_DOWN_L					= "¡%s ha sido derrotado en %s! Tu última victoria fue en %s, y tu récord actual es %s. Tienes %d victorias en total."
-L.BOSS_DOWN_NR					= "¡%s ha sido derrotado en %s! ¡Es un nuevo récord! (El anterior era %s). Tienes %d victorias en total."
+L.BOSS_DOWN_L					= "¡%s ha sido derrotado en %s! Tu última victoria fue en %s, y tu récord actual es %s. Tienes %d |4victoria:victorias; en total."
+L.BOSS_DOWN_NR					= "¡%s ha sido derrotado en %s! ¡Es un nuevo récord! (El anterior era %s). Tienes %d |4victoria:victorias; en total."
 L.RAID_DOWN						= "¡%s ha sido completado en %s!"
 L.RAID_DOWN_L					= "¡%s ha sido completado en %s! Tu récord actual es %s."
 L.RAID_DOWN_NR					= "¡%s ha sido completado en %s! ¡Es un nuevo récord! (El anterior era %s)."
@@ -90,7 +91,7 @@ L.LEAVING_COMBAT			= "Saliendo del combate"
 L.RAID_DIFFICULTY_CHANGED		= "La dificultad de la banda se ha establecido en %s."
 L.DUNGEON_DIFFICULTY_CHANGED	= "La dificultad de la mazmorra se ha establecido en %s."
 
-L.PROFILE_NOT_FOUND				= "<" .. L.DBM .. "> Tu perfil actual está corrupto. " .. L.DBM .. " cargará el perfil 'Predeterminado'."
+L.PROFILE_NOT_FOUND				= "<" .. L.DBM .. "> Tu perfil actual está corrupto. " .. L.DBM .. " cargará el perfil '%s'."
 L.PROFILE_CREATED				= "Se ha creado el perfil '%s'."
 L.PROFILE_CREATE_ERROR			= "No se ha podido crear el perfil. El nombre del perfil no es válido."
 L.PROFILE_CREATE_ERROR_D		= "No se ha podido crear el perfil. Ya existe un perfil llamado '%s'."
@@ -99,9 +100,9 @@ L.PROFILE_APPLY_ERROR			= "No se ha podido cambiar de perfil. El perfil '%s' no 
 L.PROFILE_COPIED				= "Se ha copiado el perfil '%s'."
 L.PROFILE_COPY_ERROR			= "No se ha podido copiar el perfil. El perfil '%s' no existe."
 L.PROFILE_COPY_ERROR_SELF		= "No se puede copiar un perfil a sí mismo."
-L.PROFILE_DELETED				= "Se ha borrado el perfil '%s'. " .. L.DBM .. " cambiará ahora al perfil 'Predeterminado'."
+L.PROFILE_DELETED				= "Se ha borrado el perfil '%s'. " .. L.DBM .. " cambiará ahora al perfil '%s'."
 L.PROFILE_DELETE_ERROR			= "No se ha podido borrar el perfil. El perfil '%s' no existe."
-L.PROFILE_CANNOT_DELETE			= "No se puede borrar el perfil 'Predeterminado'."
+L.PROFILE_CANNOT_DELETE			= "No se puede borrar el perfil '%s'."
 L.MPROFILE_COPY_SUCCESS			= "Se ha copiado la configuración de módulo de %s (especialización %d)."
 L.MPROFILE_COPY_SELF_ERROR		= "No se puede copiar una configuración de personaje a sí misma."
 L.MPROFILE_COPY_S_ERROR			= "La configuración de origen está corrupta. Es posible que la configuración se haya copiado a medias o haya fallado por completo."
@@ -126,7 +127,7 @@ L.NOTESHAREERRORGROUPFINDER	= "No se puede compartir notas en campos de batalla,
 L.NOTESHAREERRORALREADYOPEN	= "No se puede abrir notas compartidas con el editor de notas ya abierto."
 
 L.ALLMOD_DEFAULT_LOADED		= "Se han cargado las opciones predeterminadas de todos los módulos de esta estancia."
-L.ALLMOD_STATS_RESETED		= "Se han restablecido todas las estadísticas de este módulo."
+L.ALLMOD_STATS_RESETED		= "Se han restablecido todas las estadísticas de módulos."
 L.MOD_DEFAULT_LOADED		= "Se han cargado las opciones predeterminadas de este encuentro."
 
 L.WORLDBOSS_ENGAGED			= "Es posible que el encuentro de %s se haya iniciado en tu reino a %s de su salud máxima. (Enviado por %s.)"
@@ -163,7 +164,7 @@ L.OPTION_CATEGORY_DROPDOWNS			= "Menús desplegables"
 L.OPTION_CATEGORY_YELLS				= "Gritos"
 L.OPTION_CATEGORY_NAMEPLATES		= "Placas de nombre"
 L.OPTION_CATEGORY_ICONS				= "Iconos"
-L.OPTION_CATEGORY_PAURAS			= "Auras privadas"
+L.OPTION_CATEGORY_PAURAS			= "Auras"
 
 L.AUTO_RESPONDED					= "Respondido automáticamente."
 L.STATUS_WHISPER					= "%s: %s, %d/%d jugadores vivos."
@@ -180,20 +181,21 @@ L.WHISPER_SCENARIO_END_KILL_STATS	= "¡%s ha completado %s! Tiene %d victorias e
 L.WHISPER_SCENARIO_END_WIPE			= "%s no ha completado %s."
 L.WHISPER_SCENARIO_END_WIPE_STATS	= "%s no ha completado %s. Lo ha intentado sin éxito %d veces en total en esta dificultad."
 
-L.DUNGEONS					= "Mazmorras: "--prefix for dungeons version check
-L.VERSIONCHECK_HEADER		= "Módulos de jefe - Versiones"
-L.VERSIONCHECK_ENTRY		= "%s: %s (r%d)"--One Boss mod
-L.VERSIONCHECK_ENTRY_TWO	= "%s: %s (r%d) y %s (r%d)"--Two Boss mods
-L.VERSIONCHECK_ENTRY_NO_DBM	= "%s: Sin instalar"
-L.VERSIONCHECK_FOOTER		= "Se ha encontrado %d jugador(es) con " .. L.DBM .. " y %d jugador(es) con BigWigs."
-L.VERSIONCHECK_OUTDATED		= "Los siguientes %d jugadores tienen una versión desactualizada de " .. L.DBM .. ": %s"
-L.YOUR_VERSION_OUTDATED		= "Tu versión de " .. L.DEADLY_BOSS_MODS .. " está desactualizada. Por favor, descarga la última versión a través de Curse, Wago, Github o WoWInterface."
-L.VOICE_PACK_OUTDATED		= "A este paquete de voces le faltan sonidos compatibles con esta versión de " .. L.DBM .. ". No se sustituirán los sonidos de anuncios especiales que no tengan un sustituto. Por favor, descarga una versión más reciente del paquete de voces o contacta con el autor para informarle sobre los archivos de sonido que faltan."
-L.VOICE_MISSING				= "Tenías seleccionado un paquete de voces que no se ha podido encontrar. Se ha restablecido tu selección a 'Ninguno'. Si crees que se trata de un error, asegúrate de que el paquete de voces esté instalado correctamente y activado en la lista de addons."
-L.VOICE_DISABLED			= "Tienes al menos un paquete de voces de " .. L.DBM .. " instalado, pero ninguno está activado. Si quieres usar un paquete de voces, asegúrate de que lo has asignado en 'Alertas de voz'. Desinstala los paquetes de voces que no estés utilizando para ocultar este mensaje."
-L.VOICE_COUNT_MISSING		= "La voz de cuenta atrás %d está asignada a un paquete de voces que no se ha podido encontrar o que no es compatible actualmente. Se ha restablecido a la configuración predeterminada: %s."
-L.BIG_WIGS					= "BigWigs"
-L.WEAKAURA_KEY				= " (|cff308530Clave WA:|r %s)"
+L.DUNGEONS							= "Mazmorras: "--prefix for dungeons version check
+L.VERSIONCHECK_HEADER				= "Módulos de jefe - Versiones"
+L.VERSIONCHECK_ENTRY				= "%s: %s (r%d)"--One Boss mod
+L.VERSIONCHECK_ENTRY_TWO			= "%s: %s (r%d) y %s (r%d)"--Two Boss mods
+L.VERSIONCHECK_ENTRY_NO_DBM			= "%s: Sin instalar"
+L.VERSIONCHECK_FOOTER				= "Se ha encontrado %d |4jugador;jugadores con " .. L.DBM .. " y %d |4jugador;jugadores con BigWigs."
+L.VERSIONCHECK_OUTDATED				= "Los siguientes %d jugadores tienen una versión desactualizada de " .. L.DBM .. ": %s"
+L.YOUR_VERSION_OUTDATED				= "Tu versión de " .. L.DEADLY_BOSS_MODS .. " está desactualizada. Por favor, descarga la última versión a través de Curse, Wago, Github o WoWInterface."
+L.VOICE_PACK_OUTDATED				= "A este paquete de voces le faltan sonidos compatibles con esta versión de " .. L.DBM .. ". No se sustituirán los sonidos de anuncios especiales que no tengan un sustituto. Por favor, descarga una versión más reciente del paquete de voces o contacta con el autor para informarle sobre los archivos de sonido que faltan."
+L.VOICE_MISSING						= "Tienes seleccionado un paquete de voces que no se ha podido encontrar. Se ha restablecido tu selección a 'Ninguno'. Si crees que se trata de un error, asegúrate de que el paquete de voces esté instalado correctamente y activado en la lista de addons."
+L.VOICE_DISABLED					= "Tienes al menos un paquete de voces de " .. L.DBM .. " instalado, pero ninguno está activado. Si quieres usar un paquete de voces, asegúrate de que lo has asignado en 'Alertas de voz'. Desinstala los paquetes de voces que no estés utilizando para ocultar este mensaje."
+L.VOICE_COUNT_MISSING				= "La voz de cuenta atrás %d está asignada a un paquete de voces que no se ha podido encontrar o que no es compatible actualmente. Se ha restablecido a la configuración predeterminada: %s."
+L.BIG_WIGS							= "BigWigs"
+L.WEAKAURA_KEY						= " (|cff308530ID:|r %s)"
+L.RENAME							= " (|cff359030Renombres:|r |cff71d5ff%s|r)"
 
 L.UPDATEREMINDER_HEADER				= "Tu versión de " .. L.DEADLY_BOSS_MODS .. " está desactualizada.\nPuedes descargar la versión %s (%s) a través de Curse, Wago, Github o WoWInterface."
 L.UPDATEREMINDER_HEADER_SUBMODULE	= "Tu módulo de %s está desactualizada.\nPuedes descargar la versión %s a través de Curse, Wago, Github o WoWInterface."
@@ -221,7 +223,7 @@ L.HARDCODED_FALLBACK					= L.DBM .. " ha detectado un resultado inesperado en un
 L.MOVABLE_BAR					= "¡Muéveme!"
 L.MOVABLE_FRAMES 				= "Marcos arrastrables"
 
-L.PIZZA_SYNC_INFO				= "|Hplayer:%1$s|h[%1$s]|h ha compartido un temporizador de " .. L.DBM .. ": '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[Cancelar este temporizador]|r|h |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignorar temporizadores de %1$s]|r|h"
+L.PIZZA_SYNC_INFO				= "|Hplayer:%1$s|h[%1$s]|h ha compartido un temporizador de " .. L.DBM .. ": '%2$s'\n|Haddon:DBM:cancel:%2$s:nil|h|cff3588ff[Cancelar este temporizador]|r|h |Haddon:DBM:ignore:%2$s:%1$s|h|cff3588ff[Ignorar temporizadores de %1$s]|r|h"
 L.PIZZA_CONFIRM_IGNORE			= "¿Seguro que quieres ignorar los temporizadores de %s para esta sesión?"
 L.PIZZA_ERROR_USAGE				= "Uso: /dbm [broadcast] timer <seg> <texto>. <seg> debe ser mayor que 1."
 
@@ -255,6 +257,7 @@ L.INFOFRAME_TITLE			= "Marco de info."
 L.INFOFRAME_SHOW_SELF		= "Mostrar siempre tu información"	-- Always show your own power value even if you are below the threshold
 L.INFOFRAME_SETLINES		= "Líneas máximas"
 L.INFOFRAME_SETCOLS			= "Columnas máximas"
+L.INFOFRAME_SETSTRATA		= "Estrato del marco"
 L.INFOFRAME_LINESDEFAULT	= "Establecido por módulo"
 L.INFOFRAME_LINES_TO		= "%d líneas"
 L.INFOFRAME_COLS_TO			= "%d columnas"
@@ -288,8 +291,13 @@ L.SLASHCMD_HELP2						= {--AI translated (check me)
 	"/range <número> o /distance <número>: Muestra el marco de rango. /rrange o /rdistance para invertir colores.",
 	"/hudar <número>: Muestra un buscador de rango basado en HUD.",
 	"/dbm arrow: Muestra la flecha de " .. L.DBM .. ", consulta '/dbm arrow help' para más detalles.",
-	"/dbm hud: Muestra el HUD de " .. L.DBM .. ", consulta '/dbm hud' para más detalles."
+	"/dbm hud: Muestra el HUD de " .. L.DBM .. ", consulta '/dbm hud' para más detalles.",
+	"/dbm dbtdebug: Muestra diagnósticos de barras de tiempo depurados para informes de errores."
 }
+L.DBT_DEBUG_HEADER			= "Diagnósticos de DBT (depurados; sin texto de encuentro ni secreto)"
+L.DBT_DEBUG_EMPTY			= "No se han capturado actualizaciones de estilo de DBT desde que se recargó la interfaz."
+L.DBT_DEBUG_DISABLED			= "La captura está desactivada. Activa el modo de depuración de DBM antes de reproducir el problema."
+L.DBT_DEBUG_NOTICE			= "Incluye esta salida del chat en tu informe de error."
 L.TIMER_USAGE	= {
 	L.DBM .. " Comandos de temporizador:",
 	"-----------------",
@@ -329,11 +337,12 @@ L.AUTO_ANNOUNCE_TEXTS.targetsource	= "%s de >%%s< en >%%s<"
 L.AUTO_ANNOUNCE_TEXTS.targetcount	= "%s (%%s) en >%%s<"
 L.AUTO_ANNOUNCE_TEXTS.blizztarget	= "%s (%%s) en %%s"
 L.AUTO_ANNOUNCE_TEXTS.spell			= "%s"
-L.AUTO_ANNOUNCE_TEXTS.incoming		= "%s perjuicio entrate"
+L.AUTO_ANNOUNCE_TEXTS.incoming		= "%s perjuicio entrante"
 L.AUTO_ANNOUNCE_TEXTS.incomingcount	= "%s perjuicio entrante (%%s)"
 L.AUTO_ANNOUNCE_TEXTS.ends 			= "%s ha terminado"
 L.AUTO_ANNOUNCE_TEXTS.endtarget		= "%s ha terminado: >%%s<"
 L.AUTO_ANNOUNCE_TEXTS.fades			= "%s se ha desvanecido"
+L.AUTO_ANNOUNCE_TEXTS.fadesoon		= "%s se desvanece en breve"
 L.AUTO_ANNOUNCE_TEXTS.addsleft		= "%s restantes: %%d"
 L.AUTO_ANNOUNCE_TEXTS.cast			= "Lanzando %s en %.1f s"
 L.AUTO_ANNOUNCE_TEXTS.soon			= "%s en breve"
@@ -361,6 +370,7 @@ L.AUTO_ANNOUNCE_OPTIONS.incomingcount	= "Mostrar anuncio cuando $spell:%s tiene 
 L.AUTO_ANNOUNCE_OPTIONS.ends			= "Mostrar anuncio cuando $spell:%s termine"
 L.AUTO_ANNOUNCE_OPTIONS.endtarget		= "Mostrar anuncio cuando $spell:%s termine"
 L.AUTO_ANNOUNCE_OPTIONS.fades			= "Mostrar anuncio cuando $spell:%s se desvanezca"
+L.AUTO_ANNOUNCE_OPTIONS.fadesoon		= "Mostrar anuncio anticipado para cuando $spell:%s se desvanezca"
 L.AUTO_ANNOUNCE_OPTIONS.addsleft		= "Mostrar anuncio para el número de $spell:%s restantes"
 L.AUTO_ANNOUNCE_OPTIONS.cast			= "Mostrar anuncio cuando $spell:%s comience a lanzarse"
 L.AUTO_ANNOUNCE_OPTIONS.soon			= prewarnOption
@@ -397,6 +407,7 @@ L.AUTO_SPEC_WARN_TEXTS.blizzyou		= "%s (%%s) en ti"
 L.AUTO_SPEC_WARN_TEXTS.link			= "%s vinculado con >%%s<"
 L.AUTO_SPEC_WARN_TEXTS.defensive	= "%s - ¡Facultad defensiva ahora!"
 L.AUTO_SPEC_WARN_TEXTS.taunt		= "%s en >%%s< - ¡Provoca ahora!"
+L.AUTO_SPEC_WARN_TEXTS.tauntsecret	= "%s en %%s - ¡Provoca ahora!"
 L.AUTO_SPEC_WARN_TEXTS.close		= "%s en >%%s< cerca de ti"
 L.AUTO_SPEC_WARN_TEXTS.move			= "%s - ¡Sal de ahí!"
 L.AUTO_SPEC_WARN_TEXTS.keepmove		= "%s - ¡No dejes de moverte!"
@@ -624,10 +635,10 @@ L.AUTO_INFO_FRAME_OPTION_TEXT2			= "Mostrar marco de información con una vista 
 L.AUTO_INFO_FRAME_OPTION_TEXT3			= "Mostrar marco de información para $spell:%s (cuando se alcanza el umbral de %%s)"
 L.AUTO_READY_CHECK_OPTION_TEXT			= "Reproducir sonido de comprobación de banda cuando se inicie el encuentro (aunque no lo tengas como objetivo)"
 L.AUTO_SPEEDCLEAR_OPTION_TEXT			= "Mostrar temporizador para el récord actual de completar esta zona"
-L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Reproducir alertas de sonido de auras privadas de DBM para $spell:%s en este encuentro"
-L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "Reproducir alertas de sonido de auras privadas de DBM cuando seas objetivo de $spell:%s"
-L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "Reproducir alertas de sonido de auras privadas de DBM cuando necesites alejarte de $spell:%s"
-L.AUTO_PRIVATEAURA_OPTION_POST_TEXT   	= "Reproducir alertas de sonido de auras privadas de DBM para efectos persistentes de $spell:%s."
+L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Reproducir alertas de sonido de DBM para $spell:%s en este encuentro"
+L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "Reproducir alertas de sonido de DBM cuando seas objetivo de $spell:%s"
+L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "Reproducir alertas de sonido de DBM cuando necesites alejarte de $spell:%s"
+L.AUTO_PRIVATEAURA_OPTION_POST_TEXT   	= "Reproducir alertas de sonido de DBM para efectos persistentes de $spell:%s."
 L.AUTO_CUSTOMTIMER_OPTION_TEXT        	= "Mostrar temporizador para $spell:%s"
 L.AUTO_CUSTOMALERT_OPTION_TEXT        	= "Establecer alerta sonora cuando $spell:%s esté a punto de ser lanzado"
 
@@ -638,7 +649,7 @@ L.MOVE_SPECIAL_WARNING_BAR	= "Aviso especial desplazable"
 L.MOVE_SPECIAL_WARNING_TEXT	= "Aviso especial"
 
 L.MOVE_PRIVATE_AURA_TEXT 		= "<valor secreto> te apunta con el hechizo <valor secreto>"
-L.MOVE_PRIVATE_AURA_DISABLED 	= "La vista previa está desactivada porque los marcos de auras privadas están desactivados globalmente en las opciones."
+L.MOVE_PRIVATE_AURA_DISABLED 	= "La vista previa está desactivada porque los marcos de auras están desactivados globalmente en las opciones."
 
 L.HUD_INVALID_TYPE			= "No se ha proporcionado un tipo de indicador en pantalla válido."
 L.HUD_INVALID_TARGET		= "No se ha proporcionado un objetivo válido."

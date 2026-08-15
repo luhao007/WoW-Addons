@@ -1,10 +1,12 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
+local addonName, PD = ...;
 local gsub = _G.string.gsub
 local match = _G.string.match
 ----
-local Fun=addonTable.Fun
-local Create=addonTable.Create
+local L=PD.locale
+local Data=PD.Data
+local Fun=PD.Fun
+local disp_time=Fun.disp_time
+local Create=PD.Create
 local PIGLine=Create.PIGLine
 local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
@@ -13,6 +15,8 @@ local PIGDownMenu=Create.PIGDownMenu
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGFontString=Create.PIGFontString
 local PIGOptionsList_R=Create.PIGOptionsList_R
+--
+local BusinessInfo=PD.BusinessInfo
 --------
 local function GetInstancesCD_1()
     local now = GetServerTime()
@@ -40,21 +44,21 @@ local function CDNextInterval(Interval,month, day, hour, unixTime)
     local remainingTime = nextIntervalEnd - unixTime
     return remainingTime
 end
-local BusinessInfo=addonTable.BusinessInfo
-local disp_time=Fun.disp_time
-function BusinessInfo.FBCD(StatsInfo)
-	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"副\n本",StatsInfo.butW,"Left")
+function BusinessInfo.FBCD(StatsUI)
+	PIGA["StatsInfo"]["FBCDRecords"][StatsUI.allname]=PIGA["StatsInfo"]["FBCDRecords"][StatsUI.allname] or {}
+	local fujiF,fujiTabBut=PIGOptionsList_R(StatsUI.F,INSTANCE,StatsUI.butW,"LeftH")
 	fujiF:Show()
 	fujiTabBut:Selected(true)
 	fujiF.CZdataBut = PIGDiyBut(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 10, -2},{17,17,nil,nil,"common-icon-undo"})
-	PIGEnter(fujiF.CZdataBut,"重置副本CD数据")
+	PIGEnter(fujiF.CZdataBut,L["TRADECHARDATA_FBCD1"])
 	fujiF.CZdataBut:SetScript("OnClick", function (self)
 		PIGA["StatsInfo"]["FBCDRecords"]={}
 		fujiF.Get_InstancesCD()
-		StatsInfo:Hide()
-		StatsInfo:Show()
+		StatsUI:Hide()
+		StatsUI:Show()
+		PIGErrorMsg(L["TRADECHARDATA_FBCD2"])
 	end);
-	local Tooltipx = {"","在"..addonName.."小地图按钮鼠标提示本页内容\n注意:为了节省性能开销，战斗中无效"}
+	local Tooltipx = {"",L["TRADECHARDATA_FBCD3"]}
 	fujiF.MinibutTisp = PIGCheckbutton(fujiF,{"LEFT",fujiF.CZdataBut,"RIGHT",4,0},Tooltipx,{14,14})
 	fujiF.MinibutTisp:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -65,8 +69,8 @@ function BusinessInfo.FBCD(StatsInfo)
 	end);
 	local OldMode = PIGA["StatsInfo"]["FBCDMode"]==2
 	if PIG_MaxTocversion(50000) then
-		local tisptxt="切换为%s记录模式？\n需要重载界面"
-		local tisptxt=PIGA["StatsInfo"]["FBCDMode"]==1 and string.format(tisptxt,"旧版") or string.format(tisptxt,"新版")
+		local tisptxt=L["TRADECHARDATA_FBMODETISP"]
+		local tisptxt=PIGA["StatsInfo"]["FBCDMode"]==1 and string.format(tisptxt,L["TRADECHARDATA_FBMODE1"]) or string.format(tisptxt,L["TRADECHARDATA_FBMODE2"])
 		fujiF.SetMode = PIGDiyBut(fujiF,{"LEFT",fujiF.MinibutTisp,"RIGHT",4,0},{17,17,nil,nil,"loottoast-arrow-orange"})
 		PIGEnter(fujiF.SetMode,tisptxt)
 		fujiF.SetMode:SetScript("OnClick", function ()
@@ -92,31 +96,34 @@ function BusinessInfo.FBCD(StatsInfo)
 		OldMode = true
 	end
 	----
-	local MiniMapBut=addonTable.Mapfun.MiniMapBut
 	fujiF.tispBG=PIGFrame(fujiF)
 	fujiF.tispBG:PIGSetBackdrop(1,1)
 	fujiF.tispBG:SetPoint("TOPLEFT",fujiF,"TOPLEFT",0,0);
 	fujiF.tispBG:SetPoint("BOTTOMRIGHT",fujiF,"BOTTOMRIGHT",0,0);
 	fujiF.tispBG:SetFrameLevel(fujiF.tispBG:GetFrameLevel()-1)
-	MiniMapBut:HookScript("OnEnter", function(self)
-		if InCombatLockdown() then return end
-		if not PIGA["StatsInfo"]["FBCDMinibutTisp"] then return end
-		local offsetWW = fujiF:GetWidth()
-		local offsetHH = fujiF:GetHeight()
-		fujiF:SetParent(MiniMapBut)
-		fujiF:ClearAllPoints();
-		fujiF:SetPoint("CENTER",UIParent,"CENTER",0,20);
-		fujiF:SetSize(offsetWW,offsetHH);
-		fujiF.tispBG:Show()
-	end);
-	MiniMapBut:HookScript("OnLeave", function()
-		if not PIGA["StatsInfo"]["FBCDMinibutTisp"] then return end
-		fujiF:SetParent(StatsInfo.F.Bot)
-		fujiF:ClearAllPoints();
-		fujiF:SetPoint("TOPLEFT",StatsInfo.F.Bot,"TOPLEFT",0,0);
-		fujiF:SetPoint("BOTTOMRIGHT",StatsInfo.F.Bot,"BOTTOMRIGHT",0,0);
-		fujiF.tispBG:Hide()
-	end);
+	local MiniMapBut=_G[Data.MiniMapButUIname]
+	if MiniMapBut then
+		MiniMapBut:HookScript("OnEnter", function(self)
+			if InCombatLockdown() then return end
+			if not PIGA["StatsInfo"]["FBCDMinibutTisp"] then return end
+			local offsetWW = fujiF:GetWidth()
+			local offsetHH = fujiF:GetHeight()
+			fujiF:SetParent(MiniMapBut)
+			fujiF:ClearAllPoints();
+			fujiF:SetPoint("CENTER",UIParent,"CENTER",0,20);
+			fujiF:SetSize(offsetWW,offsetHH);
+			fujiF.tispBG:Show()
+			fujiF:SetFrameLevel(99)
+		end);
+		MiniMapBut:HookScript("OnLeave", function()
+			if not PIGA["StatsInfo"]["FBCDMinibutTisp"] then return end
+			fujiF:SetParent(StatsUI.F.Bot)
+			fujiF:ClearAllPoints();
+			fujiF:SetPoint("TOPLEFT",StatsUI.F.Bot,"TOPLEFT",0,0);
+			fujiF:SetPoint("BOTTOMRIGHT",StatsUI.F.Bot,"BOTTOMRIGHT",0,0);
+			fujiF.tispBG:Hide()
+		end);
+	end
 	---
 	function fujiF.Get_InstancesCD()
 		local numInstances = GetNumSavedInstances();
@@ -138,7 +145,7 @@ function BusinessInfo.FBCD(StatsInfo)
 			InstancesCDinfo[name]=InstancesCDinfo[name] or {}
 			InstancesCDinfo[name]["world"]={reset+GetServerTime(),1,1,{}}
 		end
-		PIGA["StatsInfo"]["FBCDRecords"][StatsInfo.allname]=InstancesCDinfo
+		PIGA["StatsInfo"]["FBCDRecords"][StatsUI.allname]=InstancesCDinfo
 	end
 	fujiF:HookScript("OnShow", function(self)
 		self.MinibutTisp:SetChecked(PIGA["StatsInfo"]["FBCDMinibutTisp"])
@@ -156,7 +163,7 @@ function BusinessInfo.FBCD(StatsInfo)
 	if OldMode then
 		local hang_Height,hang_NUM  = 20.8, 22;
 		local function add_hang(fujik,txttshi,dataid)
-			fujik.title = PIGFontString(fujik,{"BOTTOM", fujik, "TOP", 0, 2},"冷却中的"..txttshi)
+			fujik.title = PIGFontString(fujik,{"BOTTOM", fujik, "TOP", 0, 2},txttshi)
 			fujik.title:SetTextColor(0, 1, 0, 1);
 			fujik.Scroll = CreateFrame("ScrollFrame",nil,fujik, "FauxScrollFrameTemplate");  
 			fujik.Scroll:SetPoint("TOPLEFT",fujik,"TOPLEFT",4,-4);
@@ -202,7 +209,7 @@ function BusinessInfo.FBCD(StatsInfo)
 								if self.killData then
 									GameTooltip:ClearLines();
 									GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-									GameTooltip:AddLine("击杀详情"..(self.InstanceID or "")..":")
+									GameTooltip:AddLine(LFG_LIST_BOSSES_DEFEATED..(self.InstanceID or "")..":")
 									for iki=1,#self.killData do
 										local bossName,isKilled = unpack(self.killData[iki])
 										if isKilled then
@@ -318,7 +325,7 @@ function BusinessInfo.FBCD(StatsInfo)
 		   	fujiF.raidCD:UpdateHang()
 		end
 	else
-		local hang_Height,hang_NUM,nrpianyi,nrjiange,lienum= StatsInfo.hang_Height, 11,200,60,11
+		local hang_Height,hang_NUM,nrpianyi,nrjiange,lienum= StatsUI.hang_Height, 11,200,60,11
 		local insList_DUNGEONS = {}
 		local insList_RAIDS = {}
 		local insList_WORDBOSS = {}
@@ -350,9 +357,9 @@ function BusinessInfo.FBCD(StatsInfo)
 			-- table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME1,{844,845,846,847,848,849,850,851,852}})
 			-- table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME2,wlkid})
 			-- NewTabList=NewTabList or morenRecords(wlkid)
-			local titanraid = {839,1095,848,847,1101,1102,841}
+			local titanraid = {839,1095,848,847,1101,1102,841,1100,836,851,852}
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..PIG_GetDifficultyInfo(244),titanraid})
-			local titanword = {116,117,118,119}
+			local titanword = {}--116,117,118,119
 			table.insert(insList_WORDBOSS,{"["..WORLD.."BOSS]",titanword})
 			local hejirdlist={}
 			for i=1,#titanraid do
@@ -400,7 +407,7 @@ function BusinessInfo.FBCD(StatsInfo)
 		}
 		---
 		fujiF.Setfuben = PIGDownMenu(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 50, -18},{126,20})
-		fujiF.Setfuben:PIGDownMenu_SetText("选择监控副本")
+		fujiF.Setfuben:PIGDownMenu_SetText(L["TRADECHARDATA_FBSELECT1"])
 		fujiF.Setfuben.fenlie={2,40}
 		function fujiF.Setfuben:PIGDownMenu_Update_But(level, menuList)
 			local info = {}
@@ -445,7 +452,7 @@ function BusinessInfo.FBCD(StatsInfo)
 				for k,v in pairs(PIGA["StatsInfo"]["FBCDTabList"]) do
 					self.hejinum=self.hejinum+1
 				end
-				if self.hejinum==lienum then PIG_OptionsUI:ErrorMsg("监控位已满，请取消一些") return end
+				if self.hejinum==lienum then PIGErrorMsg(L["TRADECHARDATA_FBSELECT2"]) return end
 				PIGA["StatsInfo"]["FBCDTabList"][arg1]=checked
 			else
 				PIGA["StatsInfo"]["FBCDTabList"][arg1]=nil
@@ -453,20 +460,20 @@ function BusinessInfo.FBCD(StatsInfo)
 			fujiF.Update_List()
 			PIGCloseDropDownMenus()
 		end
-		fujiF.CDTimeT = PIGFontString(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 204, -5},"重置剩余:")
-		fujiF.CDTime7 = PIGFontString(fujiF,{"LEFT", fujiF.CDTimeT, "RIGHT", 5, 0},"常规团本:"..disp_time(GetInstancesCD_1()))
+		fujiF.CDTimeT = PIGFontString(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 204, -5},COOLDOWN_REMAINING)
+		fujiF.CDTime7 = PIGFontString(fujiF,{"LEFT", fujiF.CDTimeT, "RIGHT", 5, 0},L["TRADECHARDATA_FBCDINS1"]..disp_time(GetInstancesCD_1()))
 		fujiF.CDTime7:SetTextColor(0,1,0, 1);
 		if PIG_MaxTocversion(20000) then
-			fujiF.CDTime5 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime7, "RIGHT", 20, 0},"黑龙MM:"..disp_time(CDNextInterval(5,5,18,7,GetServerTime())))
+			fujiF.CDTime5 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime7, "RIGHT", 20, 0},L["TRADECHARDATA_FBCDINS2"]..disp_time(CDNextInterval(5,5,18,7,GetServerTime())))
 			fujiF.CDTime5:SetTextColor(0,1,0, 1);
-			fujiF.CDTime3 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime5, "RIGHT", 20, 0},"ZUG/废墟:"..disp_time(CDNextInterval(3,5,21,7,GetServerTime())))
+			fujiF.CDTime3 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime5, "RIGHT", 20, 0},L["TRADECHARDATA_FBCDINS3"]..disp_time(CDNextInterval(3,5,21,7,GetServerTime())))
 			fujiF.CDTime3:SetTextColor(0,1,0, 1);
 		elseif PIG_MaxTocversion(40000) and PIG_MaxTocversion(30000,true) then
 	
 		else
-			fujiF.CDTime3 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime7, "RIGHT", 20, 0},"ZUG/废墟:"..disp_time(CDNextInterval(3,5,22,7,GetServerTime())))
+			fujiF.CDTime3 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime7, "RIGHT", 20, 0},L["TRADECHARDATA_FBCDINS3"]..disp_time(CDNextInterval(3,5,22,7,GetServerTime())))
 			fujiF.CDTime3:SetTextColor(0,1,0, 1);
-			fujiF.CDTime3_1 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime3, "RIGHT", 20, 0},"祖阿曼:"..disp_time(CDNextInterval(3,5,21,7,GetServerTime())))
+			fujiF.CDTime3_1 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime3, "RIGHT", 20, 0},DUNGEON_FLOOR_ZULAMAN1..disp_time(CDNextInterval(3,5,21,7,GetServerTime())))
 			fujiF.CDTime3_1:SetTextColor(0,1,0, 1);
 		end
 		----
@@ -494,7 +501,7 @@ function BusinessInfo.FBCD(StatsInfo)
 				if self.killData then
 					GameTooltip:ClearLines();
 					GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-					GameTooltip:AddLine("击杀详情：")
+					GameTooltip:AddLine(LFG_LIST_BOSSES_DEFEATED)
 					for iki=1,#self.killData do
 						local bossName,isKilled = unpack(self.killData[iki])
 						if isKilled then
@@ -564,12 +571,12 @@ function BusinessInfo.FBCD(StatsInfo)
 			local PlayerData = PIGA["StatsInfo"]["Players"]
 			local PlayerSH = PIGA["StatsInfo"]["PlayerSH"]
 			local InstancesCD=PIGA["StatsInfo"]["FBCDRecords"]
-			if PlayerData[StatsInfo.allname] and not PlayerSH[StatsInfo.allname] then
-				local dangqianC=PlayerData[StatsInfo.allname]
-				table.insert(cdmulu,{StatsInfo.allname,dangqianC[1],dangqianC[2],dangqianC[3],dangqianC[4],dangqianC[5],InstancesCD[StatsInfo.allname],true})
+			if PlayerData[StatsUI.allname] and not PlayerSH[StatsUI.allname] then
+				local dangqianC=PlayerData[StatsUI.allname]
+				table.insert(cdmulu,{StatsUI.allname,dangqianC[1],dangqianC[2],dangqianC[3],dangqianC[4],dangqianC[5],InstancesCD[StatsUI.allname],true})
 			end
 		   	for k,v in pairs(PlayerData) do
-		   		if k~=StatsInfo.allname and PlayerData[k] and not PlayerSH[k] then
+		   		if k~=StatsUI.allname and PlayerData[k] and not PlayerSH[k] then
 		   			table.insert(cdmulu,{k,v[1],v[2],v[3],v[4],v[5],InstancesCD[k]})
 		   		end
 		   	end
@@ -585,9 +592,9 @@ function BusinessInfo.FBCD(StatsInfo)
 							fujiF.NR.listbut[id]=hang
 							hang:SetSize(fujiF.NR:GetWidth()-18,hang_Height*2+4);
 							if id==1 then
-								hang:SetPoint("TOPLEFT", fujiF.NR, "TOPLEFT", 3, 0);
+								hang:SetPoint("TOPLEFT", fujiF.NR, "TOPLEFT", 3, -1);
 							else
-								hang:SetPoint("TOPLEFT", fujiF.NR.listbut[id-1], "BOTTOMLEFT", 0, 0);
+								hang:SetPoint("TOPLEFT", fujiF.NR.listbut[id-1], "BOTTOMLEFT", 0, -1);
 							end
 							if id~=hang_NUM then
 								hang.line = PIGLine(hang,"BOT",0,nil,nil,{0.5,0.5,0.5,0.2})

@@ -181,7 +181,15 @@ Bugcollect.Moving.qingkong:SetScript("OnClick", function (self)
 	Bugcollect:qingkongERR()
 end);
 --
-Bugcollect.Moving.tishiCK=addCheckBut(Bugcollect.Moving,{"RIGHT",Bugcollect.Moving.qingkong,"LEFT",-60,-2},{24,24},BINDING_HEADER_DEBUG,L["ERROR_DEBUGTOOLTIP"])
+Bugcollect.Moving.NextError=addCheckBut(Bugcollect.Moving,{"RIGHT",Bugcollect.Moving.qingkong,"LEFT",-60,-2},{24,24},EXPERT,L["ERROR_NEXTERROR"])
+Bugcollect.Moving.NextError:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["Error"]["NextError"] = true
+	else
+		PIGA["Error"]["NextError"] = false
+	end
+end);
+Bugcollect.Moving.tishiCK=addCheckBut(Bugcollect.Moving,{"RIGHT",Bugcollect.Moving.NextError,"LEFT",-60,-2},{24,24},BINDING_HEADER_DEBUG,L["ERROR_DEBUGTOOLTIP"])
 Bugcollect.Moving.tishiCK:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Error"]["ErrorTishi"] = true
@@ -189,12 +197,12 @@ Bugcollect.Moving.tishiCK:SetScript("OnClick", function (self)
 		PIGA["Error"]["ErrorTishi"] = false
 	end
 end);
-Bugcollect.Moving.IsPig=addCheckBut(Bugcollect.Moving,{"RIGHT",Bugcollect.Moving.tishiCK,"LEFT",-80,0},{24,24},addonName..ERRORS)
+Bugcollect.Moving.IsPig=addCheckBut(Bugcollect.Moving,{"RIGHT",Bugcollect.Moving.tishiCK,"LEFT",-60,0},{24,24},addonName,L["ERROR_ISPIGTOOLTIP"])
 Bugcollect.Moving.IsPig:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Error"]["IsPig"] = true
 	else
-		PIGA["Error"]["IsPig"] = nil
+		PIGA["Error"]["IsPig"] = false
 	end
 	Bugcollect.UpdateErrorUI()
 end);
@@ -246,25 +254,28 @@ end
 ----------------------
 local PIGGetAddOnMetadata=GetAddOnMetadata or C_AddOns and C_AddOns.GetAddOnMetadata
 local VersionTXT=PIGGetAddOnMetadata(addonName, "Version")
+local ketpig="Interface/AddOns/!Pig"
+local function GetNewData(data)
+	if PIGA["Error"]["IsPig"] then
+		local datax = {}
+		for i=1,#data do
+			if data[i].msg:match(ketpig) or data[i].stack:match(ketpig) then
+				table.insert(datax,data[i])
+			end
+		end
+		return datax
+	else
+		return data
+	end
+end
 function Bugcollect.UpdateErrorUI(id)
 	if Bugcollect:IsShown() then
 		Bugcollect:qingkongERR()
-		local NewData,oldData = {},{}
+		local NewData = {}
 		if Bugcollect.selectedID==1 then
-			oldData=bencierrinfo
+			NewData=GetNewData(bencierrinfo)
 		elseif Bugcollect.selectedID==2 then
-			oldData=PIGA["Error"]["ErrorDB"]
-		end
-		if PIGA["Error"]["IsPig"] then
-			local datax = {}
-			for i=1,#oldData do
-				if oldData[i].msg:match("Interface/AddOns/!Pig") then
-					table.insert(datax,oldData[i])
-				end
-			end
-			NewData=datax
-		else
-			NewData=oldData
+			NewData=GetNewData(PIGA["Error"]["ErrorDB"])
 		end
 		local errornum=#NewData
 		if errornum==0 then return end
@@ -275,6 +286,7 @@ function Bugcollect.UpdateErrorUI(id)
 		local stack=NewData[id].stack
 		local logrizhi=NewData[id].logrizhi or "null"
 		Bugcollect.Moving.Time:SetText(date("%Y/%m/%d %H:%M:%S",time));
+
 		Bugcollect.biaoti:SetText(id.."/"..errornum);
 		if cuowushu>1 then
 			Bugcollect.NR.textArea:SetText(cuowushu.."× "..msg.."\r")
@@ -358,6 +370,7 @@ end)
 ----------------
 Bugcollect:SetScript("OnShow", function(self)
 	self:SetFrameLevel(99)
+	self.Moving.NextError:SetChecked(PIGA["Error"]["NextError"])
 	self.Moving.tishiCK:SetChecked(PIGA["Error"]["ErrorTishi"])
 	self.Moving.IsPig:SetChecked(PIGA["Error"]["IsPig"])
 	self.UpdateErrorUI()
@@ -387,17 +400,22 @@ local function SaveErrorInfo(databc, Newmsg)
 	return false
 end
 local function AddErrorInfo(newmsg,stack)
-	bencierrinfo[#bencierrinfo + 1] = {
-		msg = newmsg,
-		time = GetServerTime(),
-		counter = 1,
-		stack = stack or "null",
-		logrizhi= "null",
-		--logrizhi=debuglocals(3) or "null",
-	}
+	local entry = {
+        msg      = newmsg,
+        time     = GetServerTime(),
+        counter  = 1,
+        stack    = stack or "null",
+        logrizhi = "null",
+    }
+	if Bugcollect.LoadedOK and PIGA["Error"]["NextError"] then
+        entry.logrizhi = debuglocals(4) or "null"
+    end
+    bencierrinfo[#bencierrinfo + 1] = entry
 end
+local nanduid=C_GameRules and C_GameRules.IsHardcoreActive and C_GameRules.IsHardcoreActive() and "H" or "N"
 function PIGerrorFun(event,msg1,msg2)
-	--print(event,msg1,msg2)
+	-- print(event)
+	-- print(msg1,msg2)
 	if GetTime()-PIG_LAST_TIME>PIG_ERR_OR_SSS then
 		HAVE_PASSED_NUM=HAVE_PASSED_NUM+1
 		if HAVE_PASSED_NUM>PIG_ERR_OR_NUM then
@@ -407,7 +425,8 @@ function PIGerrorFun(event,msg1,msg2)
 		HAVE_PASSED_NUM=1
 		return
 	end
-	local newmsg = "["..tocversion.."-"..VersionTXT.."] "
+
+	local newmsg = "["..tocversion.."-"..VersionTXT.."-"..nanduid.."] "
 	if event=="LUA_WARNING" then
 		newmsg = newmsg..tostring(msg1)
 		local cunzai = SaveErrorInfo(bencierrinfo, newmsg)
@@ -456,6 +475,7 @@ Bugcollect:RegisterEvent("ADDON_LOADED")
 Bugcollect:SetScript("OnEvent", function(self,event,arg1,arg2)
 	--print(event,arg1,arg2)
 	if event=="ADDON_LOADED" then
+		self.LoadedOK=true
 		self:UnregisterEvent("ADDON_LOADED")
 		C_Timer.After(3,function()
 			PIGA["Error"]=PIGA["Error"] or PD.Default["Error"]

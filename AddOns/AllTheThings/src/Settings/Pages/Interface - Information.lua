@@ -29,7 +29,7 @@ local DefaultConversionMethod = function(value)
 end
 -- Handles checking the 'text' and assigning 'reference.working' if the text is in a 'retrieving' state
 local function IsRetrievingConversionMethod(text, reference)
-	if IsRetrieving(text) then
+	if IsRetrieving(text, true) then
 		reference.working = true
 		text = RETRIEVING_DATA
 	end
@@ -72,7 +72,7 @@ local ConversionMethods = setmetatable({
 		end
 		local icon = GetSpellIcon(spellID);
 		if icon then
-			name = "|T" .. icon .. ":0|t" .. name;
+			name = "|T" .. icon .. ":0|t " .. name;
 		end
 		return name;
 	end,
@@ -105,7 +105,7 @@ local ConversionMethods = setmetatable({
 		end
 		local icon = item and item.icon
 		if icon then
-			link = "|T" .. icon .. ":0|t" .. link
+			link = "|T" .. icon .. ":0|t " .. link
 		end
 		if app.Settings:GetTooltipSetting("itemID") then
 			return link .. " (" .. itemID .. ")"
@@ -126,6 +126,11 @@ local ConversionMethods = setmetatable({
 			return skillName
 		end
 		return IsRetrievingConversionMethod(GetSpellName(app.SkillDB.SkillToSpell[skillID] or 0), reference)
+	end,
+	difficultyID = function(difficultyID, reference)
+		if difficultyID and difficultyID > 0 then
+			return difficultyID
+		end
 	end,
 }, {
 	__index = function(t, key)
@@ -614,6 +619,31 @@ local InformationTypes = {
 	}),
 	CreateInformationType("SocialProgress", { text = L.SOCIAL_PROGRESS, priority = 1, IsStandaloneProperty = false }),
 
+	CreateInformationType("title", {
+		text = "Title",
+		priority = 1.01,
+		HideCheckBox = true,
+		ForceActive = true,
+		Process = function(t, reference, tooltipInfo)
+			local title = reference.title;
+			if title then
+				local left, right = app.DESCRIPTION_SEPARATOR:split(title);
+				if right then
+					tooltipInfo[#tooltipInfo + 1] = {
+						left = left,
+						right = right,
+						r = 1, g = 1, b = 1
+					};
+				else
+					tooltipInfo[#tooltipInfo + 1] = {
+						left = title,
+						r = 1, g = 1, b = 1
+					};
+				end
+			end
+		end,
+	}),
+
 	-- Contextual fields
 	CreateInformationType("parent", { text = "Parent", priority = 1.1, ShouldDisplayInExternalTooltips = false,
 		Process = function(t, reference, tooltipInfo)
@@ -890,6 +920,37 @@ local InformationTypes = {
 			end
 		end,
 	});
+	CreateInformationType("customCollect", {
+		text = "Custom Collect Requirements",
+		HideCheckBox = true,
+		ForceActive = true,
+		priority = 2.7,
+		Process = function(t, reference, tooltipInfo)
+			-- Show info about if this Thing cannot be collected due to a custom collectibility
+			-- restriction on the Thing which this character does not meet
+			local customCollect = reference.customCollect
+			if customCollect then
+				local customCollectEx, c
+				local requires = L.REQUIRES;
+				for i=1,#customCollect do
+					c = customCollect[i]
+					customCollectEx = L.CUSTOM_COLLECTS_REASONS[c];
+					local icon_color_str = customCollectEx.icon.." |c"..customCollectEx.color..(customCollectEx.text or "[MISSING_LOCALE_KEY]");
+					if not app.CurrentCharacter.CustomCollects[c] then
+						tooltipInfo[#tooltipInfo + 1] = {
+							left = Colorize(requires, app.Colors.LockedWarning) .. "  " .. icon_color_str,
+							right = customCollectEx.desc or "",
+						}
+					else
+						tooltipInfo[#tooltipInfo + 1] = {
+							left = Colorize(requires, app.Colors.Time) .. "  " .. icon_color_str,
+							right = customCollectEx.desc or "",
+						}
+					end
+				end
+			end
+		end,
+	}),
 	CreateInformationType("u", {
 		priority = 2.7,
 		isRecursive = true,
@@ -961,18 +1022,21 @@ local InformationTypes = {
 	}),
 	CreateInformationType("filterID", { text = L.FILTER_ID, priority = 4,
 		Process = function(t, reference, tooltipInfo)
-			local f = reference.filterID or reference.f;
+			local f = reference.f
 			if f then
+				local filterName = ConversionMethods.filterID(f, reference)
 				local filterForRWP = reference.filterForRWP;
 				if filterForRWP then
 					tinsert(tooltipInfo, {
 						left = t.text,
-						right = ConversionMethods.filterID(f, reference) .. " -> " .. ConversionMethods.filterID(filterForRWP, reference),
+						right = filterName .. " -> " .. ConversionMethods.filterID(filterForRWP, reference),
 					});
 				else
+					local loc = reference.loc
+					local locName = ConversionMethods.filterID(loc, reference)
 					tinsert(tooltipInfo, {
 						left = t.text,
-						right = ConversionMethods.filterID(f, reference),
+						right = loc and filterName.." / "..locName or filterName,
 					});
 				end
 			end
@@ -1362,6 +1426,20 @@ local InformationTypes = {
 };
 settings.InformationTypes = InformationTypes;
 
+--[[
+-- CreateInformationType stub for use in external calls
+app.Settings.CreateInformationType("UniqueInformationTypeName", {
+	text = "VisibleInformationTypeText", -- only used if HideCheck = false / using default Process
+	priority = 9999,	-- default 100
+	HideCheckBox = true,	-- false default
+	ForceActive = true,	-- false default
+	ShouldDisplayInExternalTooltips = false, -- true default
+	IsStandaloneProperty = false, -- true default
+	Process = function(t, reference, tooltipInfo)
+	end,
+})
+]]
+
 local ActiveInformationTypes, ActiveInformationTypesForExternalTooltips = {}, {};
 local SortedInformationTypes, SortedInformationTypesByName, priorityA, priorityB = {}, {}, nil, nil;
 local function SortInformationTypesByLocalizedName(a,b)
@@ -1417,8 +1495,13 @@ app.ProcessInformationTypes = function(tooltipInfo, reference)
 end
 app.ProcessInformationTypesForExternalTooltips = function(tooltipInfo, reference)
 	-- app.PrintDebug("PITFET",#tooltipInfo,app.ActiveRowReference and true)
+	-- local workingChanged
 	for _,informationType in ipairs(app.ActiveRowReference and ActiveInformationTypes or ActiveInformationTypesForExternalTooltips) do
 		informationType:Process(reference, tooltipInfo);
+		-- if not workingChanged and reference.working then
+		-- 	app.PrintDebug("PITFET.working.set",informationType.textLower)
+		-- 	workingChanged = true
+		-- end
 	end
 	-- app.PrintDebug("PITFET.Done",#tooltipInfo)
 end
@@ -1541,7 +1624,7 @@ settings.CreateInformationType("LinkSourceID", {
 	text = "DEBUG: Link SourceID",
 	HideCheckBox = not app.Debugging,
 	Process = function(t, data, tooltipInfo)
-		local link, source = data.link or data.silentLink, data.sourceID
+		local link, source = data.link or data.silentLink or data.rawlink, data.sourceID
 		local rowSource = app.ActiveRowReference and app.ActiveRowReference.sourceID
 		if not link then return; end
 		local itemName = GetItemInfo(link)

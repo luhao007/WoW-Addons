@@ -8,10 +8,10 @@ local COLLECTED_ICON_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\collected2
 local DROP_REMINDER_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\drop"
 local NOTE_ICON_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\note"
 
-local TWITCH_DROP_ITEM_ID = 265394
-local TWITCH_DROP_DECOR_ID = 16818
-local TWITCH_DROP_END_TIME = 1779400800
-local TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24266872/twitch-drop-get-the-cuddly-pearl-grrgle-housing-decor-item-23-april"
+local TWITCH_DROP_ITEM_ID = 265389
+local TWITCH_DROP_DECOR_ID = 16813
+local TWITCH_DROP_END_TIME = 1784048400
+local TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24267734"
 
 local EXPANSION_NAMES = {
 	[1] = "Classic", [2] = "The Burning Crusade", [3] = "Wrath of the Lich King",
@@ -565,9 +565,11 @@ local function GetPopupIconFrame(index)
 		borderFrame:SetBackdrop({ edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2 })
 		borderFrame:SetClipsChildren(true)
 		container.borderFrame = borderFrame
+		
 		local btn = CreateFrame("Button", nil, borderFrame)
 		btn:SetAllPoints(borderFrame)
 		btn:RegisterForClicks("AnyUp")
+		btn:EnableMouseWheel(true)
 		container.btn = btn
 		
 		local icon = btn:CreateTexture(nil, "ARTWORK")
@@ -617,6 +619,51 @@ local function addCommasToNum(amount)
 	return formatted
 end
 
+local function UpdateCostTooltip(self)
+	local decorData = db.decorItem[self.itemID]
+	local addCostTooltip = decorData and decorData.cost and not hb_settings.hideVendorCosts
+	local hasPopulatedCost = false
+
+	if addCostTooltip then
+		local cost = decorData.cost
+		local lines = {}
+		local amount = self.currentAmount or 1
+		
+		if cost.gold then
+			table.insert(lines, string.format("%s |TInterface\\MoneyFrame\\UI-GoldIcon:16:16:0:0|t", addCommasToNum((cost.gold or 0) * amount)))
+		end
+		if cost.currencies then
+			for currencyID, cAmount in pairs(cost.currencies) do
+				local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+				local icon = info and info.iconFileID or "Interface\\Icons\\INV_Misc_QuestionMark"
+				table.insert(lines, string.format("%s |T%s:20:20:0:0|t", addCommasToNum(cAmount * amount), icon))
+			end
+		end
+		if cost.items then
+			for reqItemID, iAmount in pairs(cost.items) do
+				local icon = GetItemIcon(reqItemID) or "Interface\\Icons\\INV_Misc_QuestionMark"
+				table.insert(lines, string.format("%s |T%s:20:20:0:0|t", addCommasToNum(iAmount * amount), icon))
+			end
+		end
+		
+		if #lines > 0 then
+			local amountText = amount == 1 and " (x1, " .. db.L_SCROLL .. ")" or string.format(" (x%d)", amount)
+			local costStr = db.L_COST and string.gsub(db.L_COST, "%s+$", "") or "Cost:"
+			costTooltip.text:SetText("|cffffd100".. costStr .. amountText .. "|r " .. table.concat(lines, "  "))
+			local textWidth = costTooltip.text:GetStringWidth()
+			local width = textWidth + 20
+			costTooltip:SetSize(width, 30)
+			
+			costTooltip:ClearAllPoints()
+			costTooltip:SetPoint("BOTTOMLEFT", self, "TOPRIGHT", 0, 0)
+			costTooltip:Show()
+			hasPopulatedCost = true
+		end
+	end
+	if not hasPopulatedCost then costTooltip:Hide() end
+	return hasPopulatedCost
+end
+
 local function PopupButton_OnEnter(self)
 	local container = self:GetParent():GetParent()
 	local borderFrame = container.borderFrame
@@ -634,43 +681,8 @@ local function PopupButton_OnEnter(self)
 		end
 	end
 
-	local decorData = db.decorItem and db.decorItem[self.itemID]
-	local addCostTooltip = decorData and decorData.cost and not hb_settings.hideVendorCosts
-	local hasPopulatedCost = false
-
-	if addCostTooltip then
-		local cost = decorData.cost
-		local lines = {}
-		
-		if cost.gold then
-			table.insert(lines, string.format("%s |TInterface\\MoneyFrame\\UI-GoldIcon:16:16:0:0|t", addCommasToNum(cost.gold)))
-		end
-		if cost.currencies then
-			for currencyID, amount in pairs(cost.currencies) do
-				local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
-				local icon = info and info.iconFileID or "Interface\\Icons\\INV_Misc_QuestionMark"
-				table.insert(lines, string.format("%s |T%s:20:20:0:0|t", addCommasToNum(amount), icon))
-			end
-		end
-		if cost.items then
-			for reqItemID, amount in pairs(cost.items) do
-				local icon = GetItemIcon(reqItemID) or "Interface\\Icons\\INV_Misc_QuestionMark"
-				table.insert(lines, string.format("%s |T%s:20:20:0:0|t", addCommasToNum(amount), icon))
-			end
-		end
-		
-		if #lines > 0 then
-			costTooltip.text:SetText("|cffffd100".. db.L_COST .. "|r" .. table.concat(lines, "  "))
-			local textWidth = costTooltip.text:GetStringWidth()
-			local width = textWidth + 20
-			costTooltip:SetSize(width, 30)
-			
-			costTooltip:ClearAllPoints()
-			costTooltip:SetPoint("BOTTOMLEFT", self, "TOPRIGHT", 0, 0)
-			costTooltip:Show()
-			hasPopulatedCost = true
-		end
-	end
+	self.currentAmount = 1
+	local hasPopulatedCost = UpdateCostTooltip(self)
 
 	if hasPopulatedCost then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
@@ -696,7 +708,19 @@ local function PopupButton_OnLeave(self)
 	else
 		borderFrame:SetBackdropBorderColor(0.5, 0.5, 0.5, 1)
 	end
+	self.currentAmount = 1
 	GameTooltip:Hide(); costTooltip:Hide()
+end
+
+local function PopupButton_OnMouseWheel(self, delta)
+	local decorData = db.decorItem and db.decorItem[self.itemID]
+	local addCostTooltip = decorData and decorData.cost and not hb_settings.hideVendorCosts
+	if not addCostTooltip then return end
+	
+	self.currentAmount = (self.currentAmount or 1) + delta
+	if self.currentAmount < 1 then self.currentAmount = 1 end
+	
+	UpdateCostTooltip(self)
 end
 
 local function PopupButton_OnClick(self, button)
@@ -754,6 +778,7 @@ local function SetupPopupButton(container, data, typeStr)
 	btn:SetScript("OnEnter", PopupButton_OnEnter)
 	btn:SetScript("OnLeave", PopupButton_OnLeave)
 	btn:SetScript("OnClick", PopupButton_OnClick)
+	btn:SetScript("OnMouseWheel", PopupButton_OnMouseWheel)
 	container:Show()
 end
 
@@ -1165,6 +1190,29 @@ end
 local filterButton = CreateFrame("DropdownButton", "HB_FilterButton", frame, "WowStyle1FilterDropdownTemplate")
 filterButton:SetSize(120, 24); filterButton:SetPoint("TOPLEFT", 10, -60); filterButton:SetText(db.L_FILTERS)
 filterButton.Text:ClearAllPoints(); filterButton.Text:SetPoint("CENTER")
+
+local isCollapsedAll = true
+local ecBtn = CreateFrame("Button", nil, frame); ecBtn:SetSize(28, 28); ecBtn:SetPoint("LEFT", filterButton, "RIGHT", 4, 0)
+local ecTex = ecBtn:CreateTexture(nil, "ARTWORK"); ecTex:SetPoint("CENTER"); ecTex:SetSize(18, 18); ecTex:SetAtlas("uitools-icon-chevron-down")
+ecBtn:SetScript("OnClick", function()
+	isCollapsedAll = not isCollapsedAll
+	ecTex:SetRotation(isCollapsedAll and 0 or math.pi)
+
+	if not collapsedHeaders[currentTab] then collapsedHeaders[currentTab] = {} end
+	local dataSource = (currentTab == "vendors" and db.vendors) or (currentTab == "drops" and db.drops) or (currentTab == "professions" and db.professions) or db.collections
+	if dataSource then for _, group in ipairs(dataSource) do collapsedHeaders[currentTab][group.name] = isCollapsedAll end end
+	if hb_settings.groupFavorites then collapsedHeaders[currentTab][db.L_FAVORITES] = isCollapsedAll end
+	BuildUI()
+end)
+ecBtn:SetScript("OnMouseDown", function() ecTex:SetPoint("CENTER", 1, -1) end)
+ecBtn:SetScript("OnMouseUp", function() ecTex:SetPoint("CENTER", 0, 0) end)
+ecBtn:SetScript("OnEnter", function() ecTex:SetVertexColor(1, 0.82, 0); GameTooltip:SetOwner(ecBtn, "ANCHOR_BOTTOMLEFT"); GameTooltip:SetText("Expand / Collapse All"); GameTooltip:Show() end)
+ecBtn:SetScript("OnLeave", function() ecTex:SetVertexColor(1, 1, 1); GameTooltip:Hide() end)
+
+local resultsText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+resultsText:SetFont(STANDARD_TEXT_FONT, 12); resultsText:SetPoint("LEFT", ecBtn, "RIGHT", 4, 0)
+resultsText:SetTextColor(0.8, 0.8, 0.8, 1); resultsText:Hide()
+
 filterButton:SetupMenu(function(dropdown, rootDescription)
 	local activeFilters = hb_settings.tabFilters[currentTab] or {}
 	rootDescription:CreateCheckbox(db.L_HIDE_COMPLETED, function() return hb_settings.hideCompleted end, function() hb_settings.hideCompleted = not hb_settings.hideCompleted; BuildUI() end)
@@ -1839,10 +1887,27 @@ function BuildUI()
 	ClearWidgets()
 	local y = 0
 	local hasContent = false
-	local dataSource = (currentTab == "vendors" and db.vendors) or (currentTab == "drops" and db.drops) or (currentTab == "professions" and db.professions) or db.collections
-	if not dataSource then isRebuilding = false; return end
+	local searchResults = 0
+	
 	local activeFilters = hb_settings.tabFilters[currentTab] or {}
-
+	local isFiltered = false
+	if not activeFilters.neutral or not activeFilters.alliance or not activeFilters.horde then isFiltered = true end
+	if currentTab == "decor" then
+		if not activeFilters.achievement or not activeFilters.quest then isFiltered = true end
+	elseif currentTab == "vendors" then
+		if not activeFilters.achievement or not activeFilters.quest or not activeFilters.reputation then isFiltered = true end
+		if activeFilters.cost_gold == false then isFiltered = true end
+		local costs = GetCachedCosts()
+		for cID in pairs(costs.currencies) do if activeFilters["cost_curr_" .. cID] == false then isFiltered = true; break end end
+		for iID in pairs(costs.items) do if activeFilters["cost_item_" .. iID] == false then isFiltered = true; break end end
+	elseif currentTab == "professions" then
+		for i = 1, #EXPANSION_NAMES do if not activeFilters["expansion"..i] then isFiltered = true; break end end
+	end
+	filterButton:SetText(db.L_FILTERS .. (isFiltered and " *" or ""))
+	
+	local dataSource = (currentTab == "vendors" and db.vendors) or (currentTab == "drops" and db.drops) or (currentTab == "professions" and db.professions) or db.collections
+	if not dataSource then resultsText:Hide(); isRebuilding = false; return end
+	
 	local favoritesGroup = {name = db.L_FAVORITES, total = 0, completed = 0, favItems = {}, otherItems = {}}
 	local originalRenderGroups = {}
 
@@ -1970,6 +2035,11 @@ function BuildUI()
 					end
 
 					if showSearch and showReqs then 
+						local validResult = true
+						if hb_settings.hideCompleted and isComplete then validResult = false end
+						if hb_settings.hideNonFavorited and not isFav then validResult = false end
+						if validResult then searchResults = searchResults + 1 end
+
 						if isFav then
 							if hb_settings.groupFavorites then
 								table.insert(favoritesGroup.favItems, item)
@@ -2052,6 +2122,11 @@ function BuildUI()
 		msg:SetText(db.L_ALL_COLLECTED)
 		msg:SetTextColor(0.9, 0.9, 0.9, 1); table.insert(activeWidgets, msg)
 	end
+	
+	if currentSearchQuery ~= "" then
+		resultsText:SetText(string.format(db.L_RESULTS, searchResults)); resultsText:Show()
+	else resultsText:Hide() end
+
 	scrollChild:SetHeight(math.abs(y) + 20)
 	isRebuilding = false
 end
@@ -2271,13 +2346,15 @@ local function HookMerchantFrame()
 	end)
 end
 
-
-
 local function PinTooltip(f)
 	local name, isLoading = GetCachedNpcName(f.vendorID)
 	GameTooltip:SetText(isLoading and db.L_LOADING_VENDOR or name, 1, 1, 1)
 	local t = f.faction == "alliance" and {FACTION_ALLIANCE, 0.4, 0.7, 1} or {FACTION_HORDE, 1, 0.2, 0.2}
-	if f.faction ~= "neutral" then GameTooltip:AddLine(unpack(t)) end GameTooltip:Show()
+	if f.faction ~= "neutral" then GameTooltip:AddLine(unpack(t)) end
+	
+	local isComplete, missingCount = GetVendorStatus(f.vendorID)
+	if not isComplete then GameTooltip:AddLine(string.format("Missing items: %d", missingCount), 1, 0.82, 0) end
+	GameTooltip:Show()
 	return isLoading
 end
 

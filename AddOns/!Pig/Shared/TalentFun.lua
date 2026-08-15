@@ -1,18 +1,21 @@
-local addonName, addonTable = ...;
+local addonName, PD = ...;
 local sub = _G.string.sub
 --
-local Create = addonTable.Create
+local Create = PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
 local PIGFontString=Create.PIGFontString
 local PIGEnter=Create.PIGEnter
 local PIGDiyTex = Create.PIGDiyTex
 ----
-local Fun=addonTable.Fun
+local Fun=PD.Fun
+local Data=PD.Data
+local PlayerInfo=Data.PlayerInfo
+local TalentData=Data.TalentData
+
 local yasuo_NumberString=Fun.yasuo_NumberString
 local jieya_NumberString=Fun.jieya_NumberString
-local ALA=addonTable.ALA
-local TalentData=addonTable.Data.TalentData
+local ALA=PD.ALA
 local GetSpecialization = GetSpecialization or C_SpecializationInfo and C_SpecializationInfo.GetSpecialization
 local GetSpecializationInfo = GetSpecializationInfo or C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo
 --------
@@ -72,8 +75,8 @@ local function Show_Glyphinfo(self,fwid,from)
 			Update_Glyphinfo(self,fwData)
 		end
 	elseif from=="yc" or from=="Inspect" and PIG_MaxTocversion(40000)  then
-		if PIG_OptionsUI.talentData[fujiui.cName] and PIG_OptionsUI.talentData[fujiui.cName]["G"] then
-			local fwData = PIG_OptionsUI.talentData[fujiui.cName]["G"][fwid+1]
+		if PD.talentData[fujiui.cName] and PD.talentData[fujiui.cName]["G"] then
+			local fwData = PD.talentData[fujiui.cName]["G"][fwid+1]
 			Update_Glyphinfo(self,fwData)
 		else
 			if self.Glyphyanchi<10 then
@@ -580,8 +583,8 @@ function TalentData.add_TalentUI(frameX)
 				DataX.T1[1],DataX.T2[1]= Xtfinfo,Xtfinfo2
 			end		
 		elseif form=="yc" then
-			if PIG_OptionsUI.talentData[cName] then
-				DataX.T1[1],DataX.T2[1]= PIG_OptionsUI.talentData[cName]["T"][2],PIG_OptionsUI.talentData[cName]["T"][3]
+			if PD.talentData[cName] then
+				DataX.T1[1],DataX.T2[1]= PD.talentData[cName]["T"][2],PD.talentData[cName]["T"][3]
 			end
 		elseif form=="Inspect" then
 			-- DataX.T1[1],DataX.T2[1]= strsplit("&", *****);
@@ -618,7 +621,7 @@ function TalentData.SAVE_Player()
 	local level = UnitLevel("player")
 	local gender = UnitSex("player")
 	local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
-	local Info = Info..PIG_OptionsUI.ClassData.classId.."-"..PIG_OptionsUI.RaceData.raceId.."-"..level.."-"..(floor(avgItemLevelEquipped*100+0.5)/100).."-"..gender
+	local Info = Info..PlayerInfo.ClassData.classId.."-"..PlayerInfo.RaceData.raceId.."-"..level.."-"..(floor(avgItemLevelEquipped*100+0.5)/100).."-"..gender
 	return Info
 end
 --
@@ -683,9 +686,9 @@ function TalentData.GetTianfuIcon_YC(zhiye,namex,from,tfData)
 		if PIGA["StatsInfo"] and PIGA["StatsInfo"]["Items"] and PIGA["StatsInfo"]["Items"][namex] then
 			tfTXTData[1],tfTXTData[2] =TalentData.HY_TianfuTXT(PIGA["StatsInfo"]["Items"][namex]["T"])
 		end
-	elseif PIG_OptionsUI.talentData[namex] and PIG_OptionsUI.talentData[namex]["T"] then
-		tfTXTData[1] =PIG_OptionsUI.talentData[namex]["T"][2]
-		tfTXTData[2] =PIG_OptionsUI.talentData[namex]["T"][3]
+	elseif PD.talentData[namex] and PD.talentData[namex]["T"] then
+		tfTXTData[1] =PD.talentData[namex]["T"][2]
+		tfTXTData[2] =PD.talentData[namex]["T"][3]
 	end
 	if PIG_MaxTocversion(50000) then
 		for id=1,#tfTXTData do

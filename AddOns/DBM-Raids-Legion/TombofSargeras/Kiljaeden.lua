@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1898, "DBM-Raids-Legion", 2, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260524002232")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(117269)--121227 Illiden? 121193 Shadowsoul
 mod:SetEncounterID(2051)
@@ -33,6 +33,12 @@ mod:RegisterEventsInCombat(
  or ability.name = "Rupturing Singularity" and target.name = "Omegal"
  --]]
  --Stage One:
+DBM:RegisterAltSpellName(235059, 206577)--Rupturing Singularity -> Comet Impact
+DBM:RegisterAltSpellName(236710, 236711)--Erupting Shadow Reflection -> shortname
+DBM:RegisterAltSpellName(237590, 237724)--Hopeless Shadow Reflection -> shortname
+DBM:RegisterAltSpellName(236378, 236475)--Wailing Shadow Reflection -> shortname
+DBM:RegisterAltSpellName(239785, L.Obelisklasers)--Armageddon Hail -> Obelisk lasers
+
 local warnFelClaw					= mod:NewCountAnnounce(239932, 3, nil, "Tank")
 local warnEruptingRelections		= mod:NewTargetAnnounce(236710, 2)
 local warnSingularitySoon			= mod:NewAnnounce("warnSingularitySoon", 4, 235059, nil, nil, true)
@@ -48,47 +54,47 @@ local warnTearRift					= mod:NewCountAnnounce(243982, 2)--Positive message color
 local warnDarknessofStuffEnded		= mod:NewEndAnnounce(238999, 1)
 
 --Stage One: The Betrayer
-local specWarnFelclaws				= mod:NewSpecialWarningDefensive(239932, nil, nil, nil, 1, 2)
-local specWarnFelclawsOther			= mod:NewSpecialWarningTaunt(239932, nil, nil, nil, 1, 2)
-local specWarnRupturingSingularity	= mod:NewSpecialWarningSoon(235059, nil, nil, nil, 3, 2)
-local specWarnArmageddon			= mod:NewSpecialWarningCount(240910, nil, nil, nil, 2, 2)
-local specWarnSRWailing				= mod:NewSpecialWarningYou(236378, nil, nil, nil, 1, 2)
+local specWarnFelclaws				= mod:NewSpecialWarningDefensive(239932, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnFelclawsOther			= mod:NewSpecialWarningTaunt(239932, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnRupturingSingularity	= mod:NewSpecialWarningSoon(235059, nil, nil, nil, 3, 2, nil, nil, "carefly")
+local specWarnArmageddon			= mod:NewSpecialWarningCount(240910, nil, nil, nil, 2, 2, nil, nil, "helpsoak")
+local specWarnSRWailing				= mod:NewSpecialWarningYou(236378, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellSRWailing					= mod:NewFadesYell(236378, 236075)--Keep name in tank one for now
-local specWarnSRErupting			= mod:NewSpecialWarningYouPos(236710, nil, nil, nil, 1, 2)
+local specWarnSRErupting			= mod:NewSpecialWarningYouPos(236710, nil, nil, nil, 1, 2, nil, nil, "gathershare")
 local yellSRErupting				= mod:NewIconFadesYell(236710, 243160)
-local specWarnLingeringEruption		= mod:NewSpecialWarningDodge(243536, nil, nil, nil, 2, 2)
-local specWarnLingeringWail			= mod:NewSpecialWarningDefensive(243624, nil, nil, nil, 1, 2)
+local specWarnLingeringEruption		= mod:NewSpecialWarningDodge(243536, nil, nil, nil, 2, 2, nil, nil, "watchorb")
+local specWarnLingeringWail			= mod:NewSpecialWarningDefensive(243624, nil, nil, nil, 1, 2, nil, nil, "defensive")
 local yellLingeringWail				= mod:NewShortYell(243624, nil, false)
-local specWarnSorrowfulWail			= mod:NewSpecialWarningRun(241564, "Melee", nil, nil, 4, 2)
+local specWarnSorrowfulWail			= mod:NewSpecialWarningRun(241564, "Melee", nil, nil, 4, 2, nil, nil, "runout")
 --Intermission: Eternal Flame
-local specWarnFocusedDreadflame		= mod:NewSpecialWarningYou(238502, nil, nil, nil, 1, 2)
+local specWarnFocusedDreadflame		= mod:NewSpecialWarningYou(238502, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellFocusedDreadflame			= mod:NewShortYell(238502)
 local yellFocusedDreadflameFades	= mod:NewFadesYell(238502)
-local specWarnFocusedDreadflameOther= mod:NewSpecialWarningTarget(238502, nil, nil, nil, 1, 2)
-local specWarnBurstingDreadflame	= mod:NewSpecialWarningMoveAway(238430, nil, nil, nil, 1, 2)
+local specWarnFocusedDreadflameOther= mod:NewSpecialWarningTarget(238502, nil, nil, nil, 1, 2, nil, nil, "helpsoak")
+local specWarnBurstingDreadflame	= mod:NewSpecialWarningMoveAway(238430, nil, nil, nil, 1, 2, nil, nil, "scatter")
 local yellBurstingDreadflame		= mod:NewShortPosYell(238430)
 local yellBurstingDreadflameFades	= mod:NewShortFadesYell(238430, nil, false)
 --Stage Two: Reflected Souls
-local specWarnSRHopeless			= mod:NewSpecialWarningYou(237590, nil, nil, 2, 3, 2)
-local yellSRHopeless				= mod:NewShortFadesYell(237590, 237724)
-local specWarnSRMalignant			= mod:NewSpecialWarningYou(236498, nil, nil, nil, 1, 2)
+local specWarnSRHopeless			= mod:NewSpecialWarningYou(237590, nil, nil, 2, 3, 2, nil, nil, "targetyou")
+local yellSRHopeless				= mod:NewShortFadesYell(237590)
+local specWarnSRMalignant			= mod:NewSpecialWarningYou(236498, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellSRMalignant				= mod:NewShortFadesYell(236498)
-local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
+local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt", nil, nil, nil, nil, nil, nil, "kickcast")
 --Intermission: Deceiver's Veil
 
 --Stage Three: Darkness of A Thousand Souls
-local specWarnDarknessofSouls		= mod:NewSpecialWarningMoveTo(238999, nil, nil, nil, 3, 2)
-local specWarnObelisk				= mod:NewSpecialWarningCount(239785, nil, nil, nil, 2, 2)
-local specWarnFlamingOrbSpawn		= mod:NewSpecialWarningDodgeCount(239253, nil, nil, nil, 2, 2)--Spawn warning
+local specWarnDarknessofSouls		= mod:NewSpecialWarningMoveTo(238999, nil, nil, nil, 3, 2, nil, nil, "findshelter")
+local specWarnObelisk				= mod:NewSpecialWarningCount(239785, nil, nil, nil, 2, 2, nil, nil, "farfromline")
+local specWarnFlamingOrbSpawn		= mod:NewSpecialWarningDodgeCount(239253, nil, nil, nil, 2, 2, nil, nil, "watchstep")--Spawn warning
 
 --Stage One: The Betrayer
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerFelclawsCD				= mod:NewCDCountTimer(25, 239932, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 4)
 local timerRupturingSingularityCD	= mod:NewCDCountTimer(61, 235059, nil, nil, nil, 3)--61-68?
-local timerRupturingSingularity		= mod:NewCastSourceTimer(9.7, 235059, 206577, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)--Shortname: Comet Impact
+local timerRupturingSingularity		= mod:NewCastSourceTimer(9.7, 235059, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)--Shortname: Comet Impact
 local timerArmageddonCD				= mod:NewCDCountTimer(42, 240910, nil, nil, nil, 5)
 local timerArmageddon				= mod:NewCastTimer(9, 234295, nil, nil, nil, 2)--Armageddon Rain
-local timerShadReflectionEruptingCD	= mod:NewCDTimer(35, 236710, 236711, nil, nil, 3, nil, DBM_COMMON_L.DAMAGE_ICON)--Shortname : Erupting Reflection
+local timerShadReflectionEruptingCD	= mod:NewCDTimer(35, 236710, nil, nil, nil, 3, nil, DBM_COMMON_L.DAMAGE_ICON)--Shortname : Erupting Reflection
 --Intermission: Eternal Flame
 --mod:AddTimerLine(SCENARIO_STAGE:format(1.5))
 local timerTransition				= mod:NewStageTimer(57.9)
@@ -96,9 +102,9 @@ local timerFocusedDreadflameCD		= mod:NewCDCountTimer(31, 238502, nil, nil, nil,
 local timerBurstingDreadflameCD		= mod:NewCDCountTimer(31, 238430, nil, nil, nil, 3)
 --Stage Two: Reflected Souls
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
-local timerShadReflectionHopelessCD	= mod:NewCDTimer(196, 237590, 237724, nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)--Shortname : Hopeless Reflection
+local timerShadReflectionHopelessCD	= mod:NewCDTimer(196, 237590, nil, nil, nil, 3, nil, DBM_COMMON_L.HEALER_ICON)--Shortname : Hopeless Reflection
 local timerHopelessness				= mod:NewCastTimer(8, 237725, nil, "Healer", nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
-local timerShadReflectionWailingCD	= mod:NewCDCountTimer(35, 236378, 236475, nil, nil, 3, nil, DBM_COMMON_L.TANK_ICON)--Shortname : Wailing Reflection
+local timerShadReflectionWailingCD	= mod:NewCDCountTimer(35, 236378, nil, nil, nil, 3, nil, DBM_COMMON_L.TANK_ICON)--Shortname : Wailing Reflection
 local timerSorrowfulWailCD			= mod:NewCDTimer(14.1, 241564, nil, nil, nil, 2)
 --Intermission: Deceiver's Veil
 --mod:AddTimerLine(SCENARIO_STAGE:format(2.5))
@@ -109,7 +115,7 @@ local timerDarknessofSoulsCD		= mod:NewCDCountTimer(89.7, 238999, nil, nil, nil,
 local timerTearRiftCD				= mod:NewCDCountTimer(95, 243982, nil, nil, nil, 3)
 local timerFlamingOrbCD				= mod:NewCDCountTimer(30, 239253, nil, nil, nil, 3)
 local timerObeliskCD				= mod:NewCDCountTimer(42, 239785, nil, nil, nil, 3)
-local timerObelisk					= mod:NewCastTimer(13, 239785, L.Obelisklasers, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)
+local timerObelisk					= mod:NewCastTimer(13, 239785, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 

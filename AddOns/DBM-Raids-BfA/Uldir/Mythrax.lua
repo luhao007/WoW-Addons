@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2194, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260525233052")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(134546)--138324 Xalzaix
 mod:SetEncounterID(2135)
@@ -31,42 +31,46 @@ mod:RegisterEventsInCombat(
  or ability.id = 274019 and type = "begincast"
  or ability.id = 274230 and type = "removebuff"
 --]]
+DBM:RegisterAltSpellName(274693, 41032)--Essence Shear -> Shear
+DBM:RegisterAltSpellName(273538, 158259)--Obliteration Blast -> Blast
+DBM:RegisterAltSpellName(272536, 139074)--Imminent Ruin -> Ruin
+DBM:RegisterAltSpellName(272115, 194463)--Obliteration Beam -> Beam
 --Stage One: Oblivion's Call
 local warnPhase						= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnOblivionSphere			= mod:NewCountAnnounce(272407, 4)
 local warnVoidEchoes				= mod:NewCountAnnounce(279157, 4)
 --Stage Two:
-local warnDestroyerRemaining			= mod:NewAddsLeftAnnounce("ej18508", 2, 274693)
+local warnDestroyerRemaining			= mod:NewAddsLeftAnnounce(-18508, 2, 274693)
 
 --Stage One: Oblivion's Call
-local specWarnEssenceShearDodge			= mod:NewSpecialWarningDodge(274693, false, nil, nil, 3, 2)
-local specWarnEssenceShear				= mod:NewSpecialWarningDefensive(274693, nil, nil, nil, 1, 2)
-local specWarnEssenceShearOther			= mod:NewSpecialWarningTaunt(274693, nil, nil, nil, 1, 2)
-local specWarnObliterationBlast			= mod:NewSpecialWarningDodge(273538, nil, nil, nil, 2, 2)
+local specWarnEssenceShearDodge			= mod:NewSpecialWarningDodge(274693, false, nil, nil, 3, 2, nil, nil, "shockwave")
+local specWarnEssenceShear				= mod:NewSpecialWarningDefensive(274693, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnEssenceShearOther			= mod:NewSpecialWarningTaunt(274693, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnObliterationBlast			= mod:NewSpecialWarningDodge(273538, nil, nil, nil, 2, 2, nil, nil, "watchwave")
 local yellOblivionSphere				= mod:NewYell(272407)
-local specWarnImminentRuin				= mod:NewSpecialWarningYouPos(272536, nil, nil, nil, 1, 2)
+local specWarnImminentRuin				= mod:NewSpecialWarningYouPos(272536, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellImminentRuin					= mod:NewPosYell(272536, 139073)--Short name "Ruin"
 local yellImminentRuinFades				= mod:NewIconFadesYell(272536, 139073)
-local specWarnImminentRuinNear			= mod:NewSpecialWarningClose(272536, false, nil, 2, 1, 2)
-local specWarnLivingWeapon				= mod:NewSpecialWarningSwitch(276922, "RangedDps", nil, nil, 1, 2, 4)--Mythic (include melee dps too? asuming do to spheres, a big no)
-local specWarnVoidEchoes				= mod:NewSpecialWarningCount(279157, false, nil, 2, 2, 2, 4)--Mythic
+local specWarnImminentRuinNear			= mod:NewSpecialWarningClose(272536, false, nil, 2, 1, 2, nil, nil, "runaway")
+local specWarnLivingWeapon				= mod:NewSpecialWarningSwitch(276922, "RangedDps", nil, nil, 1, 2, 4, nil, "bigmob")--Mythic (include melee dps too? asuming do to spheres, a big no, "bigmob")
+local specWarnVoidEchoes				= mod:NewSpecialWarningCount(279157, false, nil, 2, 2, 2, 4, nil, "aesoon")--Mythic
 --Stage Two: Fury of the C'thraxxi
-local specWarnObliterationbeam			= mod:NewSpecialWarningDodgeCount(272115, nil, nil, nil, 2, 2)--Generic for now
+local specWarnObliterationbeam			= mod:NewSpecialWarningDodgeCount(272115, nil, nil, nil, 2, 2, nil, nil, "watchstep")--Generic for now
 --local specWarnObliterationbeamYou		= mod:NewSpecialWarningRun(272115, nil, nil, nil, 4, 2)--Generic for now
-local specWarnVisionsofMadness			= mod:NewSpecialWarningSwitchCount(273949, "-Healer", nil, nil, 1, 2)
-local specWarnVoidVolley				= mod:NewSpecialWarningInterruptCount(273944, "HasInterrupt", nil, nil, 1, 2)
-local specWarnMindFlay					= mod:NewSpecialWarningInterrupt(274019, "HasInterrupt", nil, nil, 1, 2)
+local specWarnVisionsofMadness			= mod:NewSpecialWarningSwitchCount(273949, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnVoidVolley				= mod:NewSpecialWarningInterruptCount(273944, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kick2r")
+local specWarnMindFlay					= mod:NewSpecialWarningInterrupt(274019, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
-local timerEssenceShearCD				= mod:NewNextSourceTimer(19.5, 274693, 41032, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--Short Text "Shear", All timers generlaly 20 but 19.9 can happen and DBM has to use lost known time
-local timerObliterationBlastCD			= mod:NewNextSourceTimer(14.9, 273538, 158259, nil, nil, 3)--Short Text "Blast"
+local timerEssenceShearCD				= mod:NewNextSourceTimer(19.5, 274693, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--Short Text "Shear", All timers generlaly 20 but 19.9 can happen and DBM has to use lost known time
+local timerObliterationBlastCD			= mod:NewNextSourceTimer(14.9, 273538, nil, nil, nil, 3)--Short Text "Blast"
 local timerOblivionSphereCD				= mod:NewNextCountTimer(14.9, 272407, nil, nil, nil, 3, nil, nil, nil, 1, 3)
-local timerImminentRuinCD				= mod:NewNextCountTimer(14.9, 272536, 139074, nil, nil, 3, nil, nil, nil, not mod:IsTank() and 3 or nil, 3)--Short Text "Ruin"
+local timerImminentRuinCD				= mod:NewNextCountTimer(14.9, 272536, nil, nil, nil, 3, nil, nil, nil, not mod:IsTank() and 3 or nil, 3)--Short Text "Ruin"
 local timerLivingWeaponCD				= mod:NewNextTimer(60.5, 276922, nil, nil, nil, 1, nil, DBM_COMMON_L.MYTHIC_ICON)--Mythic
 local timerVoidEchoesCD					= mod:NewNextCountTimer(60.5, 279157, nil, nil, nil, 2, nil, DBM_COMMON_L.HEROIC_ICON)
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerIntermission					= mod:NewStageTimer(60)
-local timerObliterationbeamCD			= mod:NewCDCountTimer(12.1, 272115, 194463, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 3)--Short Text "Beam"
+local timerObliterationbeamCD			= mod:NewCDCountTimer(12.1, 272115, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 3, 3)--Short Text "Beam"
 local timerVisionsoMadnessCD			= mod:NewNextCountTimer(20, 273949, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)

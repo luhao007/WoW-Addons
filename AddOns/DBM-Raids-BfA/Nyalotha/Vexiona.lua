@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2370, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260526204832")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(157354)
 mod:SetEncounterID(2336)
@@ -43,58 +43,60 @@ local berserkTimer							= mod:NewBerserkTimer(600)
 mod:AddInfoFrameOption(307019, true)
 ----Stage 1: Cult of the Void
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20661))
+DBM:RegisterAltSpellName(307020, 18620)--Twilight Breath -> Breath
+DBM:RegisterAltSpellName(307218, 125030)--Twilight Decimator -> Deep Breath
 local warnGiftoftheVoid						= mod:NewTargetNoFilterAnnounce(306981, 1)
 local warnFanaticalAscension				= mod:NewCastAnnounce(307729, 4)
 local warnPoweroftheChosen					= mod:NewTargetNoFilterAnnounce(307075, 3)
 local warnSpitefulAssault					= mod:NewSpellAnnounce(307396, 2)
 local warnBrutalSmash						= mod:NewSpellAnnounce(315932, 4)--Fall back warning that'll only fire if special warning for brutal smash disabled
 
-local specWarnEncroachingShadows			= mod:NewSpecialWarningMoveAway(307314, nil, nil, nil, 1, 2)
+local specWarnEncroachingShadows			= mod:NewSpecialWarningMoveAway(307314, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellEncroachingShadows				= mod:NewYell(307314)
 local yellEncroachingShadowsFades			= mod:NewShortFadesYell(307314)
-local specWarnTwilightBreath				= mod:NewSpecialWarningDefensive(307020, nil, 18620, nil, 1, 2)
-local specWarnDespair						= mod:NewSpecialWarningYou(307359, nil, nil, nil, 1, 2)
+local specWarnTwilightBreath				= mod:NewSpecialWarningDefensive(307020, nil, nil, nil, 1, 2, nil, nil, "breathsoon")
+local specWarnDespair						= mod:NewSpecialWarningYou(307359, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellDespairFades						= mod:NewFadesYell(307359, nil, false)
-local specWarnDespairOther					= mod:NewSpecialWarningTarget(307359, "Healer", nil, nil, 1, 2)
-local specWarnDarkGateway					= mod:NewSpecialWarningSwitchCount(307057, "-Healer", nil, nil, 1, 2)
-local specWarnGTFO							= mod:NewSpecialWarningGTFO(307343, nil, nil, nil, 1, 8)
+local specWarnDespairOther					= mod:NewSpecialWarningTarget(307359, "Healer", nil, nil, 1, 2, nil, nil, "healfull")
+local specWarnDarkGateway					= mod:NewSpecialWarningSwitchCount(307057, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnGTFO							= mod:NewSpecialWarningGTFO(307343, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerEncroachingShadowsCD				= mod:NewCDTimer(14.6, 307314, nil, nil, nil, 3)
-local timerTwilightBreathCD					= mod:NewCDTimer(14.8, 307020, 18620, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--14.8-20.0
+local timerTwilightBreathCD					= mod:NewCDTimer(14.8, 307020, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--14.8-20.0
 local timerDespairCD						= mod:NewCDTimer(35.2, 307359, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)--35.2-36.4
 local timerShatteredResolve					= mod:NewTargetTimer(6, 307371, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerDarkGatewayCD					= mod:NewCDCountTimer(33.2, 307057, nil, nil, nil, 1, nil, nil, nil, 1, 4)
 ----Stage 2: Death From Above
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20667))
-local specWarnTwilightDecimator				= mod:NewSpecialWarningDodgeCount(307218, nil, 125030, nil, 2, 2)
+local specWarnTwilightDecimator				= mod:NewSpecialWarningDodgeCount(307218, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
 
-local timerTwilightDecimatorCD				= mod:NewNextCountTimer(12.2, 307218, 125030, nil, nil, 3)--Deep Breath shorttext
+local timerTwilightDecimatorCD				= mod:NewNextCountTimer(12.2, 307218, nil, nil, nil, 3)--Deep Breath shorttext
 ----Stage 3: The Void Unleashed
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20669))
 local warnPhase3							= mod:NewPhaseAnnounce(3, 2)
 local warnDesolation						= mod:NewTargetNoFilterAnnounce(310325, 4)
 
-local specWarnHeartofDarkness				= mod:NewSpecialWarningRun(307639, nil, nil, nil, 4, 2)
-local specWarnDesolation					= mod:NewSpecialWarningYou(310325, nil, nil, nil, 1, 2)
+local specWarnHeartofDarkness				= mod:NewSpecialWarningRun(307639, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnDesolation					= mod:NewSpecialWarningYou(310325, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellDesolation						= mod:NewYell(310325, nil, nil, nil, "YELL")
 local yellDesolationFades					= mod:NewShortFadesYell(310325, nil, nil, nil, "YELL")
-local specWarnDesolationShare				= mod:NewSpecialWarningMoveTo(310325, false, nil, 2, 1, 2)
+local specWarnDesolationShare				= mod:NewSpecialWarningMoveTo(310325, false, nil, 2, 1, 2, nil, nil, "gathershare")
 
 local timerHeartofDarknessCD				= mod:NewCDCountTimer(31.6, 307639, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 4)
 local timerDesolationCD						= mod:NewCDTimer(32.3, 310325, nil, nil, nil, 3, nil, DBM_COMMON_L.HEROIC_ICON)
 --Adds
 mod:AddTimerLine(DBM_COMMON_L.ADDS)
 ----Iron-Willed Enforcer
-local specWarnBrutalSmash					= mod:NewSpecialWarningDodge(315932, false, nil, 2, 2, 2, 4)--May feel spammy if multiple adds are up so elect in instead of out
+local specWarnBrutalSmash					= mod:NewSpecialWarningDodge(315932, false, nil, 2, 2, 2, 4, nil, "watchstep")--May feel spammy if multiple adds are up so elect in instead of out
 
 local timerNoEscapeCD						= mod:NewCDCountTimer(11, 316437, nil, nil, nil, 3, nil, DBM_COMMON_L.MYTHIC_ICON)
 ----Void Ascendant
-local specWarnAnnihilation					= mod:NewSpecialWarningDodgeLoc(307403, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.dodge:format(307403), nil, 2, 2)
-local specWarnAnnihilationDefensive			= mod:NewSpecialWarningDefensive(307403, nil, nil, nil, 1, 2)
+local specWarnAnnihilation					= mod:NewSpecialWarningDodgeLoc(307403, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.dodge:format(307403), nil, 2, 2, nil, nil, "shockwave")
+local specWarnAnnihilationDefensive			= mod:NewSpecialWarningDefensive(307403, nil, nil, nil, 1, 2, nil, nil, "defensive")
 
 local timerAnnihilationCD					= mod:NewCDTimer(14.6, 307403, nil, nil, nil, 3)
 ----Spellbound Ritualist
-local specWarnVoidBolt						= mod:NewSpecialWarningInterrupt(307177, "HasInterrupt", nil, nil, 3, 2)
+local specWarnVoidBolt						= mod:NewSpecialWarningInterrupt(307177, "HasInterrupt", nil, nil, 3, 2, nil, nil, "kickcast")
 
 mod:AddNamePlateOption("NPAuraOnPoweroftheChosen", 307729, false)
 

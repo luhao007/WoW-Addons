@@ -9,7 +9,6 @@ local Group = ns.Group
 
 local Collectible = ns.node.Collectible
 local Node = ns.node.Node
-local Rare = ns.node.Rare
 local Vendor = ns.node.Vendor
 
 local Achievement = ns.reward.Achievement
@@ -29,7 +28,7 @@ local Transmog = ns.reward.Transmog
 ns.expansion = 10
 
 -------------------------------------------------------------------------------
------------------------------------ GROUPS ------------------------------------
+------------------------------------ GROUPS -----------------------------------
 -------------------------------------------------------------------------------
 
 ns.groups.CLAN_CHEST = Group('clan_chest', 'chest_bk', {
@@ -458,17 +457,6 @@ ns.groups.JUST_ONE_MORE_THING = Group('just_one_more_thing', 1411833, {
     type = ns.group_types.ACHIEVEMENT,
     achievement = 19792
 })
-
--------------------------------------------------------------------------------
---------------------------------- ELITE RARES ---------------------------------
--------------------------------------------------------------------------------
-
-local RareElite = Class('RareElite', Rare, {
-    rlabel = '(' .. ns.color.Gray(L['elite']) .. ')',
-    sublabel = L['elite_loot_higher_ilvl']
-})
-
-ns.node.RareElite = RareElite
 
 -------------------------------------------------------------------------------
 -------------------------------- DRAGON GLYPHS --------------------------------
@@ -940,7 +928,7 @@ local Flag = Class('Flag', Collectible, {
 ns.node.Flag = Flag
 
 -------------------------------------------------------------------------------
------------------- WYRMHOLE GENERATOR - SIGNAL TRANSMITTER --------------------
+------------------- WYRMHOLE GENERATOR - SIGNAL TRANSMITTER -------------------
 -------------------------------------------------------------------------------
 
 local SignalTransmitter = Class('SignalTransmitter', Collectible, {
@@ -964,7 +952,7 @@ local SignalTransmitter = Class('SignalTransmitter', Collectible, {
 ns.node.SignalTransmitter = SignalTransmitter
 
 -------------------------------------------------------------------------------
----------------------------- FRAGMENTS OF HISTORY -----------------------------
+----------------------------- FRAGMENTS OF HISTORY ----------------------------
 -------------------------------------------------------------------------------
 
 local Fragment = Class('Fragment', Collectible, {
@@ -985,7 +973,7 @@ end
 ns.node.Fragment = Fragment
 
 -------------------------------------------------------------------------------
-------------------------------- DISTURBED DIRT --------------------------------
+-------------------------------- DISTURBED DIRT -------------------------------
 -------------------------------------------------------------------------------
 
 local Disturbeddirt = Class('Disturbed_dirt', Node, {
@@ -1018,7 +1006,7 @@ local Disturbeddirt = Class('Disturbed_dirt', Node, {
 ns.node.Disturbeddirt = Disturbeddirt
 
 -------------------------------------------------------------------------------
--------------------------- EXPEDITION SCOUT'S PACKS ---------------------------
+--------------------------- EXPEDITION SCOUT'S PACKS --------------------------
 -------------------------------------------------------------------------------
 
 local Scoutpack = Class('Scoutpack', Node, {
@@ -1234,7 +1222,7 @@ local LegendaryCharacter = Class('LegendaryCharacter', Collectible, {
 ns.node.LegendaryCharacter = LegendaryCharacter
 
 -------------------------------------------------------------------------------
---------------------- ANCIENT STONES OF THE DRAGON ISLES ----------------------
+---------------------- ANCIENT STONES OF THE DRAGON ISLES ---------------------
 -------------------------------------------------------------------------------
 
 local AncientStone = Class('AncientStone', Collectible, {
@@ -1255,7 +1243,7 @@ local Safari = Class('Safari', Collectible,
 ns.node.Safari = Safari
 
 -------------------------------------------------------------------------------
------------------------------- ELEMENTAL CHESTS -------------------------------
+------------------------------- ELEMENTAL CHESTS ------------------------------
 -------------------------------------------------------------------------------
 
 local ElementalChest = Class('ElementalChest', ns.node.Treasure, {
@@ -1378,7 +1366,7 @@ ns.Intervals.AylaagCampInterval = Class('AylaagCampInterval', Interval, {
 })
 
 -------------------------------------------------------------------------------
------------------------------- ELEMENTAL STORMS -------------------------------
+------------------------------- ELEMENTAL STORMS ------------------------------
 -------------------------------------------------------------------------------
 
 local ELEMENTAL_STORM_AREA_POIS = {
@@ -1862,9 +1850,9 @@ ns.node.GrandHunt = GrandHunt
 
 ns.hooks.areapoievent.Add(ns.groups.GRAND_HUNTS, GRAND_HUNT_AREA_POIS)
 
-------------------------------------------------------------------------------
---------------------------- RARE VIGNETTE TOOLTIPS ---------------------------
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+---------------------------- RARE VIGNETTE TOOLTIPS ---------------------------
+-------------------------------------------------------------------------------
 
 hooksecurefunc(VignettePinMixin, 'OnMouseEnter', function(self)
     if select(2, C_AddOns.IsAddOnLoaded('RareScanner')) then
@@ -1901,9 +1889,9 @@ hooksecurefunc(VignettePinMixin, 'OnMouseEnter', function(self)
     GameTooltip:Show()
 end)
 
-------------------------------------------------------------------------------
---------------------------------- DREAMSURGE ---------------------------------
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+---------------------------------- DREAMSURGE ---------------------------------
+-------------------------------------------------------------------------------
 
 local Celestine = Class('Celestine', Vendor, {
     id = 210608,
@@ -1951,7 +1939,7 @@ local RichSoil = Class('RichSoil', Node, {
 ns.node.RichSoil = RichSoil
 
 -------------------------------------------------------------------------------
----------------------------------- CLUED IN -----------------------------------
+----------------------------------- CLUED IN ----------------------------------
 -------------------------------------------------------------------------------
 
 local CluedIn = Class('CluedIn', Collectible, {

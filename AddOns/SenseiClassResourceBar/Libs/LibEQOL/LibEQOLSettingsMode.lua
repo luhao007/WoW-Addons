@@ -1,4 +1,4 @@
-local MODULE_MAJOR, MINOR = "LibEQOLSettingsMode-1.0", 23000001
+local MODULE_MAJOR, MINOR = "LibEQOLSettingsMode-1.0", 24000001
 local LibStub = _G.LibStub
 assert(LibStub, MODULE_MAJOR .. " requires LibStub")
 
@@ -638,7 +638,7 @@ function lib:CreateInput(cat, data)
 	)
 
 	local initializer = Settings.CreateControlInitializer(
-		"LibEQOL1652fd2_InputControlTemplate",
+		"LibEQOLca214ff_InputControlTemplate",
 		setting,
 		nil,
 		data.desc
@@ -798,7 +798,7 @@ function lib:CreateScrollDropdown(cat, data)
 		return container:GetData()
 	end
 
-	local initializer = Settings.CreateElementInitializer("LibEQOL1652fd2_ScrollDropdownTemplate", {
+	local initializer = Settings.CreateElementInitializer("LibEQOLca214ff_ScrollDropdownTemplate", {
 		label = data.name or data.text or data.key,
 		optionsFunc = optionsFunc,
 		generator = data.generator,
@@ -831,7 +831,7 @@ function lib:CreateSoundDropdown(cat, data)
 		data.set,
 		data
 		)
-		local initializer = Settings.CreateElementInitializer("LibEQOL1652fd2_SoundDropdownTemplate", {
+		local initializer = Settings.CreateElementInitializer("LibEQOLca214ff_SoundDropdownTemplate", {
 			setting = setting,
 			options = data.values or data.options,
 			optionfunc = data.optionfunc,
@@ -1095,7 +1095,7 @@ end
 
 function lib:CreateColorOverrides(cat, data)
 	assert(cat and data and data.entries, "category and entries required")
-	local initializer = Settings.CreateElementInitializer("LibEQOL1652fd2_ColorOverridesPanelNoHead", {
+	local initializer = Settings.CreateElementInitializer("LibEQOLca214ff_ColorOverridesPanelNoHead", {
 		categoryID = cat:GetID(),
 		entries = data.entries,
 		getColor = data.getColor,
@@ -1109,6 +1109,7 @@ function lib:CreateColorOverrides(cat, data)
 		hasOpacity = data.hasOpacity or data.hasAlpha,
 	})
 	initializer.GetExtent = function(_)
+		local controlData = initializer.data or data
 		if data.height then
 			return data.height
 		end
@@ -1132,6 +1133,119 @@ function lib:CreateColorOverrides(cat, data)
 	applyExpandablePredicate(initializer, data)
 	State.elements[data.key or (data.name or "ColorOverrides")] = initializer
 	maybeAttachNotify(initializer.GetSetting and initializer:GetSetting(), data)
+	return initializer
+end
+
+function lib:CreateSortableList(cat, data)
+	assert(cat and data and (data.items or data.getItems or data.get), "category and data.items/getItems required")
+	local notifyTag = data.notify
+	if notifyTag == true then
+		notifyTag = data.key or data.name or data.text
+	end
+	if notifyTag then
+		notifyTag = prefixNotifyTag(notifyTag)
+	end
+	local initializer = Settings.CreateElementInitializer("LibEQOLca214ff_SortableListTemplate", {
+		name = data.name or data.text or data.key or "List",
+		tooltip = data.desc or data.tooltip,
+		key = data.key,
+		items = data.items,
+		getItems = data.getItems,
+		setItems = data.setItems,
+		get = data.get,
+		set = data.set,
+		onChanged = data.onChanged,
+		callback = data.callback,
+		onReorder = data.onReorder,
+		onDelete = data.onDelete,
+		onAdd = data.onAdd,
+		addOptions = data.addOptions,
+		addValues = data.addValues,
+		addOptionFunc = data.addOptionFunc,
+		menuGenerator = data.menuGenerator,
+		onAddButtonClick = data.onAddButtonClick,
+		addText = data.addText,
+		addButtonText = data.addButtonText,
+		addButtonWidth = data.addButtonWidth,
+		emptyAddText = data.emptyAddText,
+		delete = data.delete,
+		deletable = data.deletable,
+		add = data.add,
+		drag = data.drag,
+		draggable = data.draggable,
+		dropHighlightColor = data.dropHighlightColor,
+		highlightColor = data.highlightColor,
+		dragGhost = data.dragGhost,
+		showDragGhost = data.showDragGhost,
+		dragGhostWidth = data.dragGhostWidth,
+		dragGhostHeight = data.dragGhostHeight,
+		dragGhostOffsetX = data.dragGhostOffsetX,
+		dragGhostOffsetY = data.dragGhostOffsetY,
+		dragGhostColor = data.dragGhostColor,
+		dragGhostTextColor = data.dragGhostTextColor,
+		allowDuplicates = data.allowDuplicates,
+		rowHeight = data.rowHeight,
+		spacing = data.spacing,
+		padding = data.padding,
+		buttonSize = data.buttonSize,
+		upTooltip = data.upTooltip,
+		downTooltip = data.downTooltip,
+		deleteTooltip = data.deleteTooltip,
+		parentCheck = data.parentCheck,
+		isEnabled = data.isEnabled,
+		notify = notifyTag,
+	})
+	initializer.GetExtent = function(_)
+		local currentData = initializer.data or {}
+		if data.height then
+			return data.height
+		end
+		local count = 0
+		local items = data.items
+		if data.getItems then
+			local ok, result = pcall(data.getItems)
+			if ok then
+				items = result
+			end
+		elseif data.get then
+			local ok, result = pcall(data.get)
+			if ok then
+				items = result
+			end
+		end
+		if type(items) == "table" then
+			count = #items
+		end
+		if currentData._currentCount and currentData._currentCount > count then
+			count = currentData._currentCount
+		end
+		local rowHeight = data.rowHeight or 22
+		local spacing = data.spacing or 4
+		local padding = data.padding or 4
+		local showAdd = currentData._showAdd or (data.add ~= false
+			and (data.addOptions or data.addValues or data.addOptionFunc or data.menuGenerator or data.onAddButtonClick)
+		)
+		local height = padding * 2
+		if count > 0 then
+			height = height + (count * rowHeight) + (math.max(0, count - 1) * spacing)
+		end
+		if showAdd then
+			if count > 0 then
+				height = height + spacing
+			end
+			height = height + 22
+		end
+		if data.minHeight then
+			height = math.max(height, data.minHeight)
+		end
+		return height
+	end
+	addSearchTags(initializer, data.searchtags, data.name or data.text)
+	applyParentInitializer(initializer, data.parent, data.parentCheck)
+	applyModifyPredicate(initializer, data)
+	applyExpandablePredicate(initializer, data)
+	Settings.RegisterInitializer(cat, initializer)
+	State.elements[data.key or (data.name or "SortableList")] = initializer
 	return initializer
 end
 
@@ -1164,7 +1278,7 @@ function lib:CreateMultiDropdown(cat, data)
 		function() end,
 		data
 	)
-	local initializer = Settings.CreateElementInitializer("LibEQOL1652fd2_MultiDropdownTemplate", {
+	local initializer = Settings.CreateElementInitializer("LibEQOLca214ff_MultiDropdownTemplate", {
 		label = data.name or data.text or data.key,
 		tooltip = data.desc or data.cbDesc or data.tooltip,
 		options = data.values,
@@ -1337,7 +1451,7 @@ function lib:CreateText(cat, text, extra)
 	local data = normalizeNameData(text, extra)
 	local name = data.name or data.text
 	local init = Settings.CreateElementInitializer(
-		"LibEQOL1652fd2_SettingsListSectionHintTemplate",
+		"LibEQOLca214ff_SettingsListSectionHintTemplate",
 		{ name = name }
 	)
 	addSearchTags(init, data.searchtags or name, name)

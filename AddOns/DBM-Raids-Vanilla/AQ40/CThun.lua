@@ -9,7 +9,7 @@ end
 local mod	= DBM:NewMod("CThun", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260724035945")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15589, 15727)
 mod:SetEncounterID(717)
@@ -33,11 +33,11 @@ local warnEyeTentacle			= mod:NewAnnounce("WarnEyeTentacle", 2, 126)
 local warnClawTentacle			= mod:NewAnnounce("WarnClawTentacle2", 2, 26391, false)
 local warnGiantEyeTentacle		= mod:NewAnnounce("WarnGiantEyeTentacle", 3, 126)
 local warnGiantClawTentacle		= mod:NewAnnounce("WarnGiantClawTentacle", 3, 26391)
-local warnPhase2				= mod:NewPhaseAnnounce(2)
+local warnPhase 				= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 
-local specWarnDarkGlare			= mod:NewSpecialWarningDodge(26029, nil, nil, nil, 3, 2)
-local specWarnWeakened			= mod:NewSpecialWarning("SpecWarnWeakened", nil, nil, nil, 2, 2, nil, 28598)
-local specWarnEyeBeam			= mod:NewSpecialWarningYou(26134, nil, nil, nil, 1, 2)
+local specWarnDarkGlare			= mod:NewSpecialWarningDodge(26029, nil, nil, nil, 3, 2, nil, nil, "laserrun")
+local specWarnWeakened			= mod:NewSpecialWarning("SpecWarnWeakened", nil, nil, nil, 2, 2, nil, "132212", nil, nil, "targetchange")
+local specWarnEyeBeam			= mod:NewSpecialWarningYou(26134, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellEyeBeam				= mod:NewYell(26134)
 
 local timerDarkGlareCD			= mod:NewNextTimer(86, 26029)
@@ -46,7 +46,7 @@ local timerEyeTentacle			= mod:NewTimer(45, "TimerEyeTentacle", 126, nil, nil, 1
 local timerGiantEyeTentacle		= mod:NewTimer(60, "TimerGiantEyeTentacle", 126, nil, nil, 1)
 local timerClawTentacle			= mod:NewTimer(8, "TimerClawTentacle", 26391, nil, nil, 1) -- every 8 seconds
 local timerGiantClawTentacle	= mod:NewTimer(60, "TimerGiantClawTentacle", 26391, nil, nil, 1)
-local timerWeakened				= mod:NewTimer(45, "TimerWeakened", 28598)
+local timerWeakened				= mod:NewTimer(45, "TimerWeakened", "132212")
 
 mod:AddSetIconOption("SetIconOnEyeBeam", 26134, true, 0, {1})
 mod:AddInfoFrameOption(26476, true)
@@ -70,7 +70,7 @@ do
 		twipe(sortedLines)
 		--First, process players in stomach and gather tentacle information and debuff stacks
 		for name in pairs(playersInStomach) do
-			local uId = DBM:GetRaidUnitId(name)
+			local uId = DBM:GetRaidUnitId(name, true)
 			if uId then
 				--First, display their stomach debuff stacks
 				local spellName, _, count, _, _, _, _, _, _, _, _, _, _, _, _, count2 = DBM:UnitDebuff(uId, 26476)
@@ -95,15 +95,16 @@ do
 	end
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	table.wipe(playersInStomach)
 	table.wipe(fleshTentacles)
 	table.wipe(diedTentacles)
 	self:SetStage(1)
-	timerClawTentacle:Start(9-delay) -- Combatlog told me, the first Claw Tentacle spawn in 00:00:09, but need more test.
-	timerEyeTentacle:Start(45-delay)
-	timerDarkGlareCD:Start(48-delay)
-	self:ScheduleMethod(48-delay, "DarkGlare")
+	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
+	timerClawTentacle:Start(9) -- Combatlog told me, the first Claw Tentacle spawn in 00:00:09, but need more test.
+	timerEyeTentacle:Start(45)
+	timerDarkGlareCD:Start(48)
+	self:ScheduleMethod(48, "DarkGlare")
 end
 
 function mod:OnCombatEnd(wipe, isSecondRun)
@@ -113,8 +114,8 @@ function mod:OnCombatEnd(wipe, isSecondRun)
 	end
 	--Only run on second run, to ensure trash mod has had enough time to update requiredBosses
 	if not wipe and isSecondRun and firstBossMod.vb.firstEngageTime and firstBossMod.Options.SpeedClearTimer then
-		if firstBossMod.vb.requiredBosses < 5 then
-			DBM:AddMsg(L.NotValid:format(5 - firstBossMod.vb.requiredBosses .. "/4"))
+		if firstBossMod.vb.requiredBosses < 4 then
+			DBM:AddMsg(L.NotValid:format(4 - firstBossMod.vb.requiredBosses .. "/3"))
 		end
 	end
 end
@@ -214,7 +215,7 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 15589 then
 		self:SetStage(2)
-		warnPhase2:Show()
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 		timerDarkGlareCD:Stop()
 		timerEyeTentacle:Stop()
 		timerClawTentacle:Stop() -- Claw Tentacle never respawns in phase2

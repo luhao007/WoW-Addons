@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2337, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(146251, 146253, 146256)--Sister Katherine 146251, Brother Joseph 146253, Laminaria 146256
 mod:SetEncounterID(2280)
@@ -55,30 +55,30 @@ local warnStormsWail					= mod:NewTargetNoFilterAnnounce(285350, 3)
 
 --Stage One: Storm the Ships
 ----General
-local specWarnTidalEmpowerment			= mod:NewSpecialWarningInterrupt(284765, "HasInterrupt", nil, nil, 1, 2)
+local specWarnTidalEmpowerment			= mod:NewSpecialWarningInterrupt(284765, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 --local specWarnGTFO						= mod:NewSpecialWarningGTFO(285075, false, nil, 2, 1, 8)
 ----Sister Katherine
-local specWarnVoltaicFlash				= mod:NewSpecialWarningDodgeCount(284262, nil, nil, nil, 2, 2)
-local specWarnCracklingLightning		= mod:NewSpecialWarningMoveAway(288205, nil, nil, nil, 1, 2)
+local specWarnVoltaicFlash				= mod:NewSpecialWarningDodgeCount(284262, nil, nil, nil, 2, 2, nil, nil, "watchorb")
+local specWarnCracklingLightning		= mod:NewSpecialWarningMoveAway(288205, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellCracklingLightning			= mod:NewYell(288205)
 local yellCracklingLightningFades		= mod:NewShortFadesYell(288205)
 ----Brother Joseph
-local specWarnSeaStorm					= mod:NewSpecialWarningMoveAway(284361, nil, nil, nil, 1, 2)
+local specWarnSeaStorm					= mod:NewSpecialWarningMoveAway(284361, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellSeaStorm						= mod:NewYell(284361)
 local yellSeaStormFades					= mod:NewShortFadesYell(284361)
-local specWarnSeasTemptation			= mod:NewSpecialWarningSwitchCount(284383, "RangedDps", nil, nil, 1, 2)--Ranged assumed for now, melee stay out until temping song goes out
-local specWarnTemptingSong				= mod:NewSpecialWarningRun(284405, nil, nil, nil, 4, 2)
+local specWarnSeasTemptation			= mod:NewSpecialWarningSwitchCount(284383, "RangedDps", nil, nil, 1, 2, nil, nil, "killmob")--Ranged assumed for now, melee stay out until temping song goes out
+local specWarnTemptingSong				= mod:NewSpecialWarningRun(284405, nil, nil, nil, 4, 2, nil, nil, "justrun")
 local yellTemptingSong					= mod:NewYell(284405)
 --Stage Two: Laminaria
-local specWarnEnergizedStorm			= mod:NewSpecialWarningSwitch("ej19312", "RangedDps", nil, nil, 1, 2)
-local specWarnSeaSwell					= mod:NewSpecialWarningDodge(285118, nil, nil, 2, 3, 2)
-local specWarnIreoftheDeep				= mod:NewSpecialWarningSoak(285017, "-Tank", nil, nil, 1, 7)
-local specWarnStormsWail				= mod:NewSpecialWarningMoveTo(285350, nil, nil, 2, 3, 2)
+local specWarnEnergizedStorm			= mod:NewSpecialWarningSwitch(-19312, "RangedDps", nil, nil, 1, 2, nil, nil, "targetchange")
+local specWarnSeaSwell					= mod:NewSpecialWarningDodge(285118, nil, nil, 2, 3, 2, nil, nil, "watchstep")
+local specWarnIreoftheDeep				= mod:NewSpecialWarningSoak(285017, "-Tank", nil, nil, 1, 7, nil, nil, "helpsoak")
+local specWarnStormsWail				= mod:NewSpecialWarningMoveTo(285350, nil, nil, 2, 3, 2, nil, nil, "targetyou")
 local yellStormsWail					= mod:NewYell(285350)
 local yellStormsWailFades				= mod:NewShortFadesYell(285350)
 --Achievement
-local specWarnUndertow					= mod:NewSpecialWarningSpell(289487, nil, nil, nil, 2, 2)
-local specWarnHydroBlast				= mod:NewSpecialWarningSpell(289479, nil, nil, nil, 2, 3)
+local specWarnUndertow					= mod:NewSpecialWarningSpell(289487, nil, nil, nil, 2, 2, nil, nil, "keepmove")
+local specWarnHydroBlast				= mod:NewSpecialWarningSpell(289479, nil, nil, nil, 2, 3, nil, nil, "crowdcontrol")
 
 --Stage One: Storm the Ships
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19257))

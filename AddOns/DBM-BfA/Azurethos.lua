@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2199, "DBM-BfA", 1, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(136385)
 --mod:SetEncounterID(1880)
@@ -18,9 +18,9 @@ mod:RegisterEventsInCombat(
 --TODO, see if can detect gale force teleport target
 local warnGaleForce					= mod:NewTargetAnnounce(274829, 3)
 
-local specWarnAzurethosFury			= mod:NewSpecialWarningDodge(274839, nil, nil, nil, 2, 2)
-local specWarnGaleForce				= mod:NewSpecialWarningDodge(274829, nil, nil, nil, 2, 2)
-local specWarnWingBuffet			= mod:NewSpecialWarningDodge(274832, nil, nil, nil, 1, 2)
+local specWarnAzurethosFury			= mod:NewSpecialWarningDodge(274839, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnGaleForce				= mod:NewSpecialWarningDodge(274829, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnWingBuffet			= mod:NewSpecialWarningDodge(274832, nil, nil, nil, 1, 2, nil, nil, "shockwave")
 
 local timerAzurethosFuryCD			= mod:NewCDTimer(46.8, 274839, nil, nil, nil, 2)
 

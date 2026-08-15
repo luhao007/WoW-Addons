@@ -1,6 +1,0 @@
-<Ui>
-	<Script file="Options.lua" />
-	<Include file="Common\Common.xml" />
-	<Include file="Interaction\Interaction.xml" />
-	<Script file="Hardcore\Hardcore.lua" />
-</Ui>

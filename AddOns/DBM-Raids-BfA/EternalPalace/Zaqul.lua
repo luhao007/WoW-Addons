@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2349, "DBM-Raids-BfA", 2, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260525233052")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(150859)
 mod:SetEncounterID(2293)
@@ -37,7 +37,7 @@ mod:RegisterEventsInCombat(
 local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnDiscipleofNzoth				= mod:NewTargetNoFilterAnnounce(292981, 4)
 
-local specWarnHysteria					= mod:NewSpecialWarningStack(292971, nil, 15, nil, nil, 1, 6)
+local specWarnHysteria					= mod:NewSpecialWarningStack(292971, nil, 15, nil, nil, 1, 6, nil, nil, "stackhigh")
 
 local berserkTimer						= mod:NewBerserkTimer(600)
 
@@ -46,15 +46,15 @@ mod:AddInfoFrameOption(292971, true)
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19983))
 local warnMindTether					= mod:NewTargetSourceAnnounce(295444, 3)
 local warnSnapped						= mod:NewTargetNoFilterAnnounce(300133, 4, nil, "Tank|Healer")
-local warnUnleashedNightmare			= mod:NewSpellAnnounce("ej20289", 3, 300732)
+local warnUnleashedNightmare			= mod:NewSpellAnnounce(-20289, 3, 300732)
 local warnDread							= mod:NewTargetNoFilterAnnounce(292963, 3, nil, "Healer")
 
-local specWarnHorrificSummoner			= mod:NewSpecialWarningSwitch("ej20172", "-Healer", nil, nil, 1, 2)
-local specWarnCrushingGrasp				= mod:NewSpecialWarningDodge(292565, nil, nil, nil, 2, 2)
+local specWarnHorrificSummoner			= mod:NewSpecialWarningSwitch(-20172, "-Healer", nil, nil, 1, 2, nil, nil, "bigmob")
+local specWarnCrushingGrasp				= mod:NewSpecialWarningDodge(292565, nil, nil, nil, 2, 2, nil, nil, "farfromline")
 local yellDread							= mod:NewPosYell(292963)
 local yellDreadFades					= mod:NewIconFadesYell(292963)
 
-local timerHorrificSummonerCD			= mod:NewCDTimer(80.1, "ej20172", nil, nil, nil, 1, 294515, DBM_COMMON_L.DAMAGE_ICON)
+local timerHorrificSummonerCD			= mod:NewCDTimer(80.1, -20172, nil, nil, nil, 1, 294515, DBM_COMMON_L.DAMAGE_ICON)
 local timerCrushingGraspCD				= mod:NewCDTimer(31.4, 292565, nil, nil, nil, 3)
 local timerDreadCD						= mod:NewCDTimer(75.4, 292963, nil, "Healer", nil, 5, nil, DBM_COMMON_L.MAGIC_ICON)--One dread timer used for all versions (cast by boss)
 local timerMindTetherCD					= mod:NewCDTimer(47.8, 295444, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--52.3
@@ -64,10 +64,10 @@ mod:AddSetIconOption("SetIconDread", 292963, true, 0, {1, 2, 3, 4})
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19979))
 local warnPunctureDarkness				= mod:NewTargetNoFilterAnnounce(295099, 1)
 
-local specWarnManifedNightmares			= mod:NewSpecialWarningYou(293509, nil, nil, nil, 1, 2)
+local specWarnManifedNightmares			= mod:NewSpecialWarningYou(293509, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellManifedNightmares				= mod:NewYell(293509)
 local yellManifedNightmaresFades		= mod:NewShortFadesYell(293509)
-local specWarnMaddeningEruption			= mod:NewSpecialWarningMoveTo(292996, "Tank", nil, nil, 1, 2)
+local specWarnMaddeningEruption			= mod:NewSpecialWarningMoveTo(292996, "Tank", nil, nil, 1, 2, nil, nil, "moveboss")
 
 local timerManifestNightmaresCD			= mod:NewCDTimer(35, 293509, nil, nil, nil, 3)
 local timerMaddeningEruptionCD			= mod:NewCDTimer(65.1, 292996, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
@@ -77,7 +77,7 @@ local timerPuncturedDarknessActive		= mod:NewBuffActiveTimer(20, 295099, nil, ni
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19980))
 local warnDeliriumsDescent				= mod:NewCountAnnounce(304733, 3)
 
-local specWarShatteredPsyche			= mod:NewSpecialWarningDispel(295327, "Healer", nil, 3, 1, 2)
+local specWarShatteredPsyche			= mod:NewSpecialWarningDispel(295327, "Healer", nil, 3, 1, 2, nil, nil, "helpdispel")
 
 local timerDeliriumsDescentCD			= mod:NewCDTimer(35, 304733, nil, nil, nil, 5, nil, DBM_COMMON_L.DAMAGE_ICON)
 --Stage Four: All Pathways Open
@@ -85,11 +85,11 @@ mod:AddTimerLine(DBM:EJ_GetSectionInfo(19981))
 local warnDreadScream					= mod:NewTargetNoFilterAnnounce(303543, 3, nil, "Healer")--Mythic
 local warnManicDread					= mod:NewTargetNoFilterAnnounce(296018, 3, nil, "Healer")
 
-local specWarnDarkPulse					= mod:NewSpecialWarningSwitch(303978, "-Healer", nil, nil, 1, 2)
-local specWarnPsychoticSplit			= mod:NewSpecialWarningSwitch(301068, "-Healer", nil, nil, 1, 2, 4)--Mythic
+local specWarnDarkPulse					= mod:NewSpecialWarningSwitch(303978, "-Healer", nil, nil, 1, 2, nil, nil, "attackshield")
+local specWarnPsychoticSplit			= mod:NewSpecialWarningSwitch(301068, "-Healer", nil, nil, 1, 2, 4, nil, "changetarget")--Mythic
 local yellDreadScream					= mod:NewPosYell(303543)
 local yellDreadScreamFades				= mod:NewIconFadesYell(303543)--Mythic
-local specWarnVoidSlam					= mod:NewSpecialWarningDodge(302593, nil, nil, nil, 2, 2, 4)--Mythic
+local specWarnVoidSlam					= mod:NewSpecialWarningDodge(302593, nil, nil, nil, 2, 2, 4, nil, "shockwave")--Mythic
 local yellManicDread					= mod:NewPosYell(296018)
 local yellManicDreadFades				= mod:NewIconFadesYell(296018)
 

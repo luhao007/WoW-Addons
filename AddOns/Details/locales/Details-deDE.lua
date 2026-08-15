@@ -438,6 +438,10 @@ L["STRING_OPTIONS_ANIMATESCROLL_DESC"] = "Aktiviert: Scrollbalken werden animier
 L["STRING_OPTIONS_APPEARANCE"] = "Aussehen"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT"] = "Titeltext-Einstellungen"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT_DESC"] = "Diese Einstellungen kontrollieren den Titeltext des Fensters."
+--[[Translation missing --]]
+L["STRING_OPTIONS_AUTO_COMBATLOG"] = "Auto Start Combatlog"
+--[[Translation missing --]]
+L["STRING_OPTIONS_AUTO_COMBATLOG_DESC"] = "Automatically start and stop logging combat to the combatlog.txt file when you enter or leave a raid or dungeon."
 L["STRING_OPTIONS_AUTO_SWITCH"] = "Alle Rollen |cFFFFAA00(im Kampf)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_COMBAT"] = "|cFFFFAA00(im Kampf)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_DAMAGER_DESC"] = "In Schadensspezialisierung zeigt dieses Fenster das ausgewählte Attribut oder Zusatzmodul an."
@@ -919,6 +923,10 @@ L["STRING_OPTIONS_PICONS_DIRECTION_DESC"] = "Aktiviert: Zusatzmodulschaltfläche
 --[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME"] = "Player Name"
 --[[Translation missing --]]
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Auto Alignment"
+--[[Translation missing --]]
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Disable this only if you experience player name alignment issues."
+--[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"] = "Length Auto"
 --[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME_WIDTH"] = "Length"
@@ -1268,6 +1276,10 @@ L["STRING_OPTIONS_TOOLTIPS_BACKGROUNDCOLOR_DESC"] = "Wähle die Farbe für den H
 L["STRING_OPTIONS_TOOLTIPS_BORDER_COLOR_DESC"] = "Ändert die Rahmenfarbe."
 L["STRING_OPTIONS_TOOLTIPS_BORDER_SIZE_DESC"] = "Ändert die Rahmengröße."
 L["STRING_OPTIONS_TOOLTIPS_BORDER_TEXTURE_DESC"] = "Wechselt die Rahmentextur."
+--[[Translation missing --]]
+L["STRING_OPTIONS_TOOLTIPS_DISABLE"] = "Disable Tooltips"
+--[[Translation missing --]]
+L["STRING_OPTIONS_TOOLTIPS_DISABLE_DESC"] = "Disable tooltips for the selected window."
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR"] = "Schriftfarbe"
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR_DESC"] = "Ändert die Schriftfarbe der Tooltips."
 L["STRING_OPTIONS_TOOLTIPS_FONTFACE"] = "Schriftart"
@@ -1423,6 +1435,8 @@ L["STRING_OPTIONSMENU_TOOLTIP"] = "Tooltips"
 L["STRING_OPTIONSMENU_WALLPAPER"] = "Fenster: Hintergrund"
 L["STRING_OPTIONSMENU_WINDOW"] = "Fenster: Allgemein"
 L["STRING_OPTIONSMENU_WINDOWBODY"] = "Fenster: Allgemein "
+--[[Translation missing --]]
+L["STRING_OR"] = "Or"
 L["STRING_OVERALL"] = "Gesamt"
 L["STRING_OVERHEAL"] = "Überheilung"
 L["STRING_OVERHEALED"] = "überheilt"

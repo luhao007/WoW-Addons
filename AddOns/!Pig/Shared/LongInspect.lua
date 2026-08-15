@@ -1,25 +1,24 @@
-local addonName, addonTable = ...;
+local addonName, PD = ...;
 local sub = _G.string.sub
 local match = _G.string.match
-local Create = addonTable.Create
 -------------
-local Fun=addonTable.Fun
+local Fun=PD.Fun
 local jieya_NumberString=Fun.jieya_NumberString
 local GetEquipmTXT=Fun.GetEquipmTXT
 local HY_EquipmTXT=Fun.HY_EquipmTXT
 local GetRuneTXT=Fun.GetRuneTXT
 local HY_RuneTXT=Fun.HY_RuneTXT
-local Data=addonTable.Data
+
+local Data=PD.Data
 local TalentData=Data.TalentData
+
+local Create = PD.Create
 ---
 local pig_PREFIX="!Pig-YCIN";
 local YCinfo_GET_MSG = {"!GETALL","!GETT-","!GETG-","!GETR-","!GETI-"};
 C_ChatInfo.RegisterAddonMessagePrefix(pig_PREFIX)
-local UIname="PIG_LongInspectUI"
-Data.LongInspectUIUIname=UIname
-Data.UILayout[UIname]={"TOPLEFT","TOPLEFT",0, -116}
 --ala
-local ALA=addonTable.ALA
+local ALA=PD.ALA
 local ALA_tiquMsg=ALA.ALA_tiquMsg
 local ala_PREFIX = ALA.ala_PREFIX
 local COMM_PART_PREFIX = ALA.ala_COMM_PART_PREFIX
@@ -30,6 +29,17 @@ local COMM_EQUIPMENT_PREFIX = ALA.ala_COMM_EQUIPMENT_PREFIX
 local COMM_ENGRAVING_PREFIX = ALA.ala_COMM_ENGRAVING_PREFIX
 local COMM_ADDON_PREFIX = ALA.ala_COMM_ADDON_PREFIX
 local td_PREFIX = "tdInspect"
+-----
+local UIname="PIG_LongInspectUI"
+Data.UILayout[UIname]={"TOPLEFT","TOPLEFT",0, -116}
+local LongInspect
+local function addCharacterF()
+	if Data.LongInspectUI then return Data.LongInspectUI end
+	local addui=Create.CharacterFrame(UIParent,UIname,99)
+	Data.LongInspectUI=addui
+	Create.PIG_SetPoint(UIname)
+	return addui
+end
 ---------------
 local function Update_ShowItem(itemstxt,laiyuan)
 	local zbData = {}
@@ -41,32 +51,31 @@ local function Update_ShowItem(itemstxt,laiyuan)
 		GetItemInfo(v)
 	end
 	C_Timer.After(0.1,function()
-		_G[UIname].ZBLsit.ShowItemNum=0
-		_G[UIname]:Update_ShowItem_List(zbData,laiyuan)
+		LongInspect.ZBLsit.ShowItemNum=0
+		LongInspect:Update_ShowItem_List(zbData,laiyuan)
 	end)
 end
 Fun.Update_ShowItem=Update_ShowItem
 local function Update_ShowPlayer(Player,lyfrome)
-	--print(lyfrome,unpack(Player))
 	local class,race,level,itemLV,gender = unpack(Player)
-	if HardcoreDeaths_UI then HardcoreDeaths_UI.Save_playerdata(_G[UIname].fullnameX,class,race,gender) end
+	if PIG_HardcoreDeathsUI then PIG_HardcoreDeathsUI.Save_playerdata(LongInspect.fullnameX,class,race,gender) end
 	local className, classFile = PIGGetClassInfo(class)
 	local raceName = "  "
 	if tonumber(race)>0 then
 		local raceInfo = C_CreatureInfo.GetRaceInfo(race)
 		raceName=raceInfo["raceName"]
 	end
-	_G[UIname].LevelText:SetText(LEVEL..level.." "..raceName.." "..className);
+	LongInspect.LevelText:SetText(LEVEL..level.." "..raceName.." "..className);
 	if not ElvUI and not NDui then
-		_G[UIname].Portrait:SetTexture("interface/targetingframe/ui-classes-circles.blp")
+		LongInspect.Portrait:SetTexture("interface/targetingframe/ui-classes-circles.blp")
 		local coords = CLASS_ICON_TCOORDS[classFile]
-		_G[UIname].Portrait:SetTexCoord(unpack(coords));
+		LongInspect.Portrait:SetTexCoord(unpack(coords));
 	end
-	_G[UIname].ZBLsit.level=level
-	_G[UIname].ZBLsit.zhiyeID=class
-	_G[UIname].ZBLsit.zhiye=classFile
-	_G[UIname].ZBLsit.itemLV=itemLV
-	_G[UIname].ZBLsit:Update_Player(lyfrome)
+	LongInspect.ZBLsit.level=level
+	LongInspect.ZBLsit.zhiyeID=class
+	LongInspect.ZBLsit.zhiye=classFile
+	LongInspect.ZBLsit.itemLV=itemLV
+	LongInspect.ZBLsit:Update_Player(lyfrome)
 end
 Fun.Update_ShowPlayer=Update_ShowPlayer
 --处理获取信息
@@ -88,13 +97,13 @@ local function PIG_FormatData(msgx,nameX)
 			yxwjinfo[1] = {strsplit("-", xinximsg:sub(3, -1))};
 		elseif qianzhui == "#T" then
 			local Tianfu,Tianfu2 =TalentData.HY_TianfuTXT(xinximsg:sub(3, -1))
-			PIG_OptionsUI.talentData[nameX]["T"]={GetServerTime(),Tianfu,Tianfu2}
+			PD.talentData[nameX]["T"]={GetServerTime(),Tianfu,Tianfu2}
 		elseif qianzhui == "#G" then
 			local fwData,fwData2=TalentData.HY_GlyphTXT(xinximsg:sub(3, -1))
-			PIG_OptionsUI.talentData[nameX]["G"]={GetServerTime(),fwData,fwData2}
+			PD.talentData[nameX]["G"]={GetServerTime(),fwData,fwData2}
 		elseif qianzhui == "#R" then
 			local fwData=HY_RuneTXT(xinximsg:sub(3, -1))
-			PIG_OptionsUI.talentData[nameX]["R"]={GetServerTime(),fwData}
+			PD.talentData[nameX]["R"]={GetServerTime(),fwData}
 		elseif qianzhui == "#E" then
 			yxwjinfo[2]=HY_EquipmTXT(xinximsg:sub(3, -1))
 		end
@@ -103,121 +112,123 @@ local function PIG_FormatData(msgx,nameX)
 	if yxwjinfo[2] then Update_ShowItem(yxwjinfo[2],"yc") end
 end
 local function PIG_tiquMsg(msgx,nameX)
-	if _G[UIname]:IsShown() and _G[UIname].fullnameX==nameX then
+	if LongInspect and LongInspect:IsShown() and LongInspect.fullnameX==nameX then
 		local qianzhui = msgx:sub(1, 2)
 		if qianzhui == "!P" then
 			if not msgx:match("@") then
-				_G[UIname].fanhuiYN=true
+				LongInspect.fanhuiYN=true
 				local allnum = msgx:sub(3, 3)
 				local danqian = msgx:sub(4, 4)
 				if danqian=="1" then
-					_G[UIname].allmsg=msgx:sub(5, -1)
+					LongInspect.allmsg=msgx:sub(5, -1)
 				else
-					_G[UIname].allmsg=_G[UIname].allmsg..msgx:sub(5, -1)
+					LongInspect.allmsg=LongInspect.allmsg..msgx:sub(5, -1)
 				end
 				if allnum==danqian then
-					PIG_FormatData(_G[UIname].allmsg,nameX)
+					PIG_FormatData(LongInspect.allmsg,nameX)
 				end
 			end
 		end
 	end
-	if InspectFrame and InspectFrame:IsShown() and InspectNameText:GetText()==nameX or _G[Data.TardisUI] and _G[Data.TardisUI]:IsShown() or Pig_playerStatsUI and Pig_playerStatsUI:IsShown() then--观察/时空
+	if InspectFrame and InspectFrame:IsShown() and InspectNameText:GetText()==nameX or Data.TardisUI and Data.TardisUI:IsShown() or Pig_playerStatsUI and Pig_playerStatsUI:IsShown() then--观察/时空
 		local qianzhui = msgx:sub(1, 3)
 		if qianzhui == "!T-" or qianzhui == "!G-" or qianzhui == "!R-" or qianzhui == "!I-" then
 			local leixing = msgx:sub(2, 2)	
 			if leixing == "T" then
-				_G[UIname].fanhuiYN_TF=true
+				LongInspect.fanhuiYN_TF=true
 				local Tianfu,Tianfu2 =TalentData.HY_TianfuTXT(msgx:sub(4, -1))
-				PIG_OptionsUI.talentData[nameX][leixing]={GetServerTime(),Tianfu,Tianfu2}
+				PD.talentData[nameX][leixing]={GetServerTime(),Tianfu,Tianfu2}
 			end
 			if leixing == "G" then
-				_G[UIname].fanhuiYN_GG=true
+				LongInspect.fanhuiYN_GG=true
 				local dwData,dwData2=TalentData.HY_GlyphTXT(msgx:sub(4, -1))
-				PIG_OptionsUI.talentData[nameX][leixing]={GetServerTime(),dwData,dwData2}
+				PD.talentData[nameX][leixing]={GetServerTime(),dwData,dwData2}
 			end
 			if leixing == "R" then
-				_G[UIname].fanhuiYN_RR=true
+				LongInspect.fanhuiYN_RR=true
 				local fwData=HY_RuneTXT(msgx:sub(4, -1))
-				PIG_OptionsUI.talentData[nameX][leixing]={GetServerTime(),fwData}
+				PD.talentData[nameX][leixing]={GetServerTime(),fwData}
 			end
 			if leixing == "I" then
-				_G[UIname].fanhuiYN_II=true
+				LongInspect.fanhuiYN_II=true
 				local classId,raceId,level,ItemLevel,gender = strsplit("-", msgx:sub(4, -1))
-				PIG_OptionsUI.talentData[nameX][leixing]={GetServerTime(),classId,raceId,level,ItemLevel,gender}
+				PD.talentData[nameX][leixing]={GetServerTime(),classId,raceId,level,ItemLevel,gender}
 			end
 		end
 	end
 end
 --无PIG返回/ALA获取/无返回
 local function ALA_GetDATA_YN()
-	if _G[UIname].alaGet_1 then _G[UIname].alaGet_1:Cancel() end
-	_G[UIname].alaGet_1=C_Timer.NewTimer(1,function()
-		if not _G[UIname].fanhuiYN then
-			PIGSendAddonMessage(ala_PREFIX, COMM_QUERY_PREFIX.."TEG", "WHISPER", _G[UIname].fullnameX);
+	if LongInspect.alaGet_1 then LongInspect.alaGet_1:Cancel() end
+	LongInspect.alaGet_1=C_Timer.NewTimer(1,function()
+		if not LongInspect.fanhuiYN then
+			PIGSendAddonMessage(ala_PREFIX, COMM_QUERY_PREFIX.."TEG", "WHISPER", LongInspect.fullnameX);
 		end
 	end)
-	--if _G[UIname].alaGet_2 then _G[UIname].alaGet_2:Cancel() end
-	-- _G[UIname].alaGet_2=C_Timer.NewTimer(2,function()
-	-- 	if not _G[UIname].fanhuiYN then
-	-- 		PIGSendAddonMessage(ala_PREFIX, "_q_tal", "WHISPER", _G[UIname].fullnameX);
-	-- 		PIGSendAddonMessage(ala_PREFIX, "_q_equ", "WHISPER", _G[UIname].fullnameX);		
+	--if LongInspect.alaGet_2 then LongInspect.alaGet_2:Cancel() end
+	-- LongInspect.alaGet_2=C_Timer.NewTimer(2,function()
+	-- 	if not LongInspect.fanhuiYN then
+	-- 		PIGSendAddonMessage(ala_PREFIX, "_q_tal", "WHISPER", LongInspect.fullnameX);
+	-- 		PIGSendAddonMessage(ala_PREFIX, "_q_equ", "WHISPER", LongInspect.fullnameX);		
 	-- 	end
 	-- end)
-	if _G[UIname].ycNull then _G[UIname].ycNull:Cancel() end
-	_G[UIname].ycNull=C_Timer.NewTimer(3,function()
-		if not _G[UIname].fanhuiYN then
-			_G[UIname].LevelText:SetText("|cffFF0000获取失败\n目标未安装"..addonName.."插件或版本过期|r");
+	if LongInspect.ycNull then LongInspect.ycNull:Cancel() end
+	LongInspect.ycNull=C_Timer.NewTimer(3,function()
+		if not LongInspect.fanhuiYN then
+			LongInspect.LevelText:SetText("|cffFF0000获取失败\n目标未安装"..addonName.."插件或版本过期|r");
 		end
 	end)
 end
+--------
 local function FasongYCqingqiu(fullnameX,iidd)
 	if name==UNKNOWNOBJECT then return end
-	PIG_OptionsUI.talentData[fullnameX]=PIG_OptionsUI.talentData[fullnameX] or {}
+	PD.talentData[fullnameX]=PD.talentData[fullnameX] or {}
 	local iidd=iidd or 1
+	LongInspect=addCharacterF()
 	if iidd==1 then
 		if InspectFrame and InspectFrame:IsShown() then InspectFrame:Hide() end
-		_G[UIname].fanhuiYN=false
+		LongInspect.fanhuiYN=false
 		PIGSendAddonMessage(pig_PREFIX,YCinfo_GET_MSG[iidd], "WHISPER", fullnameX)
-		_G[UIname].TitleText:SetText(fullnameX);
-		_G[UIname].fullnameX=fullnameX
+		LongInspect.TitleText:SetText(fullnameX);
+		LongInspect.fullnameX=fullnameX
 		ALA_GetDATA_YN()
-		_G[UIname]:CZ_yuancheng_Data(INVTYPE_RANGED)
+		LongInspect:CZ_yuancheng_Data(INVTYPE_RANGED)
 	elseif iidd==2 then--只请求天赋信息
-		if not PIG_OptionsUI.talentData[fullnameX]["T"] or GetServerTime()-PIG_OptionsUI.talentData[fullnameX]["T"][1]>10 then
-			_G[UIname].fanhuiYN_TF=false
+		if not PD.talentData[fullnameX]["T"] or GetServerTime()-PD.talentData[fullnameX]["T"][1]>10 then
+			LongInspect.fanhuiYN_TF=false
 			PIGSendAddonMessage(pig_PREFIX,YCinfo_GET_MSG[iidd], "WHISPER", fullnameX)
-			if _G[UIname].alaGet_TF then _G[UIname].alaGet_TF:Cancel() end
-			_G[UIname].alaGet_TF=C_Timer.NewTimer(1,function()
-				if not _G[UIname].fanhuiYN_TF then
+			if LongInspect.alaGet_TF then LongInspect.alaGet_TF:Cancel() end
+			LongInspect.alaGet_TF=C_Timer.NewTimer(1,function()
+				if not LongInspect.fanhuiYN_TF then
 					PIGSendAddonMessage(ala_PREFIX, COMM_QUERY_PREFIX.."T", "WHISPER", fullnameX);
 				end
 			end)
 		end
 	elseif iidd==3 then--只请求雕文信息
-		if not PIG_OptionsUI.talentData[fullnameX]["G"] or GetServerTime()-PIG_OptionsUI.talentData[fullnameX]["G"][1]>10 then
-			_G[UIname].fanhuiYN_GG=false
+		if not PD.talentData[fullnameX]["G"] or GetServerTime()-PD.talentData[fullnameX]["G"][1]>10 then
+			LongInspect.fanhuiYN_GG=false
 			PIGSendAddonMessage(pig_PREFIX,YCinfo_GET_MSG[iidd], "WHISPER", fullnameX)
-			if _G[UIname].alaGet_GG then _G[UIname].alaGet_GG:Cancel() end
-			_G[UIname].alaGet_GG=C_Timer.NewTimer(1,function()
-				if not _G[UIname].fanhuiYN_GG then
+			if LongInspect.alaGet_GG then LongInspect.alaGet_GG:Cancel() end
+			LongInspect.alaGet_GG=C_Timer.NewTimer(1,function()
+				if not LongInspect.fanhuiYN_GG then
 					PIGSendAddonMessage(ala_PREFIX, COMM_QUERY_PREFIX.."G", "WHISPER", fullnameX);
 				end
 			end)
 		end
 	elseif iidd==4 then--只请求符文信息
-		if not PIG_OptionsUI.talentData[fullnameX]["R"] or GetServerTime()-PIG_OptionsUI.talentData[fullnameX]["R"][1]>10 then
-			_G[UIname].fanhuiYN_RR=false
+		if not PD.talentData[fullnameX]["R"] or GetServerTime()-PD.talentData[fullnameX]["R"][1]>10 then
+			LongInspect.fanhuiYN_RR=false
 			PIGSendAddonMessage(pig_PREFIX,YCinfo_GET_MSG[iidd], "WHISPER", fullnameX)
-			if _G[UIname].alaGet_RR then _G[UIname].alaGet_RR:Cancel() end
-			_G[UIname].alaGet_RR=C_Timer.NewTimer(1,function()
-				if not _G[UIname].fanhuiYN_RR then
+			if LongInspect.alaGet_RR then LongInspect.alaGet_RR:Cancel() end
+			LongInspect.alaGet_RR=C_Timer.NewTimer(1,function()
+				if not LongInspect.fanhuiYN_RR then
 					PIGSendAddonMessage(ala_PREFIX, COMM_QUERY_PREFIX.."R", "WHISPER", fullnameX);
 				end
 			end)
 		end
 	elseif iidd==5 then--只请求角色信息
-		if not PIG_OptionsUI.talentData[fullnameX]["I"] or GetServerTime()-PIG_OptionsUI.talentData[fullnameX]["I"][1]>10 then
-			_G[UIname].fanhuiYN_II=false
+		if not PD.talentData[fullnameX]["I"] or GetServerTime()-PD.talentData[fullnameX]["I"][1]>10 then
+			LongInspect.fanhuiYN_II=false
 			PIGSendAddonMessage(pig_PREFIX,YCinfo_GET_MSG[iidd], "WHISPER", fullnameX)
 		end
 	end
@@ -226,33 +237,22 @@ Fun.FasongYCqingqiu=FasongYCqingqiu
 -----
 local function lixian_chakan(fullnameX,renwu,itemdata)
 	if InspectFrame and InspectFrame:IsShown() then InspectFrame:Hide() end
-	_G[UIname].TitleText:SetText(fullnameX);
-	_G[UIname].fullnameX=fullnameX
-	_G[UIname]:CZ_yuancheng_Data(FRIENDS_LIST_OFFLINE)
+	LongInspect=addCharacterF()
+	LongInspect.TitleText:SetText(fullnameX);
+	LongInspect.fullnameX=fullnameX
+	LongInspect:CZ_yuancheng_Data(FRIENDS_LIST_OFFLINE)
 	Update_ShowPlayer({renwu[4],renwu[2],renwu[5]},"lx")
 	local zbtxtlist=HY_EquipmTXT(PIGA["StatsInfo"]["Items"][fullnameX]["C"])
 	Update_ShowItem(zbtxtlist,"lx")
 end
 Fun.lixian_chakan=lixian_chakan
 ------------------------------------
+PD.talentData={}
+PD.talentData={}
 local fengeLEN = 240
-local uixxx = CreateFrame("Frame")
-uixxx:RegisterEvent("PLAYER_LOGIN")
-uixxx:SetScript("OnEvent",function(self, event, arg1, arg2, _, arg4, arg5)
-	if event=="PLAYER_LOGIN" then
-		Create.CharacterFrame(UIParent,UIname,99)
-		Create.PIG_SetPoint(UIname)
-		C_Timer.After(3,function()
-			if not C_ChatInfo.IsAddonMessagePrefixRegistered(ala_PREFIX) then
-				C_ChatInfo.RegisterAddonMessagePrefix(ala_PREFIX)
-			end
-			if not C_ChatInfo.IsAddonMessagePrefixRegistered(td_PREFIX) then
-				C_ChatInfo.RegisterAddonMessagePrefix(td_PREFIX)
-			end
-		end)
-		self:RegisterEvent("CHAT_MSG_ADDON")
-		PIG_OptionsUI.talentData={}
-	end
+local uifff = CreateFrame("Frame")
+uifff:RegisterEvent("PLAYER_LOGIN")
+uifff:SetScript("OnEvent",function(self, event, arg1, arg2, _, arg4, arg5)
 	if event=="CHAT_MSG_ADDON" then
 		if arg1 == pig_PREFIX then
 			if arg2==YCinfo_GET_MSG[1] then
@@ -297,5 +297,15 @@ uixxx:SetScript("OnEvent",function(self, event, arg1, arg2, _, arg4, arg5)
 		elseif arg1==td_PREFIX then
 			--TD_tiquMsg(arg2,arg5)
 		end
+	elseif event=="PLAYER_LOGIN" then
+		C_Timer.After(3,function()
+			if not C_ChatInfo.IsAddonMessagePrefixRegistered(ala_PREFIX) then
+				C_ChatInfo.RegisterAddonMessagePrefix(ala_PREFIX)
+			end
+			if not C_ChatInfo.IsAddonMessagePrefixRegistered(td_PREFIX) then
+				C_ChatInfo.RegisterAddonMessagePrefix(td_PREFIX)
+			end
+		end)
+		self:RegisterEvent("CHAT_MSG_ADDON")
 	end
 end)

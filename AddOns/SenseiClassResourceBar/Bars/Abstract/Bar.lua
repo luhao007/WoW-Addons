@@ -970,8 +970,6 @@ function BarMixin:UpdateTicksLayout(layoutName, data)
         max = addonTable.Whirlwind.IW_MAX_STACKS
     elseif resource == "SOUL_FRAGMENTS_VENGEANCE" then
         max = 6
-    elseif resource == "FREEZE" then
-        max = 20
     elseif type(resource) == "number" then
         max = UnitPowerMax("player", resource)
     end

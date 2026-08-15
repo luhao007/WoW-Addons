@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: maqjav, Maciza-Tyrande
-## Version: 12.0.5.1
+## Version: 12.1.0.2
 
 ## Title: RareScanner
 ## Notes: Minimap scanner. Warns you visually with a button and a miniature and plays a sound everytime a rare NPC, treasure/chest or event shows up in your minimap
@@ -9,19 +9,18 @@
 
 ## IconTexture: Interface\AddOns\RareScanner\Media\Icons\OriginalSkull
 
+## Category: Collections
 ## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
 
 ## AddonCompartmentFunc: RareScanner_OnAddonCompartmentClick
 ## AddonCompartmentFuncOnEnter: RareScanner_OnAddonCompartmentEnter
 ## AddonCompartmentFuncOnLeave: RareScanner_OnAddonCompartmentLeave
 
-## OptionalDeps: Ace3
-
 ## SavedVariables: RareScannerDB
 
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Credits: maqjav, Maciza-Tyrande
-## X-Date: Apr. 28, 2026
+## X-Date: Ago. 14, 2026
 ## X-Email: maqjav@gmail.com
 ## X-License: All Rights Reserved
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, ruRU, itIT, ptBR, koKR, zhCN, zhTW

@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal25"
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(19516)
 mod:SetEncounterID(731, 2465)
@@ -20,7 +20,7 @@ local warnOrb			= mod:NewTargetNoFilterAnnounce(34172, 2)
 local warnKnockBack		= mod:NewSpellAnnounce(25778, 4)
 local warnPounding		= mod:NewSpellAnnounce(34162, 3)
 
-local specWarnOrb		= mod:NewSpecialWarningDodge(34172, nil, nil, nil, 1, 2)
+local specWarnOrb		= mod:NewSpecialWarningDodge(34172, nil, nil, nil, 1, 2, nil, nil, "watchorb")
 local yellOrb			= mod:NewYell(34172)
 
 local timerKnockBack	= mod:NewCDTimer(20, 25778, nil, "Tank", 2, 5)

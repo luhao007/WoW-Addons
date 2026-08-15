@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
-## Version: 12.0.2.1
+## Version: 12.1.0
 
 ## Title: Minimal Archaeology
 ## Notes: Archaeology UI replacement, Archaeology History and more... - Mainline version

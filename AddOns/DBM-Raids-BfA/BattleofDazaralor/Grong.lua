@@ -10,7 +10,7 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(creatureID)
 mod:SetEncounterID(2263, 2284)--2263 Alliance, 2284 Horde
@@ -47,15 +47,15 @@ local warnCore							= mod:NewTargetNoFilterAnnounce(coreSpellId, 2)
 local warnThrowTarget					= mod:NewTargetNoFilterAnnounce(289307, 2)
 local warnAddProjectile					= mod:NewSpellAnnounce(addProjectileId, 2)
 
-local specWarnEnergyAOE					= mod:NewSpecialWarningCount(energyAOESpellId, nil, nil, nil, 2, 2)
-local specWarnSlam						= mod:NewSpecialWarningDodge(slamSpellId, nil, nil, nil, 2, 2)
-local specWarnFerociousRoar				= mod:NewSpecialWarningSpell(285994, nil, nil, nil, 2, 2)
-local specWarnAdd						= mod:NewSpecialWarningSwitch(addSpawnId, "Dps", nil, nil, 1, 2)
-local specWarnAddInterrupt				= mod:NewSpecialWarningInterruptCount(addCastId, "HasInterrupt", nil, nil, 1, 2)
-local specWarnCrushedTaunt				= mod:NewSpecialWarningTaunt(285671, nil, nil, nil, 1, 2)--After any crush that isn't 3rd cast
-local specWarnRendingBiteTaunt			= mod:NewSpecialWarningTaunt(285875, nil, nil, nil, 1, 2)--At 2 stacks, but only if it's first two casts of combo
-local specWarnThrow						= mod:NewSpecialWarningTaunt(289292, nil, nil, nil, 1, 2)
-local specWarnThrowTarget				= mod:NewSpecialWarningMoveAway(289307, nil, nil, nil, 3, 2)
+local specWarnEnergyAOE					= mod:NewSpecialWarningCount(energyAOESpellId, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnSlam						= mod:NewSpecialWarningDodge(slamSpellId, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnFerociousRoar				= mod:NewSpecialWarningSpell(285994, nil, nil, nil, 2, 2, nil, nil, "fearsoon")
+local specWarnAdd						= mod:NewSpecialWarningSwitch(addSpawnId, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnAddInterrupt				= mod:NewSpecialWarningInterruptCount(addCastId, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kick2r")
+local specWarnCrushedTaunt				= mod:NewSpecialWarningTaunt(285671, nil, nil, nil, 1, 2, nil, nil, "tauntboss")--After any crush that isn't 3rd cast
+local specWarnRendingBiteTaunt			= mod:NewSpecialWarningTaunt(285875, nil, nil, nil, 1, 2, nil, nil, "tauntboss")--At 2 stacks, but only if it's first two casts of combo
+local specWarnThrow						= mod:NewSpecialWarningTaunt(289292, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnThrowTarget				= mod:NewSpecialWarningMoveAway(289307, nil, nil, nil, 3, 2, nil, nil, "runout")
 local yellThrowTarget					= mod:NewYell(289307)
 local yellThrowTargetFades				= mod:NewShortFadesYell(289307)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)

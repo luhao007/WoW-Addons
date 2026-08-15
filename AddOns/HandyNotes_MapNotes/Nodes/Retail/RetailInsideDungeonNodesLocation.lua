@@ -322,6 +322,8 @@ ns.currentSourceFile = "RetailInsideDungeonNodesLocation.lua"
             nodes[2531][42041994] = { mnID = 2413, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Der Traumriss
             nodes[2533][50799290] = { mnID = 2424, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Marsch auf Quel'Danas      
             nodes[2529][26698644] = { mnID = 2405, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Die Leerenspitze
+            nodes[2588][49091975] = { mnID = 2509, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Die Leerenspitze
+            nodes[2606][50009334] = { mnID = 2509, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Der Giftige Abgrund
           -- delves            
             nodes[2510][30902770] = { mnID = 2413, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Die Grollgrube
             nodes[2577][70408415] = { mnID = 2393, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Mördergasse
@@ -333,6 +335,8 @@ ns.currentSourceFile = "RetailInsideDungeonNodesLocation.lua"
             nodes[2502][14985760] = { mnID = 2395, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Die Schattenenklave
             nodes[2503][49031152] = { mnID = 2437, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Gruften der Zwielichtklinge
             nodes[2535][24824941] = { mnID = 2437, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Zul'Aman
+            nodes[2633][80105369] = { mnID = 2512, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- The Ring of Glory
+            nodes[2635][76664689] = { mnID = 2512, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Gnarldor Isle
           end
     
     

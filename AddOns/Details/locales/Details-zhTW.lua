@@ -440,6 +440,10 @@ L["STRING_OPTIONS_ANIMATESCROLL_DESC"] = "啟用時，捲軸出現和隱藏時�
 L["STRING_OPTIONS_APPEARANCE"] = "外觀"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT"] = "標題文字設定"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT_DESC"] = "這些選項控制視窗的標題文字。"
+--[[Translation missing --]]
+L["STRING_OPTIONS_AUTO_COMBATLOG"] = "Auto Start Combatlog"
+--[[Translation missing --]]
+L["STRING_OPTIONS_AUTO_COMBATLOG_DESC"] = "Automatically start and stop logging combat to the combatlog.txt file when you enter or leave a raid or dungeon."
 L["STRING_OPTIONS_AUTO_SWITCH"] = "所有角色職責 |cFFFFAA00(戰鬥中)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_COMBAT"] = "|cFFFFAA00(戰鬥中)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_DAMAGER_DESC"] = "在傷害輸出的專精時，此視窗會顯示所選的內容或外掛套件。"
@@ -926,6 +930,10 @@ L["STRING_OPTIONS_PICONS_DIRECTION_DESC"] = "勾選時，外掛套件的按鈕�
 --[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME"] = "Player Name"
 --[[Translation missing --]]
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Auto Alignment"
+--[[Translation missing --]]
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Disable this only if you experience player name alignment issues."
+--[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"] = "Length Auto"
 --[[Translation missing --]]
 L["STRING_OPTIONS_PLAYERNAME_WIDTH"] = "Length"
@@ -1268,6 +1276,10 @@ L["STRING_OPTIONS_TOOLTIPS_BACKGROUNDCOLOR_DESC"] = "選擇背景使用的顏色
 L["STRING_OPTIONS_TOOLTIPS_BORDER_COLOR_DESC"] = "更改邊框顏色。"
 L["STRING_OPTIONS_TOOLTIPS_BORDER_SIZE_DESC"] = "更改邊框大小。"
 L["STRING_OPTIONS_TOOLTIPS_BORDER_TEXTURE_DESC"] = "修改邊框材質檔案。"
+--[[Translation missing --]]
+L["STRING_OPTIONS_TOOLTIPS_DISABLE"] = "Disable Tooltips"
+--[[Translation missing --]]
+L["STRING_OPTIONS_TOOLTIPS_DISABLE_DESC"] = "Disable tooltips for the selected window."
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR"] = "文字顏色"
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR_DESC"] = "更改浮動提示資訊文字使用的顏色。"
 L["STRING_OPTIONS_TOOLTIPS_FONTFACE"] = "-"
@@ -1426,6 +1438,8 @@ L["STRING_OPTIONSMENU_TOOLTIP"] = "浮動提示資訊"
 L["STRING_OPTIONSMENU_WALLPAPER"] = "背景圖案"
 L["STRING_OPTIONSMENU_WINDOW"] = "視窗: 一般"
 L["STRING_OPTIONSMENU_WINDOWBODY"] = "視窗設定"
+--[[Translation missing --]]
+L["STRING_OR"] = "Or"
 L["STRING_OVERALL"] = "整場"
 L["STRING_OVERHEAL"] = "過量治療"
 L["STRING_OVERHEALED"] = "已造成過量治療"

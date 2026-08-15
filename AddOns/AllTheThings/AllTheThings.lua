@@ -13,6 +13,7 @@ L.ABBREVIATIONS[L.UNSORTED .. " %> " .. L.UNSORTED] = "|T" .. app.asset("WindowI
 -- Binding Localizations
 BINDING_HEADER_ALLTHETHINGS = L.TITLE
 BINDING_NAME_ALLTHETHINGS_TOGGLEACCOUNTMODE = L.TOGGLE_ACCOUNT_MODE
+BINDING_NAME_ALLTHETHINGS_TOGGLEFILTERS = L.TOGGLE_FILTERS
 BINDING_NAME_ALLTHETHINGS_TOGGLECOMPLETIONISTMODE = L.TOGGLE_COMPLETIONIST_MODE
 BINDING_NAME_ALLTHETHINGS_TOGGLEDEBUGMODE = L.TOGGLE_DEBUG_MODE
 BINDING_NAME_ALLTHETHINGS_TOGGLEFACTIONMODE = L.TOGGLE_FACTION_MODE
@@ -24,6 +25,7 @@ BINDING_NAME_ALLTHETHINGS_TOGGLECOMPLETEDGROUPS = L.TOGGLE_COMPLETEDGROUPS
 BINDING_NAME_ALLTHETHINGS_TOGGLECOLLECTEDTHINGS = L.TOGGLE_COLLECTEDTHINGS
 BINDING_NAME_ALLTHETHINGS_TOGGLEBOEITEMS = L.TOGGLE_BOEITEMS
 BINDING_NAME_ALLTHETHINGS_TOGGLESOURCETEXT = L.TOGGLE_SOURCETEXT
+BINDING_NAME_ALLTHETHINGS_ACTIVATENEXTPROFILE = L.ACTIVATE_NEXT_PROFILE
 
 BINDING_HEADER_ALLTHETHINGS_MODULES = L.MODULES
 BINDING_NAME_ALLTHETHINGS_TOGGLEMAINLIST = L.TOGGLE_MAINLIST
@@ -35,8 +37,8 @@ BINDING_NAME_ALLTHETHINGS_TOGGLERANDOM = L.TOGGLE_RANDOM
 BINDING_NAME_ALLTHETHINGS_REROLL_RANDOM = L.REROLL_RANDOM
 
 -- Performance Cache
-local print,rawget,rawset,tostring,ipairs,pairs,tonumber,wipe,select,setmetatable,getmetatable,tinsert,tremove,type,math_floor,GetTime
-	= print,rawget,rawset,tostring,ipairs,pairs,tonumber,wipe,select,setmetatable,getmetatable,tinsert,tremove,type,math.floor,GetTime
+local print,rawget,rawset,tostring,ipairs,pairs,tonumber,select,setmetatable,getmetatable,tinsert,type,math_floor,GetTime
+	= print,rawget,rawset,tostring,ipairs,pairs,tonumber,select,setmetatable,getmetatable,tinsert,type,math.floor,GetTime
 
 -- Global WoW API Cache
 local C_Map_GetMapInfo = C_Map.GetMapInfo;
@@ -52,21 +54,18 @@ local GetRelativeValue = app.GetRelativeValue
 
 local
 CreateObject,
-MergeObject,
 NestObject,
 MergeObjects,
 NestObjects,
 PriorityNestObjects
 =
 app.__CreateObject,
-app.MergeObject,
 app.NestObject,
 app.MergeObjects,
 app.NestObjects,
 app.PriorityNestObjects
 
 -- Coroutine Helper Functions
-local Callback = app.CallbackHandlers.Callback;
 app.FillRunner = app.CreateRunner("fill");
 
 -- Data Lib
@@ -183,7 +182,7 @@ local function AddContainsData(group, tooltipInfo)
 			item = entries[i];
 			entry = item.group;
 			left = entry.text;
-			if not left or IsRetrieving(left) then
+			if not left or IsRetrieving(left, true) then
 				left = RETRIEVING_DATA
 
 				if not working then
@@ -290,7 +289,7 @@ local function AddContainsData(group, tooltipInfo)
 						-- the source entry is different from the raw parent and the search context, then show the source parent text for reference
 						if sParent and sParent.text and not GroupMatchesParams(rawParent, sParent.key, sParent[sParent.key]) and not GroupMatchesParams(sParent, key, id) then
 							local parentText = sParent.text;
-							if IsRetrieving(parentText) then
+							if IsRetrieving(parentText, true) then
 								working = true;
 							end
 							right = locationName .. " > " .. parentText .. " " .. right;
@@ -337,6 +336,50 @@ end)
 
 local SourceSearcher = app.SourceSearcher
 
+do
+	local abbrevs = L.ABBREVIATIONS
+	local abbrevArray = {}
+	for k,v in pairs(abbrevs) do
+		abbrevArray[#abbrevArray + 1] = k
+	end
+	-- do abbreviations from shortest to longest
+	app.Sort(abbrevArray, function(a,b) return a:len() > b:len() end)
+	-- Performs string replacements from the ABBREVIATIONS table until no more replacements are made
+	app.AbbreviateString = function(s, onceOnly)
+		local f,r,n,m
+		repeat
+			-- app.PrintDebug("ABB.!",s)
+			m = nil
+			for i=1,#abbrevArray do
+				f = abbrevArray[i]
+				r = abbrevs[f]
+				n = s:gsub(f, r)
+				if s ~= n then
+					-- app.print(s,"(",f,")",r,"=",n)
+					m = f
+					s = n
+				end
+			end
+			-- app.PrintDebugPrior("ABB.=",s)
+		until not m or onceOnly
+		return s
+	end
+	-- quick check that no abbreviation also results in a recursive replacement
+	local full
+	local rep = app.TableConcat(abbrevArray, nil, nil, " ")
+	local count = 0
+	repeat
+		full = rep
+		-- app.PrintDebug("abbrevs",count,full)
+		rep = app.AbbreviateString(full, true)
+		count = count + 1
+		-- app.PrintDebug("abbrevs",count,rep)
+	until full == rep or count > 4
+	if count > 4 then
+		app.report("Recursive Abbreviations detected!",GetLocale())
+	end
+end
+
 local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 	-- Create a list of sources
 	-- app.PrintDebug("SourceLocations",paramA,paramB,SourceLocationSettingsKey[paramA])
@@ -348,9 +391,9 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 	local character, unavailable, unobtainable = {}, {}, {}
 	local showUnsorted = settings:GetTooltipSetting("SourceLocations:Unsorted");
 	local showCompleted = settings:GetTooltipSetting("SourceLocations:Completed");
+	local issecretvalue = app.WOWAPI.issecretvalue
 	local FilterSettings, FilterInGame, FilterCharacter, FirstParent
 		= app.RecursiveGroupRequirementsFilter, app.Modules.Filter.Filters.InGame, app.RecursiveCharacterRequirementsFilter, app.GetRelativeGroup
-	local abbrevs = L.ABBREVIATIONS;
 	local sourcesToShow
 	-- paramB is the modItemID for itemID searches, so we may have to fallback to the base itemID if nothing sourced for the modItemID
 	-- TODO: Rings from raid showing all difficulties, need fallback matching for items... modItemID, modID, itemID
@@ -365,7 +408,7 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 		then
 			text = GenerateSourcePath(parent, parent.objectiveID and 0 or 1);
 			-- app.PrintDebug("SourceLocation",text,FilterInGame(j),FilterSettings(parent),FilterCharacter(parent))
-			if showUnsorted or (not text:match(L.UNSORTED) and not text:match(L.HIDDEN_QUEST_TRIGGERS)) then
+			if showUnsorted or issecretvalue(text) or (not text:match(L.UNSORTED) and not text:match(L.HIDDEN_QUEST_TRIGGERS)) then
 				-- doesn't meet current unobtainable filters from the Thing itself and its parent chain
 				if not FilterInGame(j) or not FilterInGame(parent) then
 					unobtainable[#unobtainable + 1] = text..UnobtainableTexture
@@ -405,14 +448,20 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 		end
 	end
 	if #character > 0 then
-		local listing = {};
+		local listing = {}
+		local secretListings = {}
 		local maximum = settings:GetTooltipSetting("Locations");
 		local count = 0;
 		app.Sort(character, app.SortDefaults.Strings);
 		for _,text in ipairs(character) do
 			-- since the strings are sorted, we only need to add ones that are not equal to the previously-added one
 			-- instead of checking all existing strings
-			if listing[#listing] ~= text then
+			if issecretvalue(text) then
+				count = count + 1
+				if count <= maximum then
+					secretListings[#secretListings + 1] = text
+				end
+			elseif listing[#listing] ~= text then
 				count = count + 1;
 				if count <= maximum then
 					listing[#listing + 1] = text
@@ -428,15 +477,19 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 			local wrap = settings:GetTooltipSetting("SourceLocations:Wrapping");
 			local working
 			for _,text in ipairs(listing) do
-				for source,replacement in pairs(abbrevs) do
-					text = text:gsub(source, replacement);
-				end
+				text = app.AbbreviateString(text)
 				if not working and IsRetrieving(text) then working = true; end
 				local left, right = DESCRIPTION_SEPARATOR:split(text);
 				tooltipInfo[#tooltipInfo + 1] = { left = left, right = right, wrap = wrap }
 			end
 			tooltipInfo.hasSourceLocations = true;
 			return working
+		end
+		if #secretListings > 0 then
+			local wrap = settings:GetTooltipSetting("SourceLocations:Wrapping");
+			for i=1,#secretListings do
+				tooltipInfo[#tooltipInfo + 1] = { left = secretListings[i], wrap = wrap }
+			end
 		end
 	end
 end
@@ -449,7 +502,7 @@ app.AddEventHandler("OnLoad", function()
 		explorationID = false,
 	})
 	app.Settings.CreateInformationType("SourceLocations", {
-		priority = 2.7,
+		priority = 2.799,
 		text = "Source Locations",
 		HideCheckBox = true,
 		Process = function(t, reference, tooltipInfo)
@@ -501,13 +554,15 @@ local function GetSearchResults(method, paramA, paramB, options)
 		if #group > 0 then
 			-- For Creatures, Objects and Encounters that are inside of an instance, we only want the data relevant for the instance + difficulty.
 			if paramA == "npcID" or paramA == "creatureID" or paramA == "encounterID" or paramA == "objectID" then
-				local subgroup = {};
-				for _,j in ipairs(group) do
-					if not j.ShouldExcludeFromTooltip then
-						tinsert(subgroup, j);
+				local subgroup = {}
+				local o
+				for i=1,#group do
+					o = group[i]
+					if not o.ShouldExcludeFromTooltip then
+						subgroup[#subgroup + 1] = o
 					end
 				end
-				group = subgroup;
+				group = subgroup
 			elseif paramA == "azeriteessenceID" then
 				local regroup = {};
 				local rank = options and options.Rank
@@ -791,7 +846,11 @@ local function GetSearchResults(method, paramA, paramB, options)
 		group = root;
 		-- Ensure some specific relative values are captured in the base group
 		-- can make this a loop if there ends up being more needed...
-		group.difficultyID = GetRelativeValue(group, "difficultyID");
+		if options and options.ForceDifficulty then
+			group.difficultyID = app.GetCurrentDifficultyID()
+		else
+			group.difficultyID = GetRelativeValue(group, "difficultyID")
+		end
 		-- Ensure no weird parent references attached to the base search result if there were multiple search results
 		group.parent = nil;
 		if clearSourceParent then
@@ -799,7 +858,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 		end
 
 		-- app.PrintDebug(group.g and #group.g,"Merge total");
-		-- app.PrintDebug("Final Group",group.key,group[group.key],group.collectible,group.collected,app:SearchLink(group.sourceParent));
+		-- app.PrintDebug("Final Group",group.key,group[group.key],group.collectible,group.collected,app:SearchLink(group.sourceParent),options and options.SkipFill and "SKIPFILL" or "FILL");
 		-- app.PrintDebug("Group Type",group.__type)
 
 		-- Special cases
@@ -1133,7 +1192,7 @@ local function BuildSourceParent(group)
 		local sourceGroup = app.CreateRawText(L.SOURCES, {
 			description = L.SOURCES_DESC,
 			icon = 134441,
-			OnUpdate = app.AlwaysShowUpdate,
+			OnSetVisibility = app.ReturnTrue,
 			sourceIgnored = true,
 			skipFull = true,
 			SortPriority = -3.0,
@@ -1155,22 +1214,30 @@ end)();
 
 
 do	-- Main Data
--- Returns {name,icon} for a known HeaderConstants NPCID
-local function SimpleHeaderGroup(npcID, t)
-	if t then
-		t.name = L.HEADER_NAMES[npcID]
-		t.icon = L.HEADER_ICONS[npcID]
-		if t.suffix then
-			t.name = t.name .. " (".. t.suffix ..")"
-			t.suffix = nil
+
+do -- Initial Data Loading Events
+	-- TODO: with Progressive loading, these cache events might also need to be per-frame spread...
+	app.AddEventHandler("OnHiddenDataCached", function(categories)
+		for key,category in pairs(categories) do
+			--print("Found Hidden Category:", key);
+			category.RootCategory = key;
+			-- hidden data fields are only cached when hooked to a Window
 		end
-	else
-		t = {
-				name = L.HEADER_NAMES[npcID],
-				icon = L.HEADER_ICONS[npcID]
-			}
-	end
-	return t
+	end)
+	app.AddEventHandler("OnDataCached", function(categories, rootData)
+		for key,category in pairs(categories) do
+			--print("Found Category:", key);
+			category.RootCategory = key;
+			NestObject(rootData, category)
+		end
+
+		-- app.PrintMemoryUsage()
+		-- app.PrintDebug("Begin Cache Prime")
+		app.AssignChildren(rootData);
+		app.CacheFields(rootData);
+		-- app.PrintDebugPrior("Ended Cache Prime")
+		-- app.PrintMemoryUsage()
+	end)
 end
 
 function app:GetDatabaseRoot()
@@ -1208,7 +1275,6 @@ function app:GetDatabaseRoot()
 	app.CloneDictionary(app.BaseClass.__class, DefaultRootKeys)
 
 	-- Update the Row Data by filtering raw data (this function only runs once)
-	local g = {};
 	local rootData = setmetatable({
 		key = "ROOT",
 		text = L.TITLE,
@@ -1218,7 +1284,7 @@ function app:GetDatabaseRoot()
 		font = "GameFontNormalLarge",
 		SortType = "Global",
 		expanded = true,
-		g = g,
+		g = {},
 	}, {
 		__index = function(t, key)
 			local defaultKeyFunc = DefaultRootKeys[key]
@@ -1240,253 +1306,11 @@ function app:GetDatabaseRoot()
 		end
 	});
 
-	-- Build the Categories and assign them to temporary tables.
-	local AllCategories, AllHiddenCategories = {}, {};
-	app.HandleEvent("OnBuildHiddenDataCache", AllHiddenCategories);
-	app.HandleEvent("OnBuildDataCache", AllCategories);
-	app.RemoveAllEventHandlers("OnBuildHiddenDataCache");
-	app.RemoveAllEventHandlers("OnBuildDataCache");
-	for key,category in pairs(AllCategories) do
-		--print("Found Category:", key);
-		category.RootCategory = key;
-		tinsert(g, category);
-	end
-	for key,category in pairs(AllHiddenCategories) do
-		--print("Found Hidden Category:", key);
-		category.RootCategory = key;
-	end
-
-	-- app.PrintMemoryUsage()
-	-- app.PrintDebug("Begin Cache Prime")
-	app.AssignChildren(rootData);
-	app.CacheFields(rootData);
-	-- app.PrintDebugPrior("Ended Cache Prime")
-	-- app.PrintMemoryUsage()
-
-	if app.IsRetail then
-		-- CRIEVE NOTE: This needs to be versioned at the very least before it can be enabled in classic land
-		-- Create Dynamic Groups Button
-		local dynamicHeader = app.CreateRawText(L.CLICK_TO_CREATE_FORMAT:format(L.DYNAMIC_CATEGORY_LABEL), {
-			icon = app.asset("Interface_CreateDynamic"),
-			OnUpdate = app.AlwaysShowUpdate,
-			SortPriority = 1000,
-			sourceIgnored = true,
-			-- ["OnClick"] = function(row, button)
-				-- could implement logic to auto-populate all dynamic groups like before... will see if people complain about individual generation
-			-- end,
-			-- Top-Level Dynamic Categories
-			g = {
-				-- Future Unobtainable
-				app.CreateDynamicHeader("rwp", {
-					dynamic_withsubgroups = true,
-					dynamic_value = app.GameBuildVersion,
-					dynamic_searchcriteria = {
-						SearchValueCriteria = {
-							-- only include 'rwp' search results where the value is >= the current game version
-							function(o,field,value)
-								local rwp = o[field]
-								if not rwp then return end
-								return rwp >= value
-							end
-						}
-					},
-					name = L.FUTURE_UNOBTAINABLE,
-					description = L.FUTURE_UNOBTAINABLE_TOOLTIP,
-					icon = app.asset("Interface_Future_Unobtainable")
-				}),
-
-				-- Recently Added
-				app.CreateDynamicHeader("awp", {
-					dynamic_value = app.GameBuildVersion,
-					dynamic_withsubgroups = true,
-					name = L.NEW_WITH_PATCH,
-					description = L.NEW_WITH_PATCH_TOOLTIP,
-					icon = app.asset("Interface_Newly_Added")
-				}),
-
-				-- Achievements
-				app.CreateDynamicHeader("achievementID", SimpleHeaderGroup(app.HeaderConstants.ACHIEVEMENTS, {
-					dynamic_searchcriteria = {
-						SearchCriteria = {
-							-- don't include Criteria
-							function(o) return not o.criteriaID end
-						}
-					},
-				})),
-
-				-- Artifacts
-				app.CreateDynamicHeader("artifactID", SimpleHeaderGroup(app.HeaderConstants.ARTIFACTS)),
-
-				-- Azerite Essences
-				app.CreateDynamicHeader("azeriteessenceID", SimpleHeaderGroup(app.HeaderConstants.AZERITE_ESSENCES)),
-
-				-- Battle Pets
-				app.CreateDynamicHeader("speciesID", {
-					name = AUCTION_CATEGORY_BATTLE_PETS,
-					icon = app.asset("Category_PetJournal")
-				}),
-
-				-- Buildings
-				app.CreateDynamicHeader("garrisonbuildingID", SimpleHeaderGroup(app.HeaderConstants.BUILDINGS)),
-
-				-- Campsites
-				app.CreateDynamicHeader("campsiteID", {
-					name = WARBAND_SCENES,
-					icon = app.asset("Category_Campsites")
-				}),
-
-				-- Character Unlocks
-				app.CreateDynamicHeader("characterUnlock", {
-					name = L.CHARACTERUNLOCKS_CHECKBOX,
-					icon = app.asset("Category_ItemSets")
-				}),
-
-				-- Conduits
-				app.CreateDynamicHeader("conduitID", SimpleHeaderGroup(app.HeaderConstants.CONDUITS, {suffix=EXPANSION_NAME8})),
-
-				-- Currencies
-				app.CreateDynamicHeaderByValue("currencyID", {
-					dynamic_withsubgroups = true,
-					name = CURRENCY,
-					icon = app.asset("Interface_Vendor")
-				}),
-
-				-- Decor
-				app.CreateDynamicHeader("decorID", {
-					name = CATALOG_SHOP_TYPE_DECOR,
-					icon = app.asset("Category_Housing")
-				}),
-
-				-- Factions
-				app.CreateDynamicHeaderByValue("factionID", {
-					dynamic_withsubgroups = true,
-					name = L.FACTIONS,
-					icon = app.asset("Category_Factions")
-				}),
-
-				-- First Crafts
-				app.CreateDynamicHeader("firstcraftID", {
-					name = L.FIRST_CRAFTS_CHECKBOX,
-					icon = app.asset("Category_Professions")	-- TODO: Make a new icon
-				}),
-
-				-- Flight Paths
-				app.CreateDynamicHeader("flightpathID", {
-					name = L.FLIGHT_PATHS,
-					icon = app.asset("Category_FlightPaths")
-				}),
-
-				-- Followers
-				app.CreateDynamicHeader("followerID", SimpleHeaderGroup(app.HeaderConstants.FOLLOWERS)),
-
-				-- Heirlooms
-				app.CreateDynamicHeader("heirloomID", SimpleHeaderGroup(app.HeaderConstants.HEIRLOOMS)),
-
-				-- Illusions
-				app.CreateDynamicHeader("illusionID", {
-					name = L.FILTER_ID_TYPES[103],
-					icon = app.asset("Category_Illusions")
-				}),
-
-				-- Mounts
-				app.CreateDynamicHeader("mountID", {
-					name = MOUNTS,
-					icon = app.asset("Category_Mounts")
-				}),
-
-				-- Mount Mods
-				app.CreateDynamicHeader("mountmodID", SimpleHeaderGroup(app.HeaderConstants.MOUNT_MODS)),
-
-				-- Pet Battles
-				app.CreateDynamicHeader("pb", SimpleHeaderGroup(app.HeaderConstants.PET_BATTLES, {dynamic_withsubgroups = true})),
-
-				-- Professions
-				app.CreateDynamicHeaderByValue("professionID", {
-					dynamic_withsubgroups = true,
-					dynamic_valueField = "requireSkill",
-					name = TRADE_SKILLS,
-					icon = app.asset("Category_Professions")
-				}),
-
-				-- Profession Nodes
-				app.CreateDynamicHeader("professionnodeID", {
-					name = L.PROFESSION_NODES_CHECKBOX,
-					icon = app.asset("Category_Professions")	-- TODO: Make a new icon
-				}),
-
-				-- Runeforge Powers
-				app.CreateDynamicHeader("runeforgepowerID", SimpleHeaderGroup(app.HeaderConstants.LEGENDARIES, {suffix=EXPANSION_NAME8})),
-
-				-- Titles
-				app.CreateDynamicHeader("titleID", {
-					name = PAPERDOLL_SIDEBAR_TITLES,
-					icon = app.asset("Category_Titles")
-				}),
-
-				-- Toys
-				app.CreateDynamicHeader("toyID", {
-					name = TOY_BOX,
-					icon = app.asset("Category_ToyBox")
-				}),
-
-				-- Various Quest groups
-				app.CreateCustomHeader(app.HeaderConstants.QUESTS, {
-					visible = true,
-					OnUpdate = app.AlwaysShowUpdate,
-					g = {
-						-- Breadcrumbs
-						app.CreateDynamicHeader("isBreadcrumb", {
-							name = L.BREADCRUMBS,
-							icon = 134051
-						}),
-
-						-- Dailies
-						app.CreateDynamicHeader("isDaily", {
-							name = DAILY,
-							icon = app.asset("Interface_Questd")
-						}),
-
-						-- Weeklies
-						app.CreateDynamicHeader("isWeekly", {
-							name = CALENDAR_REPEAT_WEEKLY,
-							icon = app.asset("Interface_Questw")
-						}),
-
-						-- HQTs
-						app.CreateDynamicHeader("isHQT", {
-							name = MINIMAP_TRACKING_HIDDEN_QUESTS,
-							icon = app.asset("Interface_Quest"),
-						}),
-
-						-- All Quests
-						-- this works but..... bad idea instead use /att list type=quest limit=79000
-						-- app.CreateDynamicHeaderByValue("questID", {
-						-- 	dynamic_withsubgroups = true,
-						-- 	name = QUESTS_LABEL,
-						-- 	icon = app.asset("Interface_Quest_header")
-						-- }),
-					}
-				}),
-
-			},
-		});
-		tinsert(g, dynamicHeader);
-		dynamicHeader.parent = rootData;
-		app.AssignChildren(dynamicHeader);
-	end
-
 	-- app.PrintMemoryUsage("Finished loading data cache")
-	-- app.PrintMemoryUsage()
 	app.GetDatabaseRoot = function()
 		-- app.PrintDebug("Cached data cache")
 		return rootData;
 	end
-	app.HandleEvent("OnHiddenDataCached", AllHiddenCategories);
-	app.HandleEvent("OnDataCached", AllCategories, rootData);
-	app.RemoveAllEventHandlers("OnHiddenDataCached");
-	app.RemoveAllEventHandlers("OnDataCached");
-	AllHiddenCategories = nil;
-	AllCategories = nil;
 	return rootData;
 end
 
@@ -1511,7 +1335,7 @@ local function PrePopulateAchievementSymlinks()
 		end
 		app.FillRunner.SetPerFrame(25)
 	end
-	app.FunctionRunner.Run(app.RemoveEventHandler, PrePopulateAchievementSymlinks)
+	app.RemoveEventHandler(PrePopulateAchievementSymlinks)
 	-- app.PrintDebug("Done:FillAchSym")
 end
 app.AddEventHandler("OnRefreshCollectionsDone", PrePopulateAchievementSymlinks)
@@ -1682,10 +1506,36 @@ app:RegisterFuncEvent("PLAYER_LOGIN", function(addonName)
 	-- Event handlers which need Saved Variable data which is added by OnSavedVariablesAvailable handlers into saved variables
 	app.HandleEvent("OnAfterSavedVariablesAvailable", currentCharacter, accountWideData);
 
-	-- Cache the data for the first time
-	-- TODO: Move the logic here rather than in GetDatabaseRoot itself. (this will prevent windows from killing things)
-	app:GetDatabaseRoot();
+	-- Determine the load style for ATT data
+	if AllTheThingsSavedVariables.LoadStyle == 1 then
+		app.DesignateRunnerEvent("OnBuildDataCache")
+		app.DesignateRunnerEvent("OnBuildHiddenDataCache")
+		app.DesignateRunnerEvent("OnDataCached")
+		app.DesignateRunnerEvent("OnHiddenDataCached")
+		app.AddEventHandler("OnStartup", function()
+			app.print((LFG_LIST_LOADING or "Loading..."),DONE)
+		end)
+		-- reminder in chat if using progressive loading
+		app.print((UNIT_NAMEPLATES_THREAT_DISPLAY_PROGRESSIVE or "Progressive"),(LFG_LIST_LOADING or "Loading..."),"Toggle via /att use-progressive-loading")
+	end
 
-	-- OnLoad events (saved variables are now available)
-	app.HandleEvent("OnLoad")
+	-- OnLoad events can fire once all data is loaded & cached
+	app.AddEventHandler("OnLoad", function()
+		app.RemoveAllEventHandlers("OnBuildHiddenDataCache")
+		app.RemoveAllEventHandlers("OnBuildDataCache")
+		app.RemoveAllEventHandlers("OnHiddenDataCached")
+		app.RemoveAllEventHandlers("OnDataCached")
+	end)
+	-- app.DesignateAwaitedEvent("OnLoad", "OnBuildHiddenDataCache", "OnBuildDataCache", "OnHiddenDataCached", "OnDataCached")
+	app.LinkEventSequence("OnDataCached", "OnLoad")
+
+	-- Build the Categories and assign them to temporary tables.
+	local AllCategories, AllHiddenCategories = {}, {}
+	app.HandleEvent("OnBuildHiddenDataCache", AllHiddenCategories)
+	app.HandleEvent("OnBuildDataCache", AllCategories)
+	-- Cache the data for the first time
+	app.HandleEvent("OnHiddenDataCached", AllHiddenCategories)
+	app.HandleEvent("OnDataCached", AllCategories, app:GetDatabaseRoot())
+	AllHiddenCategories = nil
+	AllCategories = nil
 end)

@@ -66,7 +66,6 @@ local baseLocale = {
     ["SOUL_FRAGMENTS_VOID_META"] = "噬灭灵魂残片（虚空变形）",
     ["ESSENCE"]= POWER_TYPE_ESSENCE,
     ["EBON_MIGHT"] = "黑檀之力",
-    ["FREEZE"] = "冻结",
 
     -- Bar names
     ["HEALTH_BAR_EDIT_MODE_NAME"] = "生命条",

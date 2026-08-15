@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: wclbox.com
-## Version: 1.0.26
+## Version: 1.0.33
 
 ## Title: 新手盒子游戏助手
 ## Notes: 用于新手盒子内角色数据识别同步的插件
@@ -18,6 +18,5 @@
 
 ## X-Website: https://www.wclbox.com
 
-libs/crypto.lua
 data/wa.lua
 WclBox.lua

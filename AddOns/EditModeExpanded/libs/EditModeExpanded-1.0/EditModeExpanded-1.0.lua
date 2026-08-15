@@ -2,9 +2,27 @@
 -- Internal variables
 --
 
-local MAJOR, MINOR = "EditModeExpanded-1.0", 114
+local MAJOR, MINOR = "EditModeExpanded-1.0", 118
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
+
+local L = {
+    ["enUS"] = {
+        ["CLAMP_TO_SCREEN"] = "Clamp to Screen",
+        ["TOGGLE_VISIBILITY_COMBAT"] = "Toggle Visibility in Combat",
+        ["COORDINATES"] = "Coordinates:",
+        ["EXPANDED"] = "Expanded",
+    },
+    ["zhCN"] = {
+        ["CLAMP_TO_SCREEN"] = "Text needed here",
+        ["TOGGLE_VISIBILITY_COMBAT"] = "Text needed here",
+        ["COORDINATES"] = "Coordinates:",
+        ["EXPANDED"] = "Expanded",
+    },
+    -- ["frFR"] ptBR etc
+}
+
+L = L[GetLocale()] or L["enUS"]
 
 -- the internal frames provided by Blizzard go up to index 19. They reference Enum.EditModeSystem, which starts from index 0
 local STARTING_INDEX = 0
@@ -114,6 +132,20 @@ setmetatable(framesDialogsKeys, {
         return t[k]
     end,
 })
+
+-- archived from EditModeSystemTemplates.lua
+local EditModeSystemSelectionLayout =
+{
+	["TopRightCorner"] = { atlas = "%s-NineSlice-Corner", mirrorLayout = true, x=8, y=8 },
+	["TopLeftCorner"] = { atlas = "%s-NineSlice-Corner", mirrorLayout = true, x=-8, y=8 },
+	["BottomLeftCorner"] = { atlas = "%s-NineSlice-Corner", mirrorLayout = true, x=-8, y=-8 },
+	["BottomRightCorner"] = { atlas = "%s-NineSlice-Corner",  mirrorLayout = true, x=8, y=-8 },
+	["TopEdge"] = { atlas = "_%s-NineSlice-EdgeTop" },
+	["BottomEdge"] = { atlas = "_%s-NineSlice-EdgeBottom" },
+	["LeftEdge"] = { atlas = "!%s-NineSlice-EdgeLeft" },
+	["RightEdge"] = { atlas = "!%s-NineSlice-EdgeRight" },
+	["Center"] = { atlas = "%s-NineSlice-Center", x = -8, y = 8, x1 = 8, y1 = -8, },
+};
 
 --
 -- Public API
@@ -229,6 +261,19 @@ function lib:RegisterFrame(frame, name, db, anchorTo, anchorPoint, clamped)
     frame.BreakFrameSnap = function() end
     frame.SnapToFrame = function() end
     
+    function frame:HighlightSystem()
+    	if self.isDragging then
+    		self:OnDragStop();
+    	end
+
+    	self:SetMovable(false);
+    	--self:AnchorSelectionFrame();
+    	self.Selection:ShowHighlighted();
+    	self.isHighlighted = true;
+    	self.isSelected = false;
+    	--self:UpdateMagnetismRegistration();
+    end
+    
     frame.system = nextSystemIDIndex
     nextSystemIDIndex = nextSystemIDIndex + 1
     baseFramesDB[frame.system] = baseDB 
@@ -245,9 +290,33 @@ function lib:RegisterFrame(frame, name, db, anchorTo, anchorPoint, clamped)
     end
 
     frame.Selection = CreateFrame("Frame", nil, frame, "EditModeSystemSelectionTemplate")
+    frame.Selection.CheckShowInstructionalTooltip = nop
     frame.Selection:SetAllPoints(frame)
     frame.defaultHideSelection = true
     frame.Selection:Hide()
+    
+    function frame.Selection:ShowHighlighted()
+    	if self.textureShown ~= "highlight" then
+    		NineSliceUtil.ApplyLayout(self, EditModeSystemSelectionLayout, self.highlightTextureKit);
+    		self.textureShown = "highlight";
+    	end
+    	self.isSelected = false;
+    	--self:UpdateLabelVisibility();
+    	self:Show();
+    end
+
+    function frame.Selection:ShowSelected()
+    	if self.textureShown ~= "selected" then
+    		NineSliceUtil.ApplyLayout(self, EditModeSystemSelectionLayout, self.selectedTextureKit);
+    		self.textureShown = "selected";
+    	end
+    	self.isSelected = true;
+    	--self:UpdateLabelVisibility();
+    	--self:CheckShowInstructionalTooltip();
+    	self:Show();
+    end
+    
+    frame.Selection.UpdateLabelVisibility = nop
     
     frame.systemNameString = name
     
@@ -269,12 +338,12 @@ function lib:RegisterFrame(frame, name, db, anchorTo, anchorPoint, clamped)
     table.insert(framesDialogs[frame.system],
         {
             setting = ENUM_EDITMODEACTIONBARSETTING_CLAMPED,
-            name = "Clamp to Screen",
+            name = L["CLAMP_TO_SCREEN"],
             type = Enum.EditModeSettingDisplayType.Checkbox,
         }
     )
     
-    function frame.UpdateMagnetismRegistration() end
+    frame.UpdateMagnetismRegistration = nop
 
     frame.Selection:SetScript("OnMouseDown", function()
         frame:SelectSystem()
@@ -292,6 +361,7 @@ function lib:RegisterFrame(frame, name, db, anchorTo, anchorPoint, clamped)
                 EditModeExpandedSystemSettingsDialog:Hide()
             end
         end
+        
         for _, frame2 in ipairs(frames) do
             if frame2 ~= frame then
                 frame2:HighlightSystem()
@@ -307,13 +377,15 @@ function lib:RegisterFrame(frame, name, db, anchorTo, anchorPoint, clamped)
         local profiledb = framesDB[frame.system]
         profiledb.x, profiledb.y = self:GetRect()
         
-        local x, y = getOffsetXY(frame, profiledb.x, profiledb.y)
-        frame:ClearAllPoints()
-        frame:SetPoint(frame.EMEanchorPoint, frame.EMEanchorTo, frame.EMEanchorPoint, x, y)
+        local x, y, isSecret = getOffsetXY(frame, profiledb.x, profiledb.y)
+        if not isSecret then
+            frame:ClearAllPoints()
+            frame:SetPoint(frame.EMEanchorPoint, frame.EMEanchorTo, frame.EMEanchorPoint, x, y)
+        end
         
         EditModeExpandedSystemSettingsDialog:UpdateSettings(frame)
         
-        if frame:IsUserPlaced() then
+        if (not issecretvalue(frame:IsUserPlaced())) and frame:IsUserPlaced() then
             frame:SetUserPlaced(false)
         end
     end)
@@ -409,14 +481,16 @@ function lib:RegisterFrame(frame, name, db, anchorTo, anchorPoint, clamped)
     
         -- Update position to try and keep the system frame in the same position since scale changes how offsets work
         local numPoints = self:GetNumPoints();
-        for i = 1, numPoints do
-            local point, relativeTo, relativePoint, offsetX, offsetY = self:GetPoint(i);
-    
-            -- Undo old scale adjustment so we're working with 1.0 scale offsets
-            -- Then apply the newScale adjustment
-            offsetX = offsetX * oldScale / newScale;
-            offsetY = offsetY * oldScale / newScale;
-            self:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY);
+        if not issecretvalue(numPoints) then
+            for i = 1, numPoints do
+                local point, relativeTo, relativePoint, offsetX, offsetY = self:GetPoint(i);
+        
+                -- Undo old scale adjustment so we're working with 1.0 scale offsets
+                -- Then apply the newScale adjustment
+                offsetX = offsetX * oldScale / newScale;
+                offsetY = offsetY * oldScale / newScale;
+                self:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY);
+            end
         end
     end
     
@@ -601,7 +675,7 @@ function lib:RegisterHideable(frame, onEventHandler)
     table.insert(framesDialogs[systemID],
         {
             setting = ENUM_EDITMODEACTIONBARSETTING_HIDEABLE,
-            name = "Hide",
+            name = HIDE,
             type = Enum.EditModeSettingDisplayType.Checkbox,
     })
     
@@ -753,7 +827,7 @@ function lib:RegisterCoordinates(frame)
     coordinatePanel.label = coordinatePanel:CreateFontString(nil, nil, "GameTooltipText")
     local label = coordinatePanel.label
     label.layoutIndex = 1
-    label:SetText("Coordinates:")
+    label:SetText(L["COORDINATES"])
     
     coordinatePanel.xEditBox = CreateFrame("EditBox", nil, coordinatePanel, "InputBoxTemplate")
     local xEditBox = coordinatePanel.xEditBox
@@ -980,7 +1054,7 @@ hooksecurefunc(f, "OnLoad", function()
     end)
     
     EditModeManagerExpandedFrame.Title = EditModeManagerExpandedFrame.Title or EditModeManagerExpandedFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlightLarge")
-    EditModeManagerExpandedFrame.Title:SetText("Expanded")
+    EditModeManagerExpandedFrame.Title:SetText(L["EXPANDED"])
     EditModeManagerExpandedFrame.Title.layoutIndex = 1
     EditModeManagerExpandedFrame.Title.align = "center"
     EditModeManagerExpandedFrame.Title.topPadding = 15
@@ -1053,7 +1127,7 @@ hooksecurefunc(f, "OnLoad", function()
             wasVisible[frame.system] = frame:IsShown()
             frame:SetShown(framesDB[frame.system].enabled)
             local x, y = frame:GetSize()
-            if (not frame.EMEDontResize) and ((x < 40) or (y < 40)) then
+            if (not (issecretvalue(x) or issecretvalue(y))) and (not frame.EMEDontResize) and ((x < 40) or (y < 40)) then
                 originalSize[frame.system] = {["x"] = x, ["y"] = y}
                 if defaultSize[frame.system] then
                     frame:SetSize(defaultSize[frame.system].x, defaultSize[frame.system].y)
@@ -1900,6 +1974,15 @@ end
 -- Handle frame being based on a frame other than UIParent
 --
 function getOffsetXY(frame, x, y)
+    if issecretvalue(x) or issecretvalue(y) then
+        return x, y, true
+    end
+    
+    local width, height = frame:GetSize()
+    if issecretvalue(width) or issecretvalue(height) then
+        return x, y, true
+    end
+    
     local scale = frame:GetEffectiveScale()
     local parentscale = frame.EMEanchorTo:GetEffectiveScale()
 
@@ -1909,35 +1992,27 @@ function getOffsetXY(frame, x, y)
         return x - ((targetX * parentscale) / scale), y - ((targetY * parentscale) / scale)
     elseif anchorPoint == "BOTTOMRIGHT" then
         local targetX, targetY, targetWidth = frame.EMEanchorTo:GetRect()
-        local width = frame:GetSize()
         return (x + width) - (((targetX + targetWidth) * parentscale) / scale), y - ((targetY * parentscale) / scale)
     elseif anchorPoint == "TOPLEFT" then
         local targetX, targetY, _, targetHeight = frame.EMEanchorTo:GetRect()
-        local _, height = frame:GetSize()
         return x - ((targetX * parentscale) / scale), (y + height) - (((targetY + targetHeight) * parentscale) / scale)
     elseif anchorPoint == "TOPRIGHT" then
         local targetX, targetY, targetWidth, targetHeight = frame.EMEanchorTo:GetRect()
-        local width, height = frame:GetSize()
         return (x + width) - (((targetX + targetWidth) * parentscale) / scale), (y + height) - (((targetY + targetHeight) * parentscale) / scale)
     elseif anchorPoint == "CENTER" then
         local targetX, targetY, targetWidth, targetHeight = frame.EMEanchorTo:GetRect()
-        local width, height = frame:GetSize()
         return (x + 0.5 * width) - (((targetX + 0.5 * targetWidth) * parentscale) / scale), (y + 0.5 * height) - (((targetY + 0.5 * targetHeight) * parentscale) / scale)
     elseif anchorPoint == "TOP" then
         local targetX, targetY, targetWidth, targetHeight = frame.EMEanchorTo:GetRect()
-        local width, height = frame:GetSize()
         return (x + 0.5 * width) - (((targetX + 0.5 * targetWidth) * parentscale) / scale), (y + height) - (((targetY + targetHeight) * parentscale) / scale)
     elseif anchorPoint == "BOTTOM" then
         local targetX, targetY, targetWidth = frame.EMEanchorTo:GetRect()
-        local width = frame:GetSize()
         return (x + 0.5 * width) - (((targetX + 0.5 * targetWidth) * parentscale) / scale), y - ((targetY * parentscale) / scale)
     elseif anchorPoint == "LEFT" then
         local targetX, targetY, _, targetHeight = frame.EMEanchorTo:GetRect()
-        local _, height = frame:GetSize()
         return x - ((targetX * parentscale) / scale), (y + 0.5 * height) - (((targetY + 0.5 * targetHeight) * parentscale) / scale)
     elseif anchorPoint == "RIGHT" then
         local targetX, targetY, targetWidth, targetHeight = frame.EMEanchorTo:GetRect()
-        local width, height = frame:GetSize()
         return (x + width) - (((targetX + targetWidth) * parentscale) / scale), (y + 0.5 * height) - (((targetY + 0.5 * targetHeight) * parentscale) / scale)
     end 
 end
@@ -1956,6 +2031,7 @@ function registerFrameMovableWithArrowKeys(frame)
     function frame:MoveWithArrowKey(key)
         if self.isSelected then
             local x, y = self:GetRect();
+            if issecretvalue(x) or issecretvalue(y) then return end
 
             local new_x = x;
             local new_y = y;
@@ -2033,7 +2109,7 @@ function lib:RegisterToggleInCombat(frame, toggleCallback)
     table.insert(framesDialogs[systemID],
         {
             setting = ENUM_EDITMODEACTIONBARSETTING_TOGGLEHIDEINCOMBAT,
-            name = "Toggle Visibility in Combat",
+            name = L["TOGGLE_VISIBILITY_COMBAT"],
             type = Enum.EditModeSettingDisplayType.Checkbox,
             toggleCallback = toggleCallback,
     })

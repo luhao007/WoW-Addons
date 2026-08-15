@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("ViscousFalloutSoD", "DBM-Raids-Vanilla", 9)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(220007)--217308 Irradiated Goo adds
 mod:SetEncounterID(2928)
@@ -32,8 +32,8 @@ local warnSummonIrradiatedGoo		= mod:NewSpellAnnounce(434358, 3)
 local warnSludge					= mod:NewSpellAnnounce(434434, 2)
 local warnRadiationBurn				= mod:NewSpellAnnounce(433546, 4)--Cast got off
 
-local specWarnRadiationBurn			= mod:NewSpecialWarningInterruptCount(433546, "HasInterrupt", nil, nil, 1, 2)
-local specWarnGTFO					= mod:NewSpecialWarningGTFO(434433, nil, nil, nil, 1, 8)
+local specWarnRadiationBurn			= mod:NewSpecialWarningInterruptCount(433546, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnGTFO					= mod:NewSpecialWarningGTFO(434433, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerSummonIrradiatedGooCD	= mod:NewCDTimer(63, 434358, nil, nil, nil, 1)
 local timerSludgeCD					= mod:NewCDTimer(16, 434434, nil, nil, nil, 3)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2373, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260525233052")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(157602)
 mod:SetEncounterID(2343)
@@ -42,14 +42,14 @@ local warnVolatileSeed						= mod:NewTargetCountAnnounce(310277, 2, nil, nil, ni
 local warnUnleashedInsanity					= mod:NewTargetAnnounce(310361, 4)--People stunned by muttering of Insanity
 local warnThrowsSoon						= mod:NewSoonAnnounce(308941, 4)
 
-local specWarnThrowsofAgony					= mod:NewSpecialWarningDodgeCount(308941, nil, nil, nil, 2, 2)--Acts as warning for All abilities triggered at 100 Energy
-local specWarnVolatileSeed					= mod:NewSpecialWarningYouCount(310277, nil, nil, nil, 1, 2)
+local specWarnThrowsofAgony					= mod:NewSpecialWarningDodgeCount(308941, nil, nil, nil, 2, 2, nil, nil, "specialsoon")--Acts as warning for All abilities triggered at 100 Energy
+local specWarnVolatileSeed					= mod:NewSpecialWarningYouCount(310277, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellolatileSeed						= mod:NewYell(310277)
 local yellolatileSeedFades					= mod:NewFadesYell(310277)
-local specWarnEntropicCrash					= mod:NewSpecialWarningDodge(310329, nil, nil, nil, 2, 2)
-local specWarnMutteringsofInsanity			= mod:NewSpecialWarningTarget(310358, nil, nil, nil, 1, 2)
+local specWarnEntropicCrash					= mod:NewSpecialWarningDodge(310329, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnMutteringsofInsanity			= mod:NewSpecialWarningTarget(310358, nil, nil, nil, 1, 2, nil, nil, "runaway")
 local yellMutteringsofInsanity				= mod:NewShortFadesYell(310358)
-local specWarnVoidGlare						= mod:NewSpecialWarningDodge(310406, nil, nil, nil, 3, 2)
+local specWarnVoidGlare						= mod:NewSpecialWarningDodge(310406, nil, nil, nil, 3, 2, nil, nil, "farfromline")
 
 local timerVolatileSeedCD					= mod:NewCDCountTimer(16.6, 310277, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--16.6-26.8 (boss has some channeled abilities, spell queuing)
 local timerEntropicCrashCD					= mod:NewCDTimer(44.3, 310329, nil, nil, nil, 2)
@@ -65,17 +65,17 @@ mod:AddSetIconOption("SetIconOnMuttering", 310358, false, 0, {2, 3, 4, 5, 6, 7, 
 mod:AddNamePlateOption("NPAuraOnVolatileCorruption", 312595)
 --Eye of Drest'agath
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(20885))
-local specWarnErrantBlast					= mod:NewSpecialWarningDodge(308953, false, nil, 2, 2, 2, 4)--For mythic
-local specWarnMindFlay						= mod:NewSpecialWarningInterrupt(310552, "HasInterrupt", nil, nil, 1, 2)
+local specWarnErrantBlast					= mod:NewSpecialWarningDodge(308953, false, nil, 2, 2, 2, 4, nil, "watchstep")--For mythic
+local specWarnMindFlay						= mod:NewSpecialWarningInterrupt(310552, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 --Maw of Dresta'gath
- local specWarnSpineEruption					= mod:NewSpecialWarningDodge(310078, false, nil, 2, 2, 2, 4)--For mythic
- local specWarnMutteringsofBetrayal			= mod:NewSpecialWarningStack(310563, nil, 3, nil, nil, 1, 6)
+ local specWarnSpineEruption					= mod:NewSpecialWarningDodge(310078, false, nil, 2, 2, 2, 4, nil, "watchorb")--For mythic
+ local specWarnMutteringsofBetrayal			= mod:NewSpecialWarningStack(310563, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
 --Tentacle of Drest'agath
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(20886))
 local warnObscuringCloud					= mod:NewSpellAnnounce(310478, 2)
 local warnThroesofDismemberment				= mod:NewTargetNoFilterAnnounce(315712, 4)
 
-local specWarnTentacleSlam					= mod:NewSpecialWarningDodge(308995, false, nil, 2, 2, 2, 4)--For mythic
+local specWarnTentacleSlam					= mod:NewSpecialWarningDodge(308995, false, nil, 2, 2, 2, 4, nil, "watchstep")--For mythic
 
 mod:GroupSpells(310277, 312595)--Volatile Seed grouped with volatile corruption (debuff it applies)
 

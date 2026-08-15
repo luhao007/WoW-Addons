@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal25"
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(17808)
 mod:SetEncounterID(619, 2469)
@@ -28,7 +28,7 @@ local warnSwarm			= mod:NewSpellAnnounce(31306, 3)
 local warnSleep			= mod:NewTargetNoFilterAnnounce(31298, 2)
 local warnInferno		= mod:NewTargetNoFilterAnnounce(31299, 4)
 
-local specWarnInferno	= mod:NewSpecialWarningYou(31299, nil, nil, nil, 1, 2)
+local specWarnInferno	= mod:NewSpecialWarningYou(31299, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellInferno		= mod:NewYell(31299)
 
 local timerSwarm		= mod:NewBuffFadesTimer(20, 31306, nil, nil, nil, 3)

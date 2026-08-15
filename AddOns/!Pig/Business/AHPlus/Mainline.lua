@@ -36,6 +36,7 @@ function BusinessInfo.AHPlus_Mainline()
 		return nil;
 	end
 	local function Show_hangdata(hangui)
+		if not hangui.rowData then return end
 		local itemKey = hangui.rowData.itemKey
 		local itemKeyInfo = C_AuctionHouse.GetItemKeyInfo(itemKey);
 		if itemKeyInfo then
@@ -340,10 +341,6 @@ function BusinessInfo.AHPlus_Mainline()
 	---------------------
 	AuctionHouseFrame.WoWTokenResults.qushibut = PIGButton(AuctionHouseFrame.WoWTokenResults,{"CENTER",AuctionHouseFrame.WoWTokenResults,"CENTER",3,-100},{80,24},L["TRADEAH_PRICETREND"],nil,nil,nil,nil,0)
 	AuctionHouseFrame.WoWTokenResults.qushibut:HookScript("OnClick",function(self)
-		if BusinessInfo.StatsInfoUI then
-			BusinessInfo.StatsInfoUI:TabShow(AuctionHouseFrame)
-		else
-			PIG_OptionsUI:ErrorMsg(BusinessInfo.ADD_qushiError)
-		end
+		BusinessInfo.IsBusinessOpen(BusinessInfo.TabShowTime,AuctionHouseFrame)
 	end)
 end

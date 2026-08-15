@@ -2,7 +2,7 @@ local mod	= DBM:NewMod("Horsemen", "DBM-Raids-WoTLK", 8)
 local L		= mod:GetLocalizedStrings()
 local isRetail = WOW_PROJECT_ID == (WOW_PROJECT_MAINLINE or 1)
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(16063, 16064, 16065, 30549)
 mod:SetEncounterID(1121)
@@ -27,14 +27,14 @@ local warnMeteor				= mod:NewSpellAnnounce(57467, 4)
 local warnHolyWrath				= mod:NewTargetNoFilterAnnounce(28883, 3, nil, false)
 local warnBoneBarrier			= mod:NewTargetNoFilterAnnounce(29061, 2)
 
-local specWarnMarkOnPlayer		= mod:NewSpecialWarning("SpecialWarningMarkOnPlayer", nil, nil, nil, 1, 6, nil, nil, 28835)
+local specWarnMarkOnPlayer		= mod:NewSpecialWarning("SpecialWarningMarkOnPlayer", nil, nil, nil, 1, 6, nil, nil, 28835, nil, "stackhigh")
 
 local warnVoidZone
 local specWarnVoidZone
 local yellVoidZone
 if isRetail then
 	warnVoidZone				= mod:NewTargetNoFilterAnnounce(28863, 3)--Only warns for nearby targets, to reduce spam
-	specWarnVoidZone			= mod:NewSpecialWarningYou(28863, nil, nil, nil, 1, 2)
+	specWarnVoidZone			= mod:NewSpecialWarningYou(28863, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 	yellVoidZone				= mod:NewYell(28863)
 else
 	warnVoidZone				= mod:NewSpellAnnounce(28863, 4, nil, nil, nil, nil, nil, 2)

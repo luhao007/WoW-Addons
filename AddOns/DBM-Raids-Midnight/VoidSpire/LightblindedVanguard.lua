@@ -1,7 +1,7 @@
-local mod	= DBM:NewMod(2737, "DBM-Raids-Midnight", 3, 1307)
+local mod	= DBM:NewMod(2737, "DBM-Raids-Midnight", 4, 1307)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260428075631")
+mod:SetRevision("20260710194554")
 mod:SetCreatureID(250589)--War Chaplain Senn main boss, 250588 Commander Venel Lightblood, 250587 general Amias Bellamy
 mod:SetEncounterID(3180)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -15,51 +15,57 @@ mod:RegisterCombat("combat")
 local warnAuraofDevotion					= mod:NewCountAnnounce(1246162, 2)
 local warnZealousSpirit						= mod:NewCountAnnounce(1276243, 2)
 
-local specWarnAuraofPeace					= mod:NewSpecialWarningDodgeCount(1248451, nil, nil, nil, 2, 2)
-local specWarnSacredShield					= mod:NewSpecialWarningCount(1248674, nil, nil, nil, 2, 2)
+DBM:RegisterAltSpellName(1248721, DBM_COMMON_L.HEALABSORBS)--Tyr's Wrath -> Heal Absorbs
+DBM:RegisterAltSpellName(1248652, DBM_COMMON_L.DODGES)--Divine Toll -> Dodges
+DBM:RegisterAltSpellName(1246749, DBM_COMMON_L.AOEDAMAGE)--Sacred Toll -> AoE Damage
+DBM:RegisterAltSpellName(1276368, DBM_COMMON_L.GROUPSOAKS)--Execution Sentence -> Group Soaks
+DBM:RegisterAltSpellName(1251857, L.JudgementShield)--Judgement (Shield of the Righteous) -> localized shortname
+DBM:RegisterAltSpellName(1246736, L.JudgementFV)--Judgement (Final Verdict) -> localized shortname
+
+local specWarnAuraofPeace					= mod:NewSpecialWarningDodgeCount(1248451, nil, nil, nil, 2, 2, nil, nil, "peaceaura")
+local specWarnSacredShield					= mod:NewSpecialWarningCount(1248674, nil, nil, nil, 2, 2, nil, nil, "attackshield")
 --local specWarnElekkCharge					= mod:NewSpecialWarningDodge(1249130, nil, nil, nil, 2, 2)--Part of sacred shield
 --mod:GroupSpells(1248674, 1249130)--Sacred Shield + Elekk Charge
-local specWarnSearingRadiance				= mod:NewSpecialWarningCount(1255738, nil, nil, nil, 2, 2)
-local specWarnEmpoweredSearingRadiance		= mod:NewSpecialWarningCount(1276639, nil, nil, nil, 2, 2, 4)--Mythic empowered version
-local specWarnJudgementShield				= mod:NewSpecialWarningCount(1251857, nil, nil, L.JudgementShield, 2, 2)
-local specWarnDivineToll					= mod:NewSpecialWarningDodgeCount(1248652, nil, nil, DBM_COMMON_L.DODGES, 2, 2)
-local specWarnAuraofWrath					= mod:NewSpecialWarningCount(1248449, nil, nil, nil, 2, 2)
-local specWarnjudgementFinal				= mod:NewSpecialWarningCount(1246736, nil, nil, L.JudgementFV, 2, 2)
-local specWarnDivineStorm					= mod:NewSpecialWarningCount(1246765, "MeleeDps", nil, nil, 2, 2)--review default later
-local specWarnEmpoweredDivineStorm			= mod:NewSpecialWarningCount(1272310, "MeleeDps", nil, nil, 2, 2, 4)--Mythic empowered version
-local specWarnSacredToll					= mod:NewSpecialWarningCount(1246749, nil, nil, DBM_COMMON_L.AOEDAMAGE, 2, 2)
-local specWarnExecutionSentence				= mod:NewSpecialWarningSoakCount(1276368, nil, nil, DBM_COMMON_L.GROUPSOAKS, 2, 2)
+local specWarnSearingRadiance				= mod:NewSpecialWarningCount(1255738, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnEmpoweredSearingRadiance		= mod:NewSpecialWarningCount(1276639, nil, nil, nil, 2, 2, 4, nil, "aesoon")--Mythic empowered version
+local specWarnJudgementShield				= mod:NewSpecialWarningCount(1251857, nil, nil, nil, 2, 2, nil, nil, "changemt")
+local specWarnDivineToll					= mod:NewSpecialWarningDodgeCount(1248652, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnAuraofWrath					= mod:NewSpecialWarningCount(1248449, nil, nil, nil, 2, 2, nil, nil, "wrathaura")
+local specWarnjudgementFinal				= mod:NewSpecialWarningCount(1246736, nil, nil, nil, 2, 2, nil, nil, "changemt")
+local specWarnDivineStorm					= mod:NewSpecialWarningCount(1246765, "MeleeDps", nil, nil, 2, 2, nil, nil, "justrun")--review default later
+local specWarnEmpoweredDivineStorm			= mod:NewSpecialWarningCount(1272310, "MeleeDps", nil, nil, 2, 2, 4, nil, "justrun")--Mythic empowered version
+local specWarnSacredToll					= mod:NewSpecialWarningCount(1246749, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnExecutionSentence				= mod:NewSpecialWarningSoakCount(1276368, nil, nil, nil, 2, 2, nil, nil, "soakincoming")
 
 local timerAuraofPeaceCD					= mod:NewCDCountTimer(20.5, 1248451, nil, nil, nil, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
 local timerSacredShieldCD					= mod:NewCDCountTimer(20.5, 1248674, nil, nil, nil, 5)
 --local timerElekkChargeCD					= mod:NewCDCountTimer(20.5, 1249130, nil, nil, nil, 3)--redundant
-local timerTyrsWrathCD						= mod:NewCDCountTimer(20.5, 1248721, DBM_COMMON_L.HEALABSORBS.." (%s)", "Healer", nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
+local timerTyrsWrathCD						= mod:NewCDCountTimer(20.5, 1248721, nil, "Healer", nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
 local timerAuraofDevotionCD					= mod:NewCDCountTimer(20.5, 1246162, nil, nil, nil, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
 local timerSearingRadianceCD				= mod:NewCDCountTimer(20.5, 1255738, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
 local timerEmpoweredSearingRadianceCD		= mod:NewCDCountTimer(20.5, 1276639, nil, nil, nil, 2, nil, DBM_COMMON_L.MYTHIC_ICON..DBM_COMMON_L.HEALER_ICON)
-local timerJudgementShieldCD				= mod:NewCDCountTimer(20.5, 1251857, L.JudgementShield.." (%s)", "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerJudgementShieldCD				= mod:NewCDCountTimer(20.5, 1251857, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerAvengerShieldCD					= mod:NewCDCountTimer(20.5, 1246485, nil, nil, nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
 local timerEmpoweredAvengerShieldCD			= mod:NewCDCountTimer(20.5, 1276635, nil, nil, nil, 3, nil, DBM_COMMON_L.MYTHIC_ICON..DBM_COMMON_L.MAGIC_ICON)
-local timerDivineTollCD						= mod:NewCDCountTimer(20.5, 1248652, DBM_COMMON_L.DODGES.." (%s)", nil, nil, 3)
+local timerDivineTollCD						= mod:NewCDCountTimer(20.5, 1248652, nil, nil, nil, 3)
 local timerAuraofWrathCD					= mod:NewCDCountTimer(20.5, 1248449, nil, nil, nil, 5, nil, DBM_COMMON_L.IMPORTANT_ICON)
-local timerjudgementFinalCD					= mod:NewCDCountTimer(20.5, 1246736, L.JudgementFV.." (%s)", "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerjudgementFinalCD					= mod:NewCDCountTimer(20.5, 1246736, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerDivineStormCD					= mod:NewCDCountTimer(20.5, 1246765, nil, nil, nil, 3)
 local timerEmpoweredDivineStormCD			= mod:NewCDCountTimer(20.5, 1272310, nil, nil, nil, 3, nil, DBM_COMMON_L.MYTHIC_ICON)
-local timerSacredTollCD						= mod:NewCDCountTimer(20.5, 1246749, DBM_COMMON_L.AOEDAMAGE.." (%s)", nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
-local timerExecutionSentenceCD				= mod:NewCDCountTimer(20.5, 1276368, DBM_COMMON_L.GROUPSOAKS.." (%s)", nil, nil, 3)
+local timerSacredTollCD						= mod:NewCDCountTimer(20.5, 1246749, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
+local timerExecutionSentenceCD				= mod:NewCDCountTimer(20.5, 1276368, nil, nil, nil, 3)
 local timerZealousSpiritCD					= mod:NewCDCountTimer("d20.5", 1276243, nil, nil, nil, 6, nil, DBM_COMMON_L.MYTHIC_ICON)
 
-mod:AddPrivateAuraSoundOption(1276982, true, 1276982, 1, 2, "watchfeet", 8)--Divine Consecration (mythic version) (drops under various auras)
-mod:AddPrivateAuraSoundOption(1246158, true, 1246158, 1, 2, "watchfeet", 8)--Consecration (non mythic version) (drops under various auras)
-mod:AddPrivateAuraSoundOption(1248721, true, 1248721, 1, 1, "absorbyou", 19)--Tyrs Wrath
-mod:AddPrivateAuraSoundOption(1251857, true, 1251857, 1, 3, "debuffyou", 17)--Judgement for Shield of the Righteous
-mod:AddPrivateAuraSoundOption(1246487, true, 1246485, 1, 1, "scatter", 2)--Avenger's Shield
-mod:AddPrivateAuraSoundOption(1246502, false, 1246485, 1, 3, "debuffyou", 17)--Avenger's Shield DOT
-mod:AddPrivateAuraSoundOption(1248652, true, 1248652, 1, 1, "debuffyou", 17)--Divine Toll
-mod:AddPrivateAuraSoundOption(1246736, true, 1246736, 1, 3, "debuffyou", 17)--Judgement for Final Verdict
-mod:AddPrivateAuraSoundOption({1248985,1248994}, true, 1276368, 1, 1, "gathershare", 2)--Execution Sentence targets
-mod:AddPrivateAuraSoundOption({1249008,1249024}, false, 1276368, 1, 3, "debuffyou", 17)--Execution Sentence Soak debuff
-mod:AddPrivateAuraSoundOption(1272324, true, 1246765, 1, 2, "watchfeet", 8)--Divine Tempest (GTFO from empowered divine storm)
+mod:AddAuraSoundOption(1276982, true, 1276982, 1, 2, "watchfeet", 8)--Divine Consecration (mythic version) (drops under various auras)
+mod:AddAuraSoundOption(1246158, true, 1246158, 1, 2, "watchfeet", 8)--Consecration (non mythic version) (drops under various auras)
+mod:AddAuraSoundOption(1248721, true, 1248721, 1, 1, "absorbyou", 19)--Tyrs Wrath
+mod:AddAuraSoundOption(1251857, true, 1251857, 1, 3, "debuffyou", 17)--Judgement for Shield of the Righteous
+mod:AddAuraSoundOption(1246487, true, 1246485, 1, 1, "scatter", 2)--Avenger's Shield
+mod:AddAuraSoundOption(1248652, true, 1248652, 1, 1, "silenceyou", 19)--Divine Toll
+mod:AddAuraSoundOption(1246736, true, 1246736, 1, 3, "debuffyou", 17)--Judgement for Final Verdict
+mod:AddAuraSoundOption({1248985,1248994}, true, 1276368, 1, 1, "gathershare", 2)--Execution Sentence targets
+mod:AddAuraSoundOption({1249008,1249024}, false, 1276368, 1, 3, "debuffyou", 17)--Execution Sentence Soak debuff
+mod:AddAuraSoundOption(1272324, true, 1246765, 1, 2, "watchfeet", 8)--Divine Tempest (GTFO from empowered divine storm)
 
 mod.vb.auraofPeaceCount = 0
 mod.vb.sacredShieldCount = 0
@@ -79,6 +85,10 @@ mod.vb.empoweredDivineStormCount = 0
 mod.vb.empoweredAvengerShieldCount = 0
 mod.vb.empoweredSearingRadianceCount = 0
 local badStateDetected = false
+-- Tracks when badStateDetected flipped true so we can ignore near-immediate wipe artifacts.
+-- Some pulls (e.g., Wipe4) can emit erratic bulk timer updates right as the encounter ends,
+-- which can momentarily confuse hardcoded parsing and trigger a false bad state.
+local badStateDetectedAt = nil
 local timer17Count = 0
 local timer20Count = 0
 local timer23Count = 0
@@ -99,6 +109,8 @@ local timer53Count = 0
 local timer60Count = 0
 local timer7Count = 0
 local timer18Count = 0
+local timer18LateShift = false
+local timer18UsesLateTwelveVariant = false
 local timer36Count = 0
 local timer54Count = 0
 local timer57Count = 0
@@ -107,6 +119,9 @@ local timer159Count = 0
 local timer162Count = 0
 local timer159Uses156Variant = false
 local timer159Uses172Variant = false
+local timer159V172AnchorCount = 0
+local timer159DefaultSawAoP = false
+local mythicPullStartedAt = 0
 
 ---@param self DBMMod
 	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is only using timeline, therefore we must still enable SetTimeline calls even in hardcodes
@@ -128,25 +143,28 @@ local function setFallback(self, dontSetAlerts)
 		specWarnDivineStorm:SetAlert({83,374}, "justrun", 2, 3)--very iffy
 		specWarnSacredToll:SetAlert(84, "aesoon", 2, 2)
 		specWarnExecutionSentence:SetAlert(85, "soakincoming", 19, 2)
-		warnZealousSpirit:SetAlert({358,359,360}, "phasechange", 2, 2)
+--		warnZealousSpirit:SetAlert({358,359,360}, "phasechange", 2, 2)
 	end
-	timerAuraofPeaceCD:SetTimeline(71)
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerAuraofPeaceCD:SetTimeline(71, onlyColor)
 --	specWarnElekkCharge:SetAlert(73, "chargemove", 2, 2, 0)
 --	timerElekkChargeCD:SetTimeline(73)
-	timerSacredShieldCD:SetTimeline(74)
-	timerTyrsWrathCD:SetTimeline(75)
-	timerAuraofDevotionCD:SetTimeline(76)
-	timerSearingRadianceCD:SetTimeline(77)--Normal, mythic empowered
-	timerEmpoweredSearingRadianceCD:SetTimeline(373)--mythic empowered
-	timerJudgementShieldCD:SetTimeline(78)
-	timerAvengerShieldCD:SetTimeline({79, 365})--Normal, mythic empowered
-	timerDivineTollCD:SetTimeline(80)
-	timerAuraofWrathCD:SetTimeline(81)
-	timerjudgementFinalCD:SetTimeline(82)
-	timerDivineStormCD:SetTimeline({83,374})--Normal, mythic empowered
-	timerSacredTollCD:SetTimeline(84)
-	timerExecutionSentenceCD:SetTimeline(85)
-	timerZealousSpiritCD:SetTimeline({358,359,360})--one for each boss
+	timerSacredShieldCD:SetTimeline(74, onlyColor)
+	timerTyrsWrathCD:SetTimeline(75, onlyColor)
+	timerAuraofDevotionCD:SetTimeline(76, onlyColor)
+	timerSearingRadianceCD:SetTimeline(77, onlyColor)--Normal, mythic empowered
+	timerEmpoweredSearingRadianceCD:SetTimeline(373, onlyColor)--mythic empowered
+	timerJudgementShieldCD:SetTimeline(78, onlyColor)
+	timerAvengerShieldCD:SetTimeline({79, 365}, onlyColor)--Normal, mythic empowered
+	timerDivineTollCD:SetTimeline(80, onlyColor)
+	timerAuraofWrathCD:SetTimeline(81, onlyColor)
+	timerjudgementFinalCD:SetTimeline(82, onlyColor)
+	timerDivineStormCD:SetTimeline({83,374}, onlyColor)--Normal, mythic empowered
+	timerSacredTollCD:SetTimeline(84, onlyColor)
+	timerExecutionSentenceCD:SetTimeline(85, onlyColor)
+	timerZealousSpiritCD:SetTimeline({358,359,360}, onlyColor)--one for each boss
 end
 
 function mod:OnLimitedCombatStart()
@@ -188,6 +206,8 @@ function mod:OnLimitedCombatStart()
 	timer60Count = 0
 	timer7Count = 0
 	timer18Count = 0
+	timer18LateShift = false
+	timer18UsesLateTwelveVariant = false
 	timer36Count = 0
 	timer54Count = 0
 	timer57Count = 0
@@ -196,6 +216,10 @@ function mod:OnLimitedCombatStart()
 	timer162Count = 0
 	timer159Uses156Variant = false
 	timer159Uses172Variant = false
+	timer159V172AnchorCount = 0
+	timer159DefaultSawAoP = false
+	mythicPullStartedAt = GetTime()
+	badStateDetectedAt = nil
 	--Use FixBlizzardAPI to force fight to only show bars < 60 seconds by default since blizzard EXCESSIVELY overschedules timers on this fight
 	self:FixBlizzardAPI()
 	if DBM.Options.HardcodedTimer and (self:IsEasy() or self:IsHeroic() or self:IsMythic()) and not badStateDetected then
@@ -204,9 +228,7 @@ function mod:OnLimitedCombatStart()
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end
@@ -214,6 +236,12 @@ end
 
 function mod:OnCombatEnd()
 	self:TLCountReset()
+	-- If badState was only tripped in the last few seconds of a wipe, treat it as
+	-- transient timeline noise (bulk timer artifact) and recover for the next pull.
+	if badStateDetected and badStateDetectedAt and (GetTime() - badStateDetectedAt) <= 5 then
+		badStateDetected = false
+	end
+	badStateDetectedAt = nil
 	timer17Count = 0
 	timer20Count = 0
 	timer23Count = 0
@@ -234,6 +262,8 @@ function mod:OnCombatEnd()
 	timer60Count = 0
 	timer7Count = 0
 	timer18Count = 0
+	timer18LateShift = false
+	timer18UsesLateTwelveVariant = false
 	timer36Count = 0
 	timer54Count = 0
 	timer57Count = 0
@@ -242,6 +272,9 @@ function mod:OnCombatEnd()
 	timer162Count = 0
 	timer159Uses156Variant = false
 	timer159Uses172Variant = false
+	timer159V172AnchorCount = 0
+	timer159DefaultSawAoP = false
+	mythicPullStartedAt = 0
 	self:UnregisterShortTermEvents()
 end
 
@@ -612,7 +645,7 @@ do
 			timerjudgementFinalCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "judgementFinal", "judgementFinalCount"))
 		elseif timer == 30 or self:IsRoundedTimer(timer, 44.5, 0.5) or self:IsRoundedTimer(timer, 51.5, 0.5) or timer == 61 or timer == 71 then--Sacred Shield
 			timerSacredShieldCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "sacredShield", "sacredShieldCount"))
-		elseif timer == 59 or timer == 50 or timer == 90 or timer == 119 or self:IsRoundedTimer(timer, 156.5, 0.5) or self:IsRoundedTimer(timer, 171.5, 0.5) then--Searing Radiance (regular and empowered variants)
+		elseif timer == 59 or timer == 90 or timer == 119 or self:IsRoundedTimer(timer, 156.5, 0.5) or self:IsRoundedTimer(timer, 171.5, 0.5) then--Searing Radiance (regular and empowered variants)
 			if self:IsRoundedTimer(timer, 156.5, 0.5) or self:IsRoundedTimer(timer, 171.5, 0.5) then
 				if timer == 156 then
 					timer159Uses156Variant = true
@@ -621,6 +654,14 @@ do
 				end
 				--Empowered Cast (1276639)
 				timerEmpoweredSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "empSearingRadiance", "empoweredSearingRadianceCount"))
+			else
+				timerSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "searingRadiance", "searingRadianceCount"))
+			end
+		elseif timer == 50 then
+			--Week17 shows rounded-50 can be either SR or Sacred Shield.
+			--After the 157/172 empowered-SR pivot path is active, rounded-50 aligns to Sacred Shield.
+			if timer159Uses172Variant then
+				timerSacredShieldCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "sacredShield", "sacredShieldCount"))
 			else
 				timerSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "searingRadiance", "searingRadianceCount"))
 			end
@@ -633,7 +674,13 @@ do
 			end
 		elseif timer == 123 or timer == 144 then--Divine Storm
 			--Empowered Cast (1272310)
-			timerEmpoweredDivineStormCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "empDivineStorm", "empoweredDivineStormCount"))
+			local empDivineStormCount = self:TLCountStart(eventID, "empDivineStorm", "empoweredDivineStormCount")
+			timerEmpoweredDivineStormCD:TLStart(timerExact, eventID, empDivineStormCount)
+			if timer == 144 and empDivineStormCount >= 3 then
+				--Week17 late pull drift: after the 3rd empowered DS (rounded 144),
+				--the observed rounded-18 chain shifts by one step.
+				timer18LateShift = true
+			end
 		elseif timer == 7 then--Searing Radiance opener, then Avenger's Shield
 			timer7Count = timer7Count + 1
 			if timer7Count == 1 then
@@ -720,6 +767,20 @@ do
 			--Wipe2 (rounded-156 SR present): ZS, AoD, DT, ZS, AoW, ES, ZS, AoP, TW, ZS, AoD, DT, ZS, SR, AoW, ES, ZS, TW
 			--Wipe4 (rounded-172/157 SR present): ZS, AoD, DT, ZS, AoW, ES, AoP, TW, ZS, AoD, DT, ZS, SR, AoW, ES, ZS, TW
 			timer159Count = timer159Count + 1
+			local function startAmbiguousSearing159(forceEmpowered)
+				if forceEmpowered then
+					timerEmpoweredSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "empSearingRadiance", "empoweredSearingRadianceCount"))
+					return
+				end
+				--Count-based disambiguation:
+				--If empowered Searing is currently one cast behind regular Searing,
+				--the next ambiguous rounded-159 Searing should be empowered (Week16 T-180 case).
+				if self.vb.empoweredSearingRadianceCount < self.vb.searingRadianceCount then
+					timerEmpoweredSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "empSearingRadiance", "empoweredSearingRadianceCount"))
+				else
+					timerSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "searingRadiance", "searingRadianceCount"))
+				end
+			end
 			local function attempt159ModuloFallback(routeLabel)
 				DBM:Debug("|cffffff00[LightblindedVanguard] 159 verified routing exhausted at count " .. timer159Count .. " (path=" .. routeLabel .. ", v156=" .. tostring(timer159Uses156Variant) .. ", v172=" .. tostring(timer159Uses172Variant) .. "); attempting limited modulo fallback|r", nil, nil, nil, true)
 				--Limited fallback scope: do not override validated 1-19 windows
@@ -757,22 +818,26 @@ do
 				return false
 			end
 			if timer159Uses172Variant then
-				if timer159Count == 1 or timer159Count == 4 or timer159Count == 9 or timer159Count == 12 or timer159Count == 16 then
-					timerZealousSpiritCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "zealousSpirit", "zealousSpiritCount"))
-				elseif timer159Count == 2 or timer159Count == 10 then
+				--Anchor this path to first rounded-159 event after the rounded-157/172 empowered SR pivot.
+				--This avoids absolute-count drift (Week16 Wipe1 vs Wipe4) while keeping a strict, verified sequence.
+				if timer159V172AnchorCount == 0 then
+					timer159V172AnchorCount = timer159Count
+				end
+				local postPivotStep = timer159Count - timer159V172AnchorCount + 1
+				if postPivotStep == 1 then--AoD
 					timerAuraofDevotionCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraDevotion", "auraofDevotionCount"))
-				elseif timer159Count == 3 or timer159Count == 11 then
+				elseif postPivotStep == 2 then--DT
 					timerDivineTollCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineToll", "divineTollCount"))
-				elseif timer159Count == 5 or timer159Count == 14 then
+				elseif postPivotStep == 3 or postPivotStep == 7 then--ZS
+					timerZealousSpiritCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "zealousSpirit", "zealousSpiritCount"))
+				elseif postPivotStep == 4 then--Ambiguous rounded-159 Searing
+					startAmbiguousSearing159()
+				elseif postPivotStep == 5 then--AoW
 					timerAuraofWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraWrath", "auraofWrathCount"))
-				elseif timer159Count == 6 or timer159Count == 15 then
+				elseif postPivotStep == 6 then--ES
 					timerExecutionSentenceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "executionSentence", "executionSentenceCount"))
-				elseif timer159Count == 7 then
-					timerAuraofPeaceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraPeace", "auraofPeaceCount"))
-				elseif timer159Count == 8 or timer159Count == 17 then
+				elseif postPivotStep == 8 then--TW
 					timerTyrsWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "tyrsWrath", "tyrsWrathCount"))
-				elseif timer159Count == 13 then
-					timerSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "searingRadiance", "searingRadianceCount"))
 				else
 					if attempt159ModuloFallback("v172") then return end
 					badStateDetected = true
@@ -803,7 +868,7 @@ do
 				elseif timer159Count == 13 or timer159Count == 17 then
 					timerZealousSpiritCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "zealousSpirit", "zealousSpiritCount"))
 				elseif timer159Count == 14 then
-					timerSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "searingRadiance", "searingRadianceCount"))
+					startAmbiguousSearing159()
 				elseif timer159Count == 15 then
 					timerAuraofWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraWrath", "auraofWrathCount"))
 				elseif timer159Count == 16 then
@@ -819,7 +884,7 @@ do
 					DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)
 				end
 			else
-				if timer159Count == 1 or timer159Count == 4 or timer159Count == 7 or timer159Count == 10 then
+				if timer159Count == 1 or timer159Count == 4 or timer159Count == 7 then
 					timerZealousSpiritCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "zealousSpirit", "zealousSpiritCount"))
 				elseif timer159Count == 2 then
 					timerAuraofDevotionCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraDevotion", "auraofDevotionCount"))
@@ -830,39 +895,118 @@ do
 				elseif timer159Count == 6 then
 					timerExecutionSentenceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "executionSentence", "executionSentenceCount"))
 				elseif timer159Count == 8 then
-					timerAuraofPeaceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraPeace", "auraofPeaceCount"))
-				elseif timer159Count == 9 then
-					timerTyrsWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "tyrsWrath", "tyrsWrathCount"))
-				elseif timer159Count == 11 then
-					timerSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "searingRadiance", "searingRadianceCount"))
-				elseif timer159Count == 12 then
-					timerAuraofDevotionCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraDevotion", "auraofDevotionCount"))
-				elseif timer159Count == 13 then
-					timerDivineTollCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineToll", "divineTollCount"))
-				elseif timer159Count == 14 or timer159Count == 18 then
-					timerZealousSpiritCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "zealousSpirit", "zealousSpiritCount"))
-				elseif timer159Count == 15 then
-					timerSearingRadianceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "searingRadiance", "searingRadianceCount"))
-				elseif timer159Count == 16 then
-					timerAuraofWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraWrath", "auraofWrathCount"))
-				elseif timer159Count == 17 then
-					timerExecutionSentenceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "executionSentence", "executionSentenceCount"))
-				elseif timer159Count == 19 then
-					timerTyrsWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "tyrsWrath", "tyrsWrathCount"))
+					--Optional AoP appears here in some pulls (exact ~158.5 rounds to 159).
+					if timerExact < 158.8 then
+						timer159DefaultSawAoP = true
+						timerAuraofPeaceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraPeace", "auraofPeaceCount"))
+					else
+						timer159DefaultSawAoP = false
+						timerTyrsWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "tyrsWrath", "tyrsWrathCount"))
+					end
+				elseif timer159DefaultSawAoP then
+					if timer159Count == 9 then
+						timerTyrsWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "tyrsWrath", "tyrsWrathCount"))
+					elseif timer159Count == 10 then
+						timerZealousSpiritCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "zealousSpirit", "zealousSpiritCount"))
+					elseif timer159Count == 11 then
+						--Observed Week16/17 regressions: default+AoP path at count 11 is empowered SR.
+						startAmbiguousSearing159(true)
+					elseif timer159Count == 12 then
+						timerAuraofDevotionCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraDevotion", "auraofDevotionCount"))
+					elseif timer159Count == 13 then
+						timerDivineTollCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineToll", "divineTollCount"))
+					elseif timer159Count == 14 or timer159Count == 18 then
+						timerZealousSpiritCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "zealousSpirit", "zealousSpiritCount"))
+					elseif timer159Count == 15 then
+						startAmbiguousSearing159()
+					elseif timer159Count == 16 then
+						timerAuraofWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraWrath", "auraofWrathCount"))
+					elseif timer159Count == 17 then
+						timerExecutionSentenceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "executionSentence", "executionSentenceCount"))
+					elseif timer159Count == 19 then
+						timerTyrsWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "tyrsWrath", "tyrsWrathCount"))
+					else
+						if attempt159ModuloFallback("default-aop") then return end
+						badStateDetected = true
+						self:ResumeBlizzardAPI()
+						self:UnregisterShortTermEvents()
+						setFallback(self)
+						DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)
+					end
 				else
-					if attempt159ModuloFallback("default") then return end
-					badStateDetected = true
-					self:ResumeBlizzardAPI()
-					self:UnregisterShortTermEvents()
-					setFallback(self)
-					DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)
+					if timer159Count == 9 or timer159Count == 13 or timer159Count == 17 then
+						timerZealousSpiritCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "zealousSpirit", "zealousSpiritCount"))
+					elseif timer159Count == 10 or timer159Count == 14 then
+						startAmbiguousSearing159()
+					elseif timer159Count == 11 then
+						timerAuraofDevotionCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraDevotion", "auraofDevotionCount"))
+					elseif timer159Count == 12 then
+						timerDivineTollCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineToll", "divineTollCount"))
+					elseif timer159Count == 15 then
+						timerAuraofWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "auraWrath", "auraofWrathCount"))
+					elseif timer159Count == 16 then
+						timerExecutionSentenceCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "executionSentence", "executionSentenceCount"))
+					elseif timer159Count == 18 then
+						timerTyrsWrathCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "tyrsWrath", "tyrsWrathCount"))
+					else
+						if attempt159ModuloFallback("default-noaop") then return end
+						badStateDetected = true
+						self:ResumeBlizzardAPI()
+						self:UnregisterShortTermEvents()
+						setFallback(self)
+						DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)
+					end
 				end
 			end
 		elseif timer == 18 then
 			--Observed Mythic Week4 VanguardWipe3 18s sequence:
 			--1DS 2ST 3DS 4ST 5DS 6ST 7AS 8ST 9DS 10JS 11JF 12AS 13DS 14ST 15DS 16ST 17DS 18ST 19DS 20AS 21ST 22DS 23ST 24JS 25JF 26DS 27ST 28DS 29ST 30DS 31ST 32DS 33AS 34AS
 			timer18Count = timer18Count + 1
-			if timer18Count == 1 or timer18Count == 3 or timer18Count == 5 or timer18Count == 9 or timer18Count == 13 or timer18Count == 15 or timer18Count == 17 or timer18Count == 19 or timer18Count == 22 or timer18Count == 26 or timer18Count == 28 or timer18Count == 30 or timer18Count == 32 then
+			if timer18Count == 12 then
+				--Two observed variants around the 12th rounded-18 event:
+				--~156s => AS@12 (default), ~159s => DS@12 (late-twelve variant)
+				local pullElapsed = mythicPullStartedAt > 0 and (GetTime() - mythicPullStartedAt) or 0
+				timer18UsesLateTwelveVariant = pullElapsed >= 157.5
+			end
+			if (timer18LateShift or timer18Count >= 22) and timer18Count >= 22 then
+				--Week17 observed continuation after late-shift pivot:
+				--22 ST, 23 DS, 24 ST, 25 JS, 26 JF, 27 DS, 28 ST, 29 DS
+				if timer18Count == 22 or timer18Count == 24 or timer18Count == 28 then
+					timerSacredTollCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "sacredToll", "sacredTollCount"))
+				elseif timer18Count == 23 or timer18Count == 27 or timer18Count == 29 then
+					timerDivineStormCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineStorm", "divineStormCount"))
+				elseif timer18Count == 25 then
+					timerJudgementShieldCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "judgementShield", "judgementShieldCount"))
+				elseif timer18Count == 26 then
+					timerjudgementFinalCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "judgementFinal", "judgementFinalCount"))
+				elseif timer18Count == 30 or timer18Count == 32 then
+					timerSacredTollCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "sacredToll", "sacredTollCount"))
+				elseif timer18Count == 31 or timer18Count == 33 then
+					timerDivineStormCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineStorm", "divineStormCount"))
+				elseif timer18Count == 34 or timer18Count == 35 then
+					timerAvengerShieldCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "avengerShield", "avengerShieldCount"))
+				else
+					badStateDetected = true
+					self:ResumeBlizzardAPI()
+					self:UnregisterShortTermEvents()
+					setFallback(self)
+					DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)
+				end
+			elseif timer18UsesLateTwelveVariant and timer18Count >= 12 and timer18Count <= 21 then
+				if timer18Count == 12 or timer18Count == 14 or timer18Count == 16 or timer18Count == 18 then
+					timerDivineStormCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineStorm", "divineStormCount"))
+				elseif timer18Count == 13 or timer18Count == 15 or timer18Count == 17 or timer18Count == 20 or timer18Count == 21 then
+					timerSacredTollCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "sacredToll", "sacredTollCount"))
+				elseif timer18Count == 19 then
+					timerAvengerShieldCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "avengerShield", "avengerShieldCount"))
+				else
+					badStateDetected = true
+					self:ResumeBlizzardAPI()
+					self:UnregisterShortTermEvents()
+					setFallback(self)
+					DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)
+				end
+			elseif timer18Count == 1 or timer18Count == 3 or timer18Count == 5 or timer18Count == 9 or timer18Count == 13 or timer18Count == 15 or timer18Count == 17 or timer18Count == 19 or timer18Count == 22 or timer18Count == 26 or timer18Count == 28 or timer18Count == 30 or timer18Count == 32 then
 				timerDivineStormCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "divineStorm", "divineStormCount"))
 			elseif timer18Count == 2 or timer18Count == 4 or timer18Count == 6 or timer18Count == 8 or timer18Count == 14 or timer18Count == 16 or timer18Count == 18 or timer18Count == 21 or timer18Count == 23 or timer18Count == 27 or timer18Count == 29 or timer18Count == 31 then
 				timerSacredTollCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "sacredToll", "sacredTollCount"))
@@ -895,12 +1039,16 @@ do
 		local timerExact = eventInfo.duration
 		local timer = math.floor(timerExact + 0.5)
 		if not badStateDetected then
+			local wasBadStateDetected = badStateDetected
 			if self:IsEasy() then
 				timersEasy(self, timer, timerExact, eventID)
 			elseif self:IsHeroic() then
 				timersHeroic(self, timer, timerExact, eventID)
 			elseif self:IsMythic() then
 				timersMythic(self, timer, timerExact, eventID)
+			end
+			if not wasBadStateDetected and badStateDetected then
+				badStateDetectedAt = GetTime()
 			end
 		end
 	end

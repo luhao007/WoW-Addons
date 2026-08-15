@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Crieve
-## Version: 5.1.3
+## Version: 5.3.1
 
 ## Title: AllTheThings
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -40,8 +40,8 @@ lib\Callback.lua
 
 # Base ATT functionalities
 src\base.lua
-src\Commands.lua
 src\Events.lua
+src\Commands.lua
 src\DataHandling.lua
 
 # Not really a lib concept...
@@ -60,6 +60,7 @@ src\Modules\RetrievingData.lua
 src\Modules\Catalyst.lua
 src\Modules\Collection.lua
 src\Modules\CustomCollect.lua
+src\Modules\DynamicCategories.lua
 src\Modules\FactionData.lua
 src\Modules\Fill.lua
 src\Modules\Color.lua

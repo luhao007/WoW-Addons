@@ -271,7 +271,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
         end
 
         -- Dungeon Maps
-        if info.mapType == 4 and not 
+        if info.mapType == 4 or CurrentMapID == 2510 or CurrentMapID == 2633 and not 
             (CurrentMapID == 1454 or CurrentMapID == 1456 --Cata nodes
             or CurrentMapID == 719  -- Mardum
             or CurrentMapID == 2266 -- Milleania's Threshold
@@ -498,7 +498,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
                     end
                 end
             --Quel'Thalas
-            elseif (CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2424 or CurrentMapID == 2405 or CurrentMapID == 2444 or CurrentMapID == 2413 or CurrentMapID == 2536 or CurrentMapID == 2576)
+            elseif (CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2424 or CurrentMapID == 2405 or CurrentMapID == 2444 or CurrentMapID == 2413 or CurrentMapID == 2536 or CurrentMapID == 2576 or CurrentMapID == 2512 or CurrentMapID == 2509)
             then
                 if not ns.Addon.db.profile.showZoneQuelThalas then
                     ns.Addon.db.profile.showZoneQuelThalas = true
@@ -710,7 +710,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
                     end
                 end
             --Quel'Thalas
-            elseif (CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2424 or CurrentMapID == 2405 or CurrentMapID == 2444 or CurrentMapID == 2413 or CurrentMapID == 2536 or CurrentMapID == 2576)
+            elseif (CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2424 or CurrentMapID == 2405 or CurrentMapID == 2444 or CurrentMapID == 2413 or CurrentMapID == 2536 or CurrentMapID == 2576 or CurrentMapID == 2512 or CurrentMapID == 2509)
             then
                 if not ns.Addon.db.profile.showZoneQuelThalas then
                     ns.Addon.db.profile.showZoneQuelThalas = true
@@ -955,7 +955,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
             GameTooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ":\n" .. "|cff00ff00".. L["Khaz Algar"] .. " " .. L["Zones"] .. "-" .. BRAWL_TOOLTIP_MAPS .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
             GameTooltip:Show()
         --QuelThalas
-        elseif (CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2424 or CurrentMapID == 2405 or CurrentMapID == 2444 or CurrentMapID == 2413 or CurrentMapID == 2536 or CurrentMapID == 2576)
+        elseif (CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2424 or CurrentMapID == 2405 or CurrentMapID == 2444 or CurrentMapID == 2413 or CurrentMapID == 2536 or CurrentMapID == 2576 or CurrentMapID == 2512 or CurrentMapID == 2509)
         then
             GameTooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ":\n" .. "|cff00ff00".. L["Quel'Thalas"] .. " " .. L["Zones"] .. "-" .. BRAWL_TOOLTIP_MAPS .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
             GameTooltip:Show()
@@ -1048,7 +1048,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
             GameTooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ":\n" .. "|cff00ff00".. L["synchronizes"] .. " " .. L["Khaz Algar"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
             GameTooltip:Show()
         --QuelThalas
-        elseif (CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2424 or CurrentMapID == 2405 or CurrentMapID == 2444 or CurrentMapID == 2413 or CurrentMapID == 2536 or CurrentMapID == 2576)
+        elseif (CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2424 or CurrentMapID == 2405 or CurrentMapID == 2444 or CurrentMapID == 2413 or CurrentMapID == 2536 or CurrentMapID == 2576 or CurrentMapID == 2512 or CurrentMapID == 2509)
         then
             GameTooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ":\n" .. "|cff00ff00".. L["Quel'Thalas"] .. " " .. L["Zones"] .. "-" .. BRAWL_TOOLTIP_MAPS .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
             GameTooltip:Show()
@@ -1056,7 +1056,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
     end
 
     -- Dungeon Maps
-    if info.mapType == 4 and not 
+    if info.mapType == 4 or CurrentMapID == 2510 or CurrentMapID == 2633 and not 
             (CurrentMapID == 1454 or CurrentMapID == 1456 -- Cata nodes
             or CurrentMapID == 719  -- Mardum
             or CurrentMapID == 2266 -- Millenias's Threshold

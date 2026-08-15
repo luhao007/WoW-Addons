@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Breen
-## Version: v15.19
+## Version: v15.20
 
 ## Title: BtWQuests: Battle for Azeroth Prologue
 ## Notes: Battle for Azeroth Prologue quest data for BtWQuests

@@ -163,7 +163,6 @@
 ---|3: High priority Personal Alert
 ---|4: Highest Priority run away alert
 
-
 ---@meta
 
 ---@alias warningColorType
@@ -182,3 +181,13 @@
 ---|4: Interrupt
 ---|5: Role
 ---|6: Phase
+
+---@meta
+
+---@alias yellTypes
+---|"SAY": Typically used for debuffs players should stay away from
+---|"YELL": Typically used for debuffs players should group up for
+
+---@meta
+
+---@alias optionNumbers 1|2|3|4|5

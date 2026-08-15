@@ -6,7 +6,8 @@ local DF = DetailsFramework
 local _
 
 local IS_WOW_PROJECT_MAINLINE = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
-local IS_WOW_PROJECT_MIDNIGHT = DF.IsAddonApocalypseWow()
+--local IS_WOW_PROJECT_MIDNIGHT = DF.IsAddonApocalypseWow()
+local IS_WOW_PROJECT_MIDNIGHT = DF.IsMidnightWowAPI()
 
 --font select
 local on_select_blizzard_nameplate_font = function (_, _, value)
@@ -54,7 +55,7 @@ function platerInternal.CreateAdvancedOptions()
 
     --outline table
     local outline_modes = {"NONE", "MONOCHROME", "OUTLINE", "THICKOUTLINE", "OUTLINEMONOCHROME", "THICKOUTLINEMONOCHROME", "SLUG", "OUTLINE, SLUG"}
-    local outline_modes_names = {"None", "Monochrome", "Outline", "Thick Outline", "Monochrome Outline", "Monochrome Thick Outline", "Slug", "Outline Slug"}
+    local outline_modes_names = {"None", "Monochrome", "Outline", "Thick Outline", "Monochrome Outline", "Monochrome Thick Outline", "SLUG", "Outline Slug"}
     local build_outline_modes_table = function (actorType, member)
         local t = {}
         for i = 1, #outline_modes do
@@ -506,7 +507,7 @@ function platerInternal.CreateAdvancedOptions()
         },
 
         {type = "blank", hidden = not IS_WOW_PROJECT_MIDNIGHT},
-        {type = "label", get = function() return "Overlap Size Scaling:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "Overlap Size Scaling:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"), hidden = not IS_WOW_PROJECT_MIDNIGHT},
         {
             type = "range",
             get = function() return Plater.db.profile.overlap_space_scale[1] end,
@@ -575,9 +576,81 @@ function platerInternal.CreateAdvancedOptions()
             nocombat = true,
             hidden = not IS_WOW_PROJECT_MIDNIGHT,
         },
+
+        {type = "label", get = function() return "Clickable Area Scaling:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"), hidden = not IS_WOW_PROJECT_MIDNIGHT},
+        {
+            type = "range",
+            get = function() return Plater.db.profile.select_space_scale[1] end,
+            set = function (self, fixedparam, value)
+                Plater.db.profile.select_space_scale[1] = value
+                Plater.UpdatePlateClickSpace (nil, true)
+            end,
+            min = 0.5,
+            max = 1,
+            step = 0.1,
+            thumbscale = 1.7,
+            usedecimals = true,
+            name = "Enemy Select Area Width %",
+            desc = "Scaling for the clickable area width, relative to clickspace, for enemy units.",
+            nocombat = true,
+            hidden = not IS_WOW_PROJECT_MIDNIGHT,
+        },
+        {
+            type = "range",
+            get = function() return  Plater.db.profile.select_space_scale[2] end,
+            set = function (self, fixedparam, value)
+                Plater.db.profile.select_space_scale[2] = value
+                Plater.UpdatePlateClickSpace (nil, true)
+            end,
+            min = 0.5,
+            max = 1,
+            step = 0.1,
+            thumbscale = 1.7,
+            usedecimals = true,
+            name = "Enemy Select Area Height %",
+            desc = "Scaling for the clickable area height, relative to clickspace, for enemy units.",
+            nocombat = true,
+            hidden = not IS_WOW_PROJECT_MIDNIGHT,
+        },
+        {
+            type = "range",
+            get = function() return Plater.db.profile.select_space_scale_friendly[1] end,
+            set = function (self, fixedparam, value)
+                Plater.db.profile.select_space_scale_friendly[1] = value
+                Plater.UpdatePlateClickSpace (nil, true)
+            end,
+            min = 0.0,
+            max = 1,
+            step = 0.1,
+            thumbscale = 1.7,
+            usedecimals = true,
+            name = "Friendly Select Area Width %",
+            desc = "Scaling for the clickable area width, relative to clickspace, for friendly units.",
+            nocombat = true,
+            hidden = not IS_WOW_PROJECT_MIDNIGHT,
+        },
+        {
+            type = "range",
+            get = function() return  Plater.db.profile.select_space_scale_friendly[2] end,
+            set = function (self, fixedparam, value)
+                Plater.db.profile.select_space_scale_friendly[2] = value
+                Plater.UpdatePlateClickSpace (nil, true)
+            end,
+            min = 0.0,
+            max = 1,
+            step = 0.1,
+            thumbscale = 1.7,
+            usedecimals = true,
+            name = "Friendly Select Area Height %",
+            desc = "Scaling for the clickable area height, relative to clickspace, for friendly units.",
+            nocombat = true,
+            hidden = not IS_WOW_PROJECT_MIDNIGHT,
+        },
+
         {
             type = "toggle",
             get = function()
+                if not GetCVarDefault("NamePlateHorizontalScale") then return false end
                 local hScale = GetCVarNumberOrDefault("NamePlateHorizontalScale");
                 local vScale = GetCVarNumberOrDefault("NamePlateVerticalScale");
                 local cScale = GetCVarNumberOrDefault("NamePlateClassificationScale");
@@ -669,6 +742,7 @@ function platerInternal.CreateAdvancedOptions()
             set = function (self, fixedparam, value)
                 Plater.db.profile.click_space[1] = value
                 Plater.UpdatePlateClickSpace (nil, true)
+                Plater.UpdateAllPlates()
             end,
             min = 1,
             max = 300,
@@ -685,6 +759,7 @@ function platerInternal.CreateAdvancedOptions()
             set = function (self, fixedparam, value)
                 Plater.db.profile.click_space[2] = value
                 Plater.UpdatePlateClickSpace (nil, true)
+                Plater.UpdateAllPlates()
             end,
             min = 1,
             max = 100,

@@ -1,7 +1,7 @@
 -- App locals
 local _, app = ...;
-local ipairs, pairs, tremove
-	= ipairs, pairs, tremove;
+local ipairs, pairs
+	= ipairs, pairs
 
 -- Implementation
 app:CreateWindow("Prime", {
@@ -19,113 +19,7 @@ app:CreateWindow("Prime", {
 		["point"] = "CENTER",
 		["relativePoint"] = "CENTER",
 	},
-	Commands = {
-		"allthethings",
-		"att",
-		"attc",
-	},
-	ParseCommandArgsAndParams = true,
-	OnCommand = function(self, args, params)
-		if args then
-			--[[
-			print("args: ");
-			for key,value in ipairs(args) do
-				print(" ", key, value);
-			end
-			print("params: ");
-			for key,value in pairs(params) do
-				print(" ", key, value);
-			end
-			]]--
-
-			-- Eventually will migrate known Chat Commands to their respective creators
-			local cmd = args[1];
-			local commandFunc = app.ChatCommands[cmd]
-			if commandFunc then
-				local help = args[2] == "help"
-				if help then return app.ChatCommands.PrintHelp(cmd) end
-				return commandFunc(args, params) or true
-			elseif cmd == "help" then
-				return app.ChatCommands.PrintHelp(args[2])
-			end
-
-			-- Remove the first arg from args, within this context, it is the command and does not need to be passed to the child popups
-			tremove(args, 1);
-			if cmd == "main" or cmd == "mainlist" then
-				return false;
-			elseif cmd == "bounty" then
-				app:GetWindow("Bounty"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "debugger" then
-				app:GetWindow("Debugger"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "filter" or cmd == "filters" then
-				app:GetWindow("Item Filter"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "finder" then
-				app:GetWindow("List"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "ra" then
-				app:GetWindow("RaidAssistant"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "ran" or cmd == "rand" or cmd == "random" then
-				app:GetWindow("Random"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "list" then
-				app:GetWindow("List"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "nwp" then
-				app:GetWindow("New With Patch"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "awp" then
-				app:GetWindow("Added With Patch"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "rwp" then
-				app:GetWindow("Future Unobtainables"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "wq" then
-				app:GetWindow("WorldQuests"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "unsorted" then
-				app:GetWindow("Unsorted"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "nyi" then
-				app:GetWindow("Never Implemented"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "hat" then
-				app:GetWindow("Hidden Achievement Triggers"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "hct" then
-				app:GetWindow("Hidden Currency Triggers"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "hqt" then
-				app:GetWindow("Hidden Quest Triggers"):ProcessCommand(args, params);
-				return true;
-			elseif cmd == "sourceless" then
-				app:GetWindow("Sourceless"):ProcessCommand(args, params);
-				return true;
-			elseif cmd:sub(1, 4) == "mini" then
-				app.ToggleMiniListForCurrentZone();
-				return true;
-			elseif cmd:sub(1, 6) == "mapid:" then
-				app.ToggleMiniListForCurrentZone(tonumber(cmd:sub(7)))
-				return true;
-			else
-				if cmd == "import" then
-					app:GetWindow("Import"):ProcessCommand(args, params);
-					return true;
-				end
-			end
-
-			-- Search for the Link in the database
-			if app.CreatePopoutForSearch(cmd) then
-				return true
-			end
-			app.print("Unknown Command: ", cmd, app.TableConcat(args, nil, "", " "));
-			-- don't open Main list if an unknown command was handled
-			return true
-		end
-	end,
+	RootCommands = { "main", "mainlist" },
 	OnInit = function(self)
 		app.ToggleMainList = function()
 			self:Toggle();

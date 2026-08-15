@@ -8,6 +8,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	local PIGDownMenu=Create.PIGDownMenu
 	local PIGLine=Create.PIGLine
 	local PIGEnter=Create.PIGEnter
+	local PIGDiyTex=Create.PIGDiyTex
 	local PIGSlider = Create.PIGSlider
 	local PIGCheckbutton=Create.PIGCheckbutton
 	local PIGOptionsList_R=Create.PIGOptionsList_R
@@ -19,10 +20,6 @@ function GDKPInfo.ADD_Item(RaidR)
 	local find = _G.string.find
 	local sub = _G.string.sub
 	local floor = floor
-	local GetContainerNumSlots = C_Container.GetContainerNumSlots
-	local GetContainerItemID = C_Container.GetContainerItemID
-	local UseContainerItem = C_Container.UseContainerItem
-	local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 	------
 	local GDKP_Auc=Data.GDKP_Auc
 	local biaotou,auc_start,auc_end,auc_daoshu,auc_chujia=unpack(GDKP_Auc)
@@ -441,19 +438,19 @@ function GDKPInfo.ADD_Item(RaidR)
 				elseif IsShiftKeyDown() then--关注
 					if bianjiData[15] then
 						bianjiData[15]=false
-						PIG_OptionsUI:ErrorMsg(self.itemLink.."已取消关注");
+						PIGErrorMsg(self.itemLink.."已取消关注");
 					else
 						bianjiData[15]=true
-						PIG_OptionsUI:ErrorMsg(self.itemLink.."已加入关注");
+						PIGErrorMsg(self.itemLink.."已加入关注");
 					end
 					RaidR.Update_Item();
 				else
 					if TradeFrame:IsShown() then
 						for i=0,4 do
-							local xx=GetContainerNumSlots(i) 
+							local xx=PIGGetContainerNumSlots(i) 
 							for j=1,xx do
-								if GetContainerItemID(i,j)==bianjiData[11] then
-									UseContainerItem(i, j);
+								if PIGGetContainerItemID(i,j)==bianjiData[11] then
+									PIGUseContainerItem(i, j);
 									break;
 								end
 							end 
@@ -849,7 +846,7 @@ function GDKPInfo.ADD_Item(RaidR)
 			local paichumulu = PIGA["GDKP"]["Rsetting"]["PaichuList"]
 			for j=1,#paichumulu do
 				if ItemIDx==paichumulu[j] then
-					PIG_OptionsUI:ErrorMsg("物品已在目录内");
+					PIGErrorMsg("物品已在目录内");
 					return
 				end
 			end
@@ -949,13 +946,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	end)
 
 	--目录下方
-	fujiF.tishi = CreateFrame("Frame", nil, fujiF);
-	fujiF.tishi:SetSize(iconWH,iconWH);
-	fujiF.tishi:SetPoint("TOPLEFT",fujiF.yedibuF,"BOTTOMLEFT",4,-5);
-	fujiF.tishi.Tex = fujiF.tishi:CreateTexture(nil, "BORDER");
-	fujiF.tishi.Tex:SetTexture("interface/common/help-i.blp");
-	fujiF.tishi.Tex:SetSize(iconWH+8,iconWH+8);
-	fujiF.tishi.Tex:SetPoint("CENTER");
+	fujiF.tishi = PIGDiyTex(fujiF,{"BOTTOMLEFT",fujiF,"BOTTOMLEFT",6,3},{iconWH,iconWH,iconWH*1.4,iconWH*1.4,616343});
 	PIGEnter(fujiF.tishi,"物品名点击提示：",tishixx)
 	fujiF.DqNameT = PIGFontString(fujiF,{"LEFT",fujiF.tishi,"RIGHT", 10,0},"当前账本: ");
 	fujiF.DqNameT:SetTextColor(0, 1, 0, 1);
@@ -1061,7 +1052,7 @@ function GDKPInfo.ADD_Item(RaidR)
 			if aShiftKeyIsDown then
 				if PIGA["GDKP"]["Rsetting"]["shoudongloot"] then
 					if link:match("item") then
-						local itemID = GetItemInfoInstant(link);
+						local itemID = PIGGetItemInfoInstant(link);
 						local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount,itemEquipLoc, itemTexture=GetItemInfo(link);
 						if itemLink~=nil and itemQuality~=nil and itemTexture~=nil then
 							local LOOT_itemNO,shiquname=1,"手动添加";
@@ -1069,7 +1060,7 @@ function GDKPInfo.ADD_Item(RaidR)
 						end
 					end
 				else
-					PIG_OptionsUI:ErrorMsg("未开启手动添加物品，请在设置中开启");
+					PIGErrorMsg("未开启手动添加物品，请在设置中开启");
 				end
 			end
 		end
@@ -1079,7 +1070,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	local function AddItem(MSGINFO,shiquname)
 		local _, itemLink, itemQuality, _, _, _, _, _, _, itemTexture =GetItemInfo(MSGINFO);
 		if itemQuality>=PIGA["GDKP"]["LootQuality"] then
-			local itemID = GetItemInfoInstant(itemLink);
+			local itemID = PIGGetItemInfoInstant(itemLink);
 			local LOOT_itemNO = 1;
 			local Nkaishi=MSGINFO:find("x",1)
 			if Nkaishi then

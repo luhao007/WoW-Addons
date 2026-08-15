@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Teelo
-## Version: 12.0-033
+## Version: 12.1-004
 
 ## Title: Edit Mode Expanded
 ## Notes: Expands Edit Mode to apply to other frames
@@ -36,7 +36,6 @@ FrameHandlers\ClassResources.lua
 FrameHandlers\CooldownManager.lua
 FrameHandlers\DurationBars.lua
 FrameHandlers\ExtraActionButton.lua
-FrameHandlers\FocusCast.lua
 FrameHandlers\FocusFrame.lua
 FrameHandlers\FocusToT.lua
 FrameHandlers\GameMenu.lua
@@ -54,7 +53,6 @@ FrameHandlers\Raid.lua
 FrameHandlers\StanceBar.lua
 FrameHandlers\StatusTrackingBar.lua
 FrameHandlers\TalkingHead.lua
-FrameHandlers\TargetCast.lua
 FrameHandlers\TargetFrame.lua
 FrameHandlers\TargetOfTarget.lua
 FrameHandlers\Tooltip.lua

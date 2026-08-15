@@ -639,7 +639,7 @@ local function GeneratorFunction(owner, rootDescription)
 					{L["TITAN_PANEL_MENU_BOTTOM"], "Bottom"},
 					{L["TITAN_PANEL_MENU_TOP"], "Top"},
 				}
-				Titan_Menu.AddSelectorList(opts_map, id, nil, "ViewAll", disp)
+				Titan_Menu.AddSelectorList(opts_map, id, nil, "CoordsLoc", disp)
 			end
 		else
 			-- Classic style map, no work needed

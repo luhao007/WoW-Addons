@@ -22,57 +22,12 @@ Titan_Global.switch = {} -- reserved for flags needed because feature / function
 -- As much as possible, use something in the API to determine feature, not API version.
 -- Set defaults to retail feature / function
 
-Titan_Global.switch.has_secrets  = true -- if UI is using secret values
-if C_Secrets then
-	Titan_Global.switch.has_secrets  = true -- 
-else
-	Titan_Global.switch.has_secrets  = false -- 
-end
-
-Titan_Global.switch.can_edit_ui  = true -- if user can modify UI
-if C_EditMode then
-	Titan_Global.switch.can_edit_ui  = true -- User changes UI
-else
-	Titan_Global.switch.can_edit_ui  = false -- Have Titan adjust UI frame(s)
-end
-
 Titan_Global.switch.game_ammo  = false -- if bows and guns use actual ammo
 if Titan_Global.wowversion < 40000 then -- before Cata
 	Titan_Global.switch.game_ammo  = true
 else
 	Titan_Global.switch.game_ammo  = false
 end
-
-Titan_Global.switch.classic_era  = false -- Classic Era only
-if Titan_Global.wowversion < 20000 then 
-	Titan_Global.switch.classic_era  = true
-else
-	Titan_Global.switch.classic_era  = false
-end
-
-Titan_Global.switch.midnight  = false -- Midnight
-if Titan_Global.wowversion >= 120000 then
-	Titan_Global.switch.midnight  = true
-else
-	Titan_Global.switch.midnight  = false
-end
-
-Titan_Global.switch.chat_class  = true -- if chat routines moved into ChatFrameUtil
---[[ 2026 Apr at some point, Blizz rolled out ChatFrameUtil to all WoW versions.
--- TODO : Remove check from code
-if ChatFrameUtil and ChatFrameUtil.DisplayTimePlayed then
-	Titan_Global.switch.chat_class  = true -- started in 11.* somewhere
-else
-	Titan_Global.switch.chat_class  = false -- older version
-end
---]]
-
-Titan_Global.AdjList = {         -- TODO : localize
-	["UIWidgetTopCenterContainerFrame"] = {
-		frame_name = "UIWidgetTopCenterContainerFrame",
-		purpose = "Status for BG / Dungeon",
-	},
-}
 
 TITAN_PANEL_DEBUG_ARRAY_MAX = 100
 TITAN_PANEL_NONMOVABLE_PLUGINS = {};

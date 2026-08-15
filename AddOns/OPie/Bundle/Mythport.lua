@@ -2,7 +2,7 @@ local COMPAT, _, T = select(4, GetBuildInfo()), ...
 local MODERN = COMPAT > 11e4
 
 local L, EV, PC, AB = T.L, T.Evie, T.OPieCore, T.ActionBook:compatible("ActionBook", 2, 48)
-local RW, KR = AB and AB:compatible("Rewire", 1, 47), AB and AB:compatible("Kindred", 1, 32)
+local RW, KR = AB and AB:compatible("Rewire", 1, 47), AB and AB:compatible("Kindred", 1, 35)
 local IM = AB and AB:compatible("Imp", 1, 13)
 local AL = AB and AB.L
 assert(EV and AB and RW and KR and PC and AL and IM and 1, "Incompatible library bundle")
@@ -10,6 +10,17 @@ assert(EV and AB and RW and KR and PC and AL and IM and 1, "Incompatible library
 if not MODERN then
 	IM:SetTokenReplacement('opie:mythport', false)
 	return
+end
+
+local GetHaste do
+	local cachedHaste
+	function GetHaste()
+		local hv = _G.GetHaste()
+		return issecretvalue(hv) and (cachedHaste or 0) or hv
+	end
+	function EV.ADDON_RESTRICTION_STATE_CHANGED()
+		cachedHaste = GetHaste()
+	end
 end
 
 local SPELL_NAME_EN = "Path of the Seasoned Hero"
@@ -27,6 +38,9 @@ local portDriver = "" do
 		-- Midnight S1
 		academy=393273, magterr=1254572, maisara=1254559, saronpit=1254555,
 		skyreach=1254557, sottrium=1254551, windspire=1254400, xenas=1254563,
+		-- Midnight S2
+		altar=1286812, murder=1286809, nalorakk=1286807, blindvale=1286801,
+		voidscar=1286804, krest=1286831, sethraliss=1286828, rubypools=393256,
 	}) do
 		portDriver = portDriver .. "[myth:" .. k .. ",known:" .. v .. "] " .. v .. "; "
 	end
@@ -38,9 +52,7 @@ local castButton = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate")
 castButton:Hide()
 castButton:SetAttribute("type", "spell")
 castButton:SetAttribute("useOnKeyDown", false)
-KR:RegisterStateDriver(castButton, "spell", portDriver) -- TODO: Should've exposed an attribute driver
-SecureHandlerWrapScript(castButton, "PreClick", castButton, 'self:SetAttribute("spell", self:GetAttribute("state-spell"))')
-
+KR:RegisterAttributeDriver(castButton, "spell", portDriver)
 
 local function SetFallbackPathTooltip(tip)
 	local nc = NORMAL_FONT_COLOR

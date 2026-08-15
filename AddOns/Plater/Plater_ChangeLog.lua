@@ -8,7 +8,33 @@ function Plater.GetChangelogTable()
 	if (not Plater.ChangeLogTable) then
 		Plater.ChangeLogTable = {
 
-			{1776857588, "Bug Fix", "Apr 22nd, 2026", "Fixed a few bugs around Midnight 12.0.5 release (where things just got worse for everyone).", "cont1nuity"},
+			{1786568469, "Backend Change", "Aug 11th, 2026", "More work on auras for 12.1 with new aura containers.", "cont1nuity"},
+			{1786568469, "Bug Fix", "Aug 1st, 2026", "Some small options adjustments for classic player range tooltips.", "cont1nuity"},
+			{1786568469, "Bug Fix", "July 29th, 2026", "Fixed an issue with health percent display causing an error in classic.", "cont1nuity"},
+			{1786568469, "Bug Fix", "July 23rd, 2026", "Fixed some issues for classic titan.", "cont1nuity"},
+
+			{1780479003, "Bug Fix", "July 22nd, 2026", "Fixed some issues with blizzard font override and hiding healthbars not working in classic.", "cont1nuity"},
+			{1780479003, "Backend Change", "July 9th, 2026", "Adding base support for the new aura API in Midnight (12.1) and general adjustments for 12.1", "cont1nuity"},
+			{1780479003, "New Feature", "July 9th, 2026", "Adding 'select area scaling' options to adjust clickable area size for friendly and enemy units.", "cont1nuity"},
+			
+			{1780479003, "Bug Fix", "June 17th, 2026", "Removing IMPORTANT aura filter for Midnight, as it has been removed from the game.", "cont1nuity"},
+			{1780479003, "Bug Fix", "June 17th, 2026", "Fixing some issues with restoring CVars correctly.", "cont1nuity"},
+			{1780479003, "Bug Fix", "June 3rd, 2026", "Fixing some issues for MoP.", "cont1nuity"},
+			{1780479003, "Bug Fix", "May 22nd, 2026", "Fixing an error around renaming functionality.", "cont1nuity"},
+			{1780479003, "Bug Fix", "May 22nd, 2026", "Fixing execute for rogue on retail.", "cont1nuity"},
+			{1780479003, "Backend Change", "May 21st, 2026", "Additions and fixes for the Designer.", "Terciob"},
+
+			{1779175611, "Bug Fix", "May 19th, 2026", "Fixing wrong outline value.", "cont1nuity"},
+			{1779175611, "Bug Fix", "May 19th, 2026", "Fixing font scaling leading to pixelated fonts.", "cont1nuity"},
+			{1779175611, "Bug Fix", "May 8th, 2026", "Base compatibility for MoP 5.5.4 client.", "cont1nuity"},
+			{1779175611, "Backend Change", "May 4th, 2026", "Preparational changes to hit-test frames (clickable area) in the Midnight client.", "cont1nuity"},
+			{1779175611, "Backend Change", "Apr 23rd, 2026", "Additions and fixes for the Designer.", "Terciob"},
+			{1779175611, "Bug Fix", "Apr 25th, 2026", "Fixed text wrapping for friendly player name-only mode.", "cont1nuity"},
+			{1779175611, "Backend Change", "Apr 23rd, 2026", "Fonts are now set to smoot scaling, improving font handling.", "cont1nuity"},
+			{1779175611, "Backend Change", "Apr 23rd, 2026", "Added Slug font style suport accross all fonts for Midnight clients.", "cont1nuity"},
+			{1779175611, "Bug Fix", "Apr 23rd, 2026", "Adjusted fine-tune-scale on profile import for Midnight client.", "cont1nuity"},
+			{1779175611, "Bug Fix", "Apr 23rd, 2026", "Fixed number abbreviation for different locales.", "cont1nuity"},
+			{1779175611, "Bug Fix", "Apr 22nd, 2026", "Fixed a few bugs around Midnight 12.0.5 release (where things just got worse for everyone).", "cont1nuity"},
 			
 			{1776773152, "Bug Fix", "Apr 18th, 2026", "Fixed a few bugs around stored CVars and secrets.", "cont1nuity"},
 			{1776773152, "Backend Change", "Apr 8th, 2026", "Adding public profile API for wago.", "cont1nuity"},

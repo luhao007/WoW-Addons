@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-Raids-Legion", 2, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260524002232")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
@@ -36,6 +36,8 @@ mod:RegisterEvents(
  or ability.name = "Shadowy Blades"
 --]]
 --Stage One: A Slumber Disturbed
+DBM:RegisterAltSpellName(240396, 206577)--Rain of the Destroyer -> Comet Impact
+
 local warnUnboundChaos				= mod:NewTargetAnnounce(234059, 3, nil, false, 2)
 local warnShadowyBlades				= mod:NewTargetAnnounce(236571, 3)
 local warnDesolate					= mod:NewStackAnnounce(236494, 3, nil, "Healer|Tank")
@@ -46,26 +48,26 @@ local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local warnDarkmark					= mod:NewTargetCountAnnounce(239739, 3)
 
 --Stage One: A Slumber Disturbed
-local specWarnTouchofSargerasGround	= mod:NewSpecialWarningCount(239207, "-Tank", nil, 2, 1, 2)
-local specWarnRuptureRealities		= mod:NewSpecialWarningRun(239132, nil, nil, nil, 4, 2)
-local specWarnUnboundChaos			= mod:NewSpecialWarningDodge(234059, nil, nil, nil, 2, 2)
+local specWarnTouchofSargerasGround	= mod:NewSpecialWarningCount(239207, "-Tank", nil, 2, 1, 2, nil, nil, "helpsoak")
+local specWarnRuptureRealities		= mod:NewSpecialWarningRun(239132, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnUnboundChaos			= mod:NewSpecialWarningDodge(234059, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 local yellUnboundChaos				= mod:NewYell(234059, nil, false, 2)
-local specWarnShadowyBlades			= mod:NewSpecialWarningMoveAway(236571, nil, nil, nil, 1, 2)
+local specWarnShadowyBlades			= mod:NewSpecialWarningMoveAway(236571, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellShadowyBlades				= mod:NewPosYell(236571)
-local specWarnLingeringDarkness		= mod:NewSpecialWarningMove(239212, nil, nil, nil, 1, 2)
-local specWarnDesolateYou			= mod:NewSpecialWarningStack(236494, nil, 2, nil, nil, 1, 6)
-local specWarnDesolateOther			= mod:NewSpecialWarningTaunt(236494, nil, nil, nil, 1, 2)
+local specWarnLingeringDarkness		= mod:NewSpecialWarningMove(239212, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnDesolateYou			= mod:NewSpecialWarningStack(236494, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnDesolateOther			= mod:NewSpecialWarningTaunt(236494, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 ----Maiden of Valor
-local specWarnCorruptedMatrix		= mod:NewSpecialWarningMoveTo(233556, "Tank", nil, nil, 1, 7)
-local specWarnCleansingProtocol		= mod:NewSpecialWarningSwitch(233856, "-Healer", nil, nil, 3, 2)
-local specWarnTaintedEssence		= mod:NewSpecialWarningStack(240728, nil, 6, nil, nil, 1, 6)
+local specWarnCorruptedMatrix		= mod:NewSpecialWarningMoveTo(233556, "Tank", nil, nil, 1, 7, nil, nil, "bosstobeam")
+local specWarnCleansingProtocol		= mod:NewSpecialWarningSwitch(233856, "-Healer", nil, nil, 3, 2, nil, nil, "targetchange")
+local specWarnTaintedEssence		= mod:NewSpecialWarningStack(240728, nil, 6, nil, nil, 1, 6, nil, nil, "stackhigh")
 local yellTaintedEssence			= mod:NewShortFadesYell(240728)
 --Stage Two: An Avatar Awakened
-local specWarnDarkMark				= mod:NewSpecialWarningYouPos(239739, nil, nil, nil, 1, 2)
-local specWarnDarkMarkOther			= mod:NewSpecialWarningMoveTo(239739, nil, nil, nil, 1, 2)
+local specWarnDarkMark				= mod:NewSpecialWarningYouPos(239739, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnDarkMarkOther			= mod:NewSpecialWarningMoveTo(239739, nil, nil, nil, 1, 2, nil, nil, "gathershare")
 local yellDarkMark					= mod:NewPosYell(239739, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
 local yellDarkMarkFades				= mod:NewIconFadesYell(239739)
-local specWarnRainoftheDestroyer	= mod:NewSpecialWarningCount(240396, nil, nil, 2, 3, 2)
+local specWarnRainoftheDestroyer	= mod:NewSpecialWarningCount(240396, nil, nil, 2, 3, 2, nil, nil, "helpsoak")
 
 --Stage One: A Slumber Disturbed
 local timerRP						= mod:NewRPTimer(41)
@@ -83,7 +85,7 @@ local timerCorruptedMatrix			= mod:NewCastTimer(10, 233556, nil, nil, nil, 5)
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerDarkMarkCD				= mod:NewNextCountTimer(34, 239739, nil, nil, nil, 3, nil, nil, nil, not mod:IsTank() and 2 or nil, 4)
 local timerRainoftheDestroyerCD		= mod:NewNextCountTimer(35, 240396, nil, nil, nil, 3)
-local timerRainoftheDestroyer		= mod:NewCastTimer(5.5, 240396, 206577, nil, nil, 3, nil, nil, nil, 3, 4)--Shortname: Comet Impact
+local timerRainoftheDestroyer		= mod:NewCastTimer(5.5, 240396, nil, nil, nil, 3, nil, nil, nil, 3, 4)--Shortname: Comet Impact
 
 local berserkTimer					= mod:NewBerserkTimer(420)
 

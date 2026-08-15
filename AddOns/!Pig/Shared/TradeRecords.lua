@@ -1,7 +1,10 @@
 --记录交易信息------
-local addonName, addonTable = ...;
-local PIGGetRaceAtlas=addonTable.Fun.PIGGetRaceAtlas
-TradeFrame.PIG_Data={}
+local addonName, PD = ...;
+local Data=PD.Data
+local PlayerInfo=Data.PlayerInfo
+local TradeInfo={}
+Data.TradeInfo=TradeInfo
+local PIGGetRaceAtlas=PD.Fun.PIGGetRaceAtlas
 -- TradeFrame:RegisterEvent("TRADE_CLOSED");
 -- TradeFrame:RegisterEvent("TRADE_SHOW");
 -- TradeFrame:RegisterEvent("TRADE_UPDATE");
@@ -17,35 +20,35 @@ TradeFrame:HookScript("OnEvent",function (self,event)
 		
 	else
 		if not UnitExists("NPC") then return end
-		wipe(self.PIG_Data)
-		self.PIG_Data.ItemT={[1]=NONE,[2]=NONE,[3]=NONE,[4]=NONE,[5]=NONE,[6]=NONE}
-		self.PIG_Data.ItemP={[1]=NONE,[2]=NONE,[3]=NONE,[4]=NONE,[5]=NONE,[6]=NONE}
+		wipe(TradeInfo)
+		TradeInfo.ItemT={[1]=NONE,[2]=NONE,[3]=NONE,[4]=NONE,[5]=NONE,[6]=NONE}
+		TradeInfo.ItemP={[1]=NONE,[2]=NONE,[3]=NONE,[4]=NONE,[5]=NONE,[6]=NONE}
 		local _, raceFile = UnitRace("NPC")
 		local gender = UnitSex("NPC")
 		local race_icon = PIGGetRaceAtlas(raceFile,gender or 2)
 		local _, _, classId =UnitClass("NPC")
 		local Level = UnitLevel("NPC")
-		self.PIG_Data.Race=race_icon
-		self.PIG_Data.Class=classId or 1
-		self.PIG_Data.Level=Level or 1
-		self.PIG_Data.Name=GetUnitName("NPC", true)
-		if self.PIG_Data.Name:match("-") then
-			self.PIG_Data.All_Name=self.PIG_Data.Name
+		TradeInfo.Race=race_icon
+		TradeInfo.Class=classId or 1
+		TradeInfo.Level=Level or 1
+		TradeInfo.Name=GetUnitName("NPC", true)
+		if TradeInfo.Name:match("-") then
+			TradeInfo.All_Name=TradeInfo.Name
 		else
-			self.PIG_Data.All_Name=self.PIG_Data.Name.."-"..PIG_OptionsUI.Realm
+			TradeInfo.All_Name=TradeInfo.Name.."-"..PlayerInfo.Realm
 		end
-		self.PIG_Data.MoneyT=GetTargetTradeMoney();
-		self.PIG_Data.MoneyP=GetPlayerTradeMoney();
+		TradeInfo.MoneyT=GetTargetTradeMoney();
+		TradeInfo.MoneyP=GetPlayerTradeMoney();
 		for i=1, MAX_TRADE_ITEMS, 1 do
 			local TargetItemlink=GetTradeTargetItemLink(i)
 			if TargetItemlink then
 				local name, texture, numItems, quality, enchantment, canLoseTransmog, isBound = GetTradeTargetItemInfo(i);
-				self.PIG_Data.ItemT[i]={TargetItemlink,numItems}
+				TradeInfo.ItemT[i]={TargetItemlink,numItems}
 			end
 			local PlayerItemLink=GetTradePlayerItemLink(i)
 			if PlayerItemLink then
 				local name, texture, numItems, quality, enchantment, canLoseTransmog, isBound = GetTradePlayerItemInfo(i);
-				self.PIG_Data.ItemP[i]={PlayerItemLink,numItems}
+				TradeInfo.ItemP[i]={PlayerItemLink,numItems}
 			end 
 		end
 	end

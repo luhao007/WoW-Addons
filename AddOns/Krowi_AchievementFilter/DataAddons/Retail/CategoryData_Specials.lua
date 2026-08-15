@@ -1,5 +1,7 @@
 local _, addon = ...;
 local shared = addon.Data.CategoryData.Shared;
+local CT = shared.CT
+
 
 KrowiAF.CategoryData.Specials = { -- TAB - Specials
     971,
@@ -7,298 +9,12 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
     {
         TabName = "Specials",
     },
-    { -- Bur's Mount Collection
-        972,
-        addon.L["Bur's Mount Collection"],
-        { -- Collections
-            976,
-            addon.GetCategoryInfoTitle(15246),
-            {
-                2141, -- Stable Keeper
-                2142, -- Filling Up The Barn
-                2143, -- Leading the Cavalry
-                2536, -- Mountain o' Mounts
-                2537, -- Mountain o' Mounts
-                7860, -- We're Going to Need More Saddles
-                7862, -- We're Going to Need More Saddles
-                8304, -- Mount Parade
-                8302, -- Mount Parade
-                9598, -- Mountacular
-                9599, -- Mountacular
-                10356, -- Lord of the Reins
-                10355, -- Lord of the Reins
-                12932, -- No Stable Big Enough
-                12931, -- No Stable Big Enough
-                12933, -- A Horde of Hoofbeats
-                12934, -- A Horde of Hoofbeats
-                15834, -- Thanks for the Carry!
-                15833, -- Thanks for the Carry!
-                62103, -- Insurmountable Collection (Mount: Anu'shalla, Shadow's Guidance)
-                62096, -- Insurmountable Collection (Mount: Anu'shalla, Shadow's Guidance)
-                9713, -- Awake the Drakes
-            },
-        },
-        { -- Vendor
-            985,
-            addon.L["Vendor"],
-            {
-                2076, -- Armored Brown Bear
-                2077, -- Wooly Mammoth
-                2078, -- Traveler's Tundra Mammoth
-                4888, -- One Hump or Two?
-                7386, -- Grand Expedition Yak
-                8092, -- I've Got 9999 Problems but a Bone-White Primal Raptor Ain't One
-                9909, -- Heirloom Hoarder
-                14183, -- Conspicuous Consumption
-            },
-        },
-        { -- Professions
-            986,
-            addon.GetCategoryInfoTitle(169),
-            {
-                2097, -- Get to the Choppa!
-                5749, -- Vial of the Sands
-            },
-        },
-        { -- Events
-            987,
-            addon.L["Events"],
-            {
-                416, -- Scarab Lord
-                980, -- The Horseman's Reins
-                3496, -- A Brew-FAST Mount
-                4627, -- X-45 Heartbreaker
-                2144, -- What a Long, Strange Trip It's Been
-                9496, -- Warlord's Deathwheel
-                9550, -- Boldly, You Sought the Power of Ragnaros
-                13931, -- Memories of Fel, Frost and Fire
-            },
-        },
-        { -- Achievements
-            989,
-            addon.L["Achievements"],
-            {
-                879, -- Old School Ride
-                5767, -- Scourer of the Eternal Sands
-                11066, -- Underbelly Tycoon
-                13517, -- Two Sides to Every Tale
-                13638, -- Undersea Usurper
-                13994, -- Through the Depths of Visions
-                14751, -- The Gang's All Here
-                14752, -- Things To Do When You're Dead
-                14570, -- Twisting Corridors: Layer 8
-                15254, -- The Jailer's Gauntlet: Layer 4
-                15089, -- Flawless Master (Layer 12)
-                15322, -- Flawless Master (Layer 16)
-                15064, -- Breaking the Chains
-                15402, -- Cyphers of the First Ones
-                15336, -- From A to Zereth
-            },
-        },
-        { -- Dungeons
-            979,
-            addon.GetCategoryInfoTitle(15272),
-            { -- Drops
-                983,
-                addon.L["Drops"],
-                true,
-                {
-                    729, -- Deathcharger's Reins
-                    883, -- Reins of the Raven Lord
-                    884, -- Swift White Hawkstrider
-                },
-            },
-            { -- Glory
-                980,
-                addon.L["Glory"],
-                true,
-                {
-                    2136, -- Glory of the Hero
-                    4845, -- Glory of the Cataclysm Hero
-                    6927, -- Glory of the Pandaria Hero
-                    9396, -- Glory of the Draenor Hero
-                    11163, -- Glory of the Legion Hero
-                    12812, -- Glory of the Wartorn Hero
-                    14322, -- Glory of the Shadowlands Hero
-                },
-            },
-            {
-                6375, -- Challenge Conqueror: Silver
-                8898, -- Challenge Warlord: Silver
-                14145, -- Battle for Azeroth Keystone Master: Season Four
-                14532, -- Shadowlands Keystone Master: Season One
-                15078, -- Shadowlands Keystone Master: Season Two
-                15499, -- Shadowlands Keystone Master: Season Three
-                15178, -- Fake It 'Til You Make It
-            },
-        },
-        { -- Raids
-            982,
-            addon.GetCategoryInfoTitle(15271),
-            { -- Drops
-                984,
-                addon.L["Drops"],
-                true,
-                {
-                    880, -- Swift Zulian Tiger
-                    881, -- Swift Razzashi Raptor
-                    424, -- Why? Because It's Red
-                    882, -- Fiery Warhorse's Reins
-                    885, -- Ashes of Al'ar
-                    430, -- Amani War Bear
-                    2081, -- Grand Black War Mammoth
-                    4626, -- And I'll Form the Head!
-                    4625, -- Invincible's Reins
-                },
-            },
-            { -- Glory
-                981,
-                addon.L["Glory"],
-                true,
-                {
-                    12401, -- Glory of the Ulduar Raider
-                    2957, -- Glory of the Ulduar Raider (10 player)
-                    2958, -- Glory of the Ulduar Raider (25 player)
-                    4602, -- Glory of the Icecrown Raider (10 player)
-                    4603, -- Glory of the Icecrown Raider (25 player)
-                    4853, -- Glory of the Cataclysm Raider
-                    5828, -- Glory of the Firelands Raider
-                    6169, -- Glory of the Dragon Soul Raider
-                    6932, -- Glory of the Pandaria Raider
-                    8124, -- Glory of the Thundering Raider
-                    8454, -- Glory of the Orgrimmar Raider
-                    8985, -- Glory of the Draenor Raider
-                    10149, -- Glory of the Hellfire Raider
-                    11180, -- Glory of the Legion Raider
-                    11987, -- Glory of the Argus Raider
-                    12806, -- Glory of the Uldir Raider
-                    13315, -- Glory of the Dazar'alor Raider
-                    13687, -- Glory of the Eternal Raider
-                    14146, -- Glory of the Ny'alotha Raider
-                    14355, -- Glory of the Nathria Raider
-                    15130, -- Glory of the Dominant Raider
-                    15491, -- Glory of the Sepulcher Raider
-                },
-            },
-            {
-                8398, -- Ahead of the Curve: Garrosh Hellscream (10 player)
-                8399, -- Ahead of the Curve: Garrosh Hellscream (25 player)
-                15684, -- Fates of the Shadowlands Raids
-            },
-        },
-        { -- PvP
-            977,
-            addon.GetCategoryInfoTitle(95),
-            { -- Gladiator
-                978,
-                addon.GetAchievmentName(2091),
-                true,
-                {
-                    886, -- Swift Nether Drake
-                    887, -- Merciless Nether Drake
-                    888, -- Vengeful Nether Drake
-                    2316, -- Brutal Nether Drake
-                    3096, -- Deadly Gladiator's Frost Wyrm
-                    3756, -- Furious Gladiator's Frost Wyrm
-                    3757, -- Relentless Gladiator's Frost Wyrm
-                    4600, -- Wrathful Gladiator's Frost Wyrm
-                    6003, -- Vicious Gladiator's Twilight Drake
-                    6322, -- Ruthless Gladiator's Twilight Drake
-                    6741, -- Cataclysmic Gladiator's Twilight Drake
-                    8216, -- Malevolent Gladiator's Cloud Serpent
-                    8678, -- Tyrannical Gladiator's Cloud Serpent
-                    8705, -- Grievous Gladiator's Cloud Serpent
-                    8707, -- Prideful Gladiator's Cloud Serpent
-                    9229, -- Primal Gladiator's Felblood Gronnling
-                    10137, -- Wild Gladiator's Felblood Gronnling
-                    10146, -- Warmongering Gladiator's Felblood Gronnling
-                    10999, -- Vindictive Gladiator's Storm Dragon
-                    11000, -- Fearless Gladiator's Storm Dragon
-                    11001, -- Cruel Gladiator's Storm Dragon
-                    11002, -- Ferocious Gladiator's Storm Dragon
-                    13450, -- Fierce Gladiator's Storm Dragon
-                    12139, -- Dominant Gladiator's Storm Dragon
-                    12140, -- Demonic Gladiator's Storm Dragon
-                    12961, -- Gladiator: Battle for Azeroth Season 1
-                    13093, -- Dread Gladiator's Proto-Drake
-                    13212, -- Gladiator: Battle for Azeroth Season 2
-                    13202, -- Sinister Gladiator's Proto-Drake
-                    13647, -- Gladiator: Battle for Azeroth Season 3
-                    13632, -- Notorious Gladiator's Proto-Drake
-                    13967, -- Gladiator: Battle for Azeroth Season 4
-                    13958, -- Corrupted Gladiator's Proto-Drake
-                    14689, -- Gladiator: Shadowlands Season 1
-                    14816, -- Sinful Gladiator's Soul Eater
-                    14972, -- Gladiator: Shadowlands Season 2
-                    14999, -- Unchained Gladiator's Soul Eater
-                    15352, -- Gladiator: Shadowlands Season 3
-                    15384, -- Cosmic Gladiator's Soul Eater
-                    15605, -- Gladiator: Shadowlands Season 4
-                    15612, -- Eternal Gladiator's Soul Eater
-                    15957, -- Gladiator: Dragonflight Season 1
-                    16730, -- Crimson Gladiator's Drake
-                    17740, -- Gladiator: Dragonflight Season 2
-                    17778, -- Obsidian Gladiator's Slitherdrake
-                    19091, -- Gladiator: Dragonflight Season 3
-                    19295, -- Verdant Gladiator's Slitherdrake
-                    19490, -- Gladiator: Dragonflight Season 4
-                    19503, -- Draconic Gladiator's Drake
-                    40393, -- Gladiator: The War Within Season 1
-                    40398, -- Forged Gladiator's Fel Bat
-                    41032, -- Gladiator: The War Within Season 2
-                    41362, -- Prized Gladiator's Fel Bat
-                    41049, -- Gladiator: The War Within Season 3
-                    42039, -- Astral Gladiator's Fel Bat
-                    61188, -- Gladiator: Midnight Season 1
-                    61450, -- Galactic Gladiator's Goredrake
-                },
-            },
-            {
-                12895, -- Honor Level 15
-                12903, -- Honor Level 40
-                12906, -- Honor Level 70
-                12910, -- Honor Level 125
-                12911, -- Honor Level 150
-                12914, -- Honor Level 250
-                12917, -- Honor Level 500
-                9238, -- Primal Combatant
-                9236, -- Primal Combatant
-                11474, -- Free For All, More For Me
-            },
-        },
-        { -- Recruit-a-Friend
-            988,
-            addon.L["Recruit-a-Friend"],
-            {
-                1436, -- Friends In High Places
-                4832, -- Friends In Even Higher Places
-                8213, -- Friends In Places Higher Yet
-                8794, -- Friends In Places Even Higher Than That
-                9925, -- Friends In Places Yet Even Higher Than That
-            },
-        },
-        { -- Recruit-a-Friend
-            1409,
-            addon.L["Recruit-a-Friend"],
-            {
-                17426, -- Toolbox Trouble
-            },
-        },
-        {
-            3356, -- Winterspring Frostsaber
-            3357, -- Venomhide Ravasaur
-            12866, -- 100 Exalted Reputations
-        },
-    },
     { -- The Entitled Player
-        1043,
         addon.L["The Entitled"] .. " " .. (UnitName("player")),
         { -- Classic
-            1045,
-            addon.GetCategoryInfoTitle(14864),
+            CT.Classic,
             { -- Reputation
-                1065,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     948, -- Ambassador of the Alliance
@@ -312,11 +28,9 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Wrath of the Lich King
-            1047,
-            addon.GetCategoryInfoTitle(14866),
+            CT.WrathOfTheLichKing,
             { -- Reputation
-                1054,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     942, -- The Diplomat
@@ -339,16 +53,14 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Dungeons
-                1057,
-                addon.GetCategoryInfoTitle(15272),
+                CT.Dungeons,
                 true,
                 {
                     9058, -- Leeeeeeeeeeeeeroy...?
                 },
             },
             { -- Raids
-                1056,
-                addon.GetCategoryInfoTitle(15271),
+                CT.Raids,
                 true,
                 {
                     2051, -- The Twilight Zone (10 player)
@@ -364,27 +76,23 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Cataclysm
-            1048,
-            addon.GetCategoryInfoTitle(15072),
+            CT.Cataclysm,
             { -- Exploration
-                1058,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     5879, -- Veteran of the Molten Front
                 },
             },
             { -- Reputation
-                1059,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     5827, -- Avengers of Hyjal
                 },
             },
             { -- Raids
-                1060,
-                addon.GetCategoryInfoTitle(15271),
+                CT.Raids,
                 true,
                 {
                     5116, -- Heroic: Nefarian
@@ -401,11 +109,9 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Mists of Pandaria
-            1049,
-            addon.GetCategoryInfoTitle(15164),
+            CT.MistsOfPandaria,
             { -- Exploration
-                1061,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     7284, -- Is Another Man's Treasure
@@ -414,8 +120,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Reputation
-                1062,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     6544, -- The Tillers
@@ -423,8 +128,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Raids
-                1063,
-                addon.GetCategoryInfoTitle(15271),
+                CT.Raids,
                 true,
                 {
                     6926, -- Tranquil Master
@@ -437,7 +141,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Scenarios
-                1064,
                 addon.L["Scenarios"],
                 true,
                 {
@@ -450,11 +153,9 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Warlords of Dreanor
-            1050,
-            addon.GetCategoryInfoTitle(15233),
+            CT.WarlordsOfDraenor,
             { -- Exploration
-                1066,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     10072, -- Rumble in the Jungle
@@ -463,8 +164,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Reputation
-                1067,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     9470, -- Council of Exarchs
@@ -478,8 +178,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Raids
-                1068,
-                addon.GetCategoryInfoTitle(15271),
+                CT.Raids,
                 true,
                 {
                     9619, -- Savage Hero
@@ -489,7 +188,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Garrison
-                1069,
                 addon.L["Garrison"],
                 true,
                 {
@@ -521,19 +219,16 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Legion
-            1051,
-            addon.GetCategoryInfoTitle(15258),
+            CT.Legion,
             { -- Quests
-                1074,
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     11232, -- Lock, Stock and Two Smoking Goblins
                 },
             },
             { -- Exploration
-                1070,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     12104, -- And We're All Out of Mana Buns
@@ -541,16 +236,14 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Reputation
-                1071,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     11941, -- Chromie Homie
                 },
             },
             { -- Raids
-                1072,
-                addon.GetCategoryInfoTitle(15271),
+                CT.Raids,
                 true,
                 {
                     10827, -- Mythic: Xavius
@@ -563,11 +256,9 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Battle for Azeroth
-            1052,
-            addon.GetCategoryInfoTitle(15305),
+            CT.BattleForAzeroth,
             { -- Quests
-                1075,
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     13925, -- The Fourth War
@@ -576,8 +267,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Exploration
-                1076,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     13134, -- Expedition Leader
@@ -586,8 +276,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Raids
-                1077,
-                addon.GetCategoryInfoTitle(15271),
+                CT.Raids,
                 true,
                 {
                     12533, -- Mythic: G'huun
@@ -597,16 +286,14 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Heart of Azeroth
-                1078,
-                addon.GetCategoryInfoTitle(15417),
+                CT.HeartOfAzeroth,
                 true,
                 {
                     13779, -- Phenomenal Cosmic Power
                 },
             },
             { -- Visions of N'Zoth
-                1079,
-                addon.GetCategoryInfoTitle(15426),
+                CT.VisionsOfNZoth,
                 true,
                 {
                     14140, -- Mad World
@@ -614,19 +301,16 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Shadowlands
-            1053,
-            addon.GetCategoryInfoTitle(15439),
+            CT.Shadowlands,
             { -- Exploration
-                1080,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     14277, -- The Accuser's Avowed
                 },
             },
             { -- Raids
-                1081,
-                addon.GetCategoryInfoTitle(15271),
+                CT.Raids,
                 true,
                 {
                     14365, -- Mythic: Sire Denathrius
@@ -635,16 +319,14 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Torghast
-                1082,
-                addon.GetCategoryInfoTitle(15440),
+                CT.Torghast,
                 true,
                 {
                     14568, -- Twisting Corridors: Layer 6
                 },
             },
             { -- Covenant Sanctums
-                1083,
-                addon.GetCategoryInfoTitle(15441),
+                CT.CovenantSanctums,
                 true,
                 {
                     14752, -- Things To Do When You're Dead
@@ -653,11 +335,9 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Other
-            1084,
             addon.L["Other"],
             { -- Quests
-                1085,
-                addon.GetCategoryInfoTitle(96),
+                CT.Quests,
                 true,
                 {
                     978, -- 3000 Quests Completed
@@ -665,8 +345,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Exploration
-                1086,
-                addon.GetCategoryInfoTitle(97),
+                CT.Exploration,
                 true,
                 {
                     46, -- Universal Explorer
@@ -675,8 +354,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Reputation
-                1088,
-                addon.GetCategoryInfoTitle(201),
+                CT.Reputation,
                 true,
                 {
                     1015, -- 40 Exalted Reputations
@@ -686,16 +364,14 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Dungeons
-                1087,
-                addon.GetCategoryInfoTitle(15272),
+                CT.Dungeons,
                 true,
                 {
                     4477, -- Looking For Many
                 },
             },
             { -- Pet Battles
-                1089,
-                addon.GetCategoryInfoTitle(15117),
+                CT.PetBattles,
                 true,
                 {
                     6607, -- Taming Azeroth
@@ -704,16 +380,14 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Brawler's Guild
-                1090,
-                addon.L["Brawler's Guild"],
+                addon.L["Brawler's Guild"] .. CT.Legacy,
                 true,
                 {
                     13191, -- Brawler for Azeroth
                 },
             },
             { -- Collections
-                1091,
-                addon.GetCategoryInfoTitle(15246),
+                CT.Collections,
                 true,
                 {
                     6590, -- World Safari
@@ -726,8 +400,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Professions
-                1092,
-                addon.GetCategoryInfoTitle(169),
+                CT.Professions,
                 true,
                 {
                     1516, -- Accomplished Angler
@@ -739,7 +412,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Events
-                1094,
                 addon.L["Events"],
                 true,
                 {
@@ -756,12 +428,10 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- PvP
-                1093,
-                addon.GetCategoryInfoTitle(95),
+                CT.PvP,
                 { -- Honor
                 true,
-                    1096,
-                        addon.GetCategoryInfoTitle(15266),
+                        CT.Honor,
                 true,
                     {
                         12901, -- Honor Level 25
@@ -775,8 +445,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                     },
                 },
                 { -- World
-                    1095,
-                        addon.GetCategoryInfoTitle(15283),
+                        CT.World,
                 true,
                     {
                         8721, -- Fire-Watcher
@@ -786,7 +455,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                     },
                 },
                 { -- Dueler's Guild
-                    1097,
                         addon.L["Dueler's Guild"],
                 true,
                     {
@@ -794,8 +462,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                     },
                 },
                 { -- Battlegrounds
-                    1098,
-                        addon.GetCategoryInfoTitle(153),
+                        CT.Battlegrounds,
                 true,
                     {
                         907, -- The Justicar
@@ -809,7 +476,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                     },
                 },
                 { -- Rated
-                    1099,
                         addon.L["Rated"],
                 true,
                     {
@@ -851,11 +517,9 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
         },
     },
     { -- Player the Fabulous
-        1101,
         (UnitName("player")) .. " " .. (GetTitleName(334)),
         { -- Collections
-            1102,
-            addon.GetCategoryInfoTitle(15246),
+            CT.Collections,
             {
                 10681, -- Fashionista: Head
                 10682, -- Fashionista: Chest
@@ -874,8 +538,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Raids
-            1103,
-            addon.GetCategoryInfoTitle(15271),
+            CT.Raids,
             {
                 11741, -- So Hot Right Now
                 11742, -- Dress in Lairs
@@ -916,8 +579,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Player vs. Player
-            1104,
-            addon.GetCategoryInfoTitle(95),
+            CT.PvP,
             {
                 11706, -- The Original
                 11707, -- No Mercy
@@ -954,6 +616,7 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 41595, -- Prized Guise
                 42800, -- Astral Attire
                 61586, -- Galactic Gala
+                63608, -- Venomous Vestments
             },
         },
         {
@@ -963,13 +626,10 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
         },
     },
     { -- Realm First!
-        1105,
         addon.L["Realm First!"],
         { -- Leveling
-            1106,
             addon.L["Leveling"],
             { -- Level 80
-                1107,
                 addon.L["Level 80"],
                 true,
                 {
@@ -997,7 +657,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Level 85
-                1108,
                 addon.L["Level 85"],
                 true,
                 {
@@ -1015,7 +674,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Level 90
-                1109,
                 addon.L["Level 90"],
                 true,
                 {
@@ -1035,10 +693,8 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Professions
-            1110,
-            addon.GetCategoryInfoTitle(169),
+            CT.Professions,
             { -- 450 skill
-                1111,
                 addon.L["450 skill"],
                 true,
                 {
@@ -1060,7 +716,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- 525 skill
-                1112,
                 addon.L["525 skill"],
                 true,
                 {
@@ -1082,7 +737,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- 600 skill
-                1113,
                 addon.L["600 skill"],
                 true,
                 {
@@ -1105,18 +759,16 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Reputation
-            1116,
             true,
-            addon.GetCategoryInfoTitle(201),
+            CT.Reputation,
             {
                 1463, -- Realm First! Northrend Vanguard
                 6829, -- Realm First! Pandaren Ambassador
             },
         },
         { -- Dungeons
-            1114,
             true,
-            addon.GetCategoryInfoTitle(15272),
+            CT.Dungeons,
             {
                 6433, -- Realm First! Challenge Conqueror: Gold
                 11224, -- Realm First! Legion Keystone Master
@@ -1126,9 +778,8 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Raids
-            1115,
             true,
-            addon.GetCategoryInfoTitle(15271),
+            CT.Raids,
             {
                 1402, -- Realm First! Conqueror of Naxxramas
                 456, -- Realm First! Obsidian Slayer
@@ -1141,10 +792,8 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
         },
     },
     { -- Promotions
-        1117,
-        addon.GetCategoryInfoTitle(15268),
+        CT.Promotions,
         { -- BlizzCon
-            1118,
             true,
             addon.L["BlizzCon"],
             {
@@ -1166,7 +815,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Collector's Edition
-            1119,
             true,
             addon.L["Collector's Edition"],
             {
@@ -1198,10 +846,8 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Diablo
-            1562,
             addon.L["Diablo"],
             { -- Diablo III
-                1120,
                 addon.L["Diablo III"],
                 true,
                 {
@@ -1210,7 +856,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
                 },
             },
             { -- Diablo IV
-                1400,
                 addon.L["Diablo IV"],
                 true,
                 {
@@ -1223,7 +868,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Overwatch
-            1121,
             true,
             addon.L["Overwatch"],
             {
@@ -1231,7 +875,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- StarCraft II
-            1122,
             true,
             addon.L["StarCraft II"],
             {
@@ -1242,7 +885,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Hearthstone
-            1123,
             addon.L["Hearthstone"],
             { -- 10th Anniversary
                 1563,
@@ -1260,7 +902,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Heroes of the Storm
-            1124,
             true,
             addon.L["Heroes of the Storm"],
             {
@@ -1269,7 +910,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Warcraft III: Reforged
-            1125,
             true,
             addon.L["Warcraft III: Reforged"],
             {
@@ -1277,7 +917,6 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
             },
         },
         { -- Warcraft Rumble
-            1539,
             true,
             addon.L["Warcraft Rumble"],
             {
@@ -1315,301 +954,10 @@ KrowiAF.CategoryData.Specials = { -- TAB - Specials
         },
     },
     { -- Mythic+
-        1565,
         addon.L["Mythic+"],
-        { -- Shadowlands
-            -- 1566,
-            addon.GetCategoryInfoTitle(15439),
-            { -- Season 1
-                -- 1567,
-                addon.L["Season"] .. " " .. 1,
-                true,
-                {
-                    14938, -- Shadowlands Keystone Explorer: Season One
-                    14531, -- Shadowlands Keystone Conqueror: Season One
-                    14532, -- Shadowlands Keystone Master: Season One
-                },
-            },
-            { -- Season 2
-                -- 1568,
-                addon.L["Season"] .. " " .. 2,
-                true,
-                {
-                    15051, -- Keystone Hero: De Other Side
-                    15048, -- Keystone Hero: Halls of Atonement
-                    15047, -- Keystone Hero: Mists of Tirna Scithe
-                    15045, -- Keystone Hero: The Necrotic Wake
-                    15046, -- Keystone Hero: Plaguefall
-                    15052, -- Keystone Hero: Sanguine Depths
-                    15049, -- Keystone Hero: Spires of Ascension
-                    15050, -- Keystone Hero: Theater of Pain
-                    15073, -- Shadowlands Keystone Explorer: Season Two
-                    15077, -- Shadowlands Keystone Conqueror: Season Two
-                    15078, -- Shadowlands Keystone Master: Season Two
-                    15327, -- Tormented Hero: Shadowlands Season 2
-                },
-            },
-            { -- Season 3
-                -- 1569,
-                addon.L["Season"] .. " " .. 3,
-                true,
-                {
-                    15051, -- Keystone Hero: De Other Side
-                    15048, -- Keystone Hero: Halls of Atonement
-                    15047, -- Keystone Hero: Mists of Tirna Scithe
-                    15045, -- Keystone Hero: The Necrotic Wake
-                    15046, -- Keystone Hero: Plaguefall
-                    15052, -- Keystone Hero: Sanguine Depths
-                    15049, -- Keystone Hero: Spires of Ascension
-                    15500, -- Keystone Hero: Tazavesh, the Veiled Market
-                    15050, -- Keystone Hero: Theater of Pain
-                    15496, -- Shadowlands Keystone Explorer: Season Three
-                    15498, -- Shadowlands Keystone Conqueror: Season Three
-                    15499, -- Shadowlands Keystone Master: Season Three
-                    15506, -- Shadowlands Keystone Hero: Season Three
-                    15691, -- Cryptic Hero: Shadowlands Season 3
-                },
-            },
-            { -- Season 4
-                -- 1572,
-                addon.L["Season"] .. " " .. 4,
-                true,
-                {
-                    15500, -- Keystone Hero: Tazavesh, the Veiled Market
-                    15693, -- Keystone Hero: Operation: Mechagon
-                    15692, -- Keystone Hero: Return to Karazhan
-                    15695, -- Keystone Hero: Grimrail Depot
-                    15694, -- Keystone Hero: Iron Docks
-                    15688, -- Shadowlands Keystone Explorer: Season Four
-                    15689, -- Shadowlands Keystone Conqueror: Season Four
-                    15690, -- Shadowlands Keystone Master: Season Four
-                    15756, -- Shrouded Hero: Shadowlands Season 4
-                },
-            },
-        },
-        { -- Dragonflight
-            1566,
-            addon.GetCategoryInfoTitle(15466),
-            { -- Season 1
-                1567,
-                addon.L["Season"] .. " " .. 1,
-                true,
-                {
-                    16643, -- Keystone Hero: Algeth'ar Academy
-                    16645, -- Keystone Hero: The Azure Vault
-                    16641, -- Keystone Hero: The Nokhud Offensive
-                    16640, -- Keystone Hero: Ruby Life Pools
-                    16658, -- Keystone Hero: Court of Stars
-                    16659, -- Keystone Hero: Halls of Valor
-                    16660, -- Keystone Hero: Shadowmoon Burial Grounds
-                    16661, -- Keystone Hero: Temple of the Jade Serpent
-                    16647, -- Dragonflight Keystone Explorer: Season One
-                    16648, -- Dragonflight Keystone Conqueror: Season One
-                    16649, -- Dragonflight Keystone Master: Season One
-                    16650, -- Dragonflight Keystone Hero: Season One
-                    16429, -- Thundering Hero: Dragonflight Season 1
-                    17119, -- Deep Cuts From the Vault
-                },
-            },
-            { -- Season 2
-                1568,
-                addon.L["Season"] .. " " .. 2,
-                true,
-                {
-                    16642, -- Keystone Hero: Brackenhide Hollow
-                    16646, -- Keystone Hero: Halls of Infusion
-                    16644, -- Keystone Hero: Neltharus
-                    16639, -- Keystone Hero: Uldaman: Legacy of Tyr
-                    17848, -- Keystone Hero: Freehold
-                    17849, -- Keystone Hero: The Underrot
-                    17850, -- Keystone Hero: Neltharion's Lair
-                    17847, -- Keystone Hero: The Vortex Pinnacle
-                    17842, -- Dragonflight Keystone Explorer: Season Two
-                    17843, -- Dragonflight Keystone Conqueror: Season Two
-                    17844, -- Dragonflight Keystone Master: Season Two
-                    17845, -- Dragonflight Keystone Hero: Season Two
-                    18542, -- Dragonflight Keystone Master: Season Two
-                    17846, -- Smoldering Hero: Dragonflight Season 2
-                    18027, -- Dragonflight Season 2 Master
-                    18380, -- Dragonflight Season 2 Hero
-                },
-            },
-            { -- Season 3
-                1569,
-                addon.L["Season"] .. " " .. 3,
-                true,
-                {
-                    19088, -- Keystone Hero: Dawn of the Infinite
-                    19087, -- Keystone Hero: Atal'Dazar
-                    19086, -- Keystone Hero: Waycrest Manor
-                    19084, -- Keystone Hero: Black Rook Hold
-                    19085, -- Keystone Hero: Darkheart Thicket
-                    19083, -- Keystone Hero: The Everbloom
-                    19082, -- Keystone Hero: Throne of the Tides
-                    19009, -- Dragonflight Keystone Explorer: Season Three
-                    19010, -- Dragonflight Keystone Conqueror: Season Three
-                    19011, -- Dragonflight Keystone Master: Season Three
-                    19012, -- Dragonflight Keystone Hero: Season Three
-                    19396, -- Dragonflight Season 3 Master
-                    19420, -- Dragonflight Season 3 Hero
-                },
-            },
-            { -- Season 4
-                1572,
-                addon.L["Season"] .. " " .. 4,
-                true,
-                {
-                    16643, -- Keystone Hero: Algeth'ar Academy
-                    16642, -- Keystone Hero: Brackenhide Hollow
-                    16646, -- Keystone Hero: Halls of Infusion
-                    16644, -- Keystone Hero: Neltharus
-                    16640, -- Keystone Hero: Ruby Life Pools
-                    16645, -- Keystone Hero: The Azure Vault
-                    16641, -- Keystone Hero: The Nokhud Offensive
-                    16639, -- Keystone Hero: Uldaman: Legacy of Tyr
-                    19780, -- Dragonflight Keystone Explorer: Season Four
-                    19781, -- Dragonflight Keystone Conqueror: Season Four
-                    19782, -- Dragonflight Keystone Master: Season Four
-                    19783, -- Dragonflight Keystone Hero: Season Four
-                    20481, -- Dragonflight Season 4 Master
-                },
-            },
-        },
-        shared.GetTheWarWithinMythicPlus(addon.GetCategoryInfoTitle(15520)),
-        shared.GetMidnightMythicPlus(addon.GetCategoryInfoTitle(15542)),
-    },
-    { -- Ta's Pet Collection
-        1346,
-        addon.L["Ta's Pet Collection"],
-        { -- Pet Battles
-            1353,
-            addon.GetCategoryInfoTitle(15117),
-            {
-                1250, -- Shop Smart, Shop Pet...Smart
-                2516, -- Lil' Game Hunter
-                5876, -- Petting Zoo
-                5877, -- Menagerie
-                5875, -- Littlest Pet Shop
-                7521, -- Time to Open a Pet Store
-                6582, -- Pro Pet Mob
-                9069, -- An Awfully Big Adventure
-                8297, -- Merciless Pet Brawler
-                8298, -- Vengeful Pet Brawler
-                8300, -- Brutal Pet Brawler
-            },
-        },
-        { -- Collections
-            1354,
-            addon.GetCategoryInfoTitle(15246),
-            {
-                7500, -- Going to Need More Leashes
-                7501, -- That's a Lot of Pet Food
-                9643, -- So. Many. Pets.
-                12992, -- Pet Emporium
-                12958, -- Master of Minions
-                12996, -- Toybox Tycoon
-            },
-        },
-        { -- Dungeons & Raids
-            1355,
-            addon.GetCategoryInfoTitle(168),
-            { -- Pet Battles Dungeons
-                1357,
-                addon.GetCategoryInfoTitle(15117) .. " " .. addon.GetCategoryInfoTitle(15272),
-                {
-                    11765, -- Pet Battle Challenge: Wailing Caverns
-                    11856, -- Pet Battle Challenge: Deadmines
-                    13269, -- Pet Battle Challenge: Gnomeregan
-                    13627, -- Pet Battle Challenge: Stratholme
-                },
-            },
-            {
-                7934, -- Raiding with Leashes
-                8293, -- Raiding with Leashes II: Attunement Edition
-                9824, -- Raiding with Leashes III: Drinkin' From the Sunwell
-                11320, -- Raiding with Leashes IV: Wrath of the Lick King
-                12079, -- Raiding with Leashes V: Cuteaclysm
-                13469, -- Raiding with Leashes VI: Pets of Pandaria
-            },
-        },
-        { -- Darkmoon Faire
-            1356,
-            addon.GetCategoryInfoTitle(15101),
-            {
-                9805, -- Big Rocketeer: Gold
-                9983, -- That's Whack!
-            },
-        },
-        { -- Wrath of the Lich King
-            1378,
-            addon.GetCategoryInfoTitle(14866),
-            {
-                1956, -- Higher Learning
-            },
-        },
-        { -- Cataclysm
-            1352,
-            addon.GetCategoryInfoTitle(15072),
-            {
-                5449, -- Rock Lover
-            },
-        },
-        { -- Mists of Pandaria
-            1351,
-            addon.GetCategoryInfoTitle(15164),
-            {
-                6402, -- Ling-Ting's Herbal Journey
-            },
-        },
-        { -- Warlords of Dreanor
-            1350,
-            addon.GetCategoryInfoTitle(15233),
-            {
-                9685, -- Draenor Safari
-            },
-        },
-        { -- Legion
-            1349,
-            addon.GetCategoryInfoTitle(15258),
-            {
-                10412, -- Poor Unfortunate Souls
-                9696, -- Family Familiar
-                12100, -- Family Fighter
-                11233, -- Broken Isles Safari
-                10626, -- Zoom!
-                11763, -- Glory of the Tomb Raider
-                12439, -- Priority Mail
-            },
-        },
-        { -- Battle for Azeroth
-            1348,
-            addon.GetCategoryInfoTitle(15305),
-            {
-                12930, -- Battle Safari
-                12482, -- Get Hek'd
-                13062, -- Let's Bee Friends
-                12723, -- How to Keep a Mummy
-                13279, -- Family Battler
-                13766, -- Malowned
-                13695, -- Team Aquashock
-                14143, -- Reeking of Visions
-            },
-        },
-        { -- Shadowlands
-            1347,
-            addon.GetCategoryInfoTitle(15439),
-            {
-                14469, -- Twisting Corridors: Layer 2
-                14879, -- Family Exorcist
-                14881, -- Abhorrent Adversaries of the Afterlife
-                15004, -- A Sly Fox
-                15079, -- Many, Many Things
-                15251, -- The Jailer's Gauntlet: Layer 1
-            },
-        },
-        {
-            8820, -- WoW's 10th Anniversary
-            3478, -- Pilgrim
-        },
+        shared.GetShadowlandsMythicPlus(CT.Shadowlands),
+        shared.GetDragonflightMythicPlus(CT.Dragonflight),
+        shared.GetTheWarWithinMythicPlus(CT.TheWarWithin),
+        shared.GetMidnightMythicPlus(CT.Midnight),
     },
 };

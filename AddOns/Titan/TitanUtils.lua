@@ -182,22 +182,6 @@ function TitanUtils_SetMinimapAdjust(bool)
 	TitanPanelSetVar("MinimapAdjust", not bool)
 end
 
----API Tell Titan to adjust (or not) a frame. Allows an addon to tell Titan it will control adjustment of that frame.
----@param frame string Frame Titan adjusts
----@param bool boolean Adjust
----- Titan will NOT store the adjust value across a log out / exit.
----- This is a generic way for an addon to tell Titan to not adjust a frame.
----The addon will take responsibility for adjusting that frame.
----This is useful for UI style addons so the user can run Titan and a modifed UI.
----- The list of frames Titan adjusts is specified in TitanMovableData within TitanMovable.lua.
----- If the frame name is not in TitanMovableData then Titan does not adjust that frame.
----- The frame list is different across the WoW versions.
---- TitanMovable_AddonAdjust("MicroButtonAndBagsBar", true)
-function TitanUtils_AddonAdjust(frame, bool)
-	-- Used by addons
-	TitanMovable_AddonAdjust(frame, bool)
-end
-
 --====== The routines labeled API are useable by addon developers
 
 ---API Get the anchors of the bottom most top bar and the top most bottom bar.
@@ -1158,21 +1142,31 @@ end
 -- Control Frame check & manipulation routines
 --
 
----Titan: Check the frame - expected to be a control / menu frame. Close if timer has expired. Used in plugin OnUpdate
+---Titan: Check the timer on the frame return the status. Used in plugin OnUpdate
 ---@param frame table control / menu frame
 ---@param elapsed number portion of second since last OnUpdate
+---@return string status Inactive / Active / Expired / NotVisible
 function TitanUtils_CheckFrameCounting(frame, elapsed)
+	local res = ""
+	-- 2026 June : Removed Hide; return the status instead. This allows the caller to control hide
+	-- especially if it is a tooltip, not the frame itself
 	if (frame:IsVisible()) then
 		if (not frame.frameTimer or not frame.isCounting) then
-			return;
+			res = "Inactive"
 		elseif (frame.frameTimer < 0) then
-			frame:Hide();
-			frame.frameTimer = nil;
-			frame.isCounting = nil;
+			frame.frameTimer = nil
+			frame.isCounting = nil
+			res = "Expired"
 		else
-			frame.frameTimer = frame.frameTimer - elapsed;
+			-- count down
+			frame.frameTimer = frame.frameTimer - elapsed
+			res = "Active"
 		end
+	else
+		res = "NotVisible"
 	end
+
+	return res
 end
 
 ---Titan Set the max time the control frame could be open once cursor has left frame. Used in plugin OnLeave
@@ -1894,26 +1888,41 @@ function TitanUtils_DecompressData(data, dataType)
 	return false, {}
 end
 
+--====== Time played routines
+
 --====== Overload the 'time played' text to Chat to not show 'time played' to Chat
+local orig_ChatFrame_DisplayTimePlayed = function(...) end -- place holder
+
 local requesting = 0
+local function ChatPlayedHelper(...)
+	-- A little clunky but calls done rapidly should sort themselves
+	-- even if the exact call to event does not match.
+	if requesting > 0 then
+		-- Titan requested time played, do not spam Chat
+		requesting = requesting - 1
+	else
+		-- Did not request time played so output
+		---@diagnostic disable-next-line: need-check-nil
+		orig_ChatFrame_DisplayTimePlayed(...)
+	end
+end
 
--- Save orignal output to Chat
-local orig_ChatFrame_DisplayTimePlayed = function(...) end
-
+if ChatFrameUtil.DisplayTimePlayed then
+	-- Newer API
+	-- Check new first; Old routine exists (deprecated) in new...
 	orig_ChatFrame_DisplayTimePlayed = ChatFrameUtil.DisplayTimePlayed
 
-	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
-		-- A little clunky but calls done rapidly should sort themselves
-		-- even if the exact call to event does not match.
-		if requesting > 0 then
-			-- Titan requested time played, do not spam Chat
-			requesting = requesting - 1
-		else
-			-- Did not request time played so output
-			---@diagnostic disable-next-line: need-check-nil
-			orig_ChatFrame_DisplayTimePlayed(...)
+	ChatFrameUtil.DisplayTimePlayed = function(...)
+		ChatPlayedHelper(...)
 		end
-	end
+else
+	-- Old Classic
+	orig_ChatFrame_DisplayTimePlayed = ChatFrame_DisplayTimePlayed
+
+	ChatFrame_DisplayTimePlayed = function(...)
+		ChatPlayedHelper(...)
+		end
+end
 
 ---Titan Get time played in a general way to not spam Chat
 ---@param reason string For debug
@@ -1922,6 +1931,38 @@ function TitanUtils_GetTimePlayed(reason)
 
 	RequestTimePlayed()
 end
+
+---Titan Get time played in a general way to not spam Chat
+---@param reason string For debug
+function TitanUtils_GetTimePlayed(reason)
+	requesting = requesting + 1
+
+	RequestTimePlayed()
+end
+
+--====== Handle API routines across WoW versions
+
+local ConnectedRealms
+---@diagnostic disable-next-line: undefined-global
+if C_AutoComplete and C_AutoComplete.GetAutoCompleteRealms then
+---@diagnostic disable-next-line: undefined-global
+	ConnectedRealms = C_AutoComplete.GetAutoCompleteRealms
+else
+	ConnectedRealms = GetAutoCompleteRealms
+end
+---Get the list of connected / merged realms relative to toon being played
+---@return unknown
+function TitanUtils_GetMergedRealms()
+	local realm_names = ConnectedRealms()
+	--[[
+	This returns normalized server names...
+	Per wiki : Certain characters are removed from realm names, most notably Space and - 
+	while others remain, such as ' and variants of Latin letters (e.g. umlauts and accented letters)
+	--]]
+	return realm_names
+end
+
+
 
 --------------------------------------------------------------
 -- Various debug routines

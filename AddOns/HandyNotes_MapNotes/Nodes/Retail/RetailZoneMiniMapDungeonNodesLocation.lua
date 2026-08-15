@@ -830,7 +830,9 @@ ns.currentSourceFile = "RetailZoneMiniMapDungeonminimapLocation.lua"
             minimap[2405][51661874] = { id = 1313, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Arena der Leerennarbe
             minimap[2444][53653339] = { id = 1313, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Arena der Leerennarbe
             minimap[2413][26467804] = { id = 1309, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Das blendende Tal
-            minimap[2437][29838450] = { id = 1311, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Nalorakks Bau            
+            minimap[2437][29838450] = { id = 1311, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Nalorakks Bau
+            minimap[2509][47246812] = { id = 1322, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Altar der Fänge
+            minimap[2512][88678730] = { id = 1322, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Altar der Fänge
           end
 
           -- Quela'Thalas Raids
@@ -838,6 +840,9 @@ ns.currentSourceFile = "RetailZoneMiniMapDungeonminimapLocation.lua"
             minimap[2405][45246483] = { id = 1307, type = "Raid", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Leerenspitze
             minimap[2413][61386289] = { id = 1314, type = "Raid", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Der Traumriss
             minimap[2424][52608529] = { id = 1308, type = "Raid", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Marsch auf Quel'Danas
+            minimap[2413][73556635] = { id = 1305, type = "Raid", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Sporfall
+            minimap[2509][47232286] = { id = 1320, type = "Raid", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Der giftige Abgrund
+            minimap[2512][88818020] = { id = 1320, type = "Raid", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Der giftige Abgrund
           end
 
         end

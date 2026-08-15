@@ -60,8 +60,10 @@ local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
 	local im, inProgressCount, nextComplete = C.GetInProgressMissions(mt) or {}, 0
 	local cm = C.GetCompleteMissions(mt) or {}
 	
+	local o, oo
 	if prefixLine and (#am + #im + #cm) > 0 then
-		self:AddLine(prefixLine)
+		o = prefixLine
+		oo = oo and (oo .. "\n" .. o) or o
 	end
 	
 	for i=1,#am do
@@ -69,8 +71,9 @@ local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
 		nextExpire = nextExpire and et and nextExpire > et and nextExpire or et or nextExpire
 	end
 	if #am > 0 then
-		local tl = nextExpire and "|A:worldquest-icon-clock:16:17:0:0|a" .. W.GetLazyTimeStringFromSeconds(nextExpire - GetTime(), false) or ""
-		self:AddDoubleLine((L"%d |4mission:missions; available"):format(#am), tl, 1,1,1, 0.85, 0.35,0)
+		local tl = nextExpire and "|A:worldquest-icon-clock:16:17:0:0|a" .. W.GetLazyTimeStringFromSeconds(nextExpire - GetTime(), false)
+		o = "|cffffffff" .. (L"%d |4mission:missions; available"):format(#am) .. (tl and "   |r|cffd85900" .. tl .. "|r" or "|r")
+		oo = oo and (oo .. "\n" .. o) or o
 	end
 
 	for i=1, #im do
@@ -81,18 +84,24 @@ local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
 	end
 	if inProgressCount > 0 then
 		local tl = nextComplete and "|A:GarrMission_MissionTooltipAway:14:14:-1.5:0|a" .. W.GetLazyTimeStringFromSeconds(nextComplete, true) or ""
-		self:AddDoubleLine((L"%d |4mission:missions; in progress"):format(inProgressCount), tl, 0.65, 0.65, 0.65, 0.45, 0.65, 0.85)
+		o = "|cffaaaaaa" .. (L"%d |4mission:missions; in progress"):format(inProgressCount) .. (tl and "   |r|cffd85900" .. tl .. "|r" or "|r")
+		oo = oo and (oo .. "\n" .. o) or o
 	end
 
 	if #cm > 0 then
-		self:AddLine((L"%d |4mission:missions; complete"):format(#cm), 0.25,0.8,0.25)
+		o = "|cff3fcc3f" .. (L"%d |4mission:missions; complete"):format(#cm) .. "|r"
+		oo = oo and (oo .. "\n" .. o) or o
+	end
+	if oo then
+		self:AddLine(oo, 1,1,1)
 	end
 	self:Show()
 end
 local function Tooltip_OnSetUnit(self, tooltipData)
 	local guid = tooltipData and tooltipData.type == Enum.TooltipDataType.Unit and tooltipData.guid
 	local cid = guid and not issecretvalue(guid) and guid:match("^Creature%-%d+%-%d+%-%d+%-%d+%-(%d+)")
-	if cid == "138704" or cid == "138706" then
+	local n = (cid == "138704" or cid == "138706") and self:GetName()
+	if n and _G[n .. "TextLeft" .. (self:NumLines()+1)] then
 		return Tooltip_AddGarrisonStatus(self, 22)
 	end
 end
@@ -208,6 +217,7 @@ local function hookLandingMenu()
 				landingChoices[#landingChoices+1] = C.GetNumFollowers(123) > 0 and {text=GARRISON_TYPE_9_0_LANDING_PAGE_TITLE, func=ShowLanding, arg1=111, notCheckable=true} or nil
 				GameTooltip:Hide()
 				EasyMenu(landingChoices, landingChoiceMenu, "cursor", 0, 0, "MENU", 4)
+				DropDownList1:SetScale(UIParent:GetScale()) -- BUG: obeys uiScale when UIParent doesn't
 				DropDownList1:ClearAllPoints()
 				local x, y = self:GetCenter()
 				local w, h = UIParent:GetSize()

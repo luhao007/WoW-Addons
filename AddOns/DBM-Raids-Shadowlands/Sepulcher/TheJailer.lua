@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2464, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260526204824")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(180990)
 mod:SetEncounterID(2537)
@@ -34,6 +34,8 @@ mod:RegisterEventsInCombat(
  or ability.id = 181089 or ability.id = 368383
  or ability.id = 366132 and type = "applydebuff"
 --]]
+DBM:RegisterAltSpellName(364942, 72994)--Decimator -> short name
+
 --General
 local warnPhase									= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 --local warnHealAzeroth							= mod:NewAnnounce("warnHealAzeroth", 3, 366401, nil, nil, nil, 366401)
@@ -52,16 +54,16 @@ local warnTyranny								= mod:NewCastAnnounce(366022, 3, 4)
 local warnMartyrdom								= mod:NewTargetCountAnnounce(363893, 4, nil, nil, nil, nil, nil, nil, true)
 local warnRuneofDamnation						= mod:NewTargetCountAnnounce(360281, 3, nil, nil, nil, nil, nil, nil, true)
 
-local specWarnWorldCrusher						= mod:NewSpecialWarningCount(366374, nil, nil, nil, 2, 2, 4)
-local specWarnRelentingDomination				= mod:NewSpecialWarningMoveTo(362028, nil, nil, nil, 1, 2)
-local specWarnChainsofOppression				= mod:NewSpecialWarningRun(362631, nil, nil, nil, 4, 2)
-local specWarnMartyrdom							= mod:NewSpecialWarningDefensive(363893, nil, nil, nil, 1, 2)
+local specWarnWorldCrusher						= mod:NewSpecialWarningCount(366374, nil, nil, nil, 2, 2, 4, nil, "specialsoon")
+local specWarnRelentingDomination				= mod:NewSpecialWarningMoveTo(362028, nil, nil, nil, 1, 2, nil, nil, "findshelter")
+local specWarnChainsofOppression				= mod:NewSpecialWarningRun(362631, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnMartyrdom							= mod:NewSpecialWarningDefensive(363893, nil, nil, nil, 1, 2, nil, nil, "defensive")
 local yellMartyrdom								= mod:NewYell(363893, nil, nil, nil, "YELL")--rooted target = stack target for misery very likely
 local yellMartyrdomFades						= mod:NewShortFadesYell(363893, nil, nil, nil, "YELL")
-local specWarnMisery							= mod:NewSpecialWarningTaunt(362192, nil, nil, nil, 1, 2, 4)
-local specWarnTorment							= mod:NewSpecialWarningMoveAway(365436, nil, nil, nil, 1, 2)
-local specWarnRuneofDamnation					= mod:NewSpecialWarningYou(360281, nil, nil, nil, 1, 2)
-local specWarnRuneofDamnationPit				= mod:NewSpecialWarningMoveTo(360281, nil, nil, nil, 1, 7)
+local specWarnMisery							= mod:NewSpecialWarningTaunt(362192, nil, nil, nil, 1, 2, 4, nil, "tauntboss")
+local specWarnTorment							= mod:NewSpecialWarningMoveAway(365436, nil, nil, nil, 1, 2, nil, nil, "scatter")
+local specWarnRuneofDamnation					= mod:NewSpecialWarningYou(360281, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnRuneofDamnationPit				= mod:NewSpecialWarningMoveTo(360281, nil, nil, nil, 1, 7, nil, nil, "jumpinpit")
 local yellRuneofDamnation						= mod:NewShortPosYell(360281, 166419)--short text "Rune"
 local yellRuneofDamnationFades					= mod:NewIconFadesYell(360281)
 
@@ -69,9 +71,9 @@ local yellRuneofDamnationFades					= mod:NewIconFadesYell(360281)
 local timerRelentingDominationCD				= mod:NewCDCountTimer(28.8, 362028, nil, nil, nil, 2)
 local timerTyrany								= mod:NewCDTimer(11, 366132, nil, nil, nil, 3)
 local timerChainsofOppressionCD					= mod:NewCDCountTimer(28.8, 362631, nil, nil, nil, 3)
-local timerMartyrdomCD							= mod:NewCDCountTimer(28.8, 363893, DBM_COMMON_L.TANKCOMBO.." (%s)", nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerMartyrdomCD							= mod:NewCDCountTimer(28.8, 363893, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerTormentCD							= mod:NewCDCountTimer(28.8, 365436, nil, nil, nil, 2)
-local timerRuneofDamnationCD					= mod:NewCDCountTimer(28.8, 360281, DBM_COMMON_L.BOMBS.." (%s)", nil, nil, 3)
+local timerRuneofDamnationCD					= mod:NewCDCountTimer(28.8, 360281, nil, nil, nil, 3)
 
 mod:AddSetIconOption("SetIconOnMartyrdom2", 363893, false, 0, {7})
 mod:AddSetIconOption("SetIconOnDamnation", 360281, true, 0, {1, 2, 3, 4, 5, 6})
@@ -81,20 +83,20 @@ mod:AddTimerLine(DBM:EJ_GetSectionInfo(23925))
 local warnUnholyAttunement						= mod:NewCountAnnounce(360373, 3)
 local warnRuneofCompulsion						= mod:NewTargetCountAnnounce(366285, 3, nil, nil, nil, nil, nil, nil, true)
 
-local specWarnWorldCracker						= mod:NewSpecialWarningSpell(366678, nil, nil, nil, 2, 2, 4)
-local specWarnGTFO								= mod:NewSpecialWarningGTFO(360425, nil, nil, nil, 1, 8)
-local specWarnShatteringBlast					= mod:NewSpecialWarningMoveTo(359856, nil, nil, nil, 1, 2)
-local specWarnRuneofCompulsion					= mod:NewSpecialWarningYou(366285, nil, nil, nil, 1, 2)
+local specWarnWorldCracker						= mod:NewSpecialWarningSpell(366678, nil, nil, nil, 2, 2, 4, nil, "specialsoon")
+local specWarnGTFO								= mod:NewSpecialWarningGTFO(360425, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnShatteringBlast					= mod:NewSpecialWarningMoveTo(359856, nil, nil, nil, 1, 2, nil, nil, "findshelter")
+local specWarnRuneofCompulsion					= mod:NewSpecialWarningYou(366285, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellRuneofCompulsion						= mod:NewShortPosYell(366285, 166419)--short text "Rune"
 local yellRuneofCompulsionFades					= mod:NewIconFadesYell(366285)
-local specWarnDecimator							= mod:NewSpecialWarningCount(364942, nil, 72994, nil, 2, 2)
-local specWarnTormentingEcho					= mod:NewSpecialWarningDodge(365371, nil, nil, nil, 2, 2)
+local specWarnDecimator							= mod:NewSpecialWarningCount(364942, nil, nil, nil, 2, 2, nil, nil, "specialsoon")
+local specWarnTormentingEcho					= mod:NewSpecialWarningDodge(365371, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 local timerWorldCrackerCD						= mod:NewCDCountTimer(28.8, 366678, nil, nil, nil, 2, nil, DBM_COMMON_L.MYTHIC_ICON)
 local timerUnholyAttunementCD					= mod:NewCDCountTimer(28.8, 360373, nil, nil, nil, 3)
 local timerShatteringBlastCD					= mod:NewCDCountTimer(28.8, 359856, nil, nil, nil, 5)
-local timerRuneofCompulsionCD					= mod:NewCDCountTimer(28.8, 366285, DBM_COMMON_L.MINDCONTROL.." (%s)", nil, nil, 3)
-local timerDecimatorCD							= mod:NewCDCountTimer(28.8, 364942, 72994, nil, nil, 2)
+local timerRuneofCompulsionCD					= mod:NewCDCountTimer(28.8, 366285, nil, nil, nil, 3)
+local timerDecimatorCD							= mod:NewCDCountTimer(28.8, 364942, nil, nil, nil, 2)
 
 mod:AddSetIconOption("SetIconOnCopulsion", 366285, true, 0, {1, 2, 3, 4})
 
@@ -105,23 +107,23 @@ local warnRuneofDomination						= mod:NewTargetCountAnnounce(365150, 3, nil, nil
 local warnChainsofAnguishLink					= mod:NewTargetNoFilterAnnounce(365219, 3)
 local warnDefile								= mod:NewTargetNoFilterAnnounce(365169, 4)
 
-local specWarnWorldShatterer					= mod:NewSpecialWarningCount(367051, nil, nil, nil, 2, 2, 4)
-local specWarnDesolation						= mod:NewSpecialWarningCount(365033, nil, nil, nil, 2, 2)
-local specWarnRuneofDomination					= mod:NewSpecialWarningYouPos(365150, nil, nil, nil, 1, 2)
+local specWarnWorldShatterer					= mod:NewSpecialWarningCount(367051, nil, nil, nil, 2, 2, 4, nil, "specialsoon")
+local specWarnDesolation						= mod:NewSpecialWarningCount(365033, nil, nil, nil, 2, 2, nil, nil, "helpsoak")
+local specWarnRuneofDomination					= mod:NewSpecialWarningYouPos(365150, nil, nil, nil, 1, 2, nil, nil, "mm1")
 local yellRuneofDomination						= mod:NewShortPosYell(365150, 166419)--short text "Rune"
 local yellRuneofDominationFades					= mod:NewIconFadesYell(365150)
-local specWarnChainsofAnguish					= mod:NewSpecialWarningDefensive(365219, nil, nil, nil, 1, 2)
-local specWarnChainsofAnguishTaunt				= mod:NewSpecialWarningTaunt(365219, nil, nil, nil, 1, 2)
-local specWarnChainsofAnguishLink				= mod:NewSpecialWarningYou(365219, nil, nil, nil, 1, 2)
+local specWarnChainsofAnguish					= mod:NewSpecialWarningDefensive(365219, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnChainsofAnguishTaunt				= mod:NewSpecialWarningTaunt(365219, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnChainsofAnguishLink				= mod:NewSpecialWarningYou(365219, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellChainsofAnguishLink					= mod:NewShortYell(365219)
-local specWarnDefile							= mod:NewSpecialWarningCount(365169, nil, nil, nil, 3, 2)
+local specWarnDefile							= mod:NewSpecialWarningCount(365169, nil, nil, nil, 3, 2, nil, nil, "runout")
 --local yellDefile								= mod:NewYell(365169)
 --local specWarnDefileNear						= mod:NewSpecialWarningClose(365169, nil, nil, nil, 1, 2)
 
 local timerWorldShattererCD						= mod:NewCDTimer(28.8, 367051, nil, nil, nil, 2, nil, DBM_COMMON_L.MYTHIC_ICON)
 local timerUnbreakableGraspCD					= mod:NewCDTimer(28.8, 363332, nil, nil, nil, 6)
-local timerDesolationCD							= mod:NewCDCountTimer(28.8, 365033, L.AzerothSoak.." (%s)", nil, nil, 3)
-local timerRuneofDominationCD					= mod:NewCDCountTimer(28.8, 365150, DBM_COMMON_L.GROUPSOAKS.." (%s)", nil, nil, 3)
+local timerDesolationCD							= mod:NewCDCountTimer(28.8, 365033, nil, nil, nil, 3)
+local timerRuneofDominationCD					= mod:NewCDCountTimer(28.8, 365150, nil, nil, nil, 3)
 local timerChainsofAnguishCD					= mod:NewCDCountTimer(28.8, 365219, nil, nil, nil, 5)
 local timerDefileCD								= mod:NewCDCountTimer(28.8, 365169, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
 
@@ -134,9 +136,9 @@ local warnLifeShieldOver				= mod:NewEndAnnounce(368383, 1)
 local warnDeathSentence					= mod:NewTargetNoFilterAnnounce(363772, 4)--Initial death sentence
 local warnDispel						= mod:NewAnnounce("warnDispel", 3, 182887, nil, nil, nil, 363772)
 
-local specWarnMeteorCleave				= mod:NewSpecialWarningCount(360378, nil, nil, nil, 2, 2, 4)
-local specWarnMeteorCleaveTaunt			= mod:NewSpecialWarningTaunt(360378, nil, nil, nil, 1, 2, 4)
-local specWarnDeathSentence				= mod:NewSpecialWarningYou(363772, nil, nil, nil, 1, 2, 4)
+local specWarnMeteorCleave				= mod:NewSpecialWarningCount(360378, nil, nil, nil, 2, 2, 4, nil, "cleave")
+local specWarnMeteorCleaveTaunt			= mod:NewSpecialWarningTaunt(360378, nil, nil, nil, 1, 2, 4, nil, "tauntboss")
+local specWarnDeathSentence				= mod:NewSpecialWarningYou(363772, nil, nil, nil, 1, 2, 4, nil, "targetyou")
 local yellDeathSentence					= mod:NewShortYell(363772, nil, false)
 local yellDeathSentenceFades			= mod:NewShortFadesYell(363772)
 

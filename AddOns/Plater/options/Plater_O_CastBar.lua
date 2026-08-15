@@ -133,8 +133,8 @@ function platerInternal.CreateCastBarOptions()
 
 
         --outline table
-        local outline_modes = {"NONE", "MONOCHROME", "OUTLINE", "THICKOUTLINE", "MONOCHROME, OUTLINE", "MONOCHROME, THICKOUTLINE"}
-        local outline_modes_names = {"None", "Monochrome", "Outline", "Thick Outline", "Monochrome Outline", "Monochrome Thick Outline"}
+        local outline_modes = {"NONE", "MONOCHROME", "OUTLINE", "THICKOUTLINE", "MONOCHROME, OUTLINE", "MONOCHROME, THICKOUTLINE", "SLUG", "OUTLINE, SLUG"}
+        local outline_modes_names = {"None", "Monochrome", "Outline", "Thick Outline", "Monochrome Outline", "Monochrome Thick Outline", "SLUG", "Slug Outline"}
         local build_outline_modes_table = function (actorType, member)
             local t = {}
             for i = 1, #outline_modes do
@@ -434,7 +434,7 @@ function platerInternal.CreateCastBarOptions()
             desc = "OPTIONS_ALPHA",
         },
 
-        {type = "blank"},
+        {type = "blank"}, --cast bar colors
         {type = "label", get = function() return "OPTIONS_CASTBAR_COLORS" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 
         {

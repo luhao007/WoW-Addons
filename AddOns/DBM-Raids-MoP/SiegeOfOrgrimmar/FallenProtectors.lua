@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(849, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260523022011")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(71479, 71475, 71480)--He-Softfoot, Rook Stonetoe, Sun Tenderheart
 mod:SetEncounterID(1598)
@@ -28,8 +32,8 @@ local Tenderheart = DBM:EJ_GetSectionInfo(7904)
 --All
 local warnBondGoldenLotus			= mod:NewCastAnnounce(143497, 4)
 
-local specWarnMeasures				= mod:NewSpecialWarning("specWarnMeasures", nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.soon:format(-7956), nil, 2, 2)
-local specWarnGTFO					= mod:NewSpecialWarningGTFO(143959, nil, nil, nil, 1, 8)
+local specWarnMeasures				= mod:NewSpecialWarning("specWarnMeasures", nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.soon:format(-7956), nil, 2, 2, nil, nil, nil, nil, "specialsoon")
+local specWarnGTFO					= mod:NewSpecialWarningGTFO(143959, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 --Rook Stonetoe
 mod:AddTimerLine(Stonetoe)
 local warnCorruptedBrew				= mod:NewTargetAnnounce(143019, 2)--I do believe target scanning WILL work here, i just need more time to mess with it next round of testing
@@ -37,14 +41,14 @@ local warnCorruptedBrew				= mod:NewTargetAnnounce(143019, 2)--I do believe targ
 local warnDefiledGround				= mod:NewSpellAnnounce(143961, 3, nil, "Tank")--Embodied Misery
 local warnInfernoStrike				= mod:NewTargetNoFilterAnnounce(143962, 3)
 
-local specWarnVengefulStrikes		= mod:NewSpecialWarningDefensive(144396, nil, nil, nil, 1, 2)
-local specWarnClash					= mod:NewSpecialWarningDodge(143027, nil, nil, nil, 2, 2)
-local specWarnCorruptedBrew			= mod:NewSpecialWarningYou(143019, nil, nil, nil, 1, 2)
+local specWarnVengefulStrikes		= mod:NewSpecialWarningDefensive(144396, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnClash					= mod:NewSpecialWarningDodge(143027, nil, nil, nil, 2, 2, nil, nil, "chargemove")
+local specWarnCorruptedBrew			= mod:NewSpecialWarningYou(143019, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellCorruptedBrew				= mod:NewYell(143019)
 ----Rook Stonetoe's Desperate Measures
-local specWarnMiserySorrowGloom		= mod:NewSpecialWarningSpell(143955, nil, nil, nil, 1, 2)
-local specWarnCorruptionShock		= mod:NewSpecialWarningInterrupt(143958, "HasInterrupt", nil, nil, 1, 2)
-local specWarnInfernoStrike			= mod:NewSpecialWarningYou(143962, nil, nil, nil, 1, 2)
+local specWarnMiserySorrowGloom		= mod:NewSpecialWarningSpell(143955, nil, nil, nil, 1, 2, nil, nil, "bigmob")
+local specWarnCorruptionShock		= mod:NewSpecialWarningInterrupt(143958, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnInfernoStrike			= mod:NewSpecialWarningYou(143962, nil, nil, nil, 1, 2, nil, nil, "gathershare")
 local yellInfernoStrike				= mod:NewYell(143962, nil, nil, nil, "YELL")
 
 local timerVengefulStrikesCD		= mod:NewCDTimer(21, 144396, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
@@ -62,10 +66,10 @@ local warnGarrote					= mod:NewTargetNoFilterAnnounce(143198, 3, nil, "Healer")
 local warnMarkOfAnguish				= mod:NewSpellAnnounce(143812, 2)--Activation
 local warnMarked					= mod:NewTargetAnnounce(143840, 3)--Embodied Anguish
 
-local specWarnGouge					= mod:NewSpecialWarningLookAway(143330, nil, nil, nil, 3, 2)
-local specWarnGougeStunOther		= mod:NewSpecialWarningTaunt(143301, nil, nil, nil, 1, 2)--Tank is stunned, other tank must taunt or he'll start killing people
+local specWarnGouge					= mod:NewSpecialWarningLookAway(143330, nil, nil, nil, 3, 2, nil, nil, "turnaway")
+local specWarnGougeStunOther		= mod:NewSpecialWarningTaunt(143301, nil, nil, nil, 1, 2, nil, nil, "tauntboss")--Tank is stunned, other tank must taunt or he'll start killing people
 ----He Softfoot's Desperate measures
-local specWarnMarked				= mod:NewSpecialWarningYou(143840, nil, nil, nil, 1, 2)
+local specWarnMarked				= mod:NewSpecialWarningYou(143840, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellMarked					= mod:NewYell(143840, nil, false)
 
 local timerGougeCD					= mod:NewCDTimer(26.7, 143330, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--26.8-41
@@ -74,10 +78,10 @@ local timerGarroteCD				= mod:NewCDTimer(29, 143198, nil, "Healer", nil, 5, nil,
 mod:AddTimerLine(Tenderheart)
 local warnBane						= mod:NewCastAnnounce(143446, 4, nil, nil, "Healer")
 
-local specWarnShaShear				= mod:NewSpecialWarningInterrupt(143423, "HasInterrupt", nil, nil, 1, 2)
-local specWarnShaShearYou			= mod:NewSpecialWarningMoveAway(143423, nil, nil, nil, 1, 2)--some heroic player request. Warning to move away from group so Sha shear not hit everyone.
+local specWarnShaShear				= mod:NewSpecialWarningInterrupt(143423, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnShaShearYou			= mod:NewSpecialWarningMoveAway(143423, nil, nil, nil, 1, 2, nil, nil, "runout")--some heroic player request. Warning to move away from group so Sha shear not hit everyone.
 local yellShaShear					= mod:NewYell(143423)
-local specWarnCalamity				= mod:NewSpecialWarning("specWarnCalamity", nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.spell:format(143491), nil, 2, 2)
+local specWarnCalamity				= mod:NewSpecialWarning("specWarnCalamity", nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.spell:format(143491), nil, 2, 2, nil, nil, nil, nil, "aesoon")
 ----Sun Tenderheart's Desperate Measures
 local specWarnDarkMeditation		= mod:NewSpecialWarningSpell(143546)
 
@@ -90,9 +94,7 @@ local berserkTimer					= mod:NewBerserkTimer(600)
 mod:AddSetIconOption("SetIconOnStrike", 143962, false, 0, {7})
 
 --Upvales, don't need variables
-local UnitExists = UnitExists
 local UnitGUID = UnitGUID
-local UnitDetailedThreatSituation = UnitDetailedThreatSituation
 local calamitySpellText = DBM:GetSpellName(143491)
 
 --Not important, don't need to recover
@@ -335,14 +337,14 @@ function mod:UNIT_HEALTH(uId)
 		local hp = UnitHealth(uId) / UnitHealthMax(uId)
 		if hp < 0.71 and self.vb["warned"..cId] == 0 then
 			local bossName = UnitName(uId)
-			if (self:IsTrivial() or self:IsRemix()) and self:AntiSpam(3, 4) then--Throttle on remix or trivial. remix players are zerging boss and it's super spammy
+			if (not self:IsTrivial() or self:IsRemix()) and self:AntiSpam(3, 4) then--Throttle on remix or trivial. remix players are zerging boss and it's super spammy
 				specWarnMeasures:Show(bossName)
 				specWarnMeasures:Play("specialsoon")
 			end
 			self.vb["warned"..cId] = 1
 		elseif hp < 0.37 and self.vb["warned"..cId] == 1 then
 			local bossName = UnitName(uId)
-			if (self:IsTrivial() or self:IsRemix()) and self:AntiSpam(3, 4) then--Throttle on remix or trivial. remix players are zerging boss and it's super spammy
+			if (not self:IsTrivial() or self:IsRemix()) and self:AntiSpam(3, 4) then--Throttle on remix or trivial. remix players are zerging boss and it's super spammy
 				specWarnMeasures:Show(bossName)
 				specWarnMeasures:Play("specialsoon")
 			end

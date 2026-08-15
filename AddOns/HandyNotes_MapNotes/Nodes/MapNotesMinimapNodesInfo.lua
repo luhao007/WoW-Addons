@@ -861,6 +861,8 @@ minimap[2536] = { } -- Atal'Aman
 minimap[2393] = { } -- Silvermoon
 minimap[2444] = { } -- Schlächteranhöhe
 minimap[2576] = { } -- Rootlands
+minimap[2529] = { } -- Die Leerenspitze
+minimap[2512] = { } -- Gewundene Isle
 -- Dungeon map nodes
 minimap[2515] = { } -- Terrasse der Magister
 minimap[2492] = { } -- Windläuferturm
@@ -871,7 +873,9 @@ minimap[2574] = { } -- Arena der Leerennarbe
 minimap[2500] = { } -- Das blendende Tal
 minimap[2531] = { } -- Der Traumriss
 minimap[2533] = { } -- Marsch auf Quel'Danas      
-minimap[2529] = { } -- Die Leerenspitze
+minimap[2509] = { } -- Chambers of Atal'Utek
+minimap[2588] = { } -- Altar der Fänge
+minimap[2606] = { } -- Der Giftige Abgrund
 -- Delves map nodes
 minimap[2505] = { } -- Kluft der Erinnerung - Inside Delves Map
 minimap[2577] = { } -- Die Mördergasse - Inside Delves Map
@@ -883,5 +887,7 @@ minimap[2525] = { } -- Der Düsterweg - Inside Delves Map
 minimap[2547] = { } -- Akademischer Aufruhr - Inside Delves Map
 minimap[2502] = { } -- Die Schattenenklave - Inside Delves Map
 minimap[2503] = { } -- Gruften der Zwielichtklinge - Inside Delves Map
-minimap[2535] = { } -- Zul'Aman - Inside Delves Map   
+minimap[2535] = { } -- Zul'Aman - Inside Delves Map  
+minimap[2633] = { } -- The Ring of Glory -  Inside Delve Map
+minimap[2635] = { } -- Gnarldor Isle -  Inside Delve Map 
 end

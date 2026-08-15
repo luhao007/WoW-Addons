@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1856, "DBM-Raids-Legion", 2, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260525233100")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(116407)
 mod:SetEncounterID(2036)
@@ -44,24 +44,24 @@ local warnDrivenAssault				= mod:NewTargetAnnounce(234016, 3, nil, false)--Spamm
 local warnSicklyFixate				= mod:NewTargetAnnounce(241600, 4)
 
 --Harjatan
-local specWarnJaggedAbrasion		= mod:NewSpecialWarningStack(231998, nil, 4, nil, nil, 1, 6)
-local specWarnJaggedAbrasionOther	= mod:NewSpecialWarningTaunt(231998, nil, nil, nil, 1, 2)
-local specWarnUncheckedRage			= mod:NewSpecialWarningCount(231854, nil, nil, nil, 2, 2)
-local specWarnDrenchingWaters		= mod:NewSpecialWarningMove(231768, nil, nil, nil, 1, 2)
-local specWarnCommandingroar		= mod:NewSpecialWarningSwitch(232192, "-Healer", nil, nil, 1, 2)
-local specWarnDrawIn				= mod:NewSpecialWarningSpell(232061, nil, nil, nil, 1, 2)
-local specWarnFrostyDischarge		= mod:NewSpecialWarningSpell(232174, nil, nil, nil, 1, 2)
+local specWarnJaggedAbrasion		= mod:NewSpecialWarningStack(231998, nil, 4, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnJaggedAbrasionOther	= mod:NewSpecialWarningTaunt(231998, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnUncheckedRage			= mod:NewSpecialWarningCount(231854, nil, nil, nil, 2, 2, nil, nil, "gathershare")
+local specWarnDrenchingWaters		= mod:NewSpecialWarningMove(231768, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnCommandingroar		= mod:NewSpecialWarningSwitch(232192, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnDrawIn				= mod:NewSpecialWarningSpell(232061, nil, nil, nil, 1, 2, nil, nil, "phasechange")
+local specWarnFrostyDischarge		= mod:NewSpecialWarningSpell(232174, nil, nil, nil, 1, 2, nil, nil, "phasechange")
 --Razorjaw Wavemender
-local specWarnAqueousBurst			= mod:NewSpecialWarningMoveAway(231729, nil, nil, nil, 1, 2)
+local specWarnAqueousBurst			= mod:NewSpecialWarningMoveAway(231729, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellAqueousBurst				= mod:NewShortYell(231729)
-local specWarnTendWounds			= mod:NewSpecialWarningInterrupt(231904, "HasInterrupt")
-local specWarnTendWoundsDispel		= mod:NewSpecialWarningDispel(231904, "MagicDispeller")
+local specWarnTendWounds			= mod:NewSpecialWarningInterrupt(231904, "HasInterrupt", nil, nil, nil, nil, nil, nil, "kickcast")
+local specWarnTendWoundsDispel		= mod:NewSpecialWarningDispel(231904, "MagicDispeller", nil, nil, nil, nil, nil, nil, "dispelnow")
 --Razorjaw Gladiator
-local specWarnDrivenAssault			= mod:NewSpecialWarningRun(234016, nil, nil, 2, 4, 2)
+local specWarnDrivenAssault			= mod:NewSpecialWarningRun(234016, nil, nil, 2, 4, 2, nil, nil, "justrun")
 --Mythic (Eggs and tadpoles)
-local specWarnHatching				= mod:NewSpecialWarningSwitch(240319, nil, nil, 2, 1, 2)
-local specWarnSicklyFixate			= mod:NewSpecialWarningRun(241600, nil, nil, 2, 4, 2)
-local specWarnTantrum				= mod:NewSpecialWarningSpell(241590, nil, nil, nil, 2, 2)
+local specWarnHatching				= mod:NewSpecialWarningSwitch(240319, nil, nil, 2, 1, 2, nil, nil, "killmob")
+local specWarnSicklyFixate			= mod:NewSpecialWarningRun(241600, nil, nil, 2, 4, 2, nil, nil, "justrun")
+local specWarnTantrum				= mod:NewSpecialWarningSpell(241590, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 
 --Harjatan
 mod:AddTimerLine(BOSS)
@@ -84,7 +84,7 @@ local berserkTimer					= mod:NewBerserkTimer(360)
 --mod:AddInfoFrameOption(227503, true)
 mod:AddNamePlateOption("NPAuraOnSicklyFixate", 241600)
 mod:AddNamePlateOption("NPAuraOnDrivenAssault", 234016)
-mod:AddSetIconOption("SetIconOnWavemender", "ej14555", true, 5)
+mod:AddSetIconOption("SetIconOnWavemender", -14555, true, 5)
 
 mod.vb.rageCount = 0
 local seenMobs = {}

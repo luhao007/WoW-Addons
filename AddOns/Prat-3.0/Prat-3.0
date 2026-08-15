@@ -25,7 +25,7 @@
 ## Category-ruRU: Чат
 ## Category-zhCN: 聊天
 ## Category-zhTW: 對話
-## Version: 3.9.100
+## Version: 3.9.104
 ## Author: Sylvanaar (Sylvaann - Proudmoore/US-Alliance)
 ## eMail: sylvanaar@mindspring.com
 
@@ -46,6 +46,7 @@
 
 Libs.xml
 
+locales\includes.xml
 fonts\includes.xml
 addon\includes.xml
 services\includes.xml

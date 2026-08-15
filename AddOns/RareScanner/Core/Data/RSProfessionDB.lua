@@ -10,21 +10,33 @@ local RSProfessionDB = private.NewLib("RareScannerProfessionDB")
 -- Professions
 ---============================================================================
 
+local function HasProffesion(index, prof)
+	if (index and prof) then
+		local _, _, _, _, _, _, skillLine, _, _, _ = GetProfessionInfo(index)
+		return skillLine and skillLine == prof
+	end
+	
+	return false
+end
+
 function RSProfessionDB.HasPlayerProfession(prof)
-	local pindex1, pindex2, _, _, _, _ = GetProfessions();
-	local matches
-	if (pindex1) then
-		local _, _, _, _, _, _, skillLine, _, _, _ = GetProfessionInfo(pindex1)
-		matches = skillLine and skillLine == prof
+	local pindex1, pindex2, pindex3, pindex4, pindex5, _ = GetProfessions();
+
+	if (HasProffesion(pindex1, prof)) then
+		return true
 	end
-	if (not matches and pindex2) then
-		local _, _, _, _, _, _, skillLine, _, _, _ = GetProfessionInfo(pindex2)
-		matches = skillLine and skillLine == prof
+	if (HasProffesion(pindex2, prof)) then
+		return true
+	end
+	if (HasProffesion(pindex3, prof)) then
+		return true
+	end
+	if (HasProffesion(pindex4, prof)) then
+		return true
+	end
+	if (HasProffesion(pindex5, prof)) then
+		return true
 	end
 	
-	if (not matches) then
-		return false
-	end
-	
-	return true
+	return false
 end

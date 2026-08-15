@@ -1,4 +1,3 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Include file='LibAsync\LibAsync.xml'/>
-  <Script file = 'WagoAnalytics\Shim.lua'/>
 </Ui>

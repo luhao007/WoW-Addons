@@ -2,7 +2,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("MoltenCore", "DBM-Raids-Vanilla", 6)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260709012018")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(227939)
 mod:SetEncounterID(3018)
@@ -51,7 +51,7 @@ local warnBossPower		= mod:NewAnnounce("WarnBossPower", 2, 29166)
 -- only have limited data, but might be on a 35 second cooldown and happen first at about 20 second after pull
 local timerHearts		= mod:NewCDTimer(35, 460898)
 local warnHearts		= mod:NewTargetNoFilterAnnounce(460898, 4)
-local specWarnHeart		= mod:NewSpecialWarningMoveTo(460898, nil, nil, nil, 3, 2)
+local specWarnHeart		= mod:NewSpecialWarningMoveTo(460898, nil, nil, nil, 3, 2, nil, nil, "bombyou")
 local yellHeart			= mod:NewIconTargetYell(460898, nil, nil, nil, "YELL")
 local yellHeartCleared	= mod:NewYell(460898, DBM_COMMON_L.CLEAR, true, "YellHeartCleared", "YELL")
 
@@ -78,7 +78,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(460890) then
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		local amount = args.amount or 1
 		if self:IsTanking(uId, nil, nil, false, args.sourceGUID) and amount >= 5 and amount % 2 == 0 then
 			warnMeltArmor:Show(args.destName, amount)

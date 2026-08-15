@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2468, "DBM-Shadowlands", nil, 1192)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523021934")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(182466)
 mod:SetEncounterID(2550)
@@ -27,12 +27,12 @@ mod:RegisterEventsInCombat(
 local warnBanishmentMark				= mod:NewTargetNoFilterAnnounce(361632, 2)
 local warnDarkDeterrence				= mod:NewStackAnnounce(361390, 2, nil, "Tank|Healer")
 
-local specWarnFuriousSlam				= mod:NewSpecialWarningDodge(361209, nil, nil, nil, 2, 2)
-local specWarnDestructionCores			= mod:NewSpecialWarningDodge(361341, nil, nil, nil, 2, 2)
-local specWarnBanishmentMark			= mod:NewSpecialWarningMoveAway(361632, nil, nil, nil, 1, 2)
-local specWarnDarkDeterrence			= mod:NewSpecialWarningStack(361390, nil, 3, nil, nil, 1, 6)
-local specWarnDarkDeterrenceTaunt		= mod:NewSpecialWarningTaunt(361390, nil, nil, nil, 1, 2)
-local specWarnGTFO						= mod:NewSpecialWarningGTFO(361335, nil, nil, nil, 1, 8)
+local specWarnFuriousSlam				= mod:NewSpecialWarningDodge(361209, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnDestructionCores			= mod:NewSpecialWarningDodge(361341, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBanishmentMark			= mod:NewSpecialWarningMoveAway(361632, nil, nil, nil, 1, 2, nil, nil, "range5")
+local specWarnDarkDeterrence			= mod:NewSpecialWarningStack(361390, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnDarkDeterrenceTaunt		= mod:NewSpecialWarningTaunt(361390, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnGTFO						= mod:NewSpecialWarningGTFO(361335, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerFuriousSlamCD				= mod:NewCDTimer(74.7, 361209, nil, nil, nil, 3)
 local timerDestructionCoresCD			= mod:NewCDTimer(35.5, 361341, nil, nil, nil, 3)

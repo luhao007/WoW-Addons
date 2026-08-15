@@ -56,13 +56,18 @@ do -- UIDropDownMenu custom menu button tooltips via info.tooltipOnButton
 	end
 	hooksecurefunc("UIDropDownMenuButton_OnEnter", DropDownMenuButton_OnEnter)
 	hooksecurefunc("UIDropDownMenuButton_OnLeave", DropDownMenuButton_OnLeave)
-	for i=1,UIDROPDOWNMENU_MAXLEVELS do
-		for j=1,UIDROPDOWNMENU_MAXBUTTONS do
-			local b = _G["DropDownList" .. i .. "Button" .. j]
-			b:HookScript("OnEnter", DropDownMenuButton_OnEnter)
-			b:HookScript("OnLeave", DropDownMenuButton_OnLeave)
+	local HOOK_LEVEL, HOOK_BTN = 0, 0
+	local function applyButtonHooks()
+		for i=1 + (HOOK_BTN < UIDROPDOWNMENU_MAXBUTTONS and 0 or HOOK_LEVEL), UIDROPDOWNMENU_MAXLEVELS do
+			for j=(HOOK_LEVEL < i and 0 or HOOK_BTN) + 1, UIDROPDOWNMENU_MAXBUTTONS do
+				local b = _G["DropDownList" .. i .. "Button" .. j]
+				b:HookScript("OnEnter", DropDownMenuButton_OnEnter)
+				b:HookScript("OnLeave", DropDownMenuButton_OnLeave)
+			end
 		end
+		HOOK_LEVEL, HOOK_BTN = UIDROPDOWNMENU_MAXLEVELS, UIDROPDOWNMENU_MAXBUTTONS
 	end
+	hooksecurefunc("UIDropDownMenu_Initialize", applyButtonHooks)
 end
 
 local CreateLazyItemButton do
@@ -158,25 +163,6 @@ do -- SetModifierSensitiveTooltip
 			end
 		end
 	end
-end
-
-local function EasyMenu_Initialize(_, level, menuList)
-	for i=1, #menuList do
-		local value = menuList[i]
-		if value.text then
-			value.index = i
-			UIDropDownMenu_AddButton(value, level)
-		elseif value.separator then
-			UIDropDownMenu_AddSeparator(level)
-		end
-	end
-end
-function T.EasyMenu(menuList, menuFrame, anchor, x, y, displayMode, autoHideDelay)
-	if displayMode == "MENU" then
-		menuFrame.displayMode = displayMode
-	end
-	UIDropDownMenu_Initialize(menuFrame, EasyMenu_Initialize, displayMode, nil, menuList)
-	ToggleDropDownMenu(1, nil, menuFrame, anchor, x, y, menuList, nil, autoHideDelay)
 end
 
 if ShoppingTooltip1TextLeft3 then -- TODO[11.2.7]: does not spawn until used

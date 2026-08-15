@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Kazzak", "DBM-Outlands")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(18728)
 mod:SetModelID(17887)
@@ -19,8 +19,8 @@ local warningFrenzy		= mod:NewSpellAnnounce(32964, 3)
 local warningMark		= mod:NewTargetNoFilterAnnounce(32960, 4)
 local warningTwisted	= mod:NewTargetAnnounce(21063, 4)
 
-local specWarnMark		= mod:NewSpecialWarningYou(32960, nil, nil, nil, 1, 2)
-local specWarnTwisted	= mod:NewSpecialWarningDispel(21063, "RemoveMagic", nil, 2, 1, 2)
+local specWarnMark		= mod:NewSpecialWarningYou(32960, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnTwisted	= mod:NewSpecialWarningDispel(21063, "RemoveMagic", nil, 2, 1, 2, nil, nil, "dispelnow")
 
 local timerFrenzy		= mod:NewBuffActiveTimer(10, 32964)
 local timerFrenzyCD		= mod:NewCDTimer(60, 32964, nil, nil, nil, 3)

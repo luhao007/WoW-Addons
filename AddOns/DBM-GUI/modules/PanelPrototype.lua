@@ -9,10 +9,10 @@ local CL	= DBM_COMMON_L
 ---@class DBMGUI
 local DBM_GUI = DBM_GUI
 
-local setmetatable, select, type, tonumber, strsplit, mmax, tinsert = setmetatable, select, type, tonumber, strsplit, math.max, table.insert
+local setmetatable, select, type, tonumber, strsplit, mfloor, mmax, mmin, tinsert = setmetatable, select, type, tonumber, strsplit, math.floor, math.max, math.min, table.insert
 local CreateFrame, GetCursorPosition, UIParent, GameTooltip, NORMAL_FONT_COLOR, GameFontNormal = CreateFrame, GetCursorPosition, UIParent, GameTooltip, NORMAL_FONT_COLOR, GameFontNormal
 local DBM = DBM
-local CreateTextureMarkup, ColorPickerFrame = CreateTextureMarkup, ColorPickerFrame
+local CreateTextureMarkup, ColorPickerFrame, PlaySound = CreateTextureMarkup, ColorPickerFrame, PlaySound
 
 local GetSpellDescription = C_Spell.GetSpellDescription
 
@@ -66,12 +66,35 @@ setmetatable(PanelPrototype, {
 	__index = DBM_GUI
 })
 
+local abilityTestContextByFrame = setmetatable({}, { __mode = "k" })
+
+function DBM_GUI:CollapseForPreview(duration)
+	local optionsFrame = _G["DBM_GUI_OptionsFrame"]
+	if not duration or duration <= 0 or not optionsFrame or not optionsFrame:IsShown() or not optionsFrame.SetCollapsed then
+		return
+	end
+	optionsFrame:SetCollapsed(true)
+	if optionsFrame.ScheduleAutoUncollapse then
+		optionsFrame:ScheduleAutoUncollapse(duration)
+	end
+end
+
 function PanelPrototype:GetLastObj()
 	return self.lastobject
 end
 
 function PanelPrototype:SetLastObj(obj)
 	self.lastobject = obj
+end
+
+function PanelPrototype:SetAbilityTestContext(mod, spellKey, renameSpellId)
+	if self and self.frame then
+		abilityTestContextByFrame[self.frame] = {
+			mod = mod,
+			spellKey = spellKey,
+			renameSpellId = renameSpellId
+		}
+	end
 end
 
 function PanelPrototype:CreateCreatureModelFrame(width, height, creatureid, scale)
@@ -220,7 +243,6 @@ function PanelPrototype:CreateColorSelect(title, CallbackFn, ResetFn)
 		colorSelect.g = g
 		colorSelect.b = b
 		swatch:SetVertexColor(r, g, b)
-		text:SetTextColor(r, g, b)
 		if save then
 			CallbackFn(colorSelect, r, g, b)
 		end
@@ -234,7 +256,6 @@ function PanelPrototype:CreateColorSelect(title, CallbackFn, ResetFn)
 		end
 		self:SetColorRGB(r, g, b)
 		CallbackFn(self, r, g, b)
-		text:SetTextColor(r, g, b)
 	end
 	colorSelect:SetScript("OnClick", function(self)
 		local r1, g1, b1 = self.r, self.g, self.b
@@ -256,54 +277,178 @@ function PanelPrototype:CreateColorSelect(title, CallbackFn, ResetFn)
 		})
 	end)
 
-	--[[
-	---@class DBMPanelColorSelect: ColorSelect
-	---@field myheight number
-	local colorSelect = CreateFrame("ColorSelect", "DBM_GUI_Option_" .. self:GetNewID(), self.frame)
-	colorSelect.mytype = "colorselect"
-	colorSelect:SetSize((dimension or 128) + (useAlpha and 38 or 0), dimension or 128)
-	local colorWheel = colorSelect:CreateTexture()
-	colorWheel:SetSize(dimension or 128, dimension or 128)
-	colorWheel:SetPoint("TOPLEFT", colorSelect, "TOPLEFT", 5, 0)
-	colorSelect:SetColorWheelTexture(colorWheel)
-	local colorTexture = colorSelect:CreateTexture()
-	colorTexture:SetTexture(130756) -- "Interface\\Buttons\\UI-ColorPicker-Buttons"
-	colorTexture:SetSize(10, 10)
-	colorTexture:SetTexCoord(0, 0.15625, 0, 0.625)
-	colorSelect:SetColorWheelThumbTexture(colorTexture)
-	if useAlpha then
-		local colorValue = colorSelect:CreateTexture()
-		colorValue:SetWidth(alphaWidth or 32)
-		colorValue:SetHeight(dimension or 128)
-		colorValue:SetPoint("LEFT", colorWheel, "RIGHT", 10, -3)
-		colorSelect:SetColorValueTexture(colorValue)
-		local colorTexture2 = colorSelect:CreateTexture()
-		colorTexture2:SetTexture(130756) -- "Interface\\Buttons\\UI-ColorPicker-Buttons"
-		colorTexture2:SetSize(alphaWidth / 32 * 48, alphaWidth / 32 * 14)
-		colorTexture2:SetTexCoord(0.25, 1, 0.875, 0)
-		colorSelect:SetColorValueThumbTexture(colorTexture2)
-	end
-	--]]
 	self:SetLastObj(colorSelect)
 	return colorSelect
 end
 
-function PanelPrototype:CreateSlider(text, low, high, step, width)
-	---@class DBMPanelSlider: Slider
-	local slider = CreateFrame("Slider", "DBM_GUI_Option_" .. self:GetNewID(), self.frame, "DBMPolyfill_OptionsSliderTemplate")
+function PanelPrototype:CreateSlider(text, low, high, step, width, value, callbackFn)
+	value = value or 0
+
+	local function UpdateSliderText(self)
+		self.editbox:SetText(mfloor((self.value or 0) * 100 + 0.5) / 100)
+	end
+
+	---@class DBMPanelSlider: Slider, BackdropTemplate
+	local slider = CreateFrame("Slider", "DBM_GUI_Option_" .. self:GetNewID(), self.frame, "BackdropTemplate")
 	slider.mytype = "slider"
-	slider.myheight = 50
+	slider.myheight = 60
+	slider:SetOrientation("HORIZONTAL")
+	slider:SetHeight(15)
+	slider:SetWidth(width or 180)
+	slider:SetHitRectInsets(0, 0, -10, 0)
+	slider:SetBackdrop({
+		bgFile = "Interface\\Buttons\\UI-SliderBar-Background",
+		edgeFile = "Interface\\Buttons\\UI-SliderBar-Border",
+		tile = true,
+		tileSize = 8,
+		edgeSize = 8,
+		insets = { left = 3, right = 3, top = 6, bottom = 6 }
+	})
+	slider:SetThumbTexture("Interface\\Buttons\\UI-SliderBar-Button-Horizontal")
 	slider:SetMinMaxValues(low, high)
 	slider:SetValueStep(step)
-	slider:SetWidth(width or 180)
-	local sliderText = _G[slider:GetName() .. "Text"]
-	sliderText:SetText(parseDescription(text, true))
-	slider:SetScript("OnValueChanged", function(_, value)
-		sliderText:SetFormattedText(text, value)
+	slider:SetScript("OnValueChanged", function(self, newValue)
+		if not self.isSetup then
+			return
+		end
+
+		if step and step > 0 then
+			newValue = mfloor((newValue - low) / step + 0.5) * step + low
+		end
+		newValue = mmin(mmax(newValue, low), high)
+		if newValue ~= self.value then
+			self.value = newValue
+			self:SetValue(newValue)
+			callbackFn(newValue)
+		end
+		if self.value then
+			UpdateSliderText(self)
+		end
 	end)
+
+	local sliderText = slider:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+	sliderText:SetPoint("BOTTOM", slider, "TOP")
+	sliderText:SetText(parseDescription(text, true))
 	slider.textFrame = sliderText
+
+	local lowText = slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	lowText:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", 2, 3)
+	lowText:SetText(low)
+
+	local highText = slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	highText:SetPoint("TOPRIGHT", slider, "BOTTOMRIGHT", -2, 3)
+	highText:SetText(high)
+
+	local editbox = CreateFrame("EditBox", nil, slider, "InputBoxVisualTemplate")
+	editbox:SetAutoFocus(false)
+	editbox:SetJustifyH("CENTER")
+	editbox:SetPoint("TOP", slider, "BOTTOM", 0, -1)
+	editbox:SetHeight(14)
+	editbox:SetWidth(40)
+	editbox:SetTextInsets(0, 3, 0, 0)
+	editbox:SetScript("OnEscapePressed", function(self)
+		self:ClearFocus()
+	end)
+	editbox:SetScript("OnEnterPressed", function(self)
+		local value = tonumber(self:GetText())
+		if value then
+			slider:SetValue(value)
+			self:ClearFocus()
+		end
+	end)
+	slider.editbox = editbox
+
+	slider:SetValue(value)
+	slider.value = value
+	UpdateSliderText(slider)
+	slider.isSetup = true
+
 	self:SetLastObj(slider)
 	return slider
+end
+
+function PanelPrototype:CreateFontDropdown(title, vartype, var, CallbackFn, width, height, parent, overrideText)
+	local fontFlags = {
+		{ text = L.Outline, value = "OUTLINE", flag = true },
+		{ text = L.ThickOutline, value = "THICKOUTLINE", flag = true },
+		{ text = L.Monochrome, value = "MONOCHROME", flag = true },
+		{ text = L.Slug, value = "SLUG", flag = true },
+	}
+	local function GetOptions()
+		if vartype == "DBM" then
+			return DBM.Options[var]
+		elseif vartype == "DBT" then
+			return DBT.Options[var]
+		elseif type(vartype) == "table" and vartype.Options then
+			return vartype.Options[var]
+		end
+	end
+	local function GetSelectedFlags()
+		local selected = {}
+		local currentValue = GetOptions()
+		if type(currentValue) ~= "string" or DBM:IsNoneValue(currentValue) then
+			return selected
+		end
+		for flag in currentValue:gmatch("[^,]+") do
+			selected[flag] = true
+		end
+		return selected
+	end
+	local function SerializeSelectedFlags(selected)
+		local flags = {}
+		if selected.MONOCHROME then
+			tinsert(flags, "MONOCHROME")
+		end
+		if selected.OUTLINE then
+			tinsert(flags, "OUTLINE")
+		elseif selected.THICKOUTLINE then
+			tinsert(flags, "THICKOUTLINE")
+		end
+		if selected.SLUG then
+			tinsert(flags, "SLUG")
+		end
+		return #flags > 0 and table.concat(flags, ",") or "None"
+	end
+	local function GetDisplayText()
+		local selected = GetSelectedFlags()
+		local labels = {}
+		for _, flag in ipairs(fontFlags) do
+			if selected[flag.value] then
+				tinsert(labels, flag.text)
+			end
+		end
+		return #labels > 0 and table.concat(labels, ", ") or L.None
+	end
+	local dropdown
+	local function UpdateDisplayText()
+		local displayText = GetDisplayText()
+		dropdown.text = displayText
+		if dropdown.OverrideText then
+			dropdown:OverrideText(displayText)
+		end
+	end
+	dropdown = self:CreateDropdown(title, fontFlags, nil, nil, function(value)
+		local selected = GetSelectedFlags()
+		selected[value] = not selected[value]
+		if value == "OUTLINE" and selected.OUTLINE then
+			selected.THICKOUTLINE = nil
+		elseif value == "THICKOUTLINE" and selected.THICKOUTLINE then
+			selected.OUTLINE = nil
+		end
+		local newValue = SerializeSelectedFlags(selected)
+		if CallbackFn then
+			CallbackFn(newValue)
+		end
+		UpdateDisplayText()
+	end, width, height, parent, overrideText, "checkbox")
+	dropdown:IsSelectedCallback(function(_, v)
+		return GetSelectedFlags()[v.value] or false
+	end)
+	dropdown:SetScript("OnShow", UpdateDisplayText)
+	---@diagnostic disable-next-line: undefined-field
+	dropdown:GenerateMenu()
+	UpdateDisplayText()
+	return dropdown
 end
 
 function PanelPrototype:CreateScrollingMessageFrame(width, height, _, fading, fontobject)
@@ -334,7 +479,7 @@ function PanelPrototype:CreateEditBox(text, value, width, height)
 	---@field myheight number
 	local textbox = CreateFrame("EditBox", "DBM_GUI_Option_" .. self:GetNewID(), self.frame, "BackdropTemplate,InputBoxTemplate")
 	textbox.mytype = "textbox"
-	textbox:SetSize(width or 100, height or 20)
+	textbox:SetSize(width or 60, height or 20)
 	textbox:SetAutoFocus(false)
 	textbox:SetScript("OnEscapePressed", function(self)
 		self:ClearFocus()
@@ -507,7 +652,7 @@ do
 						end
 						mod.Options[modvar .. "SWSound"] = value
 						if optionId then
-							mod:RefreshPrivateAuraSound(optionId)
+							mod:RefreshAuraSound(optionId)
 						end
 						DBM:PlaySpecialWarningSound(value, true)
 						return
@@ -653,13 +798,128 @@ function PanelPrototype:CreateArea(name)
 end
 
 local function handleWAKeyHyperlink(_, link)
-	local _, linkType, arg1, arg2 = strsplit(":", link)
-	if linkType == "DBM" and arg1 == "wacopy" then
-		DBM:ShowUpdateReminder(nil, nil, DBM_CORE_L.COPY_WA_DIALOG, arg2)
+	local linkType, arg1, arg2, arg3 = strsplit(":", link)
+	if linkType == "addon" and arg1 == "DBM" and arg2 == "wacopy" then
+		DBM:ShowUpdateReminder(nil, nil, DBM_CORE_L.COPY_WA_DIALOG, arg3)
 	end
 end
 
-function PanelPrototype:CreateAbility(titleText, icon, spellID, isPrivate)
+local function refreshCurrentViewingPanel()
+	local optionsFrame = _G["DBM_GUI_OptionsFrame"]
+	if DBM_GUI and DBM_GUI.currentViewing and optionsFrame and optionsFrame:IsShown() then
+		optionsFrame:DisplayFrame(DBM_GUI.currentViewing)
+	end
+end
+
+local function spellKeyMatchesObject(spellKey, objectSpellId)
+	if spellKey == nil or objectSpellId == nil then
+		return false
+	end
+	if spellKey == objectSpellId then
+		return true
+	end
+	if type(spellKey) == "string" then
+		local numericKey = tonumber(spellKey)
+		if numericKey and numericKey == objectSpellId then
+			return true
+		end
+		local ejId = tonumber(spellKey:match("^ej(%d+)$"))
+		if ejId and objectSpellId == -ejId then
+			return true
+		end
+		local atId = tonumber(spellKey:match("^at(%d+)$"))
+		if atId and objectSpellId == atId then
+			return true
+		end
+	elseif type(spellKey) == "number" and type(objectSpellId) == "string" then
+		local numericObjectSpell = tonumber(objectSpellId)
+		if numericObjectSpell and spellKey == numericObjectSpell then
+			return true
+		end
+	end
+	return false
+end
+
+local function getObjectSpellId(object)
+	if type(object) == "table" then
+		return object.spellId
+	end
+	return nil
+end
+
+local function findFirstTimerAndAnnounceForSpellKey(mod, spellKey, fallbackSpellKey)
+	if not mod or (spellKey == nil and fallbackSpellKey == nil) then
+		return nil, nil
+	end
+	local function matches(objectSpellId)
+		if spellKeyMatchesObject(spellKey, objectSpellId) then
+			return true
+		end
+		if fallbackSpellKey ~= nil and fallbackSpellKey ~= spellKey and spellKeyMatchesObject(fallbackSpellKey, objectSpellId) then
+			return true
+		end
+		return false
+	end
+	local timerObject
+	local timerList = mod.timers
+	if type(timerList) == "table" then
+		for _, object in ipairs(timerList) do
+			if matches(getObjectSpellId(object)) then
+				timerObject = object
+				break
+			end
+		end
+	end
+	local announceObject
+	local specAnnounceList = mod.specwarns
+	if type(specAnnounceList) == "table" then
+		for _, object in ipairs(specAnnounceList) do
+			if matches(getObjectSpellId(object)) then
+				if object.announceType ~= "blizztarget" and object.announceType ~= "blizzyou" then
+					announceObject = object
+					break
+				end
+			end
+		end
+	end
+	if not announceObject then--Didn't find preferred special announce, try to find regular one
+		local announceList = mod.announces
+		if type(announceList) == "table" then
+			for _, object in ipairs(announceList) do
+				if matches(getObjectSpellId(object)) then
+					announceObject = object
+					break
+				end
+			end
+		end
+	end
+	return timerObject, announceObject
+end
+
+local function triggerAbilityTestTimer(object)
+	if object and object.Start then
+		object:Start(5, 1)--short 5 second timer with a 1 count
+		return true
+	end
+	return false
+end
+
+local function triggerAbilityTestAnnounce(object)
+	if object and object.Show then
+		if object.announceType == "gtfo" then
+			object:Show()
+		else
+			object:Show(1)
+		end
+		if object.voiceFile and object.Play then
+			object:Play(object.voiceFile)
+		end
+		return true
+	end
+	return false
+end
+
+function PanelPrototype:CreateAbility(titleText, icon, spellID, isPrivate, renameSpellId, mod, runtimeSpellKey)
 	---@class DBMPanelAbility: Frame, BackdropTemplate
 	local area = CreateFrame("Frame", "DBM_GUI_Option_" .. self:GetNewID(), self.frame, "TooltipBorderBackdropTemplate")
 	area.mytype = "ability"
@@ -676,28 +936,149 @@ function PanelPrototype:CreateAbility(titleText, icon, spellID, isPrivate)
 	area:SetPoint("RIGHT", self.frame)
 	local title = area:CreateFontString("$parentTitle", "BACKGROUND", "GameFontHighlightSmall")
 	local key = ""
-	if DBM.Options.ShowWAKeys and spellID and not DBM:IsPostMidnight() then
+	if DBM.Options.ShowWAKeys and spellID then
 		key = DBM_CORE_L.WEAKAURA_KEY:format(spellID)
 	end
-	if icon then
-		local markup = CreateTextureMarkup(icon, 0, 0, 16, 16, 0, 0, 0, 0, 0, 0)
-		if isPrivate then--Second icon for private aura
-			local markuptwo = CreateTextureMarkup(132320, 0, 0, 18, 18, 0, 0, 0, 0, 0, 0)
-			title:SetText(markup .. ' ' .. titleText .. key .. " " .. markuptwo)
+	-- Search/index contract (important for GUI cache correctness):
+	-- 1) Keep search payload STATIC: original title + static numeric key only.
+	-- 2) NEVER include rename text here (renames are user-defined, volatile, and reused).
+	-- 3) Rendered title may include rename suffix for display, but search/cache must not.
+	local searchText = titleText
+	if renameSpellId and renameSpellId > 5 then
+		searchText = searchText .. " " .. tostring(renameSpellId)
+	elseif spellID then
+		searchText = searchText .. " " .. tostring(spellID)
+	end
+	area.searchText = searchText
+	local function setAbilityTitle(text)
+		if icon then
+			local markup = CreateTextureMarkup(icon, 0, 0, 16, 16, 0, 0, 0, 0, 0, 0)
+			if isPrivate then--Second icon for auras
+				local markuptwo = CreateTextureMarkup(132320, 0, 0, 18, 18, 0, 0, 0, 0, 0, 0)
+				title:SetText(markup .. ' ' .. text .. key .. " " .. markuptwo)
+			else
+				title:SetText(markup .. ' ' .. text .. key)
+			end
 		else
-			title:SetText(markup .. ' ' .. titleText .. key)
-		end
-	else
-		if isPrivate then--Still add icon for private aura even if no spell icon
-			local markuptwo = CreateTextureMarkup(132320, 0, 0, 18, 18, 0, 0, 0, 0, 0, 0)
-			title:SetText(titleText .. key .. " " .. markuptwo)
-		else
-			title:SetText(titleText .. key)
+			if isPrivate then--Still add icon for auras even if no spell icon
+				local markuptwo = CreateTextureMarkup(132320, 0, 0, 18, 18, 0, 0, 0, 0, 0, 0)
+				title:SetText(text .. key .. " " .. markuptwo)
+			else
+				title:SetText(text .. key)
+			end
 		end
 	end
+	local function getRenameDefaultText()
+		if renameSpellId == 123456 then
+			return L.GTFOAbilityTitle
+		end
+		return DBM:GetSpellName(renameSpellId) or tostring(renameSpellId)
+	end
+	local function getRenameDisplaySuffix()
+		if not renameSpellId or renameSpellId <= 5 then
+			return ""
+		end
+		local defaultText = getRenameDefaultText()
+		local effectiveText = DBM:GetRename(renameSpellId, defaultText) or defaultText
+		if effectiveText == defaultText then
+			return ""
+		end
+		return (DBM_CORE_L.RENAME):format(effectiveText)
+	end
+	setAbilityTitle(titleText .. getRenameDisplaySuffix())
 	title:ClearAllPoints()
 	title:SetPoint("BOTTOMLEFT", area, "TOPLEFT", 20, 0)
 	title:SetFontObject(GameFontNormal)
+	local hasRenamableObjects = false
+	if mod and (runtimeSpellKey ~= nil or renameSpellId ~= nil) then
+		local timerObject, announceObject = findFirstTimerAndAnnounceForSpellKey(mod, runtimeSpellKey, renameSpellId)
+		if timerObject or announceObject then
+			hasRenamableObjects = true
+		end
+	end
+	if renameSpellId and renameSpellId > 5 and hasRenamableObjects then
+		local function autoSizeInlineButton(button, minWidth)
+			local buttonText = _G[button:GetName() .. "Text"] or button:GetFontString()
+			if not buttonText then
+				return
+			end
+			button:SetWidth(mmax(minWidth or 0, buttonText:GetStringWidth() + 20))
+		end
+
+		local renameButton = CreateFrame("Button", area:GetName() .. "Rename", area, "UIPanelButtonTemplate")
+		renameButton:SetSize(58, 18)
+		renameButton:SetText(L.RenameSpellButton or "Rename")
+		autoSizeInlineButton(renameButton, 58)
+		renameButton:SetPoint("LEFT", title, "RIGHT", 8, 0)
+
+		local resetButton = CreateFrame("Button", area:GetName() .. "RenameReset", area, "UIPanelButtonTemplate")
+		resetButton:SetSize(46, 18)
+		resetButton:SetText(L.Reset)
+		autoSizeInlineButton(resetButton, 46)
+		resetButton:SetPoint("LEFT", renameButton, "RIGHT", 4, 0)
+
+		local testButton = CreateFrame("Button", area:GetName() .. "SpellTest", area, "UIPanelButtonTemplate")
+		testButton:SetSize(42, 18)
+		testButton:SetText(L.Test or "Test")
+		autoSizeInlineButton(testButton, 42)
+		testButton:SetPoint("LEFT", resetButton, "RIGHT", 4, 0)
+
+		testButton:SetScript("OnClick", function()
+			DBM_GUI:CollapseForPreview(5)
+			local context = abilityTestContextByFrame[area]
+			local timerObject, announceObject = findFirstTimerAndAnnounceForSpellKey(context and context.mod, context and context.spellKey, context and context.renameSpellId)
+			local timerTriggered = triggerAbilityTestTimer(timerObject)
+			local announceTriggered = triggerAbilityTestAnnounce(announceObject)
+			if not timerTriggered and not announceTriggered then
+				DBM:AddMsg((L.Test or "Test") .. ": no timer/announce object found for spell key " .. tostring(context and context.spellKey))
+			end
+		end)
+
+		local function getRenameOverrideValue()
+			local spellRenames = DBM.Options and type(DBM.Options.SpellRenames) == "table" and DBM.Options.SpellRenames
+			if not spellRenames then
+				return nil
+			end
+			local overrideValue = spellRenames[renameSpellId]
+			if overrideValue == nil then
+				overrideValue = spellRenames[tostring(renameSpellId)]
+			end
+			return overrideValue
+		end
+
+		local function updateRenameUI()
+			setAbilityTitle(titleText .. getRenameDisplaySuffix())
+			local overrideValue = getRenameOverrideValue()
+			local hasOverride = overrideValue ~= nil
+			if hasOverride then
+				resetButton:Enable()
+			else
+				resetButton:Disable()
+			end
+		end
+
+		renameButton:SetScript("OnClick", function()
+			local defaultText = getRenameDefaultText()
+			local overrideValue = getRenameOverrideValue()
+			local explicitClear = overrideValue == ""
+			local currentText = explicitClear and "" or (DBM:GetRename(renameSpellId, defaultText) or "")
+			DBM:ShowTextEditor((L.RenameSpellHeader or "Set custom name for %s"):format(defaultText), currentText, function(text)
+				DBM:SetRename(renameSpellId, text)
+				updateRenameUI()
+				refreshCurrentViewingPanel()
+			end)
+		end)
+
+		resetButton:SetScript("OnClick", function()
+			DBM:SetRename(renameSpellId, nil)
+			updateRenameUI()
+			refreshCurrentViewingPanel()
+		end)
+		resetButton:SetScript("OnShow", function(self)
+			updateRenameUI()
+		end)
+		updateRenameUI()
+	end
 	-- Button
 	---@class DBMPanelAbilityButton: Button
 	---@field toggle Button
@@ -707,7 +1088,7 @@ function PanelPrototype:CreateAbility(titleText, icon, spellID, isPrivate)
 	button:SetPoint("LEFT", title, -15, 0)
 	button:Show()
 	button:SetSize(18, 18)
-	button:SetScript('OnClick', function () end)
+	button:SetScript('OnClick', function() end)
 	button.toggle:SetNormalTexture(area.hidden and 130838 or 130821) -- "Interface\\Buttons\\UI-PlusButton-UP", "Interface\\Buttons\\UI-MinusButton-UP"
 	button.toggle:SetPushedTexture(area.hidden and 130836 or 130820) -- "Interface\\Buttons\\UI-PlusButton-DOWN", "Interface\\Buttons\\UI-MinusButton-DOWN"
 	button.toggle:Show()
@@ -748,6 +1129,8 @@ function DBM_GUI:CreateNewPanel(frameName, frameType, showSub, displayName, forc
 		frameType = DBM_GUI.Enums.Tabs.CORE
 	elseif frameType == "RAID" then
 		frameType = DBM_GUI.Enums.Tabs.RAIDS
+	elseif frameType == "LAIR" then
+		frameType = DBM_GUI.Enums.Tabs.LAIRS
 	elseif frameType == "PARTY" then
 		frameType = DBM_GUI.Enums.Tabs.DUNGEONS
 	elseif frameType == "SCENARIO" then

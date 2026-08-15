@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1795, "DBM-BrokenIsles", 1, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260523021952")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(99929)
 mod:SetEncounterID(1951)
@@ -18,8 +18,8 @@ mod:RegisterEventsInCombat(
 local warnYaksam				= mod:NewCastAnnounce(223373, 3)
 local warnJetsam				= mod:NewTargetAnnounce(220295, 2)
 
-local specWarnGetsam			= mod:NewSpecialWarningDodge(220340, "Tank", nil, nil, 1, 2)
-local specWarnBreakSam			= mod:NewSpecialWarningSpell(223317, "Melee", nil, nil, 1, 2)
+local specWarnGetsam			= mod:NewSpecialWarningDodge(220340, "Tank", nil, nil, 1, 2, nil, nil, "shockwave")
+local specWarnBreakSam			= mod:NewSpecialWarningSpell(223317, "Melee", nil, nil, 1, 2, nil, nil, "carefly")
 
 local timerGetsamCD				= mod:NewCDTimer(53, 220340, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerYaksamCD				= mod:NewCDTimer(50, 223373, nil, nil, nil, 1)--50-55

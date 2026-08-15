@@ -5,7 +5,7 @@ if not mod:IsClassic() then--on classic, it's normal10,normal25, defined in toc,
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(32871)
 if mod:IsPostCata() then--Assumed fixed in classic
@@ -49,10 +49,10 @@ local announcePreBigBang		= mod:NewPreWarnAnnounce(64584, 5, 3)
 local announceBlackHole			= mod:NewSpellAnnounce(65108, 2)
 local announcePhasePunch		= mod:NewStackAnnounce(64412, 4, nil, "Tank|Healer")
 
-local specwarnStarLow			= mod:NewSpecialWarning("warnStarLow", "Tank|Healer", nil, nil, 1, 2)
-local specWarnPhasePunch		= mod:NewSpecialWarningStack(64412, nil, 4, nil, nil, 1, 6)
-local specWarnBigBang			= mod:NewSpecialWarningSpell(64584, nil, nil, nil, 3, 2)
-local specWarnCosmicSmash		= mod:NewSpecialWarningDodge(64596, nil, nil, nil, 2, 2)
+local specwarnStarLow			= mod:NewSpecialWarning("warnStarLow", "Tank|Healer", nil, nil, 1, 2, nil, nil, nil, nil, "aesoon")
+local specWarnPhasePunch		= mod:NewSpecialWarningStack(64412, nil, 4, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnBigBang			= mod:NewSpecialWarningSpell(64584, nil, nil, nil, 3, 2, nil, nil, "findshelter")
+local specWarnCosmicSmash		= mod:NewSpecialWarningDodge(64596, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 local timerCombatStart			= mod:NewCombatTimer(42)
 local timerNextBigBang			= mod:NewNextTimer(90.5, 64584, nil, nil, nil, 2)

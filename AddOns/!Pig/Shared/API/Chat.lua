@@ -1,13 +1,14 @@
 local addonName, PD = ...;
+local L =PD.locale
+local Fun = PD.Fun
+local PIGGetColorKey=Fun.PIGGetColorKey
+
 local gsub = _G.string.gsub
 local match = _G.string.match
 local sub = _G.string.sub
 local find = _G.string.find
-local L =PD.locale
-local Fun = PD.Fun
-local PIGGetColorKey=Fun.PIGGetColorKey
 ----
-local biaoqingData = {
+local EmojiData = {
 	{"{rt1}","INTERFACE/TARGETINGFRAME/UI-RAIDTARGETINGICON_1"}, {"{rt2}","INTERFACE/TARGETINGFRAME/UI-RAIDTARGETINGICON_2"}, 
 	{"{rt3}","INTERFACE/TARGETINGFRAME/UI-RAIDTARGETINGICON_3"}, {"{rt4}","INTERFACE/TARGETINGFRAME/UI-RAIDTARGETINGICON_4"}, 
 	{"{rt5}","INTERFACE/TARGETINGFRAME/UI-RAIDTARGETINGICON_5"}, {"{rt6}","INTERFACE/TARGETINGFRAME/UI-RAIDTARGETINGICON_6"}, 
@@ -38,133 +39,74 @@ local biaoqingData = {
 	{"{想}","Interface/AddOns/"..addonName.."/Media/Emojis/think.tga"},{"{偷笑}","Interface/AddOns/"..addonName.."/Media/Emojis/Titter.tga"},
 	{"{猥琐}","Interface/AddOns/"..addonName.."/Media/Emojis/ugly.tga"},{"{胜利}","Interface/AddOns/"..addonName.."/Media/Emojis/victory.tga"},
 	{"{雷锋}","Interface/AddOns/"..addonName.."/Media/Emojis/volunteer.tga"},{"{委屈}","Interface/AddOns/"..addonName.."/Media/Emojis/wronged.tga"},
-};
-Fun.biaoqingData=biaoqingData
-
---删除聊天link信息
-function Fun.del_link(newText)
-	local newText = newText or ""
-	local newText=newText:gsub("|"..PIGGetColorKey().."|Hitem:.-|h%[","");
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Henchant:.-|h%[","");
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Htrade:.-|h%[","");
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Hmount:.-|h%[","");--
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Hjournal:.-|h%[","");
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Hachievement:.-|h%[","");
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Hspell:.-|h%[","");
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Hquest:.-|h%[","");
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|HclubFinder:.-|h%[","");--加入公会
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|HclubTicket:.-|h%[","");--加入群组
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Htransmogillusion:.-|h%[","");--附魔外观
-	local newText=newText:gsub("|cff%w%w%w%w%w%w|Hworldmap:.-|h%[","");--附魔外观
-	--local newText=newText:gsub("|cff%w%w%w%w%w%w|Hquestie:(%d+):Player%-(%d+)%-(%w+)|h","");
-	local newText=newText:gsub("|A.-%]|h|r","");
-	local newText=newText:gsub("%]|h|r","");
-	return newText or ""
-end
-local function find_NOlink(paichuinfo,Text,key)
-	local oldstart = 0
-	for _ in Text:gmatch(key) do
-		local start, over = Text:find(key,oldstart+1);
-		if start and over then table.insert(paichuinfo,{start, over}) end
-		oldstart = start
-	end
-end
-function Fun.gsub_NOlink(newText)--替换Link之外信息
-	local newText = newText or ""
-	local paichuinfo = {}
-	find_NOlink(paichuinfo,newText,"(|"..PIGGetColorKey().."|Hitem:.-|h%[.-%]|h|r)")
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Henchant:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Htrade:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Hmount:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Hjournal:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Hachievement:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Hspell:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Hquest:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|HclubFinder:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|HclubTicket:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Htransmogillusion:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|Hworldmap:.-|h%[.-%]|h|r)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|T.-:%d|t)");
-	find_NOlink(paichuinfo,newText,"(|cff%w%w%w%w%w%w|T.-:%d|T)");
-	for i=1,#biaoqingData do
-		find_NOlink(paichuinfo,newText,biaoqingData[i][1]);
-	end
-	return paichuinfo
-end
-
-function Fun.Is_IndexContain(paichuinfo,start,over)--判断是否在编号内
-	local paichuinfo = paichuinfo or {}
-	for i=1,#paichuinfo do
-		if start>=paichuinfo[i][1] and over<=paichuinfo[i][2] then
-			return true
-		end
-	end
-	return false
-end
-
-local function TihuanBiaoqing(arg1)
-	for i=1,#biaoqingData do
-		if arg1:match(biaoqingData[i][1]) then
-			arg1 = arg1:gsub(biaoqingData[i][1], "|T"..biaoqingData[i][2]..":0|t");
-		end
+}
+local EmojiNum=#EmojiData
+Fun.EmojiData=EmojiData
+function Fun.ReplaceEmoji(arg1)
+	for i=1,EmojiNum do
+		arg1 = arg1:gsub(EmojiData[i][1], "|T"..EmojiData[i][2]..":0|t");
 	end
 	return arg1
 end
-Fun.TihuanBiaoqing=TihuanBiaoqing
+
 --
-local biaoqingList={}--表情字符
-for i=1,#biaoqingData do
-	local newvalueXxX = biaoqingData[i][2]:gsub("%-", "%%-");
-	table.insert(biaoqingList,newvalueXxX)
+local EmojiList={}--表情字符
+for i=1,EmojiNum do
+	local newvalueXxX = EmojiData[i][2]:gsub("%-", "%%-");
+	table.insert(EmojiList,newvalueXxX)
 end
-function Fun.del_biaoqing(newText)--删除表情
-	local newText = newText or ""
-	for i=1,#biaoqingData do
-		newText = newText:gsub(biaoqingData[i][1], "");
+local function del_Emoji(newText)--删除表情
+	if not newText then return "" end
+	for i=1,EmojiNum do
+		newText = newText:gsub(EmojiData[i][1], "");
 		if i<9 then
-			local daxieBQ=biaoqingData[i][1]:upper()--转换大写
-			newText = newText:gsub(daxieBQ, "");
+			newText = newText:gsub(EmojiData[i][1]:upper(), "");
 		end
-		newText = newText:gsub("|T"..biaoqingList[i]..":%d|t", "");
-		newText = newText:gsub("|T"..biaoqingList[i]..":%d|T", "");
 	end
-	return newText
+	return newText:gsub("|T.-|t", ""):gsub("|T.-|T", "") 
 end
-function Fun.del_biaodian(newText)--删除标点统一大小写
-	local newText = newText or ""
-	local newText=newText:gsub("`","");
-	--local newText=newText:gsub("%p","");--任何标点符号
-	local newText=newText:gsub("，","");
-	local newText=newText:gsub("。","");
-	local newText=newText:gsub("！","");
-	local newText=newText:gsub("：","");
-	local newText=newText:gsub("；","");
-	local newText=newText:gsub("“","");
-	local newText=newText:gsub("”","");
-	local newText=newText:gsub("‘","");
-	local newText=newText:gsub("’","");
-	local newText=newText:gsub("~","");
-	local newText=newText:gsub("%s","");
-	local newText=newText:upper()--转换大写
-	return newText or ""
+
+--删除聊天link信息
+local linkPattern = "|c[^|]-|H[^:]-:.-|h%[(.-)%]|h|r"
+local function del_link(newText)
+	if not newText then return "" end
+	return newText:gsub(linkPattern, "%1")
 end
+
+-- local Hitem="|"..PIGGetColorKey().."|Hitem:.-%[(.-)%]|h|r"
+-- local function del_link(newText)
+-- 	if not newText then return "" end
+-- 	newText=newText:gsub(Hitem, "%1")
+-- 	:gsub("|cff%w%w%w%w%w%w|Hspell:.-|h%[(.-)%]|h|r","%1")
+-- 	:gsub("|cff%w%w%w%w%w%w|Hquest:.-|h%[(.-)%]|h|r","%1")
+-- 	:gsub("|cff%w%w%w%w%w%w|Henchant:.-|h%[(.-)%]|h|r","%1")
+-- 	:gsub("|cff%w%w%w%w%w%w|Htrade:.-|h%[(.-)%]|h|r","%1")
+-- 	:gsub("|cff%w%w%w%w%w%w|Hmount:.-|h%[(.-)%]|h|r","%1")
+-- 	:gsub("|cff%w%w%w%w%w%w|Hjournal:.-|h%[(.-)%]|h|r","%1")
+-- 	:gsub("|cff%w%w%w%w%w%w|Hachievement:.-|h%[(.-)%]|h|r","%1")
+-- 	:gsub("|cff%w%w%w%w%w%w|HclubFinder:.-|h%[(.-)%]|h|r","%1")--加入公会
+-- 	:gsub("|cff%w%w%w%w%w%w|HclubTicket:.-|h%[(.-)%]|h|r","%1")--加入群组
+-- 	:gsub("|cff%w%w%w%w%w%w|Htransmogillusion:.-|h%[(.-)%]|h|r","%1")--附魔外观
+-- 	:gsub("|cff%w%w%w%w%w%w|Hworldmap:.-|h%[(.-)%]|h|r","%1");--世界地图标记
+-- 	--newText=newText:gsub("|cff%w%w%w%w%w%w|Hquestie:(%d+):Player%-(%d+)%-(%w+)|h","")
+-- 	return newText
+-- end
+local function del_Pun(newText)--删除标点
+	if not newText then return "" end
+	newText=newText:gsub("%s",""):gsub("`",""):gsub("，",""):gsub("。",""):gsub("！",""):gsub("？",""):gsub("：",""):gsub("；","")
+	:gsub("“",""):gsub("”",""):gsub("‘",""):gsub("’",""):gsub("~","")
+	return newText:upper()
+end
+local function del_LinkEmojiPun(newText)
+	return del_Pun(del_Emoji(del_link(newText)))
+end
+Fun.del_LinkEmojiPun=del_LinkEmojiPun
+
 --处理特殊字符
-function Fun.PIGwenbenhua(newtxt)
-	local newtxt=newtxt or ""
-	local newtxt=newtxt:gsub("%^","%%^");
-	local newtxt=newtxt:gsub("%$","%%$");
-	local newtxt=newtxt:gsub("%%","%%%");
-	local newtxt=newtxt:gsub("%*","%%*");
-	local newtxt=newtxt:gsub("%+","%%+");
-	local newtxt=newtxt:gsub("%-","%%-");
-	local newtxt=newtxt:gsub("%.","%%.");
-	local newtxt=newtxt:gsub("%?","%%?");
-	local newtxt=newtxt:gsub("%(","%%(");
-	local newtxt=newtxt:gsub("%)","%%)");
-	local newtxt=newtxt:gsub("%[","%%[");
-	local newtxt=newtxt:gsub("%]","%%]");
-	return newtxt
+local function PIGwenbenhua(newtxt)
+	return (newtxt or ""):gsub("([%^%$%%%(%)%.%[%]%*%+%-%?])", "%%%1")
 end
+Fun.PIGwenbenhua=PIGwenbenhua
 --获取PIG频道
 local ChatpindaoMAX = 5
 Fun.ChatpindaoMAX=ChatpindaoMAX
@@ -203,8 +145,9 @@ local ssslist={
 	{"UmlvdGVycw==","6ZyH5Zyw6ICF"},
 }
 local function is_slist()
+	local PlayerInfo=PD.Data.PlayerInfo
 	for i=1,#ssslist do
-		if PIG_OptionsUI.Name==Fun.Base64_decod(ssslist[i][1]) and PIG_OptionsUI.Realm==Fun.Base64_decod(ssslist[i][2]) then
+		if PlayerInfo.Name==Fun.Base64_decod(ssslist[i][1]) and PlayerInfo.Realm==Fun.Base64_decod(ssslist[i][2]) then
 			return true
 		end
 	end
@@ -212,7 +155,7 @@ local function is_slist()
 		local ssslist = {strsplit("@", PIGA["ConfigString"][2])};
 		for i=1,#ssslist do
 			local Namex,Realmx = strsplit("^", ssslist[i]);
-			if PIG_OptionsUI.Name==Fun.Base64_decod(Namex) and PIG_OptionsUI.Realm==Fun.Base64_decod(Realmx) then
+			if PlayerInfo.Name==Fun.Base64_decod(Namex) and PlayerInfo.Realm==Fun.Base64_decod(Realmx) then
 				return true
 			end
 		end
@@ -220,15 +163,7 @@ local function is_slist()
 	return false
 end
 Fun.is_slist=is_slist
-local function is_slist_1(namex)
-	for i=1,#ssslist do
-		if namex==Fun.Base64_decod(ssslist[i][1]) and PIG_OptionsUI.Realm==Fun.Base64_decod(ssslist[i][2]) then
-			return true
-		end
-	end
-	return false
-end
-Fun.is_slist_1=is_slist_1
+
 local function Getis_slist()
 	local txtxx=tostring(banBanben)
 	for i=1,#ssslist do
@@ -243,7 +178,7 @@ end
 local BanList=Getis_slist()
 function Fun.fasong_is_slist(funx)
 	if not PIGA["ConfigString"] or PIGA["ConfigString"] and banBanben>=PIGA["ConfigString"][1] then
-		funx(addonName.."#X#"..BanList)
+		funx(addonName,BanList)
 	end
 end
 function Fun.Save_is_slist(msg)
@@ -310,14 +245,8 @@ function Fun.GetSelectpindaoID(cfname,moren1)
 		return 0,NONE
 	end
 end
--- 去除所有 |c 和 |H 格式标签，只保留 [文本] 中的“显示名”
-local function GetVisibleLength(text)
-    local visible = text:gsub("|H.-|h(.-)|h|r", "%1")  -- 替换物品链接为显示名
-    					:gsub("|c%x%x%x%x%x%x%x%x", "")  -- 移除所有颜色开始
-						:gsub("|r", "")                      -- 移除所有重置符（可选）
-                        :gsub("|T.-|t", "")                   -- 去除图标
-    return #visible
-end
+
+--
 function Fun.Get_famsg(laiyuan,famsg,CMD_Opne,CMDtxt,otdata)
 	if laiyuan=="yell" then
 		if CMD_Opne then
@@ -344,7 +273,7 @@ function Fun.Get_famsg(laiyuan,famsg,CMD_Opne,CMDtxt,otdata)
 	elseif laiyuan=="Farm_chedui" then
 
 	end
-	return famsg,GetVisibleLength(famsg)
+	return famsg,#del_LinkEmojiPun(famsg)
 end
 ----
 function Fun.Key_hebing(str,fengefu)
@@ -444,7 +373,7 @@ function Fun.Key_fenge(str,fengefu,geshihua,daifengefu)
 	end
 	if geshihua then
 	    for ix=1,#arr do
-	    	arr[ix]=Fun.PIGwenbenhua(arr[ix])
+	    	arr[ix]=PIGwenbenhua(arr[ix])
 	    end
 	end
     return arr

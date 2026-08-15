@@ -34,6 +34,7 @@ local RSAudioAlerts = private.ImportLib("RareScannerAudioAlerts")
 -- Timers
 local BUTTON_TIMER
 local PREFOUND_TIMER
+local IS_PROCESSING_ALERTS = false
 
 ---============================================================================
 -- Queue found alerts
@@ -421,9 +422,9 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 			end
 		-- extra checkings for events
 		elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName)) then
-			-- ignore events with Zaralek cavern horn if not in Zaralek
-			if (vignetteInfo.atlasName == RSConstants.EVENT_ZARALEK_CAVERN and mapID and mapID ~= RSConstants.ZARALEK_CAVERN) then
-				RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora porque tiene el atlas [%s] y no esta en Zaralek Cavern", entityID, vignetteInfo.atlasName))
+			-- ignore events with horn icon if not in a map where we want to track it
+			if (vignetteInfo.atlasName == RSConstants.EVENT_HORN and mapID and not RSUtils.Contains(RSConstants.MAPS_TRACK_EVENT_HORNS, mapID)) then
+				RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora porque tiene el atlas [%s] y no esta en una zona donde se quiera rastrear", entityID, vignetteInfo.atlasName))
 				return
 			end
 			
@@ -567,12 +568,14 @@ local function ShowAlerts(button)
 	end
 	
 	if (RSUtils.GetTableLength(foundAlerts) > 0) then
-		--RSLogger:PrintDebugMessage(string.format("Quedan alertas que mostrar"))
-		ShowAlerts(button)
+		BUTTON_TIMER = C_Timer.NewTimer(RSConstants.BUTTON_TIMER, function()
+			ShowAlerts(button)
+		end)
 	else
-		-- Cancel
-		--RSLogger:PrintDebugMessage(string.format("BUTTON_TIMER:Cancel"))
-		BUTTON_TIMER:Cancel()
+		IS_PROCESSING_ALERTS = false
+		if (BUTTON_TIMER) then
+			BUTTON_TIMER:Cancel()
+		end
 	end
 end
 
@@ -661,12 +664,16 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar mostrandose en el mapa de las Islas Dragon", entityID))
 		return
 	-- disable high peaks icons where not supported
-	elseif (RSConstants.IsHighPeakAtlas(vignetteInfo.atlasName) and RSMapDB.GetContinentOfMap(mapID) ~= RSConstants.EASTERN_KINGDOMS_MIDNIGHT_CONTINENT) then
+	elseif (RSConstants.IsHighPeakAtlas(vignetteInfo.atlasName) and (RSMapDB.GetContinentOfMap(mapID) ~= RSConstants.EASTERN_KINGDOMS_MIDNIGHT_CONTINENT or RSUtils.Contains(RSConstants.IGNORE_HIGH_PEAK_ICON_MAPS, mapID))) then
 		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por ser un high peak en un mapa no soportado", entityID))
 		return
 	-- disable PVP icons where not supported
 	elseif (RSConstants.IsContainerPvpAtlas(vignetteInfo.atlasName) and RSUtils.Contains(RSConstants.CONTAINERS_PVP, entityID)) then
 		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por tener un icono de contenedor PVP pero no tratarse del contenedor", entityID))
+		return
+	--disable horn event icons where not supported
+	elseif (vignetteInfo.atlasName == RSConstants.EVENT_HORN and not RSUtils.Contains(RSConstants.MAPS_TRACK_EVENT_HORNS, entityID)) then
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por tener un icono de evento de cuerno pero estar su zona ignorada", entityID))
 		return
 	end
 	
@@ -678,11 +685,6 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		--RSLogger:PrintDebugMessage(string.format("Detectado [%s]", GetVignetteInfoGUID(vignetteInfo)))
 		foundAlerts[GetVignetteInfoGUID(vignetteInfo)] = vignetteInfo
 		
-		if (not BUTTON_TIMER or BUTTON_TIMER:IsCancelled()) then
-			BUTTON_TIMER = C_Timer.NewTimer(RSConstants.BUTTON_TIMER, function()
-				ShowAlerts(button)
-			end)
-		end
 		if (not PREFOUND_TIMER) then
 			PREFOUND_TIMER = C_Timer.NewTicker(RSConstants.PREFOUND_TIMER, function()
 				for entityID, info in pairs(preFoundAlerts) do
@@ -690,6 +692,17 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 						preFoundAlerts[entityID] = nil
 					end
 				end
+			end)
+		end
+		if (not IS_PROCESSING_ALERTS) then
+			IS_PROCESSING_ALERTS = true -- Activamos el bloqueo
+			
+			-- Show first immediately
+			ShowAlerts(button)
+			
+			-- Init timer to show the rest after 1 sec
+			BUTTON_TIMER = C_Timer.NewTimer(RSConstants.BUTTON_TIMER, function()
+				ShowAlerts(button)
 			end)
 		end
 	end

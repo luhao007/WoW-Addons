@@ -33,7 +33,6 @@ ADDON.DB.Tradable = {
 [469] = true, -- Depleted-Kyparium Rocket
 [470] = true, -- Geosynchronous World Spinner
 [522] = true, -- Sky Golem
-[532] = true, -- Ghastly Charger
 [657] = true, -- Garn Nighthowl
 [762] = true, -- Coalfist Gronnling
 [769] = true, -- Minion of Grumpus
@@ -60,4 +59,6 @@ ADDON.DB.Tradable = {
 [2703] = true, -- Blossombranch Groveglider
 [2743] = true, -- Stormgilded Celestial
 [2948] = true, -- Golden Ashened Cataclysm
+[2972] = true, -- Spring Panda
+[3044] = true, -- Shadow Spirehawk
 }

@@ -3,40 +3,8 @@ local _, ns = ...
 local TrackerDB = {}
 ns.TrackerDB = TrackerDB
 
-TrackerDB.DEFAULT_COOLDOWN_SWIPE_COLOR = { 0, 0, 0, 0.7 }
-TrackerDB.DEFAULT_AURA_SWIPE_COLOR = { 1, 0.95, 0.57, 0.7 }
-
-local dbDefaults = {
-    -- defaultAuraSwipeReversed = false,
-    itemViewerLayouts = {},
-    itemSettings = {},
-    spellItemSettings = {},
-    wildcardSlotSettings = {},
-    showUnusable = false,
-}
-
 local function IsSupportedCustomActiveKind(kind)
     return kind == "spell" or kind == "item"
-end
-
-local function GetEntrySettingsByKind(kind, id)
-    if kind == "spell" then
-        return TrackerDB.GetSpellItemSettings(id)
-    end
-    if kind == "item" then
-        return TrackerDB.GetItemSettings(id)
-    end
-    return nil
-end
-
-local function EnsureEntrySettingsByKind(kind, id)
-    if kind == "spell" then
-        return TrackerDB.EnsureSpellItemSettings(id)
-    end
-    if kind == "item" then
-        return TrackerDB.EnsureItemSettings(id)
-    end
-    return nil
 end
 
 local function NormalizeCustomActiveDuration(value)
@@ -50,27 +18,23 @@ local function NormalizeCustomActiveDuration(value)
     return numeric
 end
 
-TrackerDB.DefaultItems = {
-    241304, -- Silvermoon Healing Potion
-    241308, -- Light's Potential
+local function NormalizeAuraSpellID(value)
+    local numeric = tonumber(value)
+    if not numeric or numeric < 0 or numeric ~= math.floor(numeric) then
+        return nil
+    end
+    return numeric
+end
 
+local function InvalidateItemCastCache(kind)
+    if kind == "item" and ns.TrackerItemVisuals and ns.TrackerItemVisuals.InvalidateItemCastCache then
+        ns.TrackerItemVisuals:InvalidateItemCastCache()
+    end
+end
+
+TrackerDB.DefaultItems = {
     5512, -- Healthstone
     224464, -- Demonic Healthstone
-
-    -- Invigorating Healing Potion
-    244839,
-    244838,
-    244835,
-
-    -- Tempered Potion
-    212265, -- Tempered Potion (R3)
-    212264, -- Tempered Potion (R2)
-    212263, -- Tempered Potion (R1)
-
-    -- Fleeting Tempered Potion
-    212971,
-    212970,
-    212969,
 }
 
 TrackerDB.DefaultSpells = {
@@ -124,19 +88,6 @@ TrackerDB.DefaultSpells = {
     1237885, -- Thorn Bloom
 }
 
-local function ApplyDefaultsToTable(tbl, defaults)
-    for k, v in pairs(defaults) do
-        if type(v) == "table" then
-            if type(tbl[k]) ~= "table" then
-                tbl[k] = {}
-            end
-            ApplyDefaultsToTable(tbl[k], v)
-        elseif tbl[k] == nil then
-            tbl[k] = v
-        end
-    end
-end
-
 function TrackerDB.GetDB()
     return ns.db.profile.tracker
 end
@@ -146,9 +97,18 @@ function TrackerDB.InitializeDB()
         return
     end
     local db = TrackerDB.GetDB()
-    ApplyDefaultsToTable(db, dbDefaults)
+    db.itemViewerLayouts = db.itemViewerLayouts or {}
+    db.itemSettings = db.itemSettings or {}
+    db.spellItemSettings = db.spellItemSettings or {}
+    db.wildcardSlotSettings = db.wildcardSlotSettings or {}
+    if db.showUnusable == nil then
+        db.showUnusable = false
+    end
+    if db.showPassiveTrinkets == nil then
+        db.showPassiveTrinkets = true
+    end
     if not ns.db.profile._tracker_filled_with_defaults then
-        for i, spellID in pairs(TrackerDB.DefaultSpells) do
+        for spellID in pairs(TrackerDB.DefaultSpells) do
             if not db.spellItemSettings[spellID] then
                 db.spellItemSettings[spellID] = {
                     state = "tracker1",
@@ -156,7 +116,7 @@ function TrackerDB.InitializeDB()
                 }
             end
         end
-        for i, itemID in pairs(TrackerDB.DefaultItems) do
+        for itemID in pairs(TrackerDB.DefaultItems) do
             if not db.itemSettings[itemID] then
                 db.itemSettings[itemID] = {
                     state = "tracker1",
@@ -190,10 +150,21 @@ function TrackerDB.InitializeDB()
             state = "hidden",
         }
     end
+    if not db.wildcardSlotSettings.healthPotion then
+        db.wildcardSlotSettings.healthPotion = {
+            state = "hidden",
+        }
+    end
+    if not db.wildcardSlotSettings.combatPotion then
+        db.wildcardSlotSettings.combatPotion = {
+            state = "hidden",
+        }
+    end
 end
 
 function TrackerDB.GetItemSettings(itemID)
     local db = TrackerDB.GetDB()
+    db.itemSettings = db.itemSettings or {}
     return db.itemSettings[itemID]
 end
 
@@ -211,6 +182,7 @@ end
 
 function TrackerDB.EnsureItemSettings(itemID)
     local db = TrackerDB.GetDB()
+    db.itemSettings = db.itemSettings or {}
     if db.itemSettings[itemID] == nil then
         db.itemSettings[itemID] = {}
     end
@@ -252,18 +224,26 @@ end
 
 function TrackerDB.SetItemState(itemID, state)
     local db = TrackerDB.GetDB()
+    db.itemSettings = db.itemSettings or {}
     if state == nil then
         db.itemSettings[itemID] = nil
+        InvalidateItemCastCache("item")
         return
     end
 
     local settings = TrackerDB.EnsureItemSettings(itemID)
     settings.state = state
+    InvalidateItemCastCache("item")
 end
 
 function TrackerDB.SetSpellItemState(spellID, state)
     local db = TrackerDB.GetDB()
     db.spellItemSettings = db.spellItemSettings or {}
+    -- owned.spells (in TrackerItemsData) is derived from the spellItemSettings keys,
+    -- so changing membership here must drop its cached ownership scan.
+    if ns.TrackerItemsData and ns.TrackerItemsData.InvalidateOwnedItemsCache then
+        ns.TrackerItemsData:InvalidateOwnedItemsCache()
+    end
     if state == nil then
         db.spellItemSettings[spellID] = nil
         return
@@ -278,11 +258,13 @@ function TrackerDB.SetWildcardSlotState(slotID, state)
     db.wildcardSlotSettings = db.wildcardSlotSettings or {}
     if state == nil then
         db.wildcardSlotSettings[slotID] = nil
+        InvalidateItemCastCache("item")
         return
     end
 
     local settings = TrackerDB.EnsureWildcardSlotSettings(slotID)
     settings.state = state
+    InvalidateItemCastCache("item")
 end
 
 function TrackerDB.GetShowingUnusable()
@@ -293,8 +275,29 @@ end
 function TrackerDB.ToggleShowUnusable()
     local db = TrackerDB.GetDB()
     db.showUnusable = not TrackerDB.GetShowingUnusable()
-    if ns.MiscPanel and ns.MiscPanel.RefreshMiscPanel then
-        ns.MiscPanel:RefreshMiscPanel()
+    if ns.TrackerAssignmentPanel and ns.TrackerAssignmentPanel.RefreshTrackerPanel then
+        ns.TrackerAssignmentPanel:RefreshTrackerPanel()
+    end
+end
+
+-- Passive (proc-only) trinkets have no on-use spell. Defaults to true; players who
+-- only want usable trinkets in the wildcard trinket slots can turn this off.
+function TrackerDB.GetShowingPassiveTrinkets()
+    local db = TrackerDB.GetDB()
+    return db.showPassiveTrinkets ~= false
+end
+
+function TrackerDB.ToggleShowPassiveTrinkets()
+    local db = TrackerDB.GetDB()
+    db.showPassiveTrinkets = not TrackerDB.GetShowingPassiveTrinkets()
+    if ns.TrackerItemsData and ns.TrackerItemsData.InvalidateOwnedItemsCache then
+        ns.TrackerItemsData:InvalidateOwnedItemsCache()
+    end
+    if ns.TrackerItemViewer and ns.TrackerItemViewer.RefreshItemViewerFrames then
+        ns.TrackerItemViewer:RefreshItemViewerFrames()
+    end
+    if ns.TrackerAssignmentPanel and ns.TrackerAssignmentPanel.RefreshTrackerPanel then
+        ns.TrackerAssignmentPanel:RefreshTrackerPanel()
     end
 end
 
@@ -303,7 +306,12 @@ function TrackerDB.GetCustomActiveDuration(kind, id)
         return 0
     end
 
-    local settings = GetEntrySettingsByKind(kind, id)
+    local settings
+    if kind == "spell" then
+        settings = TrackerDB.GetSpellItemSettings(id)
+    elseif kind == "item" then
+        settings = TrackerDB.GetItemSettings(id)
+    end
     local duration = settings and NormalizeCustomActiveDuration(settings.customActiveDuration)
     return duration or 0
 end
@@ -318,7 +326,12 @@ function TrackerDB.SetCustomActiveDuration(kind, id, value)
         return false
     end
 
-    local settings = EnsureEntrySettingsByKind(kind, id)
+    local settings
+    if kind == "spell" then
+        settings = TrackerDB.EnsureSpellItemSettings(id)
+    elseif kind == "item" then
+        settings = TrackerDB.EnsureItemSettings(id)
+    end
     if not settings then
         return false
     end
@@ -329,5 +342,241 @@ function TrackerDB.SetCustomActiveDuration(kind, id, value)
         settings.customActiveDuration = normalized
     end
 
+    InvalidateItemCastCache(kind)
+
     return true
+end
+
+function TrackerDB.GetAuraSpellID(kind, id)
+    if not IsSupportedCustomActiveKind(kind) then
+        return nil
+    end
+
+    local settings
+    if kind == "spell" then
+        settings = TrackerDB.GetSpellItemSettings(id)
+    elseif kind == "item" then
+        settings = TrackerDB.GetItemSettings(id)
+    end
+    local auraSpellID = settings and NormalizeAuraSpellID(settings.auraSpellID)
+    return auraSpellID and auraSpellID > 0 and auraSpellID or nil
+end
+
+function TrackerDB.SetAuraSpellID(kind, id, value)
+    if not IsSupportedCustomActiveKind(kind) then
+        return false
+    end
+
+    local normalized = NormalizeAuraSpellID(value)
+    if normalized == nil then
+        return false
+    end
+
+    local settings
+    if kind == "spell" then
+        settings = TrackerDB.EnsureSpellItemSettings(id)
+    elseif kind == "item" then
+        settings = TrackerDB.EnsureItemSettings(id)
+    end
+    if not settings then
+        return false
+    end
+
+    settings.auraSpellID = normalized > 0 and normalized or nil
+    -- Removed prototype flag from pre-AuraContainer builds.
+    settings.useRealAura = nil
+    InvalidateItemCastCache(kind)
+    return true
+end
+
+function TrackerDB.GetHideAura(kind, id)
+    if not IsSupportedCustomActiveKind(kind) then
+        return false
+    end
+
+    local settings
+    if kind == "spell" then
+        settings = TrackerDB.GetSpellItemSettings(id)
+    elseif kind == "item" then
+        settings = TrackerDB.GetItemSettings(id)
+    end
+    return settings and settings.hideAura == true or false
+end
+
+function TrackerDB.SetHideAura(kind, id, value)
+    if not IsSupportedCustomActiveKind(kind) then
+        return false
+    end
+
+    local settings
+    if kind == "spell" then
+        settings = value and TrackerDB.EnsureSpellItemSettings(id) or TrackerDB.GetSpellItemSettings(id)
+    elseif kind == "item" then
+        settings = value and TrackerDB.EnsureItemSettings(id) or TrackerDB.GetItemSettings(id)
+    end
+    if not settings then
+        return true
+    end
+
+    settings.hideAura = value == true and true or nil
+    InvalidateItemCastCache(kind)
+    return true
+end
+
+function TrackerDB.ToggleHideAura(kind, id)
+    return TrackerDB.SetHideAura(kind, id, not TrackerDB.GetHideAura(kind, id))
+end
+
+local function GetEntrySettings(kind, id)
+    if kind == "spell" then
+        return TrackerDB.GetSpellItemSettings(id)
+    elseif kind == "item" then
+        return TrackerDB.GetItemSettings(id)
+    end
+    return TrackerDB.GetWildcardSlotSettings(id)
+end
+
+local function EnsureEntrySettings(kind, id)
+    if kind == "spell" then
+        return TrackerDB.EnsureSpellItemSettings(id)
+    elseif kind == "item" then
+        return TrackerDB.EnsureItemSettings(id)
+    end
+    return TrackerDB.EnsureWildcardSlotSettings(id)
+end
+
+-- Per-entry glow flags: ready, full charges, aura active, and assisted suggestion.
+function TrackerDB.GetGlowFlag(kind, id, field)
+    local settings = GetEntrySettings(kind, id)
+    return settings and settings[field] == true or false
+end
+
+function TrackerDB.SetGlowFlag(kind, id, field, value)
+    if not value then
+        local settings = GetEntrySettings(kind, id)
+        if settings then
+            settings[field] = nil
+        end
+        return
+    end
+    EnsureEntrySettings(kind, id)[field] = true
+end
+
+function TrackerDB.ToggleGlowFlag(kind, id, field)
+    TrackerDB.SetGlowFlag(kind, id, field, not TrackerDB.GetGlowFlag(kind, id, field))
+end
+
+function TrackerDB.GetEntryColor(kind, id, field)
+    local settings = GetEntrySettings(kind, id)
+    local color = settings and settings[field]
+    if type(color) == "table" and color[1] ~= nil and color[2] ~= nil and color[3] ~= nil then
+        return color
+    end
+    return nil
+end
+
+function TrackerDB.SetEntryColor(kind, id, field, r, g, b)
+    if r == nil then
+        local settings = GetEntrySettings(kind, id)
+        if settings then
+            settings[field] = nil
+        end
+        return
+    end
+    local settings = EnsureEntrySettings(kind, id)
+    if settings then
+        settings[field] = { r, g, b }
+    end
+end
+
+function TrackerDB.GetAlwaysShow(kind, id)
+    local settings
+    if kind == "spell" then
+        settings = TrackerDB.GetSpellItemSettings(id)
+    elseif kind == "item" then
+        settings = TrackerDB.GetItemSettings(id)
+    else
+        settings = TrackerDB.GetWildcardSlotSettings(id)
+    end
+    return settings and settings.alwaysShow == true
+end
+
+function TrackerDB.SetAlwaysShow(kind, id, value)
+    local settings
+    if kind == "spell" then
+        settings = TrackerDB.EnsureSpellItemSettings(id)
+    elseif kind == "item" then
+        settings = TrackerDB.EnsureItemSettings(id)
+    else
+        settings = TrackerDB.EnsureWildcardSlotSettings(id)
+    end
+    if not settings then
+        return
+    end
+    settings.alwaysShow = value == true or nil
+end
+
+-- Blizzard proc glows are enabled by default for every tracked spell. Persist only
+-- the opt-out so existing profiles gain the feature without a migration.
+function TrackerDB.GetProcGlowEnabled(spellID)
+    local settings = TrackerDB.GetSpellItemSettings(spellID)
+    return not settings or settings.procGlow ~= false
+end
+
+function TrackerDB.SetProcGlowEnabled(spellID, value)
+    local settings = TrackerDB.EnsureSpellItemSettings(spellID)
+    if settings then
+        if value == false then
+            settings.procGlow = false
+        else
+            settings.procGlow = nil
+        end
+    end
+end
+
+function TrackerDB.IsHiddenForSpec(kind, id, specID)
+    if not specID then
+        return false
+    end
+    local settings = GetEntrySettings(kind, id)
+    return settings and type(settings.hiddenForSpecs) == "table" and settings.hiddenForSpecs[specID] == true or false
+end
+
+function TrackerDB.SetHiddenForSpec(kind, id, specID, value)
+    if not specID then
+        return
+    end
+    local settings = EnsureEntrySettings(kind, id)
+    if not settings then
+        return
+    end
+    if value then
+        settings.hiddenForSpecs = settings.hiddenForSpecs or {}
+        settings.hiddenForSpecs[specID] = true
+    elseif type(settings.hiddenForSpecs) == "table" then
+        settings.hiddenForSpecs[specID] = nil
+        if not next(settings.hiddenForSpecs) then
+            settings.hiddenForSpecs = nil
+        end
+    end
+end
+
+function TrackerDB.ClearHiddenForSpecs(kind, id)
+    local settings = GetEntrySettings(kind, id)
+    if settings then
+        settings.hiddenForSpecs = nil
+    end
+end
+
+function TrackerDB.GetCurrentSpecID()
+    local specIndex = C_SpecializationInfo.GetSpecialization()
+    if not specIndex then
+        return nil
+    end
+    local specID = C_SpecializationInfo.GetSpecializationInfo(specIndex)
+    return specID and specID > 0 and specID or nil
+end
+
+function TrackerDB.IsHiddenForCurrentSpec(kind, id)
+    return TrackerDB.IsHiddenForSpec(kind, id, TrackerDB.GetCurrentSpecID())
 end

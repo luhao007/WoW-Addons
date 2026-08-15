@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2330, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260525233052")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(144747, 144767, 144963, 144941)
 mod:SetEncounterID(2268)
@@ -57,41 +57,41 @@ local warnAkundasWrath					= mod:NewTargetAnnounce(286811, 2)
 local warnBwonsamdisWrath				= mod:NewTargetNoFilterAnnounce(284663, 4, nil, false, 2)--Spammy latter fight, opt in, not opt out
 
 --General
-local specWarnActivated					= mod:NewSpecialWarningSwitchCustom(118212, "Tank", nil, nil, 3, 2)
+local specWarnActivated					= mod:NewSpecialWarningSwitchCustom(118212, "Tank", nil, nil, 3, 2, nil, nil, "changetarget")
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 --Pa'ku's Aspect
-local specWarnHasteningWinds			= mod:NewSpecialWarningCount(285945, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(12, 270447), nil, 1, 2)
-local specWarnHasteningWindsOther		= mod:NewSpecialWarningTaunt(285945, nil, nil, nil, 1, 2)--Should be dispelled vs tank swapped, but in super low case a 10 man group has no dispeller, we need tank warning
-local specWarnPakusWrath				= mod:NewSpecialWarningMoveTo(282107, nil, nil, nil, 3, 2)
+local specWarnHasteningWinds			= mod:NewSpecialWarningCount(285945, nil, DBM_CORE_L.AUTO_SPEC_WARN_OPTIONS.stack:format(12, 270447), nil, 1, 2, nil, nil, "changemt")
+local specWarnHasteningWindsOther		= mod:NewSpecialWarningTaunt(285945, nil, nil, nil, 1, 2, nil, nil, "changemt")--Should be dispelled vs tank swapped, but in super low case a 10 man group has no dispeller, we need tank warning
+local specWarnPakusWrath				= mod:NewSpecialWarningMoveTo(282107, nil, nil, nil, 3, 2, nil, nil, "gathershare")
 --Gonk's Aspect
-local specWarnCrawlingHex				= mod:NewSpecialWarningYou(282135, nil, nil, nil, 1, 2)
+local specWarnCrawlingHex				= mod:NewSpecialWarningYou(282135, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellCrawlingHex					= mod:NewPosYell(282135)
 local yellCrawlingHexFades				= mod:NewIconFadesYell(282135)
 local yellCrawlingHexAlt				= mod:NewYell(282135)
 local yellCrawlingHexFadesAlt			= mod:NewShortYell(282135)
-local specWarnCrawlingHexNear			= mod:NewSpecialWarningClose(282135, nil, nil, nil, 1, 2)
-local specWarnRaptorForm				= mod:NewSpecialWarningDefensive(285889, nil, nil, nil, 3, 2)
-local specWarnGonksWrath				= mod:NewSpecialWarningSwitch(282155, "Dps", nil, nil, 1, 2)
-local specWarnMarkofPrey				= mod:NewSpecialWarningRun(282209, nil, nil, nil, 4, 2)
+local specWarnCrawlingHexNear			= mod:NewSpecialWarningClose(282135, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnRaptorForm				= mod:NewSpecialWarningDefensive(285889, nil, nil, nil, 3, 2, nil, nil, "defensive")
+local specWarnGonksWrath				= mod:NewSpecialWarningSwitch(282155, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnMarkofPrey				= mod:NewSpecialWarningRun(282209, nil, nil, nil, 4, 2, nil, nil, "justrun")
 local yellMarkofPrey					= mod:NewYell(282209)
 --Kimbul's Aspect
-local specWarnLaceratingClaws			= mod:NewSpecialWarningStack(282444, nil, 8, nil, nil, 1, 6)
-local specWarnLaceratingClawsTaunt		= mod:NewSpecialWarningTaunt(282444, nil, nil, nil, 1, 2)
-local specWarnKimbulsWrath				= mod:NewSpecialWarningYou(282834, nil, nil, nil, 1, 2)
+local specWarnLaceratingClaws			= mod:NewSpecialWarningStack(282444, nil, 8, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnLaceratingClawsTaunt		= mod:NewSpecialWarningTaunt(282444, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnKimbulsWrath				= mod:NewSpecialWarningYou(282834, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellKimbulsWrath					= mod:NewYell(282834)
 local yellKimbulsWrathFades				= mod:NewFadesYell(282834)
-local specWarnKimbulsWrathNear			= mod:NewSpecialWarningClose(282834, nil, nil, nil, 1, 2)
+local specWarnKimbulsWrathNear			= mod:NewSpecialWarningClose(282834, nil, nil, nil, 1, 2, nil, nil, "runaway")
 --Akunda's Aspect
-local specWarnThunderingStorm			= mod:NewSpecialWarningRun(282411, "Melee", nil, nil, 4, 2)
-local specWarnMindWipe					= mod:NewSpecialWarningYou(285878, nil, nil, nil, 1, 2)
-local specWarnAkundasWrath				= mod:NewSpecialWarningYou(286811, nil, nil, nil, 1, 2)
+local specWarnThunderingStorm			= mod:NewSpecialWarningRun(282411, "Melee", nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnMindWipe					= mod:NewSpecialWarningYou(285878, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnAkundasWrath				= mod:NewSpecialWarningYou(286811, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellAkundasWrath					= mod:NewYell(286811)
 local yellAkundasWrathFades				= mod:NewFadesYell(286811)
 --Krag'wa
 
 --Bwonsamdi
-local specWarnBwonsamdisWrath			= mod:NewSpecialWarningYou(284663, nil, nil, nil, 3, 2)
-local specWarnBwonsamdisWrathDispel		= mod:NewSpecialWarningDispel(284663, "RemoveCurse", nil, nil, 1, 2)
+local specWarnBwonsamdisWrath			= mod:NewSpecialWarningYou(284663, nil, nil, nil, 3, 2, nil, nil, "targetyou")
+local specWarnBwonsamdisWrathDispel		= mod:NewSpecialWarningDispel(284663, "RemoveCurse", nil, nil, 1, 2, nil, nil, "helpdispel")
 
 --Pa'ku's Aspect
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(19013))

@@ -115,7 +115,11 @@ app.CreateDifficulty = app.CreateClass("Difficulty", "difficultyID", {
 	["icon"] = function(t)
 		return DifficultyIcons[t.difficultyID] or app.asset("Difficulty_Multi");
 	end,
-	["trackable"] = app.ReturnTrue,
+	["trackable"] = function(t)
+		local validDifficulty = not not app.GetRelativeValue(t, "instanceID")
+		t.trackable = validDifficulty
+		return validDifficulty
+	end,
 	["saved"] = function(t)
 		return t.locks;
 	end,
@@ -167,8 +171,8 @@ app.CreateDifficulty = app.CreateClass("Difficulty", "difficultyID", {
 	["ignoreSourceLookup"] = app.ReturnTrue,
 	["ShouldExcludeFromTooltip"] = function(t)
 		local difficultyID = app.GetCurrentDifficultyID();
+		-- app.PrintDebug(difficultyID, t.text, t.difficultyHash[difficultyID]);
 		if difficultyID > 0 then
-			-- print(difficultyID, t.text, t.difficultyHash[difficultyID]);
 			return not t.difficultyHash[difficultyID];
 		end
 		return app.BaseClass.__class.ShouldExcludeFromTooltip(t)
@@ -273,10 +277,19 @@ local CurrentDifficultyRemapper ={
 	[205] = 1,	-- Follower Dungeon -> Normal Dungeon
 	[220] = 220,	-- Story -> Story (currently only available to defeat during a quest and provides no loot...)
 }
+local IgnoredInstanceIDs = {
+	[1152] = true,	-- FW Horde Garrison Level 1
+	[1153] = true,	-- FW Horde Garrison Level 2
+	[1154] = true,	-- FW Horde Garrison Level 3
+	[1158] = true,	-- SMV Alliance Garrison Level 1
+	[1159] = true,	-- SMV Alliance Garrison Level 2
+	[1160] = true,	-- SMV Alliance Garrison Level 3
+}
 app.GetCurrentDifficultyID = function()
 	if not IsInInstance() then return 0 end
-	local diff = select(3, GetInstanceInfo()) or 0
-	return CurrentDifficultyRemapper[diff] or diff
+	local diff, _, _, _, _, instanceID = select(3, GetInstanceInfo())
+	if IgnoredInstanceIDs[instanceID] then return 0 end
+	return CurrentDifficultyRemapper[diff] or diff or 0
 end
 app.GetRelativeDifficultyIcon = function(t)
 	return DifficultyIcons[GetRelativeValue(t, "difficultyID") or 1];
@@ -340,7 +353,7 @@ local function GetCurrentDifficulties()
 		return CurrentDifficulties;
 	end
 	CacheCooldownCurrentDifficulties = now + 1;
-	
+
 	-- Compare and Cache the Current Difficulties
 	local difficulties = BuildCurrentDifficulties()
 	if not CurrentDifficulties or app.TableKeyDiff(CurrentDifficulties, difficulties) then

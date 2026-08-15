@@ -1,11 +1,8 @@
 # <DBM Mod> Raids (Legion)
 
-## [r63](https://github.com/DeadlyBossMods/DBM-Legion/tree/r63) (2026-03-15)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Legion/compare/r62...r63) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Legion/releases)
+## [r66](https://github.com/DeadlyBossMods/DBM-Legion/tree/r66) (2026-05-25)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Legion/compare/r65...r66) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Legion/releases)
 
-- Prevent loading of options on 66 boss mods on retail (they'll still load and record stats). This is the number of dungeon, delve, and scenario bosses that blizzard doesn't support with boss mod api  
-- more cleanup  
-- more cleanup  
-- Remove deprecated functions: (rangeframe, hud, arrow)  
-    due to buggy diffs, some regressions may be possible since it's harder to verify nothing was accidentally removed  
-- toc cleanup  
+- Add missing voiceFile paths for test object  
+- Make compatible with stage 3 rename rollout  
+- forgot to bump these before tag, oops  

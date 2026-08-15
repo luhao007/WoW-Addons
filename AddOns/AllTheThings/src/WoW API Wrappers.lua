@@ -20,6 +20,10 @@ app.EmptyTable = setmetatable({}, { __newindex = app.EmptyFunction });
 
 local lib = setmetatable({}, {
 	__index = function(t, key)
+		-- Blizzard tries accessing ToDebugString on every table randomly because no one knows why
+		if key == "ToDebugString" then
+			return
+		end
 		error("API " .. key .. " not available! Please yell at Runaway or Crieve to add it to the WoW API Wrappers function");
 	end
 });
@@ -38,13 +42,13 @@ local function AssignAPIWrapper(name, ...)
 		local api = select(i, ...)  -- Get API Function
 		if api then
 			if rawget(lib, name) then
-				print("Warning: existing ATT.WOWAPI replaced!", name)
+				app.print("Warning: existing ATT.WOWAPI replaced!", name)
 			end
 			lib[name] = api
 			return  -- Return immediately after successful assignment.
 		end
 	end
-	print("No valid function for", name)  -- If no valid function is found, print an error message.
+	app.print("No valid function for", name)  -- If no valid function is found, print an error message.
 end
 
 -- System Level APIs
@@ -206,10 +210,24 @@ else
 	AssignAPIWrapper("GetSpellName", GetSpellInfo);
 end
 
+-- GetSpellRank was removed in 11.0
+AssignAPIWrapper("GetSpellRank", GetSpellRank, app.EmptyFunction)
+
+-- These two functions behave drastically-differently. They are not a direct swap without proper handling
+-- AssignAPIWrapper("GetSpellInfo", C_Spell and C_Spell.GetSpellInfo, GetSpellInfo)
+
 -- SpellBook APIs
 local C_SpellBook = C_SpellBook
 AssignAPIWrapper("IsSpellKnown", C_SpellBook and C_SpellBook.IsSpellKnown , IsSpellKnown);
 AssignAPIWrapper("IsSpellKnownOrOverridesKnown", C_SpellBook and C_SpellBook.IsSpellInSpellBook , IsSpellKnownOrOverridesKnown);
 AssignAPIWrapper("GetNumSpellTabs", C_SpellBook and C_SpellBook.GetNumSpellBookSkillLines, GetNumSpellTabs);
+AssignAPIWrapper("GetSpellTabInfo", C_SpellBook and C_SpellBook.GetSpellBookSkillLineInfo, GetSpellTabInfo)
+
+-- Aura APIs
+local C_UnitAuras = C_UnitAuras;
+AssignAPIWrapper("GetPlayerAuraBySpellID",
+    C_UnitAuras and C_UnitAuras.GetPlayerAuraBySpellID,
+    GetPlayerAuraBySpellID,
+	app.EmptyFunction);
 
 ---@diagnostic enable: deprecated

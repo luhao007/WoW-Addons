@@ -12,7 +12,7 @@ end
 local mod	= DBM:NewMod("Lucifron", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(DBM:IsSeasonal("SeasonOfDiscovery") and 228429 or 12118)--, 12119
 mod:SetEncounterID(663)
@@ -37,11 +37,11 @@ local warnDoom		= mod:NewSpellAnnounce(19702, 2)
 local warnCurse		= mod:NewSpellAnnounce(19703, 3)
 local warnMC		= mod:NewTargetNoFilterAnnounce(20604, 4)
 
-local specWarnMC	= mod:NewSpecialWarningYou(20604, nil, nil, nil, 1, 2)
+local specWarnMC	= mod:NewSpecialWarningYou(20604, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellMC		= mod:NewYell(20604)
 
-local timerDoomCD	= mod:NewVarTimer("v21-27", 19702, nil, nil, nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
-local timerCurseCD	= mod:NewVarTimer("v21-25.9", 19703, nil, nil, nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
+local timerDoomCD	= mod:NewVarTimer("v21-27", 19702, nil, "RemoveMagic", nil, 2, nil, DBM_COMMON_L.MAGIC_ICON)
+local timerCurseCD	= mod:NewVarTimer("v21-25.9", 19703, nil, "RemoveCurse", nil, 2, nil, DBM_COMMON_L.CURSE_ICON)
 local timerMC		= mod:NewTargetTimer(15, 20604, nil, false, nil, 3)
 
 mod:AddSetIconOption("SetIconOnMC", 20604, true, 0, {1, 2})

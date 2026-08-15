@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r186
+## Version: r190
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (MoP)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C熊猫人之谜|r
@@ -27,7 +27,7 @@
 ## X-DBM-Mod-Name-ruRU: Рейды (Пандария)
 ## X-DBM-Mod-Sort: 701
 ## X-DBM-Mod-MapID: 1136, 1098, 996, 1009, 1008
-## X-DBM-Mod-MinCoreRevision: 20230617000000
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 4
 ## X-Curse-Project-ID: 85688
 ## X-WoWI-ID: 23199

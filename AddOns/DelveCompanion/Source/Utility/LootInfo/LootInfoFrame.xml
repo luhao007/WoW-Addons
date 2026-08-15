@@ -30,15 +30,15 @@
     </Frame>
 
     <Frame name="DelveCompanionLootInfoColumnHeadersTemplate" virtual="true">
-        <Size x="435" y="25" />
+        <Size x="610" y="25" />
         <Layers>
             <Layer level="OVERLAY">
                 <FontString parentKey="Tier" inherits="GameFontNormalMed2"
                     mixin="AutoScalingFontStringMixin" wordwrap="true" maxLines="2"
                     justifyV="MIDDLE" justifyH="CENTER">
-                    <Size x="60" y="25" />
+                    <Size x="45" y="25" />
                     <Anchors>
-                        <Anchor point="LEFT" x="10" />
+                        <Anchor point="LEFT" x="3" />
                     </Anchors>
                 </FontString>
             </Layer>
@@ -50,7 +50,7 @@
                 </Anchors>
                 <KeyValues>
                     <KeyValue key="expand" value="false" type="boolean" />
-                    <KeyValue key="spacing" value="10" type="number" />
+                    <KeyValue key="spacing" value="5" type="number" />
                 </KeyValues>
                 <Frames>
                     <Frame parentKey="Bountiful"
@@ -59,16 +59,28 @@
                             <KeyValue key="layoutIndex" value="1" type="number" />
                         </KeyValues>
                     </Frame>
-                    <Frame parentKey="Map"
+                    <Frame parentKey="Nemesis"
                         inherits="DelveCompanionLootInfoHeaderTemplate">
                         <KeyValues>
                             <KeyValue key="layoutIndex" value="2" type="number" />
                         </KeyValues>
                     </Frame>
-                    <Frame parentKey="Vault"
+                    <Frame parentKey="GildedStash"
                         inherits="DelveCompanionLootInfoHeaderTemplate">
                         <KeyValues>
                             <KeyValue key="layoutIndex" value="3" type="number" />
+                        </KeyValues>
+                    </Frame>
+                    <Frame parentKey="Map"
+                        inherits="DelveCompanionLootInfoHeaderTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="4" type="number" />
+                        </KeyValues>
+                    </Frame>
+                    <Frame parentKey="Vault"
+                        inherits="DelveCompanionLootInfoHeaderTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="5" type="number" />
                         </KeyValues>
                     </Frame>
                 </Frames>
@@ -87,30 +99,55 @@
                     </Anchors>
                 </Texture>
                 <FontString parentKey="Text" inherits="GameFontHighlightMed2"
-                    justifyH="CENTER" justifyV="MIDDLE" spacing="5">
-                    <Anchors>
-                        <Anchor point="CENTER" x="5" />
-                    </Anchors>
+                    justifyH="CENTER" justifyV="MIDDLE" hidden="true">
                 </FontString>
             </Layer>
         </Layers>
+        <Frames>
+            <Frame parentKey="CrestWidget" inherits="DelveCompanionCustomActionWidgetTemplate"
+                hidden="true">
+                <Size x="20" y="20" />
+                <KeyValues>
+                    <KeyValue key="iconSizeX" value="18" type="number" />
+                    <KeyValue key="iconSizeY" value="18" type="number" />
+                    <KeyValue key="displayLabel" value="false" type="boolean" />
+                    <KeyValue key="useAutoScaling" value="false" type="boolean" />
+                    <KeyValue key="labelRelPoint" value="LEFT" type="string" />
+                    <KeyValue key="labelOffsetX" value="-5" type="number" />
+                    <KeyValue key="fontOverride" value="GameFontHighlight" type="string" />
+                </KeyValues>
+            </Frame>
+            <Frame parentKey="CrestWidget2" inherits="DelveCompanionCustomActionWidgetTemplate"
+                hidden="true">
+                <Size x="20" y="20" />
+                <KeyValues>
+                    <KeyValue key="iconSizeX" value="18" type="number" />
+                    <KeyValue key="iconSizeY" value="18" type="number" />
+                    <KeyValue key="displayLabel" value="false" type="boolean" />
+                    <KeyValue key="useAutoScaling" value="false" type="boolean" />
+                    <KeyValue key="labelRelPoint" value="LEFT" type="string" />
+                    <KeyValue key="labelOffsetX" value="-5" type="number" />
+                    <KeyValue key="fontOverride" value="GameFontHighlight" type="string" />
+                </KeyValues>
+            </Frame>
+        </Frames>
     </Frame>
 
     <Frame name="DelveCompanionLootInfoRowTemplate" virtual="true">
-        <Size x="435" y="25" />
+        <Size x="610" y="25" />
         <Layers>
             <Layer level="OVERLAY">
                 <FontString parentKey="Tier" inherits="GameFontNormalMed2"
                     mixin="AutoScalingFontStringMixin" wordwrap="true" maxLines="2"
                     justifyV="MIDDLE" justifyH="CENTER">
-                    <Size x="60" y="20" />
+                    <Size x="45" y="20" />
                     <Anchors>
-                        <Anchor point="LEFT" x="10" />
+                        <Anchor point="LEFT" x="3" />
                     </Anchors>
                 </FontString>
                 <Texture atlas="delves-companion-divider"
                     useAtlasSize="false">
-                    <Size x="400" y="5" />
+                    <Size x="595" y="5" />
                     <Anchors>
                         <Anchor point="TOP" />
                     </Anchors>
@@ -124,7 +161,7 @@
                 </Anchors>
                 <KeyValues>
                     <KeyValue key="expand" value="false" type="boolean" />
-                    <KeyValue key="spacing" value="10" type="number" />
+                    <KeyValue key="spacing" value="5" type="number" />
                 </KeyValues>
                 <Frames>
                     <Frame parentKey="Bountiful"
@@ -133,16 +170,28 @@
                             <KeyValue key="layoutIndex" value="1" type="number" />
                         </KeyValues>
                     </Frame>
-                    <Frame parentKey="Map"
+                    <Frame parentKey="Nemesis"
                         inherits="DelveCompanionLootInfoElementTemplate">
                         <KeyValues>
                             <KeyValue key="layoutIndex" value="2" type="number" />
                         </KeyValues>
                     </Frame>
-                    <Frame parentKey="Vault"
+                    <Frame parentKey="GildedStash"
                         inherits="DelveCompanionLootInfoElementTemplate">
                         <KeyValues>
                             <KeyValue key="layoutIndex" value="3" type="number" />
+                        </KeyValues>
+                    </Frame>
+                    <Frame parentKey="Map"
+                        inherits="DelveCompanionLootInfoElementTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="4" type="number" />
+                        </KeyValues>
+                    </Frame>
+                    <Frame parentKey="Vault"
+                        inherits="DelveCompanionLootInfoElementTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="5" type="number" />
                         </KeyValues>
                     </Frame>
                 </Frames>
@@ -150,30 +199,209 @@
         </Frames>
     </Frame>
 
+    <EventFrame name="DelveCompanionLootInfoScrollBar" inherits="HorizontalScrollBarTemplate"
+        virtual="true">
+        <Size x="560" y="8" />
+        <KeyValues>
+            <KeyValue key="thumbAnchor" value="LEFT" type="string" />
+            <KeyValue key="minThumbExtent" value="23" type="number" />
+        </KeyValues>
+        <Frames>
+            <Frame parentKey="Track" enableMouse="true">
+                <Size y="8" />
+                <Anchors>
+                    <Anchor point="LEFT" x="19" />
+                    <Anchor point="RIGHT" x="-19" />
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Begin" atlas="minimal-scrollbar-track-top"
+                            useAtlasSize="true" rotation="90">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" />
+                            </Anchors>
+                        </Texture>
+                        <Texture parentKey="End" atlas="minimal-scrollbar-track-bottom"
+                            useAtlasSize="true" rotation="90">
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" />
+                            </Anchors>
+                        </Texture>
+                        <Texture parentKey="Middle"
+                            file="Interface/Buttons/MinimalScrollbarVertical" rotation="90">
+                            <Size x="8" />
+                            <Anchors>
+                                <Anchor point="CENTER" />
+                            </Anchors>
+                            <TexCoords left="0.015625" right="0.140625" top="0"
+                                bottom="0.0009765625" />
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <EventButton parentKey="Thumb"
+                        enableMouse="true">
+                        <Size y="8" />
+                        <HitRectInsets>
+                            <AbsInset left="-4" right="-4" top="-4" bottom="-4" />
+                        </HitRectInsets>
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <Texture parentKey="Begin" atlas="minimal-scrollbar-small-thumb-top"
+                                    useAtlasSize="true" rotation="90">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" />
+                                    </Anchors>
+                                </Texture>
+                                <Texture parentKey="End"
+                                    atlas="minimal-scrollbar-small-thumb-bottom" useAtlasSize="true"
+                                    rotation="90">
+                                    <Anchors>
+                                        <Anchor point="TOPRIGHT" />
+                                    </Anchors>
+                                </Texture>
+                                <Texture parentKey="Middle"
+                                    atlas="minimal-scrollbar-small-thumb-middle"
+                                    useAtlasSize="false"
+                                    rotation="90">
+                                    <Size x="8" />
+                                    <Anchors>
+                                        <Anchor point="CENTER" />
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </EventButton>
+                </Frames>
+            </Frame>
+            <EventButton parentKey="Back" inherits="MinimalScrollBarStepperScripts">
+                <Anchors>
+                    <Anchor point="LEFT" />
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="direction" value="ScrollControllerMixin.Directions.Decrease"
+                        type="global" />
+                    <KeyValue key="normalTexture" value="minimal-scrollbar-arrow-top" type="string" />
+                    <KeyValue key="overTexture" value="minimal-scrollbar-arrow-top-over"
+                        type="string" />
+                    <KeyValue key="downTexture" value="minimal-scrollbar-arrow-top-down"
+                        type="string" />
+                    <KeyValue key="disabledTexture" value="minimal-scrollbar-arrow-top"
+                        type="string" />
+                    <KeyValue key="mouseDownSoundKitID" value="SOUNDKIT.SCROLLBAR_STEP"
+                        type="global" />
+                </KeyValues>
+                <Size x="17" y="11" />
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Texture" rotation="90" />
+                    </Layer>
+                </Layers>
+            </EventButton>
+            <EventButton parentKey="Forward" inherits="MinimalScrollBarStepperScripts">
+                <KeyValues>
+                    <KeyValue key="direction" value="ScrollControllerMixin.Directions.Increase"
+                        type="global" />
+                    <KeyValue key="normalTexture" value="minimal-scrollbar-arrow-bottom"
+                        type="string" />
+                    <KeyValue key="overTexture" value="minimal-scrollbar-arrow-bottom-over"
+                        type="string" />
+                    <KeyValue key="downTexture" value="minimal-scrollbar-arrow-bottom-down"
+                        type="string" />
+                    <KeyValue key="disabledTexture" value="minimal-scrollbar-bottom-top"
+                        type="string" />
+                    <KeyValue key="mouseDownSoundKitID" value="SOUNDKIT.SCROLLBAR_STEP"
+                        type="global" />
+                </KeyValues>
+                <Size x="17" y="11" />
+                <Anchors>
+                    <Anchor point="RIGHT" />
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Texture" rotation="90" />
+                    </Layer>
+                </Layers>
+            </EventButton>
+        </Frames>
+    </EventFrame>
+
     <Frame name="DelveCompanionLootInfoFrameTemplate" inherits="DefaultPanelTemplate"
         mixin="DelveCompanion_LootInfoFrameMixin" enableMouse="true" hidden="true"
-        clampedToScreen="true" virtual="true">
-        <Size x="415" y="345" />
+        clampedToScreen="true" frameStrata="HIGH" virtual="true">
+        <Size x="450" y="500" />
         <Frames>
             <Button parentKey="CloseButton" inherits="UIPanelCloseButtonDefaultAnchors" />
-            <Frame parentKey="ColumnHeaders" inherits="DelveCompanionLootInfoColumnHeadersTemplate">
+
+            <ScrollFrame parentKey="RowsScroll" inherits="ScrollFrameTemplate">
+                <Size y="345" />
                 <Anchors>
-                    <Anchor point="TOP" x="5" y="-35" />
+                    <Anchor point="TOPLEFT" x="8" />
+                    <Anchor point="TOPRIGHT" x="-4" />
                 </Anchors>
-            </Frame>
-            <Frame parentKey="Rows" inherits="VerticalLayoutFrame">
                 <KeyValues>
-                    <KeyValue key="expand" value="false" type="boolean" />
+                    <KeyValue key="scrollBarTemplate" value="DelveCompanionLootInfoScrollBar"
+                        type="string" />
+                    <KeyValue key="scrollBarHideIfUnscrollable" value="false" type="boolean" />
                 </KeyValues>
+                <ScrollChild>
+                    <Frame parentKey="Content">
+                        <Size x="610" y="345" />
+                        <Frames>
+                            <Frame parentKey="ColumnHeaders"
+                                inherits="DelveCompanionLootInfoColumnHeadersTemplate">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" y="-35" />
+                                </Anchors>
+                            </Frame>
+
+                            <Frame parentKey="Rows" inherits="VerticalLayoutFrame">
+                                <KeyValues>
+                                    <KeyValue key="expand" value="false" type="boolean" />
+                                </KeyValues>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeKey="$parent.ColumnHeaders"
+                                        relativePoint="BOTTOMLEFT"
+                                        y="-5" />
+                                </Anchors>
+                            </Frame>
+                        </Frames>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+
+            <Frame parentKey="Tips">
+                <Size y="130" />
                 <Anchors>
-                    <Anchor point="TOP" relativeKey="$parent.ColumnHeaders" relativePoint="BOTTOM"
-                        y="-5" />
+                    <Anchor point="BOTTOMLEFT" x="7" />
+                    <Anchor point="BOTTOMRIGHT" />
                 </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture atlas="delves-companion-divider"
+                            useAtlasSize="false">
+                            <Size x="420" y="5" />
+                            <Anchors>
+                                <Anchor point="TOP" />
+                            </Anchors>
+                        </Texture>
+
+                        <FontString parentKey="Text" inherits="GameFontHighlight"
+                            mixin="AutoScalingFontStringMixin" justifyH="LEFT"
+                            wordwrap="true" maxLines="8" spacing="2">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="5" y="-5" />
+                                <Anchor point="BOTTOMRIGHT" x="-5" />
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
             </Frame>
         </Frames>
         <Scripts>
             <OnLoad method="OnLoad" />
             <OnShow method="OnShow" />
+            <OnHide method="OnHide" />
         </Scripts>
     </Frame>
 

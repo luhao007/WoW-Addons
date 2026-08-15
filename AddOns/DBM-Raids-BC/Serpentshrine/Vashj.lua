@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal25"
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(21212)
 mod:SetEncounterID(628, 2463)
@@ -35,10 +35,10 @@ local warnPhase3		= mod:NewPhaseAnnounce(3)
 --local warnPersuasion	= mod:NewTargetNoFilterAnnounce(38511, 4)--Pre nerf for classic TBC
 
 --local specWarnCore		= mod:NewSpecialWarning("SpecWarnCore", nil, nil, nil, 1, 8)
-local specWarnCharge	= mod:NewSpecialWarningMoveAway(38280, nil, nil, nil, 1, 2)
+local specWarnCharge	= mod:NewSpecialWarningMoveAway(38280, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellCharge		= mod:NewYell(38280)
 local specWarnElemental	= mod:NewSpecialWarning("SpecWarnElemental")--Changed from soon to a now warning. the soon warning not accurate because of 11 second variation so not useful special warning.
-local specWarnToxic		= mod:NewSpecialWarningGTFO(38575, nil, nil, nil, 1, 8)
+local specWarnToxic		= mod:NewSpecialWarningGTFO(38575, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerCharge		= mod:NewTargetTimer(20, 38280, nil, nil, nil, 3)
 local timerElemental	= mod:NewTimer(22, "TimerElementalActive", 39088, nil, nil, 1)--Blizz says they are active 20 seconds per patch notes, but my logs don't match those results. 22 second up time.

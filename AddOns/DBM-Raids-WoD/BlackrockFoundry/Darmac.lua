@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1122, "DBM-Raids-WoD", 2, 457)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260525233107")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(76865)--No need to add beasts to this. It's always main boss that's engaged first and dies last.
 mod:SetEncounterID(1694)
@@ -40,27 +40,27 @@ local warnCrushArmor				= mod:NewStackAnnounce(155236, 2, nil, "Tank")
 local warnStampede					= mod:NewSpellAnnounce(155247, 3)
 
 --Boss basic attacks
-local specWarnCallthePack			= mod:NewSpecialWarningSwitch(154975, "Tank", nil, 2, nil, 2)
-local specWarnPinDown				= mod:NewSpecialWarningSpell(154960, "Ranged", nil, 3, 2, 2)
+local specWarnCallthePack			= mod:NewSpecialWarningSwitch(154975, "Tank", nil, 2, nil, 2, nil, nil, "killmob")
+local specWarnPinDown				= mod:NewSpecialWarningSpell(154960, "Ranged", nil, 3, 2, 2, nil, nil, "spear")
 local yellPinDown					= mod:NewYell(154960)
 --Boss gained abilities (beast deaths grant boss new abilities)
-local specWarnRendandTear			= mod:NewSpecialWarningMove(155385, "Melee", nil, nil, nil, 2)--Always returns to melee (tank)
-local specWarnSuperheatedShrapnel	= mod:NewSpecialWarningDodge(155499, nil, nil, nil, 2, 2)
+local specWarnRendandTear			= mod:NewSpecialWarningMove(155385, "Melee", nil, nil, nil, 2, nil, nil, "runaway")--Always returns to melee (tank, "runaway")
+local specWarnSuperheatedShrapnel	= mod:NewSpecialWarningDodge(155499, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
 local specWarnFlameInfusion			= mod:NewSpecialWarningMove(155657)
-local specWarnTantrum				= mod:NewSpecialWarningCount(162275, nil, nil, nil, 2, 2)
+local specWarnTantrum				= mod:NewSpecialWarningCount(162275, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 local specWarnEpicenter				= mod:NewSpecialWarningMove(159043)
 local specWarnSuperheatedScrap		= mod:NewSpecialWarningMove(156823)
 local yellSuperheated				= mod:NewYell(156823)
 --Beast abilities (living)
 local specWarnSavageHowl			= mod:NewSpecialWarningTarget(155198, "Tank|Healer")
-local specWarnSavageHowlDispel		= mod:NewSpecialWarningDispel(155198, "RemoveEnrage", nil, 2, nil, 2)
+local specWarnSavageHowlDispel		= mod:NewSpecialWarningDispel(155198, "RemoveEnrage", nil, 2, nil, 2, nil, nil, "trannow")
 local specWarnConflag				= mod:NewSpecialWarningDispel(155399, false)--Just too buggy, cast 3 targets, but can be as high as 5 seconds apart, making warning very spammy. Therefor, MUST stay off by default to reduce DBM spam :\
 local specWarnSearingFangs			= mod:NewSpecialWarningStack(155030, nil, 12)--Stack count assumed, may be 2
 local specWarnSearingFangsOther		= mod:NewSpecialWarningTaunt(155030)--No evidence of this existing ANYWHERE in any logs. removed? Bugged?
 local specWarnInfernoPyre			= mod:NewSpecialWarningMove(156824)
 local specWarnCrushArmor			= mod:NewSpecialWarningStack(155236, nil, 3)--6-9 second cd, 15 second duration, 3 is smallest safe swap, sometimes 2 when favorable RNG
-local specWarnCrushArmorOther		= mod:NewSpecialWarningTaunt(155236, nil, nil, nil, nil, 2)
-local specWarnInfernoBreath			= mod:NewSpecialWarningDodge(154989, nil, nil, nil, 2, 2)
+local specWarnCrushArmorOther		= mod:NewSpecialWarningTaunt(155236, nil, nil, nil, nil, 2, nil, nil, "tauntboss")
+local specWarnInfernoBreath			= mod:NewSpecialWarningDodge(154989, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
 local yellInfernoBreath				= mod:NewYell(154989)
 
 --Boss basic attacks

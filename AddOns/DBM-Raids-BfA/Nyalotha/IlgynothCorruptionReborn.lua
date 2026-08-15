@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2374, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260526204832")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(158328)
 mod:SetEncounterID(2345)
@@ -34,21 +34,22 @@ mod:RegisterEventsInCombat(
 --]]
 --Stage 01: The Corruptor, Reborn
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20985))
+DBM:RegisterAltSpellName(310319, 202046)--Corruptor's Gaze -> Beam
 local warnEyeofNZoth						= mod:NewStackAnnounce(309961, 2, nil, "Tank")
 local warnTouchoftheCorruptor				= mod:NewTargetNoFilterAnnounce(311367, 4)
 local warnFixate							= mod:NewTargetAnnounce(315094, 2)
 
-local specWarnEyeofNZoth					= mod:NewSpecialWarningStack(309961, nil, 2, nil, nil, 1, 6)
-local specWarnEyeofNZothTaunt				= mod:NewSpecialWarningTaunt(309961, nil, nil, nil, 1, 2)
-local specWarnTouchoftheCorruptor			= mod:NewSpecialWarningYou(311367, nil, nil, nil, 1, 2)
+local specWarnEyeofNZoth					= mod:NewSpecialWarningStack(309961, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnEyeofNZothTaunt				= mod:NewSpecialWarningTaunt(309961, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnTouchoftheCorruptor			= mod:NewSpecialWarningYou(311367, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellTouchoftheCorruptor				= mod:NewYell(311367)
-local specWarnCorruptorsGaze				= mod:NewSpecialWarningSpell(310319, nil, 202046, nil, 2, 2)
-local specWarnGTFO							= mod:NewSpecialWarningGTFO(310322, nil, nil, nil, 1, 8)
-local specWarnFixate						= mod:NewSpecialWarningYou(315094, nil, nil, nil, 1, 2)
+local specWarnCorruptorsGaze				= mod:NewSpecialWarningSpell(310319, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnGTFO							= mod:NewSpecialWarningGTFO(310322, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnFixate						= mod:NewSpecialWarningYou(315094, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 
 local timerEyeofNZothCD						= mod:NewCDTimer(17, 309961, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON, nil, 2, 3)--16.6-17.4 (0ld), new seems more stable 17
 local timerTouchoftheCorruptorCD			= mod:NewCDCountTimer(64.4, 311367, nil, nil, nil, 3, nil, DBM_COMMON_L.HEROIC_ICON, nil, 1, 4)--64.4-68
-local timerCorruptorsGazeCD					= mod:NewCDCountTimer(32.2, 310319, 202046, nil, nil, 3)--32.8-34 Shorttext "Beam"
+local timerCorruptorsGazeCD					= mod:NewCDCountTimer(32.2, 310319, nil, nil, nil, 3)--32.8-34 Shorttext "Beam"
 
 mod:AddInfoFrameOption(315094, true)
 mod:AddSetIconOption("SetIconOnMC", 311367, false, 0, {1, 2, 3, 4, 5, 6, 7})
@@ -57,11 +58,11 @@ mod:AddTimerLine(DBM:EJ_GetSectionInfo(20993))
 local warnCursedBlood						= mod:NewTargetAnnounce(311159, 2)
 local warnAbsorbingCharge					= mod:NewTargetNoFilterAnnounce(318383, 3)
 
-local specWarnCursedBlood					= mod:NewSpecialWarningMoveAway(311159, nil, nil, nil, 1, 2)
+local specWarnCursedBlood					= mod:NewSpecialWarningMoveAway(311159, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellCursedBlood						= mod:NewShortYell(311159)
 local yellCursedBloodFades					= mod:NewShortFadesYell(311159)
-local specWarnPumpingBlood					= mod:NewSpecialWarningInterruptCount(310788, "HasInterrupt", nil, nil, 1, 2)
-local specWarnAbsorbingCharge				= mod:NewSpecialWarningYou(318383, nil, nil, nil, 3, 2)
+local specWarnPumpingBlood					= mod:NewSpecialWarningInterruptCount(310788, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kick2r")
+local specWarnAbsorbingCharge				= mod:NewSpecialWarningYou(318383, nil, nil, nil, 3, 2, nil, nil, "targetyou")
 local yellAbsorbingCharge					= mod:NewYell(318383)
 
 local timerCursedBloodCD					= mod:NewNextCountTimer(18, 311159, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)

@@ -12,7 +12,7 @@ end
 local mod	= DBM:NewMod("Sulfuron", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(DBM:IsSeasonal("SeasonOfDiscovery") and 228436 or 12098)--, 11662
 mod:SetEncounterID(669)
@@ -37,14 +37,14 @@ local warnInspire		= mod:NewTargetNoFilterAnnounce(19779, 2, nil, "Tank|Healer")
 local warnHandRagnaros	= mod:NewTargetAnnounce(19780, 2, nil, false, 2)
 local warnImmolate		= mod:NewTargetAnnounce(20294, 2, nil, false, 2)
 
-local specWarnHeal		= mod:NewSpecialWarningInterrupt(19775, "HasInterrupt", nil, nil, 1, 2)
+local specWarnHeal		= mod:NewSpecialWarningInterrupt(19775, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
-local timerHeal			= mod:NewCastNPTimer(2, 19775, nil, nil, 2, 4, nil, DBM_COMMON_L.INTERRUPT_ICON)
+local timerHeal			= mod:NewCastNPTimer(2, 19775, nil, "HasInterrupt", 2, 4, nil, DBM_COMMON_L.INTERRUPT_ICON)
 local timerInspire		= mod:NewTargetTimer(10, 19779, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON..DBM_COMMON_L.HEALER_ICON)
 
 local specWarnGTFO
 if DBM:IsSeasonal("SeasonOfDiscovery") then
-	specWarnGTFO		= mod:NewSpecialWarningGTFO(461103, nil, nil, nil, 1, 8)
+	specWarnGTFO		= mod:NewSpecialWarningGTFO(461103, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 end
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -80,7 +80,7 @@ end
 function mod:SPELL_CAST_START(args)
 	if args:IsSpell(19775) and args:IsSrcTypeHostile() then--Only show warning/timer for your own target.
 		timerHeal:Start(nil, args.sourceGUID)
-		if self:CheckInterruptFilter(args.sourceGUID, true, true) then
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 			specWarnHeal:Show(args.sourceName)
 			specWarnHeal:Play("kickcast")
 		end
@@ -88,7 +88,6 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_INTERRUPT(args)
-	if not self.Options.Enabled then return end
 	if type(args.extraSpellId) ~= "number" then return end
 	if args.extraSpellId == 19775 then
 		timerHeal:Stop(args.destGUID)

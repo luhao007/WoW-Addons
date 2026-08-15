@@ -8,7 +8,8 @@ local tinsert = tinsert;
 
 -- Implementation
 app:CreateWindow("Sourceless", {
-	Commands = { "attunsourced", "attsourceless" },
+	Commands = { "attsourceless", "attunsourced" },
+	RootCommands = { "sourceless", "unsourced" },
 	HideFromSettings = true,
 	Preload = true,
 	OnInit = function(self)

@@ -5,6 +5,16 @@ local DBM_GUI = DBM_GUI
 
 local defaultFont, defaultFontSize = GameFontHighlightSmall:GetFont()
 
+local function resolveDropdownFontAsset(fontValue, fontSize, fontFlags)
+	if fontValue == "standardFont" then
+		return defaultFont
+	end
+	if DBM:IsFontValid(fontValue, defaultFont, fontSize, fontFlags) then
+		return fontValue
+	end
+	return defaultFont
+end
+
 ---@class DBMDropDownTmp: Button
 ---@field isSelectedCallbackFn function|nil
 ---@field onSelectionChangedCallback function|nil
@@ -68,7 +78,7 @@ local function AttachBasicButton(parent, width, height)
 end
 
 -- values can either be a table or a function, if it's a function it gets called every time the dropdown is opened to populate the values
----@diagnostic disable-next-line: duplicate-set-field
+---@return DBMDropDown
 function DBM_GUI:CreateDropdown(title, values, vartype, var, callfunc, width, height, parent, overrideText, dropdownType)
 	if type(values) == "table" then
 		for _, entry in next, values do
@@ -84,6 +94,7 @@ function DBM_GUI:CreateDropdown(title, values, vartype, var, callfunc, width, he
 	---@field IsSelectedCallback fun(self: DBMDropDown, callback: function)
 	---@field SetSelectedValue fun(self: DBMDropDown, selected: any)
 	---@field RefreshLazyValues fun(self: DBMDropDown)
+	---@field OverrideText fun(self: DBMDropDown, text: string)
 	---@diagnostic disable-next-line: undefined-field, assign-type-mismatch -- self.frame comes from a subclass of DBM_GUI, DropdownButton isn't defined in ketho.wow-api
 	local dropdown = CreateFrame("DropdownButton", "DBM_GUI_DropDown" .. self:GetNewID(), parent or self.frame, "WowStyle1DropdownTemplate")
 	setmetatable(dropdown, {
@@ -147,8 +158,11 @@ function DBM_GUI:CreateDropdown(title, values, vartype, var, callfunc, width, he
 				radio = rootDescription:CreateRadio(v.text, IsSelected, SetSelected, v)
 			end
 			if v.font or v.flag then
+				local fontFlags = v.flag and v.value or ""
+				local fontSize = v.fontsize or defaultFontSize
+				local fontAsset = v.font and resolveDropdownFontAsset(v.value, fontSize, fontFlags) or defaultFont
 				radio.font = CreateFont("DBM_FONT_" .. v.text)
-				radio.font:SetFont(v.font and v.value or defaultFont, v.fontsize or defaultFontSize, v.flag and v.value or "")
+				radio.font:SetFont(fontAsset, fontSize, fontFlags)
 				-- Do **NOT** call SetFont inside of the initializer function, or it will silently exit (Thanks blizzard)
 				radio:AddInitializer(function(button)
 					button.fontString:SetFontObject(radio.font)

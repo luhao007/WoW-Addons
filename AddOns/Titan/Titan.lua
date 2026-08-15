@@ -9,7 +9,6 @@ local TITAN_PANEL_BUTTONS_INIT_FLAG = nil;
 
 local _G = _G --getfenv(0);
 local InCombatLockdown = _G.InCombatLockdown;
-local IsTitanPanelReset = nil;
 
 -- Library references
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
@@ -52,7 +51,6 @@ function TitanPanel_ResetToDefault()
 	Titan_Debug.Out('titan', 'profile', str)
 
 	TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_RESET);
-	IsTitanPanelReset = true;
 end
 
 ---Titan Reset Titan to default settings then reload UI. Equivilant to deleting saved vars.
@@ -248,7 +246,7 @@ local function RegisterAddonCompartment()
 					Titan_Config.OpenConfig("Minimap compartment")
 				end,
 				funcOnEnter = function(button)
-					MenuUtil.ShowTooltip(button, function(tooltip)
+					MenuUtil.ShowTooltipEx(button, GetAppropriateTooltip(), function(tooltip)
 						local msg = ""
 							.. L["TITAN_PANEL"]
 							.. " " .. L["TITAN_PANEL_MENU_CONFIGURATION"]
@@ -257,7 +255,7 @@ local function RegisterAddonCompartment()
 					end)
 				end,
 				funcOnLeave = function(button)
-					MenuUtil.HideTooltip(button)
+					MenuUtil.HideTooltipEx(button, GetAppropriateTooltip())
 				end,
 			}
 		)
@@ -454,18 +452,6 @@ local function SetupUser()
 	Titan_Debug.Out('titan', 'p_e_w', "Init config data (right click menu) done")
 end
 
-local function ShowTitan()
-	do -- set the bars per the user choices
-		-- Move frames
-		if Titan_Global.switch.can_edit_ui then
-			-- No need
-		else
-			TitanMovable_SecureFrames()
-			TitanPanel_AdjustFrames(true, "_PlayerEnteringWorld")
-		end
-	end
-end
-
 --------------------------------------------------------------
 --
 -- Event handlers
@@ -528,6 +514,27 @@ local function StopTitan(err_str, ret_val)
 	error(ret_val, 1)
 end
 
+---Local Ensure the Titan tooltip backdrop is set.
+local function StyleTooltip()
+
+	--[[
+Skinning addons (ElvUI, EllesmereUI, ...) restyle a fixed list of tooltips when they
+initialize, then catch every other tooltip by hooking SharedTooltip_SetBackdropStyle.
+TitanPanelTooltip is in no addon's list, and WoW calls that routine for a tooltip only
+when it is hidden. Without this the first plugin tooltip shown after login or reload
+keeps the default Blizzard look and only later tooltips are skinned.
+
+No addon detection or setting check is needed: a skinning addon installs its hook only
+while its tooltip skin is enabled, and with none installed this simply re-applies the
+default style TitanPanelTooltip already has. A nil style means default.
+
+In effect, this allows an addon to 'skin' Titan tooltips to its own style.
+	--]]
+	if TitanPanelTooltip and SharedTooltip_SetBackdropStyle then
+		SharedTooltip_SetBackdropStyle(TitanPanelTooltip)
+	end
+end
+
 ---Titan Handle PLAYER_ENTERING_WORLD Initialize Titan, set and display Titan bars and plugins.
 ---@param arg1 boolean isLogin
 ---@param arg2 boolean isReload
@@ -578,12 +585,8 @@ function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2, arg3, arg4)
 			StopTitan("Setup error", ret_val) -- something really bad occured...
 		end
 
-		call_ok, ret_val = pcall(ShowTitan)
-		if call_ok then
-			-- Titan initialized properly
-		else
-			StopTitan("Could not show Bars", ret_val) -- something really bad occured...
-		end
+		-- Set tooltip style
+		StyleTooltip()
 	else
 		-- map change
 	end
@@ -607,12 +610,6 @@ function TitanPanelBarButton:CVAR_UPDATE(cvarname, cvarvalue)
 		if TitanPlayerSettings and TitanPanelGetVar("Scale") then
 			--TitanPanel_InitPanelBarButton("CVAR_ " .. tostring(cvarname))
 			TitanPanel_InitPanelButtons("CVAR_ " .. tostring(cvarname))
-			if Titan_Global.switch.can_edit_ui then
-				-- No need
-			else
-				-- Adjust frame positions
-				TitanPanel_AdjustFrames(true, "CVAR_UPDATE Scale")
-			end
 		end
 	end
 end
@@ -621,14 +618,12 @@ end
 function TitanPanelBarButton:PLAYER_LOGOUT()
 	-- many API calls will not work; data is not caught before the actual logout...
 	--[[
-	if not IsTitanPanelReset then
 		-- for debug
 		if TitanPanelRegister then
 			TitanPanelRegister.ToBe = TitanPluginToBeRegistered
 			TitanPanelRegister.ToBeNum = TitanPluginToBeRegisteredNum
 			TitanPanelRegister.TitanPlugins = TitanPlugins
 		end
-	end
 	Titan__InitializedPEW = false
 
 	--]]
@@ -670,13 +665,6 @@ local in_combat = false -- seems InCombatLockdown may not be set fast enough to 
 function TitanPanelBarButton:PLAYER_REGEN_ENABLED()
 	in_combat = false
 	TitanPanelBarButton_DisplayBarsWanted("PLAYER_REGEN_ENABLED")
-
-	if Titan_Global.switch.can_edit_ui then
-		-- No need
-	else
-		-- Adjust frame positions
-		TitanPanel_AdjustFrames(false, "PLAYER_REGEN_ENABLED")
-	end
 end
 
 ---Titan Handle PLAYER_REGEN_DISABLED Titan bars may have been hidden during combat.
@@ -711,13 +699,13 @@ end
 
 ---Titan For /played in profile
 function TitanPanelBarButton:TIME_PLAYED_MSG(a1, a2, ...)
-	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
+--	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
 	SetToonPlayedInfo('update', a1, a2)
 end
 
 ---Titan For player level in profile
 function TitanPanelBarButton:PLAYER_LEVEL_UP(...)
-	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
+--	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
 	SetToonPlayedInfo('level')
 end
 
@@ -733,34 +721,6 @@ function TitanPanelBarButton:HEARTHSTONE_BOUND(...)
 	local toon_info = TitanSettings.Players[TitanSettings.Player].Info ---@class CharInfo
 	-- seems to return current location if hearth not bound
 	toon_info.hearth_binding = GetBindLocation()
-end
-
-
--- for profile end
-
-if Titan_Global.switch.can_edit_ui then
-	-- Do not need to adjust frames
-else
-	function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
-		-- Is this needed??
-		--	TitanMovable_AdjustTimer("DualSpec")
-	end
-
-	function TitanPanelBarButton:UNIT_ENTERED_VEHICLE(self, ...)
-		TitanUtils_CloseAllControlFrames();
-		TitanUtils_CloseRightClickMenu();
-
-		-- Needed because 8.0 made changes to the menu bar processing (see TitanMovable)
-		TitanMovable_MenuBar_Disable()
-	end
-
-	function TitanPanelBarButton:UNIT_EXITED_VEHICLE(self, ...)
-		-- A combat check will be done inside the adjust
-		TitanPanel_AdjustFrames(true, "UNIT_ENTERED_VEHICLE")
-	end
-
-	--]]
-	--
 end
 
 ---Titan Handle the button clicks on any Titan bar.
@@ -876,12 +836,6 @@ local function handle_reset_cmds(cmd_list)
 			TitanPanelSetVar("Scale", 1);
 			--TitanPanel_InitPanelBarButton("/panelscale reset ")
 			TitanPanel_InitPanelButtons("/panelscale reset ")
-			if Titan_Global.switch.can_edit_ui then
-				-- No need
-			else
-				-- Adjust frame positions
-				TitanPanel_AdjustFrames(true, "/panelscale reset ")
-			end
 			TitanPrint(L["TITAN_PANEL_SLASH_RESP3"], "info")
 		else
 			TitanPrint(L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"], "warning")
@@ -916,7 +870,7 @@ local function handle_profile_cmds(cmd_list)
 	if (not cmd == "profile") then
 		return
 	end
-	AceConfigDialog:Open("Titan Panel Addon Chars")
+	AceConfigDialog:Open("Titan Panel Addon Profiles")
 end
 
 ---local Helper to handle 'silent' commands - Toggle "Silenced" setting.
@@ -1008,8 +962,8 @@ local function TitanPanel_RegisterSlashCmd(cmd_str)
 	cmd_list = TitanPanel_ParseSlashCmd(cmd_str)
 	local cmd = cmd_list[1] or ""
 	local p1 = cmd_list[2] or ""
-	local p2 = cmd_list[3] or ""
-	local p3 = cmd_list[4] or ""
+--	local p2 = cmd_list[3] or ""
+--	local p3 = cmd_list[4] or ""
 
 	if (cmd == "reset") then
 		handle_reset_cmds(cmd_list)
@@ -1277,22 +1231,6 @@ function TitanPanelBarButton_ToggleAutoHide(frame)
 	end
 end
 
----Titan Toggle whether Titan adjusts 'top' frames around Titan bars per the user's new choice.
---- Another addon can tell Titan to NOT adjust some or all frames.
-function TitanPanelBarButton_ToggleScreenAdjust()
-	-- Turn on / off adjusting of other frames around Titan
-	TitanPanelToggleVar("ScreenAdjust");
-	TitanPanel_AdjustFrames(true, "_ToggleScreenAdjust")
-end
-
----Titan Toggle whether Titan adjusts 'bottom' frames around Titan bars per the user's new choice.
---- Another addon can tell Titan to NOT adjust some or all frames.
-function TitanPanelBarButton_ToggleAuxScreenAdjust()
-	-- turn on / off adjusting of frames at the bottom of the screen
-	TitanPanelToggleVar("AuxScreenAdjust");
-	TitanPanel_AdjustFrames(true, "_ToggleAuxScreenAdjust")
-end
-
 --====== Titan Bar
 --
 --==========================
@@ -1334,7 +1272,8 @@ local function CheckBarBounds(self, width, reason)
 		--]]
 
 		local tscale = TitanPanelGetVar("Scale")
-		local x, y, w, scale = TitanVariables_GetBarPos(f_name)
+		local bar_data = {TitanVariables_GetBarPos(f_name)}
+		local scale = bar_data[4]
 		local scale_change = false
 		if tscale == scale then
 			-- no need to use scaling to recalc position
@@ -1343,8 +1282,8 @@ local function CheckBarBounds(self, width, reason)
 			-- The 'set' will update the sacaling for next time
 		end
 		local screen = TitanUtils_ScreenSize()
-		local screen_right_scaled = screen.scaled_x
-		local screen_top_scaled = screen.scaled_y
+--		local screen_right_scaled = screen.scaled_x
+--		local screen_top_scaled = screen.scaled_y
 		local screen_right = screen.x
 		local screen_top = screen.y
 		local screen_right_t = screen.x * tscale
@@ -1591,37 +1530,6 @@ function TitanPanelBarButton_ForceLDBLaunchersRight()
 	end
 end
 
----local Helper to create the 'anchor' frames used by other addons that need to adjust so Titan can be visible.
----The anchor frames are adjusted depending on which Titan bars the user selects to show.
---- - TitanPanelTopAnchor - the frame at the bottom of the top bar(s) shown.
---- - TitanPanelBottomAnchor - the frame at the top of the bottom bar(s) shown.
-local function TitanAnchors()
-	local anchor_top = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP)
-	local anchor_bot = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM)
-	anchor_top = anchor_top <= TITAN_WOW_SCREEN_TOP and anchor_top or TITAN_WOW_SCREEN_TOP
-	anchor_bot = anchor_bot >= TITAN_WOW_SCREEN_BOT and anchor_bot or TITAN_WOW_SCREEN_BOT
-
-	local top_point, top_rel_to, top_rel_point, top_x, top_y = TitanPanelTopAnchor:GetPoint(TitanPanelTopAnchor
-		:GetNumPoints())
-	local bot_point, bot_rel_to, bot_rel_point, bot_x, bot_y = TitanPanelBottomAnchor:GetPoint(TitanPanelBottomAnchor
-		:GetNumPoints())
-	top_y = floor(tonumber(top_y) + 0.5)
-	bot_y = floor(tonumber(bot_y) + 0.5)
-	--[[
-TitanDebug("Anc top: "..top_y.." bot: "..bot_y
-.." a_top: "..anchor_top.." a_bot: "..anchor_bot
-)
---]]
-	if top_y ~= anchor_top then
-		TitanPanelTopAnchor:ClearAllPoints()
-		TitanPanelTopAnchor:SetPoint(top_point, top_rel_to, top_rel_point, top_x, anchor_top);
-	end
-	if bot_y ~= anchor_bot then
-		TitanPanelBottomAnchor:ClearAllPoints()
-		TitanPanelBottomAnchor:SetPoint(bot_point, bot_rel_to, bot_rel_point, bot_x, anchor_bot)
-	end
-end
-
 ---Titan Show all the Titan bars the user has selected.
 ---@param reason string Debug note on where the call initiated
 function TitanPanelBarButton_DisplayBarsWanted(reason)
@@ -1634,20 +1542,6 @@ function TitanPanelBarButton_DisplayBarsWanted(reason)
 	for idx, v in pairs(TitanBarData) do
 		-- Show / hide plus kick auto hide, if needed
 		Titan_AutoHide_Init(idx)
-	end
-
-	-- Set anchors for other addons to use.
-	TitanAnchors()
-
-	if Titan_Global.switch.can_edit_ui then
-		-- Not needed with UI movable widgets
-		-- build debug output
-		local str = "_DisplayBarsWanted"
-			.. " UI user editable - skip adj frames"
-		Titan_Debug.Out('titan', 'bars_setup', str)
-	else
-		-- Adjust other frames because the bars shown / hidden may have changed
-		TitanPanel_AdjustFrames(true, "_DisplayBarsWanted")
 	end
 end
 
@@ -1715,7 +1609,7 @@ local function SetBar(frame)
 	local display = _G[frame];
 
 	local x, y, w = TitanVariables_GetBarPos(frame)
-	local tscale = TitanPanelGetVar("Scale")
+--	local tscale = TitanPanelGetVar("Scale")
 	local show = TitanBarData[frame].show
 	local bott = TitanBarData[frame].bott
 
@@ -1794,7 +1688,7 @@ function TitanPanelBarButton_Hide(frame)
 		-- This moves rather than hides. If we just hide then the plugins will still show.
 		-- Hide by ensuriing the Y offset is off the screen.
 		display:ClearAllPoints()
-		local h = (math.abs(y) + TITAN_PANEL_BAR_HEIGHT * 2) * (-1 * y)
+--		local h = (math.abs(y) + TITAN_PANEL_BAR_HEIGHT * 2) * (-1 * y)
 		local h = data.hide_y
 		--[[
 print("_Hide"
@@ -2156,14 +2050,15 @@ function TitanPanelBarButton:ADDON_LOADED(addon)
 end
 
 local function AddPlugin(owner, bar, category)
-	local plugin;
+	local plugin
 
 	for index, id in pairs(TitanPluginsIndex) do
 		plugin = TitanUtils_GetPlugin(id)
 		if plugin then
 			plugin.category = plugin and plugin.category or "General";
 			if (plugin.category == category) then -- add the plugin to the menu
-				local internal_bar, which_bar, which_frame_str = TitanUtils_GetWhichBar(id)
+				local bar_data = {TitanUtils_GetWhichBar(id)}
+				local which_bar = bar_data[2]
 				if not TitanGetVar(id, "ForceBar")
 					or (TitanGetVar(id, "ForceBar") == TitanBarData[bar:GetName()].name) then
 					local info = {};
@@ -2290,21 +2185,12 @@ local function GeneratorFunction(owner, rootDescription)
 	)
 
 	Titan_Menu.AddDivider(root)
-	if Titan_Global.switch.can_edit_ui then
 		local lay_out = GetLayout()
 		Titan_Menu.AddCommand(root, id, HUD_EDIT_MODE_MENU..": "..lay_out,
 			function()
 				ShowUIPanel(EditModeManagerFrame)
 			end
 	)
-	else
-		local config = L["TITAN_PANEL_MENU_CONFIGURATION"].." "
-		Titan_Menu.AddCommand(root, id, config..L["TITAN_PANEL_MENU_OPTIONS_BARS_ALL"],
-			function()
-				TitanUpdateConfig("init")
-				AceConfigDialog:Open("Titan Panel Globals")
-			end)
-	end
 
 	Titan_Menu.AddDivider(root)
 	-----------------
@@ -2312,7 +2198,7 @@ local function GeneratorFunction(owner, rootDescription)
 	Titan_Menu.AddCommand(root, id, L["TITAN_PANEL_MENU_PROFILES"] .. " " .. L["TITAN_PANEL_MENU_CONFIGURATION"],
 		function()
 			TitanUpdateConfig("init")
-			AceConfigDialog:Open("Titan Panel Addon Chars")
+			AceConfigDialog:Open("Titan Panel Addon Profiles")
 		end
 	)
 

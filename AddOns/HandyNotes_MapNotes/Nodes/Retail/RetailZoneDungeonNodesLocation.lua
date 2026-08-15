@@ -796,6 +796,12 @@ ns.currentSourceFile = "RetailZoneDungeonNodesLocation.lua"
 
         if self.db.profile.showZoneQuelThalas then
 
+          if self.db.profile.showZonePassage then 
+            nodes[2512][46866487] = { name = L["Way to the Instance Entrance"] .. ":\n ", mnID = 2509, id = { 1320, 1322 }, type = "PassageDungeonRaidMulti", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Altar der Fänge, Der Giftige Abgrund
+            nodes[2512][30206475] = { name = L["Way to the Instance Entrance"] .. ":\n ", mnID = 2509, id = { 1320, 1322 }, type = "PassageDungeonRaidMulti", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Altar der Fänge, Der Giftige Abgrund
+            nodes[2512][44374421] = { name = L["Way to the Instance Entrance"] .. ":\n ", mnID = 2509, id = { 1320, 1322 }, type = "PassageDungeonRaidMulti", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Altar der Fänge, Der Giftige Abgrund
+          end
+
           -- Quel'Thalas Dungeons
           if self.db.profile.showZoneDungeons then
             nodes[2424][63461538] = { id = 1300, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Terrasse der Magister
@@ -807,6 +813,8 @@ ns.currentSourceFile = "RetailZoneDungeonNodesLocation.lua"
             nodes[2444][53653339] = { id = 1313, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Arena der Leerennarbe
             nodes[2413][26467804] = { id = 1309, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Das blendende Tal
             nodes[2437][29838450] = { id = 1311, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Nalorakks Bau
+            nodes[2509][47246812] = { id = 1322, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Altar der Fänge
+            nodes[2512][88678730] = { id = 1322, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Altar der Fänge
           end
 
           -- Quela'Thalas Raids
@@ -814,6 +822,9 @@ ns.currentSourceFile = "RetailZoneDungeonNodesLocation.lua"
             nodes[2405][45246483] = { id = 1307, type = "Raid", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Leerenspitze
             nodes[2413][61386289] = { id = 1314, type = "Raid", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Der Traumriss
             nodes[2424][52608529] = { id = 1308, type = "Raid", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Marsch auf Quel'Danas
+            nodes[2413][73556635] = { id = 1305, type = "Raid", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Sporfall
+            nodes[2509][47232286] = { id = 1320, type = "Raid", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Der giftige Abgrund
+            nodes[2512][88818020] = { id = 1320, type = "Raid", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Der giftige Abgrund
           end
 
         end

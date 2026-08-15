@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Krowi-Frostmane EU
-## Version: 95.0
+## Version: 99.2
 
 ## Title: Krowi's |cFF1D92C2Achievement Filter|r
 ## Notes: Filters your achievements.
@@ -16,7 +16,7 @@
 
 ## OptionalDeps: BetterWardrobe, ElvUI, GW2_UI, InstanceAchievementTracker
 
-## SavedVariables: KrowiAF_DebugTable, KrowiAF_Options, KrowiAF_SavedData, KrowiAF_Filters, KrowiAF_SearchOptions, KrowiAF_Achievements
+## SavedVariables: KrowiAF_DebugTable, KrowiAF_Options, KrowiAF_SavedData, KrowiAF_Filters, KrowiAF_SearchOptions, KrowiAF_Achievements, KrowiAF_MapVerifier
 
 ## X-Prefix: KrowiAF
 ## X-Acronym: KAF
@@ -52,7 +52,6 @@ Gui\FilesClassic.xml [AllowLoadGameType wrath, cata, mists]
 Data\Files.xml
 
 Data\Retail\Files.xml [AllowLoadGameType mainline]
-Data\Classic\Files.xml [AllowLoadGameType wrath, cata, mists]
 
 DataAddons\Shared\Files.xml
 
@@ -60,5 +59,3 @@ DataAddons\Retail\Files.xml [AllowLoadGameType mainline]
 DataAddons\Classic\Files.xml [AllowLoadGameType wrath, cata, mists]
 
 DataAddons\Loaders\Files.xml
-
-Benchmark.lua

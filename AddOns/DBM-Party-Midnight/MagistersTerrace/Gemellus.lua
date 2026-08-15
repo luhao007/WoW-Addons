@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2660, "DBM-Party-Midnight", 3, 1300)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260713204720")
 mod:SetCreatureID(239636)
 mod:SetEncounterID(3073)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -24,10 +24,10 @@ local timerVoidSecretionsCD				= mod:NewCDCountTimer(20.5, 1224104, nil, nil, ni
 mod:AddCustomAlertSoundOption(1223847, true, 2)--Triplicate
 mod:AddCustomAlertSoundOption(1224299, true, 1)--Astral Grasp
 --Private aura sounds
---mod:AddPrivateAuraSoundOption(1223958, true, 1223958, 1, 1)--Cosmic Sting
-mod:AddPrivateAuraSoundOption(1224104, true, 1224104, 1, 2, "watchfeet", 8)--Void Secretions
-mod:AddPrivateAuraSoundOption(1253709, true, 1253709, 1, 1, "linegather", 2)--Neural Link
---mod:AddPrivateAuraSoundOption(1224299, true, 1224299, 1, 1)--Astral Grasp
+mod:AddAuraSoundOption(1223958, true, 1223958, 1, 1, "poolyou", 18)--Cosmic Sting
+mod:AddAuraSoundOption(1224104, true, 1224104, 1, 2, "watchfeet", 8)--Void Secretions
+mod:AddAuraSoundOption(1253709, true, 1253709, 1, 1, "linegather", 2)--Neural Link
+--mod:AddAuraSoundOption(1224299, true, 1224299, 1, 1)--Astral Grasp
 
 mod.vb.triplicateCount = 0
 mod.vb.stingCount = 0
@@ -37,16 +37,19 @@ local badStateDetected = false
 local triplicateUsed = false
 
 ---@param self DBMMod
----@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 local function setFallback(self, dontSetAlerts)
 	--Blizz API fallbacks
 	if not dontSetAlerts then
 	end
-	timerTriplicateCD:SetTimeline(635)
-	timerNeuralLinkCD:SetTimeline(97)
-	timerAstralGraspCD:SetTimeline(98)
-	timerVoidSecretionsCD:SetTimeline(99)
-	timerCosmicStingCD:SetTimeline(100)
+	--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+	timerTriplicateCD:SetTimeline(635, onlyColor)
+	timerNeuralLinkCD:SetTimeline(97, onlyColor)
+	timerAstralGraspCD:SetTimeline(98, onlyColor)
+	timerVoidSecretionsCD:SetTimeline(99, onlyColor)
+	timerCosmicStingCD:SetTimeline(100, onlyColor)
 end
 
 function mod:OnLimitedCombatStart()
@@ -58,16 +61,13 @@ function mod:OnLimitedCombatStart()
 	triplicateUsed = false
 	self:EnableAlertOptions(1223847, 635, "specialsoon", 2, 2, 0)
 	self:EnableAlertOptions(1224299, 98, "pullin", 2, 2, 0)
-	if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+	if DBM.Options.HardcodedTimer and not badStateDetected then
 		self:IgnoreBlizzardAPI()
 		self:RegisterShortTermEvents(
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
 			"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 		)
-		--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-		if DBM.Options.HideDBMBars then
-			setFallback(self, true)
-		end
+		setFallback(self, true)
 	else
 		setFallback(self)
 	end

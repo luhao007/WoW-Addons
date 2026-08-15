@@ -12,7 +12,7 @@ end
 local mod	= DBM:NewMod("Ragnaros-Classic", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260527072013")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(DBM:IsSeasonal("SeasonOfDiscovery") and 228438 or 11502)
 mod:SetEncounterID(672)
@@ -36,7 +36,7 @@ mod:RegisterEvents(
 )
 mod:RegisterEventsInCombat(
 	"UNIT_DIED",
-	"UNIT_SPELLCAST_SUCCEEDED"--TBC and later, no good in vanilla
+	"UNIT_SPELLCAST_SUCCEEDED"
 )
 
 -- TODO: need a better log of this UCS event, was standing too far away not rarely targeting him, so only got one. wonder if this is useful
@@ -48,21 +48,16 @@ ability.id = 20566 and type = "cast" or target.id = 12143 and type = "death"
 local warnWrathRag		= mod:NewSpellAnnounce(20566, 3)
 local warnSubmerge		= mod:NewAnnounce("WarnSubmerge", 2, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp")
 local warnEmerge		= mod:NewAnnounce("WarnEmerge", 2, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp")
-local warnPhase2Soon
-if DBM:IsSeasonal("SeasonOfDiscovery") then
-	warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
-end
--- "Wrath of Ragnaros-20566-npc:228438-000024194D = pull:30.6, 27.5, 27.5, 35.6, 139.2, 27.5, 34.0, 30.8, 27.5, 31.3",
--- "Wrath of Ragnaros-20566-npc:228438-0000241D6F = pull:26.0, 27.5, 27.5, 30.8, 32.4, 34.2, 127.8, 27.5, 25.9, 29.1, 30.9, 26.6",
--- "Wrath of Ragnaros-20566-npc:228438-00002421C6 = pull:27.6, 29.2, 32.3, 102.0, 29.1, 25.9, 34.0",
-local timerWrathRag		= mod:NewVarTimer("v25.9-34.7", 20566, nil, nil, nil, 2) --(26-34 in SoD?)
+
+local timerWrathRag		= mod:NewVarTimer("v25.9-34.7", 20566, nil, nil, nil, 2)
 local timerSubmerge		= mod:NewTimer(180, "TimerSubmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, 6)
 local timerEmerge		= mod:NewTimer(90, "TimerEmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)
 local timerCombatStart	= mod:NewTimer(83, "timerCombatStart", "132349", nil, nil, nil, nil, nil, 1, 3)--Custom for now, so it can use 3 sec count instead of 5
 
-local specWarnGTFO
+local specWarnGTFO, warnPhase2Soon
 if DBM:IsSeasonal("SeasonOfDiscovery") then
-	specWarnGTFO		= mod:NewSpecialWarningGTFO(461062, nil, nil, nil, 1, 8)
+	specWarnGTFO		= mod:NewSpecialWarningGTFO(461062, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+	warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
 end
 
 mod.vb.addLeft = 8
@@ -164,8 +159,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	end
 end
 
---TBC+ only, no UNIT events in classic
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
+function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, spellId)
 	if spellId == 20567 then--Ragnaros Submerge Visual
 		self:SendSync("Submerge")
 	end

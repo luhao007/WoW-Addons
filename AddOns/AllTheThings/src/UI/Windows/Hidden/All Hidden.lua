@@ -13,6 +13,7 @@ local HiddenWindowSuffixes = {
 app:CreateWindow("All-Hidden", {
 	AllowCompleteSound = true,
 	Commands = { "atthidden" },
+	RootCommands = { "hidden" },
 	--ChatCommand = "all-hidden",
 	HelpText = "Provides a single command to open all Hidden content in a single window",
 	OnInit = function(self, handlers)

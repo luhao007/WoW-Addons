@@ -1,5 +1,6 @@
-local addonName, addonTable = ...;
-local TardisInfo=addonTable.TardisInfo
+local addonName, PD = ...;
+local TardisInfo=PD.TardisInfo
+
 function TardisInfo.Yell(Activate)
 	if not PIGA["Tardis"]["Yell"]["Open"] then return end
 	local Create, Data, Fun, L= unpack(PIG)
@@ -14,25 +15,123 @@ function TardisInfo.Yell(Activate)
 	local PIGSetFont=Create.PIGSetFont
 	local PigSetEditBoxData=Create.InitializeEditBox
 	local IsEditBoxNumber=Create.IsEditBoxNumber
-	------------------------
-	local ConvertToRaid=ConvertToRaid or C_PartyInfo and C_PartyInfo.ConvertToRaid
-	local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
-	local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
+
+	-------------
 	local sub = _G.string.sub
 	local gsub = _G.string.gsub
 	local match = _G.string.match
+
 	local GetPindaoList=Fun.GetPindaoList
 	local GetYellPindao=Fun.GetYellPindao
 	local Key_fenge=Fun.Key_fenge
 	local Get_famsg=Fun.Get_famsg
+	local SetAutoInviteOpen=Fun.SetAutoInviteOpen
+	local GetAutoInviteOpen=Fun.GetAutoInviteOpen
+
 	local cl_Name=Data.cl_Name
 	local cl_Name_Role=Data.cl_Name_Role
 	local zhizeAtlas=Data.zhizeAtlas
 	local MSGsuijizifu=Data.MSGsuijizifu
 	---
+	local GnName,GnUI,GnIcon,FrameLevel,QuickBut_index = unpack(TardisInfo.uidata)
+	local QuickBut_index=QuickBut_index+1
+
 	local InvF=_G[GnUI]
-	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_YELL"],80,"Bot")
+	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_YELL"],80)
 	if Activate then fujiF:Show() fujiTabBut:Selected(true) end
+	Create.PIGaddQuickBut(QuickBut_index,{
+		Open=function()
+			return PIGA["QuickBut"]["Open"] and PIGA["Tardis"]["Open"] and PIGA["Tardis"]["Yell"]["ShowDesktopBut"]
+		end,
+		Icon=132351,
+		Tooltip=KEY_BUTTON1.."-|cff00FFFF"..L["TARDIS_YELL"].."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r",
+		fun=function(QkBut,QuickButUI)
+			QkBut.Cooldown = CreateFrame("Cooldown",nil, QkBut, "CooldownFrameTemplate")
+			QkBut.Cooldown:SetAllPoints()
+			QkBut:HookScript("OnClick", function (self,button)
+				local InvF=_G[GnUI]
+				if button=="LeftButton" then
+					if self.Cooldown:GetCooldownDuration()>0 then
+						PIGErrorMsg(ERR_CHAT_THROTTLED);
+					else
+						fujiF.botF.ShowDesktopBut.ButUI=QkBut
+						fujiF.Kaishi_Yell(self)
+					end	
+				else
+					if InvF:IsShown() then
+						InvF:Hide()
+					else
+						InvF:Show()
+						Create.Show_TabBut_R(InvF.F,fujiF,fujiTabBut)
+					end
+				end
+			end);
+			local WWHH = 24
+			QkBut.AutoYaoqing = CreateFrame("Button",nil,QkBut);
+			QkBut.AutoYaoqing:SetSize(WWHH,WWHH);
+			QkBut.AutoYaoqing.Tex = QkBut.AutoYaoqing:CreateTexture(nil, "BORDER");
+			function fujiF:Update_QkButAutoYaoqing()
+				if GetAutoInviteOpen("Yell") then
+					QkBut.AutoYaoqing.Tex:SetTexture("interface/common/indicator-green.blp");
+				else
+					QkBut.AutoYaoqing.Tex:SetTexture("interface/common/indicator-gray.blp");
+				end
+			end
+			fujiF:Update_QkButAutoYaoqing()
+			QkBut.AutoYaoqing.Tex:SetPoint("CENTER",0,-1);
+			QkBut.AutoYaoqing.Tex:SetSize(WWHH,WWHH);
+			QkBut.AutoYaoqing:SetScript("OnEnter", function (self)
+				GameTooltip:ClearLines();
+				local offset1 = QkBut:GetBottom();
+				-- if offset1>(WowHeight*0.5) then
+				-- 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT",-20,0);
+				-- else
+					GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+				--end
+				if GetAutoInviteOpen("Yell") then
+					GameTooltip:AddLine("自动回复/邀请:|cff00ff00"..ENABLE.."|r")
+					GameTooltip:AddLine("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..CLOSE.."|r")
+				else
+					GameTooltip:AddLine("自动回复/邀请:|cffff0000"..CLOSE.."|r")
+					GameTooltip:AddLine("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..ENABLE.."|r")
+				end
+				GameTooltip:Show();
+			end);
+			QkBut.AutoYaoqing:SetScript("OnLeave", function ()
+				GameTooltip:ClearLines();
+				GameTooltip:Hide() 
+			end);
+			QkBut.AutoYaoqing:SetScript("OnClick", function (self)
+				PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
+				fujiF:StartAutoInviteFun()
+				GameTooltip:Hide() 
+			end)
+			local function UpdateAutoYaoqingBut()
+				QkBut.AutoYaoqing:ClearAllPoints();
+				if PIGA["QuickBut"]["Pailie"]==1 then
+					local WowHeight=GetScreenHeight();
+					local offset1 = QkBut:GetBottom() or 200
+					if offset1>(WowHeight*0.5) then
+						QkBut.AutoYaoqing:SetPoint("TOP",QkBut,"BOTTOM",0,-2);
+					else
+						QkBut.AutoYaoqing:SetPoint("BOTTOM",QkBut,"TOP",0,2);
+					end
+				elseif PIGA["QuickBut"]["Pailie"]==2 then
+					local WowWidth=GetScreenWidth()
+					local offset1 = QkBut:GetLeft() or 500
+					if offset1>(WowWidth*0.5) then
+						QkBut.AutoYaoqing:SetPoint("RIGHT",QkBut,"LEFT",-2,0);
+					else
+						QkBut.AutoYaoqing:SetPoint("LEFT",QkBut,"RIGHT",2,0);
+					end
+				end
+			end
+			UpdateAutoYaoqingBut()
+			hooksecurefunc(QuickButUI, "UpdateShowHide", function()
+				UpdateAutoYaoqingBut()
+	        end)
+		end,
+	})
 	--=====================
 	fujiF.topF = PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",4,-4});
 	fujiF.topF:SetPoint("TOPRIGHT", fujiF, "TOPRIGHT", -4, -4);
@@ -178,7 +277,7 @@ function TardisInfo.Yell(Activate)
 	if ContainerFrameItemButton_OnModifiedClick then
 		hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", function(self, button)
 			if button=="LeftButton" and IsShiftKeyDown() then
-		        local itemLink = GetContainerItemLink(self:GetParent():GetID(), self:GetID())
+		        local itemLink = PIGGetContainerItemLink(self:GetParent():GetID(), self:GetID())
 		        if itemLink and fujiF.botF.YellF.E:IsVisible() then
 		            fujiF.botF.YellF.E:Insert(itemLink)
 		        end
@@ -187,7 +286,7 @@ function TardisInfo.Yell(Activate)
 	else
 		hooksecurefunc(ContainerFrameItemButtonMixin, "OnClick", function(self,button)
 			if button=="LeftButton" and IsShiftKeyDown() then
-		        local itemLink = GetContainerItemLink(self:GetParent():GetID(), self:GetID())
+		        local itemLink = PIGGetContainerItemLink(self:GetParent():GetID(), self:GetID())
 		        if itemLink and fujiF.botF.YellF.E:IsVisible() then
 		            fujiF.botF.YellF.E:Insert(itemLink)
 		        end
@@ -215,10 +314,10 @@ function TardisInfo.Yell(Activate)
 	fujiF.botF.YellF.SaveYellTemp.F.E:SetPoint("LEFT", fujiF.botF.YellF.SaveYellTemp.F.Name, "RIGHT", 4,0);
 	PIGSetFont(fujiF.botF.YellF.SaveYellTemp.F.E,14,"OUTLINE")
 	fujiF.botF.YellF.SaveYellTemp.F.E:HookScript("OnShow", function(self)
-		Create.Update_SaveTempF(fujiF.botF.YellF.SaveYellTemp.F,fujiF.botF.YellF.E:GetText():gsub(" ", ""))
+		Create.Update_SaveTempF(PIGA["Tardis"]["Yell"]["YellTemp"],fujiF.botF.YellF.SaveYellTemp.F,fujiF.botF.YellF.E:GetText():gsub(" ", ""))
 	end)
 	fujiF.botF.YellF.SaveYellTemp.F.E:HookScript("OnTextChanged", function(self)
-		Create.Update_SaveTempF(fujiF.botF.YellF.SaveYellTemp.F,fujiF.botF.YellF.E:GetText():gsub(" ", ""))
+		Create.Update_SaveTempF(PIGA["Tardis"]["Yell"]["YellTemp"],fujiF.botF.YellF.SaveYellTemp.F,fujiF.botF.YellF.E:GetText():gsub(" ", ""))
 	end)
 	fujiF.botF.YellF.SaveYellTemp.F.error = PIGFontString(fujiF.botF.YellF.SaveYellTemp.F,{"TOPLEFT", fujiF.botF.YellF.SaveYellTemp.F.E, "BOTTOMLEFT", 6,-2},"", "OUTLINE");
 	fujiF.botF.YellF.SaveYellTemp.F.error:SetTextColor(1, 0, 0, 1)
@@ -291,15 +390,15 @@ function TardisInfo.Yell(Activate)
 		PIGA["Tardis"]["Yell"]["CMD"]=self:GetText()
 	end);
 	--功能动作条按钮
-	local QuickButUI=_G[Data.QuickButUIname]
 	fujiF.botF.ShowDesktopBut = PIGCheckbutton(fujiF.botF,{"TOPLEFT",fujiF.botF.jinzuCMD_inv,"BOTTOMLEFT",0,-8},{"功能动作条按钮","添加喊话按钮到功能动作条\n此功能需要先开启功能动作条"})
 	fujiF.botF.ShowDesktopBut:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["Tardis"]["Yell"]["ShowDesktopBut"]=true;
 		else
-			PIGA["Tardis"]["Yell"]["ShowDesktopBut"]=false;
+			PIGA["Tardis"]["Yell"]["ShowDesktopBut"]=nil;
 		end
-		QuickButUI.ButList[TardisInfo.uidata[5]+1]()
+		Data.QKData[QuickBut_index].Hide=not PIGA["Tardis"]["Yell"]["ShowDesktopBut"]
+		Fun.QuickBut_Update()
 	end);
 	function fujiF.botF.UpdateDesktopButCD(time,cdt)
 		if fujiF.botF.ShowDesktopBut.ButUI then
@@ -315,109 +414,7 @@ function TardisInfo.Yell(Activate)
 			end
 		end
 	end
-	QuickButUI.ButList[TardisInfo.uidata[5]+1]=function()
-		if not PIGA["QuickBut"]["Open"] or not PIGA["Tardis"]["Open"] then return end
-		if PIGA["Tardis"]["Yell"]["ShowDesktopBut"] then
-			if fujiF.botF.ShowDesktopBut.ButUI then
-				fujiF.botF.ShowDesktopBut.ButUI.yincang=nil
-				local fujiww = QuickButUI.nr:GetHeight()
-				fujiF.botF.ShowDesktopBut.ButUI:Show()
-				fujiF.botF.ShowDesktopBut.ButUI:SetWidth(fujiww)
-				QuickButUI:UpdateWidth()
-				return 
-			end
-			local WWHH = 24
-			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF"..L["TARDIS_YELL"].."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r"
-			local QkBut=PIGQuickBut(nil,QuickTooltip,132351)
-			fujiF.botF.ShowDesktopBut.ButUI=QkBut
-			QkBut.Cooldown = CreateFrame("Cooldown",nil, QkBut, "CooldownFrameTemplate")
-			QkBut.Cooldown:SetAllPoints()
-			QkBut:HookScript("OnClick", function (self,button)
-				if button=="LeftButton" then
-					if self.Cooldown:GetCooldownDuration()>0 then
-						PIG_OptionsUI:ErrorMsg(ERR_CHAT_THROTTLED);
-					else
-						fujiF.Kaishi_Yell(self)
-					end	
-				else
-					if InvF:IsShown() then
-						InvF:Hide()
-					else
-						InvF:Show()
-						Create.Show_TabBut_R(InvF.F,fujiF,fujiTabBut)
-					end
-				end
-			end);
-			QkBut.AutoYaoqing = CreateFrame("Button",nil,QkBut);
-			local function UpdateAutoYaoqingBut()
-			QkBut.AutoYaoqing:ClearAllPoints();
-				if PIGA["QuickBut"]["Pailie"]==1 then
-					local WowHeight=GetScreenHeight();
-					local offset1 = QkBut:GetBottom() or 200
-					if offset1>(WowHeight*0.5) then
-						QkBut.AutoYaoqing:SetPoint("TOP",QkBut,"BOTTOM",0,-2);
-					else
-						QkBut.AutoYaoqing:SetPoint("BOTTOM",QkBut,"TOP",0,2);
-					end
-				elseif PIGA["QuickBut"]["Pailie"]==2 then
-					local WowWidth=GetScreenWidth()
-					local offset1 = QkBut:GetLeft() or 500
-					if offset1>(WowWidth*0.5) then
-						QkBut.AutoYaoqing:SetPoint("RIGHT",QkBut,"LEFT",-2,0);
-					else
-						QkBut.AutoYaoqing:SetPoint("LEFT",QkBut,"RIGHT",2,0);
-					end
-				end
-			end
-			UpdateAutoYaoqingBut()
-			hooksecurefunc(QuickButUI, "UpdateWidth", function(self)
-				UpdateAutoYaoqingBut()
-            end)	
-			QkBut.AutoYaoqing:SetSize(WWHH,WWHH);
-			QkBut.AutoYaoqing.Tex = QkBut.AutoYaoqing:CreateTexture(nil, "BORDER");
-			if PIG_OptionsUI.AutoInvite.Yell then
-				QkBut.AutoYaoqing.Tex:SetTexture("interface/common/indicator-green.blp");
-			else
-				QkBut.AutoYaoqing.Tex:SetTexture("interface/common/indicator-gray.blp");
-			end
-			QkBut.AutoYaoqing.Tex:SetPoint("CENTER",0,-1);
-			QkBut.AutoYaoqing.Tex:SetSize(WWHH,WWHH);
-			QkBut.AutoYaoqing:SetScript("OnEnter", function (self)
-				GameTooltip:ClearLines();
-				local offset1 = QkBut:GetBottom();
-				-- if offset1>(WowHeight*0.5) then
-				-- 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT",-20,0);
-				-- else
-					GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-				--end
-				if PIG_OptionsUI.AutoInvite.Yell then
-					GameTooltip:AddLine("自动回复/邀请:|cff00ff00"..ENABLE.."|r")
-					GameTooltip:AddLine("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..CLOSE.."|r")
-				else
-					GameTooltip:AddLine("自动回复/邀请:|cffff0000"..CLOSE.."|r")
-					GameTooltip:AddLine("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..ENABLE.."|r")
-				end
-				GameTooltip:Show();
-			end);
-			QkBut.AutoYaoqing:SetScript("OnLeave", function ()
-				GameTooltip:ClearLines();
-				GameTooltip:Hide() 
-			end);
-			QkBut.AutoYaoqing:SetScript("OnClick", function (self)
-				PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
-				fujiF:StartAutoInviteFun()
-				GameTooltip:Hide() 
-			end)
-		else
-			if fujiF.botF.ShowDesktopBut.ButUI then
-				fujiF.botF.ShowDesktopBut.ButUI:Hide()
-				fujiF.botF.ShowDesktopBut.ButUI:SetWidth(0.0001)
-				fujiF.botF.ShowDesktopBut.ButUI.yincang=true
-				QuickButUI:UpdateWidth()
-			end
-		end
-	end
-	QuickButUI.ButList[TardisInfo.uidata[5]+1]()
+
 	--喊话按钮
 	fujiF.botF.yellbut = PIGButton(fujiF.botF,{"BOTTOMLEFT",fujiF.botF.YellF,"BOTTOMRIGHT",4,10},{100,25},SEND_LABEL..L["TARDIS_YELL"]);
 	fujiF.botF.yellbut:SetScript("OnClick", function (self)
@@ -475,7 +472,7 @@ function TardisInfo.Yell(Activate)
 			fujiF.botF.UpdateDesktopButCD(GetTime(), fujiF.Yell_CD*keyongshu)
 			hanhuadaojishiTime()
 		else
-			PIG_OptionsUI:ErrorMsg("请先选择喊话频道");
+			PIGErrorMsg("请先选择喊话频道");
 		end
 	end
 
@@ -503,12 +500,12 @@ function TardisInfo.Yell(Activate)
 	end)
 	--根据指令邀请
 	local function OFF_autoInvite(msg)
-		PIG_OptionsUI.AutoInvite.Yell=nil;
+		SetAutoInviteOpen("Yell",nil)
 		fujiF.botF.UpdateDesktopButONOFF(false)
 		fujiF.botF.AutoYaoqing.Tex:SetTexture("interface/common/indicator-gray.blp");
 		fujiF:UnregisterEvent("CHAT_MSG_WHISPER");
 		fujiF:UnregisterEvent("CHAT_MSG_SYSTEM");
-		PIG_OptionsUI:ErrorMsg(msg);
+		PIGErrorMsg(msg);
 	end
 	--判断是否是队长/团长/助理
 	function fujiF.Is_GroupLeader(laiyuan)
@@ -535,27 +532,28 @@ function TardisInfo.Yell(Activate)
 		return true,numGroupMembers
 	end
 	function fujiF:StartAutoInviteFun()
-		if PIG_OptionsUI:IsAutoInviteOpen("Yell") then
+		if Fun.IsAutoInviteOpen("Yell") then
 			return	
 		end
-		if PIG_OptionsUI.AutoInvite.Yell then
+		if GetAutoInviteOpen("Yell") then
 			OFF_autoInvite("已|cffFF0000关闭|r自动邀请")
 		else
 			if self.Is_GroupLeader() and self.Is_RaidNumOK() then
-				PIG_OptionsUI.AutoInvite.Yell=true
+				SetAutoInviteOpen("Yell",true)
 				self:RegisterEvent("CHAT_MSG_WHISPER");
 				self:RegisterEvent("CHAT_MSG_SYSTEM")
 				self.botF.AutoYaoqing.Tex:SetTexture("interface/common/indicator-green.blp");
 				self.botF.UpdateDesktopButONOFF(true)
-				PIG_OptionsUI:ErrorMsg("已|cff00FF00开启|r自动邀请");
+				PIGErrorMsg("已|cff00FF00开启|r自动邀请");
 			end
 		end
+		if fujiF.Update_QkButAutoYaoqing then fujiF:Update_QkButAutoYaoqing() end
 	end
 	--------
 	local function PIG_Invite_Fun(Pname)
 		local numGroupMembers = GetNumGroupMembers(LE_PARTY_CATEGORY_HOME)
 		if numGroupMembers==5 and not IsInRaid(LE_PARTY_CATEGORY_HOME) then
-			ConvertToRaid()
+			PIG_ConvertToRaid()
 		end
 		PIG_InviteUnit(Pname)
 	end
@@ -591,7 +589,7 @@ function TardisInfo.Yell(Activate)
 				self.Is_GroupLeader("event")
 				self.Is_RaidNumOK("event")
 			end)
-		elseif PIG_OptionsUI.AutoInvite.Yell then
+		elseif GetAutoInviteOpen("Yell") then
 			if arg1:match("[!Pig]") then return end
 			if event=="CHAT_MSG_SYSTEM" then
 				if arg1:match(Err_already) then

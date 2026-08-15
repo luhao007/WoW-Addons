@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2195, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260525233052")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(138967)
 mod:SetEncounterID(2145)
@@ -42,29 +42,29 @@ local warnRupturingBlood				= mod:NewStackAnnounce(274358, 2, nil, "Tank")
 local warnDeathwish						= mod:NewCountAnnounce(274271, 3)
 
 --Stage One: The Forces of Blood
-local specWarnDarkRevolation			= mod:NewSpecialWarningYouPos(273365, nil, nil, nil, 1, 2)
+local specWarnDarkRevolation			= mod:NewSpecialWarningYouPos(273365, nil, nil, nil, 1, 2, nil, nil, "mm1")
 local yellDarkRevolation				= mod:NewPosYell(273365)
 local yellDarkRevolationFades			= mod:NewIconFadesYell(273365)
-local specWarnPitofDespair				= mod:NewSpecialWarningDispel(273434, "RemoveCurse", nil, nil, 1, 2)
-local specWarnPoolofDarkness			= mod:NewSpecialWarningCount(273361, false, nil, nil, 1, 2)--Special warning for assigned soakers to optionally enable
-local specWarnCallofCrawgSoon			= mod:NewSoonCountAnnounce("ej18541", 2, 273889, "-Healer", nil, nil, nil, 2)
-local specWarnCallofHexerSoon			= mod:NewSoonCountAnnounce("ej18540", 2, 273889, "-Healer", nil, nil, nil, 2)
-local specWarnCallofCrusherSoon			= mod:NewSoonCountAnnounce("ej18539", 2, 273889, "-Healer", nil, nil, nil, 2)
-local specWarnCallofCrawg				= mod:NewSpecialWarningSwitch("ej18541", "-Healer", nil, nil, 1, 2)
-local specWarnCallofHexer				= mod:NewSpecialWarningSwitch("ej18540", "-Healer", nil, nil, 1, 2)
-local specWarnCallofCrusher				= mod:NewSpecialWarningSwitch("ej18539", "-Healer", nil, nil, 1, 2)
-local specWarnMinionofZul				= mod:NewSpecialWarningSwitch("ej18530", "MagicDispeller", nil, nil, 1, 2)
+local specWarnPitofDespair				= mod:NewSpecialWarningDispel(273434, "RemoveCurse", nil, nil, 1, 2, nil, nil, "helpdispel")
+local specWarnPoolofDarkness			= mod:NewSpecialWarningCount(273361, false, nil, nil, 1, 2, nil, nil, "helpsoak")--Special warning for assigned soakers to optionally enable
+local specWarnCallofCrawgSoon			= mod:NewSoonCountAnnounce(-18541, 2, 273889, "-Healer", nil, nil, nil, 2)
+local specWarnCallofHexerSoon			= mod:NewSoonCountAnnounce(-18540, 2, 273889, "-Healer", nil, nil, nil, 2)
+local specWarnCallofCrusherSoon			= mod:NewSoonCountAnnounce(-18539, 2, 273889, "-Healer", nil, nil, nil, 2)
+local specWarnCallofCrawg				= mod:NewSpecialWarningSwitch(-18541, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnCallofHexer				= mod:NewSpecialWarningSwitch(-18540, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnCallofCrusher				= mod:NewSpecialWarningSwitch(-18539, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnMinionofZul				= mod:NewSpecialWarningSwitch(-18530, "MagicDispeller", nil, nil, 1, 2, nil, nil, "helpdispel")
 ----Forces of Blood
-local specWarnCongealBlood				= mod:NewSpecialWarningSwitch(273451, "Dps", nil, nil, 3, 2)
-local specWarnBloodshard				= mod:NewSpecialWarningInterrupt(273350, false, nil, 4, 1, 2)--Spam cast, so opt in, not opt out
+local specWarnCongealBlood				= mod:NewSpecialWarningSwitch(273451, "Dps", nil, nil, 3, 2, nil, nil, "targetchange")
+local specWarnBloodshard				= mod:NewSpecialWarningInterrupt(273350, false, nil, 4, 1, 2, nil, nil, "kickcast")--Spam cast, so opt in, not opt out
 --Stage Two: Zul, Awakened
-local specWarnRupturingBlood			= mod:NewSpecialWarningStack(274358, nil, 3, nil, nil, 1, 6)
-local specWarnRupturingBloodTaunt		= mod:NewSpecialWarningTaunt(274358, nil, nil, nil, 1, 2)
-local specWarnRupturingBloodEdge		= mod:NewSpecialWarningMoveTo(274358, nil, nil, nil, 1, 7)
+local specWarnRupturingBlood			= mod:NewSpecialWarningStack(274358, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnRupturingBloodTaunt		= mod:NewSpecialWarningTaunt(274358, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnRupturingBloodEdge		= mod:NewSpecialWarningMoveTo(274358, nil, nil, nil, 1, 7, nil, nil, "runtoedge")
 local yellRupturingBloodFades			= mod:NewShortFadesYell(274358)
-local specWarnDeathwish					= mod:NewSpecialWarningYou(274271, nil, nil, nil, 1, 2)
+local specWarnDeathwish					= mod:NewSpecialWarningYou(274271, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellDeathwish						= mod:NewYell(274271)
-local specWarnDeathwishNear				= mod:NewSpecialWarningClose(274271, nil, nil, nil, 1, 2)
+local specWarnDeathwishNear				= mod:NewSpecialWarningClose(274271, nil, nil, nil, 1, 2, nil, nil, "runaway")
 
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))
 local timerDarkRevolationCD				= mod:NewCDCountTimer(55, 273365, nil, nil, nil, 3, nil, nil, nil, not mod:IsTank() and 1 or nil, 4)--55-63 (might get delayed by other casts)
@@ -231,6 +231,7 @@ end
 
 function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
+	self:UnregisterOnUpdateHandler()--Kill scanner
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

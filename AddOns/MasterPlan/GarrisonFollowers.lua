@@ -1,5 +1,5 @@
 local _, T = ...
-if T.Mark ~= 50 then return end
+if T.Mark ~= 266 then return end
 local G, L, EV = T.Garrison, T.L, T.Evie
 local countFreeFollowers = G.countFreeFollowers
 local GameTooltip = T.NotGameTooltip or GameTooltip

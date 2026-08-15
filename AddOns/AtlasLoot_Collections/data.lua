@@ -18,12 +18,12 @@ local data = AtlasLoot.ItemDB:Add(addonname)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "rf", nil, 17)
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 14)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", nil, 15)
-local P25_DIFF = data:AddDifficulty(AL["25 Player"], "p25", nil, 4)
-local P25H_DIFF = data:AddDifficulty(AL["25 Player Heroic"], "p25h", nil, 6)
-local MYTHIC_DIFF = data:AddDifficulty(AL["Mythic"], "m", nil, 16)
+local RF_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY3, "rf", nil, 17)
+local NORMAL_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "n", nil, 14)
+local HEROIC_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "h", nil, 15)
+local P25_DIFF = data:AddDifficulty(RAID_DIFFICULTY_25PLAYER, "p25", nil, 4)
+local P25H_DIFF = data:AddDifficulty(RAID_DIFFICULTY_25PLAYER_HEROIC, "p25h", nil, 6)
+local MYTHIC_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY6, "m", nil, 16)
 
 local LEGENDARY_DIFF = data:AddDifficulty(ITEM_QUALITY5_DESC)
 
@@ -351,6 +351,10 @@ data["TIMEWALKINGEVENT"]   = {
 				{ 1,  238739, "mount",                                  [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Chrono Corsair
 				{ 2,  205208, "mount",                                  [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Sandy Shalewing
 				{ 3,  232624, "mount",                                  [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Timely Buzzbee
+				{ 4,  257511, "mount",                                  [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Bronze Wilderling Harness
+				{ 5,  257514, "mount",                                  [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Bronze Corpsefly Harness
+				{ 6,  257516, "mount",                                  [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Bronze Gravewing Harness
+				{ 7,  257513, "mount",                                  [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Bronze Aquilon Harness
 				{ 16, 122338, [PRICE_EXTRA_ITTYPE] = "timewarped:750" },                                -- Ancient Heirloom Armor Casing
 				{ 17, 122339, [PRICE_EXTRA_ITTYPE] = "timewarped:900" },                                -- Ancient Heirloom Scabbard
 				{ 18, 122340, [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                               -- Timeworn Heirloom Armor Casing
@@ -363,6 +367,61 @@ data["TIMEWALKINGEVENT"]   = {
 				{ 25, 187998, [PRICE_EXTRA_ITTYPE] = "timewarped:1200", },                              -- Eternal Heirloom Scabbard
 				{ 26, 204336, [PRICE_EXTRA_ITTYPE] = "timewarped:1000", },                              -- Awakened Heirloom Armor Casing
 				{ 27, 204337, [PRICE_EXTRA_ITTYPE] = "timewarped:1200", },                              -- Awakened Heirloom Scabbard
+			},
+		},
+		{ -- Dragonflight
+			name = EXPANSION_NAME9,
+			[NORMAL_DIFF] = {
+				{ 1,   192778,         "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Liquid Hot Magma Slug
+				{ 2,   210140,         "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Black-Furred Bakar
+				{ 3,   260885,         "pet4949",                               [PRICE_EXTRA_ITTYPE] = "timewarped:2200" }, -- Shadowflame Remnant
+				{ 4,   259335,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Photo Finisher
+				{ 5,   259899,         [PRICE_EXTRA_ITTYPE] = "timewarped:750" },                               -- Ashen Horn of the Fallen Keeper
+				{ 6,   260170,         [PRICE_EXTRA_ITTYPE] = "timewarped:500" },                               -- Oathstone Fragment
+				{ 8,   258841,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Dragonscale Expedition
+				{ 9,   258842,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Maruuk Centaur
+				{ 10,  258843,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Iskaara Tuskarr
+				{ 11,  258844,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Valdrakken Accord
+				{ 12,  258845,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Loamm Niffen
+				{ 13,  258846,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Dream Wardens
+				{ 16,  260917,         [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Infinite Broodkeeper's Greatstaff
+				{ 17,  260926,         [PRICE_EXTRA_ITTYPE] = "timewarped:4000" },                              -- Ensemble: Shadowflame-Seared Druidic Garb
+				{ 18,  260899,         [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Ensemble: Time-Lost Earthwarden's Battlegear
+				{ 19,  260921,         [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Khan's Ceremonial Crossbow
+				{ 20,  260914,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Arsenal: Lost Plunder Key
+				{ 21,  260915,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Arsenal: Found Plunder Key
+				{ 22,  260923,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Infinite Timeslicer
+				{ 23,  260941,         [PRICE_EXTRA_ITTYPE] = "timewarped:2000" },                              -- Ensemble: Winter's Dreaming Garb
+				{ 24,  260944,         [PRICE_EXTRA_ITTYPE] = "timewarped:2000" },                              -- Ensemble: Pristine Draconic Scholar's Finery
+				{ 25,  260919,         [PRICE_EXTRA_ITTYPE] = "timewarped:600" },                               -- Scavenger's Banner
+				{ 26,  260920,         [PRICE_EXTRA_ITTYPE] = "timewarped:600" },                               -- Emergency Landing Kit
+				{ 27,  196993,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Cliffside Wylderdrake: Sleek Horns
+				{ 28,  210478,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Flourishing Whimsydrake: Gold and Pink Armor
+				{ 29,  207757,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Grotto Netherwing Drake: Purple and Silver Armor
+				{ 30,  207777,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Grotto Netherwing Drake: Yellow Scales
+				{ 101, 260945,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Ensemble: Razorscale Pauldrons
+				{ 102, 260946,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Ensemble: Dragonstone Shoulderguards
+				{ 104, "262362:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Expeditioner's Spellblade
+				{ 105, "262363:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Expeditioner's Mallet
+				{ 106, "262360:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:35" },                                -- Storyteller's Verses
+				{ 107, "262361:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:100" },                               -- Rothide Crusher
+				{ 108, "262359:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:100" },                               -- Djaradin Sparring Spear
+				{ 109, "262367:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:35" },                                -- Slumbering Guardian's Bulwark
+				{ 110, "262366:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:100" },                               -- Headmaster's Emberstaff
+				{ 111, "262365:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:100" },                               -- Maruuk Hunting Bow
+				{ 112, "262364:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Drakonid Stabber
+				{ 113, "262368:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Centaur Battleglaive
+				{ 114, "262380:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Chronomental Gauntlets
+				{ 115, "262385:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Nokhud Reaver Legplates
+				{ 116, "262381:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Chronomental Gloves
+				{ 117, "262384:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Shikaar Scout Breeches
+				{ 118, "262378:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Chronomental Grips
+				{ 119, "262382:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Teerai Watcher Breeches
+				{ 120, "262379:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Chronomental Halfgloves
+				{ 121, "262383:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Ohn'ir Initiate Leggings
+				{ 122, "262388:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Vaultkeeper's Signet
+				{ 123, "262387:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Silver Keeper's Band
+				{ 124, "262386:13607", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Bronze Drake's Promise
 			},
 		},
 		{ -- Shadowlands
@@ -1005,7 +1064,7 @@ data["APEXISCRYSTALGEAR"]  = {
 	ContentType = COLLECTION_CONTENT,
 	items = {
 		{
-			name = string.format(AL["ilvl %d"], 650).." "..AL["Armor"],
+			name = string.format(AL["ilvl %d"], 650).." "..ARMOR,
 			[NORMAL_DIFF] = {
 				{ 1,  128225, [PRICE_EXTRA_ITTYPE] = "apexis:20000" }, -- Empowered Apexis Fragment
 				{ 3,  124554, [PRICE_EXTRA_ITTYPE] = "apexis:5000" }, -- Baleful Hood
@@ -1024,7 +1083,7 @@ data["APEXISCRYSTALGEAR"]  = {
 			},
 		},
 		{
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[NORMAL_DIFF] = {
 				{ 1,   123974, "mount",                                            [PRICE_EXTRA_ITTYPE] = "apexis:150000" },   -- Reins of the Corrupted Dreadwing
 				{ 2,   116785, "mount",                                            [PRICE_EXTRA_ITTYPE] = "money:50000000:apexis:5000" }, -- Swift Frostwolf
@@ -1331,7 +1390,7 @@ data["CMGEAR"]             = {
 }
 
 data["MOUNTS"]             = {
-	name = AL["Mounts"],
+	name = MOUNTS,
 	ContentType = COLLECTION_CONTENT,
 	TableType = NORMAL_ITTYPE,
 	items =
@@ -1409,8 +1468,26 @@ data["MOUNTS"]             = {
 				{ 208, 268578, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4500" }, -- Void-Touched Hawkstrider
 				{ 209, 270041, "mount" },                                       -- Void-Touched Snapdragon
 				{ 210, 269828, "mount" },                                       -- Void-Corrupted Eagle Talon
-				{ 211, 270058, "mount" },                                       -- Rope Lynx Harness
-				-- { 127, 260228, "mount", [ACH_EXTRA_ITTYPE] = 61188 }, -- Galactic Gladiator's Goredrake
+				{ 211, 257225, "mount" },                                       -- Witherbark Warbear Harness
+				{ 212, 270058, "mount" },                                       -- Rope Lynx Harness
+				{ 213, 268364, "mount", [PRICE_EXTRA_ITTYPE] = "tender:500" },  -- Gilneas Loyalist's Rouncey
+				{ 214, 268363, "mount", [PRICE_EXTRA_ITTYPE] = "tender:500" },  -- Pyrewood Rebel's Rouncey
+				{ 215, 268877, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" },  -- Dusk-Painted Sun Roc
+				{ 216, 268876, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },    -- Flame-Painted Sun Roc
+				{ 217, 274650, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:15" }, -- Netherforged Nullframe
+				{ 218, 274649, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:15" }, -- Voidmancer's Starcarver
+				{ 219, 275664, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:15" }, -- Tortured Gorger
+				{ 220, 269240, "mount" },                                       -- Luminous Sporeglider
+				{ 221, 275464, "mount" },                                       -- Sun Festival's Painted Roc
+				{ 222, 260228, "mount", [ACH_EXTRA_ITTYPE] = 61188 },           -- Galactic Gladiator's Goredrake
+				{ 223, 258884, "mount", [ACH_EXTRA_ITTYPE] = 61463 },           -- Spawn of Vyranoth
+				{ 224, 192778, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Liquid Hot Magma Slug
+				{ 225, 210140, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Black-Furred Bakar
+				{ 226, 273317, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" },  -- Blackwater X-TREME Firework Rocket
+				{ 227, 273651, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },    -- Bilgewater X-TREME Firework Rocket
+				{ 228, 246731, "mount", [QUEST_EXTRA_ITTYPE] = 92899 },         -- Dusk Grimlynx
+				{ 229, 211087, "mount", [PRICE_EXTRA_ITTYPE] = "tender:500" },  -- Hateforged Blazecycle
+				{ 230, 274681, "mount", [PRICE_EXTRA_ITTYPE] = "tender:550" },  -- Badlands Buzzard
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
@@ -1601,10 +1678,10 @@ data["MOUNTS"]             = {
 				{ 528, 258515, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Crimson Lupine
 				{ 529, 259463, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Snowpaw Glimmerfur Prowler
 				{ 530, 258188, "mount", [ACH_EXTRA_ITTYPE] = 61451 },                    -- Geargrinder Mk. 11
-				{ 601, 257511, "mount", [ACH_EXTRA_ITTYPE] = 61394 },                    -- Bronze Wilderling Harness
-				{ 602, 257514, "mount", [ACH_EXTRA_ITTYPE] = 61394 },                    -- Bronze Corpsefly Harness
-				{ 603, 257516, "mount", [ACH_EXTRA_ITTYPE] = 61394 },                    -- Bronze Gravewing Harness
-				{ 604, 257513, "mount", [ACH_EXTRA_ITTYPE] = 61394 },                    -- Bronze Aquilon Harness
+				{ 601, 257511, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Bronze Wilderling Harness
+				{ 602, 257514, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Bronze Corpsefly Harness
+				{ 603, 257516, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Bronze Gravewing Harness
+				{ 604, 257513, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Bronze Aquilon Harness
 				{ 605, 212228, "mount", [PRICE_EXTRA_ITTYPE] = "tender:750" },           -- Reins of the Soaring Sky Fox
 				{ 606, 248994, "mount", [PRICE_EXTRA_ITTYPE] = "tender:500" },           -- Kalu'ak Crest-Horn
 				{ 607, 211085, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },             -- Jeweled Sapphire Scarab
@@ -1919,7 +1996,7 @@ data["MOUNTS"]             = {
 			},
 		},
 		{ -- Achievements
-			name = AL["Achievements"],
+			name = ACHIEVEMENTS,
 			CoinTexture = "Achievement",
 			[NORMAL_DIFF] = {
 				-- Alliance
@@ -2357,7 +2434,7 @@ data["MOUNTS"]             = {
 			},
 		},
 		{ -- Black Market Auction House
-			name = AL["Black Market Auction House"],
+			name = BLACK_MARKET_AUCTION_HOUSE,
 			[NORMAL_DIFF] = {
 				{ 1,   13335,  "mount" }, -- Deathcharger's Reins
 				{ 2,   23720,  "mount" }, -- Riding Turtle
@@ -2399,7 +2476,7 @@ data["MOUNTS"]             = {
 			},
 		},
 		{ -- Crafting
-			name = AL["Crafting"],
+			name = PROFESSIONS_CRAFTING,
 			[NORMAL_DIFF] = {
 				{ 1,  65891,  "mount" }, -- Vial of the Sands
 				{ 3,  60954,  "mount" }, -- Fossilized Raptor
@@ -2424,7 +2501,7 @@ data["MOUNTS"]             = {
 			},
 		},
 		{ -- Dungeons & Raids
-			name = AL["Dungeons"].." & "..AL["Raids"],
+			name = DUNGEONS.." & "..RAIDS,
 			[LEGION_DIFF] = {
 				{ 1, 142236, "mount" }, -- Midnight's Eternal Reins
 				{ 2, 137574, "mount" }, -- Living Infernal Core
@@ -2558,7 +2635,7 @@ data["MOUNTS"]             = {
 			},
 		},
 		{ -- In-game Shop
-			name = AL["Shop"],
+			name = BLIZZARD_STORE,
 			[NORMAL_DIFF] = {
 				{ 1,  54811,  "mount" }, -- Celestial Steed
 				{ 2,  69846,  "mount" }, -- Winged Guardian
@@ -2733,7 +2810,7 @@ data["CLASSICSETS"]        = {
 			},
 		},
 		{
-			name = AL["Miscellaneous"].." "..AL["Sets"],
+			name = MISCELLANEOUS.." "..AL["Sets"],
 			[NORMAL_DIFF] = {
 				{ 1,  "ClassicMisc:ironweavebattlesuit:n" },
 				{ 3,  "ClassicMisc:thegladiator:n" },
@@ -3221,7 +3298,7 @@ data["HEIRLOOM"]           = {
 			},
 		},
 		{ --HeirloomPVPArmor
-			name = AL["PvP"].." "..AL["Armor"],
+			name = PVP.." "..ARMOR,
 			[NORMAL_DIFF] = {
 				{ 1,  "122372:Stage3H", 122340 },                                -- Strengthened Stockade Pauldrons
 				{ 2,  "122372:Stage2H", 122338 },                                -- Strengthened Stockade Pauldrons
@@ -3247,7 +3324,7 @@ data["HEIRLOOM"]           = {
 			},
 		},
 		{ --HeirloomPVPWeapon
-			name = AL["PvP"].." "..AL["Weapons"],
+			name = PVP.." "..AL["Weapons"],
 			[NORMAL_DIFF] = {
 				{ 1,  "122364:Stage3H", 122341 },                                -- Sharpened Scarlet Kris
 				{ 2,  "122364:Stage2H", 122339 },                                -- Sharpened Scarlet Kris
@@ -3271,7 +3348,7 @@ data["HEIRLOOM"]           = {
 			},
 		},
 		{ --HeirloomPVPTrinkets
-			name = AL["PvP"].." "..AL["Trinkets"],
+			name = PVP.." "..AL["Trinkets"],
 			[ALLIANCE_DIFF] = {
 				{ 1,  "122530:Stage3H", 122340 },                                -- Inherited Mark of Tyranny
 				{ 2,  "122530:Stage2H", 122338 },                                -- Inherited Mark of Tyranny
@@ -3288,7 +3365,7 @@ data["HEIRLOOM"]           = {
 			},
 		},
 		{ --HeirloomMiscellaneous
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[NORMAL_DIFF] = {
 				{ 1, 122703, "ac9909" }, -- Chauffeured Chopper
 			},
@@ -3689,7 +3766,7 @@ data["LEGENDARIES"]        = {
 }
 
 data["MOLTENFRONT"]        = {
-	name = ALIL["Molten Front"].." "..AL["Rewards"],
+	name = ALIL["Molten Front"].." "..REWARDS,
 	ContentType = COLLECTION_CONTENT,
 	items = {
 		{
@@ -3794,6 +3871,7 @@ data["TABARDS"]            = {
 				{ 8,  267261,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Tabard of the Hara'ti Sage
 				{ 9,  267262,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Tabard of the Hara'ti Seer
 				{ 10, [ATLASLOOT_IT_ALLIANCE] = 246740, [ATLASLOOT_IT_HORDE] = 246795,              [QUEST_EXTRA_ITTYPE] = 90961 }, -- Tabard of the Haranir
+				{ 11, 267280,                           [PRICE_EXTRA_ITTYPE] = "money:300000" },                        -- Darkspear Dash Tabard
 				-- { 1, 267467 },                                  -- Silversun Compact Tabard (currently unobtainable)
 				-- { 1, 266902 },                                  -- Depthdiver's Tabard (currently unobtainable)
 				-- { 1, 266965 },                                  -- Tabard of Amani Abundance (currently unobtainable)
@@ -4131,7 +4209,7 @@ data["TABARDS"]            = {
 			},
 		},
 		{ -- Guild
-			name = AL["Guild"],
+			name = GUILD,
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
 				{ 1, 69210, [PRICE_EXTRA_ITTYPE] = "money:2500000" }, -- Guild Tabard	-- NEUTRAL
@@ -4187,7 +4265,7 @@ data["TABARDS"]            = {
 			},
 		},
 		{ -- PvP
-			name = AL["PvP"],
+			name = PVP,
 			[ALLIANCE_DIFF] = {
 				{ 1,  115972, [PRICE_EXTRA_ITTYPE] = "conquest:1000" }, -- Primal Gladiator's Tabard
 				{ 3,  15196,  [PRICE_EXTRA_ITTYPE] = "markofhonor:1" }, -- Private's Tabard
@@ -4492,6 +4570,258 @@ data["TIERSETS"]           = {
 				{ 20, "Tier32:shaman:MythicWithDifficulty" },
 				{ 22, "Tier32:warlock:MythicWithDifficulty" },
 				{ 24, "Tier32:warrior:MythicWithDifficulty" },
+			},
+		},
+		{ -- Tier 31 Sets
+			name = format(AL["Tier %d Sets"], 31).." ("..EXPANSION_NAME9..")",
+			tier = 31,
+			[RF_DIFF] = {
+				{ 1,  "Tier31:deathknight:LFRWithDifficulty" },
+				{ 3,  "Tier31:demonhunter:LFRWithDifficulty" },
+				{ 5,  "Tier31:druid:LFRWithDifficulty" },
+				{ 7,  "Tier31:evoker:LFRWithDifficulty" },
+				{ 9,  "Tier31:hunter:LFRWithDifficulty" },
+				{ 11, "Tier31:mage:LFRWithDifficulty" },
+				{ 13, "Tier31:monk:LFRWithDifficulty" },
+				{ 15, "Tier31:rogue:LFRWithDifficulty" },
+				{ 16, "Tier31:paladin:LFRWithDifficulty" },
+				{ 18, "Tier31:priest:LFRWithDifficulty" },
+				{ 20, "Tier31:shaman:LFRWithDifficulty" },
+				{ 22, "Tier31:warlock:LFRWithDifficulty" },
+				{ 24, "Tier31:warrior:LFRWithDifficulty" },
+			},
+			[NORMAL_DIFF] = {
+				{ 1,  "Tier31:deathknight:NormalWithDifficulty" },
+				{ 3,  "Tier31:demonhunter:NormalWithDifficulty" },
+				{ 5,  "Tier31:druid:NormalWithDifficulty" },
+				{ 7,  "Tier31:evoker:NormalWithDifficulty" },
+				{ 9,  "Tier31:hunter:NormalWithDifficulty" },
+				{ 11, "Tier31:mage:NormalWithDifficulty" },
+				{ 13, "Tier31:monk:NormalWithDifficulty" },
+				{ 15, "Tier31:rogue:NormalWithDifficulty" },
+				{ 16, "Tier31:paladin:NormalWithDifficulty" },
+				{ 18, "Tier31:priest:NormalWithDifficulty" },
+				{ 20, "Tier31:shaman:NormalWithDifficulty" },
+				{ 22, "Tier31:warlock:NormalWithDifficulty" },
+				{ 24, "Tier31:warrior:NormalWithDifficulty" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1,  "Tier31:deathknight:HeroicWithDifficulty" },
+				{ 3,  "Tier31:demonhunter:HeroicWithDifficulty" },
+				{ 5,  "Tier31:druid:HeroicWithDifficulty" },
+				{ 7,  "Tier31:evoker:HeroicWithDifficulty" },
+				{ 9,  "Tier31:hunter:HeroicWithDifficulty" },
+				{ 11, "Tier31:mage:HeroicWithDifficulty" },
+				{ 13, "Tier31:monk:HeroicWithDifficulty" },
+				{ 15, "Tier31:rogue:HeroicWithDifficulty" },
+				{ 16, "Tier31:paladin:HeroicWithDifficulty" },
+				{ 18, "Tier31:priest:HeroicWithDifficulty" },
+				{ 20, "Tier31:shaman:HeroicWithDifficulty" },
+				{ 22, "Tier31:warlock:HeroicWithDifficulty" },
+				{ 24, "Tier31:warrior:HeroicWithDifficulty" },
+			},
+			[MYTHIC_DIFF] = {
+				{ 1,  "Tier31:deathknight:MythicWithDifficulty" },
+				{ 3,  "Tier31:demonhunter:MythicWithDifficulty" },
+				{ 5,  "Tier31:druid:MythicWithDifficulty" },
+				{ 7,  "Tier31:evoker:MythicWithDifficulty" },
+				{ 9,  "Tier31:hunter:MythicWithDifficulty" },
+				{ 11, "Tier31:mage:MythicWithDifficulty" },
+				{ 13, "Tier31:monk:MythicWithDifficulty" },
+				{ 15, "Tier31:rogue:MythicWithDifficulty" },
+				{ 16, "Tier31:paladin:MythicWithDifficulty" },
+				{ 18, "Tier31:priest:MythicWithDifficulty" },
+				{ 20, "Tier31:shaman:MythicWithDifficulty" },
+				{ 22, "Tier31:warlock:MythicWithDifficulty" },
+				{ 24, "Tier31:warrior:MythicWithDifficulty" },
+			},
+		},
+		{ -- Tier 30 Sets
+			name = format(AL["Tier %d Sets"], 30).." ("..EXPANSION_NAME9..")",
+			tier = 30,
+			[RF_DIFF] = {
+				{ 1,  "Tier30:deathknight:LFRWithDifficulty" },
+				{ 3,  "Tier30:demonhunter:LFRWithDifficulty" },
+				{ 5,  "Tier30:druid:LFRWithDifficulty" },
+				{ 7,  "Tier30:evoker:LFRWithDifficulty" },
+				{ 9,  "Tier30:hunter:LFRWithDifficulty" },
+				{ 11, "Tier30:mage:LFRWithDifficulty" },
+				{ 13, "Tier30:monk:LFRWithDifficulty" },
+				{ 15, "Tier30:rogue:LFRWithDifficulty" },
+				{ 16, "Tier30:paladin:LFRWithDifficulty" },
+				{ 18, "Tier30:priest:LFRWithDifficulty" },
+				{ 20, "Tier30:shaman:LFRWithDifficulty" },
+				{ 22, "Tier30:warlock:LFRWithDifficulty" },
+				{ 24, "Tier30:warrior:LFRWithDifficulty" },
+			},
+			[NORMAL_DIFF] = {
+				{ 1,  "Tier30:deathknight:NormalWithDifficulty" },
+				{ 3,  "Tier30:demonhunter:NormalWithDifficulty" },
+				{ 5,  "Tier30:druid:NormalWithDifficulty" },
+				{ 7,  "Tier30:evoker:NormalWithDifficulty" },
+				{ 9,  "Tier30:hunter:NormalWithDifficulty" },
+				{ 11, "Tier30:mage:NormalWithDifficulty" },
+				{ 13, "Tier30:monk:NormalWithDifficulty" },
+				{ 15, "Tier30:rogue:NormalWithDifficulty" },
+				{ 16, "Tier30:paladin:NormalWithDifficulty" },
+				{ 18, "Tier30:priest:NormalWithDifficulty" },
+				{ 20, "Tier30:shaman:NormalWithDifficulty" },
+				{ 22, "Tier30:warlock:NormalWithDifficulty" },
+				{ 24, "Tier30:warrior:NormalWithDifficulty" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1,  "Tier30:deathknight:HeroicWithDifficulty" },
+				{ 3,  "Tier30:demonhunter:HeroicWithDifficulty" },
+				{ 5,  "Tier30:druid:HeroicWithDifficulty" },
+				{ 7,  "Tier30:evoker:HeroicWithDifficulty" },
+				{ 9,  "Tier30:hunter:HeroicWithDifficulty" },
+				{ 11, "Tier30:mage:HeroicWithDifficulty" },
+				{ 13, "Tier30:monk:HeroicWithDifficulty" },
+				{ 15, "Tier30:rogue:HeroicWithDifficulty" },
+				{ 16, "Tier30:paladin:HeroicWithDifficulty" },
+				{ 18, "Tier30:priest:HeroicWithDifficulty" },
+				{ 20, "Tier30:shaman:HeroicWithDifficulty" },
+				{ 22, "Tier30:warlock:HeroicWithDifficulty" },
+				{ 24, "Tier30:warrior:HeroicWithDifficulty" },
+			},
+			[MYTHIC_DIFF] = {
+				{ 1,  "Tier30:deathknight:MythicWithDifficulty" },
+				{ 3,  "Tier30:demonhunter:MythicWithDifficulty" },
+				{ 5,  "Tier30:druid:MythicWithDifficulty" },
+				{ 7,  "Tier30:evoker:MythicWithDifficulty" },
+				{ 9,  "Tier30:hunter:MythicWithDifficulty" },
+				{ 11, "Tier30:mage:MythicWithDifficulty" },
+				{ 13, "Tier30:monk:MythicWithDifficulty" },
+				{ 15, "Tier30:rogue:MythicWithDifficulty" },
+				{ 16, "Tier30:paladin:MythicWithDifficulty" },
+				{ 18, "Tier30:priest:MythicWithDifficulty" },
+				{ 20, "Tier30:shaman:MythicWithDifficulty" },
+				{ 22, "Tier30:warlock:MythicWithDifficulty" },
+				{ 24, "Tier30:warrior:MythicWithDifficulty" },
+			},
+		},
+		{ -- Tier 29 Sets
+			name = format(AL["Tier %d Sets"], 29).." ("..EXPANSION_NAME9..")",
+			tier = 29,
+			[RF_DIFF] = {
+				{ 1,  "Tier29:deathknight:LFRWithDifficulty" },
+				{ 3,  "Tier29:demonhunter:LFRWithDifficulty" },
+				{ 5,  "Tier29:druid:LFRWithDifficulty" },
+				{ 7,  "Tier29:evoker:LFRWithDifficulty" },
+				{ 9,  "Tier29:hunter:LFRWithDifficulty" },
+				{ 11, "Tier29:mage:LFRWithDifficulty" },
+				{ 13, "Tier29:monk:LFRWithDifficulty" },
+				{ 15, "Tier29:rogue:LFRWithDifficulty" },
+				{ 16, "Tier29:paladin:LFRWithDifficulty" },
+				{ 18, "Tier29:priest:LFRWithDifficulty" },
+				{ 20, "Tier29:shaman:LFRWithDifficulty" },
+				{ 22, "Tier29:warlock:LFRWithDifficulty" },
+				{ 24, "Tier29:warrior:LFRWithDifficulty" },
+			},
+			[NORMAL_DIFF] = {
+				{ 1,  "Tier29:deathknight:NormalWithDifficulty" },
+				{ 3,  "Tier29:demonhunter:NormalWithDifficulty" },
+				{ 5,  "Tier29:druid:NormalWithDifficulty" },
+				{ 7,  "Tier29:evoker:NormalWithDifficulty" },
+				{ 9,  "Tier29:hunter:NormalWithDifficulty" },
+				{ 11, "Tier29:mage:NormalWithDifficulty" },
+				{ 13, "Tier29:monk:NormalWithDifficulty" },
+				{ 15, "Tier29:rogue:NormalWithDifficulty" },
+				{ 16, "Tier29:paladin:NormalWithDifficulty" },
+				{ 18, "Tier29:priest:NormalWithDifficulty" },
+				{ 20, "Tier29:shaman:NormalWithDifficulty" },
+				{ 22, "Tier29:warlock:NormalWithDifficulty" },
+				{ 24, "Tier29:warrior:NormalWithDifficulty" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1,  "Tier29:deathknight:HeroicWithDifficulty" },
+				{ 3,  "Tier29:demonhunter:HeroicWithDifficulty" },
+				{ 5,  "Tier29:druid:HeroicWithDifficulty" },
+				{ 7,  "Tier29:evoker:HeroicWithDifficulty" },
+				{ 9,  "Tier29:hunter:HeroicWithDifficulty" },
+				{ 11, "Tier29:mage:HeroicWithDifficulty" },
+				{ 13, "Tier29:monk:HeroicWithDifficulty" },
+				{ 15, "Tier29:rogue:HeroicWithDifficulty" },
+				{ 16, "Tier29:paladin:HeroicWithDifficulty" },
+				{ 18, "Tier29:priest:HeroicWithDifficulty" },
+				{ 20, "Tier29:shaman:HeroicWithDifficulty" },
+				{ 22, "Tier29:warlock:HeroicWithDifficulty" },
+				{ 24, "Tier29:warrior:HeroicWithDifficulty" },
+			},
+			[MYTHIC_DIFF] = {
+				{ 1,  "Tier29:deathknight:MythicWithDifficulty" },
+				{ 3,  "Tier29:demonhunter:MythicWithDifficulty" },
+				{ 5,  "Tier29:druid:MythicWithDifficulty" },
+				{ 7,  "Tier29:evoker:MythicWithDifficulty" },
+				{ 9,  "Tier29:hunter:MythicWithDifficulty" },
+				{ 11, "Tier29:mage:MythicWithDifficulty" },
+				{ 13, "Tier29:monk:MythicWithDifficulty" },
+				{ 15, "Tier29:rogue:MythicWithDifficulty" },
+				{ 16, "Tier29:paladin:MythicWithDifficulty" },
+				{ 18, "Tier29:priest:MythicWithDifficulty" },
+				{ 20, "Tier29:shaman:MythicWithDifficulty" },
+				{ 22, "Tier29:warlock:MythicWithDifficulty" },
+				{ 24, "Tier29:warrior:MythicWithDifficulty" },
+			},
+		},
+		{ -- Tier 28 Sets
+			name = format(AL["Tier %d Sets"], 28).." ("..EXPANSION_NAME8..")",
+			tier = 28,
+			[RF_DIFF] = {
+				{ 1,  "Tier28:deathknight:LFRWithDifficulty" },
+				{ 3,  "Tier28:demonhunter:LFRWithDifficulty" },
+				{ 5,  "Tier28:druid:LFRWithDifficulty" },
+				{ 7,  "Tier28:hunter:LFRWithDifficulty" },
+				{ 9,  "Tier28:mage:LFRWithDifficulty" },
+				{ 11, "Tier28:monk:LFRWithDifficulty" },
+				{ 13, "Tier28:rogue:LFRWithDifficulty" },
+				{ 15, "Tier28:paladin:LFRWithDifficulty" },
+				{ 16, "Tier28:priest:LFRWithDifficulty" },
+				{ 18, "Tier28:shaman:LFRWithDifficulty" },
+				{ 20, "Tier28:warlock:LFRWithDifficulty" },
+				{ 22, "Tier28:warrior:LFRWithDifficulty" },
+			},
+			[NORMAL_DIFF] = {
+				{ 1,  "Tier28:deathknight:NormalWithDifficulty" },
+				{ 3,  "Tier28:demonhunter:NormalWithDifficulty" },
+				{ 5,  "Tier28:druid:NormalWithDifficulty" },
+				{ 7,  "Tier28:hunter:NormalWithDifficulty" },
+				{ 9,  "Tier28:mage:NormalWithDifficulty" },
+				{ 11, "Tier28:monk:NormalWithDifficulty" },
+				{ 13, "Tier28:rogue:NormalWithDifficulty" },
+				{ 15, "Tier28:paladin:NormalWithDifficulty" },
+				{ 16, "Tier28:priest:NormalWithDifficulty" },
+				{ 18, "Tier28:shaman:NormalWithDifficulty" },
+				{ 20, "Tier28:warlock:NormalWithDifficulty" },
+				{ 22, "Tier28:warrior:NormalWithDifficulty" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1,  "Tier28:deathknight:HeroicWithDifficulty" },
+				{ 3,  "Tier28:demonhunter:HeroicWithDifficulty" },
+				{ 5,  "Tier28:druid:HeroicWithDifficulty" },
+				{ 7,  "Tier28:hunter:HeroicWithDifficulty" },
+				{ 9,  "Tier28:mage:HeroicWithDifficulty" },
+				{ 11, "Tier28:monk:HeroicWithDifficulty" },
+				{ 13, "Tier28:rogue:HeroicWithDifficulty" },
+				{ 15, "Tier28:paladin:HeroicWithDifficulty" },
+				{ 16, "Tier28:priest:HeroicWithDifficulty" },
+				{ 18, "Tier28:shaman:HeroicWithDifficulty" },
+				{ 20, "Tier28:warlock:HeroicWithDifficulty" },
+				{ 22, "Tier28:warrior:HeroicWithDifficulty" },
+			},
+			[MYTHIC_DIFF] = {
+				{ 1,  "Tier28:deathknight:MythicWithDifficulty" },
+				{ 3,  "Tier28:demonhunter:MythicWithDifficulty" },
+				{ 5,  "Tier28:druid:MythicWithDifficulty" },
+				{ 7,  "Tier28:hunter:MythicWithDifficulty" },
+				{ 9,  "Tier28:mage:MythicWithDifficulty" },
+				{ 11, "Tier28:monk:MythicWithDifficulty" },
+				{ 13, "Tier28:rogue:MythicWithDifficulty" },
+				{ 15, "Tier28:paladin:MythicWithDifficulty" },
+				{ 16, "Tier28:priest:MythicWithDifficulty" },
+				{ 18, "Tier28:shaman:MythicWithDifficulty" },
+				{ 20, "Tier28:warlock:MythicWithDifficulty" },
+				{ 22, "Tier28:warrior:MythicWithDifficulty" },
 			},
 		},
 		{ -- Tier 21 Sets
@@ -5616,22 +5946,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 302, "Tier21:deathknight:NormalWithDifficulty" },
 				{ 303, "Tier21:deathknight:HeroicWithDifficulty" },
 				{ 304, "Tier21:deathknight:MythicWithDifficulty" },
-				{ 306, "Tier32:deathknight:LFRWithDifficulty" },
-				{ 307, "Tier32:deathknight:NormalWithDifficulty" },
-				{ 308, "Tier32:deathknight:HeroicWithDifficulty" },
-				{ 309, "Tier32:deathknight:MythicWithDifficulty" },
-				{ 311, "Tier33:deathknight:LFRWithDifficulty" },
-				{ 312, "Tier33:deathknight:NormalWithDifficulty" },
-				{ 313, "Tier33:deathknight:HeroicWithDifficulty" },
-				{ 314, "Tier33:deathknight:MythicWithDifficulty" },
-				{ 316, "Tier34:deathknight:LFRWithDifficulty" },
-				{ 317, "Tier34:deathknight:NormalWithDifficulty" },
-				{ 318, "Tier34:deathknight:HeroicWithDifficulty" },
-				{ 319, "Tier34:deathknight:MythicWithDifficulty" },
-				{ 321, "Tier35:deathknight:LFRWithDifficulty" },
-				{ 322, "Tier35:deathknight:NormalWithDifficulty" },
-				{ 323, "Tier35:deathknight:HeroicWithDifficulty" },
-				{ 324, "Tier35:deathknight:MythicWithDifficulty" },
+				{ 306, "Tier28:deathknight:LFRWithDifficulty" },
+				{ 307, "Tier28:deathknight:NormalWithDifficulty" },
+				{ 308, "Tier28:deathknight:HeroicWithDifficulty" },
+				{ 309, "Tier28:deathknight:MythicWithDifficulty" },
+				{ 311, "Tier29:deathknight:LFRWithDifficulty" },
+				{ 312, "Tier29:deathknight:NormalWithDifficulty" },
+				{ 313, "Tier29:deathknight:HeroicWithDifficulty" },
+				{ 314, "Tier29:deathknight:MythicWithDifficulty" },
+				{ 316, "Tier30:deathknight:LFRWithDifficulty" },
+				{ 317, "Tier30:deathknight:NormalWithDifficulty" },
+				{ 318, "Tier30:deathknight:HeroicWithDifficulty" },
+				{ 319, "Tier30:deathknight:MythicWithDifficulty" },
+				{ 321, "Tier31:deathknight:LFRWithDifficulty" },
+				{ 322, "Tier31:deathknight:NormalWithDifficulty" },
+				{ 323, "Tier31:deathknight:HeroicWithDifficulty" },
+				{ 324, "Tier31:deathknight:MythicWithDifficulty" },
+				{ 326, "Tier32:deathknight:LFRWithDifficulty" },
+				{ 327, "Tier32:deathknight:NormalWithDifficulty" },
+				{ 328, "Tier32:deathknight:HeroicWithDifficulty" },
+				{ 329, "Tier32:deathknight:MythicWithDifficulty" },
+				{ 401, "Tier33:deathknight:LFRWithDifficulty" },
+				{ 402, "Tier33:deathknight:NormalWithDifficulty" },
+				{ 403, "Tier33:deathknight:HeroicWithDifficulty" },
+				{ 404, "Tier33:deathknight:MythicWithDifficulty" },
+				{ 406, "Tier34:deathknight:LFRWithDifficulty" },
+				{ 407, "Tier34:deathknight:NormalWithDifficulty" },
+				{ 408, "Tier34:deathknight:HeroicWithDifficulty" },
+				{ 409, "Tier34:deathknight:MythicWithDifficulty" },
+				{ 411, "Tier35:deathknight:LFRWithDifficulty" },
+				{ 412, "Tier35:deathknight:NormalWithDifficulty" },
+				{ 413, "Tier35:deathknight:HeroicWithDifficulty" },
+				{ 414, "Tier35:deathknight:MythicWithDifficulty" },
 			},
 		},
 		{ -- DEMONHUNTER
@@ -5649,22 +5995,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 12,  "Tier21:demonhunter:NormalWithDifficulty" },
 				{ 13,  "Tier21:demonhunter:HeroicWithDifficulty" },
 				{ 14,  "Tier21:demonhunter:MythicWithDifficulty" },
-				{ 16,  "Tier32:demonhunter:LFRWithDifficulty" },
-				{ 17,  "Tier32:demonhunter:NormalWithDifficulty" },
-				{ 18,  "Tier32:demonhunter:HeroicWithDifficulty" },
-				{ 19,  "Tier32:demonhunter:MythicWithDifficulty" },
-				{ 21,  "Tier33:demonhunter:LFRWithDifficulty" },
-				{ 22,  "Tier33:demonhunter:NormalWithDifficulty" },
-				{ 23,  "Tier33:demonhunter:HeroicWithDifficulty" },
-				{ 24,  "Tier33:demonhunter:MythicWithDifficulty" },
-				{ 26,  "Tier34:demonhunter:LFRWithDifficulty" },
-				{ 27,  "Tier34:demonhunter:NormalWithDifficulty" },
-				{ 28,  "Tier34:demonhunter:HeroicWithDifficulty" },
-				{ 29,  "Tier34:demonhunter:MythicWithDifficulty" },
-				{ 101, "Tier35:demonhunter:LFRWithDifficulty" },
-				{ 102, "Tier35:demonhunter:NormalWithDifficulty" },
-				{ 103, "Tier35:demonhunter:HeroicWithDifficulty" },
-				{ 104, "Tier35:demonhunter:MythicWithDifficulty" },
+				{ 16,  "Tier28:demonhunter:LFRWithDifficulty" },
+				{ 17,  "Tier28:demonhunter:NormalWithDifficulty" },
+				{ 18,  "Tier28:demonhunter:HeroicWithDifficulty" },
+				{ 19,  "Tier28:demonhunter:MythicWithDifficulty" },
+				{ 21,  "Tier29:demonhunter:LFRWithDifficulty" },
+				{ 22,  "Tier29:demonhunter:NormalWithDifficulty" },
+				{ 23,  "Tier29:demonhunter:HeroicWithDifficulty" },
+				{ 24,  "Tier29:demonhunter:MythicWithDifficulty" },
+				{ 26,  "Tier30:demonhunter:LFRWithDifficulty" },
+				{ 27,  "Tier30:demonhunter:NormalWithDifficulty" },
+				{ 28,  "Tier30:demonhunter:HeroicWithDifficulty" },
+				{ 29,  "Tier30:demonhunter:MythicWithDifficulty" },
+				{ 101, "Tier31:demonhunter:LFRWithDifficulty" },
+				{ 102, "Tier31:demonhunter:NormalWithDifficulty" },
+				{ 103, "Tier31:demonhunter:HeroicWithDifficulty" },
+				{ 104, "Tier31:demonhunter:MythicWithDifficulty" },
+				{ 106, "Tier32:demonhunter:LFRWithDifficulty" },
+				{ 107, "Tier32:demonhunter:NormalWithDifficulty" },
+				{ 108, "Tier32:demonhunter:HeroicWithDifficulty" },
+				{ 109, "Tier32:demonhunter:MythicWithDifficulty" },
+				{ 111, "Tier33:demonhunter:LFRWithDifficulty" },
+				{ 112, "Tier33:demonhunter:NormalWithDifficulty" },
+				{ 113, "Tier33:demonhunter:HeroicWithDifficulty" },
+				{ 114, "Tier33:demonhunter:MythicWithDifficulty" },
+				{ 116, "Tier34:demonhunter:LFRWithDifficulty" },
+				{ 117, "Tier34:demonhunter:NormalWithDifficulty" },
+				{ 118, "Tier34:demonhunter:HeroicWithDifficulty" },
+				{ 119, "Tier34:demonhunter:MythicWithDifficulty" },
+				{ 121, "Tier35:demonhunter:LFRWithDifficulty" },
+				{ 122, "Tier35:demonhunter:NormalWithDifficulty" },
+				{ 123, "Tier35:demonhunter:HeroicWithDifficulty" },
+				{ 124, "Tier35:demonhunter:MythicWithDifficulty" },
 			},
 		},
 		{ -- DRUID
@@ -5791,43 +6153,71 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 507, "Tier21:druid:NormalWithDifficulty" },
 				{ 508, "Tier21:druid:HeroicWithDifficulty" },
 				{ 509, "Tier21:druid:MythicWithDifficulty" },
-				{ 511, "Tier32:druid:LFRWithDifficulty" },
-				{ 512, "Tier32:druid:NormalWithDifficulty" },
-				{ 513, "Tier32:druid:HeroicWithDifficulty" },
-				{ 514, "Tier32:druid:MythicWithDifficulty" },
-				{ 516, "Tier33:druid:LFRWithDifficulty" },
-				{ 517, "Tier33:druid:NormalWithDifficulty" },
-				{ 518, "Tier33:druid:HeroicWithDifficulty" },
-				{ 519, "Tier33:druid:MythicWithDifficulty" },
-				{ 521, "Tier34:druid:LFRWithDifficulty" },
-				{ 522, "Tier34:druid:NormalWithDifficulty" },
-				{ 523, "Tier34:druid:HeroicWithDifficulty" },
-				{ 524, "Tier34:druid:MythicWithDifficulty" },
-				{ 526, "Tier35:druid:LFRWithDifficulty" },
-				{ 527, "Tier35:druid:NormalWithDifficulty" },
-				{ 528, "Tier35:druid:HeroicWithDifficulty" },
-				{ 529, "Tier35:druid:MythicWithDifficulty" },
+				{ 511, "Tier28:druid:LFRWithDifficulty" },
+				{ 512, "Tier28:druid:NormalWithDifficulty" },
+				{ 513, "Tier28:druid:HeroicWithDifficulty" },
+				{ 514, "Tier28:druid:MythicWithDifficulty" },
+				{ 516, "Tier29:druid:LFRWithDifficulty" },
+				{ 517, "Tier29:druid:NormalWithDifficulty" },
+				{ 518, "Tier29:druid:HeroicWithDifficulty" },
+				{ 519, "Tier29:druid:MythicWithDifficulty" },
+				{ 521, "Tier30:druid:LFRWithDifficulty" },
+				{ 522, "Tier30:druid:NormalWithDifficulty" },
+				{ 523, "Tier30:druid:HeroicWithDifficulty" },
+				{ 524, "Tier30:druid:MythicWithDifficulty" },
+				{ 526, "Tier31:druid:LFRWithDifficulty" },
+				{ 527, "Tier31:druid:NormalWithDifficulty" },
+				{ 528, "Tier31:druid:HeroicWithDifficulty" },
+				{ 529, "Tier31:druid:MythicWithDifficulty" },
+				{ 601, "Tier32:druid:LFRWithDifficulty" },
+				{ 602, "Tier32:druid:NormalWithDifficulty" },
+				{ 603, "Tier32:druid:HeroicWithDifficulty" },
+				{ 604, "Tier32:druid:MythicWithDifficulty" },
+				{ 606, "Tier33:druid:LFRWithDifficulty" },
+				{ 607, "Tier33:druid:NormalWithDifficulty" },
+				{ 608, "Tier33:druid:HeroicWithDifficulty" },
+				{ 609, "Tier33:druid:MythicWithDifficulty" },
+				{ 611, "Tier34:druid:LFRWithDifficulty" },
+				{ 612, "Tier34:druid:NormalWithDifficulty" },
+				{ 613, "Tier34:druid:HeroicWithDifficulty" },
+				{ 614, "Tier34:druid:MythicWithDifficulty" },
+				{ 616, "Tier35:druid:LFRWithDifficulty" },
+				{ 617, "Tier35:druid:NormalWithDifficulty" },
+				{ 618, "Tier35:druid:HeroicWithDifficulty" },
+				{ 619, "Tier35:druid:MythicWithDifficulty" },
 			},
 		},
 		{ -- EVOKER
 			name = ATLASLOOT_EVOKER_COLOR..ALIL["EVOKER"],
 			[NORMAL_DIFF] = {
-				{ 1,  "Tier32:evoker:LFRWithDifficulty" },
-				{ 2,  "Tier32:evoker:NormalWithDifficulty" },
-				{ 3,  "Tier32:evoker:HeroicWithDifficulty" },
-				{ 4,  "Tier32:evoker:MythicWithDifficulty" },
-				{ 6,  "Tier33:evoker:LFRWithDifficulty" },
-				{ 7,  "Tier33:evoker:NormalWithDifficulty" },
-				{ 8,  "Tier33:evoker:HeroicWithDifficulty" },
-				{ 9,  "Tier33:evoker:MythicWithDifficulty" },
-				{ 11, "Tier34:evoker:LFRWithDifficulty" },
-				{ 12, "Tier34:evoker:NormalWithDifficulty" },
-				{ 13, "Tier34:evoker:HeroicWithDifficulty" },
-				{ 14, "Tier34:evoker:MythicWithDifficulty" },
-				{ 16, "Tier35:evoker:LFRWithDifficulty" },
-				{ 17, "Tier35:evoker:NormalWithDifficulty" },
-				{ 18, "Tier35:evoker:HeroicWithDifficulty" },
-				{ 19, "Tier35:evoker:MythicWithDifficulty" },
+				{ 1,   "Tier29:evoker:LFRWithDifficulty" },
+				{ 2,   "Tier29:evoker:NormalWithDifficulty" },
+				{ 3,   "Tier29:evoker:HeroicWithDifficulty" },
+				{ 4,   "Tier29:evoker:MythicWithDifficulty" },
+				{ 6,   "Tier30:evoker:LFRWithDifficulty" },
+				{ 7,   "Tier30:evoker:NormalWithDifficulty" },
+				{ 8,   "Tier30:evoker:HeroicWithDifficulty" },
+				{ 9,   "Tier30:evoker:MythicWithDifficulty" },
+				{ 11,  "Tier31:evoker:LFRWithDifficulty" },
+				{ 12,  "Tier31:evoker:NormalWithDifficulty" },
+				{ 13,  "Tier31:evoker:HeroicWithDifficulty" },
+				{ 14,  "Tier31:evoker:MythicWithDifficulty" },
+				{ 16,  "Tier32:evoker:LFRWithDifficulty" },
+				{ 17,  "Tier32:evoker:NormalWithDifficulty" },
+				{ 18,  "Tier32:evoker:HeroicWithDifficulty" },
+				{ 19,  "Tier32:evoker:MythicWithDifficulty" },
+				{ 21,  "Tier33:evoker:LFRWithDifficulty" },
+				{ 22,  "Tier33:evoker:NormalWithDifficulty" },
+				{ 23,  "Tier33:evoker:HeroicWithDifficulty" },
+				{ 24,  "Tier33:evoker:MythicWithDifficulty" },
+				{ 26,  "Tier34:evoker:LFRWithDifficulty" },
+				{ 27,  "Tier34:evoker:NormalWithDifficulty" },
+				{ 28,  "Tier34:evoker:HeroicWithDifficulty" },
+				{ 29,  "Tier34:evoker:MythicWithDifficulty" },
+				{ 101, "Tier35:evoker:LFRWithDifficulty" },
+				{ 102, "Tier35:evoker:NormalWithDifficulty" },
+				{ 103, "Tier35:evoker:HeroicWithDifficulty" },
+				{ 104, "Tier35:evoker:MythicWithDifficulty" },
 			},
 		},
 		{ -- HUNTER
@@ -5884,22 +6274,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 212, "Tier21:hunter:NormalWithDifficulty" },
 				{ 213, "Tier21:hunter:HeroicWithDifficulty" },
 				{ 214, "Tier21:hunter:MythicWithDifficulty" },
-				{ 216, "Tier32:hunter:LFRWithDifficulty" },
-				{ 217, "Tier32:hunter:NormalWithDifficulty" },
-				{ 218, "Tier32:hunter:HeroicWithDifficulty" },
-				{ 219, "Tier32:hunter:MythicWithDifficulty" },
-				{ 221, "Tier33:hunter:LFRWithDifficulty" },
-				{ 222, "Tier33:hunter:NormalWithDifficulty" },
-				{ 223, "Tier33:hunter:HeroicWithDifficulty" },
-				{ 224, "Tier33:hunter:MythicWithDifficulty" },
-				{ 226, "Tier34:hunter:LFRWithDifficulty" },
-				{ 227, "Tier34:hunter:NormalWithDifficulty" },
-				{ 228, "Tier34:hunter:HeroicWithDifficulty" },
-				{ 229, "Tier34:hunter:MythicWithDifficulty" },
-				{ 301, "Tier35:hunter:LFRWithDifficulty" },
-				{ 302, "Tier35:hunter:NormalWithDifficulty" },
-				{ 303, "Tier35:hunter:HeroicWithDifficulty" },
-				{ 304, "Tier35:hunter:MythicWithDifficulty" },
+				{ 216, "Tier28:hunter:LFRWithDifficulty" },
+				{ 217, "Tier28:hunter:NormalWithDifficulty" },
+				{ 218, "Tier28:hunter:HeroicWithDifficulty" },
+				{ 219, "Tier28:hunter:MythicWithDifficulty" },
+				{ 221, "Tier29:hunter:LFRWithDifficulty" },
+				{ 222, "Tier29:hunter:NormalWithDifficulty" },
+				{ 223, "Tier29:hunter:HeroicWithDifficulty" },
+				{ 224, "Tier29:hunter:MythicWithDifficulty" },
+				{ 226, "Tier30:hunter:LFRWithDifficulty" },
+				{ 227, "Tier30:hunter:NormalWithDifficulty" },
+				{ 228, "Tier30:hunter:HeroicWithDifficulty" },
+				{ 229, "Tier30:hunter:MythicWithDifficulty" },
+				{ 301, "Tier31:hunter:LFRWithDifficulty" },
+				{ 302, "Tier31:hunter:NormalWithDifficulty" },
+				{ 303, "Tier31:hunter:HeroicWithDifficulty" },
+				{ 304, "Tier31:hunter:MythicWithDifficulty" },
+				{ 306, "Tier32:hunter:LFRWithDifficulty" },
+				{ 307, "Tier32:hunter:NormalWithDifficulty" },
+				{ 308, "Tier32:hunter:HeroicWithDifficulty" },
+				{ 309, "Tier32:hunter:MythicWithDifficulty" },
+				{ 311, "Tier33:hunter:LFRWithDifficulty" },
+				{ 312, "Tier33:hunter:NormalWithDifficulty" },
+				{ 313, "Tier33:hunter:HeroicWithDifficulty" },
+				{ 314, "Tier33:hunter:MythicWithDifficulty" },
+				{ 316, "Tier34:hunter:LFRWithDifficulty" },
+				{ 317, "Tier34:hunter:NormalWithDifficulty" },
+				{ 318, "Tier34:hunter:HeroicWithDifficulty" },
+				{ 319, "Tier34:hunter:MythicWithDifficulty" },
+				{ 321, "Tier35:hunter:LFRWithDifficulty" },
+				{ 322, "Tier35:hunter:NormalWithDifficulty" },
+				{ 323, "Tier35:hunter:HeroicWithDifficulty" },
+				{ 324, "Tier35:hunter:MythicWithDifficulty" },
 			},
 		},
 		{ -- MAGE
@@ -5956,22 +6362,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 212, "Tier21:mage:NormalWithDifficulty" },
 				{ 213, "Tier21:mage:HeroicWithDifficulty" },
 				{ 214, "Tier21:mage:MythicWithDifficulty" },
-				{ 216, "Tier32:mage:LFRWithDifficulty" },
-				{ 217, "Tier32:mage:NormalWithDifficulty" },
-				{ 218, "Tier32:mage:HeroicWithDifficulty" },
-				{ 219, "Tier32:mage:MythicWithDifficulty" },
-				{ 221, "Tier33:mage:LFRWithDifficulty" },
-				{ 222, "Tier33:mage:NormalWithDifficulty" },
-				{ 223, "Tier33:mage:HeroicWithDifficulty" },
-				{ 224, "Tier33:mage:MythicWithDifficulty" },
-				{ 226, "Tier34:mage:LFRWithDifficulty" },
-				{ 227, "Tier34:mage:NormalWithDifficulty" },
-				{ 228, "Tier34:mage:HeroicWithDifficulty" },
-				{ 229, "Tier34:mage:MythicWithDifficulty" },
-				{ 301, "Tier35:mage:LFRWithDifficulty" },
-				{ 302, "Tier35:mage:NormalWithDifficulty" },
-				{ 303, "Tier35:mage:HeroicWithDifficulty" },
-				{ 304, "Tier35:mage:MythicWithDifficulty" },
+				{ 216, "Tier28:mage:LFRWithDifficulty" },
+				{ 217, "Tier28:mage:NormalWithDifficulty" },
+				{ 218, "Tier28:mage:HeroicWithDifficulty" },
+				{ 219, "Tier28:mage:MythicWithDifficulty" },
+				{ 221, "Tier29:mage:LFRWithDifficulty" },
+				{ 222, "Tier29:mage:NormalWithDifficulty" },
+				{ 223, "Tier29:mage:HeroicWithDifficulty" },
+				{ 224, "Tier29:mage:MythicWithDifficulty" },
+				{ 226, "Tier30:mage:LFRWithDifficulty" },
+				{ 227, "Tier30:mage:NormalWithDifficulty" },
+				{ 228, "Tier30:mage:HeroicWithDifficulty" },
+				{ 229, "Tier30:mage:MythicWithDifficulty" },
+				{ 301, "Tier31:mage:LFRWithDifficulty" },
+				{ 302, "Tier31:mage:NormalWithDifficulty" },
+				{ 303, "Tier31:mage:HeroicWithDifficulty" },
+				{ 304, "Tier31:mage:MythicWithDifficulty" },
+				{ 306, "Tier32:mage:LFRWithDifficulty" },
+				{ 307, "Tier32:mage:NormalWithDifficulty" },
+				{ 308, "Tier32:mage:HeroicWithDifficulty" },
+				{ 309, "Tier32:mage:MythicWithDifficulty" },
+				{ 311, "Tier33:mage:LFRWithDifficulty" },
+				{ 312, "Tier33:mage:NormalWithDifficulty" },
+				{ 313, "Tier33:mage:HeroicWithDifficulty" },
+				{ 314, "Tier33:mage:MythicWithDifficulty" },
+				{ 316, "Tier34:mage:LFRWithDifficulty" },
+				{ 317, "Tier34:mage:NormalWithDifficulty" },
+				{ 318, "Tier34:mage:HeroicWithDifficulty" },
+				{ 319, "Tier34:mage:MythicWithDifficulty" },
+				{ 321, "Tier35:mage:LFRWithDifficulty" },
+				{ 322, "Tier35:mage:NormalWithDifficulty" },
+				{ 323, "Tier35:mage:HeroicWithDifficulty" },
+				{ 324, "Tier35:mage:MythicWithDifficulty" },
 			},
 		},
 		{ -- MONK
@@ -6025,22 +6447,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 207, "Tier21:monk:NormalWithDifficulty" },
 				{ 208, "Tier21:monk:HeroicWithDifficulty" },
 				{ 209, "Tier21:monk:MythicWithDifficulty" },
-				{ 211, "Tier32:monk:LFRWithDifficulty" },
-				{ 212, "Tier32:monk:NormalWithDifficulty" },
-				{ 213, "Tier32:monk:HeroicWithDifficulty" },
-				{ 214, "Tier32:monk:MythicWithDifficulty" },
-				{ 216, "Tier33:monk:LFRWithDifficulty" },
-				{ 217, "Tier33:monk:NormalWithDifficulty" },
-				{ 218, "Tier33:monk:HeroicWithDifficulty" },
-				{ 219, "Tier33:monk:MythicWithDifficulty" },
-				{ 221, "Tier34:monk:LFRWithDifficulty" },
-				{ 222, "Tier34:monk:NormalWithDifficulty" },
-				{ 223, "Tier34:monk:HeroicWithDifficulty" },
-				{ 224, "Tier34:monk:MythicWithDifficulty" },
-				{ 226, "Tier35:monk:LFRWithDifficulty" },
-				{ 227, "Tier35:monk:NormalWithDifficulty" },
-				{ 228, "Tier35:monk:HeroicWithDifficulty" },
-				{ 229, "Tier35:monk:MythicWithDifficulty" },
+				{ 211, "Tier28:monk:LFRWithDifficulty" },
+				{ 212, "Tier28:monk:NormalWithDifficulty" },
+				{ 213, "Tier28:monk:HeroicWithDifficulty" },
+				{ 214, "Tier28:monk:MythicWithDifficulty" },
+				{ 216, "Tier29:monk:LFRWithDifficulty" },
+				{ 217, "Tier29:monk:NormalWithDifficulty" },
+				{ 218, "Tier29:monk:HeroicWithDifficulty" },
+				{ 219, "Tier29:monk:MythicWithDifficulty" },
+				{ 221, "Tier30:monk:LFRWithDifficulty" },
+				{ 222, "Tier30:monk:NormalWithDifficulty" },
+				{ 223, "Tier30:monk:HeroicWithDifficulty" },
+				{ 224, "Tier30:monk:MythicWithDifficulty" },
+				{ 226, "Tier31:monk:LFRWithDifficulty" },
+				{ 227, "Tier31:monk:NormalWithDifficulty" },
+				{ 228, "Tier31:monk:HeroicWithDifficulty" },
+				{ 229, "Tier31:monk:MythicWithDifficulty" },
+				{ 301, "Tier32:monk:LFRWithDifficulty" },
+				{ 302, "Tier32:monk:NormalWithDifficulty" },
+				{ 303, "Tier32:monk:HeroicWithDifficulty" },
+				{ 304, "Tier32:monk:MythicWithDifficulty" },
+				{ 306, "Tier33:monk:LFRWithDifficulty" },
+				{ 307, "Tier33:monk:NormalWithDifficulty" },
+				{ 308, "Tier33:monk:HeroicWithDifficulty" },
+				{ 309, "Tier33:monk:MythicWithDifficulty" },
+				{ 311, "Tier34:monk:LFRWithDifficulty" },
+				{ 312, "Tier34:monk:NormalWithDifficulty" },
+				{ 313, "Tier34:monk:HeroicWithDifficulty" },
+				{ 314, "Tier34:monk:MythicWithDifficulty" },
+				{ 316, "Tier35:monk:LFRWithDifficulty" },
+				{ 317, "Tier35:monk:NormalWithDifficulty" },
+				{ 318, "Tier35:monk:HeroicWithDifficulty" },
+				{ 319, "Tier35:monk:MythicWithDifficulty" },
 			},
 		},
 		{ -- PALADIN
@@ -6157,22 +6595,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 507, "Tier21:paladin:NormalWithDifficulty" },
 				{ 508, "Tier21:paladin:HeroicWithDifficulty" },
 				{ 509, "Tier21:paladin:MythicWithDifficulty" },
-				{ 511, "Tier32:paladin:LFRWithDifficulty" },
-				{ 512, "Tier32:paladin:NormalWithDifficulty" },
-				{ 513, "Tier32:paladin:HeroicWithDifficulty" },
-				{ 514, "Tier32:paladin:MythicWithDifficulty" },
-				{ 516, "Tier33:paladin:LFRWithDifficulty" },
-				{ 517, "Tier33:paladin:NormalWithDifficulty" },
-				{ 518, "Tier33:paladin:HeroicWithDifficulty" },
-				{ 519, "Tier33:paladin:MythicWithDifficulty" },
-				{ 521, "Tier34:paladin:LFRWithDifficulty" },
-				{ 522, "Tier34:paladin:NormalWithDifficulty" },
-				{ 523, "Tier34:paladin:HeroicWithDifficulty" },
-				{ 524, "Tier34:paladin:MythicWithDifficulty" },
-				{ 526, "Tier35:paladin:LFRWithDifficulty" },
-				{ 527, "Tier35:paladin:NormalWithDifficulty" },
-				{ 528, "Tier35:paladin:HeroicWithDifficulty" },
-				{ 529, "Tier35:paladin:MythicWithDifficulty" },
+				{ 511, "Tier28:paladin:LFRWithDifficulty" },
+				{ 512, "Tier28:paladin:NormalWithDifficulty" },
+				{ 513, "Tier28:paladin:HeroicWithDifficulty" },
+				{ 514, "Tier28:paladin:MythicWithDifficulty" },
+				{ 516, "Tier29:paladin:LFRWithDifficulty" },
+				{ 517, "Tier29:paladin:NormalWithDifficulty" },
+				{ 518, "Tier29:paladin:HeroicWithDifficulty" },
+				{ 519, "Tier29:paladin:MythicWithDifficulty" },
+				{ 521, "Tier30:paladin:LFRWithDifficulty" },
+				{ 522, "Tier30:paladin:NormalWithDifficulty" },
+				{ 523, "Tier30:paladin:HeroicWithDifficulty" },
+				{ 524, "Tier30:paladin:MythicWithDifficulty" },
+				{ 526, "Tier31:paladin:LFRWithDifficulty" },
+				{ 527, "Tier31:paladin:NormalWithDifficulty" },
+				{ 528, "Tier31:paladin:HeroicWithDifficulty" },
+				{ 529, "Tier31:paladin:MythicWithDifficulty" },
+				{ 601, "Tier32:paladin:LFRWithDifficulty" },
+				{ 602, "Tier32:paladin:NormalWithDifficulty" },
+				{ 603, "Tier32:paladin:HeroicWithDifficulty" },
+				{ 604, "Tier32:paladin:MythicWithDifficulty" },
+				{ 606, "Tier33:paladin:LFRWithDifficulty" },
+				{ 607, "Tier33:paladin:NormalWithDifficulty" },
+				{ 608, "Tier33:paladin:HeroicWithDifficulty" },
+				{ 609, "Tier33:paladin:MythicWithDifficulty" },
+				{ 611, "Tier34:paladin:LFRWithDifficulty" },
+				{ 612, "Tier34:paladin:NormalWithDifficulty" },
+				{ 613, "Tier34:paladin:HeroicWithDifficulty" },
+				{ 614, "Tier34:paladin:MythicWithDifficulty" },
+				{ 616, "Tier35:paladin:LFRWithDifficulty" },
+				{ 617, "Tier35:paladin:NormalWithDifficulty" },
+				{ 618, "Tier35:paladin:HeroicWithDifficulty" },
+				{ 619, "Tier35:paladin:MythicWithDifficulty" },
 			},
 		},
 		{ -- PRIEST
@@ -6259,22 +6713,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 322, "Tier21:priest:NormalWithDifficulty" },
 				{ 323, "Tier21:priest:HeroicWithDifficulty" },
 				{ 324, "Tier21:priest:MythicWithDifficulty" },
-				{ 326, "Tier32:priest:LFRWithDifficulty" },
-				{ 327, "Tier32:priest:NormalWithDifficulty" },
-				{ 328, "Tier32:priest:HeroicWithDifficulty" },
-				{ 329, "Tier32:priest:MythicWithDifficulty" },
-				{ 401, "Tier33:priest:LFRWithDifficulty" },
-				{ 402, "Tier33:priest:NormalWithDifficulty" },
-				{ 403, "Tier33:priest:HeroicWithDifficulty" },
-				{ 404, "Tier33:priest:MythicWithDifficulty" },
-				{ 406, "Tier34:priest:LFRWithDifficulty" },
-				{ 407, "Tier34:priest:NormalWithDifficulty" },
-				{ 408, "Tier34:priest:HeroicWithDifficulty" },
-				{ 409, "Tier34:priest:MythicWithDifficulty" },
-				{ 411, "Tier35:priest:LFRWithDifficulty" },
-				{ 412, "Tier35:priest:NormalWithDifficulty" },
-				{ 413, "Tier35:priest:HeroicWithDifficulty" },
-				{ 414, "Tier35:priest:MythicWithDifficulty" },
+				{ 326, "Tier28:priest:LFRWithDifficulty" },
+				{ 327, "Tier28:priest:NormalWithDifficulty" },
+				{ 328, "Tier28:priest:HeroicWithDifficulty" },
+				{ 329, "Tier28:priest:MythicWithDifficulty" },
+				{ 401, "Tier29:priest:LFRWithDifficulty" },
+				{ 402, "Tier29:priest:NormalWithDifficulty" },
+				{ 403, "Tier29:priest:HeroicWithDifficulty" },
+				{ 404, "Tier29:priest:MythicWithDifficulty" },
+				{ 406, "Tier30:priest:LFRWithDifficulty" },
+				{ 407, "Tier30:priest:NormalWithDifficulty" },
+				{ 408, "Tier30:priest:HeroicWithDifficulty" },
+				{ 409, "Tier30:priest:MythicWithDifficulty" },
+				{ 411, "Tier31:priest:LFRWithDifficulty" },
+				{ 412, "Tier31:priest:NormalWithDifficulty" },
+				{ 413, "Tier31:priest:HeroicWithDifficulty" },
+				{ 414, "Tier31:priest:MythicWithDifficulty" },
+				{ 416, "Tier32:priest:LFRWithDifficulty" },
+				{ 417, "Tier32:priest:NormalWithDifficulty" },
+				{ 418, "Tier32:priest:HeroicWithDifficulty" },
+				{ 419, "Tier32:priest:MythicWithDifficulty" },
+				{ 421, "Tier33:priest:LFRWithDifficulty" },
+				{ 422, "Tier33:priest:NormalWithDifficulty" },
+				{ 423, "Tier33:priest:HeroicWithDifficulty" },
+				{ 424, "Tier33:priest:MythicWithDifficulty" },
+				{ 426, "Tier34:priest:LFRWithDifficulty" },
+				{ 427, "Tier34:priest:NormalWithDifficulty" },
+				{ 428, "Tier34:priest:HeroicWithDifficulty" },
+				{ 429, "Tier34:priest:MythicWithDifficulty" },
+				{ 501, "Tier35:priest:LFRWithDifficulty" },
+				{ 502, "Tier35:priest:NormalWithDifficulty" },
+				{ 503, "Tier35:priest:HeroicWithDifficulty" },
+				{ 504, "Tier35:priest:MythicWithDifficulty" },
 			},
 		},
 		{ -- ROGUE
@@ -6331,22 +6801,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 212, "Tier21:rogue:NormalWithDifficulty" },
 				{ 213, "Tier21:rogue:HeroicWithDifficulty" },
 				{ 214, "Tier21:rogue:MythicWithDifficulty" },
-				{ 216, "Tier32:rogue:LFRWithDifficulty" },
-				{ 217, "Tier32:rogue:NormalWithDifficulty" },
-				{ 218, "Tier32:rogue:HeroicWithDifficulty" },
-				{ 219, "Tier32:rogue:MythicWithDifficulty" },
-				{ 221, "Tier33:rogue:LFRWithDifficulty" },
-				{ 222, "Tier33:rogue:NormalWithDifficulty" },
-				{ 223, "Tier33:rogue:HeroicWithDifficulty" },
-				{ 224, "Tier33:rogue:MythicWithDifficulty" },
-				{ 226, "Tier34:rogue:LFRWithDifficulty" },
-				{ 227, "Tier34:rogue:NormalWithDifficulty" },
-				{ 228, "Tier34:rogue:HeroicWithDifficulty" },
-				{ 229, "Tier34:rogue:MythicWithDifficulty" },
-				{ 301, "Tier35:rogue:LFRWithDifficulty" },
-				{ 302, "Tier35:rogue:NormalWithDifficulty" },
-				{ 303, "Tier35:rogue:HeroicWithDifficulty" },
-				{ 304, "Tier35:rogue:MythicWithDifficulty" },
+				{ 216, "Tier28:rogue:LFRWithDifficulty" },
+				{ 217, "Tier28:rogue:NormalWithDifficulty" },
+				{ 218, "Tier28:rogue:HeroicWithDifficulty" },
+				{ 219, "Tier28:rogue:MythicWithDifficulty" },
+				{ 221, "Tier29:rogue:LFRWithDifficulty" },
+				{ 222, "Tier29:rogue:NormalWithDifficulty" },
+				{ 223, "Tier29:rogue:HeroicWithDifficulty" },
+				{ 224, "Tier29:rogue:MythicWithDifficulty" },
+				{ 226, "Tier30:rogue:LFRWithDifficulty" },
+				{ 227, "Tier30:rogue:NormalWithDifficulty" },
+				{ 228, "Tier30:rogue:HeroicWithDifficulty" },
+				{ 229, "Tier30:rogue:MythicWithDifficulty" },
+				{ 301, "Tier31:rogue:LFRWithDifficulty" },
+				{ 302, "Tier31:rogue:NormalWithDifficulty" },
+				{ 303, "Tier31:rogue:HeroicWithDifficulty" },
+				{ 304, "Tier31:rogue:MythicWithDifficulty" },
+				{ 306, "Tier32:rogue:LFRWithDifficulty" },
+				{ 307, "Tier32:rogue:NormalWithDifficulty" },
+				{ 308, "Tier32:rogue:HeroicWithDifficulty" },
+				{ 309, "Tier32:rogue:MythicWithDifficulty" },
+				{ 311, "Tier33:rogue:LFRWithDifficulty" },
+				{ 312, "Tier33:rogue:NormalWithDifficulty" },
+				{ 313, "Tier33:rogue:HeroicWithDifficulty" },
+				{ 314, "Tier33:rogue:MythicWithDifficulty" },
+				{ 316, "Tier34:rogue:LFRWithDifficulty" },
+				{ 317, "Tier34:rogue:NormalWithDifficulty" },
+				{ 318, "Tier34:rogue:HeroicWithDifficulty" },
+				{ 319, "Tier34:rogue:MythicWithDifficulty" },
+				{ 321, "Tier35:rogue:LFRWithDifficulty" },
+				{ 322, "Tier35:rogue:NormalWithDifficulty" },
+				{ 323, "Tier35:rogue:HeroicWithDifficulty" },
+				{ 324, "Tier35:rogue:MythicWithDifficulty" },
 			},
 		},
 		{ -- SHAMAN
@@ -6463,22 +6949,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 507, "Tier21:shaman:NormalWithDifficulty" },
 				{ 508, "Tier21:shaman:HeroicWithDifficulty" },
 				{ 509, "Tier21:shaman:MythicWithDifficulty" },
-				{ 511, "Tier32:shaman:LFRWithDifficulty" },
-				{ 512, "Tier32:shaman:NormalWithDifficulty" },
-				{ 513, "Tier32:shaman:HeroicWithDifficulty" },
-				{ 514, "Tier32:shaman:MythicWithDifficulty" },
-				{ 516, "Tier33:shaman:LFRWithDifficulty" },
-				{ 517, "Tier33:shaman:NormalWithDifficulty" },
-				{ 518, "Tier33:shaman:HeroicWithDifficulty" },
-				{ 519, "Tier33:shaman:MythicWithDifficulty" },
-				{ 521, "Tier34:shaman:LFRWithDifficulty" },
-				{ 522, "Tier34:shaman:NormalWithDifficulty" },
-				{ 523, "Tier34:shaman:HeroicWithDifficulty" },
-				{ 524, "Tier34:shaman:MythicWithDifficulty" },
-				{ 526, "Tier35:shaman:LFRWithDifficulty" },
-				{ 527, "Tier35:shaman:NormalWithDifficulty" },
-				{ 528, "Tier35:shaman:HeroicWithDifficulty" },
-				{ 529, "Tier35:shaman:MythicWithDifficulty" },
+				{ 511, "Tier28:shaman:LFRWithDifficulty" },
+				{ 512, "Tier28:shaman:NormalWithDifficulty" },
+				{ 513, "Tier28:shaman:HeroicWithDifficulty" },
+				{ 514, "Tier28:shaman:MythicWithDifficulty" },
+				{ 516, "Tier29:shaman:LFRWithDifficulty" },
+				{ 517, "Tier29:shaman:NormalWithDifficulty" },
+				{ 518, "Tier29:shaman:HeroicWithDifficulty" },
+				{ 519, "Tier29:shaman:MythicWithDifficulty" },
+				{ 521, "Tier30:shaman:LFRWithDifficulty" },
+				{ 522, "Tier30:shaman:NormalWithDifficulty" },
+				{ 523, "Tier30:shaman:HeroicWithDifficulty" },
+				{ 524, "Tier30:shaman:MythicWithDifficulty" },
+				{ 526, "Tier31:shaman:LFRWithDifficulty" },
+				{ 527, "Tier31:shaman:NormalWithDifficulty" },
+				{ 528, "Tier31:shaman:HeroicWithDifficulty" },
+				{ 529, "Tier31:shaman:MythicWithDifficulty" },
+				{ 601, "Tier32:shaman:LFRWithDifficulty" },
+				{ 602, "Tier32:shaman:NormalWithDifficulty" },
+				{ 603, "Tier32:shaman:HeroicWithDifficulty" },
+				{ 604, "Tier32:shaman:MythicWithDifficulty" },
+				{ 606, "Tier33:shaman:LFRWithDifficulty" },
+				{ 607, "Tier33:shaman:NormalWithDifficulty" },
+				{ 608, "Tier33:shaman:HeroicWithDifficulty" },
+				{ 609, "Tier33:shaman:MythicWithDifficulty" },
+				{ 611, "Tier34:shaman:LFRWithDifficulty" },
+				{ 612, "Tier34:shaman:NormalWithDifficulty" },
+				{ 613, "Tier34:shaman:HeroicWithDifficulty" },
+				{ 614, "Tier34:shaman:MythicWithDifficulty" },
+				{ 616, "Tier35:shaman:LFRWithDifficulty" },
+				{ 617, "Tier35:shaman:NormalWithDifficulty" },
+				{ 618, "Tier35:shaman:HeroicWithDifficulty" },
+				{ 619, "Tier35:shaman:MythicWithDifficulty" },
 			},
 		},
 		{ -- WARLOCK
@@ -6535,22 +7037,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 212, "Tier21:warlock:NormalWithDifficulty" },
 				{ 213, "Tier21:warlock:HeroicWithDifficulty" },
 				{ 214, "Tier21:warlock:MythicWithDifficulty" },
-				{ 216, "Tier32:warlock:LFRWithDifficulty" },
-				{ 217, "Tier32:warlock:NormalWithDifficulty" },
-				{ 218, "Tier32:warlock:HeroicWithDifficulty" },
-				{ 219, "Tier32:warlock:MythicWithDifficulty" },
-				{ 221, "Tier33:warlock:LFRWithDifficulty" },
-				{ 222, "Tier33:warlock:NormalWithDifficulty" },
-				{ 223, "Tier33:warlock:HeroicWithDifficulty" },
-				{ 224, "Tier33:warlock:MythicWithDifficulty" },
-				{ 226, "Tier34:warlock:LFRWithDifficulty" },
-				{ 227, "Tier34:warlock:NormalWithDifficulty" },
-				{ 228, "Tier34:warlock:HeroicWithDifficulty" },
-				{ 229, "Tier34:warlock:MythicWithDifficulty" },
-				{ 301, "Tier35:warlock:LFRWithDifficulty" },
-				{ 302, "Tier35:warlock:NormalWithDifficulty" },
-				{ 303, "Tier35:warlock:HeroicWithDifficulty" },
-				{ 304, "Tier35:warlock:MythicWithDifficulty" },
+				{ 216, "Tier28:warlock:LFRWithDifficulty" },
+				{ 217, "Tier28:warlock:NormalWithDifficulty" },
+				{ 218, "Tier28:warlock:HeroicWithDifficulty" },
+				{ 219, "Tier28:warlock:MythicWithDifficulty" },
+				{ 221, "Tier29:warlock:LFRWithDifficulty" },
+				{ 222, "Tier29:warlock:NormalWithDifficulty" },
+				{ 223, "Tier29:warlock:HeroicWithDifficulty" },
+				{ 224, "Tier29:warlock:MythicWithDifficulty" },
+				{ 226, "Tier30:warlock:LFRWithDifficulty" },
+				{ 227, "Tier30:warlock:NormalWithDifficulty" },
+				{ 228, "Tier30:warlock:HeroicWithDifficulty" },
+				{ 229, "Tier30:warlock:MythicWithDifficulty" },
+				{ 301, "Tier31:warlock:LFRWithDifficulty" },
+				{ 302, "Tier31:warlock:NormalWithDifficulty" },
+				{ 303, "Tier31:warlock:HeroicWithDifficulty" },
+				{ 304, "Tier31:warlock:MythicWithDifficulty" },
+				{ 306, "Tier32:warlock:LFRWithDifficulty" },
+				{ 307, "Tier32:warlock:NormalWithDifficulty" },
+				{ 308, "Tier32:warlock:HeroicWithDifficulty" },
+				{ 309, "Tier32:warlock:MythicWithDifficulty" },
+				{ 311, "Tier33:warlock:LFRWithDifficulty" },
+				{ 312, "Tier33:warlock:NormalWithDifficulty" },
+				{ 313, "Tier33:warlock:HeroicWithDifficulty" },
+				{ 314, "Tier33:warlock:MythicWithDifficulty" },
+				{ 316, "Tier34:warlock:LFRWithDifficulty" },
+				{ 317, "Tier34:warlock:NormalWithDifficulty" },
+				{ 318, "Tier34:warlock:HeroicWithDifficulty" },
+				{ 319, "Tier34:warlock:MythicWithDifficulty" },
+				{ 321, "Tier35:warlock:LFRWithDifficulty" },
+				{ 322, "Tier35:warlock:NormalWithDifficulty" },
+				{ 323, "Tier35:warlock:HeroicWithDifficulty" },
+				{ 324, "Tier35:warlock:MythicWithDifficulty" },
 			},
 		},
 		{ -- WARRIOR
@@ -6637,22 +7155,38 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 322, "Tier21:warrior:NormalWithDifficulty" },
 				{ 323, "Tier21:warrior:HeroicWithDifficulty" },
 				{ 324, "Tier21:warrior:MythicWithDifficulty" },
-				{ 326, "Tier32:warrior:LFRWithDifficulty" },
-				{ 327, "Tier32:warrior:NormalWithDifficulty" },
-				{ 328, "Tier32:warrior:HeroicWithDifficulty" },
-				{ 329, "Tier32:warrior:MythicWithDifficulty" },
-				{ 401, "Tier33:warrior:LFRWithDifficulty" },
-				{ 402, "Tier33:warrior:NormalWithDifficulty" },
-				{ 403, "Tier33:warrior:HeroicWithDifficulty" },
-				{ 404, "Tier33:warrior:MythicWithDifficulty" },
-				{ 406, "Tier34:warrior:LFRWithDifficulty" },
-				{ 407, "Tier34:warrior:NormalWithDifficulty" },
-				{ 408, "Tier34:warrior:HeroicWithDifficulty" },
-				{ 409, "Tier34:warrior:MythicWithDifficulty" },
-				{ 411, "Tier35:warrior:LFRWithDifficulty" },
-				{ 412, "Tier35:warrior:NormalWithDifficulty" },
-				{ 413, "Tier35:warrior:HeroicWithDifficulty" },
-				{ 414, "Tier35:warrior:MythicWithDifficulty" },
+				{ 326, "Tier28:warrior:LFRWithDifficulty" },
+				{ 327, "Tier28:warrior:NormalWithDifficulty" },
+				{ 328, "Tier28:warrior:HeroicWithDifficulty" },
+				{ 329, "Tier28:warrior:MythicWithDifficulty" },
+				{ 401, "Tier29:warrior:LFRWithDifficulty" },
+				{ 402, "Tier29:warrior:NormalWithDifficulty" },
+				{ 403, "Tier29:warrior:HeroicWithDifficulty" },
+				{ 404, "Tier29:warrior:MythicWithDifficulty" },
+				{ 406, "Tier30:warrior:LFRWithDifficulty" },
+				{ 407, "Tier30:warrior:NormalWithDifficulty" },
+				{ 408, "Tier30:warrior:HeroicWithDifficulty" },
+				{ 409, "Tier30:warrior:MythicWithDifficulty" },
+				{ 411, "Tier31:warrior:LFRWithDifficulty" },
+				{ 412, "Tier31:warrior:NormalWithDifficulty" },
+				{ 413, "Tier31:warrior:HeroicWithDifficulty" },
+				{ 414, "Tier31:warrior:MythicWithDifficulty" },
+				{ 416, "Tier32:warrior:LFRWithDifficulty" },
+				{ 417, "Tier32:warrior:NormalWithDifficulty" },
+				{ 418, "Tier32:warrior:HeroicWithDifficulty" },
+				{ 419, "Tier32:warrior:MythicWithDifficulty" },
+				{ 421, "Tier33:warrior:LFRWithDifficulty" },
+				{ 422, "Tier33:warrior:NormalWithDifficulty" },
+				{ 423, "Tier33:warrior:HeroicWithDifficulty" },
+				{ 424, "Tier33:warrior:MythicWithDifficulty" },
+				{ 426, "Tier34:warrior:LFRWithDifficulty" },
+				{ 427, "Tier34:warrior:NormalWithDifficulty" },
+				{ 428, "Tier34:warrior:HeroicWithDifficulty" },
+				{ 429, "Tier34:warrior:MythicWithDifficulty" },
+				{ 501, "Tier35:warrior:LFRWithDifficulty" },
+				{ 502, "Tier35:warrior:NormalWithDifficulty" },
+				{ 503, "Tier35:warrior:HeroicWithDifficulty" },
+				{ 504, "Tier35:warrior:MythicWithDifficulty" },
 			},
 		},
 
@@ -6660,11 +7194,11 @@ data["TIERSETS_BYCLASS"]   = {
 }
 
 data["TIMELESSISLE"]       = {
-	name = ALIL["Timeless Isle"].." "..AL["Rewards"],
+	name = ALIL["Timeless Isle"].." "..REWARDS,
 	ContentType = COLLECTION_CONTENT,
 	items = {
 		{
-			name = ALIL["Timeless Isle"].." "..AL["Rewards"],
+			name = ALIL["Timeless Isle"].." "..REWARDS,
 			[NORMAL_DIFF] = {
 				{ 1,   103989, [PRICE_EXTRA_ITTYPE] = "timelesscoin:50000" },                  -- Alacrity of Xuen
 				{ 2,   103988, [PRICE_EXTRA_ITTYPE] = "timelesscoin:50000" },                  -- Contemplation of Chi-Ji
@@ -6805,6 +7339,14 @@ data["COMPANIONS"]         = {
 				{ 212, 269999, "pet5020" },                                     -- Overloaded Manaling
 				{ 213, 270062, "pet5022" },                                     -- Void-Touched Chick
 				{ 214, 270063, "pet5023" },                                     -- Void-Touched Lynx Kitten
+				{ 215, 72153,  "pet665",  [PRICE_EXTRA_ITTYPE] = "tender:250" }, -- Sand Scarab
+				{ 216, 275662, "pet5073", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:15" }, -- Frosticus Maximus
+				{ 217, 275663, "pet5074", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:15" }, -- Silento
+				{ 218, 252195, "pet4898", [PRICE_EXTRA_ITTYPE] = "238365:50" }, -- Fishstick Keith
+				{ 219, 271185, "pet5041", [QUEST_EXTRA_ITTYPE] = 94883 },       -- Emberlyn
+				{ 220, 260885, "pet4949", [PRICE_EXTRA_ITTYPE] = "timewarped:2200" }, -- Shadowflame Remnant
+				{ 221, 268557, "pet5007", [QUEST_EXTRA_ITTYPE] = 93012 },       -- Akiki
+				{ 222, 262768, "pet4965" },                                     -- Sleepy Mandrake
 				-- { 103, 259337, "pet4929" },                                        -- Munchy
 				-- { 102, 260306, "pet4942" },                                        -- Distorted Memory
 				-- { 120, 262881, "pet4968" },                                        -- Lil' Staropod
@@ -6875,8 +7417,8 @@ data["COMPANIONS"]         = {
 				{ 125, 232519, "pet4690" },                                               -- Razeshi B.
 				{ 126, 224439, "pet4470" },                                               -- Oop'lajax
 				{ 127, 224450, "pet4527" },                                               -- Lil' Moss Rosy
-				{ 128, 228790, "pet4617" },                                               -- Thrillbot 9000
-				{ 129, 228793, "pet4618" },                                               -- Chillbot 9000
+				{ 128, 228790, "pet4617", [PRICE_EXTRA_ITTYPE] = "tender:250" },          -- Thrillbot 9000
+				{ 129, 228793, "pet4618", [PRICE_EXTRA_ITTYPE] = "tender:250" },          -- Chillbot 9000
 				{ 130, 222980, "pet4542", [ACH_EXTRA_ITTYPE] = 41200 },                   -- Slim
 				{ 201, 224259, "pet4590" },                                               -- Flash
 				{ 202, 221849, "pet4465", [QUEST_EXTRA_ITTYPE] = 79110 },                 -- Vanilla
@@ -7088,6 +7630,7 @@ data["COMPANIONS"]         = {
 				{ 220, 206174, "pet3582", [PRICE_EXTRA_ITTYPE] = "tender:500" },   -- Blub
 				{ 221, 223474, "pet4566", [PRICE_EXTRA_ITTYPE] = "tender:300" },   -- Worgli the Apprehensive
 				{ 222, 211271, "pet3491" },                                        -- Arfus
+				{ 223, 224576, "pet4595", [PRICE_EXTRA_ITTYPE] = "tender:250" },   -- Lil' Flameo
 				-- { 12,  193068 }, -- Time-Lost Treeflitter
 				-- { 21,  193380 }, -- Pink Salamanther
 				-- { 26,  193587 }, -- Time-Lost Duck
@@ -7181,6 +7724,13 @@ data["TOYS"]               = {
 				{ 106, 272287 },                                       -- Nap Mat
 				{ 107, 268456, [PRICE_EXTRA_ITTYPE] = "illusionaryCoin:200" }, -- Animated Bench
 				{ 108, 268455, [PRICE_EXTRA_ITTYPE] = "illusionaryCoin:200" }, -- Enchanted Hourglass
+				{ 109, 264313 },                                       -- Madcap Redcap
+				{ 110, 264367 },                                       -- Mycomancer's Hearthspore
+				{ 111, 276371, [QUEST_EXTRA_ITTYPE] = 97072 },         -- Lightveil Recall Beacon
+				{ 112, 267323, [QUEST_EXTRA_ITTYPE] = 94954 },         -- Troll Scroll of Rainbow Roll
+				{ 113, 259335, [PRICE_EXTRA_ITTYPE] = "timewarped:1000" }, -- Photo Finisher
+				{ 114, 259899, [PRICE_EXTRA_ITTYPE] = "timewarped:750" }, -- Ashen Horn of the Fallen Keeper
+				{ 115, 260170, [PRICE_EXTRA_ITTYPE] = "timewarped:500" }, -- Oathstone Fragment
 				-- { 20,  250320 },                                      -- Lightgraft (unknown)
 			}
 		},

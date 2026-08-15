@@ -119,7 +119,7 @@ ApplyFont = function()
 		font = standardFont  -- Additional safety fallback
 	end
 	local size = DBM.Options.BrezFontSize or 18
-	if not DBM:IsFontValid(font, standardFont) then
+	if not DBM:IsFontValid(font, standardFont, size, "OUTLINE") then
 		DBM.Options.BrezFont = DBM.DefaultOptions.BrezFont
 		DBM.Options.BrezFontSize = DBM.DefaultOptions.BrezFontSize
 		fontOption = DBM.Options.BrezFont
@@ -236,6 +236,7 @@ do
 		[16] = true,	-- Mythic Raid
 		[17] = true,	-- LFR
 		[23] = true,	-- Mythic 0
+		[233] = true,	-- Mythic Raid Flex
 	}
 	-- Difficulty IDs that use the shared combat res charge pool
 	local function shouldShowFrame()

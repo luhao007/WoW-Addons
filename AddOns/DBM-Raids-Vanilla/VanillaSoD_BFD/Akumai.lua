@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("AkumaiSoD", "DBM-Raids-Vanilla", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(213334)
 mod:SetEncounterID(2891)--2767 is likely 5 man version in instance type 201
@@ -28,8 +28,8 @@ local warnDarkProtection		= mod:NewSpellAnnounce(429541, 3)
 local warnDarkProtectionOver	= mod:NewEndAnnounce(429541, 3)
 local warnShadowSeep			= mod:NewStackAnnounce(428482, 2, nil, "Tank|Healer")
 
-local specWarnCorrosiveBlast	= mod:NewSpecialWarningDodge(429168, nil, nil, nil, 2, 2)
-local specWarnVoidBlast			= mod:NewSpecialWarningDodge(429359, nil, nil, nil, 2, 2)
+local specWarnCorrosiveBlast	= mod:NewSpecialWarningDodge(429168, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
+local specWarnVoidBlast			= mod:NewSpecialWarningDodge(429359, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
 
 local timerCorrosiveBlastCD		= mod:NewCDTimer(21, 429168, nil, nil, nil, 3)
 local timerCorrosiveBiteCD		= mod:NewCDTimer(6.5, 429207, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)

@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal25"
 end
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(22948)
 mod:SetEncounterID(605, 2477)
@@ -41,8 +41,8 @@ local warnRage			= mod:NewTargetAnnounce(40604, 4)
 local warnRageSoon		= mod:NewSoonAnnounce(40604, 3)
 local warnRageEnd		= mod:NewEndAnnounce(40604, 4)
 
-local specWarnBlood		= mod:NewSpecialWarningStack(42005, nil, 1, nil, nil, 1, 2)
-local specWarnRage		= mod:NewSpecialWarningYou(40604, nil, nil, nil, 1, 2)
+local specWarnBlood		= mod:NewSpecialWarningStack(42005, nil, 1, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnRage		= mod:NewSpecialWarningYou(40604, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellRage			= mod:NewYell(40604)
 
 --Most timers on fight are bad. there is a reason there is no strike or breath timer. blood and rage only ones that are kinda consistent

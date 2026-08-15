@@ -500,7 +500,7 @@ end
 -- For directly applying the full Update operation at the specified group, and propagating the difference upwards in the parent hierarchy,
 -- then triggering a delayed soft-update of the Window containing the group if any. 'got' indicates that this group was 'gotten'
 -- and was the cause for the update
-local function DirectGroupUpdate(group, got)
+local function DirectGroupUpdate(group)
 	-- DGU OnUpdate needs to run regardless of filtering
 	if group.DGUOnUpdate then
 		-- app.PrintDebug("DGU:OnUpdate",group.hash)
@@ -541,7 +541,7 @@ local function DirectGroupUpdate(group, got)
 			app.FillGroups(group)
 		end
 		-- app.PrintDebug("DGU:Update",app:SearchLink(group),">",DGUDelay,window.Suffix,window.Update,window.isQuestChain)
-		DelayedCallback(window.Update, DGUDelay, window, window.isQuestChain, got)
+		DelayedCallback(window.Update, DGUDelay, window, window.isQuestChain)
 		window:ToggleExtraFilters()
 	elseif group.DGU_Fill then
 		-- group wants to fill, but isn't yet in a window... so do a delayed DGU again
@@ -578,16 +578,16 @@ local function DirectGroupRefresh(group, immediate)
 			DelayedCallback(window.Update, DGUDelay, window)
 		end
 	else
-		-- app.PrintDebug("DGR:Refresh",group.hash,">",DGUDelay,"No window!")
+		-- app.PrintDebug("DGR:Refresh",group.hash,">",DGUDelay,"No window!",app:SearchLink(group),app.GenerateSourceHash(group))
 		-- app.PrintTable(group)
 		-- this scenario happens when the meta-group of a DLO used in /att list triggers a DGR on itself
 		-- due to it being completely detached from the actual 'list' window
 		-- perhaps this is niche enough of an occurrence that we can just try to refresh the 'list' window
 		-- in this situation
-		local window = app.Windows.list
-		if window then
-			DelayedCallback(window.Update, DGUDelay, window)
-		end
+		-- local window = app.Windows.List
+		-- if window and window:IsVisible() then
+		-- 	DelayedCallback(window.Update, DGUDelay, window)
+		-- end
 	end
 end
 app.DirectGroupRefresh = DirectGroupRefresh
@@ -617,8 +617,8 @@ local function DirectGroupRedraw(group, immediate)
 end
 app.DirectGroupRedraw = DirectGroupRedraw
 local LIMIT_UPDATE_SEARCH_RESULTS = 10
--- Dynamically increments the progress for the parent heirarchy of each collectible search result
-local function UpdateSearchResults(searchResults)
+-- Performs an individual Update pass (either by the provided updateFunc or DirectGroupUpdate) against all search results (e.g. Main list) as well as any hash-matching groups within any other visible ATT windows
+local function UpdateSearchResults(searchResults, updateFunc)
 	-- app.PrintDebug("UpdateSearchResults",searchResults and #searchResults)
 	if not searchResults or #searchResults == 0 then return end
 	-- in extreme cases of tons of search results to update all at once, we will split up the updates to remove the apparent stutter
@@ -627,25 +627,28 @@ local function UpdateSearchResults(searchResults)
 		for i=1,#searchResults do
 			subresults[#subresults + 1] = searchResults[i]
 			if i % LIMIT_UPDATE_SEARCH_RESULTS == 0 then
-				Runner.Run(UpdateSearchResults, subresults)
+				Runner.Run(UpdateSearchResults, subresults, updateFunc)
 				subresults = {}
 			end
 		end
-		Runner.Run(UpdateSearchResults, subresults)
+		Runner.Run(UpdateSearchResults, subresults, updateFunc)
 		return
 	end
 	-- Update all the results within visible windows
 	local hashes = {}
 	local found = {}
 	local HandleEvent = app.HandleEvent
+	updateFunc = updateFunc or DirectGroupUpdate
 	-- Directly update the Source groups of the search results, and collect their hashes for updates in other windows
 	local result
 	for i=1,#searchResults do
 		result = searchResults[i]
 		hashes[result.hash] = true
 		found[#found + 1] = result
-		-- Make sure any update events are handled for this Thing
-		HandleEvent("OnSearchResultUpdate", result)
+		if updateFunc == DirectGroupUpdate then
+			-- Make sure any update events are handled for this Thing if it actually needs an Update
+			HandleEvent("OnSearchResultUpdate", result)
+		end
 	end
 
 	-- loop through visible ATT windows and collect matching groups
@@ -662,25 +665,27 @@ local function UpdateSearchResults(searchResults)
 	-- apply direct updates to all found groups
 	-- app.PrintDebug("Updating",#found,"groups")
 	for i=1,#found do
-		DirectGroupUpdate(found[i], true)
+		updateFunc(found[i])
 	end
-	-- TODO: use event
-	app.WipeSearchCache()
+	if updateFunc == DirectGroupUpdate then
+		-- TODO: use event
+		app.WipeSearchCache()
+	end
 	-- app.PrintDebug("UpdateSearchResults Done",#searchResults,"=>",#found)
 end
 -- Pulls all cached fields for the field/id and passes the results into UpdateSearchResults
-local function UpdateRawID(field, id)
+local function UpdateRawID(field, id, updateFunc)
 	-- app.PrintDebug("UpdateRawID",field,id)
 	if field and id then
-		UpdateSearchResults(app.SearchForFieldInAllCaches(field, id))
+		UpdateSearchResults(app.SearchForFieldInAllCaches(field, id), updateFunc)
 	end
 end
 app.UpdateRawID = UpdateRawID
 -- Pulls all cached fields for the field/ids and passes the results into UpdateSearchResults
-local function UpdateRawIDs(field, ids)
+local function UpdateRawIDs(field, ids, updateFunc)
 	-- app.PrintDebug("UpdateRawIDs",field,ids and #ids)
 	if field and ids and #ids > 0 then
-		UpdateSearchResults(app.SearchForManyInAllCaches(field, ids))
+		UpdateSearchResults(app.SearchForManyInAllCaches(field, ids), updateFunc)
 	end
 end
 app.UpdateRawIDs = UpdateRawIDs
@@ -764,7 +769,7 @@ local SourceSpecificFields = {
 				check = phase.state or 0
 			else
 				-- otherwise it's an invalid unobtainable filter
-				app.print("Invalid Unobtainable Filter:",u)
+				app.report("Invalid Unobtainable Filter",u)
 				return
 			end
 			-- track the highest unobtainable value, which is the most obtainable (according to PHASES)
@@ -920,10 +925,6 @@ app.MergeProperties = MergeProperties
 -- TODO: this priority-based object creation will move to Classes/base.lua -- CloneClassInstance does not suffice in its current state
 local function CreateObject(t, rootOnly)
 	-- app.PrintDebug("CO",t);
-	-- Commented this part out because there aren't enough class definitions exposed to the logic yet
-	-- Retail class design is still wildin' and doesn't use the CreateClass functionality
-	--local object = app.CloneClassInstance(t, rootOnly);
-	--if object and getmetatable(object) then return object; end
 	if not t then return {}; end
 	-- already an object, so need to create a new instance of the same data
 	if t.key then
@@ -971,6 +972,29 @@ local function CreateObject(t, rootOnly)
 	return t;
 end
 app.__CreateObject = CreateObject;
+-- Function to ensure a table and recursively any .g groups are properly 'objects', without replacing the table references themselves
+local function EnsureObject(t)
+	-- app.PrintDebug("EO",t)
+	if not t then return end
+	-- is it an array of raw datas which needs to be turned into an array of usable objects
+	if t[1] then
+		-- array
+		-- app.PrintDebug("EO.[]","=>",t)
+		for i=1,#t do
+			EnsureObject(t[i])
+		end
+	-- not an object, so need to convert to an object
+	elseif not t.__type then
+		-- use the highest-priority piece of data which exists in the table to turn it into an object
+		-- no re-assign needed because t itself is now an object
+		app.CreateClassInstance(nil, nil, t)
+	end
+
+	-- app.PrintDebug("EO key/value",app:SearchLink(t))
+	-- ensure objects on all sub-groups
+	EnsureObject(t.g)
+end
+app.EnsureObject = EnsureObject
 
 local function GetHash(t)
 	local hash = app.CreateHash(t);
@@ -1087,8 +1111,9 @@ NestObjects = function(p, g, newCreate)
 	if pg then
 		MergeObjects(pg, g, newCreate);
 	elseif #g > 0 then
-		p.g = {};
-		MergeObjects(p.g, g, newCreate);
+		pg = {}
+		p.g = pg
+		MergeObjects(pg, g, newCreate);
 	end
 end
 -- Nests multiple Objects under another Object using an optional set of functions to determine priority on the adding of objects, only creating the 'g' group if necessary

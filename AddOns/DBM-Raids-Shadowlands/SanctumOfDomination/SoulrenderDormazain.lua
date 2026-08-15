@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2445, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260524002215")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(175727)
 mod:SetEncounterID(2434)
@@ -39,26 +39,28 @@ mod:RegisterEventsInCombat(
  or ability.id = 351194 and type = "applydebuff"
  or ability.id = 350415 and type = "removebuff"
 --]]
+DBM:RegisterAltSpellName(350415, 298215)--Warmonger Shackles -> short name
+
 --BOSS
 local warnDefiance							= mod:NewTargetNoFilterAnnounce(350650, 3, nil, false)--Even with 1 second aggregation might be spammy based on add count, plus mythic
 local warnBrandofTorment					= mod:NewTargetNoFilterAnnounce(350647, 3)
 local warnRuinblade							= mod:NewStackAnnounce(350422, 2, nil, "Tank|Healer")
-local warnShacklesRemaining					= mod:NewCountAnnounce(350415, 1, nil, nil, 298215)
+local warnShacklesRemaining					= mod:NewCountAnnounce(350415, 1)
 --Adds
 local warnSpawnMawsworn						= mod:NewCountAnnounce(350615, 3)
 --local warnVesselofTorment					= mod:NewTargetNoFilterAnnounce(350851, 4)--FIXME
 
 --BOSS
-local specWarnTorment						= mod:NewSpecialWarningDodge(352158, nil, nil, nil, 2, 2)
-local specWarnTormentedEruptions			= mod:NewSpecialWarningDodgeCount(349985, nil, nil, nil, 2, 2)
-local specWarnBrandofTorment				= mod:NewSpecialWarningYou(350647, nil, nil, nil, 1, 2)
+local specWarnTorment						= mod:NewSpecialWarningDodge(352158, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnTormentedEruptions			= mod:NewSpecialWarningDodgeCount(349985, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBrandofTorment				= mod:NewSpecialWarningYou(350647, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellBrandofTorment					= mod:NewYell(350647)
-local specWarnRuinblade						= mod:NewSpecialWarningStack(350422, nil, 1, nil, nil, 1, 6)
-local specWarnRuinbladeTaunt				= mod:NewSpecialWarningTaunt(350422, nil, nil, nil, 1, 2)
+local specWarnRuinblade						= mod:NewSpecialWarningStack(350422, nil, 1, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnRuinbladeTaunt				= mod:NewSpecialWarningTaunt(350422, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 --Mawsworn Agonizer
-local specWarnAgonizingSpike				= mod:NewSpecialWarningInterruptCount(351779, "false", nil, nil, 1, 2)--Opt in
+local specWarnAgonizingSpike				= mod:NewSpecialWarningInterruptCount(351779, "false", nil, nil, 1, 2, nil, nil, "kickcast")--Opt in
 --Garrosh Hellscream
-local specWarnWarmongerShackles				= mod:NewSpecialWarningSwitchCount(350415, nil, nil, nil, 1, 2)
+local specWarnWarmongerShackles				= mod:NewSpecialWarningSwitchCount(350415, nil, nil, nil, 1, 2, nil, nil, "targetchange")
 --local specWarnGTFO						= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
 
 local timerTormentCD						= mod:NewCDCountTimer(35, 352158, nil, nil, nil, 3, nil, nil, true)--Ability is reset by eruption?
@@ -66,7 +68,7 @@ local timerTormentedEruptionsCD				= mod:NewCDCountTimer(160.7, 349985, nil, nil
 local timerSpawnMawswornCD					= mod:NewCDCountTimer(57.5, 350615, nil, nil, nil, 1, nil, nil, true)--Ability is reset by eruption?
 local timerBrandofTormentCD					= mod:NewCDCountTimer(16, 350647, nil, nil, nil, 3)--Secondary ability cast in 3s after each spawn mawsworn
 local timerRuinbladeCD						= mod:NewCDCountTimer(32.9, 350422, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Ability is reset by eruption
-local timerShacklesCD						= mod:NewCDCountTimer(161, 350415, 298215, nil, nil, 6)--Tied to bosses energy cycle
+local timerShacklesCD						= mod:NewCDCountTimer(161, 350415, nil, nil, nil, 6)--Tied to bosses energy cycle
 --Hellscream
 local timerHellscream						= mod:NewCastTimer(35, 350411, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 

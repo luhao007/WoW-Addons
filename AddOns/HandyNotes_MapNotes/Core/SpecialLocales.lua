@@ -1,16 +1,6 @@
 local ADDON_NAME, ns = ...
 ns.locale = GetLocale()
 
--- RetailDelves.lua + RetailOptions.lua
-ns.BountifulDelves = (ns.LOCALE_BOUNTIFUL_DELVES and (ns.LOCALE_BOUNTIFUL_DELVES[ns.locale] or ns.LOCALE_BOUNTIFUL_DELVES.enUS)) or "Bountiful Delves"
-ns.AfterCombatDelvesInfo = (ns.LOCALE_AFTER_COMBAT_DELVES_INFO and (ns.LOCALE_AFTER_COMBAT_DELVES_INFO[ns.locale] or ns.LOCALE_AFTER_COMBAT_DELVES_INFO.enUS)) or "Delve icons will automatically reappear on the continent map after combat"
-ns.AfterCombatDelves = (ns.LOCALE_AFTER_COMBAT_DELVES and (ns.LOCALE_AFTER_COMBAT_DELVES[ns.locale] or ns.LOCALE_AFTER_COMBAT_DELVES.enUS)) or "Delve icons will automatically reappear on the continent map after combat"
-
--- RetailChangeMap.lua
-ns.CombatLocked = (ns.LOCALE_COMBAT_LOCKED and (ns.LOCALE_COMBAT_LOCKED[ns.locale] or ns.LOCALE_COMBAT_LOCKED.enUS)) or "Map switching is blocked during combat"
-ns.AfterCombatAllowed = (ns.LOCALE_AFTER_COMBAT_ALLOWED and (ns.LOCALE_AFTER_COMBAT_ALLOWED[ns.locale] or ns.LOCALE_AFTER_COMBAT_ALLOWED.enUS)) or "Map switching blocked in combat – will be executed after combat"
-ns.OpenAfterCombat = (ns.LOCALE_OPEN_AFTER_COMBAT and (ns.LOCALE_OPEN_AFTER_COMBAT[ns.locale] or ns.LOCALE_OPEN_AFTER_COMBAT.enUS)) or "> Map switching executed after combat <"
-
 ns.ACCOUNT_WIDE = { -- RetailOptions.lua
   deDE = "Diese Funktion ist accountweit",
   enUS = "This function is account-wide",
@@ -39,6 +29,188 @@ ns.ABOUT = { -- RetailOptions.lua
   koKR = "정보",
 }
 
+ns.TOOLTIP = { -- RetailOptions.lua
+  deDE = "Tooltip",
+  enUS = "Tooltip",
+  frFR = "Infobulle",
+  esES = "Tooltip",
+  esMX = "Tooltip",
+  itIT = "Tooltip",
+  ptBR = "Dica de ferramenta",
+  ruRU = "Подсказка",
+  zhCN = "鼠标提示",
+  zhTW = "滑鼠提示",
+  koKR = "툴팁",
+}
+
+ns.TOOLTIP_BACKGROUND_OUTLINE = { -- RetailOptions.lua
+  deDE = "Hintergrundumrandung",
+  enUS = "Background Outline",
+  frFR = "Contour de l'arrière-plan",
+  esES = "Contorno del fondo",
+  esMX = "Contorno del fondo",
+  itIT = "Contorno dello sfondo",
+  ptBR = "Contorno do fundo",
+  ruRU = "Контур фона",
+  zhCN = "背景描边",
+  zhTW = "背景外框",
+  koKR = "배경 외곽선",
+}
+
+ns.TOOLTIP_BACKGROUND_TRANSPARENCY_BORDER_TEXT = { -- RetailOptions.lua
+  deDE = "Ändert die Rahmenfarbe des Tooltip Fensters",
+  enUS = "Changes the border color of the tooltip window",
+  frFR = "Modifie la couleur de la bordure de la fenêtre d'infobulle",
+  esES = "Cambia el color del borde de la ventana de información",
+  esMX = "Cambia el color del borde de la ventana de información",
+  itIT = "Modifica il colore del bordo della finestra del suggerimento",
+  ptBR = "Altera a cor da borda da janela da dica de ferramenta",
+  ruRU = "Изменяет цвет рамки окна всплывающей подсказки",
+  zhCN = "更改鼠标提示窗口边框的颜色",
+  zhTW = "變更滑鼠提示視窗邊框的顏色",
+  koKR = "툴팁 창 테두리 색상을 변경합니다",
+}
+
+ns.TOOLTIP_OUTLINE_TEXT = { -- RetailOptions.lua
+  deDE = "Ändert die Stärke der Umrandung",
+  enUS = "Changes the outline thickness",
+  frFR = "Modifie l'épaisseur du contour",
+  esES = "Cambia el grosor del contorno",
+  esMX = "Cambia el grosor del contorno",
+  itIT = "Modifica lo spessore del contorno",
+  ptBR = "Altera a espessura do contorno",
+  ruRU = "Изменяет толщину контура",
+  zhCN = "更改描边粗细",
+  zhTW = "變更外框粗細",
+  koKR = "외곽선의 두께를 변경합니다",
+}
+
+ns.TOOLTIP_FONT = { -- RetailOptions.lua
+  deDE = "Schriftart",
+  enUS = "Font",
+  frFR = "Police",
+  esES = "Fuente",
+  esMX = "Fuente",
+  itIT = "Carattere",
+  ptBR = "Fonte",
+  ruRU = "Шрифт",
+  zhCN = "字体",
+  zhTW = "字型",
+  koKR = "글꼴",
+}
+
+ns.TOOLTIP_FONT_TEXT = { -- RetailOptions.lua
+  deDE = "Ändert die Schriftart der MapNotes Tooltips",
+  enUS = "Changes the font used for MapNotes tooltips",
+  frFR = "Modifie la police utilisée pour les infobulles de MapNotes",
+  esES = "Cambia la fuente utilizada en las descripciones emergentes de MapNotes",
+  esMX = "Cambia la fuente utilizada en las ventanas emergentes de MapNotes",
+  itIT = "Modifica il carattere utilizzato nei suggerimenti di MapNotes",
+  ptBR = "Altera a fonte usada nas dicas de ferramenta do MapNotes",
+  ruRU = "Изменяет шрифт, используемый во всплывающих подсказках MapNotes",
+  zhCN = "更改 MapNotes 鼠标提示使用的字体",
+  zhTW = "變更 MapNotes 滑鼠提示使用的字型",
+  koKR = "MapNotes 툴팁에 사용되는 글꼴을 변경합니다",
+}
+
+ns.TOOLTIP_BACKGROUND_TRANSPARENCY = { -- RetailOptions.lua
+  deDE = "Hintergrund Sichtbarkeit",
+  enUS = "Background Visibility",
+  frFR = "Visibilité de l'arrière-plan",
+  esES = "Visibilidad del fondo",
+  esMX = "Visibilidad del fondo",
+  itIT = "Visibilità dello sfondo",
+  ptBR = "Visibilidade do fundo",
+  ruRU = "Видимость фона",
+  zhCN = "背景可见性",
+  zhTW = "背景可見性",
+  koKR = "배경 표시",
+}
+
+ns.TOOLTIP_TEXT_OUTLINE = { -- RetailOptions.lua
+  deDE = "Textumrandung",
+  enUS = "Text Outline",
+  frFR = "Contour du texte",
+  esES = "Contorno del texto",
+  esMX = "Contorno del texto",
+  itIT = "Contorno del testo",
+  ptBR = "Contorno do texto",
+  ruRU = "Контур текста",
+  zhCN = "文字描边",
+  zhTW = "文字外框",
+  koKR = "텍스트 외곽선",
+}
+
+ns.TOOLTIP_BACKGROUND_TRANSPARENCY_1 = { -- RetailOptions.lua
+  deDE = "Standard",
+  enUS = "Default",
+  frFR = "Par défaut",
+  esES = "Predeterminado",
+  esMX = "Predeterminado",
+  itIT = "Predefinito",
+  ptBR = "Padrão",
+  ruRU = "По умолчанию",
+  zhCN = "默认",
+  zhTW = "預設",
+  koKR = "기본값",
+}
+
+ns.TOOLTIP_BACKGROUND_TRANSPARENCY_2 = { -- RetailOptions.lua
+  deDE = "Schwarz",
+  enUS = "Black",
+  frFR = "Noir",
+  esES = "Negro",
+  esMX = "Negro",
+  itIT = "Nero",
+  ptBR = "Preto",
+  ruRU = "Чёрный",
+  zhCN = "黑色",
+  zhTW = "黑色",
+  koKR = "검은색",
+}
+
+ns.TOOLTIP_BACKGROUND_TRANSPARENCY_TEXT = { -- RetailOptions.lua
+  deDE = "Ändert die Hintergrundtransparenz der MapNotes Tooltips",
+  enUS = "Changes the background transparency of MapNotes tooltips",
+  frFR = "Modifie la transparence de l'arrière-plan des infobulles de MapNotes",
+  esES = "Cambia la transparencia del fondo de las descripciones emergentes de MapNotes",
+  esMX = "Cambia la transparencia del fondo de las ventanas emergentes de MapNotes",
+  itIT = "Modifica la trasparenza dello sfondo dei suggerimenti di MapNotes",
+  ptBR = "Altera a transparência do fundo das dicas de ferramenta do MapNotes",
+  ruRU = "Изменяет прозрачность фона всплывающих подсказок MapNotes",
+  zhCN = "更改 MapNotes 鼠标提示背景的透明度",
+  zhTW = "變更 MapNotes 滑鼠提示背景的透明度",
+  koKR = "MapNotes 툴팁 배경의 투명도를 변경합니다",
+}
+
+ns.TOOLTIP_INSTANCE_PREFIX = { -- RetailOptions.lua
+  deDE = "Vorzeichen",
+  enUS = "Prefix",
+  frFR = "Préfixe",
+  esES = "Prefijo",
+  esMX = "Prefijo",
+  itIT = "Prefisso",
+  ptBR = "Prefixo",
+  ruRU = "Префикс",
+  zhCN = "前缀",
+  zhTW = "前綴",
+  koKR = "접두 기호",
+}
+
+ns.TOOLTIP_INSTANCE_PREFIX_TEXT = { -- RetailOptions.lua
+  deDE = "Legt das Vorzeichen für Mehrfachinstanzen im Tooltip fest.",
+  enUS = "Choose the prefix used for multiple instances in the tooltip.",
+  frFR = "Choisissez le préfixe utilisé pour les instances multiples dans l'infobulle.",
+  esES = "Elige el prefijo utilizado para las instancias múltiples en la descripción emergente.",
+  esMX = "Elige el prefijo utilizado para las instancias múltiples en la ventana emergente.",
+  itIT = "Scegli il prefisso utilizzato per le istanze multiple nel suggerimento.",
+  ptBR = "Escolha o prefixo usado para múltiplas instâncias na dica de ferramenta.",
+  ruRU = "Выберите префикс для нескольких подземелий во всплывающей подсказке.",
+  zhCN = "选择鼠标提示中多个副本使用的前缀。",
+  zhTW = "選擇滑鼠提示中多個副本使用的前綴。",
+  koKR = "툴팁에서 여러 인스턴스에 사용할 접두 기호를 선택합니다.",
+}
+
 ns.PROFFESSION_DETECTION = { -- RetailOptions.lua
   deDE = "Ist diese Funktion aktiviert und es wurden noch keine 2 Hauptberufe erlernt, werden alle möglichen Hauptberufssymbole angezeigt.\n\nDasselbe gilt für die Nebenberufe, wurden weniger als 2 Nebenberufe erlernt, werden alle möglichen Nebenberufssymbole angezeigt",
   enUS = "If this feature is enabled and fewer than 2 primary professions are learned, all possible primary profession icons will be shown.\n\nThe same applies to secondary professions: if fewer than 2 secondary professions are learned, all possible secondary profession icons will be shown.",
@@ -53,6 +225,20 @@ ns.PROFFESSION_DETECTION = { -- RetailOptions.lua
   koKR = "이 기능이 활성화되어 있고 주요 전문 기술을 2개 미만으로 배운 경우 모든 가능한 주요 전문 기술 아이콘이 표시됩니다.\n\n보조 전문 기술도 동일하게, 2개 미만으로 배운 경우 모든 가능한 보조 전문 기술 아이콘이 표시됩니다.",
 }
 
+ns.START_VERSION_TWW = { -- RetailOptions.lua
+  deDE = "Funktion ausschließlich für die Pandaria-Zonen und die Erweiterung „The War Within“ (11.0) sowie alle nachfolgenden Erweiterungen",
+  enUS = "Feature only for Pandaria zones and the expansion “The War Within” (11.0) and all subsequent expansions",
+  frFR = "Fonction uniquement pour les zones de Pandaria et l’extension « The War Within » (11.0) ainsi que toutes les extensions suivantes",
+  esES = "Función solo para las zonas de Pandaria y la expansión « The War Within » (11.0) y todas las expansiones posteriores",
+  esMX = "Función solo para las zonas de Pandaria y la expansión « The War Within » (11.0) y todas las expansiones posteriores",
+  itIT = "Funzione solo per le zone di Pandaria e l’espansione « The War Within » (11.0) e tutte le espansioni successive",
+  ptBR = "Função apenas para as zonas de Pandaria e a expansão “The War Within” (11.0) e todas as expansões posteriores",
+  ruRU = "Функция только для зон Пандарии и дополнения « The War Within » (11.0), а также всех последующих дополнений",
+  zhCN = "仅适用于潘达利亚区域和 11.0 地心之战及之后的资料片区域",
+  zhTW = "僅適用於潘達利亞區域以及「地心之戰」（11.0）及之後的資料片",
+  koKR = "판다리아 지역 및 확장팩 “내부 전쟁”(11.0)과 이후 확장팩에만 해당",
+}
+
 ns.CHANGE_VERSIONS_CHECK = { -- RetailVersionsCheck.lua
   deDE = "Neue Version |cff00ff00%s|r verfügbar, deine Version |cffffff00%s|r ist veraltet!",
   enUS = "New version |cff00ff00%s|r available, your version |cffffff00%s|r is outdated!",
@@ -62,7 +248,7 @@ ns.CHANGE_VERSIONS_CHECK = { -- RetailVersionsCheck.lua
   itIT = "Nuova versione |cff00ff00%s|r disponibile, la tua versione |cffffff00%s|r è obsoleta!",
   ptBR = "Nova versão |cff00ff00%s|r disponível, sua versão |cffffff00%s|r está desatualizada!",
   ruRU = "Доступна новая версия |cff00ff00%s|r, ваша версия |cffffff00%s|r устарела!",
-  zhCN = "有新版本 |cff00ff00%s|r 可用, 你的版本 |cffffff00%s|r 已过时!",
+  zhCN = "发现新版本 |cff00ff00%s|r，当前版本 |cffffff00%s|r 已过时！",
   zhTW = "有新版本 |cff00ff00%s|r 可用, 你的版本 |cffffff00%s|r 已過時!",
   koKR = "새 버전 |cff00ff00%s|r 사용 가능, 현재 버전 |cffffff00%s|r 은(는) 오래되었습니다!",
 }
@@ -401,8 +587,8 @@ ns.LOCALE_BOUNTIFUL_DELVES = { -- RetailOptions.lua
   ptBR = "Explorações abundantes",
   ruRU = "Обильные вылазки",
   koKR = "풍성한 탐험",
-  zhCN = "丰饶探究",
-  zhTW = "豐饒探究",
+  zhCN = "丰裕地下堡",
+  zhTW = "豐碩探究",
 }
 
 ns.LOCALE_AFTER_COMBAT_DELVES = { -- RetailDelves.lua
@@ -713,3 +899,13 @@ ns.reset_name_3 = {
   zhTW = "刪除所有的 MapNotes 設定檔",
   koKR = "모든 MapNotes 프로필 삭제",
 }
+
+-- RetailDelves.lua + RetailOptions.lua
+ns.BountifulDelves = (ns.LOCALE_BOUNTIFUL_DELVES and (ns.LOCALE_BOUNTIFUL_DELVES[ns.locale] or ns.LOCALE_BOUNTIFUL_DELVES.enUS)) or "Bountiful Delves"
+ns.AfterCombatDelvesInfo = (ns.LOCALE_AFTER_COMBAT_DELVES_INFO and (ns.LOCALE_AFTER_COMBAT_DELVES_INFO[ns.locale] or ns.LOCALE_AFTER_COMBAT_DELVES_INFO.enUS)) or "Delve icons will automatically reappear on the continent map after combat"
+ns.AfterCombatDelves = (ns.LOCALE_AFTER_COMBAT_DELVES and (ns.LOCALE_AFTER_COMBAT_DELVES[ns.locale] or ns.LOCALE_AFTER_COMBAT_DELVES.enUS)) or "Delve icons will automatically reappear on the continent map after combat"
+
+-- RetailChangeMap.lua
+ns.CombatLocked = (ns.LOCALE_COMBAT_LOCKED and (ns.LOCALE_COMBAT_LOCKED[ns.locale] or ns.LOCALE_COMBAT_LOCKED.enUS)) or "Map switching is blocked during combat"
+ns.AfterCombatAllowed = (ns.LOCALE_AFTER_COMBAT_ALLOWED and (ns.LOCALE_AFTER_COMBAT_ALLOWED[ns.locale] or ns.LOCALE_AFTER_COMBAT_ALLOWED.enUS)) or "Map switching blocked in combat – will be executed after combat"
+ns.OpenAfterCombat = (ns.LOCALE_OPEN_AFTER_COMBAT and (ns.LOCALE_OPEN_AFTER_COMBAT[ns.locale] or ns.LOCALE_OPEN_AFTER_COMBAT.enUS)) or "> Map switching executed after combat <"

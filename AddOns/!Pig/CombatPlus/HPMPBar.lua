@@ -1,9 +1,9 @@
-﻿local _, addonTable = ...;
-local L=addonTable.locale
-local Data=addonTable.Data
+﻿local _, PD = ...;
+local L=PD.locale
+local Data=PD.Data
 local TalentData=Data.TalentData
 --
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
 local PIGDownMenu=Create.PIGDownMenu
@@ -15,7 +15,7 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 local PIGEnter=Create.PIGEnter
-local CombatPlusfun=addonTable.CombatPlusfun
+local CombatPlusfun=PD.CombatPlusfun
 -------------------------
 local classOK={
 	[4]=2,
@@ -44,10 +44,12 @@ local function GetFuStyleV(classId,newV)
 		return 1
 	end	
 end
+local PIG_HPMPBarUI
 local function ADD_HPMPBarUI(setV)
 	if not PIGA["CombatPlus"]["HPMPBar"]["Open"] then return end
-	if CombatPlusfun.HPMPBarOpen then CombatPlusfun.HPMPBarOpen=true return end
+	if PIG_HPMPBarUI then return end
 	local HPMPBar = CreateFrame("Button", nil, UIParent, "SecureUnitButtonTemplate,SecureHandlerStateTemplate")
+	PIG_HPMPBarUI=HPMPBar
 	HPMPBar:SetHeight(1);
 	HPMPBar:SetPoint("CENTER", UIParent, "CENTER", PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"], PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]);
 	HPMPBar:EnableMouse(false)
@@ -347,31 +349,37 @@ local function ADD_HPMPBarUI(setV)
 end
 function CombatPlusfun.HPMPBar()
 	if PIG_MaxTocversion() then
-		local HPMPBar=ADD_HPMPBarUI()
-		local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME3"],100)
-		CombatPlusF.Open = PIGCheckbutton_R(CombatPlusF,{"启用个人资源条","在屏幕上显示个人资源条"})
-		CombatPlusF.Open:SetScript("OnClick", function (self)
+		ADD_HPMPBarUI()
+	end
+end
+function CombatPlusfun.addOptions_HPMPBar()
+	if PIG_MaxTocversion() then
+		local Tab2_F =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME3"],100)
+		Tab2_F.Open = PIGCheckbutton_R(Tab2_F,{"启用个人资源条","在屏幕上显示个人资源条"})
+		Tab2_F.Open:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["Open"]);
+		Tab2_F.Open:SetScript("OnClick", function (self)
 			if self:GetChecked() then			
 				PIGA["CombatPlus"]["HPMPBar"]["Open"]=true;
-				HPMPBar=ADD_HPMPBarUI(true)
-				CombatPlusF.SetF:Show()
+				ADD_HPMPBarUI(true)
 			else
 				PIGA["CombatPlus"]["HPMPBar"]["Open"]=false;
-				CombatPlusF.SetF:Hide()
 				PIG_OptionsUI.RLUI:Show()
 			end
+			Tab2_F.SetF:SetShown(PIGA["CombatPlus"]["HPMPBar"]["Open"])
 		end)
-		CombatPlusF:HookScript("OnShow", function (self)
-			self.Open:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["Open"]);
-			if not CombatPlusF.SetF then
-				CombatPlusF.SetF = PIGFrame(CombatPlusF,{"TOPLEFT", CombatPlusF, "TOPLEFT", 0, -60})
-				CombatPlusF.SetF:SetPoint("BOTTOMRIGHT",CombatPlusF,"BOTTOMRIGHT",0,0);
-				CombatPlusF.SetF:PIGSetBackdrop(0)
+		Tab2_F:HookScript("OnShow", function (self)
+			Tab2_F.Update_SetUI()
+		end)
+		function Tab2_F.Update_SetUI()
+			if not Tab2_F.SetF then
+				Tab2_F.SetF = PIGFrame(Tab2_F,{"TOPLEFT", Tab2_F, "TOPLEFT", 0, -50})
+				Tab2_F.SetF:SetPoint("BOTTOMRIGHT",Tab2_F,"BOTTOMRIGHT",0,0);
+				Tab2_F.SetF:PIGSetBackdrop(0)
 				local _, classId = UnitClassBase("player");
 				---
-				CombatPlusF.SetF.BarTex=PIGDownMenu(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",60,-20},{150,24})
-				CombatPlusF.SetF.BarTex.T = PIGFontString(CombatPlusF.SetF.BarTex,{"RIGHT",CombatPlusF.SetF.BarTex,"LEFT",-4,0},TEXTURES_SUBHEADER)
-				function CombatPlusF.SetF.BarTex:PIGDownMenu_Update_But()
+				Tab2_F.SetF.BarTex=PIGDownMenu(Tab2_F.SetF,{"TOPLEFT",Tab2_F.SetF,"TOPLEFT",60,-20},{150,24})
+				Tab2_F.SetF.BarTex.T = PIGFontString(Tab2_F.SetF.BarTex,{"RIGHT",Tab2_F.SetF.BarTex,"LEFT",-4,0},TEXTURES_SUBHEADER)
+				function Tab2_F.SetF.BarTex:PIGDownMenu_Update_But()
 					local info = {}
 					info.func = self.PIGDownMenu_SetValue
 					for i=1,Create.BarTexNum,1 do
@@ -380,96 +388,74 @@ function CombatPlusfun.HPMPBar()
 						self:PIGDownMenu_AddButton(info)
 					end 
 				end
-				function CombatPlusF.SetF.BarTex:PIGDownMenu_SetValue(value,arg1,arg2)
+				function Tab2_F.SetF.BarTex:PIGDownMenu_SetValue(value,arg1,arg2)
 					self:PIGDownMenu_SetText(value)
 					PIGA["CombatPlus"]["HPMPBar"]["BarTex"]=arg1
-					HPMPBar.Set_StatusBarTex()
+					PIG_HPMPBarUI.Set_StatusBarTex()
 					PIGCloseDropDownMenus()
 				end
-				CombatPlusF.SetF.CombatShow =PIGCheckbutton(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.BarTex,"LEFT",200,0},{"脱战后隐藏","脱战后隐藏血量资源条"})
-				CombatPlusF.SetF.CombatShow:SetScript("OnClick", function (self)
-					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+				Tab2_F.SetF.CombatShow =PIGCheckbutton(Tab2_F.SetF,{"LEFT",Tab2_F.SetF.BarTex,"LEFT",200,0},{"脱战后隐藏","脱战后隐藏血量资源条"})
+				Tab2_F.SetF.CombatShow:SetScript("OnClick", function (self)
+					if InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
 					if self:GetChecked() then
 						PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]=true;
 					else
 						PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]=false;
 					end
-					HPMPBar.Set_CombatShowHide()
+					PIG_HPMPBarUI.Set_CombatShowHide()
 				end);
 				--
 				local function Set_WHXY()
-					HPMPBar:SetPoint("CENTER", UIParent, "CENTER", PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"], PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]);
+					PIG_HPMPBarUI:SetPoint("CENTER", UIParent, "CENTER", PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"], PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]);
 				end
 				local WowWidth=floor(GetScreenWidth()*0.5);
-				CombatPlusF.SetF.SliderX = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",60,-70},{-WowWidth,WowWidth,1})
-				CombatPlusF.SetF.SliderX.T = PIGFontString(CombatPlusF.SetF.SliderX,{"RIGHT",CombatPlusF.SetF.SliderX,"LEFT",0,0},"X偏移")
-				function CombatPlusF.SetF.SliderX:PIGOnValueChange(arg1)
-					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+				Tab2_F.SetF.SliderX = PIGSlider(Tab2_F.SetF,{"TOPLEFT",Tab2_F.SetF,"TOPLEFT",20,-60},{-WowWidth,WowWidth,1,{["Right"]="X偏移%d"}},220)
+				function Tab2_F.SetF.SliderX:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
 					PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"]=arg1;
 					Set_WHXY()
 				end
 				local WowHeight=floor(GetScreenHeight()*0.5);
-				CombatPlusF.SetF.SliderY = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderX,"RIGHT",100,0},{-WowHeight,WowHeight,1})
-				CombatPlusF.SetF.SliderY.T = PIGFontString(CombatPlusF.SetF.SliderY,{"RIGHT",CombatPlusF.SetF.SliderY,"LEFT",0,0},"Y偏移")
-				function CombatPlusF.SetF.SliderY:PIGOnValueChange(arg1)
-					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+				Tab2_F.SetF.SliderY = PIGSlider(Tab2_F.SetF,{"LEFT",Tab2_F.SetF.SliderX,"RIGHT",80,0},{-WowHeight,WowHeight,1,{["Right"]="Y偏移%d"}},220)
+				function Tab2_F.SetF.SliderY:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
 					PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]=arg1;
 					Set_WHXY()
 				end
-				CombatPlusF.SetF.CZBUT = PIGButton(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderY,"RIGHT",60,0},{80,24},RESET_POSITION)
-				CombatPlusF.SetF.CZBUT:SetScript("OnClick", function ()
-					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-					PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"]=addonTable.Default["CombatPlus"]["HPMPBar"]["Xpianyi"]
-					PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]=addonTable.Default["CombatPlus"]["HPMPBar"]["Ypianyi"]
-					CombatPlusF.SetF.SliderX:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"])
-					CombatPlusF.SetF.SliderY:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"])
-					Set_WHXY()
-				end)
 
-				CombatPlusF.SetF.BarW = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",60,-140},{100,400,1})
-				CombatPlusF.SetF.BarW.T = PIGFontString(CombatPlusF.SetF.BarW,{"RIGHT",CombatPlusF.SetF.BarW,"LEFT",0,0},"宽度")
-				function CombatPlusF.SetF.BarW:PIGOnValueChange(arg1)
-					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+				Tab2_F.SetF.BarW = PIGSlider(Tab2_F.SetF,{"TOPLEFT",Tab2_F.SetF.SliderX,"BOTTOMLEFT",0,-10},{100,400,1,{["Right"]="宽度%d"}},220)
+				function Tab2_F.SetF.BarW:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
 					PIGA["CombatPlus"]["HPMPBar"]["BarW"]=arg1;
-					HPMPBar.Set_StatusBarWH()
+					PIG_HPMPBarUI.Set_StatusBarWH()
 				end
-				CombatPlusF.SetF.BarH = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.BarW,"RIGHT",100,0},{10,60,1})
-				CombatPlusF.SetF.BarH.T = PIGFontString(CombatPlusF.SetF.BarH,{"RIGHT",CombatPlusF.SetF.BarH,"LEFT",0,0},"高度")
-				function CombatPlusF.SetF.BarH:PIGOnValueChange(arg1)
-					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+				Tab2_F.SetF.BarH = PIGSlider(Tab2_F.SetF,{"LEFT",Tab2_F.SetF.BarW,"RIGHT",80,0},{10,60,1,{["Right"]="高度%d"}},220)
+				function Tab2_F.SetF.BarH:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
 					PIGA["CombatPlus"]["HPMPBar"]["BarH"]=arg1;
-					HPMPBar.Set_StatusBarWH()
+					PIG_HPMPBarUI.Set_StatusBarWH()
 				end
-				CombatPlusF.SetF.CZSize = PIGButton(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.BarH,"RIGHT",60,0},{80,24},RESET_TO_DEFAULT)
-				CombatPlusF.SetF.CZSize:SetScript("OnClick", function ()
-					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
-					PIGA["CombatPlus"]["HPMPBar"]["BarW"]=addonTable.Default["CombatPlus"]["HPMPBar"]["BarW"]
-					PIGA["CombatPlus"]["HPMPBar"]["BarH"]=addonTable.Default["CombatPlus"]["HPMPBar"]["BarH"]
-					CombatPlusF.SetF.BarW:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarW"])
-					CombatPlusF.SetF.BarH:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["BarH"])
-					HPMPBar.Set_StatusBarWH()
-				end)
-				CombatPlusF.SetF.Showshuzhi =PIGCheckbutton(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",20,-240},{"显示数值","显示血量/资源数值"})
-				CombatPlusF.SetF.Showshuzhi:SetScript("OnClick", function (self)
+	
+				Tab2_F.SetF.Showshuzhi =PIGCheckbutton(Tab2_F.SetF,{"TOPLEFT",Tab2_F.SetF.BarW,"BOTTOMLEFT",0,-20},{"显示数值","显示血量/资源数值"})
+				Tab2_F.SetF.Showshuzhi:SetScript("OnClick", function (self)
 					if self:GetChecked() then
 						PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]=true;
-						HPMPBar.Showshuzhi=true
 					else
 						PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]=false;
-						HPMPBar.Showshuzhi=false
 					end
-					HPMPBar.Set_BarFontAll()
+					PIG_HPMPBarUI.Showshuzhi=PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]
+					PIG_HPMPBarUI.Set_BarFontAll()
 				end);
-				CombatPlusF.SetF.FontSize = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.Showshuzhi,"LEFT",210,0},{10,26,1})
-				CombatPlusF.SetF.FontSize.T = PIGFontString(CombatPlusF.SetF.FontSize,{"RIGHT",CombatPlusF.SetF.FontSize,"LEFT",-10,0},"字体大小")
-				function CombatPlusF.SetF.FontSize:PIGOnValueChange(arg1)
-					if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+				Tab2_F.SetF.FontSize = PIGSlider(Tab2_F.SetF,{"LEFT",Tab2_F.SetF.Showshuzhi,"LEFT",210,0},{10,26,1})
+				Tab2_F.SetF.FontSize.T = PIGFontString(Tab2_F.SetF.FontSize,{"RIGHT",Tab2_F.SetF.FontSize,"LEFT",-10,0},"字体大小")
+				function Tab2_F.SetF.FontSize:PIGOnValueChange(arg1)
+					if InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
 					PIGA["CombatPlus"]["HPMPBar"]["FontSize"]=arg1;
-					HPMPBar.Set_BarFontAll()
+					PIG_HPMPBarUI.Set_BarFontAll()
 				end
 
-				CombatPlusF.SetF.HpShow =PIGCheckbutton(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF.Showshuzhi,"TOPLEFT",0,-40},{"显示血量条","个人资源条显示血量"})
-				CombatPlusF.SetF.HpShow:SetScript("OnClick", function (self)
+				Tab2_F.SetF.HpShow =PIGCheckbutton(Tab2_F.SetF,{"TOPLEFT",Tab2_F.SetF.Showshuzhi,"TOPLEFT",0,-40},{"显示血量条","个人资源条显示血量"})
+				Tab2_F.SetF.HpShow:SetScript("OnClick", function (self)
 					if self:GetChecked() then
 						PIGA["CombatPlus"]["HPMPBar"]["HpShow"]=true;
 					else
@@ -477,8 +463,8 @@ function CombatPlusfun.HPMPBar()
 					end
 					PIG_OptionsUI.RLUI:Show()
 				end);
-				CombatPlusF.SetF.MpShow =PIGCheckbutton(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF.HpShow,"TOPLEFT",0,-40},{"显示资源条","个人资源条显示资源"})
-				CombatPlusF.SetF.MpShow:SetScript("OnClick", function (self)
+				Tab2_F.SetF.MpShow =PIGCheckbutton(Tab2_F.SetF,{"TOPLEFT",Tab2_F.SetF.HpShow,"TOPLEFT",0,-40},{"显示资源条","个人资源条显示资源"})
+				Tab2_F.SetF.MpShow:SetScript("OnClick", function (self)
 					if self:GetChecked() then
 						PIGA["CombatPlus"]["HPMPBar"]["MpShow"]=true;
 					else
@@ -487,8 +473,8 @@ function CombatPlusfun.HPMPBar()
 					PIG_OptionsUI.RLUI:Show()
 				end);
 				if classOK[classId] then
-					CombatPlusF.SetF.Fuziyuan =PIGCheckbutton(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF.MpShow,"TOPLEFT",0,-40},{"显示特殊资源条","个人资源条显示特殊资源(连击点/符文/其他)"})
-					CombatPlusF.SetF.Fuziyuan:SetScript("OnClick", function (self)
+					Tab2_F.SetF.Fuziyuan =PIGCheckbutton(Tab2_F.SetF,{"TOPLEFT",Tab2_F.SetF.MpShow,"TOPLEFT",0,-40},{"显示特殊资源条","个人资源条显示特殊资源(连击点/符文/其他)"})
+					Tab2_F.SetF.Fuziyuan:SetScript("OnClick", function (self)
 						if self:GetChecked() then
 							PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]=true;
 						else
@@ -497,8 +483,8 @@ function CombatPlusfun.HPMPBar()
 						PIG_OptionsUI.RLUI:Show()
 					end);
 					if PIGA["CombatPlus"]["HPMPBar"]["Fuziyuan"]  then
-						CombatPlusF.SetF.Fuziyuan.style=PIGDownMenu(CombatPlusF.SetF.Fuziyuan,{"LEFT",CombatPlusF.SetF.Fuziyuan.Text,"RIGHT",2,0},{80,24})
-						function CombatPlusF.SetF.Fuziyuan.style:PIGDownMenu_Update_But()
+						Tab2_F.SetF.Fuziyuan.style=PIGDownMenu(Tab2_F.SetF.Fuziyuan,{"LEFT",Tab2_F.SetF.Fuziyuan.Text,"RIGHT",2,0},{80,24})
+						function Tab2_F.SetF.Fuziyuan.style:PIGDownMenu_Update_But()
 							local info = {}
 							info.func = self.PIGDownMenu_SetValue
 							for i=1,classOK[classId],1 do
@@ -507,17 +493,28 @@ function CombatPlusfun.HPMPBar()
 								self:PIGDownMenu_AddButton(info)
 							end
 						end
-						function CombatPlusF.SetF.Fuziyuan.style:PIGDownMenu_SetValue(value,arg1,arg2)
-							if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
+						function Tab2_F.SetF.Fuziyuan.style:PIGDownMenu_SetValue(value,arg1,arg2)
+							if InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
 							self:PIGDownMenu_SetText(value)
-							HPMPBar.FuStyle = GetFuStyleV(classId,arg1)
-							HPMPBar.Set_StatusBarTex()
-							HPMPBar.Set_StatusBarWH()
+							PIG_HPMPBarUI.FuStyle = GetFuStyleV(classId,arg1)
+							PIG_HPMPBarUI.Set_StatusBarTex()
+							PIG_HPMPBarUI.Set_StatusBarWH()
 							PIGCloseDropDownMenus()
 						end
 					end
 				end
-				function CombatPlusF.SetF:UpdateSetF()
+				Tab2_F.SetF.CZBUT = PIGButton(Tab2_F.SetF,{"BOTTOMRIGHT",Tab2_F.SetF,"TOPRIGHT",-20,10},{60,22},RESET)
+				Tab2_F.SetF.CZBUT:SetScript("OnClick", function ()
+					if InCombatLockdown() then PIGErrorMsg(ERR_NOT_IN_COMBAT) return end
+					PIGA["CombatPlus"]["HPMPBar"]=CopyTable(PD.Default["CombatPlus"]["HPMPBar"])
+					PIGA["CombatPlus"]["HPMPBar"]["Open"]=true;
+					Set_WHXY()
+					PIG_HPMPBarUI.Set_StatusBarWH()
+					PIG_HPMPBarUI.Showshuzhi=PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]
+					PIG_HPMPBarUI.Set_BarFontAll()
+					Tab2_F.SetF:UpdateSetF()
+				end)
+				function Tab2_F.SetF:UpdateSetF()
 					self.Showshuzhi:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["Showshuzhi"]);
 					self.CombatShow:SetChecked(PIGA["CombatPlus"]["HPMPBar"]["CombatShow"]);
 					self.FontSize:PIGSetValue(PIGA["CombatPlus"]["HPMPBar"]["FontSize"])
@@ -535,13 +532,9 @@ function CombatPlusfun.HPMPBar()
 						end
 					end
 				end
-				CombatPlusF.SetF:UpdateSetF()
-				CombatPlusF.SetF:HookScript("OnShow", function (self)
-					self:UpdateSetF()
-				end);
 			end
-			self.SetF:SetShown(PIGA["CombatPlus"]["HPMPBar"]["Open"])
-		end)
-		
+			Tab2_F.SetF:UpdateSetF()
+			Tab2_F.SetF:SetShown(PIGA["CombatPlus"]["HPMPBar"]["Open"])
+		end
 	end
 end

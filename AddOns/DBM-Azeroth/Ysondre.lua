@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("YsondreVanilla", "DBM-Azeroth")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260527072013")
 mod:DisableHardcodedOptions()
 
 if DBM:IsSeasonal("SeasonOfDiscovery") then
@@ -27,7 +27,7 @@ mod:RegisterEventsInCombat(
 local warnNoxiousBreath			= mod:NewStackAnnounce(24818, 2, nil, "Tank", 2)
 local warningLightningWave		= mod:NewSpellAnnounce(24819, 3)
 
-local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2)
+local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 --local timerNoxiousBreathCD		= mod:NewCDTimer(19.4, 24818, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--Iffy
 local timerSleepingFogCD		= mod:NewCDTimer(16.0, 24814, nil, nil, nil, 3)
@@ -100,7 +100,7 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
+function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, spellId)
 	if spellId == 24819 and self:AntiSpam(5, 2) then--Lightning Wave
 		warningLightningWave:Show()
 		timerLightningWaveCD:Start()

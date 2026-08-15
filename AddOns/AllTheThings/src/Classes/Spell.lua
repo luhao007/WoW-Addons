@@ -14,9 +14,8 @@ local IsQuestFlaggedCompleted, SearchForField
 -- WoW API Cache
 local GetSpellLink = app.WOWAPI.GetSpellLink;
 
--- TODO: some of these deprecated in 11.2, move to WOWAPI
 ---@diagnostic disable-next-line: deprecated
-local GetSpellTabInfo = GetSpellTabInfo
+local GetSpellTabInfo = app.WOWAPI.GetSpellTabInfo
 
 -- WoW API
 local GetNumSpellTabs = app.WOWAPI.GetNumSpellTabs;
@@ -180,9 +179,8 @@ do
 		ImportFields = { "name", "link", "icon", "specs", "tsm", "costCollectibles", "AsyncRefreshFunc" },
 	},
 	function(t) return t.itemID end)
-	
+
 	-- Spell Rank Handling
-	local GetSpellRank = GetSpellRank;
 	local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 	local function CacheRankForSpell(spellID, rank)
 		if rank then
@@ -209,11 +207,13 @@ do
 		local saved, none = {}, {}
 		local IsAccountCached = app.IsAccountCached
 		for id,g in pairs(app.GetRawFieldContainer(KEY)) do
-			-- Cache Spell Names
-			for i,spell in ipairs(g) do
-				CacheRankForSpell(id, spell.rank);
+			if app.IsClassic then
+				-- Cache Spell Names
+				for i=1,#g do
+					CacheRankForSpell(id, g[i].rank)
+				end
 			end
-			
+
 			-- Don't cache other cached spells within Spells, they're handled separately
 			if not IsAccountCached("Mounts", id) then
 				state = IsSpellKnownHelper(id)
@@ -235,8 +235,10 @@ do
 		for specID,spellID in pairs(app.SkillDB.SpecializationSpells) do
 			GetSpellName(spellID);
 		end
-		if GetSpellTabInfo then
+		if app.IsClassic and GetSpellTabInfo then
 			local lastSpellName, currentSpellRank, lastSpellRank = "", 1, 1;
+			local GetSpellRank = app.WOWAPI.GetSpellRank
+			local GetSpellInfo = GetSpellInfo
 			for spellTabIndex=1,GetNumSpellTabs() do
 				local offset, numSlots = select(3, GetSpellTabInfo(spellTabIndex));
 				for spellIndex=offset+1,offset+numSlots do
@@ -261,32 +263,30 @@ do
 					end
 				end
 			end
-		end
-		
-		-- If we know a higher rank of the spell, then flag all lower ranks of the spell as collected.
-		for spellName,rankedSpell in pairs(RankedSpellNames) do
-			--print("Max Rank", spellName, rankedSpell.max);
-			for i=rankedSpell.max,1,-1 do
-				local id = rankedSpell[i];
-				if id then
-					if saved[id] then
-						--print(" ", i, id, true);
-						for j=i-1,1,-1 do
-							id = rankedSpell[j];
-							if id then saved[id] = true end
-							--print(" ", j, id, true);
+
+			-- If we know a higher rank of the spell, then flag all lower ranks of the spell as collected.
+			for spellName,rankedSpell in pairs(RankedSpellNames) do
+				--print("Max Rank", spellName, rankedSpell.max);
+				for i=rankedSpell.max,1,-1 do
+					local id = rankedSpell[i];
+					if id then
+						if saved[id] then
+							--print(" ", i, id, true);
+							for j=i-1,1,-1 do
+								id = rankedSpell[j];
+								if id then saved[id] = true end
+								--print(" ", j, id, true);
+							end
+							break;
 						end
-						break;
 					end
 				end
 			end
 		end
-		
+
 		-- Character Cache
 		app.SetBatchCached(CACHE, saved, 1)
 		app.SetBatchCached(CACHE, none)
-		-- Account Cache (removals handled by Sync)
-		app.SetBatchAccountCached(CACHE, saved, 1)
 	end);
 	app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
 		if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
@@ -369,8 +369,6 @@ do
 			-- Character Cache
 			app.SetBatchCached("Spells", char, 1)
 			app.SetBatchCached("Spells", none)
-			-- Account Cache (removals handled by Sync)
-			app.SetBatchAccountCached("Spells", saved, 1)
 		end);
 		app.AddEventRegistration("USE_GLYPH", function()
 			-- TODO: Refresh Glyphs somehow.

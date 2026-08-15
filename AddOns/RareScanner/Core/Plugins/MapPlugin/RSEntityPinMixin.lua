@@ -53,50 +53,55 @@ function RSEntityPinMixin:OnMouseLeave()
 end
 
 function RSEntityPinMixin:OnMouseDown(button)
+	if (not self.POI) then
+		return
+	end
+	
+	local entityID = self.POI.entityID
 	if (button == "LeftButton") then		
 		--Filter/unfilter
 		if (IsShiftKeyDown() and IsAltKeyDown()) then
 			if (self.POI.isNpc) then
 				if (RSConfigDB.GetDefaultNpcFilter() == RSConstants.ENTITY_FILTER_ALERTS) then
-					RSConfigDB.SetNpcFiltered(self.POI.entityID, RSConstants.ENTITY_FILTER_ALL)
+					RSConfigDB.SetNpcFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
 				else
-					RSConfigDB.SetNpcFiltered(self.POI.entityID)
+					RSConfigDB.SetNpcFiltered(entityID)
 				end
 				self:Hide();
 			elseif (self.POI.isContainer) then
 				if (RSConfigDB.GetDefaultContainerFilter() == RSConstants.ENTITY_FILTER_ALERTS) then
-					RSConfigDB.SetContainerFiltered(self.POI.entityID, RSConstants.ENTITY_FILTER_ALL)
+					RSConfigDB.SetContainerFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
 				else
-					RSConfigDB.SetContainerFiltered(self.POI.entityID)
+					RSConfigDB.SetContainerFiltered(entityID)
 				end
 				self:Hide();
 			elseif (self.POI.isEvent) then
 				if (RSConfigDB.GetDefaultEventFilter() == RSConstants.ENTITY_FILTER_ALERTS) then
-					RSConfigDB.SetEventFiltered(self.POI.entityID, RSConstants.ENTITY_FILTER_ALL)
+					RSConfigDB.SetEventFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
 				else
-					RSConfigDB.SetEventFiltered(self.POI.entityID)
+					RSConfigDB.SetEventFiltered(entityID)
 				end
 				self:Hide();
 			end
 			RSProvider.RefreshAllDataProviders()
-			RSMinimap.RefreshEntityState(self.POI.entityID)
+			RSMinimap.RefreshEntityState(entityID)
 		-- Toggle overlay
 		elseif (not IsShiftKeyDown() and not IsAltKeyDown() and not IsControlKeyDown()) then
 			-- If overlay showing then hide it
-			local overlayInfo = RSGeneralDB.GetOverlayActive(self.POI.entityID)
+			local overlayInfo = RSGeneralDB.GetOverlayActive(entityID)
 			if (overlayInfo) then
 				for pin in self:GetMap():EnumeratePinsByTemplate("RSOverlayTemplate") do
-					if (pin:GetEntityID() == self.POI.entityID) then
+					if (pin:GetEntityID() == entityID) then
 						self:GetMap():RemovePin(pin)
 					end
 				end
-				RSGeneralDB.RemoveOverlayActive(self.POI.entityID)
-				RSMinimap.RemoveOverlay(self.POI.entityID)
+				RSGeneralDB.RemoveOverlayActive(entityID)
+				RSMinimap.RemoveOverlay(entityID)
 			else
 				self:ShowOverlay()
 			end
 		end
-	elseif (button == "RightButton") then
+	elseif (button == "RightButton") then		
 		-- Add waypoint
 		if (IsShiftKeyDown()) then
 			RSWaypoints.AddWorldMapWaypoint(self.POI.mapID, self.POI.x, self.POI.y, self.POI.name)
@@ -106,11 +111,11 @@ function RSEntityPinMixin:OnMouseDown(button)
 			local guideEntityID = RSGeneralDB.GetGuideActive()
 			if (guideEntityID) then
 				self:GetMap():RemoveAllPinsByTemplate("RSGuideTemplate");
-				if (guideEntityID ~= self.POI.entityID) then
+				if (guideEntityID ~= entityID) then
 					self:ShowGuide(self.POI.mapID)
 				else
 					RSGeneralDB.RemoveGuideActive()
-					RSMinimap.RemoveGuide(self.POI.entityID)
+					RSMinimap.RemoveGuide(entityID)
 				end
 			else
 				self:ShowGuide(self.POI.mapID)

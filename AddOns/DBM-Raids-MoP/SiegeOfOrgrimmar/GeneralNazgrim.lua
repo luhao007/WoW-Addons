@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(850, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260523022011")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(71515)
 mod:SetEncounterID(1603)
@@ -29,46 +33,39 @@ local warnSunder					= mod:NewStackAnnounce(143494, 2, nil, "Tank|Healer")--Will
 local warnBonecracker				= mod:NewTargetAnnounce(143638, 2, nil, false)
 local warnBattleStance				= mod:NewSpellAnnounce(143589, 2)
 local warnDefensiveStanceSoon		= mod:NewAnnounce("warnDefensiveStanceSoon", 4, 143593, nil, nil, true)
+local warnDefensiveStanceOver		= mod:NewEndAnnounce(143593, 1)
 --Nazgrim Rage Abilities
-local warnHeroicShockwave			= mod:NewTargetAnnounce(143500, 2)
-local warnKorkronBanner				= mod:NewSpellAnnounce(143536, 3)
 local warnCoolingOff				= mod:NewTargetAnnounce(143484, 1, nil, false)
 --Kor'kron Adds
 local warnIronstorm					= mod:NewSpellAnnounce(143420, 3, nil, "Melee")
-local warnAssasinsMark				= mod:NewTargetAnnounce(143480, 3)
+local warnAssasinsMark				= mod:NewTargetAnnounce(143480, 3, nil, false)
 local warnEmpoweredChainHeal		= mod:NewCastAnnounce(143473, 4)
-local warnHealingTideTotem			= mod:NewSpellAnnounce(143474, 4)
 local warnHuntersMark				= mod:NewTargetAnnounce(143882, 3, nil, false)
 
 --Nazgrim Core Abilities
-local specWarnAdds					= mod:NewSpecialWarningCount(-7920, "-Healer")
-local specWarnSunder				= mod:NewSpecialWarningStack(143494, nil, 4)
-local specWarnSunderOther			= mod:NewSpecialWarningTaunt(143494)
-local specWarnExecute				= mod:NewSpecialWarningSpell(143502, "Tank", nil, nil, 3)
+local specWarnAdds					= mod:NewSpecialWarningSwitchCount(-7920, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnSunder				= mod:NewSpecialWarningStack(143494, nil, 4, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnSunderOther			= mod:NewSpecialWarningTaunt(143494, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnExecute				= mod:NewSpecialWarningDefensive(143502, nil, nil, nil, 1, 2, nil, nil, "defensive")
 local specWarnBerserkerStance		= mod:NewSpecialWarningSpell(143594, "Dps")
-local specWarnDefensiveStance		= mod:NewSpecialWarningSpell(143593, nil, nil, nil, 3)--Definitely OFF DPS
-local specWarnDefensiveStanceAttack	= mod:NewSpecialWarningReflect(143593)
-local specWarnDefensiveStanceEnd	= mod:NewSpecialWarningEnd(143593)
+local specWarnDefensiveStance		= mod:NewSpecialWarningReflect(143593, nil, nil, nil, 3, 2, nil, nil, "stopattack")
 --Nazgrim Rage Abilities
-local specWarnHeroicShockwave		= mod:NewSpecialWarningYou(143500)
+local specWarnHeroicShockwave		= mod:NewSpecialWarningYou(143500, nil, nil, nil, 2, 19, nil, nil, "leapyou")
 local yellHeroicShockwave			= mod:NewYell(143500)
-local specWarnHeroicShockwaveNear	= mod:NewSpecialWarningClose(143500)
-local specWarnHeroicShockwaveAll	= mod:NewSpecialWarningSpell(143500, nil, nil, nil, 2)
-local specWarnKorkronBanner			= mod:NewSpecialWarningSwitch(143536, "Dps")
-local specWarnRavager				= mod:NewSpecialWarningSpell(143872)
-local specWarnRavagerMove			= mod:NewSpecialWarningMove(143873)
-local specWarnWarSong				= mod:NewSpecialWarningSpell(143503, nil, nil, nil, 2)
+local specWarnHeroicShockwaveAll	= mod:NewSpecialWarningTarget(143500, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnKorkronBanner			= mod:NewSpecialWarningSwitch(143536, "Dps", nil, nil, 1, 2, nil, nil, "targetchange")
+local specWarnRavager				= mod:NewSpecialWarningDodge(143872, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnRavagerMove			= mod:NewSpecialWarningGTFO(143873, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnWarSong				= mod:NewSpecialWarningSpell(143503, nil, nil, nil, 2, 2, nil, nil, "aesoon")
 --Kor'kron Adds
-local specWarnIronstorm				= mod:NewSpecialWarningDodge(143420, "Melee")--Only needs to be interrupted if melee are near it
-local specWarnEmpoweredChainHeal	= mod:NewSpecialWarningInterrupt(143473, "-Healer")--Concerns everyone, if not interrupted will heal boss for a TON
-local specWarnAssassinsMark			= mod:NewSpecialWarningYou(143480)
+local specWarnIronstorm				= mod:NewSpecialWarningDodge(143420, nil, nil, nil, 2, 2, nil, nil, "watchstep")--Only needs to be interrupted if melee are near it
+local specWarnEmpoweredChainHeal	= mod:NewSpecialWarningInterrupt(143473, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")--Concerns everyone, if not interrupted will heal boss for a TON
+local specWarnAssassinsMark			= mod:NewSpecialWarningYou(143480, nil, nil, nil, 1, 19, nil, nil, "fixateyou")
 local yellAssassinsMark				= mod:NewYell(143480, nil, false)
-local specWarnAssassinsMarkOther	= mod:NewSpecialWarningTarget(143480, false)
-local specWarnEarthShield			= mod:NewSpecialWarningDispel(143475, "MagicDispeller")
-local specWarnHealingTideTotem		= mod:NewSpecialWarningSwitch(143474, false)--Not everyone needs to switch, should be turned on by assigned totem mashing people.
-local specWarnHuntersMark			= mod:NewSpecialWarningYou(143882)
+local specWarnEarthShield			= mod:NewSpecialWarningDispel(143475, "MagicDispeller", nil, nil, 1, 2, nil, nil, "dispelboss")
+local specWarnHealingTideTotem		= mod:NewSpecialWarningSwitch(143474, false, nil, nil, nil, nil, nil, nil, "attacktotem")--Not everyone needs to switch, should be turned on by assigned totem mashing people.
+local specWarnHuntersMark			= mod:NewSpecialWarningYou(143882, nil, nil, nil, 1, 19, nil, nil, "fixateyou")
 local yellHuntersMark				= mod:NewYell(143882, nil, false)
-local specWarnHuntersMarkOther		= mod:NewSpecialWarningTarget(143882, false)
 
 --Nazgrim Core Abilities
 local timerAddsCD					= mod:NewNextCountTimer(45, -7920, nil, nil, nil, 1, "132349", nil, nil, 1, 4)
@@ -191,14 +188,13 @@ end
 
 function mod:LeapTarget(targetname, uId)
 	if not targetname then return end
-	warnHeroicShockwave:Show(targetname)
 	if targetname == UnitName("player") then
 		specWarnHeroicShockwave:Show()
+		specWarnHeroicShockwave:Play("leapyou")
 		yellHeroicShockwave:Yell()
-	elseif self:CheckNearby(8, targetname) then
-		specWarnHeroicShockwaveNear:Show(targetname)
 	else
-		specWarnHeroicShockwaveAll:Show()
+		specWarnHeroicShockwaveAll:Show(targetname)
+		specWarnHeroicShockwaveAll:Play("watchstep")
 	end
 end
 
@@ -222,22 +218,30 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 143872 then
 		specWarnRavager:Show()
+		specWarnRavager:Play("watchstep")
 	elseif spellId == 143503 then
 		specWarnWarSong:Show()
+		specWarnWarSong:Play("aesoon")
 	elseif spellId == 143420 then
-		if self:CheckInterruptFilter(args.sourceGUID, true) then
+		if self:CheckBossDistance(args.sourceGUID, true, 17626, 13) then
 			specWarnIronstorm:Show()
+			specWarnIronstorm:Play("watchstep")
 		else
 			warnIronstorm:Show()
 		end
 	elseif spellId == 143473 then
-		warnEmpoweredChainHeal:Show()
-		specWarnEmpoweredChainHeal:Show(args.sourceName)
+		if self.Options.SpecWarn143473interrupt and self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnEmpoweredChainHeal:Show(args.sourceName)
+			specWarnEmpoweredChainHeal:Play("kickcast")
+		else
+			warnEmpoweredChainHeal:Show()
+		end
 		timerEmpoweredChainHealCD:Start(args.sourceName, args.sourceGUID)
 	elseif spellId == 143502 then
 		timerExecuteCD:Start()
 		if self:IsTanking("player", "boss1", nil, true) then--threat check instead of target because we may be helping dps adds
 			specWarnExecute:Show()
+			specWarnExecute:Play("defensive")
 		end
 	end
 end
@@ -247,7 +251,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 143589 then
 		if self.vb.defensiveActive then
 			self.vb.defensiveActive = false
-			specWarnDefensiveStanceEnd:Show()
+			warnDefensiveStanceOver:Show()
 		end
 		self:UnregisterShortTermEvents()
 		warnBattleStance:Show()
@@ -259,11 +263,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 143594 then
 		specWarnBerserkerStance:Show()
 		timerDefensiveStanceCD:Start()
-		warnDefensiveStanceSoon:Schedule(55, 5)--Start pre warning with regular warnings only as you don't move at this point yet.
-		warnDefensiveStanceSoon:Schedule(56, 4)
-		warnDefensiveStanceSoon:Schedule(57, 3)
-		warnDefensiveStanceSoon:Schedule(58, 2)
-		warnDefensiveStanceSoon:Schedule(59, 1)
+		warnDefensiveStanceSoon:Countdown(60, 5)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(args.spellName)
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
@@ -279,21 +279,22 @@ function mod:SPELL_CAST_SUCCESS(args)
 			)
 			table.wipe(dotWarned)
 		end
-		specWarnDefensiveStance:Show()
+		specWarnDefensiveStance:Show(args.sourceName)
+		specWarnDefensiveStance:Play("stopattack")
 		timerBattleStanceCD:Start()
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(args.spellName)
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame)
 		end
 	elseif spellId == 143536 then
-		warnKorkronBanner:Show()
 		specWarnKorkronBanner:Show()
+		specWarnKorkronBanner:Play("targetchange")
 		if self.Options.SetIconOnAdds then
 			self:ScanForMobs(71626, 2, 8, 1, nil, 4)--banner
 		end
 	elseif spellId == 143474 then
-		warnHealingTideTotem:Show()
 		specWarnHealingTideTotem:Show()
+		specWarnHealingTideTotem:Play("attacktotem")
 	elseif spellId == 143494 then--Because it can miss, we start CD here instead of APPLIED
 		timerSunderCD:Start()
 	end
@@ -308,35 +309,38 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			if amount >= 4 then--At this point the other tank SHOULD be clear.
 				specWarnSunder:Show(amount)
+				specWarnSunder:Play("stackhigh")
 			end
 		else--Taunt as soon as stacks are clear, regardless of stack count.
 			if amount >= 3 and not DBM:UnitDebuff("player", args.spellName) and not UnitIsDeadOrGhost("player") then
 				specWarnSunderOther:Show(args.destName)
+				specWarnSunderOther:Play("tauntboss")
 			end
 		end
 	elseif spellId == 143484 then
 		warnCoolingOff:Show(args.destName)
 		timerCoolingOff:Start()
 	elseif spellId == 143480 then
-		warnAssasinsMark:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnAssassinsMark:Show()
+			specWarnAssassinsMark:Play("fixateyou")
 			yellAssassinsMark:Yell()
 		else
-			specWarnAssassinsMarkOther:Show(args.destName)
+			warnAssasinsMark:Show(args.destName)
 		end
 	elseif spellId == 143475 and not args:IsDestTypePlayer() then
 		specWarnEarthShield:Show(args.destName)
+		specWarnEarthShield:Play("dispelboss")
 	elseif spellId == 143638 then
 		warnBonecracker:CombinedShow(1.5, args.destName)
 		timerBoneCD:DelayedStart(1.5)--Takes a while to get on all targets. 1.5 seconds in 10 man, not sure about 25 man yet
 	elseif spellId == 143882 then
-		warnHuntersMark:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnHuntersMark:Show()
+			specWarnHuntersMark:Play("fixateyou")
 			yellHuntersMark:Yell()
 		else
-			specWarnHuntersMarkOther:Show(args.destName)
+			warnHuntersMark:Show(args.destName)
 		end
 	end
 end
@@ -349,12 +353,14 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID, destName, _, _, spellId)
+function mod:SPELL_DAMAGE(sourceGUID, _, _, _, destGUID, destName, _, _, spellId, spellName)
 	if spellId == 143873 and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
-		specWarnRavagerMove:Show()
+		specWarnRavagerMove:Show(spellName)
+		specWarnRavagerMove:Play("watchfeet")
 	elseif sourceGUID == UnitGUID("player") and destGUID == UnitGUID("boss1") and self:AntiSpam(3, 1) then--If you've been in LFR at all, you'll see that even 3 is generous. 8 is WAY too leaniant.
 		if not DBM:UnitDebuff("player", sunder) and self.vb.defensiveActive then
-			specWarnDefensiveStanceAttack:Show(destName)
+			specWarnDefensiveStance:Show(destName)
+			specWarnDefensiveStance:Play("stopattack")
 		end
 	end
 end
@@ -365,7 +371,8 @@ function mod:SPELL_PERIODIC_DAMAGE(sourceGUID, _, _, _, destGUID, destName, _, _
 	if sourceGUID == UnitGUID("player") and destGUID == UnitGUID("boss1") and self:AntiSpam(3, 1) then
 		if not DBM:UnitDebuff("player", sunder) and self.vb.defensiveActive and not dotWarned[spellId] then
 			dotWarned[spellId] = true
-			specWarnDefensiveStanceAttack:Show(destName)
+			specWarnDefensiveStance:Show(destName)
+			specWarnDefensiveStance:Play("stopattack")
 		end
 	end
 end
@@ -404,6 +411,7 @@ do
 		if msg == "Adds" and self:AntiSpam(10, 3) then
 			self.vb.addsCount = self.vb.addsCount + 1
 			specWarnAdds:Show(self.vb.addsCount)
+			specWarnAdds:Play("killmob")
 			if self.vb.addsCount < 10 then
 				timerAddsCD:Start(nil, self.vb.addsCount+1)
 			end

@@ -1,20 +1,24 @@
 local mod	= DBM:NewMod(1979, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260709014625")
 mod:SetCreatureID(124871)
 mod:SetEncounterID(2065)
 mod:SetUsedIcons(1)
+mod:SetZone(1753)
 
 mod:RegisterCombat("combat")
 
 if DBM:IsPostMidnight() then
+	DBM:RegisterAltSpellName(1268916, DBM_COMMON_L.FRONTAL)--Null Palm -> Frontal
+	DBM:RegisterAltSpellName(1263304, DBM_COMMON_L.AOEDAMAGE)--Crashing Void -> AOE Damage
+
 	local warnDecimate					= mod:NewCountAnnounce(1263282, 2)
 
-	local specWarnNullPalm				= mod:NewSpecialWarningCount(1268916, nil, nil, nil, 2, 2)
-	local specWarnOozingSlam			= mod:NewSpecialWarningCount(1263399, nil, nil, nil, 2, 2)
-	local specWarnVoidSlash				= mod:NewSpecialWarningCount(1263440, nil, nil, nil, 1, 2)
-	local specWarnCrashingVoid			= mod:NewSpecialWarningCount(1263304, nil, nil, nil, 2, 2)
+	local specWarnNullPalm				= mod:NewSpecialWarningCount(1268916, nil, nil, nil, 2, 2, nil, nil, "frontal")
+	local specWarnOozingSlam			= mod:NewSpecialWarningCount(1263399, nil, nil, nil, 2, 2, nil, nil, "mobsoon")
+	local specWarnVoidSlash				= mod:NewSpecialWarningCount(1263440, nil, nil, nil, 1, 2, nil, nil, "defensive")
+	local specWarnCrashingVoid			= mod:NewSpecialWarningCount(1263304, nil, nil, nil, 2, 2, nil, nil, "pullin")
 
 	local timerNullPalmCD				= mod:NewCDCountTimer(20.5, 1268916, nil, nil, nil, 3)
 	local timerDecimateCD				= mod:NewCDCountTimer(20.5, 1263282, nil, nil, nil, 3)
@@ -22,7 +26,7 @@ if DBM:IsPostMidnight() then
 	local timerVoidSlashCD				= mod:NewCDCountTimer(20.5, 1263440, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 	local timerCrashingVoidCD			= mod:NewCDCountTimer(20.5, 1263304, nil, nil, nil, 2)
 
-	mod:AddPrivateAuraSoundOption(244588, true, 244588, 2, 1, "watchfeet", 8)--Void Sludge (GTFO)
+	mod:AddAuraSoundOption(244588, true, 244588, 2, 1, "watchfeet", 8)--Void Sludge (GTFO)
 
 	mod.vb.nullPalmCount = 0
 	mod.vb.decimateCount = 0
@@ -32,7 +36,7 @@ if DBM:IsPostMidnight() then
 	local badStateDetected = false
 
 	---@param self DBMMod
-	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+	---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 	local function setFallback(self, dontSetAlerts)
 		if not dontSetAlerts then
 			specWarnNullPalm:SetAlert(223, "frontal", 15, 2)
@@ -40,11 +44,14 @@ if DBM:IsPostMidnight() then
 			specWarnVoidSlash:SetAlert(226, "defensive", 2, 2)
 			specWarnCrashingVoid:SetAlert(238, "pullin", 12, 2)
 		end
-		timerNullPalmCD:SetTimeline(223)
-		timerDecimateCD:SetTimeline(224)
-		timerOozingSlamCD:SetTimeline(225)
-		timerVoidSlashCD:SetTimeline(226)
-		timerCrashingVoidCD:SetTimeline(238)
+		--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+		timerNullPalmCD:SetTimeline(223, onlyColor)
+		timerDecimateCD:SetTimeline(224, onlyColor)
+		timerOozingSlamCD:SetTimeline(225, onlyColor)
+		timerVoidSlashCD:SetTimeline(226, onlyColor)
+		timerCrashingVoidCD:SetTimeline(238, onlyColor)
 	end
 
 	function mod:OnLimitedCombatStart()
@@ -54,16 +61,13 @@ if DBM:IsPostMidnight() then
 		self.vb.oozingSlamCount = 1
 		self.vb.voidSlashCount = 1
 		self.vb.crashingVoidCount = 1
-		if self:IsMythicPlus() and DBM.Options.HardcodedTimer and not badStateDetected then
+		if DBM.Options.HardcodedTimer and not badStateDetected then
 			self:IgnoreBlizzardAPI()
 			self:RegisterShortTermEvents(
 				"ENCOUNTER_TIMELINE_EVENT_ADDED",
 				"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 			)
-			--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-			if DBM.Options.HideDBMBars then
-				setFallback(self, true)
-			end
+			setFallback(self, true)
 		else
 			setFallback(self)
 		end
@@ -163,10 +167,10 @@ else
 	local warnFixate						= mod:NewTargetAnnounce(244657, 3)
 	local warnVoidTear						= mod:NewTargetAnnounce(244621, 1)
 
-	local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, 2, 2, 2)
-	local specWarnCoalescedVoid				= mod:NewSpecialWarningSwitch(244602, "Dps", nil, nil, 1, 2)
-	local specWarnUmbraShift				= mod:NewSpecialWarningYou(244433, nil, nil, nil, 1, 5)
-	local specWarnFixate					= mod:NewSpecialWarningRun(244657, nil, nil, nil, 4, 2)
+	local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, 2, 2, 2, nil, nil, "shockwave")
+	local specWarnCoalescedVoid				= mod:NewSpecialWarningSwitch(244602, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
+	local specWarnUmbraShift				= mod:NewSpecialWarningYou(244433, nil, nil, nil, 1, 5, nil, nil, "teleyou")
+	local specWarnFixate					= mod:NewSpecialWarningRun(244657, nil, nil, nil, 4, 2, nil, nil, "justrun")
 
 	local timerNullPalmCD					= mod:NewCDTimer(10.9, 246134, nil, nil, nil, 3)
 	local timerDeciminateCD					= mod:NewCDTimer(12.1, 244579, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)

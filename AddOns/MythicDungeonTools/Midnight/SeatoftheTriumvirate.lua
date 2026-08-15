@@ -1,5 +1,5 @@
-local addonName = ...
-local MDT = MDT
+local _, MDT = ...
+local addonName = MDT.AddonName
 local L = MDT.L
 local dungeonIndex = 11
 MDT.dungeonList[dungeonIndex] = L["Seat of the Triumvirate"]
@@ -1838,6 +1838,30 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [2] = {
         ["x"] = 119.60860340578,
         ["y"] = -307.15621046736,
+        ["sublevel"] = 1,
+      },
+    },
+  },
+  [23] = {
+    ["name"] = "Shadowguard Champion",
+    ["id"] = 256574,
+    ["count"] = 0,
+    ["health"] = 1670730,
+    ["scale"] = 1.2,
+    ["displayId"] = 124440,
+    ["creatureType"] = "Humanoid",
+    ["level"] = 90,
+    ["spells"] = {
+      [1262517] = {
+      },
+      [1264036] = {
+        ["enrage"] = true,
+      },
+    },
+    ["clones"] = {
+      [32] = {
+        ["x"] = 217.8815371235,
+        ["y"] = -448.36587055485,
         ["sublevel"] = 1,
       },
     },

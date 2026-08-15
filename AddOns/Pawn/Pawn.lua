@@ -7,20 +7,10 @@
 -- Main non-UI code
 ------------------------------------------------------------
 
-PawnVersion = 2.1309
+PawnVersion = 2.1314
 
--- Remove this when 12.0's tooltip secret taint bugs are fixed.
--- 1. Pawn hooks ShoppingTooltip1.ProcessInfo with PawnUpdateTooltip
--- 2. We call GameTooltip:Show at the end of PawnUpdateTooltip
--- 3. That calls calls Blizzard_MoneyFrame's UpdateFunc
--- 4. If we're in combat, we introduce taint into MoneyFrame.staticMoney
--- 5. Later calls to MoneyFrame_Update fail due to taint
--- Reverted in Pawn 2.13.9 after WoW 12.0.5.
-PawnTempBlockShoppingTooltipUpdates = nil
-
--- Remove this when 12.0's tooltip secret taint bugs are fixed.
--- Reverted in Pawn 2.13.8 after a game patch.
-PawnTempWrapWorldQuestTooltipResize = nil
+-- Remove the two hyphens from the next line to re-enable upgrade information and Pawn scores on world quest rewards. (You'll have to /reload after you save the file.)
+-- local ShowWorldQuestUpgrades = true
 
 -- Pawn requires this version of VgerCore:
 local PawnVgerCoreVersionRequired = 1.21
@@ -331,24 +321,18 @@ function PawnInitialize()
 
 	-- World quest embedded tooltips
 
-	if PawnTempWrapWorldQuestTooltipResize and EmbeddedItemTooltip_UpdateSize then
-		-- This arcane incantation seems to prevent the embedded item tooltip inside of the world quest tooltip from exploding due to
-		-- the secret taint bugs in the 12.0 tooltip code. We replace the normal EmbeddedItemTooltip_UpdateSize with one that's
-		-- pre-tainted by addon code. I have no idea why this works and I don't want to. May the Light have mercy on our souls.
-		local OriginalEmbeddedItemTooltipUpdateSize = EmbeddedItemTooltip_UpdateSize
-		EmbeddedItemTooltip_UpdateSize = function(...)
-			return OriginalEmbeddedItemTooltipUpdateSize(...)
-		end
-	end
-
 	hooksecurefunc("EmbeddedItemTooltip_SetItemByQuestReward",
 		function(self, QuestLogIndex, QuestID, ...)
-			if PawnCommon.ShowQuestUpgradeAdvisor then
+			if PawnCommon.ShowQuestUpgradeAdvisor and ShowWorldQuestUpgrades then
 				local ItemName, ItemTexture = GetQuestLogRewardInfo(QuestLogIndex, QuestID)
 				if ItemName and ItemTexture then
 					PawnUpdateTooltip(self.Tooltip:GetName(), "SetQuestLogItem", "reward", QuestLogIndex, QuestID, ...)
 					self.Tooltip:Show() -- resizes the tooltip's boundaries in case our annotation made it wider
 				end
+			else
+				-- If we're not showing Pawn info on world quest reward tooltips, let's at least make the Compare tab keybind work.
+				local _, ItemLink = self.Tooltip:GetItem()
+				PawnLastHoveredItem = ItemLink
 			end
 		end)
 
@@ -427,17 +411,15 @@ function PawnInitialize()
 	end
 
 	-- The "currently equipped" tooltips on 11.0+
-	if not PawnTempBlockShoppingTooltipUpdates then
-		if ShoppingTooltip1.ProcessInfo then
-			hooksecurefunc(ShoppingTooltip1, "ProcessInfo", function()
-				local _, ItemLink = TooltipUtil.GetDisplayedItem(ShoppingTooltip1)
-				if ItemLink then PawnUpdateTooltip("ShoppingTooltip1", "SetHyperlink", ItemLink) end
-			end)
-			hooksecurefunc(ShoppingTooltip2, "ProcessInfo", function()
-				local _, ItemLink = TooltipUtil.GetDisplayedItem(ShoppingTooltip2)
-				if ItemLink then PawnUpdateTooltip("ShoppingTooltip2", "SetHyperlink", ItemLink) end
-			end)
-		end
+	if ShoppingTooltip1.ProcessInfo then
+		hooksecurefunc(ShoppingTooltip1, "ProcessInfo", function()
+			local _, ItemLink = TooltipUtil.GetDisplayedItem(ShoppingTooltip1)
+			if ItemLink then PawnUpdateTooltip("ShoppingTooltip1", "SetHyperlink", ItemLink) end
+		end)
+		hooksecurefunc(ShoppingTooltip2, "ProcessInfo", function()
+			local _, ItemLink = TooltipUtil.GetDisplayedItem(ShoppingTooltip2)
+			if ItemLink then PawnUpdateTooltip("ShoppingTooltip2", "SetHyperlink", ItemLink) end
+		end)
 	end
 
 	-- MultiTips compatibility
@@ -1420,6 +1402,15 @@ function PawnGetItemData(ItemLink)
 			end
 		end
 
+		if Item.Stats and Item.Stats.ItemLevel then
+			-- Tons of versions of the game 6.x+ have various bugs in the item info APIs relating to item levels, but tooltips are always right. So if we read the item level from the tooltip, always prefer that.
+			if Item.Level ~= Item.Stats.ItemLevel then
+				PawnDebugMessage(format(ITEM_LEVEL, Item.Level) .. " -> " .. Item.Stats.ItemLevel)
+			end
+			Item.Level = Item.Stats.ItemLevel
+			Item.Stats.ItemLevel = nil
+		end
+
 		if (not VgerCore.RangedSlotExists) and (InvType == "INVTYPE_RANGED" or InvType == "INVTYPE_RANGEDRIGHT") then
 			-- We convert ranged weapons into the correct "handedness" of weapons since there's no ranged slot anymore.
 			if Item.Stats and Item.Stats.IsWand then
@@ -1437,8 +1428,6 @@ function PawnGetItemData(ItemLink)
 		-- Then, the unenchanted stats.  But, we only need to do this if the item is enchanted or socketed.  PawnUnenchantItemLink
 		-- will return nil if the item isn't enchanted, so we can skip that process.
 		local UnenchantedItemLink = PawnUnenchantItemLink(ItemLink)
-		-- As of WoW 6.2.3, Item.Level is incorrect for upgraded items because GetItemInfo returns the wrong value.  PawnUnenchantItemLink could
-		-- be enhanced here to get a number to add (+10) for upgradeable items if we decide we need that info.
 		if UnenchantedItemLink then
 			PawnDebugMessage(" ")
 			PawnDebugMessage(PawnLocal.UnenchantedStatsHeader)
@@ -1702,8 +1691,8 @@ function PawnGetSingleValueFromItem(Item, ScaleName)
 	return Value, UnenchantedValue
 end
 
-local ItemLevelSearchPattern1 = gsub(ITEM_LEVEL, "%%d", "(%%d+)")
-local ItemLevelSearchPattern2 = gsub(ITEM_LEVEL_PLUS, "%%d%+", "(%%d+)%%+")
+local ItemLevelSearchPattern1 = "^" .. gsub(ITEM_LEVEL, "%%d", "(%%d+)")
+local ItemLevelSearchPattern2 = "^" .. gsub(ITEM_LEVEL_PLUS, "%%d%+", "(%%d+)%%+")
 
 local TooltipUpdateCounter = 0
 
@@ -1787,6 +1776,7 @@ function PawnUpdateTooltip(TooltipName, MethodName, Param1, ...)
 				local LeftLine = _G[TooltipName .. "TextLeft" .. i]
 				if LeftLine then
 					local LeftLineText = LeftLine:GetText()
+					if issecretvalue and issecretvalue(LeftLineText) then break end -- If we hit any secrets before we're done, give up on reading.
 					if LeftLineText and LeftLineText ~= "" and (strfind(LeftLineText, ItemLevelSearchPattern1) or strfind(LeftLineText, ItemLevelSearchPattern2)) then
 						-- This is the line.  Add an arrow to the end.
 						AnnotatedItemLevel = true
@@ -2088,7 +2078,7 @@ function PawnFixStupidTooltipFormatting(TooltipName)
 		local LeftLine = _G[TooltipName .. "TextLeft" .. i]
 		local Text = LeftLine:GetText()
 		local Updated = false
-		if Text and strfind(Text, "\n", 1, true) ~= 1 then
+		if (not issecretvalue or not issecretvalue(Text)) and Text and strfind(Text, "\n", 1, true) ~= 1 then
 			-- First, look for a color.
 			if strfind(Text, "|cffffffff", 1, true) == 1 then
 				Text = strsub(Text, 11)
@@ -2219,7 +2209,7 @@ function PawnGetStatsFromTooltip(TooltipName, DebugMessages)
 	for i = ItemNameLineNumber + 1, Tooltip:NumLines() do
 		local LeftLine = _G[TooltipName .. "TextLeft" .. i]
 		local LeftLineText = LeftLine:GetText()
-		if not LeftLineText then break end
+		if (issecretvalue and issecretvalue(LeftLineText)) or not LeftLineText then break end
 
 		-- Look for this line in the "kill lines" list.  If it's there, we're done.
 		local IsKillLine = false
@@ -2249,7 +2239,7 @@ function PawnGetStatsFromTooltip(TooltipName, DebugMessages)
 			else
 				local RightLine = _G[TooltipName .. "TextRight" .. i]
 				CurrentParseText = RightLine:GetText()
-				if (not CurrentParseText) or (CurrentParseText == "") then break end
+				if (issecretvalue and issecretvalue(ItemName)) or (not CurrentParseText) or (CurrentParseText == "") then break end
 				RegexTable = PawnRightHandRegexes
 				CurrentDebugMessages = false
 				IgnoreErrors = true
@@ -2620,14 +2610,16 @@ function PawnGetItemNameFromTooltip(TooltipName)
 	local TooltipTopLine = _G[TooltipName .. "TextLeft1"]
 	if not TooltipTopLine then return end
 	local ItemName = TooltipTopLine:GetText()
-	if not ItemName or (issecretvalue and issecretvalue(ItemName)) or ItemName == "" or ItemName == RETRIEVING_ITEM_INFO then return end
+	if (issecretvalue and issecretvalue(ItemName)) or not ItemName or ItemName == "" or ItemName == RETRIEVING_ITEM_INFO then return end
 
 	-- If this is a Currently Equipped tooltip, skip the first line.
 	if ItemName == CURRENTLY_EQUIPPED then
 		ItemNameLineNumber = 2
 		TooltipTopLine = _G[TooltipName .. "TextLeft2"]
 		if not TooltipTopLine then return end
-		return TooltipTopLine:GetText(), 2
+		local TopLineName = TooltipTopLine:GetText()
+		if (issecretvalue and issecretvalue(TopLineName)) or not TopLineName then return end
+		return TopLineName, 2
 	end
 	return ItemName, 1
 end
@@ -2647,7 +2639,7 @@ function PawnAnnotateTooltipLines(TooltipName, Lines)
 		local LeftLine = _G[TooltipName .. "TextLeft" .. i]
 		if LeftLine then
 			local LeftLineText = LeftLine:GetText()
-			if Lines[LeftLineText] then
+			if (not issecretvalue or not issecretvalue(LeftLineText)) and Lines[LeftLineText] then
 				-- Getting the line text can fail in the following scenario, observable with MobInfo-2:
 				-- 1. Other mod modifies a tooltip to include unrecognized text.
 				-- 2. Pawn reads the tooltip, noting those unrecognized lines and remembering them so that they
@@ -4726,6 +4718,7 @@ function PawnAddRelicUpgradesToTooltip(TooltipName, UpgradeInfo)
 	for i = 1, Lines do
 		local LeftLine = _G[TooltipName .. "TextLeft" .. i]
 		local ArtifactName = LeftLine:GetText()
+		if (issecretvalue and issecretvalue(ArtifactName)) then return end
 
 		local ArtifactUpgradeInfo = UpgradeInfo[ArtifactName]
 		if ArtifactUpgradeInfo then
@@ -5988,8 +5981,10 @@ local function BudgetThrottle(Func, Budget, Period)
 	return Throttled
 end
 
+-- Internal only. Don't use this; use PawnShouldItemLinkHaveUpgradeArrow instead. It has the same preconditions, parameters, and return value.
 function PawnShouldItemLinkHaveUpgradeArrowUnbudgeted(ItemLink, CheckLevel)
 	if not PawnIsInitialized then VgerCore.Fail("Can't check to see if items are upgrades until Pawn is initialized") return end
+	if not ItemLink then return end
 
 	--if PawnOptions.DebugBagArrows then VgerCore.Message("Checking upgrade information for " .. tostring(ItemLink)) end
 

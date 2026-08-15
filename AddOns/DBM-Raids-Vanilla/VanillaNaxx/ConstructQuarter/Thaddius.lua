@@ -1,6 +1,7 @@
 -- this file uses the texture Textures/arrow.tga. This image was created by Everaldo Coelho and is licensed under the GNU Lesser General Public License. See Textures/lgpl.txt.
 local mod	= DBM:NewMod("ThaddiusVanilla", "DBM-Raids-Vanilla", 1)
 local L		= mod:GetLocalizedStrings()
+local CL	= DBM_COMMON_L
 
 if DBM:IsSeasonal("SeasonOfDiscovery") then
 	mod.statTypes = "normal,heroic,mythic"
@@ -8,58 +9,67 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260808175242")
+mod:SetMinSyncRevision(20260618000000) -- 2026, June 18th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15928)
 mod:SetEncounterID(1120)
 mod:SetModelID(16137)
 mod:SetZone(533)
 
-mod:RegisterCombat("combat_yell", L.Yell)
+mod:RegisterCombat("combat_yell", L.Yell1P1, L.Yell2P1)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 28089",
-	"CHAT_MSG_MONSTER_EMOTE",
-	"UNIT_AURA player"
+    "SPELL_CAST_START 28089",
+	"SPELL_CAST_SUCCESS 28338 28339",
+    "SPELL_AURA_APPLIED 28059 28084",
+	"SPELL_AURA_REFRESH 28059 28084",
+    "CHAT_MSG_MONSTER_EMOTE",
+	"CHAT_MSG_MONSTER_YELL"
 )
 
---TODO, UNIT_AURA might not work in classic? I didn't see any warnings on stream. May have to just do UnitDebuff() on self when cast finishes
-local warnShiftSoon			= mod:NewSoonAnnounce(28089, 5, 3)
+local warnShiftSoon			= mod:NewSoonAnnounce(28089, 3)
 local warnShiftCasting		= mod:NewCastAnnounce(28089, 4)
-local warnThrow				= mod:NewSpellAnnounce(28338, 2)
-local warnThrowSoon			= mod:NewSoonAnnounce(28338, 1)
+local warnThrow				= mod:NewSpellAnnounce(28338, 3)
+local warnThrowSoon			= mod:NewSoonAnnounce(28338, 2)
+local warnPhase 			= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
+local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
 
-local warnChargeChanged		= mod:NewSpecialWarning("WarningChargeChanged")
-local warnChargeNotChanged	= mod:NewSpecialWarning("WarningChargeNotChanged", false)
+local warnChargeChanged		= mod:NewSpecialWarning("WarningChargeChanged", nil, nil, nil, 3, 12, nil, nil, 28089, nil, "movesoon")
+local warnChargeNotChanged	= mod:NewSpecialWarning("WarningChargeNotChanged", false, nil, nil, 1, 12, nil, nil, 28089, nil, "dontmove")
 local yellShift				= mod:NewShortPosYell(28089, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
 
-local enrageTimer			= mod:NewBerserkTimer(300)
-local timerNextShift		= mod:NewVarTimer("v25.9-34", 28089, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)--25.9-34
-local timerShiftCast		= mod:NewCastTimer(3, 28089, nil, nil, nil, 5)
-local timerThrow			= mod:NewCDTimer(20.6, 28338, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerEnrage			= mod:NewBerserkTimer(300)
+local timerNextShift		= mod:NewVarTimer("v25.9-35.7", 28089, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerShiftCast		= mod:NewCastTimer(3, 28089, nil, nil, nil, 2)
+local timerThrow			= mod:NewCDTimer(21, 28338, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerPhase2			= mod:NewStageCountTimer("v11.3-16")
 
 mod:AddInfoFrameOption()
 
 mod:AddDropdownOption("AirowsEnabled", {"Never", "TwoCamp", "ArrowsRightLeft", "ArrowsInverse"}, "Never", "misc", nil, 28089)
 
 local currentCharge
-local down = 0
-local lastShift = 0
+local deadBosses = {}
 
-function mod:OnCombatStart(delay)
-	self:SetStage(1)
-	currentCharge = nil
-	down = 0
-	self:ScheduleMethod(40.6 - delay, "TankThrow")
-	timerThrow:Start(20.6-delay)
-	warnThrowSoon:Schedule(37.6 - delay)
-	if self.Options.InfoFrame then
-		DBM.InfoFrame:Show(10, "bosshealth", {
-			[15929] = true,
-			[15930] = true,
-		})
-		self.bossHealthUpdateTime = 0.5
-		self:BossHealthUpdate()
+local updateInfoFrame
+do
+	local twipe = table.wipe
+	local lines = {}
+	updateInfoFrame = function()
+		twipe(lines)
+		local bossHealth = DBM:GetCachedBossHealth()
+		if not deadBosses[15929] then
+			lines[L.Stalagg] = ("%d%%"):format(bossHealth[15929])
+		else
+			lines[L.Stalagg] = DEAD
+		end
+		if not deadBosses[15930] then
+			lines[L.Feugen] = ("%d%%"):format(bossHealth[15930])
+		else
+			lines[L.Feugen] = DEAD
+		end
+		return lines
 	end
 end
 
@@ -67,13 +77,26 @@ end
 function mod:BossHealthUpdate()
 	self:GetBossHP(15929)
 	self:GetBossHP(15930)
-	if self.vb.phase ~= 2 then
+	if self:GetStage(2, 3) then
 		self:ScheduleMethod(0.5, "BossHealthUpdate") -- also canceled on combat end implicitly
 	end
 end
 
+function mod:OnCombatStart()
+	self:SetStage(1)
+	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
+	currentCharge = nil
+	deadBosses = {}
+    timerThrow:Start()
+    warnThrowSoon:Schedule(16)
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Show(2, "function", updateInfoFrame, false, false)
+		self:BossHealthUpdate()
+	end
+end
 
 function mod:OnCombatEnd(wipe, isSecondRun)
+	DBM.InfoFrame:Hide()
 	if wipe and not isSecondRun then
 		DBM:AddMsg("Arrow Options can be changed for this encounter. Mod supports 3 different strats. Choose one that matches your strat")
 	end
@@ -81,81 +104,132 @@ end
 
 function mod:SPELL_CAST_START(args)
 	if args:IsSpell(28089) then
-		self:SetStage(2)
 		timerNextShift:Start()
 		timerShiftCast:Start()
 		warnShiftCasting:Show()
 		warnShiftSoon:Schedule(20)
-		lastShift = GetTime()
-		DBM.InfoFrame:Hide()
 	end
 end
 
-function mod:UNIT_AURA()
-	if self.vb.phase ~=2 or (GetTime() - lastShift) > 5 or (GetTime() - lastShift) < 3 then return end
-	local charge
-	local i = 1
-	while UnitDebuff("player", i) do
-		local _, icon, count, _, _, _, _, _, _, _, _, _, _, _, _, count2 = UnitDebuff("player", i)
-		if icon == "Interface\\Icons\\Spell_ChargeNegative" or icon == 135768 then--Not sure if classic will return data ID or path, so include both
-			if (count2 or count) > 1 then return end
-			charge = L.Charge1
-			yellShift:Yell(7, "- -")
-		elseif icon == "Interface\\Icons\\Spell_ChargePositive" or icon == 135769 then--Not sure if classic will return data ID or path, so include both
-			if (count2 or count) > 1 then return end
-			charge = L.Charge2
-			yellShift:Yell(6, "+ +")
-		end
-		i = i + 1
-	end
-	if charge then
-		lastShift = 0
-		--Did not Change
-		if charge == currentCharge then
-			warnChargeNotChanged:Show()
-			if self.Options.AirowsEnabled == "ArrowsInverse" then
-				self:ShowLeftArrow()
-			elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
-				self:ShowRightArrow()
-			end
-		--Changed
-		else
-			warnChargeChanged:Show(charge)
-			if self.Options.AirowsEnabled == "ArrowsInverse" then
-				self:ShowRightArrow()
-			elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
-				self:ShowLeftArrow()
-			elseif self.Options.AirowsEnabled == "TwoCamp" then
-				self:ShowUpArrow()
-			end
-		end
-		currentCharge = charge
+function mod:SPELL_CAST_SUCCESS(args)
+	if args:IsSpell(28338, 28339) and self:AntiSpam(3, 1) then
+		warnThrow:Show()
+		timerThrow:Start()
+		warnThrowSoon:Schedule(16)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	if msg == L.Emote or msg:find(L.Emote) then
-		down = down + 1
-		if down >= 2 then
-			self:UnscheduleMethod("TankThrow")
-			timerThrow:Cancel()
+function mod:SPELL_AURA_APPLIED(args)
+	if not args:IsPlayer() then return end
+	local charge, chargeIcon
+	if args:IsSpell(28059) then
+		charge = CL.POSITIVE
+		chargeIcon = "135769"
+		yellShift:Yell(6, "+ +")
+	elseif args:IsSpell(28084) then
+		charge = CL.NEGATIVE
+		chargeIcon = "135768"
+		yellShift:Yell(7, "- -")
+	end
+	warnChargeChanged:UpdateIcon(chargeIcon)
+	warnChargeChanged:Show(charge)
+	--Only play voice on actual polarity flip, not first application
+	if currentCharge then
+		warnChargeChanged:Play("movesoon")
+		if self.Options.AirowsEnabled == "ArrowsInverse" then
+			self:ShowRightArrow()
+		elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
+			self:ShowLeftArrow()
+		elseif self.Options.AirowsEnabled == "TwoCamp" then
+			self:ShowUpArrow()
+		end
+	end
+	currentCharge = charge
+end
+
+function mod:SPELL_AURA_REFRESH(args)
+	if not args:IsPlayer() then return end
+	local chargeIcon
+	if args:IsSpell(28059) then
+		chargeIcon = "135769"
+		yellShift:Yell(6, "+ +")
+	elseif args:IsSpell(28084) then
+		chargeIcon = "135768"
+		yellShift:Yell(7, "- -")
+	end
+	warnChargeNotChanged:UpdateIcon(chargeIcon)
+	warnChargeNotChanged:Show()
+	warnChargeNotChanged:Play("dontmove")
+	if self.Options.AirowsEnabled == "ArrowsInverse" then
+		self:ShowLeftArrow()
+	elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
+		self:ShowRightArrow()
+	end
+end
+
+function mod:CHAT_MSG_MONSTER_EMOTE(msg, sender)
+    if msg == L.EmoteDies or msg:find(L.EmoteDies) then
+		if sender == L.Stalagg then
+			self:SendSync("BossDies", 15929)
+		elseif sender == L.Feugen then
+			self:SendSync("BossDies", 15930)
+		end
+    elseif msg == L.EmoteRevive or msg:find(L.EmoteRevive) then
+		if sender == L.Stalagg then
+			self:SendSync("BossRevive", 15929)
+		elseif sender == L.Feugen then
+			self:SendSync("BossRevive", 15930)
+		end
+    end
+end
+
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.Yell1P2 or msg:find(L.Yell1P2) or msg == L.Yell2P2 or msg:find(L.Yell2P2) or msg == L.Yell3P2 or msg:find(L.Yell3P2) then
+		self:SendSync("Phase2")
+	end
+end
+
+function mod:OnSync(msg, arg)
+	if not self:IsInCombat() then return end
+	if msg == "BossDies" then
+		local cid = tonumber(arg)
+		if cid then
+			deadBosses[cid] = true
 			warnThrowSoon:Cancel()
-			enrageTimer:Start()
+			timerThrow:Stop()
+			if deadBosses[15929] and deadBosses[15930] then
+				self:SetStage(1.5)
+				warnPhase2Soon:Show()
+				timerPhase2:Start(nil, 2)
+				DBM.InfoFrame:Hide()
+			end
 		end
+	elseif msg == "BossRevive" then
+		local cid = tonumber(arg)
+		if cid then
+			deadBosses[cid] = nil
+		end
+	elseif msg == "Phase2" then
+		self:SetStage(2)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
+        timerEnrage:Start()
+		timerNextShift:Start(11.3)
+		timerPhase2:Stop()
+		warnPhase:Play("ptwo")
 	end
-end
-
-function mod:TankThrow()
-	if not self:IsInCombat() or self.vb.phase == 2 then
-		return
-	end
-	timerThrow:Start()
-	warnThrowSoon:Schedule(37.6)
-	self:ScheduleMethod(40.6, "TankThrow")
 end
 
 local function arrowOnUpdate(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
+	local vibration = math.sin(self.elapsed * 20) * 10
+	local x, y = self.baseX, self.baseY
+	if self.vibrateX then
+		x = x + vibration
+	else
+		y = y + vibration
+	end
+	self:ClearAllPoints()
+	self:SetPoint("CENTER", UIParent, "CENTER", x, y)
 	if self.elapsed >= 3.5 and self.elapsed < 4.5 then
 		self:SetAlpha(4.5 - self.elapsed)
 	elseif self.elapsed >= 4.5 then
@@ -170,36 +244,41 @@ end
 
 local arrowLeft = CreateFrame("Frame", nil, UIParent)
 arrowLeft:Hide()
+arrowLeft.baseX, arrowLeft.baseY = -150, -30
+arrowLeft.vibrateX = true
 local arrowLeftTexture = arrowLeft:CreateTexture(nil, "BACKGROUND")
 arrowLeftTexture:SetTexture("Interface\\AddOns\\DBM-Raids-Vanilla\\VanillaNaxx\\ConstructQuarter\\Textures\\arrow")
 arrowLeftTexture:SetPoint("CENTER", arrowLeft, "CENTER")
 arrowLeft:SetHeight(1)
 arrowLeft:SetWidth(1)
-arrowLeft:SetPoint("CENTER", UIParent, "CENTER", -150, -30)
+arrowLeft:SetPoint("CENTER", UIParent, "CENTER", arrowLeft.baseX, arrowLeft.baseY)
 arrowLeft:SetScript("OnShow", arrowOnShow)
 arrowLeft:SetScript("OnUpdate", arrowOnUpdate)
 
 local arrowRight = CreateFrame("Frame", nil, UIParent)
 arrowRight:Hide()
+arrowRight.baseX, arrowRight.baseY = 150, -30
+arrowRight.vibrateX = true
 local arrowRightTexture = arrowRight:CreateTexture(nil, "BACKGROUND")
 arrowRightTexture:SetTexture("Interface\\AddOns\\DBM-Raids-Vanilla\\VanillaNaxx\\ConstructQuarter\\Textures\\arrow")
 arrowRightTexture:SetPoint("CENTER", arrowRight, "CENTER")
 arrowRightTexture:SetTexCoord(1, 0, 0, 1)
 arrowRight:SetHeight(1)
 arrowRight:SetWidth(1)
-arrowRight:SetPoint("CENTER", UIParent, "CENTER", 150, -30)
+arrowRight:SetPoint("CENTER", UIParent, "CENTER", arrowRight.baseX, arrowRight.baseY)
 arrowRight:SetScript("OnShow", arrowOnShow)
 arrowRight:SetScript("OnUpdate", arrowOnUpdate)
 
 local arrowUp = CreateFrame("Frame", nil, UIParent)
 arrowUp:Hide()
+arrowUp.baseX, arrowUp.baseY = 0, 150
 local arrowUpTexture = arrowUp:CreateTexture(nil, "BACKGROUND")
 arrowUpTexture:SetTexture("Interface\\AddOns\\DBM-Raids-Vanilla\\VanillaNaxx\\ConstructQuarter\\Textures\\arrow")
 arrowUpTexture:SetRotation(math.pi * 3 / 2)
 arrowUpTexture:SetPoint("CENTER", arrowUp, "CENTER")
 arrowUp:SetHeight(1)
 arrowUp:SetWidth(1)
-arrowUp:SetPoint("CENTER", UIParent, "CENTER", 0, 40)
+arrowUp:SetPoint("CENTER", UIParent, "CENTER", arrowUp.baseX, arrowUp.baseY)
 arrowUp:SetScript("OnShow", arrowOnShow)
 arrowUp:SetScript("OnUpdate", arrowOnUpdate)
 

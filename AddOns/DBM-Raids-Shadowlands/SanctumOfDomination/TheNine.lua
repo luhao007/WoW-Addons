@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2439, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523021934")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(175726)--Skyja (TODO, add other 2 and set health to highest?)
 mod:SetEncounterID(2429)
@@ -45,11 +45,11 @@ mod:AddOptionLine(DBM:EJ_GetSectionInfo(22877), "announce")
 mod:AddOptionLine(DBM:EJ_GetSectionInfo(23202), "announce")
 local warnUnendingStrike						= mod:NewStackAnnounce(350202, 2, nil, "Tank|Healer")
 
-local specWarnUnendingStrike					= mod:NewSpecialWarningStack(350202, nil, 3, nil, nil, 1, 6)
-local specWarnUnendingStrikeTaunt				= mod:NewSpecialWarningTaunt(350202, nil, nil, nil, 1, 2)
-local specWarnFormlessMass						= mod:NewSpecialWarningSwitchCount(350342, "Dps", nil, nil, 1, 2)
-local specWarnSiphonVitality					= mod:NewSpecialWarningInterruptCount(350339, "HasInterrupt", nil, nil, 1, 2)
-local specWarnWingsofRage						= mod:NewSpecialWarningRun(350365, nil, nil, nil, 4, 2)
+local specWarnUnendingStrike					= mod:NewSpecialWarningStack(350202, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnUnendingStrikeTaunt				= mod:NewSpecialWarningTaunt(350202, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnFormlessMass						= mod:NewSpecialWarningSwitchCount(350342, "Dps", nil, nil, 1, 2, nil, nil, "killmob")
+local specWarnSiphonVitality					= mod:NewSpecialWarningInterruptCount(350339, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnWingsofRage						= mod:NewSpecialWarningRun(350365, nil, nil, nil, 4, 2, nil, nil, "justrun")
 
 local timerUnendingStrikeCD						= mod:NewCDTimer(6.7, 350202, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--6.7-14.7
 local timerFormlessMassCD						= mod:NewCDCountTimer(47.3, 350342, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)
@@ -60,9 +60,9 @@ mod:AddSetIconOption("SetIconOnFormlessMass", 350342, true, 5, {7, 8, 6})
 mod:AddOptionLine(DBM:EJ_GetSectionInfo(23203), "announce")
 --local warnBloodLantern						= mod:NewTargetNoFilterAnnounce(341684, 2)
 
-local specWarnSoulfulBlast						= mod:NewSpecialWarningInterrupt(350283, false, nil, nil, 1, 2)--Opt in, only some should be doing this one, plus it's spammy as hell
-local specWarnSongofDissolution					= mod:NewSpecialWarningInterrupt(350286, "HasInterrupt", nil, nil, 1, 2)
-local specWarnReverberatingRefrain				= mod:NewSpecialWarningMoveTo(350385, nil, nil, nil, 3, 2)
+local specWarnSoulfulBlast						= mod:NewSpecialWarningInterrupt(350283, false, nil, nil, 1, 2, nil, nil, "kickcast")--Opt in, only some should be doing this one, plus it's spammy as hell
+local specWarnSongofDissolution					= mod:NewSpecialWarningInterrupt(350286, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnReverberatingRefrain				= mod:NewSpecialWarningMoveTo(350385, nil, nil, nil, 3, 2, nil, nil, "findshelter")
 
 local timerSongofDissolutionCD					= mod:NewCDCountTimer(19.4, 350286, nil, nil, nil, 4, nil, DBM_COMMON_L.INTERRUPT_ICON)--19.4-25.5 (unless delayed massivley by another channel)
 local timerReverberatingRefrainCD				= mod:NewCDCountTimer(73.1, 350385, nil, nil, nil, 2)
@@ -72,7 +72,7 @@ local warnCalloftheValkyr						= mod:NewCountAnnounce(350467, 3)
 local warnFragmentsofDestiny					= mod:NewTargetNoFilterAnnounce(350542, 3)
 local warnFragmentsofDestinyStack				= mod:NewCountAnnounce(350542, 2)
 
-local specWarnFragmentsofDestiny				= mod:NewSpecialWarningMoveAway(350542, nil, nil, nil, 1, 2)
+local specWarnFragmentsofDestiny				= mod:NewSpecialWarningMoveAway(350542, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellFragmentsofDestiny					= mod:NewShortPosYell(350542)--TODO, probably change to icon/numbered yell system based on icon/combatlog order
 
 local timerCalloftheValkyrCD					= mod:NewCDCountTimer(52.3, 350467, nil, nil, nil, 3, nil, nil, nil, 1, 3)
@@ -87,15 +87,15 @@ local warnDaschlasMightyAnvil					= mod:NewTargetAnnounce(350184, 2)
 local warnBrynjasMournfulDirge					= mod:NewTargetAnnounce(350109, 2, nil, false)--On half the raid
 local warnArthurasCrushingGaze					= mod:NewTargetNoFilterAnnounce(350039, 3)
 
-local specWarnAgathasEternalblade				= mod:NewSpecialWarningDodge(350012, nil, nil, nil, 2, 2)
-local specWarnDaschlasMightyAnvil				= mod:NewSpecialWarningMoveAway(350184, nil, nil, nil, 1, 2)
+local specWarnAgathasEternalblade				= mod:NewSpecialWarningDodge(350012, nil, nil, nil, 2, 2, nil, nil, "farfromline")
+local specWarnDaschlasMightyAnvil				= mod:NewSpecialWarningMoveAway(350184, nil, nil, nil, 1, 2, nil, nil, "scatter")
 local yellDaschlasMightyAnvil					= mod:NewShortYell(350184)
 local yellDaschlasMightyAnvilFades				= mod:NewShortFadesYell(350184)
-local specWarnAradnesFallingStrike				= mod:NewSpecialWarningSoak(350078, nil, nil, nil, 1, 2)
-local specWarnBrynjasMournfulDirge				= mod:NewSpecialWarningMoveAway(350109, nil, nil, nil, 1, 2)
+local specWarnAradnesFallingStrike				= mod:NewSpecialWarningSoak(350078, nil, nil, nil, 1, 2, nil, nil, "helpsoak")
+local specWarnBrynjasMournfulDirge				= mod:NewSpecialWarningMoveAway(350109, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellBrynjasMournfulDirge					= mod:NewShortYell(350109)
 local yellBrynjasMournfulDirgeFades				= mod:NewShortFadesYell(350109)
-local specWarnArthurasCrushingGaze				= mod:NewSpecialWarningMoveTo(350039, nil, nil, nil, 3, 2)
+local specWarnArthurasCrushingGaze				= mod:NewSpecialWarningMoveTo(350039, nil, nil, nil, 3, 2, nil, nil, "gathershare")
 local yellArthurasCrushingGaze					= mod:NewYell(350039, nil, nil, nil, "YELL")
 local yellArthurasCrushingGazeFades				= mod:NewShortFadesYell(350039, nil, nil, nil, "YELL")
 
@@ -106,10 +106,10 @@ local warnPierceSoul							= mod:NewStackAnnounce(350475, 2, nil, "Tank|Healer")
 local warnResentment							= mod:NewCountAnnounce(355294, 3)
 local warnLinkEssence							= mod:NewTargetNoFilterAnnounce(350483, 3)
 
-local specWarnPierceSoul						= mod:NewSpecialWarningStack(350475, nil, 4, nil, nil, 1, 6)
-local specWarnPierceSoulTaunt					= mod:NewSpecialWarningTaunt(350475, nil, nil, nil, 1, 2)
-local specWarnLinkEssence						= mod:NewSpecialWarningDefensive(350483, nil, nil, nil, 1, 2, 3)
-local specWarnWordofRecall						= mod:NewSpecialWarningCount(350687, nil, nil, nil, 2, 2, 3)
+local specWarnPierceSoul						= mod:NewSpecialWarningStack(350475, nil, 4, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnPierceSoulTaunt					= mod:NewSpecialWarningTaunt(350475, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnLinkEssence						= mod:NewSpecialWarningDefensive(350483, nil, nil, nil, 1, 2, 3, nil, "defensive")
+local specWarnWordofRecall						= mod:NewSpecialWarningCount(350687, nil, nil, nil, 2, 2, 3, nil, "specialsoon")
 --local specWarnGTFO							= mod:NewSpecialWarningGTFO(340324, nil, nil, nil, 1, 8)
 
 local timerPierceSoulCD							= mod:NewCDTimer(9.7, 350475, nil, "Tank|Healer", nil, 5, nil, DBM_COMMON_L.TANK_ICON)

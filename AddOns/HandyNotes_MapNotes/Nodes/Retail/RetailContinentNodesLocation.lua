@@ -250,6 +250,8 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
             nodes[13][67291205] = { id = 1316, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Nexupunkt Xenas
             nodes[13][72881155] = { id = 1309, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Das blendende Tal
             nodes[13][61503275] = { id = 1311, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Nalorakks Bau
+            nodes[13][72022367] = { id = 1320, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Der Giftige Abgrund
+
           end
 
           -- Eastern Kingdom PetBattleDungeons
@@ -278,6 +280,9 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
             nodes[13][56560795] = { id = 1308, type = "Raid", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Marsch auf Quel'Danas
             nodes[13][64941164] = { id = 1307, type = "Raid", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Die Leerenspitze
             nodes[13][74890897] = { id = 1314, type = "Raid", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Der Traumriss
+            nodes[13][79481033] = { id = 1305, type = "Raid", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Sporfall
+            nodes[13][71882733] = { id = 1322, type = "Raid", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Der Altar der Fänge 
+          
           end
 
 
@@ -328,7 +333,11 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
           if self.db.profile.showContinentMultiple then
             nodes[13][50338464] = { mnID = 42, id = { 745, 860 }, type = "MultipleM", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Karazhan, Return to Karazhan
             nodes[13][47173426] = { mnID = 19, id = { 311, 316 }, type = "MultipleD", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Scarlet Halls, Monastery 
-            nodes[13][53166646] = { mnID = 15, id = { 1197, 239 }, type = "MultipleD", showOnContinent = true, showInZone = false, showOnMinimap = false } --  Legacy of Tyr Dragonflight Dungeon & Vanilla Uldaman 
+            nodes[13][53166646] = { mnID = 15, id = { 1197, 239 }, type = "MultipleD", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Legacy of Tyr Dragonflight Dungeon & Vanilla Uldaman 
+          end
+
+          if self.db.profile.showContinentMultiple and not (self.db.profile.showContinentDungeons or self.db.profile.showContinentRaids) then
+            nodes[13][71312604] = { mnID = 2512, id = { 1320, 1322, }, type = "MultipleM", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Der Altar der Fänge
           end
     
     
@@ -376,7 +385,7 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
         -- Eastern Kingdom MapNotesIcons
           if self.db.profile.showContinentMapNotes then
 
-            nodes[13][56471480] = { mnID = 2393, mnID2 = 110, name = "", mnIDText1 = EXPANSION_NAME11, mnIDText2 = EXPANSION_NAME1, type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " " .. FACTION_NEUTRAL .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .."\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n\n".. ns.Silvermoon .. " " .. FACTION_HORDE .. " (" .. EXPANSION_NAME1 .. ")\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.RuinsofLordaeron  .. "\n\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus } -- Portal to Orgrimmar, Ruins of Lordaeron from Silvermoon
+            nodes[13][56471480] = { mnID = 2393, mnID2 = 110, name = "", mnIDText1 = EXPANSION_NAME11, mnIDText2 = EXPANSION_NAME1, type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " " .. FACTION_NEUTRAL .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .."\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n\n".. ns.Silvermoon .. " " .. FACTION_HORDE .. " (" .. EXPANSION_NAME1 .. ")\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.RuinsofLordaeron  .. "\n\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. " ==> " .. ns.Voldun .. "\n" .. " ==> " .. ns.Zuldazar .. "\n" .. " ==> " .. ns.TheWakingShores } -- Portal to Orgrimmar, Ruins of Lordaeron from Silvermoon
 
             if self.faction == "Horde" or db.activate.ContinentEnemyFaction then
               nodes[13][44993864] = { mnID = 18, name = "", type = "HIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Undercity .. " - " .. FACTION_HORDE .. "\n" .. "\n" .. L["Portal"] .. "\n" .. " ==> " .. ns.HellfirePeninsula .. "\n" .. "\n" .. ns.RuinsofLordaeron  .. " / " .. ns.TirisfalGlades .. "\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Gromgol .. "\n" .. " ==> " .. ns.HowlingFjord .. "\n" .. " ==> " .. ns.Silvermoon } -- Portal to Orgrimmar, Silvermoon, Howling Fjord and Grom'gol from Tirisfal
@@ -1276,7 +1285,7 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
 
         -- Khaz Algar MapNotesIcons
           if self.db.profile.showContinentMapNotes then
-            nodes[2274][72311951] = { mnID = 2339, name = "", type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Dornogal .. " - " .. FACTION_NEUTRAL .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. "\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus .."\n" .. "\n" .. CALENDAR_TYPE_DUNGEON .. "\n" .. " ==> " .. ns.Rookery } -- Dornogal
+            nodes[2274][72311951] = { mnID = 2339, name = "", type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Dornogal .. " - " .. FACTION_NEUTRAL .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. "\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.Voldun .. "\n" .. " ==> " .. ns.Zuldazar .. "\n" .. " ==> " .. ns.TheWakingShores .. "\n" .. "\n" .. CALENDAR_TYPE_DUNGEON .. "\n" .. " ==> " .. ns.Rookery } -- Dornogal
           end
     
         -- Khaz Algar Portals
@@ -1334,7 +1343,7 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
 
           -- Quel'Thalas Portals
           if self.db.profile.showContinentPortals then
-            nodes[2537][24503884] = { mnID = 2393, name = "", type = "WayGateGolden", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. ZONE .. ": " .. ns.SpiresOfArak .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.Skyreach .. "\n\n" .. ZONE .. ": " .. ns.Icecrown .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.PitOfSaron .. "\n\n" .. ZONE .. ": " .. ns.Eredath .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.SeatOfTheTriumvirate .. "\n\n" .. ZONE .. ": " .. ns.Thaldraszus .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.AlgetharAcademy } --  Portal from Dornogal to the Timeways
+            nodes[2537][24503884] = { mnID = 2393, name = "", type = "WayGateGolden", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. ZONE .. ": " .. ns.Voldun .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.TempleOfSethraliss .. "\n\n" .. ZONE .. ": " .. ns.Zuldazar .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.Kingsrush .. "\n\n" .. ZONE .. ": " .. ns.TheWakingShores .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.RubyLifePools } --  Portal from Dornogal to the Timeways
     
             if self.faction == "Alliance" or db.activate.ContinentEnemyFaction then
               --nodes[1978][25006083] = { mnID = "2239",  name = "", type = "APortal", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = L["Portals"] .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.Darkshore .. "\n" .. " ==> " .. ns.Hyjal  .. "\n" .. " ==> " .. POSTMASTER_LETTER_LORLATHIL } -- Valdrakken to Stormwind City Portal
@@ -1355,7 +1364,8 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
             nodes[2537][53541263] = { id = 1313, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Arena der Leerennarbe
             nodes[2537][56112716] = { id = 1316, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Nexupunkt Xenas
             nodes[2537][77562414] = { id = 1309, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Das blendende Tal
-            nodes[2537][38008953] = { id = 1311, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Nalorakks Bau            
+            nodes[2537][38008953] = { id = 1311, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Nalorakks Bau 
+            nodes[2537][70017231] = { id = 1320, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Altar der Fänge
           end
 
           -- Quel'Thalas Raids
@@ -1363,6 +1373,12 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
             nodes[2537][27022260] = { id = 1308, type = "Raid", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Marsch auf Quel'Danas
             nodes[2537][52812948] = { id = 1307, type = "Raid", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Die Leerenspitze
             nodes[2537][83141931] = { id = 1314, type = "Raid", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Der Traumriss
+            nodes[2537][86362223] = { id = 1305, type = "Raid", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Sporfall
+            nodes[2537][70017231] = { id = 1322, type = "Raid", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Der Giftige Abgrund
+          end
+
+          if self.db.profile.showContinentMultiple then
+            nodes[2537][70017231] = { mnID = 2512, id = { 1322, 1320 }, type = "MultipleM", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Der giftige Abgrund, Altar der Fänge
           end
 
           -- Quel'Thalas RenownQuartermaster

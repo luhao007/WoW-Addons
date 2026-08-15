@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("EmeraldNightmareTrash", "DBM-Raids-Legion", 5)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260523021952")
 mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 mod.isTrashMod = true
@@ -14,11 +14,11 @@ mod:RegisterEvents(
 
 local warnUnstableDecay				= mod:NewTargetAnnounce(221028, 3)
 
-local specWarnUnstableDecay			= mod:NewSpecialWarningMoveAway(221028, nil, nil, nil, 1, 2)
+local specWarnUnstableDecay			= mod:NewSpecialWarningMoveAway(221028, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellUnstableDecay				= mod:NewYell(221028)
-local specWarnBefoulment			= mod:NewSpecialWarningMoveTo(222719, nil, nil, nil, 1, 2)
+local specWarnBefoulment			= mod:NewSpecialWarningMoveTo(222719, nil, nil, nil, 1, 2, nil, nil, "gathershare")
 local yellBefoulment				= mod:NewFadesYell(222719)
-local specWarnDarkLightning			= mod:NewSpecialWarningGTFO(223946, nil, nil, nil, 1, 8)
+local specWarnDarkLightning			= mod:NewSpecialWarningGTFO(223946, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 
 function mod:SPELL_AURA_APPLIED(args)

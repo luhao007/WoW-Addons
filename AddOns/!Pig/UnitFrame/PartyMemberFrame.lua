@@ -29,6 +29,7 @@ local UnitDebuff= UnitDebuff or function(unitToken, index, filter)
 	return AuraUtil.UnpackAuraData(auraData);
 end
 --职业图标
+local toc100000OK=PIG_MaxTocversion(100000,true)
 local function Update_zhiye(Party,id)
 	if IsInRaid() then return end
     local _,class = UnitClass(id)
@@ -37,7 +38,7 @@ local function Update_zhiye(Party,id)
 		Party.Icon:SetTexCoord(unpack(coords));
 		local Role = UnitGroupRolesAssigned(id)
 		Party.role.Icon:SetAtlas(PIGGetIconForRole(Role, false));
-		if PIG_MaxTocversion(100000,true) then
+		if toc100000OK then
 			local pfujiui = Party:GetParent()
 			pfujiui.PartyMemberOverlay.RoleIcon:Hide()
 			pfujiui.Name:SetWidth(170)
@@ -61,7 +62,7 @@ local function Update_HP(Party,id)
 	if IsInRaid() then return end
 	local mubiaoHmax = UnitHealthMax(id)
 	local mubiaoH = UnitHealth(id)
-	if mubiaoHmax>0 then
+	if mubiaoH and mubiaoHmax then
 		Party.title:SetText(mubiaoH..'/'..mubiaoHmax);
 	else
 		Party.title:SetText('?/?');
@@ -100,10 +101,15 @@ local function Update_Debuff(Party,id)
 	-- end
 end
 ----队友目标
+local oldMode=PIG_MaxTocversion()
 local function Update_mubiao(Party,id)
 	if IsInRaid() then return end
+	Party.title:SetText("")
 	local PartymubiaiT=id.."target"
-	local partytargetname = GetUnitName(PartymubiaiT, true)
+	if not UnitExists(PartymubiaiT) then
+        return
+    end
+	local partytargetname = UnitName(PartymubiaiT)
 	if partytargetname then 
 		local diduiORyoushan = UnitIsEnemy(PartymubiaiT,"player")
 		if diduiORyoushan then
@@ -114,15 +120,13 @@ local function Update_mubiao(Party,id)
 		if UnitIsDead(PartymubiaiT) then
 			Party.title:SetText(partytargetname.."("..DEAD..")");
 		else
-			if PIG_MaxTocversion() then
+			if oldMode then
 				local duiyoumubiaobaifenbi = math.floor((UnitHealth(PartymubiaiT)/UnitHealthMax(PartymubiaiT))*100);
 				Party.title:SetText(partytargetname.."("..duiyoumubiaobaifenbi.."%)");
 			else
 				Party.title:SetText(partytargetname.."("..UnitHealth(PartymubiaiT).."/"..UnitHealthMax(PartymubiaiT)..")");
 			end
 		end
-	else
-		Party.title:SetText("");
 	end
 end
 ----创建扩展信息框架
@@ -226,7 +230,7 @@ local function PartyMember_HPFF()
 			Party.HP:SetPoint("TOPLEFT", Party, "TOPRIGHT", -11, -10);
 			if PIG_MaxTocversion(20000) then
 				Party.HP:SetWidth(102);
-			elseif PIG_MaxTocversion(40000) then
+			elseif PIG_MaxTocversion(60000) then
 				Party.HP:SetWidth(112);
 			else
 				Party.HP:SetWidth(124);

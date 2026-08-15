@@ -44,13 +44,13 @@ function DelveCompanion_CompartmentSetTooltipContent(tooltip)
 end
 
 ---@param expansion number LE_EXPANSION enum number of the expansion
-function DelveCompanion_CompartmentOpenDelvesInfo(expansion)
+function DelveCompanion_CompartmentOpenDelvesInfo()
     local name = DelveCompanion.Definitions.DependencyAddonName.encounterJournal
     if not C_AddOns.IsAddOnLoaded(name) then
         C_AddOns.LoadAddOn(name)
     end
 
-    EncounterJournal_OpenToJourney(Config.DELVE_FACTION_ID[expansion])
+    EncounterJournal_OpenToJourney(Config.DELVE_SEASON_FACTION_ID)
 end
 
 --- Used in `TOC` file for [AddonCompartmentFuncOnEnter](https://warcraft.wiki.gg/wiki/TOC_format#AddonCompartmentFuncOnEnter).
@@ -70,7 +70,7 @@ end
 ---@param addonName string
 ---@param menuButtonFrame table
 function DelveCompanion_CompartmentOnLeave(addonName, menuButtonFrame)
-    GameTooltip:Hide()
+    securecall(GameTooltip.Hide, GameTooltip)
 end
 
 --- Used in `TOC` file for [AddonCompartmentFunc](https://warcraft.wiki.gg/wiki/TOC_format#AddonCompartmentFunc).
@@ -82,13 +82,13 @@ function DelveCompanion_CompartmentOnClick(addonName, buttonName)
     end
 
     if buttonName == Definitions.ButtonAlias.leftClick then
-        DelveCompanion_CompartmentOpenDelvesInfo(LE_EXPANSION_MIDNIGHT)
+        DelveCompanion_CompartmentOpenDelvesInfo()
     elseif buttonName == Definitions.ButtonAlias.rightClick then
         if not (Settings and Settings.OpenToCategory) then
             return
         end
 
-        Settings.OpenToCategory(AddonSettings.optionsCategory:GetID())
+        Settings.OpenToCategory(AddonSettings.rootCategory:GetID())
     end
 end
 
@@ -498,7 +498,7 @@ function AddonSettings:Init()
         self.optionsCategory = options
 
         self:RegisterAccountSettings(options, layout)
-        -- self:RegisterCharacterSettings(options, layout)
+        self:RegisterCharacterSettings(options, layout)
         self:RegisterDebugSettings(options, layout)
 
         Settings.RegisterAddOnCategory(options)

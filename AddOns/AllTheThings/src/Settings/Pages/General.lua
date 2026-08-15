@@ -85,7 +85,6 @@ child.CreateAccountWideCheckbox = function(frame, localeKey, thing)
 	return cb
 end
 
-
 -- Top 1
 local headerMode = child:CreateHeaderLabel("")
 if child.separator then
@@ -174,6 +173,14 @@ local function presetStore()
 		["AccountWide:Conduits"] = settings:Get("AccountWide:Conduits"),
 	}
 
+	-- Filters
+	for filterID = 1, 113 do	-- 113 = Bags, highest filterID in our Settings
+		local setting = settings:GetFilter(filterID)
+		if app.EquipmentFilters[filterID] and setting ~= nil then
+			settingsTable[filterID] = setting
+		end
+	end
+
 	settings:Set("PresetRestore", settingsTable)
 end
 
@@ -257,6 +264,14 @@ modeButton:SetScript("OnClick", function()
 				settings:Set("AccountWide:AzeriteEssences", settings:Get("PresetRestore")["AccountWide:AzeriteEssences"])
 				settings:Set("AccountWide:Conduits", settings:Get("PresetRestore")["AccountWide:Conduits"])
 
+				-- Filters
+				for filterID = 1, 113 do	-- 113 = Bags, highest filterID in our Settings
+					local setting = settings:Get("PresetRestore")[filterID]
+					if setting ~= nil then
+						settings:SetFilter(filterID, setting)
+					end
+				end
+
 				-- Reset our preset storage
 				settings:Set("PresetRestore", {})
 
@@ -327,6 +342,11 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("CC:SL_COV_NFA", false)
 			settings:Set("CC:SL_COV_VEN", false)
 
+			-- Filters
+			for filterID = 1, 113 do	-- 113 = Bags, highest filterID in our Settings
+				settings:SetFilter(filterID, true)
+			end
+
 			-- Close menu after clicking and refresh
 			settings:UpdateMode(1)
 			return MenuResponse.Close
@@ -392,6 +412,11 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("CC:SL_COV_NEC", true)
 			settings:Set("CC:SL_COV_NFA", true)
 			settings:Set("CC:SL_COV_VEN", true)
+
+			-- Filters
+			for filterID = 1, 113 do	-- 113 = Bags, highest filterID in our Settings
+				settings:SetFilter(filterID, true)
+			end
 
 			-- Close menu after clicking and refresh
 			settings:UpdateMode(1)
@@ -459,6 +484,11 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("CC:SL_COV_NFA", true)
 			settings:Set("CC:SL_COV_VEN", true)
 
+			-- Filters
+			for filterID = 1, 113 do	-- 113 = Bags, highest filterID in our Settings
+				settings:SetFilter(filterID, true)
+			end
+
 			-- Close menu after clicking and refresh
 			settings:UpdateMode(1)
 			return MenuResponse.Close
@@ -525,6 +555,11 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("CC:SL_COV_NFA", true)
 			settings:Set("CC:SL_COV_VEN", true)
 
+			-- Filters
+			for filterID = 1, 113 do	-- 113 = Bags, highest filterID in our Settings
+				settings:SetFilter(filterID, true)
+			end
+
 			-- Close menu after clicking and refresh
 			settings:UpdateMode(1)
 			return MenuResponse.Close
@@ -554,6 +589,11 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("AccountWide:Followers", true)
 			settings:Set("AccountWide:AzeriteEssences", true)
 			settings:Set("AccountWide:Conduits", true)
+
+			-- Filters
+			for filterID = 1, 113 do	-- 113 = Bags, highest filterID in our Settings
+				settings:SetFilter(filterID, true)
+			end
 
 			-- Close menu after clicking and refresh
 			settings:UpdateMode(1)
@@ -590,6 +630,9 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("CC:SL_COV_NEC", false)
 			settings:Set("CC:SL_COV_NFA", false)
 			settings:Set("CC:SL_COV_VEN", false)
+
+			-- Filters
+			settings:ResetFilters()
 
 			-- Close menu after clicking and refresh
 			settings:UpdateMode(1)
@@ -666,6 +709,7 @@ end,
 function(self)
 	settings:SetAccountMode(self:GetChecked())
 end)
+checkboxAccountMode:SetCheckedTexture(app.asset("TrackAccountWide"))
 checkboxAccountMode:SetATTTooltip(L.ACCOUNT_MODE_TOOLTIP)
 checkboxAccountMode:AlignBelow(checkboxDebugMode)
 

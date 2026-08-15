@@ -39,7 +39,7 @@ L:SetGeneralLocalization{
 	name = "沙爾圖拉"
 }
 L:SetWarningLocalization({
-    WarnGuardDied = "沙爾圖拉皇家衛士剩餘：%d/3" -- NPC ID 15984
+    WarnGuardDied = "沙爾圖拉皇家衛士：%d/3" -- NPC ID 15984
 })
 L:SetOptionLocalization{
     WarnGuardDied = "提示沙爾圖拉皇家衛士剩餘"
@@ -64,22 +64,21 @@ L:SetGeneralLocalization{
 }
 L:SetWarningLocalization{
 	WarnFreeze	= "冰凍：%d/3",
-	WarnShatter	= "打碎：%d/3"
+	WarnShatter	= "打碎：%d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "提示冰凍狀態",
 	WarnShatter	= "提示打碎狀態"
 }
 L:SetMiscLocalization{
-	Slow	= "開始變慢了！",
-	Freezing= "開始結冰了！",
-	Frozen	= "被牢牢凍住了！",
-	Phase4 	= "開始爆裂！",
-	Phase5 	= "看來準備粉碎了！",
-	Phase6 	= "Explodes.",
-
-	FrostHitsPerSecond = "冰霜每秒命中次數",
-	MeleeHitsPerSecond = "近戰每秒命中次數"
+	Slow		= "開始變慢了！",
+	Freezing	= "開始結冰了！",
+	Frozen		= "被牢牢凍住了！",
+	Phase4 		= "開始爆裂！",
+	Phase5 		= "看來準備粉碎了！",
+	FrostHits	= "冰霜命中",
+	FrostHitsPerSecond	= "冰霜每秒命中次數",
+	MeleeHitsPerSecond	= "近戰每秒命中次數"
 }
 
 -------------
@@ -254,16 +253,6 @@ L = DBM:GetModLocalization("Ossirian")
 L:SetGeneralLocalization{
 	name 		= "無疤者奧斯里安"
 }
-L:SetWarningLocalization{
-	WarnVulnerable	= "%s"
-}
-L:SetTimerLocalization{
-	TimerVulnerable	= "%s"
-}
-L:SetOptionLocalization{
-	WarnVulnerable	= "提示虛弱",
-	TimerVulnerable	= "為虛弱顯示計時器"
-}
 
 ----------------
 -- AQ20 Trash --
@@ -289,7 +278,6 @@ L:SetOptionLocalization{
 	TimerAddsSpawn	= "為第一次小怪重生顯示計時器"
 }
 L:SetMiscLocalization{
-	Phase2Emote	= "在寶珠的控制力消失之前逃走。",
 	Pull 	= "入侵者闖進孵化室了！拉響警報！無論如何都要保護蛋！"
 }
 
@@ -430,7 +418,6 @@ L:SetOptionLocalization{
 }
 L:SetMiscLocalization{
 	YellP1		= "讓賽事開始吧！",
-	YellP2		= "幹得好，手下們。凡人的勇氣開始消退了！現在，我們就來看看他們怎麼面對黑石之王的力量吧！",
 	YellP3		= "不可能！來吧，我的僕人！再次為你們的主人服務！",
 	YellShaman	= "薩滿，讓我看看你圖騰到底是什麼用處的！",
 	YellPaladin	= "聖騎士……聽說你有無數條命。讓我看看到底是怎麼樣的吧。",
@@ -628,8 +615,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	PriestDied	= "%s死了。",
-	YellPhase2	= "希瓦拉爾，給我憤怒的力量吧！",
-	YellKill	= "哈卡再也不能束縛我了！我終於可以安息了！"
+	YellPhase2	= "希瓦拉爾，給我憤怒的力量吧！"
 })
 
 -------------------
@@ -713,8 +699,7 @@ L:SetOptionLocalization{
 }
 
 L:SetMiscLocalization{
-	Breath 		= "%s深深地吸了一口氣",
-	YellPull 	= "真是幸運。通常我為了覓食就必須離開窩。",
+	YellP1 		= "真是幸運。通常我為了覓食就必須離開窩。",
 	YellP2 		= "這毫無意義的行動讓我很厭煩。我會從上空把你們都燒成灰！",
 	YellP3 		= "看起來需要再給你一次教訓，凡人！"
 }
@@ -743,16 +728,6 @@ L:SetGeneralLocalization({
 	name = "大寡婦費琳娜"
 })
 
-L:SetWarningLocalization({
-	WarningEmbraceExpire	= "寡婦之擁5秒後結束",
-	WarningEmbraceExpired	= "寡婦之擁結束"
-})
-
-L:SetOptionLocalization({
-	WarningEmbraceExpire	= "為寡婦之擁結束顯示預先警告",
-	WarningEmbraceExpired	= "為寡婦之擁結束顯示警告"
-})
-
 L:SetMiscLocalization({
 	Pull1					= "跪下求饒吧，懦夫！",
 	Pull2					= "休想從我面前逃掉！",
@@ -767,21 +742,6 @@ L = DBM:GetModLocalization("MaexxnaVanilla")
 
 L:SetGeneralLocalization({
 	name = "梅克絲娜"
-})
-
-L:SetWarningLocalization({
-	WarningSpidersSoon	= "梅克絲娜之子5秒後出現",
-	WarningSpidersNow	= "梅克絲娜之子出現了"
-})
-
-L:SetTimerLocalization({
-	TimerSpider	= "梅克絲娜之子"
-})
-
-L:SetOptionLocalization({
-	WarningSpidersSoon	= "為梅克絲娜之子顯示預先警告",
-	WarningSpidersNow	= "為梅克絲娜之子顯示警告",
-	TimerSpider			= "為下一次梅克絲娜之子顯示計時器"
 })
 
 ------------------------------
@@ -863,7 +823,10 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	WarningHealSoon		= "為3秒後可以治療顯示預先警告",
-	WarningHealNow		= "為現在治療顯示警告"
+	WarningHealNow		= "為現在治療顯示警告",
+	Sorting				= "排序",
+	Alphabetical		= "字母順序",
+	Duration			= "持續時間"
 })
 
 -----------------
@@ -873,9 +836,6 @@ L = DBM:GetModLocalization("PatchwerkVanilla")
 
 L:SetGeneralLocalization({
 	name = "縫補者"
-})
-
-L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
@@ -911,18 +871,25 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Yell	= "斯塔拉格要碾碎你！",
-	Emote	= "%s超過負荷！",
-	Charge1 = "負極",
-	Charge2 = "正極"
+	Stalagg 	= "斯塔拉格",
+	Feugen 		= "伏晨",
+	Yell1P1		= "主人要吃了你！",
+	Yell2P1		= "斯塔拉格要碾碎你！",
+	Yell1P2 	= "咬碎……你的……骨頭……",
+	Yell2P2 	= "打…碎…你……",
+	Yell3P2 	= "殺……",
+	EmoteDies 	= "%s死了。",
+	--EmoteRevive = "%s is jolted back to life!"
 })
 
 L:SetOptionLocalization({
-	WarningChargeChanged	= "當你的極性改變時顯示特別警告",
-	WarningChargeNotChanged	= "當你的極性沒有改變時顯示特別警告",
-	AirowsEnabled			= "顯示箭頭 (正常 \"二邊\" 站位打法)",
-	ArrowsRightLeft			= "顯示左/右箭頭 給 \"四角\" 站位打法 (如果極性改變顯示左箭頭, 沒變顯示左箭頭)",
-	ArrowsInverse			= "顯示倒轉的 \"四角\" 站位打法 (如果極性改變顯示左箭頭, 沒變顯示右箭頭)"
+	WarningChargeChanged 	= "當你的極性改變時顯示特別警告",
+	WarningChargeNotChanged = "當你的極性沒有改變時顯示特別警告",
+	AirowsEnabled 			= "顯示箭頭 $spell:28089",
+	Never 					= "從不顯示",
+	TwoCamp 				= "顯示箭頭（正常「兩邊」站位打法）",
+	ArrowsRightLeft 		= "顯示左/右箭頭（用於「四角」站位打法，極性改變顯示左箭頭，未改變顯示右箭頭）",
+	ArrowsInverse 			= "顯示翻轉的「四角」站位打法（極性改變顯示左箭頭，未改變顯示右箭頭）"
 })
 
 L:SetWarningLocalization({
@@ -940,18 +907,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Pull1 = "絕不留情！",
-	Pull2 = "練習時間到此為止！都拿出真本事來！",
-	Pull3 = "照我教你的做！",
-	Pull4 = "絆腿……有什麼問題嗎？"
-})
-
-L:SetOptionLocalization({
-	WarningShieldWallSoon	= "為盾牆結束顯示預先警告"
-})
-
-L:SetWarningLocalization({
-	WarningShieldWallSoon	= "5秒後盾牆結束"
+	Pull1 		= "絕不留情！",
+	Pull2 		= "練習時間到此為止！都拿出真本事來！",
+	Pull3 		= "照我教你的做！",
+	Pull4 		= "絆腿……有什麼問題嗎？",
+	Understudy	= "死亡騎士實習者"
 })
 
 ----------------------------
@@ -965,7 +925,6 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	TimerWave			= "為下一波顯示計時器",
-	TimerPhase2			= "為第二階段顯示計時器",
 	WarningWaveSoon		= "為波數顯示預先警告",
 	WarningWaveSpawned	= "為波數出現顯示警告",
 	WarningRiderDown	= "當無情的騎兵死亡時顯示警告",
@@ -973,16 +932,14 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerWave	= "第%d波",
-	TimerPhase2	= "第二階段"
+	TimerWave	= "第%d/18波",
 })
 
 L:SetWarningLocalization({
 	WarningWaveSoon		= "3秒後第%d波：%s",
 	WarningWaveSpawned	= "第%d波：%s出現了",
 	WarningRiderDown	= "騎兵已死亡",
-	WarningKnightDown	= "死亡騎士已死亡",
-	WarningPhase2		= "第二階段"
+	WarningKnightDown	= "死亡騎士已死亡"
 })
 
 L:SetMiscLocalization({
@@ -1006,7 +963,9 @@ L:SetGeneralLocalization({
 
 L:SetOptionLocalization({
 	WarningMarkSoon				= "為印記顯示預先警告",
-	SpecialWarningMarkOnPlayer	= "當你印記堆疊多於四層時顯示特別警告"
+	SpecialWarningMarkOnPlayer	= "當你印記堆疊多於四層時顯示特別警告",
+	timerMark					= "為下一個印記顯示計時器（含層數）",
+	WarnHorsemanDied			= "提示四騎士剩餘"
 })
 
 L:SetTimerLocalization({
@@ -1014,10 +973,17 @@ L:SetTimerLocalization({
 })
 
 L:SetWarningLocalization({
-	WarningMarkSoon			= "3秒後印記%d",
-	SpecialWarningMarkOnPlayer	= "%s：%s"
+	WarningMarkSoon				= "3秒後印記%d",
+	SpecialWarningMarkOnPlayer	= "%s：%s",
+	WarnHorsemanDied 			= "%s死了（剩下%d擊殺）"
 })
 
+L:SetMiscLocalization({
+	Korthazz	= "寇斯艾茲族長",
+	Mograine	= "莫格萊尼公爵",
+	Blaumeux	= "布洛莫斯爵士",
+	Zeliek		= "札里克爵士"
+})
 -----------------
 --  Sapphiron  --
 -----------------
@@ -1032,22 +998,18 @@ L:SetOptionLocalization({
 	WarningAirPhaseNow	= "提示空中階段",
 	WarningLanded		= "提示地上階段",
 	TimerAir			= "為空中階段顯示計時器",
-	TimerLanding		= "為降落顯示計時器",
-	TimerFrostBreath	= "為$spell:28524顯示計時器",
-	WarningFrostBreath	= "為$spell:28524顯示特別警告"
+	TimerLanding		= "為降落顯示計時器"
 })
 
 L:SetWarningLocalization({
-	WarningAirPhaseSoon	= "10秒後空中階段",
+	WarningAirPhaseSoon	= "空中階段即將到來",
 	WarningAirPhaseNow	= "空中階段",
-	WarningLanded		= "薩菲隆降落了",
-	WarningFrostBreath	= "冰息術"
+	WarningLanded		= "薩菲隆降落了"
 })
 
 L:SetTimerLocalization({
 	TimerAir			= "空中階段",
-	TimerLanding		= "降落",
-	TimerFrostBreath	= "冰息術"
+	TimerLanding		= "降落"
 })
 
 ------------------
@@ -1061,22 +1023,15 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	TimerPhase2			= "為第二階段顯示計時器",
-	specwarnP2Soon		= "為科爾蘇加德攻擊前10秒顯示特別警告",
-	warnAddsSoon		= "為寒冰皇冠守護者顯示預先警告"
+	specwarnP2Soon		= "為科爾蘇加德攻擊前10秒顯示特別警告"
 })
 
 L:SetMiscLocalization({
-	Yell = "僕從們，侍衛們，隸屬於黑暗與寒冷的戰士們！聽從科爾蘇加德的召喚！"
+	YellP1			= "僕從們，侍衛們，隸屬於黑暗與寒冷的戰士們！聽從科爾蘇加德的召喚！"
 })
 
 L:SetWarningLocalization({
-	specwarnP2Soon	= "10秒後科爾蘇加德開始攻擊",
-	warnAddsSoon	= "寒冰皇冠守護者即將出現"
-})
-
-L:SetTimerLocalization({
-	TimerPhase2	= "第二階段"
+	specwarnP2Soon	= "10秒後科爾蘇加德開始攻擊"
 })
 
 -----------------

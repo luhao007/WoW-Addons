@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,normal25,heroic,heroic25"
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(36678)
 mod:SetEncounterID(not mod:IsPostCata() and 851 or 1102)
@@ -41,15 +41,15 @@ local warnMutatedPlague				= mod:NewStackAnnounce(72451, 3, nil, "Tank|Healer") 
 local warnUnboundPlague				= mod:NewTargetNoFilterAnnounce(70911, 3, nil, false, 2)		-- Heroic Ability
 
 local specWarnVolatileOozeAdhesive	= mod:NewSpecialWarningYou(70447, nil, nil, nil, 1, 2)
-local specWarnVolatileOozeAdhesiveT	= mod:NewSpecialWarningMoveTo(70447, false, nil, 2, 1, 2)
-local specWarnGaseousBloat			= mod:NewSpecialWarningRun(70672, nil, nil, nil, 4, 2)
-local specWarnMalleableGoo			= mod:NewSpecialWarningYou(72295, nil, nil, nil, 1, 2)
+local specWarnVolatileOozeAdhesiveT	= mod:NewSpecialWarningMoveTo(70447, false, nil, 2, 1, 2, nil, nil, "helpsoak")
+local specWarnGaseousBloat			= mod:NewSpecialWarningRun(70672, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnMalleableGoo			= mod:NewSpecialWarningYou(72295, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellMalleableGoo				= mod:NewYell(72295)
 local specWarnChokingGasBomb		= mod:NewSpecialWarningMove(71255, "Tank", nil, nil, 1, 2)
-local specWarnMalleableGooCast		= mod:NewSpecialWarningSpell(72295, nil, nil, nil, 2, 2)
+local specWarnMalleableGooCast		= mod:NewSpecialWarningSpell(72295, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 local specWarnOozeVariable			= mod:NewSpecialWarningYou(70352)		-- Heroic Ability
 local specWarnGasVariable			= mod:NewSpecialWarningYou(70353)		-- Heroic Ability
-local specWarnUnboundPlague			= mod:NewSpecialWarningYou(70911, nil, nil, nil, 1, 2)		-- Heroic Ability
+local specWarnUnboundPlague			= mod:NewSpecialWarningYou(70911, nil, nil, nil, 1, 2, nil, nil, "targetyou")		-- Heroic Ability
 local yellUnboundPlague				= mod:NewYell(70911)
 
 local timerGaseousBloat				= mod:NewTargetTimer(20, 70672, nil, nil, nil, 3)			-- Duration of debuff

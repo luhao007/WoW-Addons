@@ -1,13 +1,17 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
-local Data=addonTable.Data
+local addonName, PD = ...;
+local L=PD.locale
+local Data=PD.Data
+local PlayerInfo=Data.PlayerInfo
 local ClassFile_Name=Data.ClassFile_Name
+local TalentData=Data.TalentData
 ---
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
+local PIGButton=Create.PIGButton
 local PIGLine=Create.PIGLine
 local PIGDownMenu=Create.PIGDownMenu
 local PIGSlider = Create.PIGSlider
+local PIGDiyTex=Create.PIGDiyTex
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
 local PIGOptionsList=Create.PIGOptionsList
@@ -18,32 +22,7 @@ local PIGFontStringBG=Create.PIGFontStringBG
 local PIGSetFont=Create.PIGSetFont
 ---
 local CVarsfun={}
-addonTable.CVarsfun=CVarsfun
------
-local fuFrame = PIGOptionsList(L["CVAR_TABNAME"],"TOP")
---
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
-
-local EaseUseF,EaseUsetabbut =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME0"],70)
-EaseUseF:Show()
-EaseUsetabbut:Selected(true)
-----易用性---------
-EaseUseF.F=PIGFrame(EaseUseF,{"TOPLEFT", EaseUseF, "TOPLEFT", 40, -40})
-EaseUseF.F:SetPoint("TOPRIGHT", EaseUseF, "TOPRIGHT", -40, -40);
-EaseUseF.F:SetHeight(260)
-EaseUseF.F:PIGSetBackdrop(0)
-EaseUseF.F.Open = PIGCheckbutton(EaseUseF.F,{"BOTTOMLEFT",EaseUseF.F,"TOPLEFT",-20,4},{"|cff00FF00自动"..SETTINGS..L["CVAR_TABNAME0"].."CVars|r"})
-EaseUseF.F.Open.t = PIGFontString(EaseUseF.F.Open,{"LEFT",EaseUseF.F.Open.Text,"RIGHT",4,0});
-EaseUseF.F.Open:SetScript("OnClick", function (self)
-    if self:GetChecked() then
-        PIGA["CVars"]["EaseUse"]=true;
-    else
-        PIGA["CVars"]["EaseUse"]=false;
-    end
-    CVarsfun.EaseUseCVars()
-    EaseUseF.F.Show_Checked()
-end)
--- 
+PD.CVarsfun=CVarsfun
 --职业颜色
 local function ChatClassColor(CVarName,CVarVON,CVarVOFF)
     local ClassColorV = GetCVar(CVarName)
@@ -64,6 +43,55 @@ local function ChatClassColor(CVarName,CVarVON,CVarVOFF)
         end 
     end
 end
+--DEBUFF增加
+local oldUpdateAuraPositions=TargetFrame.UpdateAuraPositions
+local old_LARGE_AURA_SIZE = 21;
+local LARGE_AURA_SIZE = 21;
+local function SetBigDeBuffVV()
+	LARGE_AURA_SIZE=PIGA["CVars"]["debuffSizeV"] or old_LARGE_AURA_SIZE
+end
+local function BigDeBuff()
+	if (not GetCVarBool("showDynamicBuffSize")) then TargetFrame.UpdateAuraPositions=oldUpdateAuraPositions return end
+	local AURA_OFFSET_Y = 1;
+	local SMALL_AURA_SIZE = 17;
+	local NUM_TOT_AURA_ROWS = 2;
+	local AURA_ROW_WIDTH = 122;
+	SetBigDeBuffVV()
+	--hooksecurefunc(TargetFrame, "UpdateAuraPositions", function(self,auraName, numAuras, numOppositeAuras, largeAuraList, updateFunc, maxRowWidth, offsetX, mirrorAurasVertically)	
+	TargetFrame.UpdateAuraPositions=function(self,auraName, numAuras, numOppositeAuras, largeAuraList, updateFunc, maxRowWidth, offsetX, mirrorAurasVertically)	
+		local size;
+		local offsetY = AURA_OFFSET_Y;
+		local rowWidth = 0;
+		local firstBuffOnRow = 1;
+		for i=1, numAuras do
+			if ( largeAuraList[i] ) then
+				size = LARGE_AURA_SIZE;
+				offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y;
+			else
+				size = SMALL_AURA_SIZE;
+			end
+			if ( i == 1 ) then
+				rowWidth = size;
+				self.auraRows = self.auraRows + 1;
+			else
+				rowWidth = rowWidth + size + offsetX;
+			end
+			if ( rowWidth > maxRowWidth ) then
+				updateFunc(self, auraName, i, numOppositeAuras, firstBuffOnRow, size, offsetX, offsetY, mirrorAurasVertically);
+				rowWidth = size;
+				self.auraRows = self.auraRows + 1;
+				firstBuffOnRow = i;
+				offsetY = AURA_OFFSET_Y;
+				if ( self.auraRows > NUM_TOT_AURA_ROWS ) then
+					maxRowWidth = AURA_ROW_WIDTH;
+				end
+			else
+				updateFunc(self, auraName, i, numOppositeAuras, i - 1, size, offsetX, offsetY, mirrorAurasVertically);
+			end
+		end
+	end
+end
+--
 local CVarsVData = {
     {"alwaysCompareItems","1","0","自动比较装备","开启后在查看装备时会自动和身上装备对比"},
     {"chatClassColorOverride","0","1","聊天栏显示职业颜色","聊天框发言的玩家姓名会根据职业染色",ChatClassColor},
@@ -71,7 +99,7 @@ local CVarsVData = {
     {"instantQuestText","1","0",SHOW_QUEST_FADING_TEXT,OPTION_TOOLTIP_SHOW_QUEST_FADING},
     {"threatShowNumeric","1","0",SHOW_NUMERIC_THREAT,OPTION_TOOLTIP_SHOW_NUMERIC_THREAT},
     {"showTargetCastbar","1","0",SHOW_TARGET..SHOW_ENEMY_CAST,OPTION_TOOLTIP_SHOW_TARGET_CASTBAR_IN_V_KEY},
-    {"showDynamicBuffSize","1","0",DYNAMIC.."Buff/Debuff大小","增大你自己施放的增减益"},
+    {"showDynamicBuffSize","1","0",SHOW_DYNAMIC_BUFF_SIZE, OPTION_TOOLTIP_SHOW_DYNAMIC_BUFF_SIZE,BigDeBuff},
     {"autoLootDefault","1","0",AUTO_LOOT_DEFAULT_TEXT,OPTION_TOOLTIP_AUTO_LOOT_DEFAULT},
 }
 local CVarsVList = {}
@@ -80,51 +108,6 @@ for i=1,#CVarsVData do
 		table.insert(CVarsVList,CVarsVData[i])
 	end
 end
-EaseUseF.F.ListBut={}
-for i=1,#CVarsVList do
-    local AutoCVars =PIGCheckbutton(EaseUseF.F,nil,{CVarsVList[i][4],CVarsVList[i][5]})
-    EaseUseF.F.ListBut[i]=AutoCVars
-    if i==1 then
-        AutoCVars:SetPoint("TOPLEFT",EaseUseF.F,"TOPLEFT",20,-20);
-    else
-        if i % 2 == 0 then
-            AutoCVars:SetPoint("LEFT",EaseUseF.F.ListBut[i-1],"RIGHT",220,0);
-        else
-            AutoCVars:SetPoint("TOPLEFT",EaseUseF.F.ListBut[i-2],"BOTTOMLEFT",0,-20);
-        end
-    end  
-    AutoCVars:SetScript("OnClick", function (self)
-        if self:GetChecked() then
-            SetCVar(CVarsVList[i][1], CVarsVList[i][2])
-        else
-            SetCVar(CVarsVList[i][1], CVarsVList[i][3])
-        end
-        if CVarsVList[i][6] then CVarsVList[i][6](CVarsVList[i][1],CVarsVList[i][2],CVarsVList[i][3]) end
-    end);
-end
-function EaseUseF.F.Show_Checked()
-    if PIGA["CVars"]["EaseUse"] then
-        EaseUseF.F.Open.t:SetText("|cffFFFF00(当前为自动"..SETTINGS..MODE..",关闭可"..CUSTOM..SETTINGS..")|r")
-        for i=1,#CVarsVList do
-            EaseUseF.F.ListBut[i]:SetEnabled(false)
-            EaseUseF.F.ListBut[i]:SetChecked(true)
-        end
-    else
-        EaseUseF.F.Open.t:SetText("|cffFFFF00(当前为"..CUSTOM..SETTINGS..MODE..")|r")
-        for i=1,#CVarsVList do
-            EaseUseF.F.ListBut[i]:SetEnabled(true)
-            if GetCVar(CVarsVList[i][1])==CVarsVList[i][2] then
-                EaseUseF.F.ListBut[i]:SetChecked(true)
-            else
-                EaseUseF.F.ListBut[i]:SetChecked(false)
-            end
-        end
-    end  
-end
-EaseUseF.F:HookScript("OnShow", function(self)
-    self.Open:SetChecked(PIGA["CVars"]["EaseUse"])
-    self.Show_Checked()
-end)
 function CVarsfun.EaseUseCVars()
     if PIGA["CVars"]["EaseUse"] then
         for i=1,#CVarsVList do
@@ -133,165 +116,138 @@ function CVarsfun.EaseUseCVars()
         end
     end
 end
------------
-EaseUseF.diyF=PIGFrame(EaseUseF,{"TOPLEFT", EaseUseF, "TOPLEFT", 10, -340})
-EaseUseF.diyF:SetPoint("BOTTOMRIGHT", EaseUseF, "BOTTOMRIGHT", -10, 10);
-EaseUseF.diyF:SetHeight(100)
-EaseUseF.diyF:PIGSetBackdrop(0)
+function CVarsfun.Shaman_Blue()
+	if PIG_MaxTocversion(20000,true) then return end  
+	if not PIGA["CVars"]["Shaman_Blue"] then return end  
+    local color = PIG_CLASS_COLORS["SHAMAN"];
+    function ChatFrameUtil.GetDecoratedSenderName(event, ...)
+		local text, senderName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, senderGUID, bnSenderID, isMobile = ...;
+		local chatType = string.sub(event, 10);
+		if string.find(chatType, "^WHISPER") then
+			chatType = "WHISPER";
+		end
+		if string.find(chatType, "^CHANNEL") then
+			chatType = "CHANNEL" .. channelIndex;
+		end
+		local chatTypeInfo = ChatTypeInfo[chatType];
+		local decoratedPlayerName = senderName;
+		if Ambiguate then
+			if chatType == "GUILD" then
+				decoratedPlayerName = Ambiguate(decoratedPlayerName, "guild");
+			else
+				decoratedPlayerName = Ambiguate(decoratedPlayerName, "none");
+			end
+		end
+		if senderGUID and C_ChatInfo.IsTimerunningPlayer(senderGUID) then
+			decoratedPlayerName = TimerunningUtil.AddSmallIcon(decoratedPlayerName);
+		end
+		if senderGUID and chatTypeInfo and ChatFrameUtil.ShouldColorChatByClass(chatTypeInfo) and GetPlayerInfoByGUID ~= nil then
+			local localizedClass, englishClass, localizedRace, englishRace, sex = GetPlayerInfoByGUID(senderGUID);
 
-local diyInfo={}
-if PIG_MaxTocversion() then
-    table.insert(diyInfo,{"Fast_Loot",false,"加快拾取速度","在开启自动拾取时加快你的拾取速度(在队长分配不起作用)"})
-end
-if PIG_MaxTocversion(20000) then
-	table.insert(diyInfo,{"Shaman_Blue",true,USE..BLUE_GEM..ClassFile_Name["SHAMAN"]..CLASS_COLORS})
-	function CVarsfun.Shaman_Blue()
-    	if not PIGA["CVars"]["Shaman_Blue"] then return end  
-	    local classColorTable = {r=0,g=0.44,b=0.87,colorStr = "ff0070DD"}
-	    PIG_CLASS_COLORS["SHAMAN"] = {r=classColorTable.r, g=classColorTable.g, b=classColorTable.b, colorStr=classColorTable.colorStr}
-	    local old_GetColoredName=GetColoredName
-	    GetColoredName=function(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
-	        if ( arg12 and arg12 ~= "" ) then
-	            local localizedClass, englishClass, localizedRace, englishRace, sex = GetPlayerInfoByGUID(arg12)
-	            if ( englishClass ) then
-	             if englishClass=="SHAMAN" then
-	                local chatType = strsub(event, 10);
-	                if ( strsub(chatType, 1, 7) == "WHISPER" ) then
-	                    chatType = "WHISPER";
-	                end
-	                if ( strsub(chatType, 1, 7) == "CHANNEL" ) then
-	                    chatType = "CHANNEL"..arg8;
-	                end
-	                local info = ChatTypeInfo[chatType];
-	                if (chatType == "GUILD") then
-	                    arg2 = Ambiguate(arg2, "guild")
-	                else
-	                    arg2 = Ambiguate(arg2, "none")
-	                end
-	                if ( info and info.colorNameByClass ) then
-	                    return string.format("\124cff%.2x%.2x%.2x", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255)..arg2.."\124r"
-	                end
-	             else
-	                 old_GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
-	             end
-	            end
-	        end
-	        return old_GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
-	    end
-	    hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-	        local unitIsConnected = UnitIsConnected(frame.unit);
-	        local unitIsDead = unitIsConnected and UnitIsDead(frame.unit);
-	        local unitIsPlayer = UnitIsPlayer(frame.unit) or UnitIsPlayer(frame.displayedUnit);
-	        if ( not unitIsConnected or (unitIsDead and not unitIsPlayer) ) then
-	        else
-	            local localizedClass, englishClass = UnitClass(frame.unit);
-	            if englishClass=="SHAMAN" then
-	                if ( (frame.optionTable.allowClassColorsForNPCs or UnitIsPlayer(frame.unit)) and frame.optionTable.useClassColors ) then
-	                    frame.healthBar:SetStatusBarColor(classColorTable.r, classColorTable.g, classColorTable.b);
-	                    if (frame.optionTable.colorHealthWithExtendedColors) then
-	                        frame.selectionHighlight:SetVertexColor(classColorTable.r, classColorTable.g, classColorTable.b);
-	                    end
-	                end
-	            end
-	        end
-	    end)
-        if not CUSTOM_CLASS_COLORS then CUSTOM_CLASS_COLORS = {} end
-        local ybtable = {}
-        function ybtable:RegisterCallback(method, handler)
-        end
-        function ybtable:UnregisterCallback(method, handler)
-        end
-        function ybtable:GetClassToken(className)
-            return className and classTokens[className]
-        end
-        function ybtable:ColorTextByClassToken(text, className)
-            return self:ColorTextByClass(text, self:GetClassToken(className))
-        end
-        function ybtable:ColorTextByClass(text, class)
-            local color = CUSTOM_CLASS_COLORS[class]
-            if color then
-                color = CreateColor(color.r, color.g, color.b)
-                return color:WrapTextInColorCode(text)
+			if englishClass then
+				local classColor = RAID_CLASS_COLORS[englishClass];
+				if englishClass=="SHAMAN" then
+					classColor = PIG_CLASS_COLORS["SHAMAN"]
+				end
+				if classColor then
+					decoratedPlayerName = classColor:WrapTextInColorCode(decoratedPlayerName);
+				end
+			end
+		end
+		decoratedPlayerName = ChatFrameUtil.ProcessSenderNameFilters(event, decoratedPlayerName, ...);
+		return decoratedPlayerName;
+	end
+    hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
+        local unitIsConnected = UnitIsConnected(frame.unit);
+        local unitIsDead = unitIsConnected and UnitIsDead(frame.unit);
+        local unitIsPlayer = UnitIsPlayer(frame.unit) or UnitIsPlayer(frame.displayedUnit);
+        if ( not unitIsConnected or (unitIsDead and not unitIsPlayer) ) then
+        else
+            local localizedClass, englishClass = UnitClass(frame.unit);
+            if englishClass=="SHAMAN" then
+                if ( (frame.optionTable.allowClassColorsForNPCs or UnitIsPlayer(frame.unit)) and frame.optionTable.useClassColors ) then
+                    frame.healthBar:SetStatusBarColor(color.r, color.g, color.b);
+                    if (frame.optionTable.colorHealthWithExtendedColors) then
+                        frame.selectionHighlight:SetVertexColor(color.r, color.g, color.b);
+                    end
+                end
             end
         end
-        setmetatable(CUSTOM_CLASS_COLORS, { __index = ybtable })
-        for k,v in pairs(PIG_CLASS_COLORS) do
-            CUSTOM_CLASS_COLORS[k] = {r = v.r,g = v.g,b = v.b,colorStr = v.colorStr}
+    end)
+    if not CUSTOM_CLASS_COLORS then CUSTOM_CLASS_COLORS = {} end
+    local ybtable = {}
+    function ybtable:RegisterCallback(method, handler)
+    end
+    function ybtable:UnregisterCallback(method, handler)
+    end
+    function ybtable:GetClassToken(className)
+        return className and classTokens[className]
+    end
+    function ybtable:ColorTextByClassToken(text, className)
+        return self:ColorTextByClass(text, self:GetClassToken(className))
+    end
+    function ybtable:ColorTextByClass(text, class)
+        local color = CUSTOM_CLASS_COLORS[class]
+        if color then
+            color = CreateColor(color.r, color.g, color.b)
+            return color:WrapTextInColorCode(text)
         end
-    end 
+    end
+    setmetatable(CUSTOM_CLASS_COLORS, { __index = ybtable })
+    for k,v in pairs(PIG_CLASS_COLORS) do
+        CUSTOM_CLASS_COLORS[k] = {r = v.r,g = v.g,b = v.b,colorStr = v.colorStr}
+    end
 end
-for i=1,#diyInfo do
-    local butxx=PIGCheckbutton_R(EaseUseF.diyF,{diyInfo[i][3],diyInfo[i][4] or diyInfo[i][3]})
-    butxx:SetScript("OnClick", function (self)
-        if self:GetChecked() then
-            PIGA["CVars"][diyInfo[i][1]]=true
-            if CVarsfun[diyInfo[i][1]] then CVarsfun[diyInfo[i][1]]() end
-        else
-            PIGA["CVars"][diyInfo[i][1]]=false
-            if diyInfo[i][2] then 
-            	PIG_OptionsUI.RLUI:Show()
-            else
-            	CVarsfun[diyInfo[i][1]]()
+local GetTianfuIcon=TalentData.GetTianfuIcon
+local function GetpeizhiData(classID)
+	if PIGA["CVars"]["SpellQueueTalent"][classID] then
+		return PIGA["CVars"]["SpellQueueTalent"][classID][1],PIGA["CVars"]["SpellQueueTalent"][classID]
+	else
+		return 1
+	end
+end
+function CVarsfun.Update_SpellQueueClass()
+	if PIGA["CVars"]["SpellQueueClass"] then
+		local vvvv=400
+		local ClassData=PlayerInfo.ClassData
+		local classId=ClassData.classId
+		local tisptxt=ClassData.className
+		local TalentOpenIndex=GetpeizhiData(classId)
+		if TalentOpenIndex==1 then
+			local datax=PIGA["CVars"]["SpellQueueData"]
+			vvvv=datax and datax[classId] or 400
+		elseif TalentOpenIndex==2 then
+			local tfdata=GetTianfuIcon(false,classId,"player")
+			if tfdata and tfdata[1] and tfdata[4] and tfdata[4]>0 and PIGA["CVars"]["SpellQueueTalent"][classId] then
+				vvvv=PIGA["CVars"]["SpellQueueTalent"][classId][tfdata[4]+1]
+				tisptxt=tisptxt.."-"..tfdata[1]
 			end
-        end     
-    end);
-    butxx:SetScript("OnShow", function (self)
-        self:SetChecked(PIGA["CVars"][diyInfo[i][1]])
-    end);
-end
----常规================
-local CVarsF,CVarstabbut =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME1"],70)
-----------------------
-local function ADD_tishi(EaseUseF,CVarsV,pianyiX,pianyiY)
-	EaseUseF.tishi = CreateFrame("Frame", nil, EaseUseF);
-	EaseUseF.tishi:SetSize(28,28);
-	EaseUseF.tishi:SetPoint("LEFT", EaseUseF.Text, "RIGHT", pianyiX,pianyiY);
-	EaseUseF.tishi.Texture = EaseUseF.tishi:CreateTexture(nil, "BORDER");
-	EaseUseF.tishi.Texture:SetTexture("interface/common/help-i.blp");
-	EaseUseF.tishi.Texture:SetAllPoints(EaseUseF.tishi)
-	EaseUseF.tishi:SetScript("OnEnter", function (self)
-		GameTooltip:ClearLines();
-		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-		GameTooltip:AddLine(L["LIB_TIPS"]..": ")
-		if CVarsV=="反河蟹" then
-			GameTooltip:AddLine("\124cff00ff00此设置需退出战网和WOW客户端重新进入生效!\124r")
-		else
-			GameTooltip:AddLine("\124cff00ff00此设置需重载界面才能生效!\124r")
 		end
-		GameTooltip:Show();
-	end);
-	EaseUseF.tishi:SetScript("OnLeave", function ()
-		GameTooltip:ClearLines();
-		GameTooltip:Hide() 
-	end);
+		PIGprint(LAG_TOLERANCE.."("..tisptxt.."):"..vvvv)
+		SetCVar("SpellQueueWindow",vvvv)
+	end
 end
-local function ADD_DownMenu(fujik,min,max,menu,CVarsV,CVarsN,Point,W,rl)
-	local xialaibut=PIGDownMenu(fujik,Point,{W,nil})
-	xialaibut.t = PIGFontString(xialaibut,{"RIGHT",xialaibut,"LEFT",-4,0},CVarsN);
-	function xialaibut:PIGDownMenu_Update_But()
-		local info = {}
-		info.func = self.PIGDownMenu_SetValue
-		for i=min,max,1 do
-			local i = tostring(i)
-		    info.text, info.arg1 = menu[i], i
-		    info.checked = i==GetCVar(CVarsV)
-			self:PIGDownMenu_AddButton(info)
-		end 
+local SpellQueueUI = CreateFrame("Frame")
+SpellQueueUI:RegisterEvent("PLAYER_ENTERING_WORLD")
+SpellQueueUI:SetScript("OnEvent", function(self,event,arg1,arg2)
+	if event=="PLAYER_ENTERING_WORLD" then
+		SpellQueueUI:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		--SpellQueueUI:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+		SpellQueueUI:RegisterEvent("PLAYER_TALENT_UPDATE")
+	else
+		if self.xxxTicker then self.xxxTicker:Cancel() end
+		self.xxxTicker=C_Timer.NewTimer(1,function()
+			CVarsfun.Update_SpellQueueClass()
+		end)
 	end
-	function xialaibut:PIGDownMenu_SetValue(value,arg1,arg2)
-		self:PIGDownMenu_SetText(value)
-		SetCVar(CVarsV, arg1)
-		PIGCloseDropDownMenus()
+end)
+----
+local HitIndicatorHide=false
+hooksecurefunc("CombatFeedback_OnCombatEvent", function(self)
+	if HitIndicatorHide then
+		self.feedbackText:Hide()
 	end
-	xialaibut:HookScript("OnShow", function (self)
-		self:PIGDownMenu_SetText(menu[GetCVar(CVarsV)])
-	end);
-	if rl then
-		ADD_tishi(xialaibut,nil,22,0)
-	end
-	return xialaibut
-end
-----------
+end)
 local chaoyuanshijuVVV = {"cameraDistanceMaxZoomFactor","2.6"}
 if PIG_MaxTocversion(80000) then
 	chaoyuanshijuVVV = {"cameraDistanceMaxZoomFactor","4"}
@@ -299,291 +255,512 @@ end
 local function chaoyuanshijujihuo()
     SetCVar(chaoyuanshijuVVV[1], chaoyuanshijuVVV[2])
 end
-local CVarsList1 = {
-	--{"常驻显示角色信息","characterFrameCollapsed","1","0","开启后常驻显示角色信息",false},
-	{SELF_CAST_AUTO..BINDING_NAME_DISMOUNT,"autoDismount","1","0",SELF_CAST_AUTO..BINDING_NAME_DISMOUNT,false},
-	{AUTO_DISMOUNT_FLYING_TEXT..MOUNTS,"autoDismountFlying","1","0",AUTO_DISMOUNT_FLYING_TEXT..MOUNTS,false},
-	{SHOW_BUFF_DURATION_TEXT,"buffDurations","1","0",OPTION_TOOLTIP_SHOW_BUFF_DURATION,false},
-	{SHOW_ALL_ENEMY_DEBUFFS_TEXT,"noBuffDebuffFilterOnTarget","1","0",SHOW_ALL_ENEMY_DEBUFFS_TEXT,false},
-	{"显示预估治疗量","predictedHealth","1","0","在血量框架上显示预估治疗量",false},
-	---
-	{MAX_FOLLOW_DIST,chaoyuanshijuVVV[1],chaoyuanshijuVVV[2],GetCVarDefault(chaoyuanshijuVVV[1]),MAX_FOLLOW_DIST,false},
-	{ACTION_BUTTON_USE_KEY_DOWN,"ActionButtonUseKeyDown","1","0",OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN,false},
-	{FULL_SCREEN_GLOW,"ffxGlow","1","0",OPTION_TOOLTIP_FULL_SCREEN_GLOW,false},
-	{DEATH_EFFECT,"ffxDeath","1","0",OPTION_TOOLTIP_DEATH_EFFECT,false},
-	{"新版TAB","TargetNearestUseNew","1","0","使用7.2版后的TAB选取目标功能,战斗中不会Tab到战斗外目标,不会Tab到你的角色或镜头看不到的目标。\n关闭后将启用旧版的选取最近目标。",false},
-	{"技能详细提示","UberTooltips","1","0","启用技能详细提示",false},
-	{"反河蟹","overrideArchive","0","1","恢复某些模型的和谐之前的样子，例如骷髅药水不再是长肉的骷髅",true},
-}
-if PIG_MaxTocversion(100000,true) then
-	table.insert(CVarsList1,9,{CAMERA_FOV,"cameraFov","90",GetCVarDefault("cameraFov"),"启用最大镜头视野范围",false})
-end
-for i=1,#CVarsList1 do
-	local CVarsCB = PIGCheckbutton_R(CVarsF,{CVarsList1[i][1],CVarsList1[i][5]},true,7)
-	if CVarsList1[i][6] then
-		ADD_tishi(CVarsCB,CVarsList1[i][1],-2,0)
-	end
-	CVarsCB:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			SetCVar(CVarsList1[i][2], CVarsList1[i][3])
-			if CVarsList1[i][2]==chaoyuanshijuVVV[1] then
-				PIGA["CVars"]["MaxZoom"]=true
-			end
-		else
-			SetCVar(CVarsList1[i][2], CVarsList1[i][4])
-			if CVarsList1[i][2]==chaoyuanshijuVVV[1] then
-				PIGA["CVars"]["MaxZoom"]=false
-			end
-		end
-		if CVarsList1[i][6] then
-			PIG_OptionsUI.RLUI:Show()
-		end
-	end)
-	CVarsCB:HookScript("OnShow", function (self)
-		if GetCVar(CVarsList1[i][2])==CVarsList1[i][3] then
-			self:SetChecked(true);
-		end
-	end)
-end
-------
-ADD_DownMenu(CVarsF,1,3,{["1"]="默认",["2"]="所有PVP目标",["3"]="仅限玩家"},"TargetPriorityPvp","TAB优先级",{"TOPLEFT",CVarsF,"TOPLEFT",100,-360},130)
----
-local tianqiName = {["0"]="小雨",["1"]="中雨",["2"]="大雨",["3"]="暴雨"}
-ADD_DownMenu(CVarsF,0,3,tianqiName,"weatherDensity","天气效果",{"TOPLEFT",CVarsF,"TOPLEFT",400,-360},100)
----
-local xueyeLVName = {["0"]="无",["1"]="略微",["2"]="少量",["3"]="普通",["4"]="暴力",["5"]="很暴力"}
-ADD_DownMenu(CVarsF,0,5,xueyeLVName,"violenceLevel","血液效果",{"TOPLEFT",CVarsF,"TOPLEFT",400,-400},100,true)
-
---施法延迟容限====
-local toleranceF =PIGOptionsList_R(RTabFrame,LAG_TOLERANCE,90)
-toleranceF.wt = PIGFontString(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-10},"警告: 如果你不理解此功能作用，请不要随意更改此选项，保持默认值(400ms)即可");
-toleranceF.wt:SetTextColor(1, 0, 0, 1)
-toleranceF.SpellQueue = PIGSlider(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-30},{10,400,1,{["Right"]=REDUCED_LAG_TOLERANCE}})
-function toleranceF.SpellQueue:PIGOnValueChange(arg1)
-	SetCVar("SpellQueueWindow",arg1)
-end
-toleranceF.err = PIGFontString(toleranceF,{"LEFT",toleranceF.SpellQueue.RightText,"RIGHT",0,0},"根据职业动态调整");
-toleranceF.err:SetTextColor(1, 0, 0, 1)
-toleranceF.err:Hide()
-toleranceF.wt1 = PIGFontString(toleranceF,{"TOPLEFT",toleranceF.SpellQueue,"BOTTOMLEFT",0,0},"|cff00FF00"..OPTION_TOOLTIP_REDUCED_LAG_TOLERANCE.."|r\n|cffFFFF00Pig作者备注:以上为暴雪官方提示，根据玩家实践建议在你平均世界延迟基础上+150|r");
-toleranceF.wt1:SetWidth(toleranceF:GetWidth()-40)
-toleranceF.wt1:SetJustifyH("LEFT")
-toleranceF.classOpen = PIGCheckbutton(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-130},{"根据职业动态调整"})
-toleranceF.classOpen:SetScript("OnClick", function (self)
-    if self:GetChecked() then
-        PIGA["CVars"]["SpellQueueClass"]=true;
-    else
-        PIGA["CVars"]["SpellQueueClass"]=nil;
-    end
+PD.CVars = function()
+	BigDeBuff()
+    CVarsfun.EaseUseCVars()
+    CVarsfun.Shaman_Blue()
     CVarsfun.Update_SpellQueueClass()
-end)
-toleranceF.butlist={}
-local jishuxi=0
-for i=1,#Data.cl_Name do
-	local classFile, cl_Name_Role, className, classID = unpack(Data.cl_Name[i])
-	if classFile then
-		local hang = CreateFrame("Frame", nil, toleranceF);
-		hang:SetSize(20,20);
-		if jishuxi>10 then
-			hang:SetPoint("TOPLEFT",toleranceF,"TOPLEFT",340,-160-((jishuxi-11)*30));
-		else
-			hang:SetPoint("TOPLEFT",toleranceF,"TOPLEFT",40,-160-(jishuxi*30));
-		end
-		hang.classID=classID
-		jishuxi=jishuxi+1
-		hang.iconx = hang:CreateTexture()
-		hang.iconx:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
-		hang.iconx:SetSize(20,20);
-		hang.iconx:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
-		hang.iconx:SetPoint("LEFT",hang,"LEFT",0,0);
-		hang.DQ = hang:CreateTexture();
-		hang.DQ:SetTexture("interface/common/indicator-green.blp")
-		hang.DQ:SetPoint("RIGHT", hang.iconx, "LEFT", -1,0);
-		hang.DQ:SetSize(20,20);
-		
-		hang.namex  = PIGFontString(hang,{"LEFT",hang.iconx,"RIGHT",2,0});
-		hang.namex:SetText(className);
-		local color = PIG_CLASS_COLORS[classFile];
-		hang.namex:SetTextColor(color.r, color.g, color.b,1);
-		hang.setvv  = PIGSlider(hang,{"LEFT",hang.iconx,"RIGHT",70,0},{10,400,1})
-		function hang.setvv:PIGOnValueChange(arg1)
-			PIGA["CVars"]["SpellQueueData"]=PIGA["CVars"]["SpellQueueData"] or {}
-			if arg1==400 then
-				PIGA["CVars"]["SpellQueueData"][classID]=nil
-			else
-				PIGA["CVars"]["SpellQueueData"][classID]=arg1
-			end
-			CVarsfun.Update_SpellQueueClass()
-		end
-		toleranceF.butlist[jishuxi]=hang
+    CVarsfun.Fast_Loot()
+	if PIGA["CVars"]["MaxZoom"] then
+		C_Timer.After(3, chaoyuanshijujihuo)
 	end
+	HitIndicatorHide=PIGA["CVars"]["HitIndicator"]
 end
-toleranceF:HookScript("OnShow", function (self)
-	self.SpellQueue:PIGSetValue(GetCVar("SpellQueueWindow"))
-	self.classOpen:SetChecked(PIGA["CVars"]["SpellQueueClass"])
-	local datax=PIGA["CVars"]["SpellQueueData"]
-	for index,hang in pairs(toleranceF.butlist) do
-		local vvvv=datax and datax[hang.classID] or 400
-		hang.setvv:PIGSetValue(vvvv)
-		hang.DQ:SetShown(PIG_OptionsUI.ClassData.classId==hang.classID)
+function PD.addOptions_CVars()
+	local fuFrame = PIGOptionsList(L["CVAR_TABNAME"],"TOP")
+	local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
+
+	----易用性---------
+	local EaseUseF,EaseUsetabbut =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME0"],70)
+	EaseUseF:Show()
+	EaseUsetabbut:Selected(true)
+	EaseUseF:HookScript("OnShow", function (self)
+		if EaseUseF.F then return end
+		EaseUseF.F=PIGFrame(EaseUseF,{"TOPLEFT", EaseUseF, "TOPLEFT", 40, -40})
+		EaseUseF.F:SetPoint("TOPRIGHT", EaseUseF, "TOPRIGHT", -40, -40);
+		EaseUseF.F:SetHeight(260)
+		EaseUseF.F:PIGSetBackdrop(0)
+
+		EaseUseF.F.Open = PIGCheckbutton(EaseUseF.F,{"BOTTOMLEFT",EaseUseF.F,"TOPLEFT",-20,4},{"|cff00FF00自动"..SETTINGS..L["CVAR_TABNAME0"].."CVars|r"})
+		EaseUseF.F.Open.t = PIGFontString(EaseUseF.F.Open,{"LEFT",EaseUseF.F.Open.Text,"RIGHT",4,0});
+		EaseUseF.F.Open:SetScript("OnClick", function (self)
+		    if self:GetChecked() then
+		        PIGA["CVars"]["EaseUse"]=true;
+		    else
+		        PIGA["CVars"]["EaseUse"]=false;
+		    end
+		    CVarsfun.EaseUseCVars()
+		    EaseUseF.F.Show_Checked()
+		end)
+		EaseUseF.F.Open:SetChecked(PIGA["CVars"]["EaseUse"])
+
+		EaseUseF.F.ListBut={}
+		for i=1,#CVarsVList do
+		    local AutoCVars =PIGCheckbutton(EaseUseF.F,nil,{CVarsVList[i][4],CVarsVList[i][5]})
+		    EaseUseF.F.ListBut[i]=AutoCVars
+		    if i==1 then
+		        AutoCVars:SetPoint("TOPLEFT",EaseUseF.F,"TOPLEFT",20,-20);
+		    else
+		        if i % 2 == 0 then
+		            AutoCVars:SetPoint("LEFT",EaseUseF.F.ListBut[i-1],"RIGHT",220,0);
+		        else
+		            AutoCVars:SetPoint("TOPLEFT",EaseUseF.F.ListBut[i-2],"BOTTOMLEFT",0,-20);
+		        end
+		    end  
+		    AutoCVars:SetScript("OnClick", function (self)
+		        if self:GetChecked() then
+		            SetCVar(CVarsVList[i][1], CVarsVList[i][2])
+		        else
+		            SetCVar(CVarsVList[i][1], CVarsVList[i][3])
+		        end
+		        if CVarsVList[i][6] then CVarsVList[i][6](CVarsVList[i][1],CVarsVList[i][2],CVarsVList[i][3]) end
+		    end);
+		end
+		function EaseUseF.F.Show_Checked()
+		    if PIGA["CVars"]["EaseUse"] then
+		        EaseUseF.F.Open.t:SetText("|cffFFFF00(当前为自动"..SETTINGS..MODE..",关闭可"..CUSTOM..SETTINGS..")|r")
+		        for i=1,#CVarsVList do
+		            EaseUseF.F.ListBut[i]:SetEnabled(false)
+		            EaseUseF.F.ListBut[i]:SetChecked(true)
+		        end
+		    else
+		        EaseUseF.F.Open.t:SetText("|cffFFFF00(当前为"..CUSTOM..SETTINGS..MODE..")|r")
+		        for i=1,#CVarsVList do
+		            EaseUseF.F.ListBut[i]:SetEnabled(true)
+		            if GetCVar(CVarsVList[i][1])==CVarsVList[i][2] then
+		                EaseUseF.F.ListBut[i]:SetChecked(true)
+		            else
+		                EaseUseF.F.ListBut[i]:SetChecked(false)
+		            end
+		        end
+		    end  
+		end
+		EaseUseF.F.Show_Checked()
+		if GetCVarDefault("showDynamicBuffSize") then
+			SHOW_DYNAMIC_BUFF_SIZE=SHOW_DYNAMIC_BUFF_SIZE or "自身增减益放大"
+			EaseUseF.F.debuffSizeV = PIGSlider(EaseUseF.F,{"TOPLEFT",EaseUseF.F,"BOTTOMLEFT",2,0},{21,40,1,{["Right"]=SHOW_DYNAMIC_BUFF_SIZE.."%d (默认21)"}})
+			function EaseUseF.F.debuffSizeV:PIGOnValueChange(arg1)
+				LARGE_AURA_SIZE=arg1
+				if arg1==old_LARGE_AURA_SIZE then 
+					PIGA["CVars"]["debuffSizeV"]=nil
+				else
+					PIGA["CVars"]["debuffSizeV"]=arg1
+				end
+				SetBigDeBuffVV()
+			end
+			EaseUseF.F.debuffSizeV:PIGSetValue(LARGE_AURA_SIZE)
+		end
+		-----------
+		EaseUseF.diyF=PIGFrame(EaseUseF,{"TOPLEFT", EaseUseF, "TOPLEFT", 10, -340})
+		EaseUseF.diyF:SetPoint("BOTTOMRIGHT", EaseUseF, "BOTTOMRIGHT", -10, 10);
+		EaseUseF.diyF:SetHeight(100)
+		EaseUseF.diyF:PIGSetBackdrop(0)
+
+		local diyInfo={}
+		if PIG_MaxTocversion() then
+		    table.insert(diyInfo,{"Fast_Loot",false,"加快拾取速度","在开启自动拾取时加快你的拾取速度(在队长分配不起作用)"})
+		end
+		if PIG_MaxTocversion(20000) then
+			table.insert(diyInfo,{"Shaman_Blue",true,USE..BLUE_GEM..ClassFile_Name["SHAMAN"]..CLASS_COLORS})
+		end
+		for i=1,#diyInfo do
+		    local butxx=PIGCheckbutton_R(EaseUseF.diyF,{diyInfo[i][3],diyInfo[i][4] or diyInfo[i][3]})
+		    butxx:SetScript("OnClick", function (self)
+		        if self:GetChecked() then
+		            PIGA["CVars"][diyInfo[i][1]]=true
+		            if CVarsfun[diyInfo[i][1]] then CVarsfun[diyInfo[i][1]]() end
+		        else
+		            PIGA["CVars"][diyInfo[i][1]]=false
+		            if diyInfo[i][2] then 
+		            	PIG_OptionsUI.RLUI:Show()
+		            else
+		            	CVarsfun[diyInfo[i][1]]()
+					end
+		        end     
+		    end);
+		    butxx:SetChecked(PIGA["CVars"][diyInfo[i][1]])
+		end
+	end)
+
+	local function ADD_tishi(EaseUseF,CVarsV,pianyiX,pianyiY)
+		EaseUseF.tishi = CreateFrame("Frame", nil, EaseUseF);
+		EaseUseF.tishi:SetSize(28,28);
+		EaseUseF.tishi:SetPoint("LEFT", EaseUseF.Text, "RIGHT", pianyiX,pianyiY);
+		EaseUseF.tishi.Texture = EaseUseF.tishi:CreateTexture(nil, "BORDER");
+		EaseUseF.tishi.Texture:SetTexture("interface/common/help-i.blp");
+		EaseUseF.tishi.Texture:SetAllPoints(EaseUseF.tishi)
+		EaseUseF.tishi:SetScript("OnEnter", function (self)
+			GameTooltip:ClearLines();
+			GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+			GameTooltip:AddLine(L["LIB_TIPS"]..": ")
+			if CVarsV=="反河蟹" then
+				GameTooltip:AddLine("\124cff00ff00此设置需退出战网和WOW客户端重新进入生效!\124r")
+			else
+				GameTooltip:AddLine("\124cff00ff00此设置需重载界面才能生效!\124r")
+			end
+			GameTooltip:Show();
+		end);
+		EaseUseF.tishi:SetScript("OnLeave", function ()
+			GameTooltip:ClearLines();
+			GameTooltip:Hide() 
+		end);
 	end
-end);
-function CVarsfun.Update_SpellQueueClass()
-	toleranceF.err:SetShown(PIGA["CVars"]["SpellQueueClass"])
-	toleranceF.SpellQueue:SetEnabled(not PIGA["CVars"]["SpellQueueClass"])
-	if PIGA["CVars"]["SpellQueueClass"] then
-		local datax=PIGA["CVars"]["SpellQueueData"]
-		local vvvv=datax and datax[PIG_OptionsUI.ClassData.classId] or 400
-		SetCVar("SpellQueueWindow",vvvv)
+	local function ADD_DownMenu(fujik,min,max,menu,CVarsV,CVarsN,Point,W,rl)
+		local xialaibut=PIGDownMenu(fujik,Point,{W,nil})
+		xialaibut.t = PIGFontString(xialaibut,{"RIGHT",xialaibut,"LEFT",-4,0},CVarsN);
+		function xialaibut:PIGDownMenu_Update_But()
+			local info = {}
+			info.func = self.PIGDownMenu_SetValue
+			for i=min,max,1 do
+				local i = tostring(i)
+			    info.text, info.arg1 = menu[i], i
+			    info.checked = i==GetCVar(CVarsV)
+				self:PIGDownMenu_AddButton(info)
+			end 
+		end
+		function xialaibut:PIGDownMenu_SetValue(value,arg1,arg2)
+			self:PIGDownMenu_SetText(value)
+			SetCVar(CVarsV, arg1)
+			PIGCloseDropDownMenus()
+		end
+		xialaibut:PIGDownMenu_SetText(menu[GetCVar(CVarsV)])
+		if rl then
+			ADD_tishi(xialaibut,nil,22,0)
+		end
+		return xialaibut
+	end
+	---常规================
+	local CVarsF,CVarstabbut =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME1"],70)
+	CVarsF:HookScript("OnShow", function (self)
+		if self.yijiazai then return end
+		self.yijiazai=true
+		----------
+		local CVarsList1 = {
+			--{"常驻显示角色信息","characterFrameCollapsed","1","0","开启后常驻显示角色信息",false},
+			{SELF_CAST_AUTO..BINDING_NAME_DISMOUNT,"autoDismount","1","0",SELF_CAST_AUTO..BINDING_NAME_DISMOUNT,false},
+			{AUTO_DISMOUNT_FLYING_TEXT..MOUNTS,"autoDismountFlying","1","0",AUTO_DISMOUNT_FLYING_TEXT..MOUNTS,false},
+			{SHOW_BUFF_DURATION_TEXT,"buffDurations","1","0",OPTION_TOOLTIP_SHOW_BUFF_DURATION,false},
+			{SHOW_ALL_ENEMY_DEBUFFS_TEXT,"noBuffDebuffFilterOnTarget","1","0",SHOW_ALL_ENEMY_DEBUFFS_TEXT,false},
+			{"显示预估治疗量","predictedHealth","1","0","在血量框架上显示预估治疗量",false},
+			---
+			{MAX_FOLLOW_DIST,chaoyuanshijuVVV[1],chaoyuanshijuVVV[2],GetCVarDefault(chaoyuanshijuVVV[1]),MAX_FOLLOW_DIST,false},
+			{ACTION_BUTTON_USE_KEY_DOWN,"ActionButtonUseKeyDown","1","0",OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN,false},
+			{FULL_SCREEN_GLOW,"ffxGlow","1","0",OPTION_TOOLTIP_FULL_SCREEN_GLOW,false},
+			{DEATH_EFFECT,"ffxDeath","1","0",OPTION_TOOLTIP_DEATH_EFFECT,false},
+			{"新版TAB","TargetNearestUseNew","1","0","使用7.2版后的TAB选取目标功能,战斗中不会Tab到战斗外目标,不会Tab到你的角色或镜头看不到的目标。\n关闭后将启用旧版的选取最近目标。",false},
+			{"技能详细提示","UberTooltips","1","0","启用技能详细提示",false},
+			{"反河蟹","overrideArchive","0","1","恢复某些模型的和谐之前的样子，例如骷髅药水不再是长肉的骷髅",true},
+		}
+		if PIG_MaxTocversion(100000,true) then
+			table.insert(CVarsList1,9,{CAMERA_FOV,"cameraFov","90",GetCVarDefault("cameraFov"),"启用最大镜头视野范围",false})
+		end
+		for i=1,#CVarsList1 do
+			local CVarsCB = PIGCheckbutton_R(CVarsF,{CVarsList1[i][1],CVarsList1[i][5]},true,7)
+			if CVarsList1[i][6] then
+				ADD_tishi(CVarsCB,CVarsList1[i][1],-2,0)
+			end
+			CVarsCB:SetScript("OnClick", function (self)
+				if self:GetChecked() then
+					SetCVar(CVarsList1[i][2], CVarsList1[i][3])
+					if CVarsList1[i][2]==chaoyuanshijuVVV[1] then
+						PIGA["CVars"]["MaxZoom"]=true
+					end
+				else
+					SetCVar(CVarsList1[i][2], CVarsList1[i][4])
+					if CVarsList1[i][2]==chaoyuanshijuVVV[1] then
+						PIGA["CVars"]["MaxZoom"]=false
+					end
+				end
+				if CVarsList1[i][6] then
+					PIG_OptionsUI.RLUI:Show()
+				end
+			end)
+			CVarsCB:SetChecked(GetCVar(CVarsList1[i][2])==CVarsList1[i][3]);
+		end
+		------
+		ADD_DownMenu(CVarsF,1,3,{["1"]="默认",["2"]="所有PVP目标",["3"]="仅限玩家"},"TargetPriorityPvp","TAB优先级",{"TOPLEFT",CVarsF,"TOPLEFT",100,-360},130)
+		---
+		local tianqiName = {["0"]="小雨",["1"]="中雨",["2"]="大雨",["3"]="暴雨"}
+		ADD_DownMenu(CVarsF,0,3,tianqiName,"weatherDensity","天气效果",{"TOPLEFT",CVarsF,"TOPLEFT",400,-360},100)
+		---
+		local xueyeLVName = {["0"]="无",["1"]="略微",["2"]="少量",["3"]="普通",["4"]="暴力",["5"]="很暴力"}
+		ADD_DownMenu(CVarsF,0,5,xueyeLVName,"violenceLevel","血液效果",{"TOPLEFT",CVarsF,"TOPLEFT",400,-400},100,true)
+	end);
+
+	--施法延迟容限====
+	local toleranceF =PIGOptionsList_R(RTabFrame,LAG_TOLERANCE,90)
+	toleranceF:HookScript("OnShow", function (self)
+		if toleranceF.wt then return end
+		toleranceF.wt = PIGFontString(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-10},"警告: 如果你不理解此功能作用，请不要随意更改此选项，保持默认值(400ms)即可");
+		toleranceF.wt:SetTextColor(1, 0, 0, 1)
+		toleranceF.SpellQueue = PIGSlider(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-26},{10,400,1,{["Right"]=REDUCED_LAG_TOLERANCE}})
+		function toleranceF.SpellQueue:PIGOnValueChange(arg1)
+			SetCVar("SpellQueueWindow",arg1)
+		end
 		toleranceF.SpellQueue:PIGSetValue(GetCVar("SpellQueueWindow"))
-	end
-end
 
----浮动战斗信息====================
-local combattextF =PIGOptionsList_R(RTabFrame,FLOATING_COMBATTEXT_LABEL,100)
-local combattext1 = {
-	{OPTION_TOOLTIP_SHOW_COMBAT_HEALING,"floatingCombatTextCombatHealing","1","0",OPTION_TOOLTIP_SHOW_COMBAT_HEALING,false},
-	{OPTION_TOOLTIP_SHOW_DAMAGE,"floatingCombatTextCombatDamage","1","0",OPTION_TOOLTIP_SHOW_DAMAGE,false},
-	{"目标伤害旧版弹出方式","floatingCombatTextCombatDamageDirectionalScale","0","1","开启后伤害弹出数字将会从目标上方弹出，而不是发散样式",false},
-}
-if PIG_MaxTocversion(110000,true) then
-	for k,v in pairs(combattext1) do
-		v[2]=v[2].."_v2"
-	end
-end
-for i=1,#combattext1 do
-	local CVarsCB = PIGCheckbutton_R(combattextF,{combattext1[i][1],combattext1[i][5]})
-	if combattext1[i][6] then
-		ADD_tishi(CVarsCB,combattext1[i][1],-2,0)
-	end
-	CVarsCB:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			SetCVar(combattext1[i][2], combattext1[i][3])
-			if combattext1[i][2]==chaoyuanshijuVVV[1] then
-				PIGA["CVars"]["MaxZoom"]=true
+		toleranceF.err = PIGFontString(toleranceF,{"LEFT",toleranceF.SpellQueue.RightText,"RIGHT",0,0},"已开启职业动态调整");
+		toleranceF.err:SetTextColor(1, 0, 0, 1)
+		toleranceF.err:Hide()
+		toleranceF.wt1 = PIGFontString(toleranceF,{"TOPLEFT",toleranceF.SpellQueue,"BOTTOMLEFT",0,0},"|cff00FF00"..OPTION_TOOLTIP_REDUCED_LAG_TOLERANCE.."|r\n|cffFFFF00Pig作者备注:以上为暴雪官方提示，根据玩家实践建议在你平均世界延迟基础上+150|r");
+		toleranceF.wt1:SetWidth(toleranceF:GetWidth()-40)
+		toleranceF.wt1:SetJustifyH("LEFT")
+
+		toleranceF.SpellQueueClass = PIGCheckbutton(toleranceF,{"TOPLEFT",toleranceF,"TOPLEFT",20,-104},{"根据职业动态调整"})
+		toleranceF.SpellQueueClass:SetChecked(PIGA["CVars"]["SpellQueueClass"])
+		toleranceF.SpellQueueClass:SetScript("OnClick", function (self)
+		    if self:GetChecked() then
+		        PIGA["CVars"]["SpellQueueClass"]=true;
+		    else
+		        PIGA["CVars"]["SpellQueueClass"]=false;
+		    end
+		    CVarsfun.Update_SpellQueueClass()
+		    toleranceF.Update_SetUI()
+		end)
+		toleranceF.butlist={}
+		local tianfuTabIcon=TalentData.tianfuTabIcon
+		local GetTalentNum=TalentData.GetTalentNum
+		local jishuxi=0
+		local tenggilist={"通用","天赋"}
+		local function SetpeizhiData(classID,index)
+			if not PIGA["CVars"]["SpellQueueTalent"][classID] then
+				PIGA["CVars"]["SpellQueueTalent"][classID]= {index,400,400,400,400}
+				return 
 			end
-		else
-			SetCVar(combattext1[i][2], combattext1[i][4])
-			if combattext1[i][2]==chaoyuanshijuVVV[1] then
-				PIGA["CVars"]["MaxZoom"]=false
+			PIGA["CVars"]["SpellQueueTalent"][classID][1]=index
+		end
+		for i=1,#Data.cl_Name do
+			local classFile, cl_Name_Role, className, classID = unpack(Data.cl_Name[i])
+			if classFile then
+				local hang = CreateFrame("Frame", nil, toleranceF);
+				hang.classID=classID
+				jishuxi=jishuxi+1
+				toleranceF.butlist[jishuxi]=hang
+				hang:SetSize(20,20);
+				if i==1 then
+					hang:SetPoint("TOPLEFT",toleranceF.SpellQueueClass,"BOTTOMLEFT",4,-8);
+				else
+					hang:SetPoint("TOPLEFT",toleranceF.butlist[jishuxi-1],"BOTTOMLEFT",0,-8);
+				end
+				hang.iconx = hang:CreateTexture()
+				hang.iconx:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
+				hang.iconx:SetSize(20,20);
+				hang.iconx:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
+				hang.iconx:SetPoint("LEFT",hang,"LEFT",0,0);
+				hang.DQ = hang:CreateTexture();
+				hang.DQ:SetTexture("interface/common/indicator-green.blp")
+				hang.DQ:SetPoint("RIGHT", hang.iconx, "LEFT", -1,0);
+				hang.DQ:SetSize(20,20);
+				
+				hang.ClassTalent=PIGDownMenu(hang,{"LEFT",hang.iconx,"RIGHT",4,0},{60,22})
+				function hang.ClassTalent:PIGDownMenu_Update_But()
+					local info = {}
+					info.func = self.PIGDownMenu_SetValue
+					local setindex=GetpeizhiData(classID)
+					for iv=1,#tenggilist,1 do
+					    info.text, info.arg1 = tenggilist[iv], iv
+					    info.checked = iv==setindex
+						self:PIGDownMenu_AddButton(info)
+					end 
+				end
+				function hang.ClassTalent:PIGDownMenu_SetValue(value,arg1,arg2)
+					self:PIGDownMenu_SetText(value)
+					SetpeizhiData(classID,arg1)
+					CVarsfun.Update_SpellQueueClass()
+				   	toleranceF.Update_SetUI()
+					PIGCloseDropDownMenus()
+				end
+				
+				hang.SliderButList={}
+				function hang:Update_SliderList()
+					local maxnum=1
+					local TalentOpenIndex=GetpeizhiData(classID)
+					hang.ClassTalent:PIGDownMenu_SetText(tenggilist[TalentOpenIndex])
+					hang.ClassTalent:SetEnabled(PIGA["CVars"]["SpellQueueClass"])
+					if TalentOpenIndex==2 then maxnum=GetTalentNum(classFile) end
+					for ix=1,maxnum do
+						if not hang.SliderButList[ix] then
+							hang.SliderButList[ix] = PIGSlider(hang,{"LEFT",hang.ClassTalent,"RIGHT",170*(ix-1)+24,0},{30,400,1},120)
+							hang.SliderButList[ix].Icon=PIGDiyTex(hang.SliderButList[ix],{"RIGHT", hang.SliderButList[ix], "LEFT", 0,0},{22,22,nil,nil,tianfuTabIcon[classFile][ix]})
+						end
+						local SliderBut=hang.SliderButList[ix]
+						function SliderBut:PIGOnValueChange(arg1)
+							if TalentOpenIndex==2 then
+								PIGA["CVars"]["SpellQueueTalent"][classID][ix+1]=arg1
+							else
+								PIGA["CVars"]["SpellQueueData"]=PIGA["CVars"]["SpellQueueData"] or {}
+								if arg1==400 then
+									PIGA["CVars"]["SpellQueueData"][classID]=nil
+								else
+									PIGA["CVars"]["SpellQueueData"][classID]=arg1
+								end
+							end
+
+							CVarsfun.Update_SpellQueueClass()
+							toleranceF.SpellQueue:PIGSetValue(GetCVar("SpellQueueWindow"))
+						end
+					end
+					for _,butx in pairs(hang.SliderButList) do
+						butx:Hide()
+						butx.Icon:Hide()
+					end
+					if TalentOpenIndex==2 then
+						for ixx=1,maxnum do
+							hang.SliderButList[ixx]:PIGSetValue(PIGA["CVars"]["SpellQueueTalent"][classID][ixx+1])
+							hang.SliderButList[ixx]:SetEnabled(PIGA["CVars"]["SpellQueueClass"])
+							hang.SliderButList[ixx]:Show()
+							hang.SliderButList[ixx].Icon:Show()
+						end
+					else
+						local datax=PIGA["CVars"]["SpellQueueData"]
+						local vvvv=datax and datax[classID] or 400
+						hang.SliderButList[1]:PIGSetValue(vvvv)
+						hang.SliderButList[1]:SetEnabled(PIGA["CVars"]["SpellQueueClass"])
+						hang.SliderButList[1]:Show()
+					end				
+				end
 			end
 		end
-		if combattext1[i][6] then
-			PIG_OptionsUI.RLUI:Show()
+		function toleranceF.Update_SetUI()
+			toleranceF.err:SetShown(PIGA["CVars"]["SpellQueueClass"])
+			toleranceF.SpellQueue:SetEnabled(not PIGA["CVars"]["SpellQueueClass"])
+			toleranceF.SpellQueue:PIGSetValue(GetCVar("SpellQueueWindow"))
+			for index,hang in pairs(toleranceF.butlist) do
+				hang.DQ:SetShown(PlayerInfo.ClassData.classId==hang.classID)
+				hang:Update_SliderList()
+			end
 		end
-	end)
-	CVarsCB:HookScript("OnShow", function (self)
-		if GetCVar(combattext1[i][2])==combattext1[i][3] then
-			self:SetChecked(true);
+		toleranceF.Update_SetUI()
+	end);
+	---浮动战斗信息====================
+	local combattextF =PIGOptionsList_R(RTabFrame,FLOATING_COMBATTEXT_LABEL,100)
+	combattextF:HookScript("OnShow", function (self)
+		if combattextF.RF then return end
+		local combattext1 = {
+			{OPTION_TOOLTIP_SHOW_COMBAT_HEALING,"floatingCombatTextCombatHealing","1","0",OPTION_TOOLTIP_SHOW_COMBAT_HEALING,false},
+			{OPTION_TOOLTIP_SHOW_DAMAGE,"floatingCombatTextCombatDamage","1","0",OPTION_TOOLTIP_SHOW_DAMAGE,false},
+			{"目标伤害旧版弹出方式","floatingCombatTextCombatDamageDirectionalScale","0","1","开启后伤害弹出数字将会从目标上方弹出，而不是发散样式",false},
+		}
+		if PIG_MaxTocversion(110000,true) then
+			for k,v in pairs(combattext1) do
+				v[2]=v[2].."_v2"
+			end
 		end
-	end)
-end
-local combattext2 = {
-	{HIDE..COMBAT_SELF..FLOATING_COMBATTEXT_LABEL,nil,"HitIndicator",false,},
-}
-for i=1,#combattext2 do
-	local CVarsCB = PIGCheckbutton_R(combattextF,{combattext2[i][1],combattext2[i][2] or combattext2[i][1]})
-	if combattext2[i][6] then
-		ADD_tishi(CVarsCB,combattext2[i][1],-2,0)
-	end
-	CVarsCB:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["CVars"][combattext2[i][3]]=true
-			combattextF.HitIndicatorHide=true
-		else
-			PIGA["CVars"][combattext2[i][3]]=false
-			combattextF.HitIndicatorHide=false
+		for i=1,#combattext1 do
+			local CVarsCB = PIGCheckbutton_R(combattextF,{combattext1[i][1],combattext1[i][5]})
+			if combattext1[i][6] then
+				ADD_tishi(CVarsCB,combattext1[i][1],-2,0)
+			end
+			CVarsCB:SetScript("OnClick", function (self)
+				if self:GetChecked() then
+					SetCVar(combattext1[i][2], combattext1[i][3])
+					if combattext1[i][2]==chaoyuanshijuVVV[1] then
+						PIGA["CVars"]["MaxZoom"]=true
+					end
+				else
+					SetCVar(combattext1[i][2], combattext1[i][4])
+					if combattext1[i][2]==chaoyuanshijuVVV[1] then
+						PIGA["CVars"]["MaxZoom"]=false
+					end
+				end
+				if combattext1[i][6] then
+					PIG_OptionsUI.RLUI:Show()
+				end
+			end)
+			CVarsCB:SetChecked(GetCVar(combattext1[i][2])==combattext1[i][3]);
 		end
-		if combattext2[i][4] then
-			PIG_OptionsUI.RLUI:Show()
+		local combattext2 = {
+			{HIDE..COMBAT_SELF..FLOATING_COMBATTEXT_LABEL,nil,"HitIndicator",false,},
+		}
+		for i=1,#combattext2 do
+			local CVarsCB = PIGCheckbutton_R(combattextF,{combattext2[i][1],combattext2[i][2] or combattext2[i][1]})
+			if combattext2[i][6] then
+				ADD_tishi(CVarsCB,combattext2[i][1],-2,0)
+			end
+			CVarsCB:SetScript("OnClick", function (self)
+				if self:GetChecked() then
+					PIGA["CVars"][combattext2[i][3]]=true
+					HitIndicatorHide=true
+				else
+					PIGA["CVars"][combattext2[i][3]]=false
+					HitIndicatorHide=false
+				end
+				if combattext2[i][4] then
+					PIG_OptionsUI.RLUI:Show()
+				end
+			end)
+			CVarsCB:SetChecked(PIGA["CVars"][combattext2[i][3]]);
 		end
-	end)
-	CVarsCB:HookScript("OnShow", function (self)
-		self:SetChecked(PIGA["CVars"][combattext2[i][3]]);
-	end)
-end
-hooksecurefunc("CombatFeedback_OnCombatEvent", function(self)
-	if combattextF.HitIndicatorHide then
-		self.feedbackText:Hide()
-	end
-end)
-local enableFloatingCombatText="enableFloatingCombatText"
-local WorldTextScale="WorldTextScale"
-local floatingCombatTextFloatMode="floatingCombatTextFloatMode"
-if PIG_MaxTocversion(110000,true) then
-	WorldTextScale=WorldTextScale.."_v2"
-	floatingCombatTextFloatMode=floatingCombatTextFloatMode.."_v2"
-end
-combattextF.RF=PIGFrame(combattextF,{"TOPLEFT",combattextF,"TOPLEFT",0,-260})
-combattextF.RF:SetPoint("BOTTOMRIGHT",combattextF,"BOTTOMRIGHT",0,0);
-combattextF.RF.OPENcombattext = PIGCheckbutton(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",20,-20},{COMBAT_TEXT_LABEL,OPTION_TOOLTIP_SHOW_COMBAT_TEXT})
-combattextF.RF.OPENcombattext:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		SetCVar(enableFloatingCombatText, "1")
-	else
-		SetCVar(enableFloatingCombatText, "0")
-	end
-end)
---浮动方式
-local fudongModeName = {["1"]=COMBAT_TEXT_SCROLL_UP,["2"]=COMBAT_TEXT_SCROLL_DOWN,["3"]=COMBAT_TEXT_SCROLL_ARC}
-ADD_DownMenu(combattextF.RF,1,3,fudongModeName,floatingCombatTextFloatMode,COMBAT_TEXT_FLOAT_MODE_LABEL,{"TOPLEFT",combattextF.RF,"TOPLEFT",170,-60},100)
----
-combattextF.RF.fudongScale = PIGSlider(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",40,-100},{1,3,0.1,{["Right"]=FLOATING_COMBATTEXT_LABEL.."缩放%d%%"}})
-function combattextF.RF.fudongScale:PIGOnValueChange(arg1)
-	SetCVar(WorldTextScale,arg1)
-end
-combattextF.RF:HookScript("OnShow", function (self)
-	self.fudongScale:PIGSetValue(GetCVar(WorldTextScale))
-	self.OPENcombattext:SetChecked(GetCVar(enableFloatingCombatText)=="1");
-end);
----姓名板
-if PIG_MaxTocversion(110000) then
-	local xingmingbanF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME2"],70)
-	local xingmingList = {
-		{SHOW..SHOW_TARGET_CASTBAR_IN_V_KEY,"nameplateShowOnlyNames","0","1",nil,true},
-		{UNIT_NAME_FRIENDLY..SHOW_TARGET_CASTBAR_IN_V_KEY..SHOW_CLASS_COLOR,"ShowClassColorInFriendlyNameplate","1","0",nil,true},
-		{COMBATLOG_FILTER_STRING_HOSTILE_PLAYERS..SHOW_TARGET_CASTBAR_IN_V_KEY..SHOW_CLASS_COLOR,"ShowClassColorInNameplate","1","0",nil,true},
-		{TARGET..SHOW_TARGET_CASTBAR_IN_V_KEY..LOCK.."在屏幕内","clampTargetNameplateToScreen","1","0",nil,false},
-	}
-	for i=1,#xingmingList do
-		local CVarsCB = PIGCheckbutton_R(xingmingbanF,{xingmingList[i][1],xingmingList[i][5] or xingmingList[i][1]},true)
-		if xingmingList[i][6] then
-			ADD_tishi(CVarsCB,xingmingList[i][1],-2,0)
-		end
-		CVarsCB:SetScript("OnClick", function (self)
+		----
+		local enableFloatingCombatText="enableFloatingCombatText"
+		local WorldTextScale="WorldTextScale_v2"
+		local floatingCombatTextFloatMode="floatingCombatTextFloatMode_v2"
+		combattextF.RF=PIGFrame(combattextF,{"TOPLEFT",combattextF,"TOPLEFT",0,-260})
+		combattextF.RF:SetPoint("BOTTOMRIGHT",combattextF,"BOTTOMRIGHT",0,0);
+		combattextF.RF.OPENcombattext = PIGCheckbutton(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",20,-20},{COMBAT_TEXT_LABEL,OPTION_TOOLTIP_SHOW_COMBAT_TEXT})
+		combattextF.RF.OPENcombattext:SetScript("OnClick", function (self)
 			if self:GetChecked() then
-				SetCVar(xingmingList[i][2], xingmingList[i][3])
+				SetCVar(enableFloatingCombatText, "1")
 			else
-				SetCVar(xingmingList[i][2], xingmingList[i][4])
-			end
-			if xingmingList[i][6] then
-				PIG_OptionsUI.RLUI:Show()
+				SetCVar(enableFloatingCombatText, "0")
 			end
 		end)
-		CVarsCB:HookScript("OnShow", function (self)
-			if GetCVar(xingmingList[i][2])==xingmingList[i][3] then
-				self:SetChecked(true);
-			end
-		end)
-	end
-	xingmingbanF.nameplatebiaoti = PIGFontString(xingmingbanF,{"TOPLEFT",xingmingbanF,"TOPLEFT",40,-170},"姓名板锁定在屏幕内显示距离");
-	xingmingbanF.nameplateTop=PIGSlider(xingmingbanF,{"TOPLEFT",xingmingbanF.nameplatebiaoti,"BOTTOMLEFT",70,-10},{0,0.2,0.01,{["Right"]="%s%%屏幕尺寸"}})
-	xingmingbanF.nameplateTop.t = PIGFontString(xingmingbanF,{"RIGHT",xingmingbanF.nameplateTop,"LEFT",-4,0},"顶部距离");
-	function xingmingbanF.nameplateTop:PIGOnValueChange(arg1)
-		SetCVar("nameplateOtherTopInset",arg1)
-	end
-	xingmingbanF.nameplateTop:HookScript("OnShow", function (self)
-		self:PIGSetValue(GetCVar("nameplateOtherTopInset"))
-	end);
-	xingmingbanF.nameplateBottom=PIGSlider(xingmingbanF,{"TOPLEFT",xingmingbanF.nameplateTop,"BOTTOMLEFT",0,0},{0,0.2,0.01,{["Right"]="%s%%屏幕尺寸"}})
-	xingmingbanF.nameplateBottom.t = PIGFontString(xingmingbanF,{"RIGHT",xingmingbanF.nameplateBottom,"LEFT",-4,0},"底部距离");
-	function xingmingbanF.nameplateBottom:PIGOnValueChange(arg1)
-		SetCVar("nameplateOtherBottomInset",arg1)
-	end
-	xingmingbanF.nameplateBottom:HookScript("OnShow", function (self)
-		self:PIGSetValue(GetCVar("nameplateOtherBottomInset"))
-	end);
+		--浮动方式
+		local fudongModeName = {["1"]=COMBAT_TEXT_SCROLL_UP,["2"]=COMBAT_TEXT_SCROLL_DOWN,["3"]=COMBAT_TEXT_SCROLL_ARC}
+		ADD_DownMenu(combattextF.RF,1,3,fudongModeName,floatingCombatTextFloatMode,COMBAT_TEXT_FLOAT_MODE_LABEL,{"TOPLEFT",combattextF.RF,"TOPLEFT",170,-60},100)
+		---
+		combattextF.RF.fudongScale = PIGSlider(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",40,-100},{1,3,0.1,{["Right"]=FLOATING_COMBATTEXT_LABEL.."缩放%d%%"}})
+		function combattextF.RF.fudongScale:PIGOnValueChange(arg1)
+			SetCVar(WorldTextScale,arg1)
+		end
+		combattextF.RF.fudongScale:PIGSetValue(GetCVar(WorldTextScale))
+		combattextF.RF.OPENcombattext:SetChecked(GetCVar(enableFloatingCombatText)=="1");
+	end)
+	---姓名板===
+	local xingmingbanF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME2"],70)
+	xingmingbanF:HookScript("OnShow", function (self)
+		if self.yiok then return end
+		self.yiok=true
+		local enemyTooltip = Settings.WrapTooltipWithBinding(OPTION_TOOLTIP_UNIT_NAMEPLATES_SHOW_ENEMIES, "NAMEPLATES");
+		local friendlyTooltip = Settings.WrapTooltipWithBinding(OPTION_TOOLTIP_UNIT_NAMEPLATES_SHOW_FRIENDS, "FRIENDNAMEPLATES");
+		local xingmingList = {
+			{"nameplateShowAll","1","0",UNIT_NAMEPLATES_AUTOMODE,OPTION_TOOLTIP_UNIT_NAMEPLATES_AUTOMODE},
+			{"nameplateShowEnemies","1","0",BINDING_NAME_NAMEPLATES, enemyTooltip()},
+			{"nameplateShowFriendlyPlayers","1","0",BINDING_NAME_FRIENDNAMEPLATES, friendlyTooltip()},
+			{"nameplateShowClassColor","1","0",OPTION_TOOLTIP_UNIT_NAMEPLATES_SHOW_ENEMIES..SHOW_CLASS_COLOR, UNIT_NAMEPLATES_CLASS_COLOR_FRIENDLY_TOOLTIP},--SHOW_CLASS_COLOR
+			{"nameplateShowFriendlyClassColor","1","0",OPTION_TOOLTIP_UNIT_NAMEPLATES_SHOW_FRIENDS..SHOW_CLASS_COLOR, UNIT_NAMEPLATES_CLASS_COLOR_ENEMY_TOOLTIP},
+			{"nameplateShowOffscreen","1","0",UNIT_NAMEPLATES_SHOW_OFFSCREEN, UNIT_NAMEPLATES_SHOW_OFFSCREEN_TOOLTIP},
+			--{"clampTargetNameplateToScreen","1","0",TARGET..SHOW_TARGET_CASTBAR_IN_V_KEY..LOCK.."在屏幕内"},
+		}
+		for i=1,#xingmingList do
+			local CVarsCB = PIGCheckbutton_R(xingmingbanF,{xingmingList[i][4],xingmingList[i][5]})
+			CVarsCB:SetScript("OnClick", function (self)
+				if self:GetChecked() then
+					SetCVar(xingmingList[i][1], xingmingList[i][2])
+				else
+					SetCVar(xingmingList[i][1], xingmingList[i][3])
+				end
+			end)
+			CVarsCB:SetChecked(GetCVar(xingmingList[i][1])==xingmingList[i][2]);
+		end
+		local namepList = {
+			{"nameplateSelectedAlpha",1,0,1,0.01,"选中姓名版透明度%d%%(|cff00FF00默认100)|r"},
+			{"nameplateNotSelectedAlpha",1,0,1,0.01,"非选中姓名版透明度%d%%|cff00FF00(默认50)|r"},
+			{"nameplateMinAlpha",1,0,1,0.01,"正面姓名版透明度%d%%|cff00FF00(默认100)|r"},
+			{"nameplateMaxAlphaDistance",40,1,GetCVar("nameplateMaxDistance"),1,"正面开始变淡的距离%d|cff00FF00(默认40)|r"},
+			{"nameplateMaxAlpha",1,0,1,0.01,"背后姓名版透明度%d%%|cff00FF00(默认100)|r"},
+			{"nameplateMinAlphaDistance",10,1,GetCVar("nameplateMaxDistance"),1,"背后姓名版开始变淡的距离%d|cff00FF00(默认10)|r"},
+			{"nameplateOccludedAlphaMult",1,0,1,0.01,"被遮挡姓名版透明度%d%%|cff00FF00(默认100)|r"},
+		}
+		for i=1,#namepList do
+			local CVarsSlider = PIGSlider(xingmingbanF,{"TOPLEFT",xingmingbanF,"TOPLEFT",20,-160-(i*40)},{namepList[i][3],namepList[i][4],namepList[i][5],{["Right"]=namepList[i][6]}},200)
+			CVarsSlider:PIGSetValue(GetCVar(namepList[i][1]))
 
+			function CVarsSlider:PIGOnValueChange(arg1)
+				SetCVar(namepList[i][1], arg1)
+			end
+		end
+	end);
 	--自身高亮
 	-- local gaoliangF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME3"],90)
 	-- local gaoliangmoshiName = {
@@ -622,9 +799,7 @@ if PIG_MaxTocversion(110000) then
 	--     findSetValue(arg1)
 	--     PIGCloseDropDownMenus()
 	-- end
-	-- gaoliangF:HookScript("OnShow", function (self)
-	--     self.findYourMode:PIGDownMenu_SetText(gaoliangmoshiName[findGetValue()])
-	-- end);
+	-- gaoliangF.findYourMode:PIGDownMenu_SetText(gaoliangmoshiName[findGetValue()])
 	--旧版高亮
 	-- local gaoliangmoshiName = {["-1"]=CLOSE,["0"]=SELF_HIGHLIGHT_MODE_CIRCLE,["1"]=SELF_HIGHLIGHT_MODE_CIRCLE_AND_OUTLINE,["2"]=SELF_HIGHLIGHT_MODE_OUTLINE}
 	-- ADD_DownMenu(gaoliangF,-1,2,gaoliangmoshiName,"findYourselfMode","高亮模式",{"TOPLEFT",gaoliangF,"TOPLEFT",90,-20},150)
@@ -654,63 +829,45 @@ if PIG_MaxTocversion(110000) then
 	-- 			SetCVar(gaoliangList[i][2], gaoliangList[i][4])
 	-- 		end
 	-- 	end);
-	-- 	CVarsCB:HookScript("OnShow", function (self)
-	-- 		if GetCVar(gaoliangList[i][2])==gaoliangList[i][3] then
-	-- 			self:SetChecked(true);
-	-- 		end
-	-- 	end);
+	-- 	CVarsCB:SetChecked(GetCVar(gaoliangList[i][2])==gaoliangList[i][3]);
 	-- end
-end
 
------
-local gaojiF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME4"],60)
-local gaojiList = {
-	--{"同步设置到服务器","synchronizeSettings","1","0",false},--已删除
-	--{"同步宏到服务器","synchronizeMacros","1","0",false},--已删除
-	{"同步键位到服务器","synchronizeBindings","1","0",true},
-	{"同步CVar到服务器","synchronizeConfig","1","0",true},
-	{"同步聊天布局到服务器","synchronizeChatFrames","1","0",true},
-}
-for i=1,#gaojiList do
-	local CVarsCB = PIGCheckbutton_R(gaojiF,{gaojiList[i][1],gaojiList[i][1]},true)
-	CVarsCB:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			SetCVar(gaojiList[i][2], gaojiList[i][3])
-		else
-			SetCVar(gaojiList[i][2], gaojiList[i][4])
+	-----
+	local gaojiF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME4"],60)
+	gaojiF:HookScript("OnShow", function (self)
+		if gaojiF.CZCVarsSET then return end
+		local gaojiList = {
+			--{"同步设置到服务器","synchronizeSettings","1","0",false},--已删除
+			--{"同步宏到服务器","synchronizeMacros","1","0",false},--已删除
+			{"同步键位到服务器","synchronizeBindings","1","0",true},
+			{"同步CVar到服务器","synchronizeConfig","1","0",true},
+			{"同步聊天布局到服务器","synchronizeChatFrames","1","0",true},
+		}
+		for i=1,#gaojiList do
+			local CVarsCB = PIGCheckbutton_R(gaojiF,{gaojiList[i][1],gaojiList[i][1]},true)
+			CVarsCB:SetScript("OnClick", function (self)
+				if self:GetChecked() then
+					SetCVar(gaojiList[i][2], gaojiList[i][3])
+				else
+					SetCVar(gaojiList[i][2], gaojiList[i][4])
+				end
+			end);
+			CVarsCB:SetChecked(GetCVar(gaojiList[i][2])==gaojiList[i][3]);
+			if not gaojiList[i][5] then
+				CVarsCB.deltxt = Create.PIGFontString(CVarsCB,{"LEFT",CVarsCB.Text,"RIGHT",20,0},"此CVars将在后续版本被删除")
+			end
 		end
-	end);
-	CVarsCB:HookScript("OnShow", function (self)
-		if GetCVar(gaojiList[i][2])==gaojiList[i][3] then
-			self:SetChecked(true);
-		else
-			self:SetChecked(false);
+		gaojiF.CZCVarsSET = CreateFrame("EditBox", nil, gaojiF, "InputBoxInstructionsTemplate");
+		gaojiF.CZCVarsSET.txt = Create.PIGFontString(gaojiF.CZCVarsSET,{"RIGHT",gaojiF.CZCVarsSET,"LEFT",-6,0},RESET.."CVars","OUTLINE",15)
+		gaojiF.CZCVarsSET:SetSize(200,30);
+		gaojiF.CZCVarsSET:SetPoint("BOTTOMLEFT",gaojiF,"BOTTOMLEFT",100,20);
+		PIGSetFont(gaojiF.CZCVarsSET, 16, "OUTLINE")
+		gaojiF.CZCVarsSET:SetAutoFocus(false);
+		gaojiF.CZCVarsSET:SetText("/console cvar_default");
+		function gaojiF.CZCVarsSET:SetTextpig()
+			self:SetText("/console cvar_default");
 		end
+		gaojiF.CZCVarsSET:SetScript("OnEscapePressed", function(self) self:SetTextpig() self:ClearFocus() end);
+		gaojiF.CZCVarsSET:SetScript("OnEditFocusLost", function(self) self:SetTextpig() end);
 	end);
-	if not gaojiList[i][5] then
-		CVarsCB.deltxt = Create.PIGFontString(CVarsCB,{"LEFT",CVarsCB.Text,"RIGHT",20,0},"此CVars将在后续版本被删除")
-	end
-end
-gaojiF.CZCVarsSET = CreateFrame("EditBox", nil, gaojiF, "InputBoxInstructionsTemplate");
-gaojiF.CZCVarsSET.txt = Create.PIGFontString(gaojiF.CZCVarsSET,{"RIGHT",gaojiF.CZCVarsSET,"LEFT",-6,0},RESET.."CVars","OUTLINE",15)
-gaojiF.CZCVarsSET:SetSize(200,30);
-gaojiF.CZCVarsSET:SetPoint("BOTTOMLEFT",gaojiF,"BOTTOMLEFT",100,20);
-PIGSetFont(gaojiF.CZCVarsSET, 16, "OUTLINE")
-gaojiF.CZCVarsSET:SetAutoFocus(false);
-gaojiF.CZCVarsSET:SetText("/console cvar_default");
-function gaojiF.CZCVarsSET:SetTextpig()
-	self:SetText("/console cvar_default");
-end
-gaojiF.CZCVarsSET:SetScript("OnEscapePressed", function(self) self:SetTextpig() self:ClearFocus() end);
-gaojiF.CZCVarsSET:SetScript("OnEditFocusLost", function(self) self:SetTextpig() end);
---==============================
-addonTable.CVars = function()
-    CVarsfun.EaseUseCVars()
-    CVarsfun.Update_SpellQueueClass()
-    CVarsfun.Fast_Loot()
-    if CVarsfun.Shaman_Blue then CVarsfun.Shaman_Blue() end
-	if PIGA["CVars"]["MaxZoom"] then
-		C_Timer.After(3, chaoyuanshijujihuo)
-	end
-	combattextF.HitIndicatorHide=PIGA["CVars"]["HitIndicator"]
 end

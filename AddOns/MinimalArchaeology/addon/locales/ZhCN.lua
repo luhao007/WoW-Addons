@@ -257,6 +257,30 @@ L["OPTIONS_START_HIDDEN_DESC"] = "总是启动迷你考古助手隐藏."
 L["OPTIONS_START_HIDDEN_TITLE"] = "开始隐藏"
 L["OPTIONS_STARTUP_NOTE"] = "说明: 这些设置不会影响伴侣框."
 L["OPTIONS_STARTUP_SETTINGS_TITLE"] = "启动设置"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_COLOR_OPACITY"] = "Border opacity"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_COLOR_TITLE"] = "Border color"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDER_THICKNESS"] = "Border thickness"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_1"] = "Default"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_2"] = "Modern"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_DESC"] = "Change border style of the Main, History and Digsites window"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BORDERSTYLE_TITLE"] = "Border Style"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_1"] = "Window border"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_2"] = "Inside window"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_BUTTONPOSITION_TITLE"] = "Button positions"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_MODERN_OPTIONS"] = "Modern border customization"
+--[[Translation missing --]]
+L["OPTIONS_STYLING_TITLE"] = "Styling"
 L["OPTIONS_SURVEY_DONT_FLYING_DESC"] = "勾选此选项防止你在飞行时施放勘测."
 L["OPTIONS_SURVEY_DONT_FLYING_TITLE"] = "不在飞行时施放"
 L["OPTIONS_SURVEY_DONT_MOUNTED_DESC"] = "勾选此选项防止你在骑坐骑时施放勘测."

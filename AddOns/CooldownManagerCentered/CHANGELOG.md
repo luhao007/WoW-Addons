@@ -1,6 +1,6 @@
-# Cooldown Manager Centered
+# Cooldown Manager Centered by Wildu
 
-## [v2.6.7](https://github.com/lemieszek/CooldownManagerCentered/tree/v2.6.7) (2026-04-22)
-[Full Changelog](https://github.com/lemieszek/CooldownManagerCentered/compare/v2.6.6...v2.6.7) 
+## [v5.2.5](https://github.com/lemieszek/CooldownManagerCentered/tree/v5.2.5) (2026-08-15)
+[Full Changelog](https://github.com/lemieszek/CooldownManagerCentered/compare/v5.2.4...v5.2.5) 
 
-- v2.6.7 TOC Bump  
+- v5.2.5 Always desaturated (usefull for dot classes)  

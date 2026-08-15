@@ -120,6 +120,8 @@ SlashCmdList["DEADLYBOSSMODS"] = function(msg)
 		DBM:ShowVersions(true)
 	elseif cmd == "unlock" or cmd == "move" then
 		DBT:ShowMovableBar()
+	elseif cmd == "dbtdebug" then
+		DBT:ShowDebugReport()
 	elseif cmd == "help2" then
 		for _, v in ipairs(L.SLASHCMD_HELP2) do
 			DBM:AddMsg(v)
@@ -349,6 +351,7 @@ SlashCmdList["DEADLYBOSSMODS"] = function(msg)
 			return
 		end
 		DBM.Options.DebugLevel = level
+		private:GetModule("DevToolsModule"):OnDebugLevelChanged()
 		DBM:AddMsg("Debug Level is " .. level)
 	elseif cmd:sub(1, 10) == "debugsound" then
 		DBM.Options.DebugSound = not DBM.Options.DebugSound

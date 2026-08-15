@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2210, "DBM-BfA", 2, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(138794)
 --mod:SetEncounterID(1880)
@@ -20,8 +20,8 @@ mod:RegisterEventsInCombat(
 local warnPrimalRage				= mod:NewSpellAnnounce(275200, 3)
 local warnShakeLoose				= mod:NewSpellAnnounce(276046, 3)
 
-local specWarnSonicBellow			= mod:NewSpecialWarningDodge(275175, nil, nil, nil, 2, 2)
-local specWarnEarthSpike			= mod:NewSpecialWarningDodge(275194, nil, nil, nil, 2, 2)
+local specWarnSonicBellow			= mod:NewSpecialWarningDodge(275175, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnEarthSpike			= mod:NewSpecialWarningDodge(275194, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 local timerPrimalRageCD					= mod:NewCDTimer(32.7, 275200, nil, nil, nil, 3)
 local timerShakeLooseCD					= mod:NewCDTimer(28, 276046, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)--28 seconds, but does it an extra time when he's really low

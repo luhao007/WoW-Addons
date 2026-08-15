@@ -251,6 +251,10 @@ function PinMixin:OnMouseEnter()
       tooltip:AddLine(" ")
       tooltip:AddDoubleLine( "|cff00ff00" .. L["Toggle Maps function is disabled"] .. "|r",  nil, nil, nil, false )
     end
+
+    if ns.Addon.db.profile.DeleteIcons then
+      tooltip:AddDoubleLine(TextIconInfo:GetIconString() .. " " .. "|cffff0000" .. L["< Alt + Right click to delete this icon >"], nil, nil, false) 
+    end
   end
 
   tooltip:Show()
@@ -267,6 +271,35 @@ function PinMixin:OnMouseUp(button)
 
   local info = self.mnPinInfo
   if not info or not info.areaPoiID then return end
+
+  if button == "RightButton" and IsAltKeyDown() and db.DeleteIcons then
+    StaticPopupDialogs["Delete_Delve_Icon?"] = {
+      text = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. ": " .. L["Delete this icon"] .. " ? " .. TextIconMNL4:GetIconString(),
+      button1 = YES,
+      button2 = NO,
+      showAlert = true,
+      exclusive = true,
+      whileDead = true,
+      hideOnEscape = true,
+      timeout = 5,
+      OnAccept = function()
+        ns.dbProfile = ns.GetDeletedIconsDB and ns:GetDeletedIconsDB()
+        if not ns.dbProfile then return end
+
+        local mapID = info.mnWaypointMapID or (WorldMapFrame and WorldMapFrame:GetMapID())
+        if not mapID then return end
+
+        ns.dbProfile.DelveDeletedIcons[mapID][info.areaPoiID] = true
+
+        if ns.RefreshContinentDelvesPins then
+          ns.RefreshContinentDelvesPins()
+        end
+      end,
+    }
+
+    StaticPopup_Show("Delete_Delve_Icon?")
+    return
+  end
 
   local swapButtons = db.activate and db.activate.SwapButtons
   local useShift = db.WayPointsShift
@@ -344,32 +377,36 @@ end
 
 local function MN_AddDelvesOnSameMap(kind, mapID)
   local delves = C_AreaPoiInfo.GetDelvesForMap(mapID) or {}
+  local deletedDB = ns.GetDeletedIconsDB and ns:GetDeletedIconsDB()
+
   for _, areaPoiID in ipairs(delves) do
-    local info = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID)
-    if info and info.position then
-      local x, y = info.position:GetXY()
-      if x and y and x >= 0 and x <= 1 and y >= 0 and y <= 1 then
-        if MN_ShouldShow(kind, mapID, info.atlasName) then
-          local pinInfo = CopyTable(info)
-          pinInfo.areaPoiID = areaPoiID
-          pinInfo.mnMapNotesKind = kind
-          pinInfo.mnWaypointMapID = mapID
-          pinInfo.mnWaypointX = x
-          pinInfo.mnWaypointY = y
+    if not (deletedDB and deletedDB.DelveDeletedIcons and deletedDB.DelveDeletedIcons[mapID] and deletedDB.DelveDeletedIcons[mapID][areaPoiID]) then
+      local info = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID)
+      if info and info.position then
+        local x, y = info.position:GetXY()
+        if x and y and x >= 0 and x <= 1 and y >= 0 and y <= 1 then
+          if MN_ShouldShow(kind, mapID, info.atlasName) then
+            local pinInfo = CopyTable(info)
+            pinInfo.areaPoiID = areaPoiID
+            pinInfo.mnMapNotesKind = kind
+            pinInfo.mnWaypointMapID = mapID
+            pinInfo.mnWaypointX = x
+            pinInfo.mnWaypointY = y
 
-          local icon = pool:Acquire()
-          icon:OnAcquire(kind, pinInfo)
-          ns.MN_DelveActivePins[icon] = true
+            local icon = pool:Acquire()
+            icon:OnAcquire(kind, pinInfo)
+            ns.MN_DelveActivePins[icon] = true
 
-          if HBDP then
-            HBDP:AddWorldMapIconMap(ADDON_NAME, icon, mapID, x, y)
-            icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
-          
-            C_Timer.After(0, function()
-              if icon then
-                icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
-              end
-            end)
+            if HBDP then
+              HBDP:AddWorldMapIconMap(ADDON_NAME, icon, mapID, x, y)
+              icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+
+              C_Timer.After(0, function()
+                if icon then
+                  icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+                end
+              end)
+            end
           end
         end
       end
@@ -382,35 +419,39 @@ local function MN_ProjectZoneDelvesToContinent(continentMapID, zoneMapID)
   if not minX then return end
 
   local delves = C_AreaPoiInfo.GetDelvesForMap(zoneMapID) or {}
+  local deletedDB = ns.GetDeletedIconsDB and ns:GetDeletedIconsDB()
+
   for _, areaPoiID in ipairs(delves) do
-    local info = C_AreaPoiInfo.GetAreaPOIInfo(zoneMapID, areaPoiID)
-    if info and info.position then
-      if MN_ShouldShow("continent", continentMapID, info.atlasName) then
-        local x, y = info.position:GetXY()
-        if x and y then
-          local tx = Lerp(minX, maxX, x)
-          local ty = Lerp(minY, maxY, y)
-          if tx and ty and tx >= 0 and tx <= 1 and ty >= 0 and ty <= 1 then
-            local pinInfo = CopyTable(info)
-            pinInfo.areaPoiID = areaPoiID
-            pinInfo.mnMapNotesKind = "continent"
-            pinInfo.mnWaypointMapID = continentMapID
-            pinInfo.mnWaypointX = tx
-            pinInfo.mnWaypointY = ty
-          
-            local icon = pool:Acquire()
-            icon:OnAcquire("continent", pinInfo)
-            ns.MN_DelveActivePins[icon] = true
-          
-            if HBDP then
-              HBDP:AddWorldMapIconMap(ADDON_NAME, icon, continentMapID, tx, ty)
-              icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
-            
-              C_Timer.After(0, function()
-                if icon then
-                  icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
-                end
-              end)
+    if not (deletedDB and deletedDB.DelveDeletedIcons and deletedDB.DelveDeletedIcons[continentMapID] and deletedDB.DelveDeletedIcons[continentMapID][areaPoiID]) then
+      local info = C_AreaPoiInfo.GetAreaPOIInfo(zoneMapID, areaPoiID)
+      if info and info.position then
+        if MN_ShouldShow("continent", continentMapID, info.atlasName) then
+          local x, y = info.position:GetXY()
+          if x and y then
+            local tx = Lerp(minX, maxX, x)
+            local ty = Lerp(minY, maxY, y)
+            if tx and ty and tx >= 0 and tx <= 1 and ty >= 0 and ty <= 1 then
+              local pinInfo = CopyTable(info)
+              pinInfo.areaPoiID = areaPoiID
+              pinInfo.mnMapNotesKind = "continent"
+              pinInfo.mnWaypointMapID = continentMapID
+              pinInfo.mnWaypointX = tx
+              pinInfo.mnWaypointY = ty
+
+              local icon = pool:Acquire()
+              icon:OnAcquire("continent", pinInfo)
+              ns.MN_DelveActivePins[icon] = true
+
+              if HBDP then
+                HBDP:AddWorldMapIconMap(ADDON_NAME, icon, continentMapID, tx, ty)
+                icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+
+                C_Timer.After(0, function()
+                  if icon then
+                    icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+                  end
+                end)
+              end
             end
           end
         end

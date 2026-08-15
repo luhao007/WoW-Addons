@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("LadySarevessSoD", "DBM-Raids-Vanilla", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(204068)
 mod:SetEncounterID(2699)--2762 is likely 5 man version in instance type 201
@@ -27,9 +27,9 @@ local warningAkumaisRage		= mod:NewTargetNoFilterAnnounce(407791, 3, nil, "Heale
 local warningForkedLightning	= mod:NewTargetNoFilterAnnounce(407653, 3)
 local warningFreezingArrowStun	= mod:NewTargetNoFilterAnnounce(407546, 2)
 
-local specWarnForkedLightning	= mod:NewSpecialWarningMoveAway(407653, nil, nil, nil, 1, 2)
+local specWarnForkedLightning	= mod:NewSpecialWarningMoveAway(407653, nil, nil, nil, 1, 2, nil, nil, "scatter")
 local yellnForkedLightning		= mod:NewYell(407653)
-local specWarnFreezingArrow		= mod:NewSpecialWarningGTFO(407568, nil, nil, nil, 1, 8)
+local specWarnFreezingArrow		= mod:NewSpecialWarningGTFO(407568, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerForkedLightningCD	= mod:NewCDTimer(20.6, 407653, nil, nil, nil, 3)
 local timerFreezingArrowCD		= mod:NewCDTimer(22.9, 407568, nil, nil, nil, 3)

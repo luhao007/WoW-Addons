@@ -28,18 +28,25 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S1 = "宿敌：|cnHIGHLIGHT_
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S2 = "宿敌：|cnHIGHLIGHT_FONT_COLOR:幽坑太保|r~地心之战 赛季 2"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S3 = "宿敌：|cnHIGHLIGHT_FONT_COLOR:节点女亲王凯威扎|r~地心之战 赛季 3"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S1 = "宿敌：|cnHIGHLIGHT_FONT_COLOR:努雷乌斯|r~至暗之夜 赛季 1"
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S2 = "Nemesis: |cnHIGHLIGHT_FONT_COLOR:Azta'rec|r~Midnight Season 2"
+-----
 
 -- Delves UI
+
+Lockit.UI_DELVES_LIST_MODIFIERS_TEXT = "词缀："
 
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "在卡兹阿加地区时可知晓鎏金藏匿物进度"
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "在奎尔萨拉斯地区时可知晓鎏金藏匿物进度"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "仅出现在 |cnNORMAL_FONT_COLOR:难度 11|r 丰裕地下堡|A:delves-bountiful:16:16|a。"
+Lockit.UI_GILDED_STASH_CRESTS_NOTE = "Each stash contains %d |cnIQ4:Myth Crests|r (|cnNORMAL_FONT_COLOR:%d per week|r in total)."
+Lockit.UI_JOURNEY_LEVEL_REQUIRED = "Requires Journey Level %d"
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "暂无可用丰裕地下堡"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<左键：显示地下堡战利品信息>"
 
 -- Loot Info
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "完成地下堡获取战利品："
+Lockit.UI_LOOT_INFO_TIPS = "|A:delves-treasure-upgrade:16:16|a |cnNORMAL_FONT_COLOR:%s|r: Enemy groups should be killed before the final boss. Killing them later doesn't add more rewards to the chest. Crests are added killing 3+ groups on the specified Tiers.\n\n|T%s:16|t |cnNORMAL_FONT_COLOR:%s|r: Unlocks at Delves Journey Level 4. The stash is lootable 4 times per week."
 
 -- Delves Gossip
 Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER = "Auto Enter (Tier %d)" -- %d is a Tier number (1-11).
@@ -62,9 +69,9 @@ Lockit.UI_SETTING_DELVE_PROGRESS_WIDGETS_NAME = "地下堡进度信息"
 Lockit.UI_SETTING_DELVES_LIST_INFO_WIDGETS_TOOLTIP = "冒险指南-地下堡：显示各个地下堡的成就进度（故事和探索）。"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_NAME = "路径点跟踪风格"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_START = "选择导航使用的路径点类型。\n\n可用选项："
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "- 暴雪导航点（游戏内置）。"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "- TomTom 路径点。"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "- MapPinEnhanced 路径点。"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "   • 暴雪导航点（游戏内置）。"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "   • TomTom 路径点。"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "   • MapPinEnhanced 路径点。"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM_UNAVAILABLE_FORMAT = "%s (%s)."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_NAME = "Blizzard"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_DESCRIPTION = "暴雪导航点。"
@@ -93,7 +100,7 @@ Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "在进入地下堡时弹出�
 Lockit.UI_SETTING_MINIMAP_ICON_NAME = "显示小地图图标"
 Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "显示小地图图标。点击该图标可快速访问当前赛季地下堡面板。"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "自动进入地下堡"
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "抵达地下堡入口时自动进入。\n\n以下情形不会自动进入：\n- 该难度尚未解锁。\n- 这是宿敌地下堡。\n- 这是丰裕地下堡，但是你没有 |cnIQ4:修复的宝匣钥匙|r 也没有足够的 |cnIQ3:宝匣钥匙碎片|r 来组合成钥匙。"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "抵达地下堡入口时自动进入。\n\n以下情形不会自动进入：\n   • 该难度尚未解锁。\n   • 这是宿敌地下堡。\n   • 这是丰裕地下堡，但是你没有 |cnIQ4:修复的宝匣钥匙|r 也没有足够的 |cnIQ3:宝匣钥匙碎片|r 来组合成钥匙。"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "自动进入的地下堡难度"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "延时"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "地下堡将在延迟时间后进入（单位：秒）。\n\n在进入地下堡时弹出的窗口中，会出现一个按钮。点击该按钮，可以在延迟倒计时结束前取消自动进入。"
@@ -116,6 +123,11 @@ Lockit.UI_SETTING_LOGS_NAME = "启用调试日志"
 Lockit.UI_SETTING_LOGS_TOOLTIP = "允许在聊天框中输出调试日志。此功能仅用于开发与测试。"
 
 Lockit.UI_SETTINGS_TRANSLATION_TITLE = "特别鸣谢翻译贡献者："
+
+-- The following strings are joined into a list using "\n" (a new line) as a delimiter.
+Lockit.UI_SETTINGS_SLASH_CMD_TEXT = "Slash Commands:"
+Lockit.UI_SETTINGS_SLASH_CMD_SHOWDELVES = "   • |cnNORMAL_FONT_COLOR:/delvecompanion|r or |cnNORMAL_FONT_COLOR:/delvecomp|r or |cnNORMAL_FONT_COLOR:/delves|r: Opens the current season Delves encounter in the Adventure Guide (the same behaviour as clicking the minimap icon)." -- The commands themselves should NOT be translated.
+-----
 
 Lockit.UI_SETTINGS_LINKS_TITLE = "链接"
 Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_CURSEFORGE = "点击复制 |cnNORMAL_FONT_COLOR:CurseForge|r 插件页面网址。"

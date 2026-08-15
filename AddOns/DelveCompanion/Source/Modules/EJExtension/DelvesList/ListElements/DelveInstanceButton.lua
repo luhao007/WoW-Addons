@@ -100,7 +100,7 @@ end
 function DelveCompanion_DelveInstanceButtonMixin:OnLeave()
     -- Logger:Log("[DelveInstanceButton] OnLeave start")
 
-    GameTooltip:Hide()
+    securecall(GameTooltip.Hide, GameTooltip)
 end
 
 ---@param self DelveInstanceButton

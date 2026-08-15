@@ -1038,7 +1038,7 @@ function GUI:Create()
 	-- Model
 	frame.contentFrame.modelButton = GUI.CreateButton()
 	frame.contentFrame.modelButton:SetPoint("RIGHT", frame.contentFrame.nextPageButton, "LEFT", -5, 0)
-	frame.contentFrame.modelButton:SetText(AL["Model"])
+	frame.contentFrame.modelButton:SetText(MODEL)
 	frame.contentFrame.modelButton:SetScript("OnClick", ModelButtonOnClick)
 	frame.contentFrame.modelButton:Hide()
 
@@ -1113,7 +1113,7 @@ function GUI:Create()
 
 	frame.contentFrame.itemsButton = GUI.CreateButton()
 	frame.contentFrame.itemsButton:SetPoint("LEFT", frame.contentFrame.prevPageButton, "RIGHT", 5, 0)
-	frame.contentFrame.itemsButton:SetText(AL["Items"])
+	frame.contentFrame.itemsButton:SetText(ITEMS)
 	frame.contentFrame.itemsButton:SetScript("OnClick", ItemButtonOnClick)
 
 	-- Class Filter

@@ -14,6 +14,7 @@ function GDKPInfo.ADD_RaidInfo(RaidR)
 	local PIGFontString=Create.PIGFontString
 	local PIGSetFont=Create.PIGSetFont
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(GDKPInfo.uidata)
+	local iconWH,hang_Height,hang_NUM,lineTOP  =  GDKPInfo.iconWH,GDKPInfo.hang_Height,GDKPInfo.hang_NUM,GDKPInfo.lineTOP
 	-----
 	local fujiF=PIGOptionsList_R(RaidR.F,"人员信息",80)
 	function RaidR.IsNameInRiad(seekname)
@@ -30,7 +31,7 @@ function GDKPInfo.ADD_RaidInfo(RaidR)
 	----
 	local iconWH,cl_iconH,cl_Name=22,24,Data.cl_Name
 	--底部提示
-	fujiF.yedibuF = PIGLine(fujiF,"BOT",31)
+	fujiF.yedibuF = PIGLine(fujiF,"BOT",lineTOP)
 	fujiF.tishi = CreateFrame("Frame", nil, fujiF);
 	fujiF.tishi:SetSize(iconWH,iconWH);
 	fujiF.tishi:SetPoint("TOPLEFT",fujiF.yedibuF,"BOTTOMLEFT",10,-4);

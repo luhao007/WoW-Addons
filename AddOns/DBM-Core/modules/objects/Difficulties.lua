@@ -40,6 +40,7 @@ difficulties.statVarTable = {
 	["mythic"] = "mythic",
 	["mythic5"] = "mythic",
 	["worldboss"] = "normal",
+	["worldlair"] = "lfr",
 	["timewalker"] = "timewalker",
 	["progressivechallenges"] = "normal",
 	["delves"] = "normal",
@@ -84,6 +85,7 @@ if private.isRetail then
 		[2222] = {60, 1}, [2374] = {60, 1},--Shadowlands World Bosses
 		[2444] = {70, 1}, [2512] = {70, 1}, [2574] = {70, 1}, [2454] = {70, 1}, [2548] = {70, 1},--Dragonflight World Bosses
 		[2774] = {80, 1}, [2552] = {80, 1}, [2601] = {80, 1},--War Within World Bosses
+		[2694] = {90, 1}, [2771] = {90, 1}, [2930] = {90, 1},--Midnight World Bosses
 		--Raids
 		[509] = {30, 3}, [531] = {30, 3}, [469] = {30, 3}, [409] = {30, 3},--Classic Raids
 		[564] = {30, 3}, [534] = {30, 3}, [532] = {30, 3}, [565] = {30, 3}, [544] = {30, 3}, [548] = {30, 3}, [580] = {30, 3}, [550] = {30, 3},--BC Raids
@@ -96,7 +98,8 @@ if private.isRetail then
 		[2296] = {60, 3}, [2450] = {60, 3}, [2481] = {60, 3},--Shadowlands Raids (yes, only 3 kekw, seconded)
 		[2522] = {70, 3}, [2569] = {70, 3}, [2549] = {70, 3},--Dragonflight Raids
 		[2657] = {80, 3}, [2792] = {80, 3}, [2769] = {80, 3}, [2810] = {80, 3},--War Within Raids
-		[2912] = {90, 3}, [2939] = {90, 3}, [2913] = {90, 3},--Midnight Raids
+		[2912] = {90, 3}, [2939] = {90, 3}, [2913] = {90, 3}, [3004] = {90, 3},--Midnight Raids
+		[1592] = {90, 3}, [2987] = {90, 3},--Midnight Lairs (scalable multi difficulty "world bosses")
 		--Dungeons
 		[48] = {30, 2}, [230] = {30, 2}, [429] = {30, 2}, [389] = {30, 2}, [34] = {30, 2},--Classic Dungeons
 		[540] = {30, 2}, [558] = {30, 2}, [556] = {30, 2}, [555] = {30, 2}, [542] = {30, 2}, [546] = {30, 2}, [545] = {30, 2}, [547] = {30, 2}, [553] = {30, 2}, [554] = {30, 2}, [552] = {30, 2}, [557] = {30, 2}, [269] = {30, 2}, [560] = {30, 2}, [543] = {30, 2}, [585] = {30, 2},--BC Dungeons
@@ -109,15 +112,14 @@ if private.isRetail then
 		[2286] = {60, 2}, [2289] = {60, 2}, [2290] = {60, 2}, [2287] = {60, 2}, [2285] = {60, 2}, [2293] = {60, 2}, [2291] = {60, 2}, [2284] = {60, 2}, [2441] = {60, 2},--Shadowlands Dungeons
 		[2520] = {70, 2}, [2451] = {70, 2}, [2516] = {70, 2}, [2519] = {70, 2}, [2526] = {70, 2}, [2515] = {70, 2}, [2521] = {70, 2}, [2527] = {70, 2}, [2579] = {70, 2},--Dragonflight Dungeons
 		[2652] = {80, 2}, [2662] = {80, 2}, [2660] = {80, 2}, [2669] = {80, 2}, [2651] = {80, 2}, [2649] = {80, 2}, [2648] = {80, 2}, [2661] = {80, 2}, [2773] = {80, 2}, [2830] = {80, 2},--War Within Dungeons
-		[2805] = {90, 2}, [2811] = {90, 2}, [2813] = {90, 2}, [2825] = {90, 2}, [2859] = {90, 2}, [2874] = {90, 2}, [2915] = {90, 2}, [2923] = {90, 2},--Midnight Dungeons
+		[2805] = {90, 2}, [2811] = {90, 2}, [2813] = {90, 2}, [2825] = {90, 2}, [2859] = {90, 2}, [2874] = {90, 2}, [2915] = {90, 2}, [2923] = {90, 2}, [2993] = {90, 2},--Midnight Dungeons
 		--Delves
 		[2664] = {80, 4}, [2679] = {80, 4}, [2680] = {80, 4}, [2681] = {80, 4}, [2682] = {80, 4}, [2683] = {80, 4}, [2684] = {80, 4}, [2685] = {80, 4}, [2686] = {80, 4}, [2687] = {80, 4}, [2688] = {80, 4}, [2689] = {80, 4}, [2690] = {80, 4}, [2767] = {80, 4}, [2768] = {80, 4}, [2831] = {80, 4}, [2815] = {80, 4}, [2826] = {80, 4}, [2803] = {80, 4}, [2951] = {80, 4},--War Within Delves
-		[3003] = {90, 4}, [2961] = {90, 4}, [2962] = {90, 4}, [2963] = {90, 4}, [2964] = {90, 4}, [2953] = {90, 4}, [2933] = {90, 4}, [2952] = {90, 4}, [2979] = {90, 4}, [2965] = {90, 4}, [2966] = {90, 4},--Midnight Delves
+		[3003] = {90, 4}, [2961] = {90, 4}, [2962] = {90, 4}, [2963] = {90, 4}, [2964] = {90, 4}, [2953] = {90, 4}, [2933] = {90, 4}, [2952] = {90, 4}, [2979] = {90, 4}, [2965] = {90, 4}, [2966] = {90, 4}, [3077] = {90, 4}, [3079] = {90, 4}, [3081] = {90, 4}, [3038] = {90, 4},--Midnight Delves
 		--Challenges (Mage tower, visions, torghast, proving grounds)
 		[2212] = {50, 5}, [2213] = {50, 5}, [2827] = {80, 5}, [2828] = {80, 5}, [2162]= {80, 5}, [1148] = {80, 5}, [1698] = {80, 5}, [1710] = {80, 5}, [1703] = {80, 5}, [1702] = {80, 5}, [1684] = {80, 5}, [1673] = {80, 5}, [1616] = {80, 5},
 	}
-	--seasonalDungeons = {[2662]=true, [2660]=true, [2773]=true, [2649]=true, [2830]=true, [2287]=true, [2441]=true}--TWW Season 3
-	seasonalDungeons = {[2651]=true, [2649]=true, [2648]=true, [2661]=true, [1594]=true, [2097]=true, [2293]=true, [2773]=true, [2662]=true, [2660]=true, [2830]=true, [2287]=true, [2441]=true}--TWW Season 2 and 3
+	seasonalDungeons = {[1762]=true, [1877]=true, [2521]=true, [2825]=true, [2813]=true, [2859]=true, [2923]=true, [2993]=true}--Midnight Season 1 and Season 2
 elseif private.isCata or private.isMop then
 	--Since 2 dungeons were changed from vanilla to cata dungeons, Cata and MoP need own table
 	--Still has to remain separate from retail due to level squishes retail has had
@@ -192,8 +194,8 @@ end
 function difficulties:RefreshCache(force)
 	if force or not self.savedDifficulty or not self.difficultyText or not self.difficultyIndex then
 		self.savedDifficulty, self.difficultyText, self.difficultyIndex, groupSize, self.difficultyModifier = DBM:GetCurrentInstanceDifficulty()
-		DBM:Debug(("GetInstanceInfo() = %s, %s, %s, %s, %s, %s, %s, %s, %s"):format(tostringall(GetInstanceInfo())), 4, nil, true)
-		DBM:Debug(("DBM:GetCurrentInstanceDifficulty() = %s, %s, %s, %s, %s"):format(tostringall(self.savedDifficulty, self.difficultyText, self.difficultyIndex, groupSize, self.difficultyModifier)), 3, nil, true)
+--		DBM:Debug(("GetInstanceInfo() = %s, %s, %s, %s, %s, %s, %s, %s, %s"):format(tostringall(GetInstanceInfo())), 2, nil, true, nil, true)
+--		DBM:Debug(("DBM:GetCurrentInstanceDifficulty() = %s, %s, %s, %s, %s"):format(tostringall(self.savedDifficulty, self.difficultyText, self.difficultyIndex, groupSize, self.difficultyModifier)), 2, nil, true, nil, true)
 	end
 end
 
@@ -347,7 +349,7 @@ end
 ---Pretty much ANYTHING that has mythic mode, with mythic+ included
 function bossModPrototype:IsMythic()
 	local diff = difficulties.savedDifficulty or DBM:GetCurrentInstanceDifficulty()
-	return diff == "mythic" or (diff == "challenge5" and not self:IsMop()) or diff == "mythicisland" or diff == "mythic5"
+	return diff == "mythic" or (diff == "challenge5" and not self:IsMop()) or diff == "mythicisland" or diff == "mythic5" or self:IsMop() and (diff == "heroic10" or diff == "heroic25")
 end
 
 function bossModPrototype:IsMythicPlus()
@@ -398,10 +400,13 @@ difficulties.SOD_BWL_TRIAL_BRONZE = 8
 difficulties.SOD_BWL_TRIAL_RED    = 16
 
 --TODO C_IslandsQueue.GetIslandDifficultyInfo(), if 38-40 don't work
+--TODO, not sure how to classify lairs yet. New category, world bosses, or main raid category since they are progression multi difficulty bosses
 function DBM:GetCurrentInstanceDifficulty()
 	local _, instanceType, difficulty, difficultyName, _, _, _, instanceID, instanceGroupSize = private.GetInstanceInfo()
 	if difficulty == 0 or difficulty == 172 or (difficulty == 1 and instanceType == "none") or (C_Garrison and C_Garrison:IsOnGarrisonMap()) then--draenor field returns 1, causing world boss mod bug.
 		return "worldboss", RAID_INFO_WORLD_BOSS .. " - ", difficulty, instanceGroupSize, 0
+	elseif difficulty == 250 then--instanced world boss/lair
+		return "worldlair", RAID_INFO_WORLD_BOSS .. " - ", difficulty, instanceGroupSize, 0
 	elseif difficulty == 1 or difficulty == 173 or difficulty == 184 or difficulty == 150 or difficulty == 201 then--5 man Normal Dungeon / 201 is SoD 5 man ID for a dungeon that's also a 10/20 man SoD Raid.
 		return "normal5", difficultyName .. " - ", difficulty, instanceGroupSize, 0
 	elseif difficulty == 2 or difficulty == 174 then--5 man Heroic Dungeon
@@ -517,7 +522,7 @@ function DBM:GetCurrentInstanceDifficulty()
 		return "normal", difficultyName .. " - ", difficulty, instanceGroupSize, 0
 	elseif difficulty == 15 then--Flexible Heroic Raid
 		return "heroic", difficultyName .. " - ", difficulty, instanceGroupSize, 0
-	elseif difficulty == 16 then--Mythic 20 man Raid
+	elseif difficulty == 16 or difficulty == 233 then--Mythic 20 man Raid/15-25 man Mythic Flex
 		return "mythic", difficultyName .. " - ", difficulty, instanceGroupSize, 0
 	elseif difficulty == 17 or difficulty == 151 then--Flexible LFR (ie post WoD zones)/8.3+ LFR
 		return "lfr", difficultyName .. " - ", difficulty, instanceGroupSize, 0

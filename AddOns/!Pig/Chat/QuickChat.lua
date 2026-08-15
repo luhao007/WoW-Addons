@@ -1,10 +1,10 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
+local Locale=GetLocale()
 ------------
 local Fun=addonTable.Fun
 local GetPIGID=Fun.GetPIGID
-local biaoqingData=Fun.biaoqingData
-local TihuanBiaoqing=Fun.TihuanBiaoqing
+local EmojiData=Fun.EmojiData
 --
 local Create=addonTable.Create
 local PIGEnter=Create.PIGEnter
@@ -13,37 +13,22 @@ local PIGFontString=Create.PIGFontString
 local QuickChatfun=addonTable.QuickChatfun
 local jiangejuli,hangshu = 0,10;
 local ChatpindaoMAX = addonTable.Fun.ChatpindaoMAX
---local locale1 = GetAvailableLocales()
-local locale1 = GetLocale()
-local worldname="大脚世界频道"
-local FUWUPINDAONAME = "服务"
-if locale1 == "zhTW" then
-	--worldname="世界"
-	FUWUPINDAONAME = "服務"
-elseif locale1 == "enUS" then
-	worldname="WORLD"
-end
-
---/////聊天快捷按钮--------
---local function GetWindSizeFont(chatf)
-	-- local fontSize = 14
-	-- for i = 1, NUM_CHAT_WINDOWS do
-	-- 	if ( i ~= 2 ) then
-	-- 		if chatf==_G["ChatFrame"..i] then
-	-- 			local _,fontSize = GetChatWindowInfo(i);
-	-- 			if fontSize>0 then
-	-- 				return fontSize
-	-- 			end
-	-- 		end
-	-- 	end
-	-- end
-	-- return fontSize
--- 	return 0
--- end
--- QuickChatfun.GetWindSizeFont=GetWindSizeFont
-local function TihuanBQfun(self,event,arg1,...)
-	local arg1 = TihuanBiaoqing(arg1)
-	return false, arg1, ...
+local listDataLoc={"Emoji","SAY","YELL","PARTY","GUILD","RAID","RAID_WARNING","INSTANCE_CHAT","GENERAL","TRADE","LOOK_FOR_GROUP"}
+local ChannelData={
+	["SAY"]={"s",{1, 1, 1},L["CHAT_QUKBUTNAME"][1]},
+	["YELL"]={"y",{1, 0.25, 0.25},L["CHAT_QUKBUTNAME"][2]},
+	["PARTY"]={"p",{0.6667, 0.6667, 1},L["CHAT_QUKBUTNAME"][3],{"PARTY","PARTY_LEADER"}},
+	["GUILD"]={"g",{0.25, 1, 0.25},L["CHAT_QUKBUTNAME"][4],{"GUILD","OFFICER"}},
+	["RAID"]={"ra",{1, 0.498, 0},L["CHAT_QUKBUTNAME"][5],{"RAID","RAID_LEADER"}},
+	["RAID_WARNING"]={"rw",{1, 0.282, 0},L["CHAT_QUKBUTNAME"][6]},
+	["INSTANCE_CHAT"]={"i",{1, 0.498, 0},L["CHAT_QUKBUTNAME"][7],{"INSTANCE_CHAT","INSTANCE_CHAT_LEADER"}},
+	["GENERAL"]={nil,{0.888, 0.668, 0.668},L["CHAT_QUKBUTNAME"][8]},
+	["TRADE"]={nil,{0.888, 0.668, 0.668},L["CHAT_QUKBUTNAME"][9]},
+	["LOOK_FOR_GROUP"]={nil,{0.888, 0.668, 0.668},L["CHAT_QUKBUTNAME"][10]},
+	["CHANNEL_CATEGORY_WORLD"]={nil,{0.888, 0.668, 0.668},L["CHAT_QUKBUTNAME"][11]},
+}
+if PIG_MaxTocversion(30000) then
+	ChannelData["INSTANCE_CHAT"][1]="bg"
 end
 --判断频道信息显示与否
 local function GetBanChatFrame(pindaoid)
@@ -64,23 +49,23 @@ local function PIG_IsShow_Message(messageType)
 	return false;
 end
 local function PIG_IsShow_CHANNEL(pdname)
-	-- local channels = {GetChannelList()}
-	-- for x=1,#channels,3 do
-	-- 	local id, name, disabled=channels[x], channels[x+1], channels[x+2]
-	-- end
-	local pindaoid,pindaoname=Fun.GetSelectpindaoID(PIGA["Chat"]["QuickChat_Ban"],true)
-	local channels = {GetChatWindowChannels(pindaoid)}
-	for x=1,#channels,2 do
-		if pdname==channels[x] then
-			return true
-		end
-		if pdname==worldname then
+	local pindid=GetPIGID(pdname)
+	if pindid==0 then
+		if pdname==CHANNEL_CATEGORY_WORLD or pdname==BIGFOOTWORLD then
 			for x=1,ChatpindaoMAX do
-				local newpindaoname = pdname..x
-				if channels[x]==newpindaoname then
-					return true
+				if GetPIGID(pdname..x)>0 then
+					pindid=GetPIGID(pdname..x)
+					break
 				end
 			end
+		end
+		if pindid==0 then return false end
+	end
+	local pindaoid,pindaoname=Fun.GetSelectpindaoID(PIGA["Chat"]["QuickChat_Ban"],true)
+	local Dchannels = {GetChatWindowChannels(pindaoid)}
+	for x=1,#Dchannels,2 do
+		if pdname==Dchannels[x] then
+			return true
 		end
 	end
 	return false
@@ -96,34 +81,24 @@ local function Add_Backdrop(chatbut,Template)
 		chatbut:SetBackdropBorderColor(0, 0, 0, 0.8);
 	end
 end
-local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
-	if name and PIGA["Chat"]["QuickChat_ButHide"][name] then return end
+local function ADD_chatbut(fuF,name)
+	local dataX=ChannelData[name]
+	if dataX and PIGA["Chat"]["QuickChat_ButHide"][dataX[3]] then return end
 	local Width=fuF.Width
-	local ziframe = {fuF:GetChildren()}
+	fuF.butlist=fuF.butlist or {}
 	local chatbut = CreateFrame("Button",nil,fuF, fuF.PIGTemplate[1]);
 	Add_Backdrop(chatbut,fuF.PIGTemplate[1])
 	chatbut:SetSize(Width,Width);
-	chatbut:SetPoint("LEFT",fuF,"LEFT",#ziframe*Width,0);
 	chatbut:SetFrameStrata("LOW")
 	chatbut:RegisterForClicks("LeftButtonUp", "RightButtonUp");
 	chatbut:SetScript("OnEnter", function (self)	
-		if pdtype=="CHANNEL" then
-			GameTooltip:ClearLines();
-			GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-			GameTooltip:SetText("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..CHAT_JOIN.."/"..VOICE_TALKING.."\n|cff00FFff"..KEY_BUTTON2.."-|r|cffFFFF00"..SWITCH..IGNORE.."/"..IGNORE_REMOVE.."|r");
-			GameTooltip:Show();
-			GameTooltip:FadeOut()
-		end
 		fuF:PIGEnterAlpha()
 	end);
 	chatbut:SetScript("OnLeave", function (self)
-		if pdtype=="CHANNEL" then
-			GameTooltip:ClearLines();
-			GameTooltip:Hide()
-		end
 		fuF:PIGLeaveAlpha()
 	end);
-	if pdtype=="bq" then
+	if name=="Emoji" then
+		chatbut:SetPoint("LEFT",fuF,"LEFT",0,0);
 		chatbut.Tex = chatbut:CreateTexture(nil, "BORDER");
 		chatbut.Tex:SetTexture("Interface/AddOns/"..addonName.."/Media/Emojis/happy.tga");
 		chatbut.Tex:SetPoint("CENTER",0,0);
@@ -135,133 +110,230 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 			self.Tex:SetPoint("CENTER",0,0);
 		end);
 		chatbut:SetScript("OnClick", function(self)
-			if self.F:IsShown() then
-				self.F:Hide()
+			if self.EmojiList:IsShown() then
+				self.EmojiList:Hide()
 			else
-				self.F:Show()
-				self.F.xiaoshidaojishi = 1.5;
-				self.F.zhengzaixianshi = true;
+				self.EmojiList:Show()
+				self.EmojiList.xiaoshidaojishi = 1.5;
+				self.EmojiList.zhengzaixianshi = true;
 			end
 		end);
-	elseif pdtype=="Mes" or pdtype=="CHANNEL" then
+		chatbut.EmojiList = CreateFrame("Frame", nil, chatbut,"BackdropTemplate");
+		chatbut.EmojiList:SetBackdrop( { 
+			bgFile = "Interface/Tooltips/UI-Tooltip-Background",tile = false, tileSize = 0,
+			edgeFile = "Interface/Tooltips/UI-Tooltip-Border",edgeSize = 8, 
+			insets = { left = 2, right = 2, top = 2, bottom = 2 }});
+		chatbut.EmojiList:SetBackdropBorderColor(0.5, 0.5, 0.5, 0.8);
+		chatbut.EmojiList:SetBackdropColor(0.5, 0.5, 0.5, 0.8);
+		chatbut.EmojiList:SetSize((Width+2)*hangshu+10,Width*6+20);
+		chatbut.EmojiList:SetPoint("BOTTOMLEFT",chatbut,"TOPLEFT", 0, 0);
+		chatbut.EmojiList:Hide()
+		chatbut.EmojiList:SetFrameStrata("HIGH")
+		chatbut.EmojiList.xiaoshidaojishi = 0;
+		chatbut.EmojiList.zhengzaixianshi = nil;
+		chatbut.EmojiList:SetScript("OnUpdate", function(self, ssss)
+			if self.zhengzaixianshi==nil then
+				return;
+			else
+				if self.zhengzaixianshi==true then
+					if self.xiaoshidaojishi<= 0 then
+						self:Hide();
+						self.zhengzaixianshi = nil;
+					else
+						self.xiaoshidaojishi = self.xiaoshidaojishi - ssss;	
+					end
+				end
+			end
+		end)
+		chatbut.EmojiList:SetScript("OnEnter", function(self)
+			self.zhengzaixianshi = nil;
+		end)
+		chatbut.EmojiList:SetScript("OnLeave", function(self)
+			self.xiaoshidaojishi = 1.5;
+			self.zhengzaixianshi = true;
+		end)
+		chatbut.EmojiList.ButList={}
+		for i=1,#EmojiData do
+			local biaoqinglist = CreateFrame("Button",nil,chatbut.EmojiList,nil,i);
+			chatbut.EmojiList.ButList[i]=biaoqinglist
+			biaoqinglist:SetSize(Width,Width);
+			if i==1 then
+				biaoqinglist:SetPoint("TOPLEFT",chatbut.EmojiList,"TOPLEFT", 5, -5);
+			else
+				if (i - 1) % 10==0 then
+					biaoqinglist:SetPoint("TOPLEFT",chatbut.EmojiList.ButList[i-10],"BOTTOMLEFT", 0, -2);
+				else
+					biaoqinglist:SetPoint("LEFT",chatbut.EmojiList.ButList[i-1],"RIGHT", 2, 0);
+				end
+			end
+			biaoqinglist.Tex = biaoqinglist:CreateTexture();
+			biaoqinglist.Tex:SetTexture(EmojiData[i][2]);
+			biaoqinglist.Tex:SetPoint("CENTER",0,0);
+			biaoqinglist.Tex:SetSize(Width,Width);
+			biaoqinglist:SetScript("OnEnter", function()
+				chatbut.EmojiList.zhengzaixianshi=nil
+			end)
+			biaoqinglist:SetScript("OnLeave", function()
+				chatbut.EmojiList.xiaoshidaojishi = 1.5;
+				chatbut.EmojiList.zhengzaixianshi = true;
+			end)
+			biaoqinglist:SetScript("OnClick", function(self)
+				local editBox = ChatEdit_ChooseBoxForSend();
+				local hasText = editBox:GetText()..EmojiData[self:GetID()][1]
+				if editBox:HasFocus() then
+					editBox:SetText(hasText);
+				else
+					ChatEdit_ActivateChat(editBox)
+					editBox:SetText(hasText);
+				end
+				chatbut.EmojiList:Hide();
+			end)
+		end
+	else
+		table.insert(fuF.butlist,chatbut)
+		fuF.tabbutList[name]=chatbut
+		chatbut:HookScript("OnEnter", function (self)	
+			GameTooltip:ClearLines();
+			GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+			if dataX[1] then
+				GameTooltip:SetText("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..VOICE_TALKING.."\n|cff00FFff"..KEY_BUTTON2.."-|r|cffFFFF00"..IGNORE.."/"..IGNORE_REMOVE.."|r");
+			else
+				GameTooltip:SetText("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..CHAT_JOIN.."/"..VOICE_TALKING.."\n|cff00FFff"..KEY_BUTTON2.."-|r|cffFFFF00"..IGNORE.."/"..IGNORE_REMOVE.."|r");
+			end
+			GameTooltip:Show();
+			GameTooltip:FadeOut()
+		end);
+		chatbut:HookScript("OnLeave", function (self)
+			GameTooltip:ClearLines();
+			GameTooltip:Hide()
+		end);
 		chatbut.X = chatbut:CreateTexture(nil, "OVERLAY");
 		chatbut.X:SetTexture("interface/common/voicechat-muted.blp");
 		chatbut.X:SetSize(Width-9,Width-9);
 		chatbut.X:SetAlpha(0.7);
 		chatbut.X:SetPoint("CENTER",0,0);
 		chatbut.X:Hide()
-		chatbut.Text = PIGFontString(chatbut,{"CENTER",chatbut,"CENTER",0,0},name,fuF.PIGTemplate[2]);
-		chatbut.Text:SetTextColor(Color[1], Color[2], Color[3], 1);
+		chatbut.Text = PIGFontString(chatbut,{"CENTER",chatbut,"CENTER",0,0},dataX[3],fuF.PIGTemplate[2]);
+		chatbut.Text:SetTextColor(unpack(dataX[2]));
 		chatbut:SetScript("OnMouseDown", function (self)
 			self.Text:SetPoint("CENTER",1,-1);
 		end);
 		chatbut:SetScript("OnMouseUp", function (self)
 			self.Text:SetPoint("CENTER",0,0);
 		end);
-		--
+		if dataX[1] then
+			chatbut.PigxIsShown=function()
+				if name=="GUILD" then
+					return IsInGuild()
+				elseif name=="PARTY" then
+					return IsInGroup()
+				elseif name=="RAID" or name=="RAID_WARNING" then
+					return IsInRaid()--LE_PARTY_CATEGORY_HOME
+				elseif name=="INSTANCE_CHAT" then
+					return IsInGroup(LE_PARTY_CATEGORY_INSTANCE) or IsInRaid(LE_PARTY_CATEGORY_INSTANCE)
+				else
+					return true
+				end
+			end
+		else
+			chatbut.CHANNELname=_G[name] 
+		end
 		chatbut:SetScript("OnClick", function(self, button)
 			local pindaoid,pindaoname=Fun.GetSelectpindaoID(PIGA["Chat"]["QuickChat_Ban"],true)
 			--local chatFrame = SELECTED_DOCK_FRAME--当前选择聊天框架
 			--local SetChatFrame = DEFAULT_CHAT_FRAME
 			local SetChatFrame = GetBanChatFrame(pindaoid)
-			if pdtype=="Mes" then	
-				if button=="LeftButton" then
-					AddChatWindowMessages(1, pdname)
+			if button=="LeftButton" then
+				if dataX[1] then
+					AddChatWindowMessages(1, name)
 					local editBox = ChatEdit_ChooseBoxForSend();
 					local hasText = editBox:GetText()
 					if editBox:HasFocus() then
-						editBox:SetText("/"..chatID.." " .. hasText);
+						editBox:SetText("/"..dataX[1].." " .. hasText);
 					else
 						ChatEdit_ActivateChat(editBox)
-						editBox:SetText("/"..chatID.." " .. hasText);
+						editBox:SetText("/"..dataX[1].." " .. hasText);
 					end
 				else
-					if PIG_IsShow_Message(pdname) then
-						ChatFrame_RemoveMessageGroup(SetChatFrame, pdname);
-						if pdname=="RAID" then
-							ChatFrame_RemoveMessageGroup(SetChatFrame, "RAID_LEADER");
-						end
-						if pdname=="PARTY" then
-							ChatFrame_RemoveMessageGroup(SetChatFrame, "PARTY_LEADER");
-						end
-						if pdname=="INSTANCE_CHAT" then
-							ChatFrame_RemoveMessageGroup(SetChatFrame, "INSTANCE_CHAT_LEADER");
-						end
-						if pdname=="GUILD" then
-							ChatFrame_RemoveMessageGroup(SetChatFrame, "OFFICER");
-						end
-						PIGprint(IGNORE.._G[pdname]..CHANNEL..INFO);
-						self.X:Show();
+					self.pindaoID = GetPIGID(self.CHANNELname)
+					if self.pindaoID==0 then
+						local type, name = JoinTemporaryChannel(self.CHANNELname, nil, pindaoid, 1);
+						C_Timer.After(1,function()
+							if GetPIGID(self.CHANNELname)>0 then
+								PIGChatFrameAddChannel(SetChatFrame,self.CHANNELname)
+								self.X:Hide();
+								PIGprint(CHAT_JOIN..self.CHANNELname..CHANNEL.."，"..KEY_BUTTON2..IGNORE..CHANNEL..INFO);
+							else
+								PIGprint(CHAT_JOIN..self.CHANNELname..CHANNEL..FAILED.."，请稍后再试");
+							end
+						end)
+						return
+					end
+					PIGChatFrameAddChannel(SetChatFrame,self.CHANNELname)
+					local editBox = ChatEdit_ChooseBoxForSend();
+					local hasText = editBox:GetText()
+					if editBox:HasFocus() then
+						editBox:SetText("/"..self.pindaoID.." " ..hasText);
 					else
-						ChatFrame_AddMessageGroup(SetChatFrame, pdname);
-						if pdname=="RAID" then
-							ChatFrame_AddMessageGroup(SetChatFrame, "RAID_LEADER");
-						end
-						if pdname=="PARTY" then
-							ChatFrame_AddMessageGroup(SetChatFrame, "PARTY_LEADER");
-						end
-						if pdname=="INSTANCE_CHAT" then
-							ChatFrame_AddMessageGroup(SetChatFrame, "INSTANCE_CHAT_LEADER");
-						end
-						if pdname=="GUILD" then
-							ChatFrame_AddMessageGroup(SetChatFrame, "OFFICER");
-						end
-						PIGprint(IGNORE_REMOVE.._G[pdname]..CHANNEL..INFO);
-						self.X:Hide();
+						ChatEdit_ActivateChat(editBox)
+						editBox:SetText("/"..self.pindaoID.." " ..hasText);
 					end
 				end
-			elseif pdtype=="CHANNEL" then
-				self.pindaoID = GetPIGID(chatID)
-				if button=="LeftButton" then
-					if self.pindaoID==0 then
-						--JoinPermanentChannel(chatID, nil, pindaoid, 1);
-						--local type, name = JoinChannelByName(chatID, nil, pindaoid, 1)
-						JoinTemporaryChannel(chatID, nil, pindaoid, 1);
-						PIGChatFrameAddChannel(SetChatFrame,chatID)
-						if GetPIGID(chatID)>0 then
-							chatbut.X:Hide();
-							PIGprint(CHAT_JOIN..chatID..CHANNEL.."，"..KEY_BUTTON2..IGNORE..CHANNEL..INFO);
-						else
-							PIGprint(CHAT_JOIN..chatID..CHANNEL..FAILED.."，请稍后再试");
-						end
-					else
-						PIGChatFrameAddChannel(SetChatFrame,chatID)
-						local editBox = ChatEdit_ChooseBoxForSend();
-						local hasText = editBox:GetText()
-						if editBox:HasFocus() then
-							editBox:SetText("/"..self.pindaoID.." " ..hasText);
-						else
-							ChatEdit_ActivateChat(editBox)
-							editBox:SetText("/"..self.pindaoID.." " ..hasText);
-						end
-					end		
-				else
-					if self.pindaoID>0 then
-						if PIG_IsShow_CHANNEL(chatID) then
-							if chatID==GENERAL then
-								PIGChatFrameRemoveChannel(SetChatFrame, FUWUPINDAONAME);
-								PIGChatFrameRemoveChannel(SetChatFrame, "本地防务");
-								PIGChatFrameRemoveChannel(SetChatFrame, "世界防务");
-								PIGprint(IGNORE..chatID.."/"..FUWUPINDAONAME..CHANNEL..INFO);
-							else
-								PIGprint(IGNORE..chatID..CHANNEL..INFO);
+			else
+				if dataX[1] then
+					if PIG_IsShow_Message(name) then
+						if dataX[4] then
+							for _,chanamex in pairs(dataX[4]) do
+								ChatFrameMixin.RemoveMessageGroup(SetChatFrame, chanamex);
 							end
-							PIGChatFrameRemoveChannel(SetChatFrame, chatID);
+						else
+							ChatFrameMixin.RemoveMessageGroup(SetChatFrame, name);
+						end
+						PIGprint(IGNORE.._G[name]..CHANNEL..INFO);
+						self.X:Show();
+					else
+						if dataX[4] then
+							for _,chanamex in pairs(dataX[4]) do
+								ChatFrameMixin.AddMessageGroup(SetChatFrame, chanamex);
+							end
+						else
+							ChatFrameMixin.AddMessageGroup(SetChatFrame, name);
+						end
+						PIGprint(IGNORE_REMOVE.._G[name]..CHANNEL..INFO);
+						self.X:Hide();
+					end
+				else
+					self.pindaoID = GetPIGID(self.CHANNELname)
+					if self.pindaoID>0 then
+						if PIG_IsShow_CHANNEL(self.CHANNELname) then
+							PIGChatFrameRemoveChannel(SetChatFrame, self.CHANNELname);
+							if self.CHANNELname==GENERAL then
+								PIGChatFrameRemoveChannel(SetChatFrame, L["CHAT_BENDIFUWU"]);
+								PIGChatFrameRemoveChannel(SetChatFrame, L["CHAT_BENDIFANGWU"]);
+								PIGChatFrameRemoveChannel(SetChatFrame, L["CHAT_WORLDFANGWU"]);
+								PIGprint(IGNORE..self.CHANNELname.."/"..L["CHAT_BENDIFUWU"].."/"..L["CHAT_BENDIFANGWU"].."/"..L["CHAT_WORLDFANGWU"]..CHANNEL..INFO);
+							elseif self.CHANNELname==CHANNEL_CATEGORY_WORLD then
+								PIGprint(IGNORE..self.CHANNELname..CHANNEL..INFO);
+							else
+								PIGprint(IGNORE..self.CHANNELname..CHANNEL..INFO);
+							end
 							self.X:Show();
 						else
-							PIGChatFrameAddChannel(SetChatFrame,chatID)
-							if chatID==GENERAL then
-								PIGChatFrameAddChannel(SetChatFrame, FUWUPINDAONAME);
-								PIGChatFrameAddChannel(SetChatFrame, "本地防务");
-								PIGChatFrameAddChannel(SetChatFrame, "世界防务");
-								PIGprint(IGNORE_REMOVE..chatID.."/"..FUWUPINDAONAME..CHANNEL..INFO);
+							PIGChatFrameAddChannel(SetChatFrame,self.CHANNELname)
+							if self.CHANNELname==GENERAL then
+								PIGChatFrameAddChannel(SetChatFrame, L["CHAT_BENDIFUWU"]);
+								PIGChatFrameAddChannel(SetChatFrame, L["CHAT_BENDIFANGWU"]);
+								PIGChatFrameAddChannel(SetChatFrame, L["CHAT_WORLDFANGWU"]);
+								PIGprint(IGNORE_REMOVE..self.CHANNELname.."/"..L["CHAT_BENDIFUWU"].."/"..L["CHAT_BENDIFANGWU"].."/"..L["CHAT_WORLDFANGWU"]..CHANNEL..INFO);
+							elseif self.CHANNELname==CHANNEL_CATEGORY_WORLD then
+								PIGprint(IGNORE_REMOVE..self.CHANNELname..CHANNEL..INFO);
 							else
-								PIGprint(IGNORE_REMOVE..chatID..CHANNEL..INFO);
+								PIGprint(IGNORE_REMOVE..self.CHANNELname..CHANNEL..INFO);
 							end
 							self.X:Hide();
 						end
 					else
-						PIGprint("尚未"..CHAT_JOIN..chatID..CHANNEL);
+						PIGprint("尚未"..CHAT_JOIN..self.CHANNELname..CHANNEL);
 					end
 				end
 			end
@@ -269,103 +341,40 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 	end
 	return chatbut
 end
----更新按钮的屏蔽状态
-function QuickChatfun.Update_ChatBut_icon()
-	if QuickChatfun.TabButUI then
-		local changuipindaoX = {
-			{QuickChatfun.TabButUI.SAY,"SAY"},
-			{QuickChatfun.TabButUI.YELL,"YELL"},
-			{QuickChatfun.TabButUI.PARTY,"PARTY"},
-			{QuickChatfun.TabButUI.GUILD,"GUILD"},
-			{QuickChatfun.TabButUI.RAID,"RAID"},
-			{QuickChatfun.TabButUI.RAID_WARNING,"RAID_WARNING"},
-			{QuickChatfun.TabButUI.INSTANCE_CHAT,"INSTANCE_CHAT"},
-		}
-		local changuipindao = {}
-		for i=1,#changuipindaoX do
-			if changuipindaoX[i][1] then
-				table.insert(changuipindao,{changuipindaoX[i][1].X,changuipindaoX[i][2]})
-			end
-		end
-		for i=1,#changuipindao do
-			if PIG_IsShow_Message(changuipindao[i][2]) then
-				changuipindao[i][1]:Hide();
-			else
-				changuipindao[i][1]:Show();
-			end
-		end
-		---
-		local chaozhaopindaoX = {
-			{"CHANNEL_1",GENERAL},
-			{"CHANNEL_2",TRADE},
-			{"CHANNEL_3",LOOK_FOR_GROUP},
-			{"CHANNEL_4",worldname},
-		}
-		for i=1,#chaozhaopindaoX do
-			if QuickChatfun.TabButUI[chaozhaopindaoX[i][1]] then
-				if PIG_IsShow_CHANNEL(chaozhaopindaoX[i][2]) then
-					QuickChatfun.TabButUI[chaozhaopindaoX[i][1]].X:Hide();
-				else
-					QuickChatfun.TabButUI[chaozhaopindaoX[i][1]].X:Show();
-				end
-			end
-		end
-	end
-end
----快捷切换频道按钮位置=======	
-function QuickChatfun.Update_QuickChatPoint(arg1)
-	local arg1=arg1 or PIGA["Chat"]["QuickChat_maodian"]
-	if QuickChatfun.TabButUI then
-		QuickChatfun.TabButUI:ClearAllPoints();	
-		if arg1==1 then	
-			QuickChatfun.TabButUI:SetPoint("BOTTOMLEFT",ChatFrame1,"TOPLEFT",0+PIGA["Chat"]["QuickChat_pianyiX"],28+PIGA["Chat"]["QuickChat_pianyiY"]);
-		elseif arg1==2 then
-			QuickChatfun.TabButUI:SetPoint("TOPLEFT",ChatFrame1,"BOTTOMLEFT",-2+PIGA["Chat"]["QuickChat_pianyiX"],-4+PIGA["Chat"]["QuickChat_pianyiY"]);
-		end	
-		addonTable.QuickChatfun.Update_editBoxPoint()
-	end
-end
+--创建按钮-------
 function QuickChatfun.TabBut()
 	if not PIGA["Chat"]["QuickChat"] then return end
 	if QuickChatfun.TabButUI then return end
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_WARNING", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", TihuanBQfun)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_COMMUNITIES_CHANNEL", TihuanBQfun)
 	-----------------------
-	local Width = 25
-	local QuickTabBut = CreateFrame("Frame", nil, UIParent);
-	QuickChatfun.TabButUI=QuickTabBut
-	QuickTabBut.Width=Width
-	QuickTabBut:SetSize(Width,Width);
-	QuickTabBut:SetFrameStrata("LOW")
-	QuickTabBut.PIGTemplate={nil,""}
-	if PIGA["Chat"]["QuickChat_style"]==1 then
-		QuickTabBut.PIGTemplate[2]="OUTLINE"
-	elseif PIGA["Chat"]["QuickChat_style"]==2 then
-		QuickTabBut.PIGTemplate[1]="UIMenuButtonStretchTemplate"
-	elseif PIGA["Chat"]["QuickChat_style"]==3 then
-		QuickTabBut.PIGTemplate[1]="BackdropTemplate"
+	if Locale == "zhCN" then
+		table.insert(listDataLoc,"CHANNEL_CATEGORY_WORLD")
+		if PIGA["Chat"]["BigfootWorld"] then
+			BIGFOOTWORLD="大脚世界频道"
+			table.insert(listDataLoc,"BIGFOOTWORLD")
+			ChannelData["BIGFOOTWORLD"]={nil,{0.888, 0.668, 0.668},L["CHAT_QUKBUTNAME"][12]}
+		end
 	end
-	function QuickTabBut:ADD_chatbutExt(icon,ww,hh,xx,yy,tisptxt)
-		local ziframe = {self:GetChildren()}
+	local Width = 25
+	local QKchatBut = CreateFrame("Frame", nil, UIParent);
+	QuickChatfun.TabButUI=QKchatBut
+	QKchatBut.tabbutList={}
+	QKchatBut.Width=Width
+	QKchatBut:SetSize(Width,Width);
+	QKchatBut:SetFrameStrata("LOW")
+	QKchatBut.PIGTemplate={nil,""}
+	if PIGA["Chat"]["QuickChat_style"]==1 then
+		QKchatBut.PIGTemplate[2]="OUTLINE"
+	elseif PIGA["Chat"]["QuickChat_style"]==2 then
+		QKchatBut.PIGTemplate[1]="UIMenuButtonStretchTemplate"
+	elseif PIGA["Chat"]["QuickChat_style"]==3 then
+		QKchatBut.PIGTemplate[1]="BackdropTemplate"
+	end
+	function QKchatBut:ADD_chatbutExt(icon,ww,hh,xx,yy,tisptxt)
 		local extbut = CreateFrame("Button",nil,self, self.PIGTemplate[1])
 		Add_Backdrop(extbut,self.PIGTemplate[1])
 		extbut:SetSize(Width,Width);
-		extbut:SetPoint("LEFT",self,"LEFT",#ziframe*Width,0);
+		QKchatBut.butlist=QKchatBut.butlist or {}
+		table.insert(QKchatBut.butlist,extbut)
 		extbut.Tex = extbut:CreateTexture();
 		extbut.Tex:SetTexture(icon);
 		extbut.Tex:SetSize(Width+ww,Width+hh);
@@ -406,18 +415,20 @@ function QuickChatfun.TabBut()
 	hooksecurefunc("ChatEdit_SetLastActiveWindow", function(editBox)
 		Hidebeijing(editBox)
 	end)
-	function QuickTabBut:PIGEnterAlpha()
+
+	function QKchatBut:PIGEnterAlpha()
 		self:SetAlpha(1)
 	end
-	function QuickTabBut:PIGLeaveAlpha()
+	function QKchatBut:PIGLeaveAlpha()
 		if PIGA["Chat"]["QuickChat_jianyin"] then self:SetAlpha(0.06) end
 	end
+	QKchatBut:PIGLeaveAlpha()
 	local function SetEnterLeave(fuix)
 		fuix:HookScript("OnEnter", function (self)	
-			QuickTabBut:PIGEnterAlpha()
+			QKchatBut:PIGEnterAlpha()
 		end);
 		fuix:HookScript("OnLeave", function (self)
-			QuickTabBut:PIGLeaveAlpha()
+			QKchatBut:PIGLeaveAlpha()
 		end);
 	end
 	for i = 1, NUM_CHAT_WINDOWS do
@@ -426,132 +437,106 @@ function QuickChatfun.TabBut()
 		local chatTab = _G["ChatFrame"..i.."Tab"]
 		SetEnterLeave(chatTab)
 	end
-	-------
-	QuickTabBut.biaoqing = ADD_chatbut(QuickTabBut,"bq")
-	QuickTabBut.biaoqing.F = CreateFrame("Frame", nil, QuickTabBut.biaoqing,"BackdropTemplate");
-	QuickTabBut.biaoqing.F:SetBackdrop( { 
-		bgFile = "Interface/Tooltips/UI-Tooltip-Background",tile = false, tileSize = 0,
-		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",edgeSize = 8, 
-		insets = { left = 2, right = 2, top = 2, bottom = 2 }});
-	QuickTabBut.biaoqing.F:SetBackdropBorderColor(0.5, 0.5, 0.5, 0.8);
-	QuickTabBut.biaoqing.F:SetBackdropColor(0.5, 0.5, 0.5, 0.8);
-	QuickTabBut.biaoqing.F:SetSize((Width+2)*hangshu+10,Width*6+20);
-	QuickTabBut.biaoqing.F:SetPoint("BOTTOMLEFT",QuickTabBut.biaoqing,"TOPLEFT", 0, 0);
-	QuickTabBut.biaoqing.F:Hide()
-	QuickTabBut.biaoqing.F:SetFrameStrata("HIGH")
-	QuickTabBut.biaoqing.F.xiaoshidaojishi = 0;
-	QuickTabBut.biaoqing.F.zhengzaixianshi = nil;
-	QuickTabBut.biaoqing.F:SetScript("OnUpdate", function(self, ssss)
-		if self.zhengzaixianshi==nil then
-			return;
-		else
-			if self.zhengzaixianshi==true then
-				if self.xiaoshidaojishi<= 0 then
-					self:Hide();
-					self.zhengzaixianshi = nil;
+
+	function QKchatBut:PIGUpdate_Scale()
+		QKchatBut:SetScale(PIGA["Chat"]["QuickChat_suofang"]);
+	end
+	QKchatBut:PIGUpdate_Scale()
+	---更新按钮位置
+	function QKchatBut.Update_QuickChatPoint(arg1)
+		local arg1=arg1 or PIGA["Chat"]["QuickChat_maodian"]
+		if QKchatBut then
+			QKchatBut:ClearAllPoints();	
+			if arg1==1 then	
+				QKchatBut:SetPoint("BOTTOMLEFT",ChatFrame1,"TOPLEFT",0+PIGA["Chat"]["QuickChat_pianyiX"],28+PIGA["Chat"]["QuickChat_pianyiY"]);
+			elseif arg1==2 then
+				QKchatBut:SetPoint("TOPLEFT",ChatFrame1,"BOTTOMLEFT",-2+PIGA["Chat"]["QuickChat_pianyiX"],-4+PIGA["Chat"]["QuickChat_pianyiY"]);
+			end	
+			QuickChatfun.Update_editBoxPoint()
+		end
+	end
+	---屏蔽状态
+	local function Update_ChatButicon()
+		for chatname,but in pairs(QKchatBut.tabbutList) do
+			if but.CHANNELname then
+				if PIG_IsShow_CHANNEL(but.CHANNELname) then
+					but.X:Hide();
 				else
-					self.xiaoshidaojishi = self.xiaoshidaojishi - ssss;	
+					but.X:Show();
+				end
+			else
+				if PIG_IsShow_Message(chatname) then
+					but.X:Hide();
+				else
+					but.X:Show();
 				end
 			end
 		end
-	end)
-	QuickTabBut.biaoqing.F:SetScript("OnEnter", function(self)
-		self.zhengzaixianshi = nil;
-	end)
-	QuickTabBut.biaoqing.F:SetScript("OnLeave", function(self)
-		self.xiaoshidaojishi = 1.5;
-		self.zhengzaixianshi = true;
-	end)
-	QuickTabBut.biaoqing.F.ButList={}
-	for i=1,#biaoqingData do
-		local biaoqinglist = CreateFrame("Button",nil,QuickTabBut.biaoqing.F,nil,i);
-		QuickTabBut.biaoqing.F.ButList[i]=biaoqinglist
-		biaoqinglist:SetSize(Width,Width);
-		if i==1 then
-			biaoqinglist:SetPoint("TOPLEFT",QuickTabBut.biaoqing.F,"TOPLEFT", 5, -5);
-		elseif i<hangshu+1 then
-			biaoqinglist:SetPoint("LEFT",QuickTabBut.biaoqing.F.ButList[i-1],"RIGHT", 2, 0);
-		elseif i==hangshu+1 then
-			biaoqinglist:SetPoint("TOPLEFT",QuickTabBut.biaoqing.F.ButList[1],"BOTTOMLEFT", 0, -2);
-		elseif i<hangshu*2+1 then
-			biaoqinglist:SetPoint("LEFT",QuickTabBut.biaoqing.F.ButList[i-1],"RIGHT", 2, 0);
-		elseif i==hangshu*2+1 then
-			biaoqinglist:SetPoint("TOPLEFT",QuickTabBut.biaoqing.F.ButList[11],"BOTTOMLEFT", 0, -2);
-		elseif i<hangshu*3+1 then
-			biaoqinglist:SetPoint("LEFT",QuickTabBut.biaoqing.F.ButList[i-1],"RIGHT", 2, 0);
-		elseif i==hangshu*3+1 then
-			biaoqinglist:SetPoint("TOPLEFT",QuickTabBut.biaoqing.F.ButList[21],"BOTTOMLEFT", 0, -2);
-		elseif i<hangshu*4+1 then
-			biaoqinglist:SetPoint("LEFT",QuickTabBut.biaoqing.F.ButList[i-1],"RIGHT", 2, 0);
-		elseif i==hangshu*4+1 then
-			biaoqinglist:SetPoint("TOPLEFT",QuickTabBut.biaoqing.F.ButList[31],"BOTTOMLEFT", 0, -2);
-		elseif i<hangshu*5+1 then
-			biaoqinglist:SetPoint("LEFT",QuickTabBut.biaoqing.F.ButList[i-1],"RIGHT", 2, 0);
-		elseif i==hangshu*5+1 then
-			biaoqinglist:SetPoint("TOPLEFT",QuickTabBut.biaoqing.F.ButList[41],"BOTTOMLEFT", 0, -2);
-		elseif i<hangshu*6+1 then
-			biaoqinglist:SetPoint("LEFT",QuickTabBut.biaoqing.F.ButList[i-1],"RIGHT", 2, 0);
-		end
-		biaoqinglist.Tex = biaoqinglist:CreateTexture();
-		biaoqinglist.Tex:SetTexture(biaoqingData[i][2]);
-		biaoqinglist.Tex:SetPoint("CENTER",0,0);
-		biaoqinglist.Tex:SetSize(Width,Width);
-		biaoqinglist:SetScript("OnEnter", function()
-			QuickTabBut.biaoqing.F.zhengzaixianshi=nil
-		end)
-		biaoqinglist:SetScript("OnLeave", function()
-			QuickTabBut.biaoqing.F.xiaoshidaojishi = 1.5;
-			QuickTabBut.biaoqing.F.zhengzaixianshi = true;
-		end)
-		biaoqinglist:SetScript("OnClick", function(self)
-			local editBox = ChatEdit_ChooseBoxForSend();
-			local hasText = editBox:GetText()..biaoqingData[self:GetID()][1]
-			if editBox:HasFocus() then
-				editBox:SetText(hasText);
+	end
+	--显隐
+	local function Update_ChatButShow()
+		local index=0
+		for i,but in ipairs(QKchatBut.butlist) do
+			local shangji
+			but:ClearAllPoints();
+			if but.PigxIsShown then
+				if but.PigxIsShown() then
+					index=index+1
+				else
+					shangji=true
+				end
 			else
-				ChatEdit_ActivateChat(editBox)
-				editBox:SetText(hasText);
+				index=index+1
 			end
-			QuickTabBut.biaoqing.F:Hide();
-		end)
+			if not shangji then
+				but:SetPoint("LEFT",QKchatBut,"LEFT",index*Width,0);
+			end
+		end
 	end
-	--说--
-	QuickTabBut.SAY = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][1],"s",{1, 1, 1},"SAY")
-	--喊--
-	QuickTabBut.YELL = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][2],"y",{1, 0.25, 0.25},"YELL")
-	--队伍--
-	QuickTabBut.PARTY = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][3],"p",{0.6667, 0.6667, 1},"PARTY")
-	--公会--
-	QuickTabBut.GUILD = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][4],"g",{0.25, 1, 0.25},"GUILD")
-	--团队--
-	QuickTabBut.RAID = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][5],"ra",{1, 0.498, 0},"RAID")
-	--团队通知--
-	QuickTabBut.RAID_WARNING = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][6],"rw",{1, 0.282, 0},"RAID_WARNING")
-	--战场/副本--
-	if PIG_MaxTocversion(30000) then
-		QuickTabBut.INSTANCE_CHAT = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][7],"bg",{1, 0.498, 0},"INSTANCE_CHAT")
-	else
-		QuickTabBut.INSTANCE_CHAT = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][7],"i",{1, 0.498, 0},"INSTANCE_CHAT")
+	local function Update_ChatButShowEvent()
+		QKchatBut.AutoShowHide=PIGA["Chat"]["QuickChat_AutoShowHide"]
+		if QKchatBut.AutoShowHide then
+			QKchatBut:UnregisterEvent("GROUP_ROSTER_UPDATE");
+			QKchatBut:UnregisterEvent("PLAYER_GUILD_UPDATE");
+			for i,but in ipairs(QKchatBut.butlist) do
+				but:ClearAllPoints();
+				but:SetPoint("LEFT",QKchatBut,"LEFT",i*Width,0);
+			end
+		else
+			QKchatBut:RegisterEvent("GROUP_ROSTER_UPDATE");
+			QKchatBut:RegisterEvent("PLAYER_GUILD_UPDATE")
+			Update_ChatButShow()
+		end
 	end
-	--CHANNEL--
-	QuickTabBut.CHANNEL_1 = ADD_chatbut(QuickTabBut,"CHANNEL",L["CHAT_QUKBUTNAME"][8],GENERAL,{0.888, 0.668, 0.668})
-	QuickTabBut.CHANNEL_2 = ADD_chatbut(QuickTabBut,"CHANNEL",L["CHAT_QUKBUTNAME"][9],TRADE,{0.888, 0.668, 0.668})
-	QuickTabBut.CHANNEL_3 = ADD_chatbut(QuickTabBut,"CHANNEL",L["CHAT_QUKBUTNAME"][10],LOOK_FOR_GROUP,{0.888, 0.668, 0.668})
-	QuickTabBut.CHANNEL_4 = ADD_chatbut(QuickTabBut,"CHANNEL",L["CHAT_QUKBUTNAME"][11],worldname,{0.888, 0.668, 0.668})
-	--
+	QKchatBut.Update_ChatButShowEvent=Update_ChatButShowEvent
+	-------
+	for i=1,#listDataLoc do
+		ADD_chatbut(QKchatBut,listDataLoc[i])
+	end
+	----
 	QuickChatfun.QuickBut_Keyword()
 	QuickChatfun.QuickBut_Roll()
 	QuickChatfun.QuickBut_Stats()
 	QuickChatfun.QuickBut_Jilu()
-	QuickChatfun.Update_QuickChatPoint(PIGA["Chat"]["QuickChat_maodian"])
-	C_Timer.After(3,QuickChatfun.Update_ChatBut_icon)
-	C_Timer.After(5,QuickChatfun.Update_ChatBut_icon)
-	C_Timer.After(10,QuickChatfun.Update_ChatBut_icon)
-	--更新尺寸
-	function QuickTabBut:PIGScale()
-		QuickTabBut:SetScale(PIGA["Chat"]["QuickChat_suofang"]);
-		QuickChatfun.Update_QuickChatPoint()
-	end
-	QuickTabBut:PIGScale()
-	QuickTabBut:PIGLeaveAlpha()
+	---
+	QKchatBut:RegisterEvent("PLAYER_ENTERING_WORLD");
+	QKchatBut:HookScript("OnEvent", function(self,event,arg1)
+		if event=="GROUP_ROSTER_UPDATE" or event=="PLAYER_GUILD_UPDATE" then
+			if self.ENTERING_WORLD then
+			    if self._chatButDebounceTimer then
+			        self._chatButDebounceTimer:Cancel()
+			    end
+			    self._chatButDebounceTimer = C_Timer.NewTimer(0.4, function()
+			        Update_ChatButShow()
+			    end)
+			end
+		else
+			self.ENTERING_WORLD=true
+			QKchatBut.Update_QuickChatPoint()
+			Update_ChatButShowEvent()
+			C_Timer.After(3,Update_ChatButicon)
+			C_Timer.After(5,Update_ChatButicon)
+			C_Timer.After(10,Update_ChatButicon)
+		end
+	end); 
 end

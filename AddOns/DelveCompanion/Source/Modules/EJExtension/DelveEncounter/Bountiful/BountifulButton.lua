@@ -66,7 +66,7 @@ end
 
 ---@param self DelveEncounterBountifulButton
 function DelveCompanion_DelveEncounterBountifulButtonMixin:OnLeave()
-    GameTooltip:Hide()
+    securecall(GameTooltip.Hide, GameTooltip)
 end
 
 ---@param self DelveEncounterBountifulButton

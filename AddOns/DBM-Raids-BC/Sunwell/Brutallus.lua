@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal25"
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(24882)
 mod:SetEncounterID(725, 2489)
@@ -29,8 +29,8 @@ local warnMeteor		= mod:NewSpellAnnounce(45150, 3)
 local warnBurn			= mod:NewTargetNoFilterAnnounce(46394, 3)--Announces boss cast target, not spread targets
 local warnStomp			= mod:NewTargetNoFilterAnnounce(45185, 3, nil, "Tank", 2)
 
-local specWarnMeteor	= mod:NewSpecialWarningStack(45150, nil, 4, nil, nil, 1, 6)
-local specWarnBurn		= mod:NewSpecialWarningYou(46394, nil, nil, nil, 1, 2)
+local specWarnMeteor	= mod:NewSpecialWarningStack(45150, nil, 4, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnBurn		= mod:NewSpecialWarningYou(46394, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellBurnFades		= mod:NewShortFadesYell(46394)
 
 local timerMeteorCD		= mod:NewCDTimer(12, 45150, nil, nil, nil, 3)

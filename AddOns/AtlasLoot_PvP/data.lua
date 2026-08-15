@@ -32,7 +32,7 @@ local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 
 local PRICE_EXTRA_ITTYPE = data:AddExtraItemTableType("Price")
 
-local PVP_CONTENT = data:AddContentType(AL["PvP"], ATLASLOOT_PVP_COLOR)
+local PVP_CONTENT = data:AddContentType(PVP, ATLASLOOT_PVP_COLOR)
 
 --[[ template
 data["LEGION7SET"] = {
@@ -1210,7 +1210,7 @@ data["LEGION7SET"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Elite"].." "..AL["Non-Set Gear"],
+			name = ELITE.." "..AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
 				{ 1,   149433, }, -- Helm of the Demonic Gladiator
 				{ 2,   149434, }, -- Chest of the Demonic Gladiator
@@ -2212,7 +2212,7 @@ data["LEGION6SET"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Elite"].." "..AL["Non-Set Gear"],
+			name = ELITE.." "..AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
 				{ 1,   149415, }, -- Helm of the Dominant Gladiator
 				{ 2,   149416, }, -- Chest of the Dominant Gladiator
@@ -3222,7 +3222,7 @@ data["LEGION5SET"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Elite"].." "..AL["Non-Set Gear"],
+			name = ELITE.." "..AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
 				{ 1,  149397, }, -- Helm of the Fierce Gladiator
 				{ 2,  149398, }, -- Chest of the Fierce Gladiator
@@ -4188,7 +4188,7 @@ data["LEGION4SET"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Elite"].." "..AL["Non-Set Gear"],
+			name = ELITE.." "..AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
 				{ 1,  146835, [PRICE_EXTRA_ITTYPE] = "echoofdomination:100" }, -- Helm of the Ferocious Gladiator
 				{ 2,  146836, [PRICE_EXTRA_ITTYPE] = "echoofdomination:100" }, -- Chest of the Ferocious Gladiator
@@ -5091,7 +5091,7 @@ data["LEGION3SET"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Elite"].." "..AL["Non-Set Gear"],
+			name = ELITE.." "..AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
 				{ 1,  146817, [PRICE_EXTRA_ITTYPE] = "echoofdomination:75" }, -- Helm of the Cruel Gladiator
 				{ 2,  146818, [PRICE_EXTRA_ITTYPE] = "echoofdomination:75" }, -- Chest of the Cruel Gladiator
@@ -6065,7 +6065,7 @@ data["LEGION2SETS"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Elite"].." "..AL["Non-Set Gear"],
+			name = ELITE.." "..AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
 				-- Amulet
 				{ 1,  143102 }, -- Fearless Gladiator's Necklace
@@ -7040,7 +7040,7 @@ data["LEGION1SETS"] = {
 	ContentType = NORMAL_ITTYPE,
 	items = {
 		{
-			name = AL["Elite"].." "..AL["Non-Set Gear"],
+			name = ELITE.." "..AL["Non-Set Gear"],
 			[ALLIANCE_DIFF] = {
 				-- Amulet
 				{ 1,  136133 }, -- Vindictive Gladiator's Necklace
@@ -18590,7 +18590,7 @@ data["LEGACYJUSTICEGEAR"] = {
 			},
 		},
 		{ -- Miscellaneous
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[ALLIANCE_DIFF] = {
 				{ 1,   57927, [PRICE_EXTRA_ITTYPE] = "money:1361400" }, -- Throat Slasher, 22
 				{ 2,   57928, [PRICE_EXTRA_ITTYPE] = "money:1366200" }, -- Windslicer, 22
@@ -19117,7 +19117,7 @@ data["LEGACYVALORGEAR"] = {
 			},
 		},
 		{ -- Miscellaneous
-			name = AL["Miscellaneous"],
+			name = MISCELLANEOUS,
 			[ALLIANCE_DIFF] = {
 				{ 1,  77078, [PRICE_EXTRA_ITTYPE] = "money:2038700" }, -- Scintillating Rods, Ranged
 				{ 2,  77079, [PRICE_EXTRA_ITTYPE] = "money:2038700" }, -- Hungermouth Wand, Ranged

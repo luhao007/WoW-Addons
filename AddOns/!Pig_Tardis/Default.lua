@@ -16,21 +16,6 @@ local extDefault ={
 		["Yell_CHANNEL"]={["SAY"] = true},
 		["YellMsg"]="",
 	},
-	["Houche"]={
-		["Open"] = true,
-		["AutoInvite"]=true,
-		["AutoInviteCD"]=0,
-		["DaojishiCD"]=0,
-		["Description"]="",
-	},
-	["Chedui"]={
-		["Open"] = true,
-		["Favorite_Siji"]={},
-		["Ban_Siji"]={},
-		["Favorite_Chengke"]={},
-		["Ban_Chengke"]={},
-		["ApplyTemp"]={},
-	},
 	["Plane"]={
 		["Open"] = true,
 		["AutoInvite"]=true,
@@ -51,14 +36,16 @@ local extDefault ={
 	},
 }
 Default["Tardis"]=extDefault
+Default["Tardis"]["Chedui"]=nil
+Default["Tardis"]["Houche"]=nil
 local extDefault_Per = {
 
 };
 Default_Per["Tardis"]=extDefault_Per
 -------
-function addonTable.Load_Config()
+EventUtil.ContinueOnAddOnLoaded(addonName, function()
 	PIGA["Tardis"] = PIGA["Tardis"] or extDefault
 	PIGA_Per["Tardis"] = PIGA_Per["Tardis"] or extDefault_Per
 	Fun.Load_DefaultData(PIGA["Tardis"],extDefault,0)
 	Fun.Load_DefaultData(PIGA_Per["Tardis"],extDefault_Per, 0, true)
-end
+end)

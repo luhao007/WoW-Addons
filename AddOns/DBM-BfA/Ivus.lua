@@ -10,7 +10,7 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-BfA", 4, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(creatureID)
 mod:EnableWBEngageSync()--Enable syncing engage in outdoors
@@ -29,12 +29,12 @@ mod:RegisterEventsInCombat(
 local warnPetrify						= mod:NewSpellAnnounce(282615, 2, nil, nil, nil, nil, nil, 2)
 local warnPetrifyEnded					= mod:NewEndAnnounce(282615, 2, nil, nil, nil, nil, nil, 2)
 
-local specWarnBreath					= mod:NewSpecialWarningSpell(breathId, nil, nil, nil, 1, 2)
-local specWarnShockwaveYou				= mod:NewSpecialWarningYou(282463, nil, nil, nil, 1, 2)
-local specWarnShockwaveClose			= mod:NewSpecialWarningClose(282463, nil, nil, nil, 1, 2)
-local specWarnShockwave					= mod:NewSpecialWarningDodge(282463, nil, nil, nil, 2, 2)
-local specWarnGroundSpell				= mod:NewSpecialWarningSpell(strikeId, nil, nil, nil, 3, 2)
-local specWarnGTFO						= mod:NewSpecialWarningGTFO(gtfoId, nil, nil, nil, 1, 8)
+local specWarnBreath					= mod:NewSpecialWarningSpell(breathId, nil, nil, nil, 1, 2, nil, nil, "breathsoon")
+local specWarnShockwaveYou				= mod:NewSpecialWarningYou(282463, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnShockwaveClose			= mod:NewSpecialWarningClose(282463, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnShockwave					= mod:NewSpecialWarningDodge(282463, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnGroundSpell				= mod:NewSpecialWarningSpell(strikeId, nil, nil, nil, 3, 2, nil, nil, "watchstep")
+local specWarnGTFO						= mod:NewSpecialWarningGTFO(gtfoId, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerBreathCD						= mod:NewCDTimer(71.5, breathId, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--71-76?
 local timerShockwaveCD					= mod:NewCDTimer(23, 282463, nil, nil, nil, 3)--23-25

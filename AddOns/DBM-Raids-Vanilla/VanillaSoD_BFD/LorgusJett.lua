@@ -3,7 +3,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("LorgusJettSoD", "DBM-Raids-Vanilla", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260523022054")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(207356)
 mod:SetEncounterID(2710)--2764 is likely 5 man version in instance type 201
@@ -37,8 +37,8 @@ local warnBlackfathomMurloc			= mod:NewSpellAnnounce(419649, 2)
 local warnWindfuryTotem				= mod:NewSpellAnnounce(414691, 2)
 local warnMoltenFuryTotem			= mod:NewSpellAnnounce(419636, 2)
 
-local specWarnLightningShield		= mod:NewSpecialWarningSwitch(414763, nil, nil, nil, 1, 2)
-local specWarnHeal					= mod:NewSpecialWarningInterrupt(407568, "HasInterrupt", nil, nil, 1, 2)
+local specWarnLightningShield		= mod:NewSpecialWarningSwitch(414763, nil, nil, nil, 1, 2, nil, nil, "attacktotem")
+local specWarnHeal					= mod:NewSpecialWarningInterrupt(407568, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
 local timerTriplePunctureCD			= mod:NewCDNPTimer(10.9, 407794, nil, nil, nil, 5)
 local timerHealCD					= mod:NewCDNPTimer(10.9, 22883, nil, nil, nil, 4, nil, DBM_COMMON_L.INTERRUPT_ICON)--10.9+

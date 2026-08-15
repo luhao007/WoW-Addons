@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r46
+## Version: r49
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (BfA)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C争霸艾泽拉斯|r
@@ -26,7 +26,7 @@
 ## X-DBM-Mod-Name-ruRU: Рейды (Битва за Азерот)
 ## X-DBM-Mod-Sort: 401
 ## X-DBM-Mod-MapID: 2217, 2164, 2096, 2070, 1861
-## X-DBM-Mod-MinCoreRevision: 20230617000000
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 7
 ## X-Curse-Project-ID: 420275
 ## X-WoWI-ID: 25779

@@ -12,7 +12,7 @@
             <Layer level="OVERLAY">
                 <FontString parentKey="ErrorLabel" inherits="GameFontDisableMed2"
                     justifyH="CENTER" text="ERROR" mixin="AutoScalingFontStringMixin"
-                    wordwrap="true" maxLines="4" justifyV="MIDDLE" hidden="true">
+                    wordwrap="true" maxLines="4" justifyV="MIDDLE">
                     <Size x="80" y="80" />
                     <Anchors>
                         <Anchor point="CENTER" />
@@ -21,7 +21,7 @@
             </Layer>
         </Layers>
         <Frames>
-            <Frame parentKey="Widget" hidden="true">
+            <Frame parentKey="Widget">
                 <Size x="80" y="80" />
                 <Anchors>
                     <Anchor point="CENTER" />
@@ -37,7 +37,7 @@
                     </Layer>
                     <Layer level="ARTWORK" textureSubLevel="-1">
                         <Texture parentKey="FadeBg"
-                            file="Interface\Common\Common-Input-Border" hidden="true">
+                            file="Interface\Common\Common-Input-Border">
                             <Anchors>
                                 <Anchor point="TOPLEFT" relativeKey="$parent"
                                     relativePoint="TOPLEFT" />
@@ -47,19 +47,27 @@
                             <TexCoords left="0.0625" right="0.9375" top="0.25" bottom="0.375" />
                         </Texture>
                     </Layer>
-                    <Layer level="ARTWORK" textureSubLevel="0">
+                    <Layer level="OVERLAY" textureSubLevel="0">
                         <Texture parentKey="CheckMark"
-                            atlas="common-icon-checkmark" hidden="true">
+                            atlas="common-icon-checkmark">
                             <Size x="16" y="16" />
                             <Anchors>
                                 <Anchor point="BOTTOMRIGHT" />
                             </Anchors>
                         </Texture>
                         <Texture parentKey="RedX"
-                            atlas="common-icon-redx" hidden="true">
+                            atlas="common-icon-redx">
                             <Size x="16" y="16" />
                             <Anchors>
                                 <Anchor point="BOTTOMRIGHT" />
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="Lock"
+                            atlas="UI-Journeys-GreatVault-Lock" useAtlasSize="true">
+                            <Anchors>
+                                <Anchor point="CENTER" />
                             </Anchors>
                         </Texture>
                     </Layer>

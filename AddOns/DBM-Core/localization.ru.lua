@@ -2,6 +2,7 @@ if GetLocale() ~= "ruRU" then return end
 if not DBM_CORE_L then DBM_CORE_L = {} end
 
 local L = DBM_CORE_L
+L.AURA_FONT_RESET = "Обнаружены некорректные настройки шрифта для ауры, они сброшены на стандартные."
 
 L.DEADLY_BOSS_MODS						= "Deadly Boss Mods"
 L.DBM									= "DBM"
@@ -14,7 +15,7 @@ end
 
 L.HOW_TO_USE_MOD					= "Добро пожаловать в " .. L.DBM .. ". Наберите /dbm help, чтобы получить список поддерживаемых команд. Для доступа к настройкам наберите /dbm в чате. Загрузите конкретные зоны вручную, чтобы настроить определённых боссов на свой вкус. " .. L.DBM .. " установит настройки по умолчанию для Вашей специализации, но Вы, возможно, захотите настроить их более тонко."
 L.SILENT_REMINDER					= "Напоминание: " .. L.DBM .. " всё ещё в тихом режиме."
-L.NEWS_UPDATE						= "|h|c11ff1111Новости|r|h: DBM был обновлен с изменениями в структуре модов, поэтому Классическая и Актуальная версии теперь могут использовать унифицированные (одинаковые) модули. Это означает, что рейдовые модули Vanilla (включая Сезон открытий), TBC, Wrath и Cata теперь необходимо загружать отдельно, используя те же пакеты, что и Актуальные. Подробнее об этом |Hgarrmission:DBM:news|h|cff3588ff[нажмите здесь]|r|h"
+L.NEWS_UPDATE						= "|h|c11ff1111Новости|r|h: DBM был обновлён и получил функцию переименования способностей. Просто введите /dbm, перейдите в категорию модулей (рейды, подземелья и т.д.) и откройте модуль, в котором хотите переименовать способности."
 L.NEWS_UPDATE_REPEAT				= "|h|c11ff1111Новости|r|h: DBM был обновлен с изменениями в структуре модов, поэтому Классическая и Актуальная версии теперь могут использовать унифицированные (одинаковые) модули. Это означает, что рейдовые модули Vanilla (включая Сезон открытий), TBC, Wrath и Cata теперь необходимо загружать отдельно, используя те же пакеты, что и Актуальные. В данный момент Вы находитесь в рейде, в котором отсутствует модуль. Это сообщение будет отображаться (и у Вас не будет функциональных оповещений для этой зоны), пока Вы не установите отсутствующий модуль рейда."
 
 L.COPY_URL_DIALOG_NEWS				= "Чтобы прочитать последние новости, перейдите по ссылке ниже"
@@ -22,8 +23,8 @@ L.COPY_URL_DIALOG_NEWS				= "Чтобы прочитать последние н
 L.LOAD_MOD_ERROR					= "Ошибка при загрузке босс модуля для %s: %s"
 L.LOAD_MOD_SUCCESS					= "Загружен модуль для '%s'. Для дополнительных настроек введите /dbm или /dbm help в чате."
 L.LOAD_MOD_COMBAT					= "Загрузка '%s' отложена до выхода из боя"
-L.LOAD_GUI_ERROR					= "Не удалось загрузить GUI: %s"
-L.LOAD_GUI_COMBAT					= "GUI не может быть изначально загружено в бою. GUI будет загружено после боя. После загрузки GUI Вы сможете загружать его в бою."
+L.LOAD_GUI_ERROR					= "Не удалось загрузить графический интерфейс: %s"
+L.LOAD_GUI_COMBAT					= "Графический интерфейс недоступен во время боя. Попробуйте снова после выхода из боя."
 L.BAD_LOAD							= L.DBM .. " не удалось полностью загрузить модуль для этого подземелья, т.к. Вы находитесь в режиме боя. Как только Вы выйдете из боя, пожалуйста, перезагрузите интерфейс как можно скорее."
 L.LOAD_MOD_VER_MISMATCH				= "%s не может быть загружен, потому что Ваш DBM-Core не соответствует требованиям. Требуется обновлённая версия."
 L.LOAD_MOD_EXP_MISMATCH				= "%s не может быть загружен, потому что он создан для контента WoW, который в данный момент недоступен. Когда контент станет доступен, модуль заработает автоматически."
@@ -32,7 +33,7 @@ L.LOAD_MOD_DISABLED					= "%s установлен, но в данный мом�
 L.LOAD_MOD_DISABLED_PLURAL			= "%s установлены, но в данный момент отключены. Эти модули не будут загружены, пока Вы их не включите."
 
 L.COPY_URL_DIALOG					= "Копировать ссылку"
-L.COPY_WA_DIALOG					= "Копировать ключ WA"
+L.COPY_WA_DIALOG					= "Копировать ID заклинания"
 
 --Post Patch 7.1
 L.TEXT_ONLY_RANGE					= "Радар ограничен только текстом, поскольку Blizzard отключила эту функцию в этой зоне."
@@ -94,7 +95,7 @@ L.LEAVING_COMBAT					= "Выход из боя"
 L.RAID_DIFFICULTY_CHANGED			= "Уровень сложности рейда установлен на %s."
 L.DUNGEON_DIFFICULTY_CHANGED		= "Уровень сложности подземелья установлен на %s."
 
-L.PROFILE_NOT_FOUND					= "<" .. L.DBM .. "> Ваш текущий профиль повреждён. " .. L.DBM .. " загрузит профиль 'По умолчанию'."
+L.PROFILE_NOT_FOUND					= "<" .. L.DBM .. "> Ваш текущий профиль повреждён. " .. L.DBM .. " загрузит профиль '%s'."
 L.PROFILE_CREATED					= "Профиль '%s' создан."
 L.PROFILE_CREATE_ERROR				= "Не удалось создать профиль. Некорректное название профиля."
 L.PROFILE_CREATE_ERROR_D			= "Не удалось создать профиль. Профиль '%s' уже существует."
@@ -103,9 +104,9 @@ L.PROFILE_APPLY_ERROR				= "Не удалось применить профил�
 L.PROFILE_COPIED					= "Профиль '%s' скопирован."
 L.PROFILE_COPY_ERROR				= "Не удалось скопировать профиль. Профиль '%s' не существует."
 L.PROFILE_COPY_ERROR_SELF			= "Невозможно скопировать профиль себе."
-L.PROFILE_DELETED					= "Профиль '%s' удалён. Будет применён профиль 'По умолчанию'."
+L.PROFILE_DELETED					= "Профиль '%s' удалён. Будет применён профиль '%s'."
 L.PROFILE_DELETE_ERROR				= "Не удалось удалить профиль. Профиль '%s' не существует."
-L.PROFILE_CANNOT_DELETE				= "Невозможно удалить профиль 'По умолчанию'."
+L.PROFILE_CANNOT_DELETE				= "Невозможно удалить профиль '%s'."
 L.MPROFILE_COPY_SUCCESS				= "Настройки модуля от %s (специализация %d) были скопированы."
 L.MPROFILE_COPY_SELF_ERROR			= "Невозможно скопировать настройки персонажа сами в себя."
 L.MPROFILE_COPY_S_ERROR				= "Источник повреждён. Настройки не скопированы или скопированы частично. Скопировать не удалось."
@@ -197,7 +198,8 @@ L.VOICE_MISSING						= "Выбранный Вами голосовой паке�
 L.VOICE_DISABLED					= "У Вас установлен по крайней мере один голосовой пакет " .. L.DBM .. ", но ни один не включён. Если Вы собираетесь использовать голосовой пакет, убедитесь, что он выбран в 'Spoken Alerts', иначе удалите неиспользуемые голосовые пакеты, чтобы скрыть это сообщение."
 L.VOICE_COUNT_MISSING				= "Голос отсчёта %d использует голосовой пакет, который не найден или в настоящее время не поддерживается. Он был сброшен на настройки по умолчанию: %s."
 L.BIG_WIGS							= "BigWigs"
-L.WEAKAURA_KEY						= " (|cff308530Ключ WA:|r %s)"
+L.WEAKAURA_KEY						= " (|cff308530ID:|r %s)"
+L.RENAME							= " (|cff359030Переименование:|r |cff71d5ff%s|r)"
 
 L.UPDATEREMINDER_HEADER				= "Ваша версия " .. L.DEADLY_BOSS_MODS .. " устарела.\n Версия %s (%s) доступна для загрузки через Curse, Wago, WoWI или со страницы релизов GitHub."
 L.UPDATEREMINDER_HEADER_SUBMODULE	= "Ваш модуль %s устарел.\n Версию %s можно загрузить через Curse, Wago, WoWI или со страницы релизов GitHub."
@@ -224,7 +226,7 @@ L.HARDCODED_FALLBACK				= L.DBM .. " обнаружил неожиданную �
 L.MOVABLE_BAR						= "Перетащите!"
 L.MOVABLE_FRAMES					= "Перемещаемые фреймы"
 
-L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h транслирует Вам таймер " .. L.DBM .. ": '%2$s'\n|Hgarrmission:DBM:cancel:%2$s:nil|h|cff3588ff[Отменить этот таймер]|r|h  |Hgarrmission:DBM:ignore:%2$s:%1$s|h|cff3588ff[Игнорировать таймеры от %1$s]|r|h"
+L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h транслирует Вам таймер " .. L.DBM .. ": '%2$s'\n|Haddon:DBM:cancel:%2$s:nil|h|cff3588ff[Отменить этот таймер]|r|h  |Haddon:DBM:ignore:%2$s:%1$s|h|cff3588ff[Игнорировать таймеры от %1$s]|r|h"
 --L.PIZZA_SYNC_INFO					= "|Hplayer:%1$s|h[%1$s]|h транслирует Вам таймер " .. L.DBM .. ""
 L.PIZZA_CONFIRM_IGNORE				= "Игнорировать таймеры " .. L.DBM .. " от %s на время текущего сеанса?"
 L.PIZZA_ERROR_USAGE					= "Использование: /dbm [broadcast] timer <время> <текст>. <время> должно быть 3 или больше."
@@ -259,6 +261,7 @@ L.INFOFRAME_TITLE					= "Инфофрейм DBM"
 L.INFOFRAME_SHOW_SELF				= "Всегда показывать свою энергию"
 L.INFOFRAME_SETLINES				= "Максимальное число строк"
 L.INFOFRAME_SETCOLS					= "Максимальное число столбцов"
+L.INFOFRAME_SETSTRATA				= "Установить слой фрейма"
 L.INFOFRAME_LINESDEFAULT			= "По умолчанию"
 L.INFOFRAME_LINES_TO				= "%d строк"
 L.INFOFRAME_COLS_TO					= "%d столбцов"
@@ -293,8 +296,13 @@ L.SLASHCMD_HELP2						= {--AI translated (it's fine)
 	"/range <number> или /distance <number>: Показывает фрейм диапазона. /rrange или /rdistance для изменения цветов.",
 	"/hudar <number>: Показывает HUD для определения расстояния.",
 	"/dbm arrow: Показывает стрелку " .. L.DBM .. ", подробности в разделе '/dbm arrow help'.",
-	"/dbm hud: Показывает HUD " .. L.DBM .. ", подробности в разделе '/dbm hud'."
+	"/dbm hud: Показывает HUD " .. L.DBM .. ", подробности в разделе '/dbm hud'.",
+	"/dbm dbtdebug: Показывает очищенную диагностику таймеров строк состояния для отчётов об ошибках."
 }
+L.DBT_DEBUG_HEADER					= "Диагностика DBT (очищено; без текста боя или секретного текста)"
+L.DBT_DEBUG_EMPTY					= "С момента перезагрузки интерфейса не было зафиксировано обновлений стиля DBT."
+L.DBT_DEBUG_DISABLED				= "Сбор данных отключён. Включите режим отладки DBM перед воспроизведением проблемы."
+L.DBT_DEBUG_NOTICE					= "Пожалуйста, приложите это сообщение в чате к отчёту об ошибке."
 L.TIMER_USAGE = {
 	L.DBM .. " команды таймера:",
 	"-----------------",
@@ -340,6 +348,7 @@ L.AUTO_ANNOUNCE_TEXTS.incomingcount	= "%s получает дебафф (%%s)"
 L.AUTO_ANNOUNCE_TEXTS.ends			= "%s заканчивается"
 L.AUTO_ANNOUNCE_TEXTS.endtarget		= "%s заканчивается: >%%s<"
 L.AUTO_ANNOUNCE_TEXTS.fades			= "%s спадает"
+L.AUTO_ANNOUNCE_TEXTS.fadesoon		= "%s скоро спадёт"
 L.AUTO_ANNOUNCE_TEXTS.addsleft		= "Осталось %s: %%d"
 L.AUTO_ANNOUNCE_TEXTS.cast 			= "Применение заклинания %s: %.1f сек."
 L.AUTO_ANNOUNCE_TEXTS.soon 			= "Скоро %s"
@@ -367,6 +376,7 @@ L.AUTO_ANNOUNCE_OPTIONS.incomingcount	= "Объявлять (со счётчик
 L.AUTO_ANNOUNCE_OPTIONS.ends			= "Предупреждать об окончании $spell:%s"
 L.AUTO_ANNOUNCE_OPTIONS.endtarget		= "Предупреждать об окончании $spell:%s (с целью)"
 L.AUTO_ANNOUNCE_OPTIONS.fades			= "Предупреждать о спадении $spell:%s"
+L.AUTO_ANNOUNCE_OPTIONS.fadesoon		= "Заранее предупреждать, когда $spell:%s исчезнет"
 L.AUTO_ANNOUNCE_OPTIONS.addsleft		= "Объявлять, сколько осталось $spell:%s"
 L.AUTO_ANNOUNCE_OPTIONS.cast 			= "Предупреждать о применении заклинания $spell:%s"
 L.AUTO_ANNOUNCE_OPTIONS.soon 			= prewarnOption
@@ -403,6 +413,7 @@ L.AUTO_SPEC_WARN_TEXTS.blizzyou			= "%s (%%s) на Вас"
 L.AUTO_SPEC_WARN_TEXTS.link				= "%s связан с >%%s<"
 L.AUTO_SPEC_WARN_TEXTS.defensive		= "%s - защититесь"
 L.AUTO_SPEC_WARN_TEXTS.taunt			= "%s на >%%s< - затаунти"
+L.AUTO_SPEC_WARN_TEXTS.tauntsecret	= "%s на %%s - затаунти"
 L.AUTO_SPEC_WARN_TEXTS.close 			= "%s на >%%s< около Вас"
 L.AUTO_SPEC_WARN_TEXTS.move 			= "%s - отбегите"
 L.AUTO_SPEC_WARN_TEXTS.keepmove			= "%s - продолжайте двигаться"
@@ -643,10 +654,10 @@ L.AUTO_INFO_FRAME_OPTION_TEXT2		= "Показывать информационн
 L.AUTO_INFO_FRAME_OPTION_TEXT3		= "Показывать информационный фрейм для $spell:%s (при достижении порогового значения %%s)"
 L.AUTO_READY_CHECK_OPTION_TEXT		= "Воспроизводить звук проверки готовности, когда пуллят босса (даже если он не является целью)"
 L.AUTO_SPEEDCLEAR_OPTION_TEXT		= "Показывать таймер для быстрого прохождения этой зоны"
-L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Воспроизводить звуковые оповещения приватных аур DBM для $spell:%s в этом бою."--Обычный (наиболее распространенный)
-L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "Воспроизводить звуковые оповещения приватных аур DBM, когда Вы являетесь целью $spell:%s."
-L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "Воспроизводить звуковые оповещения приватных аур DBM, когда Вам нужно отойти от $spell:%s."
-L.AUTO_PRIVATEAURA_OPTION_POST_TEXT		= "Воспроизводить звуковые оповещения о длительных эффектах $spell:%s в приватных аурах DBM."
+L.AUTO_PRIVATEAURA_OPTION_TEXT			= "Воспроизводить звуковые оповещения ауры DBM для $spell:%s в этом бою."--Обычный (наиболее распространенный)
+L.AUTO_PRIVATEAURA_OPTION_TARGET_TEXT	= "Воспроизводить звуковые оповещения ауры DBM, когда Вы являетесь целью $spell:%s."
+L.AUTO_PRIVATEAURA_OPTION_GTFO_TEXT		= "Воспроизводить звуковые оповещения ауры DBM, когда Вам нужно отойти от $spell:%s."
+L.AUTO_PRIVATEAURA_OPTION_POST_TEXT		= "Воспроизводить звуковые оповещения о длительных эффектах $spell:%s в аурах DBM."
 L.AUTO_CUSTOMTIMER_OPTION_TEXT		= "Показывать таймер для $spell:%s"
 L.AUTO_CUSTOMALERT_OPTION_TEXT		= "Установить звуковой сигнал, который будет воспроизводиться при применении заклинания $spell:%s"
 
@@ -781,6 +792,15 @@ L.KEYSTONE_NAMES[558] = 'ТМ' -- Magister's Terrace (new)
 L.KEYSTONE_NAMES[559] = 'УНЗ' -- Nexus-Point Xenas
 L.KEYSTONE_NAMES[560] = 'ПМ' -- Miasara Caverns
 L.KEYSTONE_NAMES[583] = 'ПТ' -- Hell (IE Seat of the Triumvirate)
+
+L.KEYSTONE_NAMES[249] = 'ГК' -- King's Rest
+L.KEYSTONE_NAMES[250] = 'ХС' -- Temple of Sethraliss
+L.KEYSTONE_NAMES[399] = 'РОЖ' -- Ruby Life Pools
+L.KEYSTONE_NAMES[584] = 'СД' -- The Blinding Vale
+L.KEYSTONE_NAMES[585] = 'АШБ' -- Voidscar Arena
+L.KEYSTONE_NAMES[586] = 'БН' -- Den of Nalorakk
+L.KEYSTONE_NAMES[587] = 'ЗД' -- Murder Row
+L.KEYSTONE_NAMES[588] = 'АК' -- Altar of Fangs
 
 -- Midnight jazz
 L.MN_TIMELINE_HEADER	= "Вы хотите использовать временную шкалу Blizzard или полосы DBM?"

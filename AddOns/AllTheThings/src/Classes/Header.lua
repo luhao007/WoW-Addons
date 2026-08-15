@@ -2,15 +2,14 @@
 local _, app = ...
 
 -- Globals
-local rawget, select, pairs, tonumber, math_floor
-	= rawget, select, pairs, tonumber, math.floor
+local rawget, select, pairs, tonumber, math_floor,pcall
+	= rawget, select, pairs, tonumber, math.floor,pcall
 local GetCategoryInfo,GetAchievementInfo,GetAchievementCriteriaInfo,GetLFGDungeonInfo
 	= GetCategoryInfo,GetAchievementInfo,GetAchievementCriteriaInfo,GetLFGDungeonInfo
 
 -- WoW API Cache
 
 -- Module
-local IsQuestFlaggedCompleted = app.IsQuestFlaggedCompleted
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving
 
 -- App
@@ -43,7 +42,9 @@ local AlternateDataTypes = {
 		local ach = math_floor(id);
 		local crit = math_floor(100 * (id - ach) + 0.005);
 		local icon = select(10, GetAchievementInfo(ach))
-		return { name = GetAchievementCriteriaInfo(ach, crit), icon = icon };
+		-- 12.1: Blizzard breaks this API call, fascinating
+		local success, name = pcall(GetAchievementCriteriaInfo, ach, crit)
+		return { name = success and name or UNKNOWN, icon = icon };
 	end,
 	d = function(id)
 		local name, _, _, _, _, _, _, _, _, _, textureFilename = GetLFGDungeonInfo(id);
@@ -82,7 +83,7 @@ local function GetAutomaticHeaderData(id, type)
 		local name = obj.name or obj.link;
 		return { name = not IsRetrieving(name) and name or nil, icon = obj.icon };
 	end
-	app.print("Failed finding object/function for automatic header",type,id);
+	app.report("Failed finding object/function for automatic header",type,id);
 end
 -- Allows for directly accessing the Automatic Header Name logic for a specific ID/Type combination
 app.GetAutomaticHeaderData = GetAutomaticHeaderData;
@@ -98,7 +99,11 @@ local function CacheInfo(t, field)
 			_t[key] = value;
 		end
 	else
-		print("FAILED TO FIND AUTO HEADER DATA", id, type);
+		app.report("FAILED TO FIND AUTO HEADER DATA", id, type);
+	end
+	-- determine an icon from any providers otherwise
+	if not _t.icon then
+		_t.icon = app.GetIconFromProviders(t)
 	end
 	if field then return _t[field]; end
 end

@@ -20,19 +20,20 @@ local ADD_SCALING = {
 	}
 }
 
-local NORMAL_DUNGEON_DIFF = data:AddDifficulty(AL["Normal"], "DungeonWithPreset", ADD_SCALING, 1)
-local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithPreset", ADD_SCALING, 2)
-local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeonWithPreset", ADD_SCALING, 23)
+local NORMAL_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "DungeonWithPreset", ADD_SCALING, 1)
+local HEROIC_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "HeroicDungeonWithPreset", ADD_SCALING, 2)
+local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY6, "MythicDungeonWithPreset", ADD_SCALING, 23)
+local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY_TIMEWALKER, "timewalkingDungeonWithPreset", ADD_SCALING, 24)
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", ADD_SCALING, 17)
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", ADD_SCALING, 14)
-local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicWithPreset", ADD_SCALING, 15)
-local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", ADD_SCALING, 16)
+local RF_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY3, "LFRWithPreset", ADD_SCALING, 17)
+local NORMAL_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "NormalRaidWithPreset", ADD_SCALING, 14)
+local HEROIC_PRE_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "HeroicWithPreset", ADD_SCALING, 15)
+local MYTHIC_PRE_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY6, "MyhticWithPreset", ADD_SCALING, 16)
 
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
 
-local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
-local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
+local DUNGEON_CONTENT = data:AddContentType(DUNGEONS, ATLASLOOT_DUNGEON_COLOR)
+local RAID_CONTENT = data:AddContentType(RAIDS, ATLASLOOT_RAID_COLOR)
 
 
 -- /////////////////////////////////
@@ -75,6 +76,9 @@ data["Algeth'ar Academy"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Overgrown Ancient
 			EncounterJournalID = 2512,
@@ -90,6 +94,9 @@ data["Algeth'ar Academy"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -110,6 +117,9 @@ data["Algeth'ar Academy"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Echo of Doragosa
 			EncounterJournalID = 2514,
@@ -126,6 +136,9 @@ data["Algeth'ar Academy"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -153,6 +166,9 @@ data["Brackenhide Hollow"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Treemouth
 			EncounterJournalID = 2473,
@@ -171,6 +187,9 @@ data["Brackenhide Hollow"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Gutshot
 			EncounterJournalID = 2472,
@@ -187,6 +206,9 @@ data["Brackenhide Hollow"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Decatriarch Wratheye
 			EncounterJournalID = 2474,
@@ -200,22 +222,16 @@ data["Brackenhide Hollow"] = {
 				{ 7, 198056 }, --Titan Training Matrix II
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1, 193664 }, -- Rot-Carved Totemic Shank
-				{ 2, 193665 }, -- Decatriarch's Bone Pestle
-				{ 3, 193660 }, -- Idol of Pure Decay
-				{ 4, 193661 }, -- Blightweaver's Clutches
-				{ 5, 193662 }, -- Tassets of Densified Ooze
-				{ 6, 193663 }, -- Decay Mother's Wrathful Gaze
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198058 }, --Titan Training Matrix III
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1, 193664 }, -- Rot-Carved Totemic Shank
-				{ 2, 193665 }, -- Decatriarch's Bone Pestle
-				{ 3, 193660 }, -- Idol of Pure Decay
-				{ 4, 193661 }, -- Blightweaver's Clutches
-				{ 5, 193662 }, -- Tassets of Densified Ooze
-				{ 6, 193663 }, -- Decay Mother's Wrathful Gaze
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198059 }, --Titan Training Matrix IV
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 7, nil },
 			},
 		},
 	}
@@ -242,6 +258,9 @@ data["Halls of Infusion"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Gulping Goliath
 			EncounterJournalID = 2507,
@@ -260,6 +279,9 @@ data["Halls of Infusion"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Khajin the Unyielding
 			EncounterJournalID = 2510,
@@ -276,6 +298,9 @@ data["Halls of Infusion"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Primal Tsunami
 			EncounterJournalID = 2511,
@@ -289,22 +314,16 @@ data["Halls of Infusion"] = {
 				{ 7, 198056 }, --Titan Training Matrix II
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1, 193741 }, -- Mantle of Crushing Waves
-				{ 2, 193742 }, -- Undertow Tideblade
-				{ 3, 193736 }, -- Water's Beating Heart
-				{ 4, 193738 }, -- Robe of Plunging Depths
-				{ 5, 193739 }, -- Treads of Restored Order
-				{ 6, 193740 }, -- Torrential Downpour Gauntlets
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198058 }, --Titan Training Matrix III
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1, 193741 }, -- Mantle of Crushing Waves
-				{ 2, 193742 }, -- Undertow Tideblade
-				{ 3, 193736 }, -- Water's Beating Heart
-				{ 4, 193738 }, -- Robe of Plunging Depths
-				{ 5, 193739 }, -- Treads of Restored Order
-				{ 6, 193740 }, -- Torrential Downpour Gauntlets
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198059 }, --Titan Training Matrix IV
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 7, nil },
 			},
 		},
 	}
@@ -331,6 +350,9 @@ data["Neltharus"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Forgemaster Gorek
 			EncounterJournalID = 2489,
@@ -346,6 +368,9 @@ data["Neltharus"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -364,6 +389,9 @@ data["Neltharus"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Warlord Sargha
 			EncounterJournalID = 2501,
@@ -377,22 +405,16 @@ data["Neltharus"] = {
 				{ 7, 198056 }, --Titan Training Matrix II
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1, 193776 }, -- Dragonkiln Chestguard
-				{ 2, 193777 }, -- Helm of Hardened Gold
-				{ 3, 193778 }, -- Qalashi Defender
-				{ 4, 193779 }, -- Sargha's Smasher
-				{ 5, 193773 }, -- Spoils of Neltharus
-				{ 6, 193775 }, -- Warlord's Cindermitts
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198058 }, --Titan Training Matrix III
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1, 193776 }, -- Dragonkiln Chestguard
-				{ 2, 193777 }, -- Helm of Hardened Gold
-				{ 3, 193778 }, -- Qalashi Defender
-				{ 4, 193779 }, -- Sargha's Smasher
-				{ 5, 193773 }, -- Spoils of Neltharus
-				{ 6, 193775 }, -- Warlord's Cindermitts
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198059 }, --Titan Training Matrix IV
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 7, nil },
 			},
 		},
 	}
@@ -419,6 +441,9 @@ data["Ruby Life Pools"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Kokia Blazehoof
 			EncounterJournalID = 2485,
@@ -436,6 +461,9 @@ data["Ruby Life Pools"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Kyrakka and Erkhart Stormvein
 			EncounterJournalID = 2503,
@@ -450,30 +478,19 @@ data["Ruby Life Pools"] = {
 				{ 8,  193754 }, -- Drake Rider's Stecktarge
 				{ 9,  193691 }, -- Sky Saddle Cord
 				{ 10, 198056 }, --Titan Training Matrix II
+				{ 16, 256428 }, -- Valdrakken Hanging Lamp
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  193751 }, -- Crown of Roaring Storms
-				{ 2,  193753 }, -- Breastplate of Soaring Terror
-				{ 3,  193755 }, -- Backdraft Cleaver
-				{ 4,  193748 }, -- Kyrakka's Searing Embers
-				{ 5,  193750 }, -- Wind Soarer's Breeches
-				{ 6,  193752 }, -- Galerattle Gauntlets
-				{ 7,  193756 }, -- Skyferno Rondel
-				{ 8,  193754 }, -- Drake Rider's Stecktarge
-				{ 9,  193691 }, -- Sky Saddle Cord
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 10, 198058 }, --Titan Training Matrix III
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1,  193751 }, -- Crown of Roaring Storms
-				{ 2,  193753 }, -- Breastplate of Soaring Terror
-				{ 3,  193755 }, -- Backdraft Cleaver
-				{ 4,  193748 }, -- Kyrakka's Searing Embers
-				{ 5,  193750 }, -- Wind Soarer's Breeches
-				{ 6,  193752 }, -- Galerattle Gauntlets
-				{ 7,  193756 }, -- Skyferno Rondel
-				{ 8,  193754 }, -- Drake Rider's Stecktarge
-				{ 9,  193691 }, -- Sky Saddle Cord
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 10, 198059 }, --Titan Training Matrix IV
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 10, nil },
 			},
 		},
 	}
@@ -501,6 +518,9 @@ data["The Azure Vault"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Azureblade
 			EncounterJournalID = 2494,
@@ -515,6 +535,9 @@ data["The Azure Vault"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -533,6 +556,9 @@ data["The Azure Vault"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Umbrelskul
 			EncounterJournalID = 2508,
@@ -547,24 +573,16 @@ data["The Azure Vault"] = {
 				{ 8, 198056 }, --Titan Training Matrix II
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1, 193643 }, -- Stasis-Freed Leggings
-				{ 2, 193644 }, -- Cuirass of Irreparable Madness
-				{ 3, 193645 }, -- Crystalized Bulwark
-				{ 4, 193646 }, -- Refraction's Edge
-				{ 5, 193642 }, -- Mantle of Yearned Freedom
-				{ 6, 193641 }, -- Headwrap of the Abandoned
-				{ 7, 193639 }, -- Umbrelskul's Fractured Heart
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 8, 198058 }, --Titan Training Matrix III
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1, 193643 }, -- Stasis-Freed Leggings
-				{ 2, 193644 }, -- Cuirass of Irreparable Madness
-				{ 3, 193645 }, -- Crystalized Bulwark
-				{ 4, 193646 }, -- Refraction's Edge
-				{ 5, 193642 }, -- Mantle of Yearned Freedom
-				{ 6, 193641 }, -- Headwrap of the Abandoned
-				{ 7, 193639 }, -- Umbrelskul's Fractured Heart
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 8, 198059 }, --Titan Training Matrix IV
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 8, nil },
 			},
 		},
 	}
@@ -638,21 +656,11 @@ data["The Nokhud Offensive"] = {
 				{ 7, 198056 }, --Titan Training Matrix II
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1, 193685 }, -- Lightning-Charged Striders
-				{ 2, 193686 }, -- Nokhud Traditionalist's Pauldrons
-				{ 3, 193687 }, -- Koroleth's Crackling Dagger
-				{ 4, 193688 }, -- Stormslash
-				{ 5, 193683 }, -- Blessed Ohn'ir Robes
-				{ 6, 193684 }, -- Legguards of Adamant Rule
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198058 }, --Titan Training Matrix III
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1, 193685 }, -- Lightning-Charged Striders
-				{ 2, 193686 }, -- Nokhud Traditionalist's Pauldrons
-				{ 3, 193687 }, -- Koroleth's Crackling Dagger
-				{ 4, 193688 }, -- Stormslash
-				{ 5, 193683 }, -- Blessed Ohn'ir Robes
-				{ 6, 193684 }, -- Legguards of Adamant Rule
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198059 }, --Titan Training Matrix IV
 			},
 		},
@@ -744,21 +752,11 @@ data["Uldaman: Legacy of Tyr"] = {
 				{ 7, 198056 }, -- Titan Training Matrix II
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1, 193791 }, -- Time-Breaching Talon
-				{ 2, 193799 }, -- Crazed Traveler's Legwraps
-				{ 3, 193800 }, -- Vision of Foreshadowed Ends
-				{ 4, 193801 }, -- Fatebound Chainmail
-				{ 5, 193802 }, -- Pauldrons of Immutable Truth
-				{ 6, 193803 }, -- Infinite Dragonspire
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198058 }, --Titan Training Matrix III
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1, 193791 }, -- Time-Breaching Talon
-				{ 2, 193799 }, -- Crazed Traveler's Legwraps
-				{ 3, 193800 }, -- Vision of Foreshadowed Ends
-				{ 4, 193801 }, -- Fatebound Chainmail
-				{ 5, 193802 }, -- Pauldrons of Immutable Truth
-				{ 6, 193803 }, -- Infinite Dragonspire
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 7, 198059 }, -- Titan Training Matrix IV
 			},
 		},
@@ -1076,6 +1074,33 @@ data["Dragon Isles"] = {
 				{ 3, 200736 }, -- Belt of Living Earth
 				{ 4, 200739 }, -- Stony Cragwalkers
 				{ 5, 200740 }, -- Petrified Bracelets
+			},
+		},
+		{ -- The Zaqali Elders
+			EncounterJournalID = 2531,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 204425 }, -- Crown of the Twin Elders
+				{ 2, 204431 }, -- Epaulets of Draconic Conquest
+				{ 3, 204418 }, -- Ashen Zaralek Cuirass
+				{ 4, 204419 }, -- Cavernous Foliage Wristbands
+				{ 5, 204432 }, -- Vakan's Shale Greatbelt
+				{ 6, 204408 }, -- Gholna's Lavaborne Legwraps
+				{ 7, 204426 }, -- Blazestalker's Smelted Cleats
+				{ 8, 204409 }, -- Heatbinder's Burning Slippers
+			},
+		},
+		{ -- Aurostor, The Hibernator
+			EncounterJournalID = 2562,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 208437 }, -- Crown of Freya's Chosen
+				{ 2, 208443 }, -- Slumbering Ursine Talisman
+				{ 3, 208436 }, -- Flame-Etched Breastplate
+				{ 4, 208438 }, -- Grasps of Awakened Fury
+				{ 5, 208435 }, -- Forgotten Jalgar's Girdle
+				{ 6, 208429 }, -- Mossen Rage Waistguard
+				{ 7, 208440 }, -- Aurostor's Sleeping Knickers
+				{ 8, 208441 }, -- Restful Dozer's Shoes
+				{ 9, 208439 }, -- Rousing Earth Striders
 			},
 		},
 	}

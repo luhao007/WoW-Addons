@@ -261,5 +261,11 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
 		return AL["NOTE_RARES_RITUAL_SITES_4"]
 	elseif (RSUtils.Contains(RSConstants.RARES_RITUAL_SITES_8, entityID))	then
 		return AL["NOTE_RARES_RITUAL_SITES_8"]
+	-- Containers that require chapter 2 of the campaign
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_COILED_ISLE_CHAPTER2, entityID))	then
+		return AL["NOTE_COILED_ISLE_CHAPTER2"]
+	-- NPCs that require a temple incursion
+	elseif (RSUtils.Contains(RSConstants.RARES_TEMPLE_INCURSION, entityID))	then
+		return AL["NOTE_TEMPLE_INCURSION"]
 	end
 end

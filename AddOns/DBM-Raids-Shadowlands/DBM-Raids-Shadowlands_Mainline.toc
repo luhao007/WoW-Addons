@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## Version: r28
+## Version: r31
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (SL)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C暗影国度|r
@@ -26,7 +26,7 @@
 ## X-DBM-Mod-Name-ruRU: Рейды (Темные Земли)
 ## X-DBM-Mod-Sort: 301
 ## X-DBM-Mod-MapID: 2481, 2450, 2296
-## X-DBM-Mod-MinCoreRevision: 20230617000000
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-DBM-Mod-MinExpansion: 8
 ## X-Curse-Project-ID: 723031
 ## X-Wago-ID: RqGYOE6g

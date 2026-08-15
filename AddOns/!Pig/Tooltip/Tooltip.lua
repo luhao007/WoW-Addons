@@ -1,13 +1,11 @@
-local _, addonTable = ...;
+local _, PD = ...;
 local find = _G.string.find
 local gsub = _G.string.gsub
-local Fun=addonTable.Fun
-local TooltipPlusfun=addonTable.TooltipPlusfun
+local Fun=PD.Fun
+local TooltipPlusfun=PD.TooltipPlusfun
 local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
-local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
-local GetDetailedItemLevelInfo=GetDetailedItemLevelInfo or C_Item and C_Item.GetDetailedItemLevelInfo
 ---------
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGFontString=Create.PIGFontString
 local banbendata = {
 	[0]=EXPANSION_NAME0,[1]=EXPANSION_NAME1,[2]=EXPANSION_NAME2,[3]=EXPANSION_NAME3,[4]=EXPANSION_NAME4,
@@ -22,13 +20,13 @@ local extinfoList={
 }
 function TooltipPlusfun.InfoPlus()
 	--卖价/AH价钱
-	local SetTooltipOfflineG=addonTable.BusinessInfo.SetTooltipOfflineG
-	local SetTooltipQita_Num=addonTable.BusinessInfo.SetTooltipQita_Num
+	local SetTooltipOfflineG=PD.BusinessInfo.SetTooltipOfflineG
+	local SetTooltipQita_Num=PD.BusinessInfo.SetTooltipQita_Num
 	local function ItemTooltipLevel(tooltip,link,classID)
 		if not PIGA["Tooltip"]["ItemLevel"] then return end
 		local name=tooltip:GetName()
 		if not name then return end
-		local effectiveILvl = GetDetailedItemLevelInfo(link)
+		local effectiveILvl = PIGGetDetailedItemLevelInfo(link)
 		if effectiveILvl then
 			local ILvltxt=string.format(extinfoList.lv,effectiveILvl)
 			local ISduibi=tooltip==ShoppingTooltip1 or tooltip==ShoppingTooltip2 or tooltip==ItemRefShoppingTooltip1 or tooltip==ItemRefShoppingTooltip2
@@ -77,7 +75,7 @@ function TooltipPlusfun.InfoPlus()
 				end
 			end
 			if PIGA["Tooltip"]["IDinfo"] then
-				local itemID = GetItemInfoInstant(Newlink)
+				local itemID = PIGGetItemInfoInstant(Newlink)
 				if itemID then
 					local expacID = expacID or 254
 					if addtxt_L~="" then
@@ -343,13 +341,8 @@ function TooltipPlusfun.Point()
 		["PointX"]=PIGA["Tooltip"]["PointX"],
 		["PointY"]=PIGA["Tooltip"]["PointY"],
 	}
-	function TooltipPlusfun.SetPointCF(laiyuan)
+	function TooltipPlusfun.UpdatePointConfig()
 		morenCF.PointOpen=PIGA["Tooltip"]["PointOpen"]
-		if laiyuan then
-			PIGA["Tooltip"]["Point"]=addonTable.Default["Tooltip"]["Point"]
-			PIGA["Tooltip"]["PointX"]=addonTable.Default["Tooltip"]["PointX"]
-			PIGA["Tooltip"]["PointY"]=addonTable.Default["Tooltip"]["PointY"]
-		end
 		morenCF.Point=PIGA["Tooltip"]["Point"]
 		morenCF.PointX=PIGA["Tooltip"]["PointX"]
 		morenCF.PointY=PIGA["Tooltip"]["PointY"]
@@ -376,8 +369,11 @@ function TooltipPlusfun.Point()
 	end)
 end
 
-local GetItemQualityBorder=addonTable.Fun.GetItemQualityBorder
+local GetItemQualityBorder=PD.Fun.GetItemQualityBorder
 local function add_ShowCompareItemIcon(TooltipF,duibiUI,retail)
+	if TooltipF~=GameTooltip and TooltipF~=ShoppingTooltip1 and TooltipF~=ShoppingTooltip2 and TooltipF~=ItemRefShoppingTooltip1 and TooltipF~=ItemRefShoppingTooltip2 then
+		return
+	end
 	if not TooltipF.pigplusicon then
 		TooltipF.pigplusBorder = TooltipF:CreateTexture(nil, "ARTWORK")
 		TooltipF.pigplusBorder:SetSize(30,30);
@@ -389,6 +385,8 @@ local function add_ShowCompareItemIcon(TooltipF,duibiUI,retail)
 			TooltipF.tisptxt:SetTextColor(0, 1, 0, 1)
 		end
 	end
+	TooltipF.pigplusBorder:Hide()
+	TooltipF.pigplusicon:Hide()
 	if retail then
 		if duibiUI then
 			TooltipF.pigplusBorder:SetPoint("BOTTOMLEFT",TooltipF,"TOPLEFT", 70, -2);
@@ -399,6 +397,8 @@ local function add_ShowCompareItemIcon(TooltipF,duibiUI,retail)
 	   	if TooltipData and TooltipData.guid or TooltipData and TooltipData.hyperlink then
 	   		TooltipF.pigplusBorder:SetAtlas(GetItemQualityBorder(C_Item.GetItemQualityByID(TooltipData.guid or TooltipData.hyperlink) or 1))
 	   		TooltipF.pigplusicon:SetTexture(C_Item.GetItemIconByID(TooltipData.guid or TooltipData.hyperlink) or 134400);
+	   		TooltipF.pigplusBorder:Show()
+			TooltipF.pigplusicon:Show()
 	   	end
 	else
 		local _, linkd = TooltipF:GetItem()
@@ -406,6 +406,8 @@ local function add_ShowCompareItemIcon(TooltipF,duibiUI,retail)
 			TooltipF.pigplusBorder:SetPoint("BOTTOMLEFT",TooltipF,"TOPLEFT", 4, -2);
 			TooltipF.pigplusBorder:SetAtlas(GetItemQualityBorder(C_Item.GetItemQualityByID(linkd) or 1))
 			TooltipF.pigplusicon:SetTexture(C_Item.GetItemIconByID(linkd) or 134400);
+			TooltipF.pigplusBorder:Show()
+			TooltipF.pigplusicon:Show()
 		end
 	end
 end
@@ -413,8 +415,8 @@ function TooltipPlusfun.CompareItemPlus()
 	if not PIGA["Tooltip"]["CompareItemPlus"] then return end
 	GameTooltip:HookScript("OnShow", function(self)
 		if self.pigplusicon then
-			self.pigplusBorder:SetTexture("")
-			self.pigplusicon:SetTexture("")
+			self.pigplusBorder:Hide()
+			self.pigplusicon:Hide()
 		end
 	end)
 	if PIG_MaxTocversion() then

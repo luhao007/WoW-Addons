@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal25"
 end
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(23420)
 mod:SetEncounterID(606, 2478)
@@ -47,9 +47,9 @@ local warnPhase3		= mod:NewPhaseAnnounce(3, 2)
 local warnSoul			= mod:NewSpellAnnounce(41545, 2, nil, "Tank", 2)
 local warnSpite			= mod:NewTargetAnnounce(41376, 3)
 
-local specWarnShield	= mod:NewSpecialWarningDispel(41431, "MagicDispeller", nil, 2, 1, 2)
-local specWarnSpite		= mod:NewSpecialWarningYou(41376, nil, nil, nil, 1, 2)
-local specWarnShock		= mod:NewSpecialWarningInterrupt(41426, isRetail and "HasInterrupt" or false, nil, 3, 1, 2)--In Classic warning spams like fuck, opt in, not opt out
+local specWarnShield	= mod:NewSpecialWarningDispel(41431, "MagicDispeller", nil, 2, 1, 2, nil, nil, "dispelboss")
+local specWarnSpite		= mod:NewSpecialWarningYou(41376, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnShock		= mod:NewSpecialWarningInterrupt(41426, isRetail and "HasInterrupt" or false, nil, 3, 1, 2, nil, nil, "kickcast")--In Classic warning spams like fuck, opt in, not opt out
 
 --Phase 1
 local timerPhaseChange	= mod:NewStageTimer(41)

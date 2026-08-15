@@ -807,39 +807,25 @@ L["Voice"] = "Voz"
 
 elseif locale == "ruRU" then
     L["ASK_FAVORITE_PROFILE_NAME"] = "Показать дома друзей с Battle.net"
---[[Translation missing --]]
---[[ L["COMPARTMENT_TOOLTIP"] = [=[|cffeda55fLeft-Click|r to toggle showing the Toy Box.
-|cffeda55fRight-Click|r to open addon options.]=]--]] 
---[[Translation missing --]]
---[[ L["CONFIRM_FAVORITE_PROFILE_DELETION"] = [=[Are you sure you want to delete the profile "%s"?
-All current character assignments will be reset to the default profile "%s".]=]--]] 
+L["COMPARTMENT_TOOLTIP"] = "|cffeda55fLeft-Click| переключить отображение Toy Box. |cffeda55fRight-Click| открыть параметры аддона."
+L["CONFIRM_FAVORITE_PROFILE_DELETION"] = "Вы уверены, что хотите удалить профиль \"%s\"? Все текущие настройки персонажей будут сброшены до профиля по умолчанию \"%s\"."
 L["Day of the Dead"] = "День мертвых"
---[[Translation missing --]]
---[[ L["FAVOR_AUTO"] = "Add new toys automatically"--]] 
+L["FAVOR_AUTO"] = "Добавлять новые игрушки автоматически"
 L["FAVOR_DISPLAYED"] = "Отображать все"
---[[Translation missing --]]
---[[ L["FAVORITE_ACCOUNT_PROFILE"] = "Account"--]] 
---[[Translation missing --]]
---[[ L["FAVORITE_PROFILE"] = "Profile"--]] 
---[[Translation missing --]]
---[[ L["FILTER_HIDDEN_MANUAL"] = "Hidden by me"--]] 
---[[Translation missing --]]
---[[ L["FILTER_ONLY"] = "only"--]] 
+L["FAVORITE_ACCOUNT_PROFILE"] = "Профиль по умолчанию"
+L["FAVORITE_PROFILE"] = "Избранный профиль"
+L["FILTER_HIDDEN_MANUAL"] = "Скрыто мной"
+L["FILTER_ONLY"] = "только эта игрушка"
 L["FILTER_ONLY_LATEST"] = "Только последний патч"
 L["FILTER_ONLY_TRADABLE"] = "Только передающиеся"
 L["FILTER_SECRET"] = "Скрыто в игре"
---[[Translation missing --]]
---[[ L["LDB_TIP_NO_FAVORITES_INSTRUCTION"] = "Please favor at least one collected toy."--]] 
---[[Translation missing --]]
---[[ L["LDB_TIP_NO_FAVORITES_LEFT_CLICK"] = "|cffeda55fLeft click|r to open Toy Box."--]] 
---[[Translation missing --]]
---[[ L["LDB_TIP_NO_FAVORITES_RIGHT_CLICK"] = "|cffeda55fRight click|r to select different Favorite Profile."--]] 
---[[Translation missing --]]
---[[ L["LDB_TIP_NO_FAVORITES_TITLE"] = "You have not selected any toy as favorite yet."--]] 
+L["LDB_TIP_NO_FAVORITES_INSTRUCTION"] = "Пожалуйста, добавьте хотя бы одну игрушку в избранное."
+L["LDB_TIP_NO_FAVORITES_LEFT_CLICK"] = "|cffeda55fLeft click| открыть Toy Box."
+L["LDB_TIP_NO_FAVORITES_RIGHT_CLICK"] = "|cffeda55fRight click| выбрать другой избранный профиль."
+L["LDB_TIP_NO_FAVORITES_TITLE"] = "Вы не добавили ни одной игрушки в избранное."
 L["Pirates' Day"] = "День пиратов"
 L["RANDOM_TOY_DESCRIPTION"] = "Игрушка будет выбрана случайно из избранных игрушек"
---[[Translation missing --]]
---[[ L["RANDOM_TOY_LOCKED"] = "Please favor at least one collected toy to unlock."--]] 
+L["RANDOM_TOY_LOCKED"] = "Пожалуйста, добавьте хотя бы одну игрушку в избранное чтобы разблокировать."
 L["RANDOM_TOY_TITLE"] = "Использовать случайную избранную игрушку."
 L["Reset filters"] = "Сбросить фильтры"
 L["Secrets of Azeroth"] = "Тайны Азерота"
@@ -856,8 +842,7 @@ L["SETTING_SEARCH_IN_DESCRIPTION"] = "Искать также в описани�
     -- Source
 L["Darkspear Dash"] = "Забег Черного Копья"
 L["Order Hall"] = "Классовый оплот"
---[[Translation missing --]]
---[[ L["Unavailable"] = "No more available"--]] 
+L["Unavailable"] = "Больше недоступна"
 
     -- Effects
 L["Act"] = "Действие"
@@ -876,8 +861,7 @@ L["Effect"] = "Эффект"
 L["Fly/Fall"] = "Полет/Падение"
 L["Ground"] = "Земля"
 L["Interactable"] = "Интерактивный"
---[[Translation missing --]]
---[[ L["Maps"] = "Maps"--]] 
+L["Maps"] = "Карты"
 L["Minor"] = "Незначительный"
 L["Nearby"] = "Рядом"
 L["NPC"] = "NPC"

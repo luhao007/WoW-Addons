@@ -59,7 +59,7 @@ db_defaults.keepFocusRested = true;
 db_defaults.autoFocus = false;
 db_defaults.winSize = {
 		width = 333,
-		height = 220,
+		height = 245,
 		scale = 100,
                 strata = "DIALOG"
 	};
@@ -776,7 +776,7 @@ local function loadRegisteredWidgets(obj)
 	for widget, createFun in pairs(RegisteredWidgets) do
 		if(widgets[widget] == nil) then
 			if(type(createFun) == "function") then
-				widgets[widget]  = createFun();
+				widgets[widget]  = createFun(obj);
                                 widgets[widget]:SetParent(obj);
                                 widgets[widget].widgetName = widget;
                                 widgets[widget].parentWindow = obj;
@@ -885,6 +885,7 @@ local function instantiateWindow(obj)
     widgets.Backdrop.bg = widgets.Backdrop:CreateTexture(fName.."Backdrop_BG", "BORDER");
     widgets.from = widgets.Backdrop:CreateFontString(fName.."BackdropFrom", "OVERLAY", "GameFontNormalLarge");
     widgets.from.widgetName = "from";
+	widgets.from._allowCustomFont = true;
     widgets.char_info = widgets.Backdrop:CreateFontString(fName.."BackdropCharacterDetails", "OVERLAY", "GameFontNormal");
     widgets.char_info.widgetName = "char_info";
 
@@ -916,6 +917,7 @@ local function instantiateWindow(obj)
     widgets.chat_display:EnableMouseWheel(1);
     widgets.chat_display.widgetName = "chat_display";
 	widgets.chat_display._isWIM = true; -- flag that this is a WIM frame.
+	widgets.chat_display._allowCustomFont = true; -- flag that this frame allows custom fonts.
 
     widgets.msg_box = CreateFrame("EditBox", fName.."MsgBox", obj);
     widgets.msg_box:SetAutoFocus(false);
@@ -924,6 +926,7 @@ local function instantiateWindow(obj)
     widgets.msg_box:SetAltArrowKeyMode(true);
     widgets.msg_box:EnableMouse(true);
     widgets.msg_box.widgetName = "msg_box";
+	widgets.msg_box._allowCustomFont = true;
 
 	-- because we're pretending to be the default chat edit box at times, we need to make sure that any calls are covered.
 	local _ghostFun = function() end;
@@ -1000,17 +1003,36 @@ local function instantiateWindow(obj)
     obj.UpdateIcon = function(self)
         local icon = self.widgets.class_icon;
         if(self.type == "chat" and self.chatType) then
-                icon:SetTexture(GetSelectedSkin().message_window.widgets.class_icon.chatAlphaMask);
-                local chat_type = self.chatType == "battleground" and "INSTANCE_CHAT" or string.upper(self.chatType);
-                local color = _G.ChatTypeInfo[chat_type]; -- Drii: ticket 344
-                icon:SetTexCoord(0,1,0,1);
-				icon:SetGradient("VERTICAL",
-					{ r = color.r, g = color.g, b = color.b, a = 1},
-					{ r = color.r, g = color.g, b = color.b, a = 1 }
-				);
-                if(GetSelectedSkin().message_window.widgets.from.use_class_color) then
-                                self.widgets.from:SetTextColor(color.r, color.g, color.b);
-                end
+				if (self.chatType == "community") then
+					if (self.clubId and self.streamId) then
+						local r, g, b = _G.ChatFrameUtil.GetCommunitiesChannelColor(self.clubId, self.streamId)
+						local color = { r = r, g = g, b = b };
+
+						icon:SetTexture(GetSelectedSkin().message_window.widgets.class_icon.chatAlphaMask);
+						icon:SetTexCoord(0,1,0,1);
+						icon:SetGradient("VERTICAL",
+							{ r = color.r, g = color.g, b = color.b, a = 1},
+							{ r = color.r, g = color.g, b = color.b, a = 1 }
+						);
+
+
+						self.theUser = _G.ChatFrameUtil.GetCommunityAndStreamName(self.clubId, self.streamId)
+						self.widgets.from:SetText(self.theUser);
+						self.widgets.from:SetTextColor(color.r, color.g, color.b);
+					end
+				else
+					icon:SetTexture(GetSelectedSkin().message_window.widgets.class_icon.chatAlphaMask);
+					local chat_type = self.chatType == "battleground" and "INSTANCE_CHAT" or string.upper(self.chatType);
+					local color = _G.ChatTypeInfo[chat_type]; -- Drii: ticket 344
+					icon:SetTexCoord(0,1,0,1);
+					icon:SetGradient("VERTICAL",
+						{ r = color.r, g = color.g, b = color.b, a = 1},
+						{ r = color.r, g = color.g, b = color.b, a = 1 }
+					);
+					if(GetSelectedSkin().message_window.widgets.from.use_class_color) then
+									self.widgets.from:SetTextColor(color.r, color.g, color.b);
+					end
+				end
         else
                 local classTag = obj.class;
 				icon:SetGradient("VERTICAL",
@@ -1234,13 +1256,13 @@ local function instantiateWindow(obj)
 	if(forceResult == true) then
 		-- go by forceResult and ignore rules
 		if(self.tabStrip) then
-                                -- if(not EditBoxInFocus) then
-                                                ShowContainer();
-                                                self.tabStrip:JumpToTab(self);
-                                                if(not getVisibleChatFrameEditBox() and (rules.autofocus or forceFocus)) then
-                                                        self.widgets.msg_box:SetFocus();
-                                                end
-                                -- end
+			-- if(not EditBoxInFocus) then
+					ShowContainer();
+					self.tabStrip:JumpToTab(self);
+					if(not getVisibleChatFrameEditBox() and (rules.autofocus or forceFocus)) then
+							self.widgets.msg_box:SetFocus();
+					end
+			-- end
 		else
                                 ShowContainer();
 				self:ResetAnimation();
@@ -1328,16 +1350,18 @@ local function instantiateWindow(obj)
 		if(type(widgetObj.UpdateProps) == "function") then
 			widgetObj:UpdateProps();
 		end
-                if(widgetObj.type) then
-                        if(widgetObj.enabled and string.match(widgetObj.type, obj.type)) then
-                                widgetObj:Show();
-                                local w, h = widgetObj:GetWidth(), widgetObj:GetHeight();
-                                minWidth = _G.math.max(minWidth, (self:SafeGetLeft() - widgetObj:GetLeft()) + w + (widgetObj:GetRight() - self:SafeGetRight()));
-                                minHeight = _G.math.max(minHeight, (self:SafeGetTop() - widgetObj:GetTop() - WindowParent:GetBottom()) + h + (widgetObj:GetBottom() - self:SafeGetBottom() - WindowParent:GetBottom()));
-                        else
-                                widgetObj:Hide()
-                        end
-                end
+
+		if(widgetObj.type) then
+				if(widgetObj.enabled and string.match(widgetObj.type, obj.type)) then
+						widgetObj:Show();
+						local w, h = widgetObj:GetWidth(), widgetObj:GetHeight();
+						minWidth = _G.math.max(minWidth, (self:SafeGetLeft() - widgetObj:GetLeft()) + w + (widgetObj:GetRight() - self:SafeGetRight()));
+						-- Commenting this line out so widgets don't limit the min height.
+						-- minHeight = _G.math.max(minHeight, (self:SafeGetTop() - widgetObj:GetTop() - WindowParent:GetBottom()) + h + (widgetObj:GetBottom() - self:SafeGetBottom() - WindowParent:GetBottom()));
+				else
+						widgetObj:Hide()
+				end
+		end
 	end
 		if self.SetResizeBounds then -- WoW 10.0
 			self:SetResizeBounds(minWidth, minHeight);
@@ -1517,7 +1541,7 @@ local function createWindow(userName, wtype, onBeforeReturn)
     local func = function ()
                         if(WindowSoupBowl.available > 0) then
                             for i=1,#WindowSoupBowl.windows do
-                                if(WindowSoupBowl.windows[i].inUse == false) then
+                                if(WindowSoupBowl.windows[i].inUse == false and WindowSoupBowl.windows[i].obj.type == wtype) then
                                     return WindowSoupBowl.windows[i].obj, i;
                                 end
                             end
@@ -1548,6 +1572,7 @@ local function createWindow(userName, wtype, onBeforeReturn)
         WindowSoupBowl.used = WindowSoupBowl.used + 1;
         WindowSoupBowl.windowToken = WindowSoupBowl.windowToken + 1; -- increment token for propper frame name creation.
         local fName = "WIM3_msgFrame"..WindowSoupBowl.windowToken;
+		dPrint("Window created '"..fName.."'");
         local f = CreateFrame("Frame",fName, WindowParent);
         local winTable = {
             user = userName,
@@ -1593,12 +1618,15 @@ local function destroyWindow(userNameOrObj)
         obj, index = getWindowByName(userNameOrObj);
     else
 		obj, index = getWindowByName(userNameOrObj.theUser);
+		if (not obj) then
+			obj, index = getWindowByName(userNameOrObj.user);
+		end
     end
 
     if(obj) then
-	if(obj.tabStrip) then
-		obj.tabStrip:Detach(obj);
-	end
+		if(obj.tabStrip) then
+			obj.tabStrip:Detach(obj);
+		end
         WindowSoupBowl.windows[index].inUse = false;
         WindowSoupBowl.windows[index].user = "";
         WindowSoupBowl.available = WindowSoupBowl.available + 1;
@@ -1608,8 +1636,8 @@ local function destroyWindow(userNameOrObj)
         obj.widgets.chat_display:Clear();
         obj:Hide();
         obj.initialized = nil;
-	dPrint("Window '"..obj:GetName().."' destroyed.");
-	CallModuleFunction("OnWindowDestroyed", obj);
+		dPrint("Window '"..obj:GetName().."' destroyed.");
+		CallModuleFunction("OnWindowDestroyed", obj);
         removeFromTable(windowsByAge, obj);
     end
 end

@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Stanzilla, Semlar
-## Version: 2.1.10
+## Version: 2.1.12
 
 ## Title: Advanced Interface Options
 ## Notes: Restores access to removed interface options in Legion
@@ -22,6 +22,7 @@
 ## X-WoWI-ID: 25002
 ## X-Wago-ID: ZQ6aPNW7
 
+# WOW_INTERFACE_TARGETS: mainline-beta, mainline-test, mainline, mists-test, mists, cata, wrath, tbc-test, tbc, vanilla
 semlib\semlib.xml
 embeds.xml
 

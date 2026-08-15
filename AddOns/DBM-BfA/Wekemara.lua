@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2363, "DBM-BfA", 5, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(152671)--155702/spawn-of-wekemara
 mod:SetEncounterID(2318)
@@ -22,8 +22,8 @@ mod:RegisterEventsInCombat(
 --https://www.wowhead.com/spell=303379/electrified-splash is probably way to detect submerge, but not coded yet in case wrong event (wrong one would spam)
 local warnElectricDischarge			= mod:NewSpellAnnounce(303451, 2)
 
-local specWarnBioelectricBlast		= mod:NewSpecialWarningDodge(303319, nil, nil, nil, 2, 2)
-local specWarnShockBurst			= mod:NewSpecialWarningMoveAway(303488, nil, nil, nil, 1, 2)
+local specWarnBioelectricBlast		= mod:NewSpecialWarningDodge(303319, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnShockBurst			= mod:NewSpecialWarningMoveAway(303488, nil, nil, nil, 1, 2, nil, nil, "runout")
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
 local timerBioelectricblastCD		= mod:NewCDTimer(13.9, 303319, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)--13.9 to like 30?

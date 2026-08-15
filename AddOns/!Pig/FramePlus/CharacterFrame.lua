@@ -19,10 +19,6 @@ local Fun=addonTable.Fun
 local FasongYCqingqiu=Fun.FasongYCqingqiu
 local Update_ItemButtonZLVranse=Fun.Update_ItemButtonZLVranse
 ----
-local GetContainerNumFreeSlots = C_Container.GetContainerNumFreeSlots
-local GetContainerNumSlots = C_Container.GetContainerNumSlots
-local GetContainerItemID = C_Container.GetContainerItemID
-local PickupContainerItem =C_Container.PickupContainerItem
 local GetItemQualityColor=GetItemQualityColor or C_Item and C_Item.GetItemQualityColor
 local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_CurrencyInfo.GetCoinTextureString
 ---自身角色和观察目标信息---------------
@@ -103,8 +99,8 @@ local function Load_addonsFun(FrameX)
 				FasongYCqingqiu(nameui:GetText(),3)
 			end
 		end
-		if _G[Data.LongInspectUIUIname] then
-			_G[Data.LongInspectUIUIname]:Hide()
+		if Data.LongInspectUI then
+			Data.LongInspectUI:Hide()
 		end
 	end)
 	FrameX:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
@@ -338,10 +334,10 @@ local function Equip_Save(id)
 	else
 		PIGA_Per["QuickBut"]["EquipList"][id] = {"配装"..(id-1),wupinshujuinfo}
 	end
-	PIG_OptionsUI:ErrorMsg("当前装备已保存到"..(id-1).."号配装")
+	PIGErrorMsg("当前装备已保存到"..(id-1).."号配装")
 end
 local function Equip_Use(id)
-	if InCombatLockdown() then PIG_OptionsUI:ErrorMsg("战斗中无法切换") return end
+	if InCombatLockdown() then PIGErrorMsg("战斗中无法切换") return end
 	local wupinshujuinfo =PIGA_Per["QuickBut"]["EquipList"][id]
 	if wupinshujuinfo and wupinshujuinfo[2] then
 		PIG_EquipmentData.hejilist={}
@@ -372,10 +368,10 @@ local function Equip_Use(id)
 			PIG_EquipmentData.konggekaishi=0
 			PIG_EquipmentData.konggelist={}
 			for bagID=0,4 do
-				local numberOfFreeSlots, bagType = GetContainerNumFreeSlots(bagID)
+				local numberOfFreeSlots, bagType = PIGGetContainerNumFreeSlots(bagID)
 				if numberOfFreeSlots>0 and bagType==0 then
-					for ff=1,GetContainerNumSlots(bagID) do
-						if GetContainerItemID(bagID, ff) then
+					for ff=1,PIGGetContainerNumSlots(bagID) do
+						if PIGGetContainerItemID(bagID, ff) then
 						else
 							table.insert(PIG_EquipmentData.konggelist,{bagID,ff})
 							PIG_EquipmentData.konggekaishi=PIG_EquipmentData.konggekaishi+1
@@ -393,15 +389,15 @@ local function Equip_Use(id)
 				local isLocked2 = IsInventoryItemLocked(PIG_EquipmentData.hejilist[inv])
 				if not isLocked2 then
 					PickupInventoryItem(PIG_EquipmentData.hejilist[inv])
-					PickupContainerItem(PIG_EquipmentData.konggelist[inv][1], PIG_EquipmentData.konggelist[inv][2])
+					PIGPickupContainerItem(PIG_EquipmentData.konggelist[inv][1], PIG_EquipmentData.konggelist[inv][2])
 				end
 			end
 			if #PIG_EquipmentData.konggelist<#PIG_EquipmentData.hejilist then
-				PIG_OptionsUI:ErrorMsg("更换"..(id-1).."号配装失败(背包剩余空间不足)")
+				PIGErrorMsg("更换"..(id-1).."号配装失败(背包剩余空间不足)")
 				return
 			end
 		end
-		PIG_OptionsUI:ErrorMsg("更换"..(id-1).."号配装成功")
+		PIGErrorMsg("更换"..(id-1).."号配装成功")
 		for inv = 1, 19 do
 			local zhutisolt = _G["Character"..zhuangbeixilieID[inv][3].."Slot"]
 			if ItemList[inv][1] then
@@ -412,10 +408,10 @@ local function Equip_Use(id)
 			PaperDollItemSlotButton_Update(zhutisolt)
 		end
 	else
-		PIG_OptionsUI:ErrorMsg((id-1).."号配装尚未保存","R")
+		PIGErrorMsg((id-1).."号配装尚未保存","R")
 	end
 end
-_G[Data.QuickButUIname].EquipmentPIG={
+Data.EquipmentPIG={
 	["NumTexCoord"]=NumTexCoord,
 	["Equip_Save"]=Equip_Save,
 	["Equip_Use"]=Equip_Use,
@@ -516,7 +512,7 @@ local function add_AutoEquip(ManageEquip)
 	local function EquipmentManager_UpdateFreeBagSpace ()
 		local bagSlots = EQUIPMENTMANAGER_BAGSLOTS;
 		for i = BANK_CONTAINER, NUM_BAG_SLOTS + GetNumBankSlots() do
-			local _, bagType = GetContainerNumFreeSlots(i);
+			local _, bagType = PIGGetContainerNumFreeSlots(i);
 			local freeSlots = C_Container.GetContainerFreeSlots(i);
 			if ( freeSlots ) then
 				if (not bagSlots[i]) then
@@ -539,7 +535,7 @@ local function add_AutoEquip(ManageEquip)
 	end
 	local function EquipmentManager_EquipContainerItem (action)
 		ClearCursor();
-		PickupContainerItem(action.bag, action.slot);
+		PIGPickupContainerItem(action.bag, action.slot);
 		if ( not CursorHasItem() ) then
 			return false;
 		end
@@ -629,7 +625,7 @@ local function add_AutoEquip(ManageEquip)
 						end
 						if ( firstSlot ) then
 							bagSlots[bag][firstSlot] = SLOT_LOCKED;
-							PickupContainerItem(bag, firstSlot);
+							PIGPickupContainerItem(bag, firstSlot);
 							
 							if ( action ) then
 								action.bag = bag;
@@ -762,13 +758,13 @@ local function add_AutoEquip(ManageEquip)
 			setTooltip = function () GameTooltip:SetInventoryItem("player", slot) end;
 			gem1, gem2, gem3 = GetInventoryItemGems(slot);
 		else -- bags
-			id = C_Container.GetContainerItemID(bag, slot);
+			id = PIGGetContainerItemID(bag, slot);
 			name, _, _, _, _, _, _, _, invType = GetItemInfo(id);
 			local info = C_Container.GetContainerItemInfo(bag, slot);
 			local itemID, itemLink, icon, stackCount, quality, noValue, lootable, locked=PIGGetContainerItemInfo(bag, slot)
 			textureName = icon;
 			count = stackCount;
-			start, duration, enable = C_Container.GetContainerItemCooldown(bag, slot);
+			start, duration, enable = PIGGetContainerItemCooldown(bag, slot);
 			durability, maxDurability = C_Container.GetContainerItemDurability(bag, slot);
 			setTooltip = function () GameTooltip:SetBagItem(bag, slot); end;
 			gem1, gem2, gem3 = C_Container.GetContainerItemGems(bag, slot);
@@ -1913,9 +1909,9 @@ function FramePlusfun.Character_Shuxing()
 		PaperDollFrame:RegisterEvent("UNIT_DISPLAYPOWER");--当单位的魔法类型改变时触发，例如德鲁伊变形
 		PaperDollFrame:RegisterEvent("CHARACTER_POINTS_CHANGED");--分配天赋点触发
 		PaperDollFrame:RegisterEvent("PLAYER_TALENT_UPDATE");--天赋改变
-		if PIG_MaxTocversion(20000) then
-			PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
-		end
+		-- if PIG_MaxTocversion(20000) then
+		-- 	PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
+		-- end
 		hooksecurefunc("PaperDollFrame_UpdateStats", function()
 			PaperDollFrameUpdate()
 		end)

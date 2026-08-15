@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Prince", "DBM-Raids-BC", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15690)
 mod:SetEncounterID(661, 2453)
@@ -28,8 +28,8 @@ local warnPhase3				= mod:NewPhaseAnnounce(3)
 local warningAmpMagic			= mod:NewTargetNoFilterAnnounce(39095, 3)
 local warningSWP				= mod:NewTargetNoFilterAnnounce(30898, 2, nil, "RemoveMagic")
 
-local specWarnEnfeeble			= mod:NewSpecialWarningYou(37277, nil, nil, nil, 3, 2)
-local specWarnNova				= mod:NewSpecialWarningRun(30852, "Melee", nil, nil, 4, 2)
+local specWarnEnfeeble			= mod:NewSpecialWarningYou(37277, nil, nil, nil, 3, 2, nil, nil, "targetyou")
+local specWarnNova				= mod:NewSpecialWarningRun(30852, "Melee", nil, nil, 4, 2, nil, nil, "justrun")
 
 local timerNovaCD				= mod:NewCDTimer(18.1, 30852, nil, nil, nil, 2)--18.1-30
 local timerNextInfernal			= mod:NewCDTimer(45, 37277, nil, nil, nil, 1)--Spawning

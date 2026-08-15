@@ -16,6 +16,34 @@ function SlashCommandsModule:HandleSlashCommand(message, ctx)
     local modules = (ctx and ctx.modules) or {}
     local printFn = (ctx and ctx.printFn) or print
 
+    local function ShowDebugReport()
+        local reportModule = Preydator:GetModule("ReportWindow")
+        if not reportModule or type(reportModule.ShowReportLines) ~= "function" then
+            printFn("Preydator: Report window module unavailable for debug report.")
+            return
+        end
+
+        local entries = (type(debugDB) == "table" and type(debugDB.entries) == "table") and debugDB.entries or {}
+        if #entries == 0 then
+            reportModule:ShowReportLines("Preydator Debug Log", {
+                "Preydator Debug Log",
+                "- Debug log is empty.",
+            })
+            return
+        end
+
+        local fromIndex = math.max(1, #entries - 199)
+        local lines = {
+            "Preydator Debug Log",
+            "- entries=" .. tostring(#entries) .. " | showing=" .. tostring(#entries - fromIndex + 1),
+        }
+        for index = fromIndex, #entries do
+            lines[#lines + 1] = entries[index]
+        end
+
+        reportModule:ShowReportLines("Preydator Debug Log", lines)
+    end
+
     message = (message or ""):match("^%s*(.-)%s*$")
     local command, rest = message:match("^(%S+)%s*(.-)$")
     local text = string.lower(command or "")
@@ -24,7 +52,12 @@ function SlashCommandsModule:HandleSlashCommand(message, ctx)
         if type(ensureDebugDB) == "function" then
             ensureDebugDB()
         end
-        local mode = string.lower(rest or "")
+        local mode = string.lower((rest or ""):gsub("%s+", " "):match("^%s*(.-)%s*$"))
+
+        if mode == "bs" or mode == "show bs" then
+            ShowDebugReport()
+            return
+        end
 
         if mode == "on" then
             if type(settings) == "table" then
@@ -72,7 +105,7 @@ function SlashCommandsModule:HandleSlashCommand(message, ctx)
             return
         end
 
-        printFn("Preydator: debug commands are 'debug on', 'debug off', 'debug show', 'debug clear'.")
+        printFn("Preydator: debug commands are 'debug on', 'debug off', 'debug show', 'debug clear', 'debug bs'.")
         return
     end
 
@@ -132,5 +165,5 @@ function SlashCommandsModule:HandleSlashCommand(message, ctx)
         return
     end
 
-    printFn("Preydator commands: options | show | hide | toggle | debug <on|off|show|clear> | inspect [bs] | qinspect [questID] [bs] | hinspect [bs] | hinspectcopy [bs] | ainspect [bs]")
+    printFn("Preydator commands: options | show | hide | toggle | debug <on|off|show|clear|bs> | inspect [bs] | qinspect [questID] [bs] | hinspect [bs] | hinspectcopy [bs] | ainspect [bs]")
 end

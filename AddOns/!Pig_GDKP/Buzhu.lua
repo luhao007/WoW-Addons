@@ -9,6 +9,7 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 	local PIGLine=Create.PIGLine
 	local PIGEnter=Create.PIGEnter
 	local PIGDiyBut=Create.PIGDiyBut
+	local PIGDiyTex=Create.PIGDiyTex
 	local PIGCheckbutton=Create.PIGCheckbutton
 	local PIGOptionsList_R=Create.PIGOptionsList_R
 	local PIGQuickBut=Create.PIGQuickBut
@@ -20,6 +21,9 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 	local fujiF=PIGOptionsList_R(RaidR.F,"补助/奖励",80)
 	--------------
 	fujiF.line = PIGLine(fujiF,"C",-3,nil,{-4,4})
+	fujiF.TOPline = PIGLine(fujiF,"TOP",-lineTOP)
+	fujiF.yedibuF = PIGLine(fujiF,"BOT",lineTOP)
+
 	local zhizeIcon=Data.zhizeIcon
 	local LeftmenuV=GDKPInfo.LeftmenuV
 	local buzhuzhize = GDKPInfo.buzhuzhize
@@ -105,9 +109,9 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 			self.E:Hide();
 		end
 	end
-	fujiF.buzhu_TND.TOPline = PIGLine(fujiF.buzhu_TND,"TOP",-lineTOP)
+
 	fujiF.buzhu_TND.Scroll = CreateFrame("ScrollFrame",nil,fujiF.buzhu_TND, "FauxScrollFrameTemplate");  
-	fujiF.buzhu_TND.Scroll:SetPoint("TOPLEFT",fujiF.buzhu_TND.TOPline,"BOTTOMLEFT",0,-1);
+	fujiF.buzhu_TND.Scroll:SetPoint("TOPLEFT",fujiF.buzhu_TND,"TOPLEFT",0,-1-lineTOP);
 	fujiF.buzhu_TND.Scroll:SetPoint("BOTTOMRIGHT",fujiF.buzhu_TND,"BOTTOMRIGHT",-19,lineTOP);
 	fujiF.buzhu_TND.Scroll.ScrollBar:SetScale(0.8);
 	fujiF.buzhu_TND.Scroll:SetScript("OnVerticalScroll", function(self, offset)
@@ -282,14 +286,7 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 		RaidR:UpdateGinfo()
 	end
 	---
-	fujiF.buzhu_TND.yedibuF = PIGLine(fujiF.buzhu_TND,"BOT",lineTOP)
-	fujiF.buzhu_TND.tishi = CreateFrame("Frame", nil, fujiF.buzhu_TND);
-	fujiF.buzhu_TND.tishi:SetSize(iconWH,iconWH);
-	fujiF.buzhu_TND.tishi:SetPoint("TOPLEFT",fujiF.buzhu_TND.yedibuF,"BOTTOMLEFT",6,-4);
-	fujiF.buzhu_TND.tishi.Tex = fujiF.buzhu_TND.tishi:CreateTexture(nil, "BORDER");
-	fujiF.buzhu_TND.tishi.Tex:SetTexture("interface/common/help-i.blp");
-	fujiF.buzhu_TND.tishi.Tex:SetSize(iconWH+8,iconWH+8);
-	fujiF.buzhu_TND.tishi.Tex:SetPoint("CENTER");
+	fujiF.buzhu_TND.tishi = PIGDiyTex(fujiF.buzhu_TND,{"BOTTOMLEFT",fujiF.buzhu_TND,"BOTTOMLEFT",6,3},{iconWH,iconWH,iconWH*1.4,iconWH*1.4,616343});
 	PIGEnter(fujiF.buzhu_TND.tishi,"\124cff00ff00补助人员请在人员信息界面设置\124r")
 	local LeftmenuV = LeftmenuV
 	local function huoquguolvshujuD(buzhuVleixing)
@@ -320,7 +317,7 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 			end
 		end
 	end
-	fujiF.buzhu_TND.guding = PIGButton(fujiF.buzhu_TND,{"TOPLEFT",fujiF.buzhu_TND.yedibuF,"BOTTOMLEFT",30,-4},{126,22},"批量转值/百分比");
+	fujiF.buzhu_TND.guding = PIGButton(fujiF.buzhu_TND,{"LEFT",fujiF.buzhu_TND.tishi,"RIGHT",4,0},{126,22},"批量转值/百分比");
 	fujiF.buzhu_TND.guding:SetScript("OnClick", function (self)
 		if self.bafenbi then
 			self.bafenbi=false
@@ -331,7 +328,7 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 		end
 		RaidR.Update_Buzhu_TND()
 	end);
-	fujiF.buzhu_TND.piliangBut = PIGButton(fujiF.buzhu_TND,{"TOPRIGHT",fujiF.buzhu_TND.yedibuF,"BOTTOMRIGHT",-10,-4},{72,22},"批量设置");
+	fujiF.buzhu_TND.piliangBut = PIGButton(fujiF.buzhu_TND,{"LEFT",fujiF.buzhu_TND.guding,"RIGHT",160,0},{72,22},"批量设置");
 	fujiF.buzhu_TND.piliangBut:SetScale(0.94)
 	fujiF.buzhu_TND.piliangBut:SetScript("OnClick", function (self)
 		local BuzhuNewV = self.E:GetNumber();
@@ -379,7 +376,6 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 	---奖励补助==========
 	fujiF.buzhu_QITA = PIGFrame(fujiF,{"TOPRIGHT",fujiF,"TOPRIGHT",0,0});  
 	fujiF.buzhu_QITA:SetPoint("BOTTOMLEFT",fujiF.line,"BOTTOMRIGHT",0,0);
-	fujiF.buzhu_QITA.yedibuF = PIGLine(fujiF.buzhu_QITA,"BOT",lineTOP)
 	fujiF.buzhu_QITA.guangbaoBut = CreateFrame("Button",nil,fujiF.buzhu_QITA);  
 	fujiF.buzhu_QITA.guangbaoBut:SetSize(iconWH,iconWH);
 	fujiF.buzhu_QITA.guangbaoBut:SetPoint("TOPLEFT", fujiF.buzhu_QITA, "TOPLEFT", 6,-4);
@@ -409,13 +405,7 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 		local biaoti = PIGFontString(fujiF.buzhu_QITA,{"TOPLEFT", fujiF.buzhu_QITA, "TOPLEFT", biaotiList1[id][2],-7},biaotiList1[id][1],nil,nil,"buzhu_QITA_biaoti_"..id);
 		biaoti:SetTextColor(1, 1, 0, 1);
 	end
-	fujiF.buzhu_QITA.tishi = CreateFrame("Frame", nil, fujiF.buzhu_QITA);
-	fujiF.buzhu_QITA.tishi:SetSize(iconWH-2,iconWH-2);
-	fujiF.buzhu_QITA.tishi:SetPoint("LEFT",buzhu_QITA_biaoti_4,"RIGHT",1,0);
-	fujiF.buzhu_QITA.tishi.Tex = fujiF.buzhu_QITA.tishi:CreateTexture(nil, "BORDER");
-	fujiF.buzhu_QITA.tishi.Tex:SetTexture("interface/friendsframe/reportspamicon.blp");
-	fujiF.buzhu_QITA.tishi.Tex:SetSize(iconWH+6,iconWH+6);
-	fujiF.buzhu_QITA.tishi.Tex:SetPoint("TOPLEFT",1,-3);
+	fujiF.buzhu_QITA.tishi = PIGDiyTex(fujiF.buzhu_QITA,{"LEFT",buzhu_QITA_biaoti_4,"RIGHT",1,0},{iconWH,iconWH,iconWH*1.3,iconWH*1.3,375512,7,-7});
 	PIGEnter(fujiF.buzhu_QITA.tishi,"\124cffff0000注意: 未选择奖励人的项目不会计入奖励支出\124r")
 	--添加项目-----
 	fujiF.buzhu_QITA.Add = PIGButton(fujiF.buzhu_QITA, {"LEFT",buzhu_QITA_biaoti_1,"RIGHT",2,0},{20,20},"+");
@@ -484,9 +474,8 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 		fuji.err:SetText("");
 	end);
 	------
-	fujiF.buzhu_QITA.TOPline = PIGLine(fujiF.buzhu_QITA,"TOP",-lineTOP)
 	fujiF.buzhu_QITA.Scroll = CreateFrame("ScrollFrame",nil,fujiF.buzhu_QITA, "FauxScrollFrameTemplate");  
-	fujiF.buzhu_QITA.Scroll:SetPoint("TOPLEFT",fujiF.buzhu_QITA.TOPline,"BOTTOMLEFT",0,-1);
+	fujiF.buzhu_QITA.Scroll:SetPoint("TOPLEFT",fujiF.buzhu_QITA,"TOPLEFT",0,-1-lineTOP);
 	fujiF.buzhu_QITA.Scroll:SetPoint("BOTTOMRIGHT",fujiF.buzhu_QITA,"BOTTOMRIGHT",-19,lineTOP);
 	fujiF.buzhu_QITA.Scroll.ScrollBar:SetScale(0.8);
 	fujiF.buzhu_QITA.Scroll:SetScript("OnVerticalScroll", function(self, offset)
@@ -658,7 +647,8 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 			dataX[p][2]=0
 		end
 	end
-	fujiF.buzhu_QITA.guding = PIGButton(fujiF.buzhu_QITA,{"TOPLEFT",fujiF.buzhu_QITA.yedibuF,"BOTTOMLEFT",30,-4},{126,22},"批量转值/百分比");
+	-----
+	fujiF.buzhu_QITA.guding = PIGButton(fujiF.buzhu_QITA,{"BOTTOMLEFT",fujiF.buzhu_QITA,"BOTTOMLEFT",30,3},{126,22},"批量转值/百分比");
 	fujiF.buzhu_QITA.guding:SetScript("OnClick", function (self)
 		if self.bafenbi then
 			self.bafenbi=false
@@ -670,7 +660,7 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 		RaidR.Update_Buzhu_QITA()
 	end);
 	--导入奖励设置----------
-	fujiF.buzhu_QITA.daoruBut=PIGDownMenu(fujiF.buzhu_TND,{"TOPRIGHT",fujiF.buzhu_QITA.yedibuF,"BOTTOMRIGHT",-10,-4},{60,22})
+	fujiF.buzhu_QITA.daoruBut=PIGDownMenu(fujiF.buzhu_QITA,{"BOTTOMRIGHT",fujiF.buzhu_QITA,"BOTTOMRIGHT",-10,3},{60,22})
 	fujiF.buzhu_QITA.daoruBut:PIGDownMenu_SetText("导入")
 	function fujiF.buzhu_QITA.daoruBut:PIGDownMenu_Update_But()
 		local info = self:PIGDownMenu_CreateInfo()

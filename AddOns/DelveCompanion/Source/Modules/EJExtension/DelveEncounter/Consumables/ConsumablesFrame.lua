@@ -24,14 +24,10 @@ function DelveCompanion_DelveEncounterConsumablesFrameMixin:UpdateConsumables()
     end
 
     ---@type number
-    local expansion = DelveCompanion.EJExtension.DelveEncounter:GetExpansionForFaction(
-        DelveCompanion.EJExtension.DelveEncounter:GetFactionIDs())
+    local expansion = DelveCompanion.EJExtension.DelveEncounter:GetFactionData().expansionID
 
     if expansion == LE_EXPANSION_WAR_WITHIN then
-        self.Keys:ClearAllPoints()
-        ---@type string, number, number
-        local point, xOffset, yOffset = "LEFT", 35, 0
-        self.Keys:SetPoint(point, xOffset, yOffset)
+        self.Keys:Hide()
 
         local echoCount = C_Item.GetItemCount(self.Echo.frameCode)
         self.Echo:SetLabelText(echoCount)
@@ -42,13 +38,8 @@ function DelveCompanion_DelveEncounterConsumablesFrameMixin:UpdateConsumables()
         self.BountyMap:Hide()
         self.ManaCrystals:Hide()
     elseif expansion == LE_EXPANSION_MIDNIGHT then
-        do
-            self.Keys:ClearAllPoints()
-            ---@type string, number, number
-            local point, xOffset, yOffset = "TOPLEFT", 35, -22
-            self.Keys:SetPoint(point, xOffset, yOffset)
-            self.Echo:Hide()
-        end
+        self.Keys:Show()
+        self.Echo:Hide()
 
         ---@type string, number, CurrencyInfo
         local shardsLine, shardsCount, shardsInfo

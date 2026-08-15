@@ -7,17 +7,27 @@ local CreateFrame = CreateFrame;
 local string = string;
 local select = select;
 local tonumber = tonumber
+local type = type;
 
 --set namespace
 setfenv(1, WIM);
 
 local buttons = {};
 
+local function getButtonTable (winType)
+	local _buttons = buttons[winType] or {};
+	buttons[winType] = _buttons;
+
+	return buttons[winType];
+end
+
 -- create WIM Module
 local ShortcutBar = CreateModule("ShortcutBar", true);
 
-local buttonCount = 1;
+-- local buttonCount = 1;
 local function createButton(parent)
+	local buttonCount = #parent.buttons + 1;
+
 	local button = CreateFrame("Button", "WIM_ShortcutBarButton"..buttonCount, parent);
 	button.icon = button:CreateTexture(nil, "BACKGROUND");
 	button.icon:SetAllPoints();
@@ -33,6 +43,8 @@ local function createButton(parent)
 			parent:UpdateButtons();
 		end
 	button:SetScript("OnEnter", function(self)
+			local buttons = getButtonTable(parent.type);
+
 			if(buttons[self.index].scripts and buttons[self.index].scripts.OnEnter) then
 				buttons[self.index].scripts.OnEnter(self);
 			else
@@ -43,17 +55,23 @@ local function createButton(parent)
 			end
 		end);
 	button:SetScript("OnLeave", function(self)
+			local buttons = getButtonTable(parent.type);
+
 			_G.GameTooltip:Hide();
 			if(buttons[self.index].scripts and buttons[self.index].scripts.OnLeave) then
 				buttons[self.index].scripts.OnLeave(self, button);
 			end
 		end);
 	button:SetScript("OnClick", function(self, button)
+			local buttons = getButtonTable(parent.type);
+
 			if(buttons[self.index].scripts and buttons[self.index].scripts.OnClick) then
 				buttons[self.index].scripts.OnClick(self, button);
 			end
 		end);
 	button.SetDefaults = function(self)
+			local buttons = getButtonTable(parent.type);
+
 			if(buttons[self.index].scripts and buttons[self.index].scripts.SetDefaults) then
 				buttons[self.index].scripts.SetDefaults(self);
 			end
@@ -67,11 +85,14 @@ end
 
 
 
-local function createShortCutBar()
+local function createShortCutBar(win)
 	local frame = CreateFrame("Frame");
 
 	--widget info
-	frame.type = "whisper"; -- will only show on whisper windows.
+	frame.type = win.type or '-unknown-'; -- will only show on whisper windows.
+
+	-- init reference to buttons table.
+	local buttons = getButtonTable(frame.type);
 
 	-- test texture so you can see the frame to be placed.
 	--frame.test = frame:CreateTexture(nil, "BACKGROUND");
@@ -80,6 +101,8 @@ local function createShortCutBar()
 	frame.visibleCount = 0;
 	frame.buttons = {};
 	frame.UpdateSkin = function(self)
+			local buttons = getButtonTable(frame.type);
+
 			-- make sure all the button objects needed are available.
 			local buttonsToCreate = #buttons - #frame.buttons;
 			for i=1, buttonsToCreate do
@@ -139,6 +162,7 @@ local function createShortCutBar()
 			end
 			for i=1,#buttons do
 				self.buttons[i].index = i;
+				self.buttons[i].parentWindow = self.parentWindow;
 				self.buttons[i]:SetNormalTexture(skin.buttons.NormalTexture);
 				self.buttons[i]:SetPushedTexture(skin.buttons.PushedTexture);
 				self.buttons[i]:SetHighlightTexture(skin.buttons.HighlightTexture, skin.buttons.HighlightAlphaMode);
@@ -248,7 +272,26 @@ local function canInviteBN(id)
 	return show
 end
 
+local function isIgnored(name)
+	if(not name) then return end
+	if _G.C_FriendList and _G.C_FriendList.IsIgnored then
+		return _G.C_FriendList.IsIgnored(name);
+	else
+		return _G.IsIgnored(name);
+	end
+end
+
+local function addIgnore(name)
+	if _G.C_FriendList and _G.C_FriendList.AddIgnore then
+		_G.C_FriendList.AddIgnore(name);
+	else
+		_G.AddIgnore(name);
+	end
+end
+
 function ShortcutBar:OnWindowShow(obj)
+	local buttons = getButtonTable(obj.type);
+
 	if (obj.widgets.shortcuts) then
 		for i=1, #buttons do
 			if (buttons[i].id == "invite") then
@@ -257,8 +300,15 @@ function ShortcutBar:OnWindowShow(obj)
 				else
 					obj.widgets.shortcuts.buttons[i]:Enable();
 				end
-			elseif buttons[i].id == "ignore" then
-				if obj.isBN then
+		elseif buttons[i].id == "ignore" then
+			local btn = obj.widgets.shortcuts.buttons[i];
+			if obj.isBN or (obj.theUser and isIgnored(obj.theUser)) then
+				btn:Disable();
+			else
+				btn:Enable();
+			end
+		elseif buttons[i].id == "guild" then
+				if obj.isBN or not _G.IsInGuild() or not _G.CanGuildInvite() or (obj.theUser and lists.guild[obj.theUser]) then
 					obj.widgets.shortcuts.buttons[i]:Disable();
 				else
 					obj.widgets.shortcuts.buttons[i]:Enable();
@@ -270,44 +320,94 @@ function ShortcutBar:OnWindowShow(obj)
 end
 
 function ShortcutBar:FRIENDLIST_UPDATE()
+	local buttons = getButtonTable("whisper");
+
 	local friend = nil;
 	for i=1, #buttons do
 		if(buttons[i].id == "friend") then
 			friend = i;
 		end
 	end
+	if(not friend) then
+		return;
+	end
 	for widget in Widgets("shortcuts") do
-		if(lists.friends[widget.parentWindow.theUser] or _G.UnitName("player") == widget.parentWindow.theUser) then
-			if(friend) then
-				widget.buttons[friend]:Disable();
+		-- friend index is from the whisper button table; other window types (chat) have their own button sets.
+		local button = widget.type == "whisper" and widget.buttons[friend];
+		if(button and widget.parentWindow) then
+			if(_G.UnitName("player") == widget.parentWindow.theUser or lists.friends[widget.parentWindow.theUser]) then
+				button:Disable();
+			else
+				button:Enable();
 			end
-		else
-			if(friend) then
-				widget.buttons[friend]:Enable();
+		end
+	end
+end
+
+function ShortcutBar:IGNORELIST_UPDATE()
+	local buttons = getButtonTable("whisper");
+
+	local ignore = nil;
+	for i=1, #buttons do
+		if(buttons[i].id == "ignore") then
+			ignore = i;
+		end
+	end
+	if(not ignore) then
+		return;
+	end
+	for widget in Widgets("shortcuts") do
+		local button = widget.type == "whisper" and widget.buttons[ignore];
+		if(button and widget.parentWindow) then
+			if(widget.parentWindow.isBN or isIgnored(widget.parentWindow.theUser)) then
+				button:Disable();
+			else
+				button:Enable();
 			end
 		end
 	end
 end
 
 -- WIM Global API for Shortcut buttons.
-function RegisterShortcut(id, title, scripts)
-	table.insert(buttons, {
+function RegisterShortcut(id, title, options)
+	options = options or {};
+
+	-- defaults
+	options.type = options.type or "whisper"; -- default to whisper windows.
+
+	local scripts = {};
+	local info = {
 		id = id,
 		title = title,
 		scripts = scripts
-	});
+	}
+
+	-- load info table
+	for k, v in pairs(options) do
+		if(type(v) == "function") then
+			scripts[k] = v;
+		else
+			info[k] = v;
+		end
+	end
+
+	for winType in info.type:gmatch("[^,%s]+") do
+		local buttons = getButtonTable(winType);
+		table.insert(buttons, info);
+	end
 end
 
 
 
 -- Register default buttons.
 RegisterShortcut("location", L["Player Location"], {
+		type = "whisper",
 		OnClick = function(self, button)
 			libs.DropDownMenu.CloseDropDownMenus();
 			if(button == "LeftButton") then
 				local currentSelf = self;
 				self.parentWindow:SendWho(function()
-					buttons[currentSelf.index].scripts.OnEnter(currentSelf);
+					buttons[currentSelf.parentWindow.type or 'whisper'][currentSelf.index].scripts.OnEnter(currentSelf);
 					end, true)
 			else
 				WIM.MENU_ARMORY_USER = self.parentWindow.theUser;
@@ -366,16 +466,22 @@ RegisterShortcut("invite", L["Invite to Party"], {
 			end
 		end
 	});
+RegisterShortcut("guild", L["Invite to Guild"], {
+	OnClick = function(self)
+		local win = self.parentWindow;
+		_G.GuildInvite(win.theUser);
+	end
+});
 RegisterShortcut("friend", L["Add Friend"], {
-		OnClick = function(self)
-			_G.C_FriendList.AddFriend(self.parentWindow.theUser);
-		end,
-		SetDefaults = function(self)
-			ShortcutBar:FRIENDLIST_UPDATE();
-		end
-	});
-RegisterShortcut("ignore", L["Ignore User"], {
-		OnClick = function(self)
+	OnClick = function(self)
+		_G.C_FriendList.AddFriend(self.parentWindow.theUser);
+	end,
+	SetDefaults = function(self)
+		ShortcutBar:FRIENDLIST_UPDATE();
+	end
+});
+RegisterShortcut("ignore", L["Ignore Player"], {
+	OnClick = function(self)
 		local win = self.parentWindow;
 		_G.StaticPopupDialogs["WIM_IGNORE"] = {
 		preferredIndex = STATICPOPUP_NUMDIALOGS,
@@ -383,12 +489,12 @@ RegisterShortcut("ignore", L["Ignore User"], {
 		button1 = L["Yes"],
 		button2 = L["No"],
 		OnAccept = function()
-			_G.C_FriendList.AddIgnore(win.isBN and win.toonName or win.theUser);
+			addIgnore(win.isBN and win.toonName or win.theUser);
 		end,
 		timeout = 0,
 		whileDead = 1,
 		hideOnEscape = 1
 		};
 		_G.StaticPopup_Show("WIM_IGNORE");
-		end
-	});
+	end
+});

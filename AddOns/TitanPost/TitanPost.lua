@@ -551,7 +551,7 @@ local function GeneratorFunction(owner, rootDescription)
 		function()
 			TitanUpdateConfig("init")
 			-- Open the profile config as distinct frame
-			AceConfigDialog:Open("Titan Panel Addon Chars")
+			AceConfigDialog:Open("Titan Panel Addon Profiles")
 		end
 	)
 

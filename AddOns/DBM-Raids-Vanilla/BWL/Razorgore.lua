@@ -19,34 +19,33 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260807040822")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(12435, 99999)--Bogus detection to prevent invalid kill detection if razorgore happens to die in phase 1
 mod:SetEncounterID(610)--BOSS_KILL is valid, but ENCOUNTER_END is not
 mod:DisableEEKillDetection()--So disable only EE
 mod:SetModelID(10115)
 mod:SetHotfixNoticeRev(20200904000000)--2020, September, 4th
-mod:SetMinSyncRevision(20200904000000)--2020, September, 4th
+mod:SetMinSyncRevision(20260522000000) -- 2026, May 22nd
 mod:SetZone(469)
 
-mod:RegisterCombat("yell", L.Pull)
+mod:RegisterCombat("combat_yell", L.Pull)
 mod:SetWipeTime(180)--guesswork
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 22425",
 	"SPELL_CAST_SUCCESS 23040 19873",
 	"SPELL_AURA_APPLIED 23023",
-	"CHAT_MSG_MONSTER_EMOTE",
 	"UNIT_DIED"
 )
 
 --ability.id = 22425 and type = "begincast" or (ability.id = 23040 or ability.id = 19873) and type = "cast"
-local warnPhase2			= mod:NewPhaseAnnounce(2)
+local warnPhase 			= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnFireballVolley	= mod:NewCastAnnounce(22425, 3)
 local warnConflagration		= mod:NewTargetAnnounce(23023, 2)
 local warnEggsLeft			= mod:NewCountAnnounce(19873, 1) ---@type Announce -- string as count in :Show() is unusual but valid
 
-local specWarnFireballVolley= mod:NewSpecialWarningMoveTo(22425, false, nil, nil, 2, 2)
+local specWarnFireballVolley= mod:NewSpecialWarningMoveTo(22425, false, nil, nil, 2, 2, nil, nil, "findshelter")
 
 local timerAddsSpawn		= mod:NewTimer(47, "TimerAddsSpawn", 19879, nil, nil, 1)--Only for start of adds, not adds after the adds.
 
@@ -61,6 +60,9 @@ mod:AddSpeedClearOption("BWL", true)
 mod.vb.eggsLeft = 30
 mod.vb.firstEngageTime = nil
 
+--Request speed clear variables, in case it was already started before mod loaded
+mod:SendSync("IsBWLStarted")
+
 -- Polyfill because I don't feel like this justifies a forced core update
 local function isBlackEssenceEnabled()
 	if mod.IsBwlBlackEssenceEnabled then
@@ -70,8 +72,9 @@ local function isBlackEssenceEnabled()
 	end
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	self:SetStage(1)
+	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 	timerAddsSpawn:Start()
 	self.vb.eggsLeft = 30
 	if not self.vb.firstEngageTime then
@@ -83,6 +86,20 @@ function mod:OnCombatStart(delay)
 	end
 	if timerDrakeSpawn and isBlackEssenceEnabled() then
 		timerDrakeSpawn:Start()
+	end
+end
+
+function mod:OnSync(msg, startTime)
+	--Sync recieved with start time and ours is currently not started
+	if msg == "BWLStarted" and startTime and not self.vb.firstEngageTime then
+		self.vb.firstEngageTime = tonumber(startTime)
+		if self.Options.FastestClear and self.Options.SpeedClearTimer then
+			--Custom bar creation that's bound to core, not mod, so timer doesn't stop when mod stops it's own timers
+			local adjustment = GetServerTime() - self.vb.firstEngageTime
+			DBT:CreateBar(self.Options.FastestClear - adjustment, DBM_CORE_L.SPEED_CLEAR_TIMER_TEXT, 136106)
+		end
+	elseif msg == "IsBWLStarted" and self.vb.firstEngageTime then
+		self:SendSync("BWLStarted", self.vb.firstEngageTime)
 	end
 end
 
@@ -98,9 +115,9 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpell(23040) and self.vb.phase < 2 then
-		warnPhase2:Show()
+	if args:IsSpell(23040) and self:GetStage(1) then
 		self:SetStage(2)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 	elseif args:IsSpell(19873) then
 		self.vb.eggsLeft = self.vb.eggsLeft - 1
 		if self:IsRetail() then
@@ -123,29 +140,13 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	if (msg == L.Phase2Emote or msg:find(L.Phase2Emote)) and self.vb.phase < 2 then
-		self:SendSync("Phase2")
-	end
-end
-
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 12435 then--Only trigger kill for unit_died if he dies in phase 2 with everyone alive, otherwise it's an auto wipe.
-		if DBM:NumRealAlivePlayers() > 0 and self.vb.phase == 2 then
+		if DBM:NumRealAlivePlayers() > 0 and self:GetStage(2) then
 			DBM:EndCombat(self)
 		else
 			DBM:EndCombat(self, true)--Pass wipe arg end combat
 		end
 	end
 end
-
-function mod:OnSync(msg)
-	if msg == "Phase2" and self.vb.phase < 2 then
-		warnPhase2:Show()
-		self:SetStage(2)
-	end
-end
-
---Possible auto gossip for Vael using ID 29549, 30850
---Possible auto gossip for engaging nef (retial only) 28595, 28897, 29020

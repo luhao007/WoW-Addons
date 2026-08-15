@@ -26,14 +26,14 @@ local ADD_SCALING = {
 	}
 }
 
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", ADD_SCALING, 1)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", ADD_SCALING, 2)
-local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(AL["Timewalking"], "timewalkingDungeonWithPreset", ADD_SCALING, 24)
+local NORMAL_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "n", ADD_SCALING, 1)
+local HEROIC_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "h", ADD_SCALING, 2)
+local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY_TIMEWALKER, "timewalkingDungeonWithPreset", ADD_SCALING, 24)
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "rf", ADD_SCALING, 7)
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "rn", ADD_SCALING, 3)
-local HEROIC_RAID_DIFF = data:AddDifficulty(AL["Heroic"], "rh", ADD_SCALING, 5)
-local TIMEWALKING_RAID_DIFF = data:AddDifficulty(AL["Timewalking"], "timewalkingRaidWithPreset", ADD_SCALING, 33)
+local RF_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY3, "rf", ADD_SCALING, 7)
+local NORMAL_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY1, "rn", ADD_SCALING, 3)
+local HEROIC_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY2, "rh", ADD_SCALING, 5)
+local TIMEWALKING_RAID_DIFF = data:AddDifficulty(PLAYER_DIFFICULTY_TIMEWALKER, "timewalkingRaidWithPreset", ADD_SCALING, 33)
 
 local ALLIANCE_DIFF = data:AddDifficulty(FACTION_ALLIANCE, "alliance", nil, 1)
 local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE, "horde", nil, 1)
@@ -41,8 +41,8 @@ local HORDE_DIFF = data:AddDifficulty(FACTION_HORDE, "horde", nil, 1)
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
 
-local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
-local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
+local DUNGEON_CONTENT = data:AddContentType(DUNGEONS, ATLASLOOT_DUNGEON_COLOR)
+local RAID_CONTENT = data:AddContentType(RAIDS, ATLASLOOT_RAID_COLOR)
 
 -- Shared loot tables
 local CATA_DUNGEON_HERO_AC_TABLE = { --[Cataclysm Dungeon Hero]
@@ -1540,7 +1540,7 @@ data["ZulAman"] = {
 				{ 8,  69588 },     -- Skullcrusher Warboots
 				{ 16, 69591 },     -- Voodoo Hexblade
 				{ 17, 69592 },     -- Reforged Trollbane
-				{ 19, "INV_Box_01", "ac5858", AL["Bonus Loot"], nil },
+				{ 19, "INV_Box_01", "ac5858", BONUS_LOOT_LABEL, nil },
 				{ 20, 69747,        "mount" }, -- Amani Battle Bear
 			},
 		},

@@ -1,32 +1,34 @@
-local addonName, addonTable = ...;
+local addonName, PD = ...;
 local fmod=math.fmod
-local L=addonTable.locale
-local Create=addonTable.Create
+local L=PD.locale
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
 local PIGLine=Create.PIGLine
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
+local PIGCheckSingle=Create.PIGCheckSingle
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGDiyBut=Create.PIGDiyBut
 local PIGDiyTex=Create.PIGDiyTex
-local Data=addonTable.Data
-local Fun = addonTable.Fun
+
+local Data=PD.Data
+local PlayerInfo=Data.PlayerInfo
 ------
-local PIGGetRaceAtlas=addonTable.Fun.PIGGetRaceAtlas
-local GetContainerNumSlots = GetContainerNumSlots or C_Container and C_Container.GetContainerNumSlots
+local Fun = PD.Fun
+local PIGGetRaceAtlas=Fun.PIGGetRaceAtlas
+local GetItemLinkJJ=Fun.GetItemLinkJJ
+
 local GetContainerItemInfo = GetContainerItemInfo or C_Container and C_Container.GetContainerItemInfo
-local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
-local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
-local BusinessInfo=addonTable.BusinessInfo
+local BusinessInfo=PD.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 local GnName = L["TRADEMAIL_TABNAME"]
 ------------
 local SendTabs={L["TRADEMAIL_CONTACTS1"],FRIEND,L["TRADEMAIL_CONTACTS3"]}
-local SendTabsTisp={L["TRADEMAIL_CONTACTS1TISP"]..BusinessInfo.ADD_qushiError,L["TRADEMAIL_CONTACTS2TISP"],L["TRADEMAIL_CONTACTS3TISP"]}
+local SendTabsTisp={L["TRADEMAIL_CONTACTS1TISP"]..BusinessInfo.OpenTisp,L["TRADEMAIL_CONTACTS2TISP"],L["TRADEMAIL_CONTACTS3TISP"]}
 local function GetFriendData(linData)
 	--local numBNetTotal, numBNetOnline, numBNetFavorite, numBNetFavoriteOnline = BNGetNumFriends()
 	local numFriends = C_FriendList.GetNumFriends()
@@ -40,14 +42,14 @@ local function GetFriendData(linData)
 	end
 end
 Data.MailTabsList={SendTabs,SendTabsTisp,GetFriendData}
-local PIG_OPEN_ALL_MAIL_MIN_DELAY=1
+local PIG_OPEN_ALL_MAIL_MIN_DELAY=0.6
 function BusinessInfo.MailPlusOptions()
-	local MailPlusF,MailPlustabbut =PIGOptionsList_R(BusinessInfo.RTabFrame,GnName,90)
-	PIG_OPEN_ALL_MAIL_MIN_DELAY=PIGA["MailPlus"]["OpenAllCD"]
+	local Tab2_F,Tab2_But =PIGOptionsList_R(BusinessInfo.RTabFrame,GnName,90)
 	------
 	local Tooltip = {GnName,L["TRADEMAIL_TABNAMETISP"]};
-	MailPlusF.MailPlus = PIGCheckbutton(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-20},Tooltip)
-	MailPlusF.MailPlus:SetScript("OnClick", function (self)
+	Tab2_F.MailPlus = PIGCheckbutton(Tab2_F,{"TOPLEFT",Tab2_F,"TOPLEFT",20,-20},Tooltip)
+	Tab2_F.MailPlus:SetChecked(PIGA["MailPlus"]["Open"])
+	Tab2_F.MailPlus:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["MailPlus"]["Open"]=true;
 			BusinessInfo.MailPlus_ADDUI()
@@ -55,39 +57,90 @@ function BusinessInfo.MailPlusOptions()
 			PIGA["MailPlus"]["Open"]=false;
 			PIG_OptionsUI.RLUI:Show()
 		end
-		MailPlusF:Update_Set()
+		Tab2_F.SetF:Update_Set()
 	end);
-	MailPlusF.ScanSlider = PIGSlider(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-60},{0.15,10,0.01,{["Right"]=L["TRADEMAIL_PICKCD"]}},300)
-	function MailPlusF.ScanSlider:PIGOnValueChange(arg1)
-		print(arg1)
+	Tab2_F.SetF = PIGFrame(Tab2_F,{"TOPLEFT", Tab2_F, "TOPLEFT", 0, -50})
+	Tab2_F.SetF:SetPoint("BOTTOMRIGHT", Tab2_F, "BOTTOMRIGHT", 0, 0);
+	Tab2_F.SetF:PIGSetBackdrop(0)
+	Tab2_F.SetF.CZ = PIGButton(Tab2_F.SetF,{"BOTTOMRIGHT",Tab2_F.SetF,"TOPRIGHT",-20,10},{60,22},RESET);  
+	PIGEnter(Tab2_F.SetF.CZ,string.format(L["RELOADUI2"],GnName))
+	Tab2_F.SetF.CZ:SetScript("OnClick", function ()
+		StaticPopup_Show ("PIG_MAIL_CZQIANGKONGINFO");
+	end);
+	StaticPopupDialogs["PIG_MAIL_CZQIANGKONGINFO"] = {
+		text = string.format(L["RELOADUI2"],GnName),
+		button1 = YES,
+		button2 = NO,
+		OnAccept = function()
+			PIGA["MailPlus"]=CopyTable(PD.Default["MailPlus"])
+			PIGA["MailPlus"]["Open"] = true;
+			ReloadUI()
+		end,
+		timeout = 0,
+		whileDead = true,
+		hideOnEscape = true,
+	}
+	Tab2_F.SetF.ScanSlider = PIGSlider(Tab2_F.SetF,{"TOPLEFT",Tab2_F.SetF,"TOPLEFT",20,-20},{0.15,10,0.01,{["Right"]=L["TRADEMAIL_PICKCD"]}},300)
+	function Tab2_F.SetF.ScanSlider:PIGOnValueChange(arg1)
 		PIG_OPEN_ALL_MAIL_MIN_DELAY=arg1
 		PIGA["MailPlus"]["OpenAllCD"]=arg1
 	end
-	MailPlusF.ScanSlider.CZ = PIGButton(MailPlusF.ScanSlider,{"LEFT",MailPlusF.ScanSlider.RightText,"RIGHT",10,0},{60,22},RESET)
-	MailPlusF.ScanSlider.CZ:HookScript("OnClick", function (self)
-		PIGA["MailPlus"]["OpenAllCD"]=addonTable.Default["MailPlus"]["OpenAllCD"]
-		MailPlusF.ScanSlider:PIGSetValue(PIGA["MailPlus"]["OpenAllCD"])
+	Tab2_F.SetF.ScanSlider.CZ = PIGButton(Tab2_F.SetF.ScanSlider,{"LEFT",Tab2_F.SetF.ScanSlider.RightText,"RIGHT",10,0},{60,22},RESET)
+	Tab2_F.SetF.ScanSlider.CZ:HookScript("OnClick", function (self)
+		PIGA["MailPlus"]["OpenAllCD"]=PD.Default["MailPlus"]["OpenAllCD"]
+		Tab2_F.SetF.ScanSlider:PIGSetValue(PIGA["MailPlus"]["OpenAllCD"])
 	end);
 	--------
-	function MailPlusF:Update_Set()
-		self.MailPlus:SetChecked(PIGA["MailPlus"]["Open"])
+	function Tab2_F.SetF:Update_Set()
+		self:SetShown(PIGA["MailPlus"]["Open"])
 		self.ScanSlider:PIGSetValue(PIGA["MailPlus"]["OpenAllCD"])
 	end
-	MailPlusF:HookScript("OnShow", function (self)
-		MailPlusF:Update_Set()
-	end);
-	BusinessInfo.MailPlus_ADDUI()
+	Tab2_F.SetF:Update_Set()
 end
 function BusinessInfo.MailPlus_ADDUI()
 	if not PIGA["MailPlus"]["Open"] then return end
-	if SendMailFrame.coll then return end
+	if InboxFrame.bagliu1 then return end
+	PIG_OPEN_ALL_MAIL_MIN_DELAY=PIGA["MailPlus"]["OpenAllCD"]
 	----
 	local OnekeyTake = CreateFrame("Frame",nil,InboxFrame)
 	local boxitemdata = {["boxbutNum"]=64,["meihang"]=8}
-
+	local bagliu1Open = PIGA["MailPlus"]["bagliu1"]
 	--移动游戏已满提示
 	InboxTooMuchMail:ClearAllPoints();
 	InboxTooMuchMail:SetPoint("TOP",InboxFrame,"TOP",0,-50);
+	--留空
+	InboxFrame.bagliu1 = PIGCheckbutton(InboxFrame,{"TOPLEFT",InboxFrame,"TOPLEFT",56,-1},{"背包留空1格"},nil,nil,nil,0)
+	InboxFrame.bagliu1:SetChecked(PIGA["MailPlus"]["bagliu1"])
+	InboxFrame.bagliu1:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["MailPlus"]["bagliu1"]=true;
+		else
+			PIGA["MailPlus"]["bagliu1"]=nil
+		end
+		bagliu1Open=PIGA["MailPlus"]["bagliu1"]
+	end);
+	local CalculateTotalNumberOfFreeBagSlots=CalculateTotalNumberOfFreeBagSlots or function()
+		local totalFree, freeSlots, bagFamily = 0;
+		for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+			freeSlots, bagFamily = PIGGetContainerNumFreeSlots(i);
+			if ( bagFamily == 0 ) then
+				totalFree = totalFree + freeSlots;
+			end
+		end
+		return totalFree;
+	end
+	local function PIGCalculateTotalNumberOfFreeBagSlots()
+		local BagSlots=CalculateTotalNumberOfFreeBagSlots()
+		if bagliu1Open then
+			if BagSlots<=1 then
+				return true
+			end
+		end
+		if BagSlots <= 0 then
+			return true
+		end
+		return false
+	end
 	----TAB---
 	local SizePointData = {60,25,60,-30}
 	local EextData={
@@ -145,7 +198,8 @@ function BusinessInfo.MailPlus_ADDUI()
 		InboxFrame.ItemBox.quchuM:SetShown(InboxFrame.TabselectID==3)
 		InboxFrame.ItemBox.quchuMV:SetShown(InboxFrame.TabselectID==3)
 		InboxFrame.ItemBox.QuMoney:SetShown(InboxFrame.TabselectID==3)
-		InboxFrame.ItemBox.piliangtis:SetShown(InboxFrame.TabselectID==2)
+		InboxFrame.ItemBox.duidie:SetShown(InboxFrame.TabselectID==2)
+		InboxFrame.ItemBox.duidie:SetChecked(PIGA["MailPlus"]["Stacking"])
 		if InboxFrame.TabselectID==2 or InboxFrame.TabselectID==3 then
 			OnekeyTake.Show_ItemList()
 		end
@@ -175,14 +229,12 @@ function BusinessInfo.MailPlus_ADDUI()
 			if self:GetChecked() then
 				OnekeyTake.Openindex[button.index]=true
 			else
-				OnekeyTake.Openindex[button.index]=false;
+				OnekeyTake.Openindex[button.index]=nil;
 			end
 			for _,vvv in pairs(OnekeyTake.Openindex) do
-				if vvv then
-					InboxFrame.OpenSelect:Enable();
-					InboxFrame.ReturnMail:Enable();
-					return
-				end
+				InboxFrame.OpenSelect:Enable();
+				InboxFrame.ReturnMail:Enable();
+				return
 			end
 			InboxFrame.OpenSelect:Disable();
 			InboxFrame.ReturnMail:Disable();
@@ -195,11 +247,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			local button = _G["MailItem"..i].SelectCheck
 			if ( index <= numItems ) then
 				button:Show();
-				if OnekeyTake.Openindex[index] then
-					button:SetChecked(true)
-				else
-					button:SetChecked(false)
-				end
+				button:SetChecked(OnekeyTake.Openindex[index])
 			else
 				button:Hide();
 			end
@@ -232,7 +280,55 @@ function BusinessInfo.MailPlus_ADDUI()
 	InboxFrame.ItemBox:SetPoint("TOPLEFT", InboxFrame, "TOPLEFT", 0, 0);
 	InboxFrame.ItemBox.pageNum=1
 	InboxFrame.ItemBox.ButList={}
-	for i=1,boxitemdata.boxbutNum do
+	InboxFrame.ItemBox.PrevPageBut = CreateFrame("Button",nil,InboxFrame.ItemBox);
+	InboxFrame.ItemBox.PrevPageBut:SetNormalTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Up")
+	InboxFrame.ItemBox.PrevPageBut:SetPushedTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Down")
+	InboxFrame.ItemBox.PrevPageBut:SetDisabledTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Disabled")
+	InboxFrame.ItemBox.PrevPageBut:SetHighlightTexture("Interface/Buttons/UI-Common-MouseHilight");
+	InboxFrame.ItemBox.PrevPageBut:SetSize(32,32);
+	InboxFrame.ItemBox.PrevPageBut:SetPoint("BOTTOMLEFT", InboxFrame.ItemBox, "BOTTOMLEFT", 30, 96);
+	InboxFrame.ItemBox.PrevPageBut:HookScript("OnClick", function (self)
+		InboxFrame.ItemBox.pageNum=InboxFrame.ItemBox.pageNum-1
+		OnekeyTake.Show_ItemList()
+	end);
+	PIGFontString(InboxFrame.ItemBox.PrevPageBut,{"LEFT", InboxFrame.ItemBox.PrevPageBut, "RIGHT", 0, 0},PREV,"OUTLINE")
+	InboxFrame.ItemBox.yema=PIGFontString(InboxFrame.ItemBox,{"BOTTOM", InboxFrame.ItemBox, "BOTTOM", -20, 105},"1/1","OUTLINE")
+	InboxFrame.ItemBox.NextPageBut = CreateFrame("Button",nil,InboxFrame.ItemBox);
+	InboxFrame.ItemBox.NextPageBut:SetNormalTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Up")
+	InboxFrame.ItemBox.NextPageBut:SetPushedTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Down")
+	InboxFrame.ItemBox.NextPageBut:SetDisabledTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Disabled")
+	InboxFrame.ItemBox.NextPageBut:SetHighlightTexture("Interface/Buttons/UI-Common-MouseHilight");
+	InboxFrame.ItemBox.NextPageBut:SetSize(32,32);
+	InboxFrame.ItemBox.NextPageBut:SetPoint("BOTTOMRIGHT", InboxFrame.ItemBox, "BOTTOMRIGHT", -80, 96);
+	InboxFrame.ItemBox.NextPageBut:HookScript("OnClick", function (self)
+		InboxFrame.ItemBox.pageNum=InboxFrame.ItemBox.pageNum+1
+		OnekeyTake.Show_ItemList()
+	end);
+	PIGFontString(InboxFrame.ItemBox.NextPageBut,{"RIGHT", InboxFrame.ItemBox.NextPageBut, "LEFT", 0, 0},NEXT,"OUTLINE")
+	InboxFrame.ItemBox.duidie=PIGCheckbutton(InboxFrame.ItemBox,{"BOTTOMLEFT", InboxFrame.ItemBox, "BOTTOMLEFT", 6, 122},{PIGA["MailPlus"]["Stacking"] and "堆叠" or "堆叠 |cff00FFFF按住ALT键可批量取出相同物品|r"},{20},nil,nil,0)
+	InboxFrame.ItemBox.duidie:SetScript("OnClick", function (self)
+		local button = self:GetParent().Button
+		if self:GetChecked() then
+			PIGA["MailPlus"]["Stacking"]=true
+			self.tooltip="堆叠"
+			self.Text:SetText("堆叠")
+		else
+			PIGA["MailPlus"]["Stacking"]=nil
+			self.tooltip="堆叠 |cff00FFFF按住ALT键可批量取出相同物品|r"
+			self.Text:SetText("堆叠 |cff00FFFF按住ALT键可批量取出相同物品|r")
+		end
+		OnekeyTake.Show_ItemList()
+	end);
+	InboxFrame.ItemBox.quchuM =PIGFontString(InboxFrame.ItemBox,{"BOTTOMLEFT", InboxFrame.ItemBox, "BOTTOMLEFT", 10,108},"本次取:","OUTLINE")
+	InboxFrame.ItemBox.quchuMV =PIGFontString(InboxFrame.ItemBox,{"LEFT", InboxFrame.ItemBox.quchuM, "RIGHT", 4,0},0,"OUTLINE")
+	InboxFrame.ItemBox.quchuMV:SetTextColor(1, 1, 1, 1);
+	InboxFrame.ItemBox.QuMoney =PIGButton(InboxFrame.ItemBox,{"BOTTOMRIGHT", InboxFrame.ItemBox, "BOTTOMRIGHT", -58,104},{74,24},GUILDCONTROL_OPTION16,nil,nil,nil,nil,0)
+	InboxFrame.ItemBox.QuMoney:SetScript("OnClick", function (self)
+		OnekeyTake:StartOpening(2)
+	end)
+	---
+	local function addboxbut(i)
+		if InboxFrame.ItemBox.ButList[i] then return InboxFrame.ItemBox.ButList[i] end
 		local itemBut
 		if PIG_MaxTocversion() then
 			itemBut = CreateFrame("Button", nil, InboxFrame.ItemBox);
@@ -260,58 +356,21 @@ function BusinessInfo.MailPlus_ADDUI()
 				itemBut:SetPoint("LEFT",InboxFrame.ItemBox.ButList[i-1],"RIGHT",3,0);
 			end
 		end
-		itemBut.TimeLeft = itemBut:CreateTexture(nil, "OVERLAY");
-		itemBut.TimeLeft:SetTexture("interface/helpframe/helpicon-reportlag.blp");
-		itemBut.TimeLeft:SetSize(28,28);
-		itemBut.TimeLeft:SetPoint("TOPRIGHT", itemBut, "TOPRIGHT", 6,6);
 		itemBut.LV = PIGFontString(itemBut,{"TOPLEFT", itemBut, "TOPLEFT", 0,1},nil,"OUTLINE")
 		itemBut.Num =PIGFontString(itemBut,{"BOTTOMRIGHT", itemBut, "BOTTOMRIGHT", 1,2},nil,"OUTLINE")
 		itemBut.Num:SetTextColor(1, 1, 1, 1);
 		itemBut.Num:SetSize(40,14);
 		itemBut.Num:SetJustifyH("RIGHT")
+		itemBut.TimeLeft=PIGDiyTex(itemBut,{"TOPRIGHT", itemBut, "TOPRIGHT", 6,6},{28,28,nil,nil,516773})
 		itemBut.wasReturned=PIGDiyTex(itemBut,{"TOPLEFT",itemBut,"TOPLEFT",0,0},{16,16})
+		return itemBut
 	end
-	InboxFrame.ItemBox.PrevPageBut = CreateFrame("Button",nil,InboxFrame.ItemBox);
-	InboxFrame.ItemBox.PrevPageBut:SetNormalTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Up")
-	InboxFrame.ItemBox.PrevPageBut:SetPushedTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Down")
-	InboxFrame.ItemBox.PrevPageBut:SetDisabledTexture("Interface/Buttons/UI-SpellbookIcon-PrevPage-Disabled")
-	InboxFrame.ItemBox.PrevPageBut:SetHighlightTexture("Interface/Buttons/UI-Common-MouseHilight");
-	InboxFrame.ItemBox.PrevPageBut:SetSize(32,32);
-	InboxFrame.ItemBox.PrevPageBut:SetPoint("BOTTOMLEFT", InboxFrame.ItemBox, "BOTTOMLEFT", 30, 96);
-	InboxFrame.ItemBox.PrevPageBut:HookScript("OnClick", function (self)
-		InboxFrame.ItemBox.pageNum=InboxFrame.ItemBox.pageNum-1
-		OnekeyTake.Show_ItemList()
-	end);
-	PIGFontString(InboxFrame.ItemBox.PrevPageBut,{"LEFT", InboxFrame.ItemBox.PrevPageBut, "RIGHT", 0, 0},PREV,"OUTLINE")
-	InboxFrame.ItemBox.yema=PIGFontString(InboxFrame.ItemBox,{"BOTTOM", InboxFrame.ItemBox, "BOTTOM", -20, 105},"1/1","OUTLINE")
-	InboxFrame.ItemBox.NextPageBut = CreateFrame("Button",nil,InboxFrame.ItemBox);
-	InboxFrame.ItemBox.NextPageBut:SetNormalTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Up")
-	InboxFrame.ItemBox.NextPageBut:SetPushedTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Down")
-	InboxFrame.ItemBox.NextPageBut:SetDisabledTexture("Interface/Buttons/UI-SpellbookIcon-NextPage-Disabled")
-	InboxFrame.ItemBox.NextPageBut:SetHighlightTexture("Interface/Buttons/UI-Common-MouseHilight");
-	InboxFrame.ItemBox.NextPageBut:SetSize(32,32);
-	InboxFrame.ItemBox.NextPageBut:SetPoint("BOTTOMRIGHT", InboxFrame.ItemBox, "BOTTOMRIGHT", -80, 96);
-	InboxFrame.ItemBox.NextPageBut:HookScript("OnClick", function (self)
-		InboxFrame.ItemBox.pageNum=InboxFrame.ItemBox.pageNum+1
-		OnekeyTake.Show_ItemList()
-	end);
-	PIGFontString(InboxFrame.ItemBox.NextPageBut,{"RIGHT", InboxFrame.ItemBox.NextPageBut, "LEFT", 0, 0},NEXT,"OUTLINE")
-	InboxFrame.ItemBox.piliangtis =PIGFontString(InboxFrame.ItemBox,{"BOTTOM", InboxFrame.ItemBox, "BOTTOM", -24, 124},"按住ALT键可批量取出相同物品","OUTLINE")
-	InboxFrame.ItemBox.piliangtis:SetTextColor(0, 1, 1, 1);
-	InboxFrame.ItemBox.quchuM =PIGFontString(InboxFrame.ItemBox,{"BOTTOMLEFT", InboxFrame.ItemBox, "BOTTOMLEFT", 10,108},"本次取:","OUTLINE")
-	InboxFrame.ItemBox.quchuMV =PIGFontString(InboxFrame.ItemBox,{"LEFT", InboxFrame.ItemBox.quchuM, "RIGHT", 4,0},0,"OUTLINE")
-	InboxFrame.ItemBox.quchuMV:SetTextColor(1, 1, 1, 1);
-	InboxFrame.ItemBox.QuMoney =PIGButton(InboxFrame.ItemBox,{"BOTTOMRIGHT", InboxFrame.ItemBox, "BOTTOMRIGHT", -58,104},{74,24},GUILDCONTROL_OPTION16,nil,nil,nil,nil,0)
-	InboxFrame.ItemBox.QuMoney:SetScript("OnClick", function (self)
-		OnekeyTake:StartOpening(2)
-	end)
-	---
+	--
 	local function ClearBut(lyID)
 		if lyID==2 or lyID==3 then
 			InboxFrame.ItemBox.PrevPageBut:Disable();
 			InboxFrame.ItemBox.NextPageBut:Disable();
-			for i=1,boxitemdata.boxbutNum do
-				local itemBut=InboxFrame.ItemBox.ButList[i]
+			for _,itemBut in pairs(InboxFrame.ItemBox.ButList) do
 				itemBut:Hide()
 				itemBut.TimeLeft:Hide()
 				itemBut.wasReturned:Hide()
@@ -322,23 +381,35 @@ function BusinessInfo.MailPlus_ADDUI()
 			end
 		end
 	end
-	local function SetTooltipFrom(FROMname,MONEY,wasReturned)
-		local TimeLeft = MONEY
+	local function formatTimeLeft(TimeLeft,sender)
 		if ( TimeLeft >= 1 ) then
 			TimeLeft = GREEN_FONT_COLOR_CODE..format(DAYS_ABBR, floor(TimeLeft)).." "..FONT_COLOR_CODE_CLOSE;
 		else
 			TimeLeft = RED_FONT_COLOR_CODE..SecondsToTime(floor(TimeLeft * 24 * 60 * 60))..FONT_COLOR_CODE_CLOSE;
 		end
-		GameTooltip:AddLine(FROM..GREEN_FONT_COLOR_CODE..FROMname..FONT_COLOR_CODE_CLOSE..", "..TIME_REMAINING..TimeLeft)
-		GameTooltip:AddLine(wasReturned and L["TRADEMAIL_ERROR1"])
+		return FROM..GREEN_FONT_COLOR_CODE..sender..FONT_COLOR_CODE_CLOSE..", "..TIME_REMAINING..TimeLeft
 	end
-	OnekeyTake.mailData = {}
+	local function SetTooltipFrom(data,Stacking)
+		if Stacking=="G" then
+			GameTooltip:AddLine(formatTimeLeft(data[4],data[3]))
+			GameTooltip:AddLine(data[5] and L["TRADEMAIL_ERROR1"])
+		else
+			if Stacking then
+				for icc=1,#data do
+					GameTooltip:AddLine(formatTimeLeft(data[icc][6],data[icc][5]))
+					GameTooltip:AddLine(data[icc][8] and L["TRADEMAIL_ERROR1"])
+				end
+			else
+				GameTooltip:AddLine(formatTimeLeft(data[6],data[5]))
+				GameTooltip:AddLine(data[8] and L["TRADEMAIL_ERROR1"])
+			end
+		end
+	end
 	function OnekeyTake.Show_ItemList()
 		if not InboxFrame:IsShown() then return end
 		local lyID=InboxFrame.TabselectID
 		ClearBut(lyID)
-		wipe(OnekeyTake.mailData)
-		OnekeyTake.mailData[1],OnekeyTake.mailData[2],OnekeyTake.mailData[3] = {},{},0
+		OnekeyTake.mailData={{},{},0,{},{}}
 		local numItems, totalItems = GetInboxNumItems();
 		for i=1, numItems do
 			local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, wasReturned, textCreated, canReply, isGM = GetInboxHeaderInfo(i);
@@ -353,8 +424,26 @@ function BusinessInfo.MailPlus_ADDUI()
 			end
 			if (money>0 and CODAmount == 0) then
 				OnekeyTake.mailData[3]=OnekeyTake.mailData[3]+money
-				table.insert(OnekeyTake.mailData[2], {money,i,sender,daysLeft});
+				table.insert(OnekeyTake.mailData[2], {money,i,sender,daysLeft,wasReturned});
 			end
+		end
+		if PIGA["MailPlus"]["Stacking"] then
+			for i=1,#OnekeyTake.mailData[1] do
+				local ItemLink=OnekeyTake.mailData[1][i][1]
+				local countx=OnekeyTake.mailData[1][i][2]
+				if not OnekeyTake.mailData[4][ItemLink] then
+					table.insert(OnekeyTake.mailData[5],{ItemLink,countx})
+					OnekeyTake.mailData[4][ItemLink]={OnekeyTake.mailData[1][i]}
+				else
+					for ixx=1,#OnekeyTake.mailData[5] do
+						if OnekeyTake.mailData[5][ixx][1]==ItemLink then
+							OnekeyTake.mailData[5][ixx][2]=OnekeyTake.mailData[5][ixx][2]+countx
+							break
+						end
+					end
+					table.insert(OnekeyTake.mailData[4][ItemLink], OnekeyTake.mailData[1][i])
+				end
+			end				
 		end
 		if not InboxFrame.PIG_MoneyG then
 			InboxFrame.PIG_MoneyG=OnekeyTake.mailData[3] or 0
@@ -362,7 +451,11 @@ function BusinessInfo.MailPlus_ADDUI()
 		if lyID==2 then
 			local zongshunum = 1
 			if #OnekeyTake.mailData[1]>1 then
-				zongshunum=#OnekeyTake.mailData[1]
+				if PIGA["MailPlus"]["Stacking"] then
+					zongshunum=#OnekeyTake.mailData[5]
+				else
+					zongshunum=#OnekeyTake.mailData[1]
+				end
 			end
 			local zongyeshu = math.ceil(zongshunum/boxitemdata.boxbutNum)
 			InboxFrame.ItemBox.yema:SetText(InboxFrame.ItemBox.pageNum.."/"..zongyeshu)
@@ -374,45 +467,72 @@ function BusinessInfo.MailPlus_ADDUI()
 			if jieshuxulie<zongshunum then
 				InboxFrame.ItemBox.NextPageBut:Enable()
 			end
-			for i=1,boxitemdata.boxbutNum do
-				local dangqian = i+kaishixulie-1
-				if OnekeyTake.mailData[1][dangqian] then
-					local itemBut=InboxFrame.ItemBox.ButList[i]
+			local newdata=OnekeyTake.mailData[1]
+			if PIGA["MailPlus"]["Stacking"] then
+				newdata=OnekeyTake.mailData[5]
+			end
+			local butxindex=0
+			for i=kaishixulie,jieshuxulie do
+				butxindex=butxindex+1
+				if newdata[i] then
+					local ItemLink=newdata[i][1]
+					local itemBut=addboxbut(butxindex)
 					itemBut:Show()
-					local itemName,itemLink,itemQuality,itemLevel,itemMinLevel,itemType,itemSubType,itemStackCount,itemEquipLoc,itemTexture,sellPrice,classID=GetItemInfo(OnekeyTake.mailData[1][dangqian][1]);
+					local itemName,itemLink,itemQuality,itemLevel,itemMinLevel,itemType,itemSubType,itemStackCount,itemEquipLoc,itemTexture,sellPrice,classID=GetItemInfo(ItemLink);
 					if not itemLink then
-						C_Timer.After(0.6,function() OnekeyTake.Show_ItemList() end)
+						C_Timer.After(0.1,function() OnekeyTake.Show_ItemList() end)
 						return
 					end
 					SetItemButtonTexture(itemBut, itemTexture)
-					itemBut.wasReturned:SetShown(OnekeyTake.mailData[1][i][8])
-					local TimeLeft=OnekeyTake.mailData[1][i][6]
-					if TimeLeft<3 then
-						itemBut.TimeLeft:Show()
-					end
 					if itemStackCount>1 then
-						itemBut.Num:SetText(OnekeyTake.mailData[1][dangqian][2])
+						itemBut.Num:SetText(newdata[i][2])
 					end
 					if classID==2 or classID==4 then
-						local effectiveILvl = GetDetailedItemLevelInfo(itemLink)	
+						local effectiveILvl = PIGGetDetailedItemLevelInfo(ItemLink)	
 						if effectiveILvl and effectiveILvl>0 then
 							itemBut.LV:SetText(effectiveILvl)
-							local quality = C_Item.GetItemQualityByID(itemLink)
+							local quality = C_Item.GetItemQualityByID(ItemLink)
 							local r, g, b, hex = GetItemQualityColor(quality)
 							itemBut.LV:SetTextColor(r, g, b, 1);
 						end
 					end
+					if PIGA["MailPlus"]["Stacking"] then
+						local tispdata=OnekeyTake.mailData[4][ItemLink]
+						itemBut.wasReturned:Hide()
+						itemBut.TimeLeft:Hide()
+						for iccc=1,#tispdata do
+							if tispdata[iccc][6]<3 then
+								itemBut.TimeLeft:Show()
+								break
+							end
+						end
+						for iccc=1,#tispdata do
+							if tispdata[iccc][8] then
+								itemBut.wasReturned:Show()
+								break
+							end
+						end
+					else
+						itemBut.wasReturned:SetShown(newdata[i][8])
+						itemBut.TimeLeft:SetShown(newdata[i][6]<3)
+					end
 					itemBut:SetScript("OnEnter", function (self)
 						GameTooltip:ClearLines();
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-						GameTooltip:SetInboxItem(OnekeyTake.mailData[1][dangqian][3], OnekeyTake.mailData[1][dangqian][4]);
-						SetTooltipFrom(OnekeyTake.mailData[1][i][5],TimeLeft,OnekeyTake.mailData[1][i][8])
+						if PIGA["MailPlus"]["Stacking"] then
+							local tispdata=OnekeyTake.mailData[4][ItemLink]
+							GameTooltip:SetInboxItem(tispdata[1][3], tispdata[1][4]);
+							SetTooltipFrom(tispdata,true)
+						else
+							GameTooltip:SetInboxItem(newdata[i][3], newdata[i][4]);
+							SetTooltipFrom(newdata[i])
+						end
 						GameTooltip:Show();
 					end);
 					itemBut:SetScript("OnClick", function ()
 						if IsShiftKeyDown() then
 							local editBox = ChatEdit_ChooseBoxForSend();
-							local hasText = editBox:GetText()..itemLink
+							local hasText = editBox:GetText()..ItemLink
 							if editBox:HasFocus() then
 								editBox:SetText(hasText);
 							else
@@ -420,11 +540,15 @@ function BusinessInfo.MailPlus_ADDUI()
 								editBox:SetText(hasText);
 							end
 						elseif IsControlKeyDown() then
-							HandleModifiedItemClick(itemLink);
+							HandleModifiedItemClick(ItemLink);
 						elseif IsAltKeyDown() then
-							OnekeyTake:StartOpening(3,OnekeyTake.mailData[1][dangqian][7])
+							OnekeyTake:StartOpening(3,newdata[i][7])
 						else
-							TakeInboxItem(OnekeyTake.mailData[1][dangqian][3], OnekeyTake.mailData[1][dangqian][4]);
+							if PIGA["MailPlus"]["Stacking"] then
+								OnekeyTake:StartOpening(3,OnekeyTake.mailData[4][ItemLink][1][7])
+							else
+								TakeInboxItem(newdata[i][3], newdata[i][4]);
+							end
 						end
 					end)
 				end
@@ -432,7 +556,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		elseif lyID==3 then
 			for i=1,boxitemdata.boxbutNum do
 				if OnekeyTake.mailData[2][i] then
-					local itemBut=InboxFrame.ItemBox.ButList[i]
+					local itemBut=addboxbut(i)
 					itemBut:Show()
 					if OnekeyTake.mailData[2][i][4]<3 then
 						itemBut.TimeLeft:Show()
@@ -451,7 +575,7 @@ function BusinessInfo.MailPlus_ADDUI()
 						GameTooltip:ClearLines();
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
 						SetTooltipMoney(GameTooltip, OnekeyTake.mailData[2][i][1]);
-						SetTooltipFrom(OnekeyTake.mailData[2][i][3],OnekeyTake.mailData[2][i][4])
+						SetTooltipFrom(OnekeyTake.mailData[2][i],"G")
 						GameTooltip:Show();
 					end);
 					itemBut:SetScript("OnClick", function ()
@@ -469,8 +593,8 @@ function BusinessInfo.MailPlus_ADDUI()
 		self.QuchuMode= nil;
 		self.QuItemID= nil;
 		self.attachmentIndex = ATTACHMENTS_MAX;
-		OnekeyTake.Openindex={}
-		OnekeyTake.Reset_Checked()
+		self.Openindex={}
+		self.Reset_Checked()
 		InboxFrame.OpenSelect:Disable();
 		InboxFrame.ReturnMail:Disable();
 	end
@@ -503,7 +627,6 @@ function BusinessInfo.MailPlus_ADDUI()
 		InboxFrame.Delbut:Enable();
 		OpenAllMail:Enable();
 		InboxFrame.OpenAH:Enable();
-		InboxFrame.ReturnMail:Enable();
 		InboxFrame.ItemBox.QuMoney:Enable();
 		OpenAllMail:SetText(OPEN_ALL_MAIL_BUTTON);
 		InboxFrame.OpenSelect:SetText(UNWRAP..CHOOSE);
@@ -512,83 +635,85 @@ function BusinessInfo.MailPlus_ADDUI()
 		InboxFrame.ItemBox.QuMoney:SetText(GUILDCONTROL_OPTION16);
 		self:UnregisterEvent("MAIL_FAILED");
 	end
-	function OnekeyTake:AdvanceToNextItem()
-		if ( self.mailIndex <1 ) then
-			return false;
-		end
-		if self.attachmentIndex>0 then
-			local _, _, sender, _, money, CODAmount, daysLeft, itemCount, wasRead, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
-			local hasCOD = CODAmount and CODAmount > 0;
-			if not hasCOD then
-				--local hasMoney = C_Mail.HasInboxMoney(self.mailIndex)
-				--local hasItem = HasInboxItem(self.mailIndex, self.attachmentIndex);
-				local itemID = select(2, GetInboxItem(self.mailIndex, self.attachmentIndex));
-				if self.QuchuMode==1 then--清理空邮件
-					if InboxItemCanDelete(self.mailIndex) then	
-						if wasRead and money==0 and not itemCount then
-							return true;
-						end
-					end
-				elseif self.QuchuMode==2 then--取金币
-					if money>0 then return true end
-				elseif self.QuchuMode==3 then--批量取相同物品	
-					if itemID and itemID==self.QuItemID and not self:IsItemBlacklisted(itemID) then
-						return true;
-					else
-						self.attachmentIndex = self.attachmentIndex - 1;
-						if ( self.attachmentIndex>0 ) then
-							return self:AdvanceToNextItem();
-						end
-					end	
-				elseif self.QuchuMode==4 then--取选中邮件
-					if self.Openindex[self.mailIndex] then
-						if money>0 then
-							return true 
-						else
-							if itemID and not self:IsItemBlacklisted(itemID) then
-								return true;
-							else
-								self.attachmentIndex = self.attachmentIndex - 1;
-								if ( self.attachmentIndex>0 ) then
-									return self:AdvanceToNextItem();
-								end
-							end
-						end
-					end
-				elseif self.QuchuMode==5 then--取拍卖行邮件
-					local invoiceType, itemName, playerName, bid, buyout, deposit, consignment = GetInboxInvoiceInfo(self.mailIndex)
-					local AHfrom = sender==BLACK_MARKET_AUCTION_HOUSE or sender==FACTION_ALLIANCE..BUTTON_LAG_AUCTIONHOUSE or sender==FACTION_HORDE..BUTTON_LAG_AUCTIONHOUSE 
-					if invoiceType or AHfrom then
-						if money>0 then
-							return true 
-						else
-							if itemID and not self:IsItemBlacklisted(itemID) then
-								return true;
-							else
-								self.attachmentIndex = self.attachmentIndex - 1;
-								if ( self.attachmentIndex>0 ) then
-									return self:AdvanceToNextItem();
-								end
-							end
-						end
-					end
-				elseif self.QuchuMode==6 then--退件选中邮件
-					if self.Openindex[self.mailIndex] then
-						if ( InboxItemCanDelete(self.mailIndex) ) then
-							print(self.mailIndex.."."..MAIL_RETURN..ACTION_SPELL_CAST_FAILED)
-						else
-							return true
-						end
-					end
+	--
+	function OnekeyTake:RecordMoneyItem(cunqu,ly,mailIndex,attachIndex)
+		if not self.Sdata then
+	        self.Sdata = {}
+	    end
+	    if not self.Sdata[cunqu] then
+	        self.Sdata[cunqu] = {}
+	    end
+	    local _sender,_money
+	    if cunqu==1 then
+	    	local _, _, sender, _,money = GetInboxHeaderInfo(mailIndex)
+	    	_sender = sender
+	    	_money = money
+	    else
+	   	 	_sender = SendMailNameEditBox:GetText()
+	   	end
+	   	_sender = _sender or UNKNOWN
+	    if not self.Sdata[cunqu][_sender] then
+	        self.Sdata[cunqu][_sender] = {money = 0, items = {}}
+	    end
+	    local waj = self.Sdata[cunqu][_sender]
+	    if cunqu==1 then
+		    if ly=="G" then
+			    if _money and _money > 0 then
+			    	waj.money = waj.money + _money
+			    end
+			elseif ly=="I" then
+				local name, itemID, _, count, quality = GetInboxItem(mailIndex, attachIndex)
+				if not itemID then return end
+				local itemLink=GetInboxItemLink(mailIndex, attachIndex)
+			    local itemLinkJJ = GetItemLinkJJ(itemLink)
+				if not waj.items[itemLinkJJ] then
+			        waj.items[itemLinkJJ] = {
+			            itemID = itemID,
+			            count = 0,
+			        }
+			    end
+			    waj.items[itemLinkJJ].count = waj.items[itemLinkJJ].count + count
+			end
+		else
+			local copper = MoneyInputFrame_GetCopper(SendMailMoney);
+			waj.money = copper
+			if not SendMailSendMoneyButton:GetChecked() then
+				waj.COD = true
+			end
+			for i=1, ATTACHMENTS_MAX_SEND do
+				if HasSendMailItem(i) then
+					local itemName, itemID, itemTexture, stackCount, quality = GetSendMailItem(i);
+					if not itemID then return end
+					local itemLink= GetSendMailItemLink(i)
+				    local itemLinkJJ = GetItemLinkJJ(itemLink)
+					if not waj.items[itemLinkJJ] then
+				        waj.items[itemLinkJJ] = {
+				            itemID = itemID,
+				            count = 0,
+				        }
+				    end
+				    waj.items[itemLinkJJ].count = waj.items[itemLinkJJ].count + stackCount
 				end
 			end
 		end
-		self.mailIndex = self.mailIndex - 1;
-		self.attachmentIndex = ATTACHMENTS_MAX_RECEIVE;
-		return self:AdvanceToNextItem();
 	end
+	MailFrame:HookScript("OnHide", function(self)
+		if OnekeyTake.Sdata then
+	    	if not PIGA["StatsInfo"]["Open"] then return end
+	    	PIGprint("本次邮件处理详情:|Hgarrmission:-996:|h|cffFF00FF[点击查看]|r|h")
+	    	BusinessInfo.addMailRecord(OnekeyTake.Sdata)
+	    	OnekeyTake.Sdata = nil;
+	    end
+	end)
+	hooksecurefunc("TakeInboxMoney", function(mailIndex)
+        OnekeyTake:RecordMoneyItem(1,"G",mailIndex)
+    end)
+    hooksecurefunc("TakeInboxItem", function(mailIndex, attachIndex)
+        OnekeyTake:RecordMoneyItem(1,"I",mailIndex, attachIndex)
+    end)
+
 	function OnekeyTake:AdvanceAndProcessNextItem()
-		if ( CalculateTotalNumberOfFreeBagSlots() == 0 ) then
+		if self.QuchuMode~=1 and PIGCalculateTotalNumberOfFreeBagSlots() then
 			self:StopOpening();
 			return;
 		end
@@ -598,55 +723,109 @@ function BusinessInfo.MailPlus_ADDUI()
 			self:StopOpening();
 		end
 	end
+	function OnekeyTake:SpecialTreatment()
+		if self.mailIndex==1 then
+			if (self.QuchuMode == 1) or (self.QuchuMode == 2) or (self.QuchuMode == 6) then--清理空邮件-取金币-退件
+				self.mailIndex=0
+			elseif (self.QuchuMode == 3) then-- 批量取相同物品
+				if self.attachmentIndex<=1 then
+					self.mailIndex=0
+					self.attachmentIndex = ATTACHMENTS_MAX;
+				end
+			elseif (self.QuchuMode == 4 or self.QuchuMode == 5) then-- 取选中邮件/取拍卖行邮件
+				if self.attachmentIndex<=1 then
+					self.mailIndex=0
+					self.attachmentIndex = ATTACHMENTS_MAX;
+				end
+			end
+		else
+			if self.attachmentIndex<=1 then
+				self.mailIndex = self.mailIndex - 1;
+				self.attachmentIndex = ATTACHMENTS_MAX;
+			end
+		end
+	end
+	function OnekeyTake:AdvanceToNextItem()
+		if ( self.mailIndex <1 ) then return false end
+		local foundAttachment = false;	
+		while (not foundAttachment) do
+			local _, _, sender, _, money, CODAmount, daysLeft, itemCount, wasRead, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
+			if (self.QuchuMode == 6) then--退件
+				if self.Openindex[self.mailIndex] and not InboxItemCanDelete(self.mailIndex) then
+					foundAttachment = true;
+				else
+					break;
+				end
+			else
+				if (self.QuchuMode == 1) then -- 清理空邮件
+					foundAttachment = InboxItemCanDelete(self.mailIndex) and wasRead and money == 0 and (not itemCount or itemCount == 0);
+				else
+					local hasCOD = CODAmount and CODAmount > 0;
+					if (not hasCOD) then--无COD
+						if (self.QuchuMode == 2) then -- 取金币
+							foundAttachment = money > 0;
+						else
+							local itemID = select(2, GetInboxItem(self.mailIndex, self.attachmentIndex));
+							local hasBlacklistedItem=itemID and not self:IsItemBlacklisted(itemID)
+							if (self.QuchuMode == 3) then -- 批量取相同物品
+								foundAttachment = hasBlacklistedItem and itemID == self.QuItemID;
+							elseif (self.QuchuMode == 4) then -- 取选中邮件
+								if self.Openindex[self.mailIndex] then
+									foundAttachment = (money or 0) > 0 or hasBlacklistedItem
+								end
+							elseif (self.QuchuMode == 5) then -- 取拍卖行邮件
+								local invoiceType = GetInboxInvoiceInfo(self.mailIndex);
+								local AHfrom = sender==BLACK_MARKET_AUCTION_HOUSE or sender==FACTION_ALLIANCE..BUTTON_LAG_AUCTIONHOUSE or sender==FACTION_HORDE..BUTTON_LAG_AUCTIONHOUSE
+								if invoiceType or AHfrom then
+									--print(self.mailIndex, self.attachmentIndex,sender, itemCount,invoiceType)
+									foundAttachment = (money or 0) > 0 or hasBlacklistedItem
+								end
+							end
+						end
+					end
+				end
+				-- 不匹配，移动索引
+				if (not foundAttachment) then
+					self.attachmentIndex = self.attachmentIndex - 1;
+					if (self.attachmentIndex == 0) then
+						break;
+					end
+				end
+			end
+		end
+		if (not foundAttachment) then
+			self.mailIndex = self.mailIndex - 1;
+			self.attachmentIndex = ATTACHMENTS_MAX;
+			if self.mailIndex <1 then
+				return false;
+			end
+			return self:AdvanceToNextItem();
+		end
+		return true;
+	end
 	function OnekeyTake:ProcessNextItem()
 		local _, _, _, _, money, CODAmount, daysLeft, itemCount, wasRead, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
-		if CODAmount and CODAmount > 0 then
-			self.mailIndex = self.mailIndex - 1;
+		if (CODAmount and CODAmount > 0) then
 			self:AdvanceAndProcessNextItem();
-			return;
+			return
 		end
-		if self.QuchuMode==1 then
-			--print("清理空邮件:"..self.mailIndex)
+		if (self.QuchuMode == 1) then-- 清理空邮件
 			DeleteInboxItem(self.mailIndex);
-			self.timeUntilNextRetrieval = PIG_OPEN_ALL_MAIL_MIN_DELAY;
-			self.mailIndex = self.mailIndex - 1;
-		elseif self.QuchuMode==2 then
-			if ( money > 0 ) then
-				--print("拿取金币:"..self.mailIndex)
+		elseif (self.QuchuMode == 2) then-- 取金币
+			TakeInboxMoney(self.mailIndex);
+		elseif (self.QuchuMode == 3) then-- 批量取相同物品
+			TakeInboxItem(self.mailIndex, self.attachmentIndex);
+		elseif (self.QuchuMode == 4 or self.QuchuMode == 5) then-- 取选中邮件/取拍卖行邮件
+			if (money and money > 0) then
 				TakeInboxMoney(self.mailIndex);
-				self.timeUntilNextRetrieval = PIG_OPEN_ALL_MAIL_MIN_DELAY;
-				self.mailIndex = self.mailIndex - 1;
 			else
-				self.mailIndex = self.mailIndex - 1;
-				self:AdvanceAndProcessNextItem();
-			end
-		elseif self.QuchuMode==3 then
-			if ( itemCount and itemCount > 0 ) then
-				--print("拿取指定物品:"..self.mailIndex, self.attachmentIndex)
 				TakeInboxItem(self.mailIndex, self.attachmentIndex);
-				self.timeUntilNextRetrieval = PIG_OPEN_ALL_MAIL_MIN_DELAY;
-				self.attachmentIndex = self.attachmentIndex - 1;
-			else
-				self.mailIndex = self.mailIndex - 1;
-				self:AdvanceAndProcessNextItem();
 			end
-		elseif self.QuchuMode==4 or self.QuchuMode==5 then
-			if ( money > 0 ) then
-				TakeInboxMoney(self.mailIndex);
-				self.timeUntilNextRetrieval = PIG_OPEN_ALL_MAIL_MIN_DELAY;
-			elseif ( itemCount and itemCount > 0 ) then
-				TakeInboxItem(self.mailIndex, self.attachmentIndex);
-				self.timeUntilNextRetrieval = PIG_OPEN_ALL_MAIL_MIN_DELAY;
-				self.attachmentIndex = self.attachmentIndex - 1;
-			else
-				self.mailIndex = self.mailIndex - 1;
-				self:AdvanceAndProcessNextItem();
-			end
-		elseif self.QuchuMode==6 then
+		elseif (self.QuchuMode == 6) then-- 退件
 			ReturnInboxItem(self.mailIndex);
-			self.timeUntilNextRetrieval = PIG_OPEN_ALL_MAIL_MIN_DELAY;
-			self.mailIndex = self.mailIndex - 1;
 		end
+		self:SpecialTreatment()
+		self.timeUntilNextRetrieval = PIG_OPEN_ALL_MAIL_MIN_DELAY;
 	end
 	function OnekeyTake:AddBlacklistedItem(itemID)
 		if ( not self.blacklistedItemIDs ) then
@@ -680,7 +859,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	end)
 	-----
 	InboxFrame:SetScript("OnHide", function(self)
-		OnekeyTake:StopOpening();
+		OnekeyTake:StopOpening();	
 	end)
 	InboxFrame:HookScript("OnShow", function (self)
 		OnekeyTake:Reset()
@@ -705,7 +884,6 @@ function BusinessInfo.MailPlus_ADDUI()
 	----
 	SendMailFrame.recipients=PIGFrame(SendMailFrame,{"LEFT",SendMailFrame,"LEFT",line_W1+15,17},{line_W2,314})
 	if ElvUI or NDui then SendMailFrame.recipients:PIGSetBackdrop(0,1) end
-
 	SendMailFrame.recipients.lianxuMode = PIGCheckbutton(SendMailFrame.recipients,{"BOTTOMLEFT",SendMailFrame.recipients,"TOPLEFT",60,34},{L["TRADEMAIL_TISP2"],L["TRADEMAIL_TISP21"]},nil,nil,nil,0)
 	SendMailFrame.recipients.lianxuMode:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -763,17 +941,18 @@ function BusinessInfo.MailPlus_ADDUI()
 
 	SendMailFrame.TabButList={}
 	SendMailFrame.recipients.selectID=1
+	local datax={}
 	for i=1,#SendTabs do
-		SendMailFrame.TabButList[i] = PIGCheckbutton(SendMailFrame.recipients,{"BOTTOMLEFT",SendMailFrame.recipients,"TOPLEFT",4+(i-1)*54,2},{SendTabs[i],SendTabsTisp[i]},nil,nil,nil,0)
-		SendMailFrame.TabButList[i]:HookScript("OnClick", function ()
-			SendMailFrame.recipients.selectID=i
-			SendMailFrame.recipients.xuanzelianxiren()
-		end);
-	end	
-	function SendMailFrame.recipients.xuanzelianxiren()	
-		for _,TabBut in pairs(SendMailFrame.TabButList) do
-			TabBut:SetChecked(false)
-		end
+		 datax[i]={
+			tisp={SendTabs[i],SendTabsTisp[i]},
+			click=function(id)
+				SendMailFrame.recipients.selectID=id
+				SendMailFrame.recipients.xuanzelianxiren()
+			end,
+		}
+	end
+	Create.PIGCheckSingle(SendMailFrame.recipients,SendMailFrame.TabButList,datax,{"BOTTOMLEFT",SendMailFrame.recipients,"TOPLEFT",4,2,6})
+	function SendMailFrame.recipients.xuanzelianxiren()
 		SendMailFrame.TabButList[SendMailFrame.recipients.selectID]:SetChecked(true)
 		SendMailFrame.recipients.Update_hang(SendMailFrame.recipients.Scroll)
 	end
@@ -854,11 +1033,11 @@ function BusinessInfo.MailPlus_ADDUI()
 			for nameserver,data in pairs(PlayerData) do
 				if PIG_MaxTocversion() then
 					name, server = strsplit("-", nameserver, 2)
-					if name~=PIG_OptionsUI.Name and PIG_OptionsUI.Realm==server then
+					if name~=PlayerInfo.Name and PlayerInfo.Realm==server then
 						table.insert(linData,{name,data})
 					end
 				else
-					if nameserver~=PIG_OptionsUI.AllName then
+					if nameserver~=PlayerInfo.AllName then
 						table.insert(linData,{nameserver,data})
 					end
 				end
@@ -900,11 +1079,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	local bagData=Data.bagData
 	local lixianNum,meihang,BagdangeW=(#bagData["bagID"])*MAX_CONTAINER_ITEMS,10,20
 	local function But_Click(self)
-		if BankFrame.GetActiveBankType then
-			C_Container.UseContainerItem(self.BagID, self.SlotID, nil, BankFrame:GetActiveBankType(), false);
-		else
-			C_Container.UseContainerItem(self.BagID, self.SlotID, nil, false);
-		end
+		PIGUseContainerItem(self.BagID, self.SlotID);
 	end
 	local function PIG_allbagSet(DQitemID)
 		for i=1,lixianNum do
@@ -1018,7 +1193,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			if button=="LeftButton" then
 				if IsShiftKeyDown() then
 					local editBox = ChatEdit_ChooseBoxForSend();
-					local hasText = editBox:GetText()..GetContainerItemLink(self.BagID, self.SlotID)
+					local hasText = editBox:GetText()..PIGGetContainerItemLink(self.BagID, self.SlotID)
 					if editBox:HasFocus() then
 						editBox:SetText(hasText);
 					else
@@ -1048,7 +1223,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		SendMailFrame.ItemList.Delbut:Disable()
 		SendMailFrame.ItemList.index=0
 		for bag=1,#bagData["bagID"] do
-			for slot=1,GetContainerNumSlots(bagData["bagID"][bag]) do
+			for slot=1,PIGGetContainerNumSlots(bagData["bagID"][bag]) do
 				local itemID, itemLink, icon, stackCount, quality, noValue, lootable, locked, isBound=PIGGetContainerItemInfo(bagData["bagID"][bag], slot);
 				if itemID then
 					local itemQuality = select(3, GetItemInfo(itemLink)) 
@@ -1057,7 +1232,7 @@ function BusinessInfo.MailPlus_ADDUI()
 						if SendMailFrame.ItemList.filtrate=="all" then
 							pigmail_additemS[1]=true
 						else
-							local classID, subclassID = select(6, GetItemInfoInstant(itemLink))
+							local classID, subclassID = select(6, PIGGetItemInfoInstant(itemLink))
 							for ibi=1,#SendMailFrame.ItemList.filtrate do
 								if SendMailFrame.ItemList.filtrate[ibi][2] then
 									if classID==SendMailFrame.ItemList.filtrate[ibi][1] and subclassID==SendMailFrame.ItemList.filtrate[ibi][2] then
@@ -1093,7 +1268,7 @@ function BusinessInfo.MailPlus_ADDUI()
 							end
 							if PIGA["BagBank"]["wupinLV"] then
 								if classID==2 or classID==4 then
-									local effectiveILvl = GetDetailedItemLevelInfo(itemLink)	
+									local effectiveILvl = PIGGetDetailedItemLevelInfo(itemLink)	
 									if effectiveILvl and effectiveILvl>0 then
 										itemBut.LV:SetText(effectiveILvl)
 										local quality = C_Item.GetItemQualityByID(itemLink)
@@ -1144,6 +1319,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	end
 	hooksecurefunc("SendMailFrame_SendMail", function()
 		SendMailFrame.PreviousName=SendMailNameEditBox:GetText()
+		OnekeyTake:RecordMoneyItem(2)
 	end)
 	MailFrame:HookScript("OnEvent", function (self,event)
 		if event == "MAIL_SEND_SUCCESS" then

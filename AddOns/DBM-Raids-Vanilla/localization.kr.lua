@@ -24,10 +24,10 @@ L:SetMiscLocalization{
 	Kri		= "군주 크리"
 }
 L:SetWarningLocalization({
-    WarnBugDied = "%s|1이;가; 죽습니다 (%d킬 남음)"
+    WarnBugDied = "%s|1을;를; 잡았습니다 (%d마리 남음)"
 })
 L:SetOptionLocalization{
-	WarnBugDied = "Announce bugs remaining"
+	WarnBugDied = "남아있는 보스 알림"
 }
 
 -------------
@@ -39,10 +39,10 @@ L:SetGeneralLocalization{
 	name = "전투감시병 살투라"
 }
 L:SetWarningLocalization({
-    WarnGuardDied = "Sartura's Royal Guards remaining: %d/3" -- NPC ID 15984
+    WarnGuardDied = "살투라의 근위병: %d/3" -- NPC ID 15984
 })
 L:SetOptionLocalization{
-	WarnGuardDied = "Announce Sartura's Royal Guards remaining"
+	WarnGuardDied = "살투라의 근위병 남은 수 알림"
 }
 
 --------------
@@ -60,26 +60,25 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("Viscidus")
 
 L:SetGeneralLocalization{
-	name = "비시두스"
+	name = "비시디우스"
 }
 L:SetWarningLocalization{
-	WarnFreeze	= "빙결 : %d/3",
-	WarnShatter	= "분해 : %d/3"
+	WarnFreeze	= "빙결: %d/3",
+	WarnShatter	= "분해: %d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "빙결 상태 알림",
 	WarnShatter	= "분해 상태 알림"
 }
 L:SetMiscLocalization{
-	Slow	= "느려지기 시작했습니다!",
-	Freezing= "얼어붙고 있습니다!",
-	Frozen	= "단단하게 얼었습니다!",
-	Phase4 	= "분해되기 시작합니다!",
-	Phase5 	= "부서질 것 같습니다!",
-	Phase6 	= "폭발",
-
-	FrostHitsPerSecond = "초당 냉기 공격 횟수",
-	MeleeHitsPerSecond = "초당 물리 공격 횟수"
+	Slow		= "느려지기 시작했습니다!",
+	Freezing	= "얼어붙고 있습니다!",
+	Frozen		= "단단하게 얼었습니다!",
+	Phase4 		= "분해되기 시작합니다!",
+	Phase5 		= "부서질 것 같습니다!",
+	FrostHits	= "냉기 적중",
+	FrostHitsPerSecond	= "초당 냉기 적중",
+	MeleeHitsPerSecond	= "초당 근접 적중"
 }
 
 -------------
@@ -270,10 +269,6 @@ L = DBM:GetModLocalization("Ossirian")
 L:SetGeneralLocalization{
 	name 		= "무적의 오시리안"
 }
-L:SetOptionLocalization{
-	WarnVulnerable	= "약화 알림",
-	TimerVulnerable	= "약화 타이머 바 보기"
-}
 
 ----------------
 -- AQ20 Trash --
@@ -313,7 +308,6 @@ L:SetOptionLocalization{
 	TimerAddsSpawn	= "첫번째 쫄 등장 타이머 바 보기"
 }
 L:SetMiscLocalization{
-	Phase2Emote	= "수정 구슬에서 통제력이 빠져나가자",
 	Pull 	= "침입자들이 들어왔다! 어떤 희생이 있더라도 알을 반드시 수호하라!"
 }
 
@@ -462,7 +456,7 @@ L:SetGeneralLocalization{
 	name = "네파리안"
 }
 L:SetWarningLocalization{
-	WarnAddsLeft		= "%d킬 남음",
+	WarnAddsLeft		= "%d마리 남음",
 	WarnClassCall		= "%s 지목",
 	specwarnClassCall	= "당신이 직업 지목 대상입니다!"
 }
@@ -471,13 +465,12 @@ L:SetTimerLocalization{
 }
 L:SetOptionLocalization{
 	TimerClassCall		= "직업 지목 지속 시간 타이머 바 보기",
-	WarnAddsLeft		= "2페이즈 전환까지 남은 쫄 킬 수 알림",
+	WarnAddsLeft		= "2단계 전환까지 남은 쫄 알림",
 	WarnClassCall		= "직업 지목 알림 보기",
 	specwarnClassCall	= "직업 지목 대상일 때 특수 알림 보기"
 }
 L:SetMiscLocalization{
 	YellP1		= "흐흐흐흐... 게임을 시작하자!",
-	YellP2		= "잘했다! 적들의 사기가 떨어지고 있다! 검은바위 첨탑의 군주에게 도전한 대가를 치르게 해주자!",
 	YellP3		= "말도 안 돼! 일어나라! 다시 한 번 너희 주인을 섬겨라!",
 	YellShaman	= "주술사, 네 놈의 토템이 얼마나 쓸모 있는지 한번 보자!",
 	YellPaladin	= "성기사여... 네 목숨은 여러 개라고 하던데 어디 한번 보여 다오.",
@@ -715,8 +708,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	PriestDied	= "%s|1이;가; 죽습니다.",
-	YellPhase2	= "시르밸라시여, 분노를 채워 주소서!",
-	YellKill	= "학카르의 구속이 끝났다! 이젠 평안히 잠들리라!",
+	YellPhase2	= "시르밸라시여, 분노를 채워 주소서!"
 })
 
 -------------------
@@ -804,8 +796,7 @@ L:SetOptionLocalization{
 }
 
 L:SetMiscLocalization{
-	Breath 		= "%s 숨을 깊게 들이쉽니다.",
-	YellPull 	= "오늘은 운이 아주 좋군. 평소엔 먹이를 찾으려면 둥지에서 나가야 하는데 말이야.",
+	YellP1 		= "오늘은 운이 아주 좋군. 평소엔 먹이를 찾으려면 둥지에서 나가야 하는데 말이야.",
 	YellP2 		= "쓸데없이 힘을 쓰는 것도 지루하군. 네 녀석들 머리 위에서 모조리 불살라 주마!",
 	YellP3 		= "혼이 더 나야 정신을 차리겠구나!",
 	SoDWarning	= "%s에 오신 것을 환영합니다. 이 전투동안 DBM은 옛 전설적인 레이드에서 가져온 재미있는 효과음을 재생할 것입니다. DBM UI에서 이 옵션을 끌 수 있습니다: /dbm 입력 후 공격대 -> 오리지널 메뉴에서 오닉시아 모듈을 찾아가세요.",
@@ -835,16 +826,6 @@ L:SetGeneralLocalization({
 	name = "귀부인 펠리나"
 })
 
-L:SetWarningLocalization({
-	WarningEmbraceExpire	= "5초 후 귀부인의 은총 종료",
-	WarningEmbraceExpired	= "귀부인의 은총 종료"
-})
-
-L:SetOptionLocalization({
-	WarningEmbraceExpire	= "귀부인의 은총 종료 사전 경고 보기",
-	WarningEmbraceExpired	= "귀부인의 은총 종료 알림 보기"
-})
-
 L:SetMiscLocalization({
 	Pull1					= "내 앞에 무릎을 꿇어라, 벌레들아!",
 	Pull2					= "나에게서 도망칠 수는 없다!",
@@ -859,21 +840,6 @@ L = DBM:GetModLocalization("MaexxnaVanilla")
 
 L:SetGeneralLocalization({
 	name = "맥스나"
-})
-
-L:SetWarningLocalization({
-	WarningSpidersSoon	= "5초 후 맥스나의 새끼 거미",
-	WarningSpidersNow	= "맥스나의 새끼 거미 등장"
-})
-
-L:SetTimerLocalization({
-	TimerSpider		= "맥스나의 새끼 거미"
-})
-
-L:SetOptionLocalization({
-	WarningSpidersSoon	= "맥스나의 새끼 거미 사전 경고 보기",
-	WarningSpidersNow	= "맥스나의 새끼 거미 알림 보기",
-	TimerSpider			= "다음 맥스나의 새끼 거미 타이머 바 보기"
 })
 
 ------------------------------
@@ -955,7 +921,10 @@ L:SetWarningLocalization({
 
 L:SetOptionLocalization({
 	WarningHealSoon		= "3초 힐 가능 사전 경고 보기",
-	WarningHealNow		= "3초 힐 가능 알림 보기"
+	WarningHealNow		= "3초 힐 가능 알림 보기",
+	Sorting				= "정렬",
+	Alphabetical		= "이름",
+	Duration			= "지속시간"
 })
 
 -----------------
@@ -965,9 +934,6 @@ L = DBM:GetModLocalization("PatchwerkVanilla")
 
 L:SetGeneralLocalization({
 	name = "패치워크"
-})
-
-L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
@@ -1003,10 +969,15 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Yell	= "스탈라그, 박살낸다!",
-	Emote	= "%s 과부하 상태가 됩니다.",
-	Charge1	= "음전하",
-	Charge2	= "양전하"
+	Stalagg 	= "스탈라그",
+	Feugen 		= "퓨진",
+	Yell1P1		= "너 주인님께 바칠 거야!",
+	Yell2P1		= "스탈라그, 박살낸다!",
+	Yell1P2 	= "잡아... 먹어주마...",
+	Yell2P2 	= "박살을 내주겠다!",
+	Yell3P2 	= "죽여주마...",
+	EmoteDies 	= "%s|1이;가; 죽습니다.",
+	EmoteRevive = "%s|1이;가; 다시 살아납니다!"
 })
 
 L:SetOptionLocalization({
@@ -1034,18 +1005,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Pull1 = "절대 봐주지 마라!",
-	Pull2 = "훈련은 끝났다! 배운 걸 보여줘라!",
-	Pull3 = "훈련받은 대로 해!",
-	Pull4 = "다리를 후려 차라! 무슨 문제 있나?"
-})
-
-L:SetOptionLocalization({
-	WarningShieldWallSoon	= "뼈 보호막 종료 사전 경고 보기"
-})
-
-L:SetWarningLocalization({
-	WarningShieldWallSoon	= "5초 후 뼈 보호막 종료"
+	Pull1 		= "절대 봐주지 마라!",
+	Pull2 		= "훈련은 끝났다! 배운 걸 보여줘라!",
+	Pull3 		= "훈련받은 대로 해!",
+	Pull4 		= "다리를 후려 차라! 무슨 문제 있나?",
+	Understudy	= "죽음의 기사 수습생"
 })
 
 ----------------------------
@@ -1054,12 +1018,11 @@ L:SetWarningLocalization({
 L = DBM:GetModLocalization("GothikVanilla")
 
 L:SetGeneralLocalization({
-	name = "영혼 착취자 고딕"
+	name = "영혼의 착취자 고딕"
 })
 
 L:SetOptionLocalization({
 	TimerWave			= "다음 병력 타이머 바 보기",
-	TimerPhase2			= "2단계 타이머 바 보기",
 	WarningWaveSoon		= "병력 사전 경고 보기",
 	WarningWaveSpawned	= "병력 등장시 알림 보기",
 	WarningRiderDown	= "무자비한 죽음의 기병을 잡으면 알림 보기",
@@ -1067,16 +1030,14 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerWave	= "%d번 병력",
-	TimerPhase2	= "2단계"
+	TimerWave	= "병력: %d/18",
 })
 
 L:SetWarningLocalization({
 	WarningWaveSoon		= "%d번 병력: %s 3초 전",
 	WarningWaveSpawned	= "%d번 병력: %s",
 	WarningRiderDown	= "기병 잡음",
-	WarningKnightDown	= "기사 잡음",
-	WarningPhase2		= "2단계"
+	WarningKnightDown	= "기사 잡음"
 })
 
 L:SetMiscLocalization({
@@ -1101,6 +1062,7 @@ L:SetOptionLocalization({
 	WarningMarkSoon				= "징표 사전 경고 보기",
 	SpecialWarningMarkOnPlayer	= "징표가 4개 이상 걸리면 특수 알림 보기",
 	timerMark					= "다음 기사의 징표 타이머 바 보기 (횟수 포함)",
+	WarnHorsemanDied			= "남아있는 보스 알림"
 })
 
 L:SetTimerLocalization({
@@ -1109,8 +1071,15 @@ L:SetTimerLocalization({
 
 L:SetWarningLocalization({
 	WarningMarkSoon				= "3초 후 %d번 징표",
+	WarnHorsemanDied 			= "%s|1을;를; 잡았습니다 (%d마리 남음)"
 })
 
+L:SetMiscLocalization({
+	Korthazz	= "영주 코스아즈",
+	Mograine	= "대영주 모그레인",
+	Blaumeux	= "여군주 블라미우스",
+	Zeliek		= "젤리에크 경"
+})
 -----------------
 --  Sapphiron  --
 -----------------
@@ -1125,22 +1094,18 @@ L:SetOptionLocalization({
 	WarningAirPhaseNow		= "비행 단계 알림 보기",
 	WarningLanded			= "지상 단계 알림 보기",
 	TimerAir				= "비행 단계 타이머 바 보기",
-	TimerLanding			= "착지 중 타이머 바 보기",
-	TimerFrostBreath		= "$spell:28524 타이머 바 보기",
-	WarningFrostBreath		= "$spell:28524 특수 알림 보기"
+	TimerLanding			= "착지 중 타이머 바 보기"
 })
 
 L:SetWarningLocalization({
-	WarningAirPhaseSoon		= "비행 단계 10초 전",
+	WarningAirPhaseSoon		= "비행 단계 곧 시작",
 	WarningAirPhaseNow		= "비행 단계",
-	WarningLanded			= "사피론 내려옴",
-	WarningFrostBreath		= "냉기 숨결"
+	WarningLanded			= "사피론 내려옴"
 })
 
 L:SetTimerLocalization({
 	TimerAir				= "비행 단계",
-	TimerLanding			= "착지 중",
-	TimerFrostBreath		= "냉기 숨결"
+	TimerLanding			= "착지 중"
 })
 
 ------------------
@@ -1153,22 +1118,15 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
-	TimerPhase2			= "2단계 타이머 바 보기",
-	specwarnP2Soon		= "켈투자드 전투 개시 10초 전에 특수 알림 보기",
-	warnAddsSoon		= "얼음왕관의 수호자 사전 경고 보기"
+	specwarnP2Soon		= "켈투자드 전투 개시 10초 전에 특수 알림 보기"
 })
 
 L:SetMiscLocalization({
-	Yell = "어둠의 문지기와 하수인, 그리고 병사들이여, 나 켈투자드가 부르니 명을 받들라!"
+	YellP1 = "어둠의 문지기와 하수인, 그리고 병사들이여, 나 켈투자드가 부르니 명을 받들라!"
 })
 
 L:SetWarningLocalization({
-	specwarnP2Soon		= "10초 후 켈투자드 전투 개시",
-	warnAddsSoon		= "곧 얼음왕관의 수호자 등장"
-})
-
-L:SetTimerLocalization({
-	TimerPhase2			= "2단계"
+	specwarnP2Soon		= "10초 후 켈투자드 전투 개시"
 })
 
 -----------------
@@ -1303,11 +1261,11 @@ L:SetGeneralLocalization({
 })
 
 L:SetWarningLocalization({
-	warnPriestRemaining		= "여사제 남은 수: %s"
+	warnPriestRemaining		= "여사제 %s마리 남음"
 })
 
 L:SetOptionLocalization({
-	warnPriestRemaining	= "검은심연의 바다여사제 남은 숫자 보기"
+	warnPriestRemaining	= "검은심연의 바다여사제 남은 수 보기"
 })
 
 ------------------

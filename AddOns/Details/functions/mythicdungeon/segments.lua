@@ -205,173 +205,175 @@ function DetailsMythicPlusFrame.MergeSegmentsOnEnd() --~merge
         print("Details!", "MergeSegmentsOnEnd() > starting to merge mythic segments.", "InCombatLockdown():", InCombatLockdown())
     end
 
-    Details222.MythicPlus.LogStep("MergeSegmentsOnEnd started | creating the overall segment at the end of the run.")
+    if not detailsFramework.IsAddonApocalypseWow() then
+        Details222.MythicPlus.LogStep("MergeSegmentsOnEnd started | creating the overall segment at the end of the run.")
 
-    --create a new combat to be the overall for the mythic run
-    Details222.StartCombat()
+        --create a new combat to be the overall for the mythic run
+        Details222.StartCombat()
 
-    --get the current combat just created and the table with all past segments
-    ---@type combat
-    local newCombat = Details:GetCurrentCombat()
-    local segmentsTable = Details:GetCombatSegments()
+        --get the current combat just created and the table with all past segments
+        ---@type combat
+        local newCombat = Details:GetCurrentCombat()
+        local segmentsTable = Details:GetCombatSegments()
 
-    newCombat.is_challenge = true
-    newCombat.is_mythic_dungeon_segment = true
-    newCombat.is_mythic_dungeon_run_id = Details.mythic_dungeon_id
+        newCombat.is_challenge = true
+        newCombat.is_mythic_dungeon_segment = true
+        newCombat.is_mythic_dungeon_run_id = Details.mythic_dungeon_id
 
-    local timeInCombat = 0
-    local startDate, endDate = "", ""
-    local lastSegment
-    local totalSegments = 0
+        local timeInCombat = 0
+        local startDate, endDate = "", ""
+        local lastSegment
+        local totalSegments = 0
 
-    --copy deaths occured on all segments to the new segment, also sum the activity combat time
-    if (Details.mythic_plus.reverse_death_log) then
-        for i = 1, 40 do --copy the deaths from the first segment to the last one
-            local thisCombat = segmentsTable[i]
-            if (thisCombat and thisCombat.is_mythic_dungeon_run_id == Details.mythic_dungeon_id) then
-                newCombat:CopyDeathsFrom(thisCombat, true)
-                timeInCombat = timeInCombat + thisCombat:GetCombatTime()
-            end
-        end
-    else
-        for i = 40, 1, -1 do --copy the deaths from the last segment to the new segment
-            local thisCombat = segmentsTable[i]
-            if (thisCombat) then
-                if (thisCombat.is_mythic_dungeon_run_id == Details.mythic_dungeon_id) then
+        --copy deaths occured on all segments to the new segment, also sum the activity combat time
+        if (Details.mythic_plus.reverse_death_log) then
+            for i = 1, 40 do --copy the deaths from the first segment to the last one
+                local thisCombat = segmentsTable[i]
+                if (thisCombat and thisCombat.is_mythic_dungeon_run_id == Details.mythic_dungeon_id) then
                     newCombat:CopyDeathsFrom(thisCombat, true)
                     timeInCombat = timeInCombat + thisCombat:GetCombatTime()
                 end
             end
-        end
-    end
-
-    local zoneName, instanceType, difficultyID, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapID, instanceGroupSize = GetInstanceInfo()
-
-    --tag the segment as mythic overall segment
-    ---@type mythicdungeoninfo
-    newCombat.is_mythic_dungeon = {
-        StartedAt = Details.MythicPlus.StartedAt, --the start of the run
-        EndedAt = Details.MythicPlus.EndedAt, --the end of the run
-        WorldStateTimerStart = Details222.MythicPlus.WorldStateTimerStartAt,
-        WorldStateTimerEnd = Details222.MythicPlus.WorldStateTimerEndAt,
-        RunTime = Details222.MythicPlus.time, --this is the time that discounted the deaths penalty
-        TotalTime = Details222.MythicPlus.ElapsedTime, --this is the total time of the run
-        TimeInCombat = timeInCombat,
-        SegmentID = "overall", --segment number within the dungeon
-        RunID = Details.mythic_dungeon_id,
-        OverallSegment = true,
-        ZoneName = Details.MythicPlus.DungeonName,
-        EJID = Details.MythicPlus.ejID,
-		MapID = Details222.MythicPlus.MapID,
-		Level = Details222.MythicPlus.Level,
-		OnTime = Details222.MythicPlus.OnTime,
-		KeystoneUpgradeLevels = Details222.MythicPlus.KeystoneUpgradeLevels,
-		PracticeRun = Details222.MythicPlus.PracticeRun,
-		OldDungeonScore = Details222.MythicPlus.OldDungeonScore,
-		NewDungeonScore = Details222.MythicPlus.NewDungeonScore,
-		IsAffixRecord = Details222.MythicPlus.IsAffixRecord,
-		IsMapRecord = Details222.MythicPlus.IsMapRecord,
-		PrimaryAffix = Details222.MythicPlus.PrimaryAffix,
-		IsEligibleForScore = Details222.MythicPlus.IsEligibleForScore,
-		UpgradeMembers = Details222.MythicPlus.UpgradeMembers,
-		TimeLimit = Details222.MythicPlus.TimeLimit,
-		DungeonName = Details222.MythicPlus.DungeonName,
-		DungeonID = Details222.MythicPlus.DungeonID,
-		DungeonTexture = Details222.MythicPlus.Texture,
-		DungeonBackgroundTexture = Details222.MythicPlus.BackgroundTexture,
-        SegmentType = DETAILS_SEGMENTTYPE_MYTHICDUNGEON_OVERALL,
-        SegmentName = Details.MythicPlus.DungeonName .. " +" .. (Details222.MythicPlus.Level or 2),
-    }
-
-    --add all boss segments from this run to this new segment
-    for i = 1, 40 do --from the newer combat to the oldest
-        local thisCombat = segmentsTable[i]
-        if (thisCombat and thisCombat.is_mythic_dungeon_run_id == Details.mythic_dungeon_id) then
-            local canAddThisSegment = true
-            if (Details.mythic_plus.make_overall_boss_only) then
-                if (not thisCombat.is_boss) then
-                    --canAddThisSegment = false --disabled
+        else
+            for i = 40, 1, -1 do --copy the deaths from the last segment to the new segment
+                local thisCombat = segmentsTable[i]
+                if (thisCombat) then
+                    if (thisCombat.is_mythic_dungeon_run_id == Details.mythic_dungeon_id) then
+                        newCombat:CopyDeathsFrom(thisCombat, true)
+                        timeInCombat = timeInCombat + thisCombat:GetCombatTime()
+                    end
                 end
             end
+        end
 
-            if (canAddThisSegment) then
-                newCombat = newCombat + thisCombat
-                totalSegments = totalSegments + 1
+        local zoneName, instanceType, difficultyID, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapID, instanceGroupSize = GetInstanceInfo()
 
-                if (DetailsMythicPlusFrame.DevelopmentDebug) then
-                    print("MergeSegmentsOnEnd() > adding time:", thisCombat:GetCombatTime(), thisCombat.is_boss and thisCombat.is_boss.name)
+        --tag the segment as mythic overall segment
+        ---@type mythicdungeoninfo
+        newCombat.is_mythic_dungeon = {
+            StartedAt = Details.MythicPlus.StartedAt, --the start of the run
+            EndedAt = Details.MythicPlus.EndedAt, --the end of the run
+            WorldStateTimerStart = Details222.MythicPlus.WorldStateTimerStartAt,
+            WorldStateTimerEnd = Details222.MythicPlus.WorldStateTimerEndAt,
+            RunTime = Details222.MythicPlus.time, --this is the time that discounted the deaths penalty
+            TotalTime = Details222.MythicPlus.ElapsedTime, --this is the total time of the run
+            TimeInCombat = timeInCombat,
+            SegmentID = "overall", --segment number within the dungeon
+            RunID = Details.mythic_dungeon_id,
+            OverallSegment = true,
+            ZoneName = Details.MythicPlus.DungeonName,
+            EJID = Details.MythicPlus.ejID,
+            MapID = Details222.MythicPlus.MapID,
+            Level = Details222.MythicPlus.Level,
+            OnTime = Details222.MythicPlus.OnTime,
+            KeystoneUpgradeLevels = Details222.MythicPlus.KeystoneUpgradeLevels,
+            PracticeRun = Details222.MythicPlus.PracticeRun,
+            OldDungeonScore = Details222.MythicPlus.OldDungeonScore,
+            NewDungeonScore = Details222.MythicPlus.NewDungeonScore,
+            IsAffixRecord = Details222.MythicPlus.IsAffixRecord,
+            IsMapRecord = Details222.MythicPlus.IsMapRecord,
+            PrimaryAffix = Details222.MythicPlus.PrimaryAffix,
+            IsEligibleForScore = Details222.MythicPlus.IsEligibleForScore,
+            UpgradeMembers = Details222.MythicPlus.UpgradeMembers,
+            TimeLimit = Details222.MythicPlus.TimeLimit,
+            DungeonName = Details222.MythicPlus.DungeonName,
+            DungeonID = Details222.MythicPlus.DungeonID,
+            DungeonTexture = Details222.MythicPlus.Texture,
+            DungeonBackgroundTexture = Details222.MythicPlus.BackgroundTexture,
+            SegmentType = DETAILS_SEGMENTTYPE_MYTHICDUNGEON_OVERALL,
+            SegmentName = Details.MythicPlus.DungeonName .. " +" .. (Details222.MythicPlus.Level or 2),
+        }
+
+        --add all boss segments from this run to this new segment
+        for i = 1, 40 do --from the newer combat to the oldest
+            local thisCombat = segmentsTable[i]
+            if (thisCombat and thisCombat.is_mythic_dungeon_run_id == Details.mythic_dungeon_id) then
+                local canAddThisSegment = true
+                if (Details.mythic_plus.make_overall_boss_only) then
+                    if (not thisCombat.is_boss) then
+                        --canAddThisSegment = false --disabled
+                    end
                 end
 
-                if (endDate == "") then
-                    local _, whenEnded = thisCombat:GetDate()
-                    endDate = whenEnded
+                if (canAddThisSegment) then
+                    newCombat = newCombat + thisCombat
+                    totalSegments = totalSegments + 1
+
+                    if (DetailsMythicPlusFrame.DevelopmentDebug) then
+                        print("MergeSegmentsOnEnd() > adding time:", thisCombat:GetCombatTime(), thisCombat.is_boss and thisCombat.is_boss.name)
+                    end
+
+                    if (endDate == "") then
+                        local _, whenEnded = thisCombat:GetDate()
+                        endDate = whenEnded
+                    end
+                    lastSegment = thisCombat
                 end
-                lastSegment = thisCombat
             end
         end
-    end
 
-    --get the date where the first segment started
-    if (lastSegment) then
-        startDate = lastSegment:GetDate()
-    end
-
-    if (DetailsMythicPlusFrame.DevelopmentDebug) then
-        print("Details!", "MergeSegmentsOnEnd() > totalTime:", timeInCombat, "startDate:", startDate)
-    end
-
-    newCombat.total_segments_added = totalSegments
-    newCombat.is_mythic_dungeon_run_id = Details.mythic_dungeon_id
-
-    --check if both values are valid, this can get invalid if the player leaves the dungeon before the timer ends or the game crashes
-    if (type(Details222.MythicPlus.time) == "number") then
-        newCombat.run_time = Details222.MythicPlus.time
-        newCombat.elapsed_time = Details222.MythicPlus.ElapsedTime
-        Details222.MythicPlus.LogStep("GetChallengeCompletionInfo() Found, Time: " .. Details222.MythicPlus.time)
-
-    elseif (newCombat.is_mythic_dungeon.WorldStateTimerEnd and newCombat.is_mythic_dungeon.WorldStateTimerStart) then
-        local runTime = newCombat.is_mythic_dungeon.WorldStateTimerEnd - newCombat.is_mythic_dungeon.WorldStateTimerStart
-        newCombat.run_time = Details222.MythicPlus.time
-        Details222.MythicPlus.LogStep("World State Timers is Available, Run Time: " .. runTime .. "| start:" .. newCombat.is_mythic_dungeon.WorldStateTimerStart .. "| end:" .. newCombat.is_mythic_dungeon.WorldStateTimerEnd)
-    else
-        newCombat.run_time = timeInCombat
-        Details222.MythicPlus.LogStep("GetChallengeCompletionInfo() and World State Timers not Found, Activity Time: " .. timeInCombat)
-    end
-
-    newCombat:SetStartTime(GetTime() - timeInCombat)
-    newCombat:SetEndTime(GetTime())
-    Details222.MythicPlus.LogStep("Activity Time: " .. timeInCombat)
-
-    --set the segment time and date
-    newCombat:SetDate(startDate, endDate)
-
-    --immediatly finishes the segment just started
-    Details:SairDoCombate()
-    newCombat.is_mythic_dungeon_segment = true
-
-    --update all windows
-    Details:InstanceCallDetailsFunc(Details.FadeHandler.Fader, "IN", nil, "barras")
-    Details:InstanceCallDetailsFunc(Details.UpdateCombatObjectInUse)
-    Details:InstanceCallDetailsFunc(Details.AtualizaSoloMode_AfertReset)
-    Details:InstanceCallDetailsFunc(Details.ResetaGump)
-    Details:RefreshMainWindow(-1, true)
-
-    if (DetailsMythicPlusFrame.DevelopmentDebug) then
-        print("Details!", "MergeSegmentsOnEnd() > finished merging segments.")
-        print("Details!", "MergeSegmentsOnEnd() > all done, check in the segments list if everything is correct, if something is weird: '/details feedback' thanks in advance!")
-    end
-
-    local lower_instance = Details:GetLowerInstanceNumber()
-    if (lower_instance) then
-        local instance = Details:GetInstance(lower_instance)
-        if (instance) then
-            local func = {function() end}
-            instance:InstanceAlert ("Showing Mythic+ Run Segment", {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}, 6, func, true)
+        --get the date where the first segment started
+        if (lastSegment) then
+            startDate = lastSegment:GetDate()
         end
-    end
 
-    local bHasObject = false
-    Details:SendEvent("COMBAT_MYTHICPLUS_OVERALL_READY", bHasObject, newCombat)
+        if (DetailsMythicPlusFrame.DevelopmentDebug) then
+            print("Details!", "MergeSegmentsOnEnd() > totalTime:", timeInCombat, "startDate:", startDate)
+        end
+
+        newCombat.total_segments_added = totalSegments
+        newCombat.is_mythic_dungeon_run_id = Details.mythic_dungeon_id
+
+        --check if both values are valid, this can get invalid if the player leaves the dungeon before the timer ends or the game crashes
+        if (type(Details222.MythicPlus.time) == "number") then
+            newCombat.run_time = Details222.MythicPlus.time
+            newCombat.elapsed_time = Details222.MythicPlus.ElapsedTime
+            Details222.MythicPlus.LogStep("GetChallengeCompletionInfo() Found, Time: " .. Details222.MythicPlus.time)
+
+        elseif (newCombat.is_mythic_dungeon.WorldStateTimerEnd and newCombat.is_mythic_dungeon.WorldStateTimerStart) then
+            local runTime = newCombat.is_mythic_dungeon.WorldStateTimerEnd - newCombat.is_mythic_dungeon.WorldStateTimerStart
+            newCombat.run_time = Details222.MythicPlus.time
+            Details222.MythicPlus.LogStep("World State Timers is Available, Run Time: " .. runTime .. "| start:" .. newCombat.is_mythic_dungeon.WorldStateTimerStart .. "| end:" .. newCombat.is_mythic_dungeon.WorldStateTimerEnd)
+        else
+            newCombat.run_time = timeInCombat
+            Details222.MythicPlus.LogStep("GetChallengeCompletionInfo() and World State Timers not Found, Activity Time: " .. timeInCombat)
+        end
+
+        newCombat:SetStartTime(GetTime() - timeInCombat)
+        newCombat:SetEndTime(GetTime())
+        Details222.MythicPlus.LogStep("Activity Time: " .. timeInCombat)
+
+        --set the segment time and date
+        newCombat:SetDate(startDate, endDate)
+
+        --immediatly finishes the segment just started
+        Details:SairDoCombate()
+        newCombat.is_mythic_dungeon_segment = true
+
+        --update all windows
+        Details:InstanceCallDetailsFunc(Details.FadeHandler.Fader, "IN", nil, "barras")
+        Details:InstanceCallDetailsFunc(Details.UpdateCombatObjectInUse)
+        Details:InstanceCallDetailsFunc(Details.AtualizaSoloMode_AfertReset)
+        Details:InstanceCallDetailsFunc(Details.ResetaGump)
+        Details:RefreshMainWindow(-1, true)
+
+        if (DetailsMythicPlusFrame.DevelopmentDebug) then
+            print("Details!", "MergeSegmentsOnEnd() > finished merging segments.")
+            print("Details!", "MergeSegmentsOnEnd() > all done, check in the segments list if everything is correct, if something is weird: '/details feedback' thanks in advance!")
+        end
+
+        local lower_instance = Details:GetLowerInstanceNumber()
+        if (lower_instance) then
+            local instance = Details:GetInstance(lower_instance)
+            if (instance) then
+                local func = {function() end}
+                instance:InstanceAlert ("Showing Mythic+ Run Segment", {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}, 6, func, true)
+            end
+        end
+
+        local bHasObject = false
+        Details:SendEvent("COMBAT_MYTHICPLUS_OVERALL_READY", bHasObject, newCombat)
+    end
 
     --assuming `Details222.MythicPlus.ElapsedTime` is only available at the end of the run, so if is nil, the run did not finished
     if detailsFramework.IsAddonApocalypseWow() and Details222.MythicPlus.ElapsedTime then
@@ -382,31 +384,56 @@ function DetailsMythicPlusFrame.MergeSegmentsOnEnd() --~merge
                 end
             end
 
-            if Details222.Apocalypse.IsServerInCombat(true) then
-                C_Timer.NewTicker(1, function(tickerObject)
-                    if not Details222.Apocalypse.IsServerInCombat(true) then
-                        Details222.MythicPlus.LogStep("MergeSegmentsOnEnd() -> AddOverallAsSegment() called.")
-                        local overallSegment = Details222.BParser.AddOverallAsSegment()
-                        overallSegment:SetStartTime(GetTime() - Details222.MythicPlus.ElapsedTime)
-                        overallSegment:SetEndTime(GetTime())
-                        Details222.SegmentSelectionMidnight.SaveSegment(overallSegment)
-                        Details222.MythicPlus.LogStep("MergeSegmentsOnEnd() -> SaveSegment() called.")
-                        Details222.MythicPlus.LastSegmentSaveTime = GetTime()
-                        tickerObject:Cancel()
-                    else
-                        Details222.MythicPlus.LogStep("MergeSegmentsOnEnd() -> Server is in combat.")
-                    end
-                end)
-                return
-            end
+            --ticker fires every second
+            --C_Timer.NewTicker(1, function(tickerObject)
+                --if not Details222.Apocalypse.IsServerInCombat(true, true, true) then
+            Details222.StorageScheduler.Add(function(segmentId, ...) --segmentId is a payload
+                Details222.MythicPlus.LogStep("MergeSegmentsOnEnd() -> AddOverallAsSegment() called (start).")
+                local overallSegment = Details222.BParser.AddOverallAsSegment()
+                --attach mythic+ metadata so SaveSegment can populate savedsegmentheader.
+                --without this, header.mythicPlusLevel / mythicPlusZoneName are nil and
+                --neither the saved-segment list nor the history view can classify the run.
+                local completionInfo = C_ChallengeMode.GetChallengeCompletionInfo and C_ChallengeMode.GetChallengeCompletionInfo()
+                ---@type mythicdungeoninfo
+                overallSegment.is_mythic_dungeon = {
+                    OverallSegment = true,
+                    SegmentType = DETAILS_SEGMENTTYPE_MYTHICDUNGEON_OVERALL,
+                    RunID = Details.mythic_dungeon_id,
+                    StartedAt = Details.MythicPlus.StartedAt,
+                    EndedAt = Details.MythicPlus.EndedAt or time(),
+                    TotalTime = Details222.MythicPlus.ElapsedTime,
+                    ZoneName = Details.MythicPlus.DungeonName,
+                    DungeonName = Details.MythicPlus.DungeonName,
+                    MapID = Details.MythicPlus.DungeonID,
+                    DungeonID = Details.MythicPlus.DungeonID,
+                    Level = Details.MythicPlus.Level,
+                    EJID = Details.MythicPlus.ejID,
+                    SegmentName = (Details.MythicPlus.DungeonName or "") .. " +" .. (Details.MythicPlus.Level or 0),
+                    --completion data from the client; nil when the run wasn't completed normally
+                    --(e.g. player left the dungeon). guarded individually so partial data still lands.
+                    RunTime = completionInfo and completionInfo.time,
+                    OnTime = completionInfo and completionInfo.onTime,
+                    KeystoneUpgradeLevels = completionInfo and completionInfo.keystoneUpgradeLevels,
+                    PracticeRun = completionInfo and completionInfo.practiceRun,
+                    OldDungeonScore = completionInfo and completionInfo.oldOverallDungeonScore,
+                    NewDungeonScore = completionInfo and completionInfo.newOverallDungeonScore,
+                    IsAffixRecord = completionInfo and completionInfo.isAffixRecord,
+                    IsMapRecord = completionInfo and completionInfo.isMapRecord,
+                    IsEligibleForScore = completionInfo and completionInfo.isEligibleForScore,
+                    UpgradeMembers = completionInfo and completionInfo.members,
+                }
+                overallSegment.is_mythic_dungeon_segment = true
+                overallSegment.is_mythic_dungeon_run_id = Details.mythic_dungeon_id
+                overallSegment.is_challenge = true
 
-            Details222.MythicPlus.LogStep("MergeSegmentsOnEnd() -> AddOverallAsSegment() called.")
-            local overallSegment = Details222.BParser.AddOverallAsSegment()
-            overallSegment:SetStartTime(GetTime() - Details222.MythicPlus.ElapsedTime)
-            overallSegment:SetEndTime(GetTime())
-            Details222.SegmentSelectionMidnight.SaveSegment(overallSegment)
-            Details222.MythicPlus.LogStep("MergeSegmentsOnEnd() -> SaveSegment() called.")
-            Details222.MythicPlus.LastSegmentSaveTime = GetTime()
+                overallSegment:SetStartTime(GetTime() - Details222.MythicPlus.ElapsedTime)
+                overallSegment:SetEndTime(GetTime())
+                Details222.SegmentSelectionMidnight.SaveSegment(overallSegment)
+
+                Details222.MythicPlus.LogStep("MergeSegmentsOnEnd() -> SaveSegment() called (ended).")
+                Details222.MythicPlus.LastSegmentSaveTime = GetTime()
+                --tickerObject:Cancel()
+            end, DETAILS_SEGMENTID_OVERALL, DETAILS_SEGMENTID_OVERALL, "payload") --end of callback, segmentId, payload
         end)
     end
 end

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<!-- Warrior -->
+	<Script file="WarriorArms.lua" />
+	<Script file="WarriorFury.lua" />
+	<Script file="WarriorProtection.lua" />
+	<!-- Paladin -->
+	<Script file="PaladinHoly.lua" />
+	<Script file="PaladinProtection.lua" />
+	<Script file="PaladinRetribution.lua" />
+	<!-- Hunter -->
+	<Script file="HunterBeastMastery.lua" />
+	<Script file="HunterMarksmanship.lua" />
+	<Script file="HunterSurvival.lua" />
+	<!-- Rogue -->
+	<Script file="RogueAssassination.lua" />
+	<Script file="RogueOutlaw.lua" />
+	<Script file="RogueSubtlety.lua" />
+	<!-- Priest -->
+	<Script file="PriestDiscipline.lua" />
+	<Script file="PriestHoly.lua" />
+	<Script file="PriestShadow.lua" />
+	<!-- Death Knight -->
+	<Script file="DeathKnightBlood.lua" />
+	<Script file="DeathKnightFrost.lua" />
+	<Script file="DeathKnightUnholy.lua" />
+	<!-- Shaman -->
+	<Script file="ShamanElemental.lua" />
+	<Script file="ShamanEnhancement.lua" />
+	<Script file="ShamanRestoration.lua" />
+	<!-- Mage -->
+	<Script file="MageArcane.lua" />
+	<Script file="MageFire.lua" />
+	<Script file="MageFrost.lua" />
+	<!-- Warlock -->
+	<Script file="WarlockAffliction.lua" />
+	<Script file="WarlockDemonology.lua" />
+	<Script file="WarlockDestruction.lua" />
+	<!-- Monk -->
+	<Script file="MonkBrewmaster.lua" />
+	<Script file="MonkWindwalker.lua" />
+	<Script file="MonkMistweaver.lua" />
+	<!-- Druid -->
+	<Script file="DruidBalance.lua" />
+	<Script file="DruidFeral.lua" />
+	<Script file="DruidGuardian.lua" />
+	<Script file="DruidRestoration.lua" />
+	<!-- Demon Hunter -->
+	<Script file="DemonHunterHavoc.lua" />
+	<Script file="DemonHunterVengeance.lua" />
+	<Script file="DemonHunterDevourer.lua" />
+	<!-- Evoker -->
+	<Script file="EvokerDevastation.lua" />
+	<Script file="EvokerPreservation.lua" />
+	<Script file="EvokerAugmentation.lua" />
+</Ui>

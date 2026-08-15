@@ -1,5 +1,5 @@
 local ADDON_NAME, ns = ...
-local buildVersion = GetBuildInfo() -- buildVersion == "11.1.0"
+local buildVersion = GetBuildInfo() -- buildVersion == "12.1.0"
 
   ns.BlizzDelveAreaPoisInfoIDs = {
     -- DELVES 
@@ -31,6 +31,8 @@ local buildVersion = GetBuildInfo() -- buildVersion == "11.1.0"
     [8443] = 2535, -- Atal'Aman
     [8427] = 2545, -- Parhelion Plaza    
     [8425] = 2547, -- Collegiate Calamity
+    [8761] = 2635, -- Gnarldor Isle
+    [8764] = 2633, -- The Ring of Glory
   }
 
   ns.BlizzBountifulDelveAreaPoisInfoIDs = {
@@ -60,4 +62,6 @@ local buildVersion = GetBuildInfo() -- buildVersion == "11.1.0"
     [8430] = 2528, -- Sunkiller Sanctum
     [8436] = 2505, -- The Gulf of Memory
     [8434] = 2510, -- The Grudge Pit
+    [8760] = 2635, -- Gnarldor Isle
+    [8763] = 2633, -- The Ring of Glory
   }

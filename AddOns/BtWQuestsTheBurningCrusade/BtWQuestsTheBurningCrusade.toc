@@ -1,6 +1,6 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: Breen
-## Version: v4.22
+## Version: v4.23
 
 ## Title: BtWQuests: The Burning Crusade
 ## Notes: The Burning Crusade quest data for BtWQuests

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2514, "DBM-Party-Dragonflight", 5, 1201)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260428075838")
+mod:SetRevision("20260709014625")
 mod:SetCreatureID(190609)
 mod:SetEncounterID(2565)
 mod:SetHotfixNoticeRev(20221015000000)
@@ -14,21 +14,22 @@ mod:RegisterCombat("combat")
 
 --Note: https://www.wowhead.com/spell=374350/energy-bomb is NOT a private aura so we can't do anything with it currently
 if DBM:IsPostMidnight() then
+	DBM:RegisterAltSpellName(388820, 56689)--Power Vacuum -> Grip
 	--Custom Sounds on cast/cooldown expiring
 	mod:AddCustomAlertSoundOption(374341, true, 2)--Energy Bomb: ENCOUNTER_WARNING provides target name
-	--Midnight private aura replacements
-	mod:AddPrivateAuraSoundOption(389007, true, 389007, 1, 1, "watchfeet", 8)--GTFO
-	mod:AddPrivateAuraSoundOption(389011, true, 389011, 1, 1, "debuffyou", 17)--Overwhelming Power (off by default since we can't warn all stacks, just initial)
+	--Custom Aura Sounds
+	mod:AddAuraSoundOption(389007, true, 389007, 1, 1, "watchfeet", 8)--GTFO
+	mod:AddAuraSoundOption(389011, true, 389011, 1, 1, "debuffyou", 17)--Overwhelming Power (off by default since we can't warn all stacks, just initial)
 
 	local warnEnergyBomb					= mod:NewCountAnnounce(374341, 3)--Blizzard alert will handle personal bomb alert
 
-	local specWarnAstralBlast				= mod:NewSpecialWarningCount(1282251, nil, nil, nil, 1, 2)
-	local specWarnPowerVacuum				= mod:NewSpecialWarningCount(388820, nil, 56689, nil, 2, 2)
+	local specWarnAstralBlast				= mod:NewSpecialWarningCount(1282251, nil, nil, nil, 1, 2, nil, nil, "defensive")
+	local specWarnPowerVacuum				= mod:NewSpecialWarningCount(388820, nil, nil, nil, 2, 2, nil, nil, "runout")
 
 	local timerArcaneBarrageCD				= mod:NewCDCountTimer(20.5, 373325, nil, nil, nil, 3)
 	local timerAstralBlastCD				= mod:NewCDCountTimer(20.5, 1282251, nil, nil, nil, 5)
 	local timerEnergyBombCD					= mod:NewCDCountTimer(20.5, 374341, nil, nil, nil, 3)
-	local timerPowerVacuumCD				= mod:NewCDCountTimer(20.5, 388820, 56689, nil, nil, 2)--Shortname "Grip"
+	local timerPowerVacuumCD				= mod:NewCDCountTimer(20.5, 388820, nil, nil, nil, 2)
 
 	mod.vb.barrageCount = 0
 	mod.vb.blastCount = 0
@@ -42,7 +43,7 @@ if DBM:IsPostMidnight() then
 	end
 
 	---@param self DBMMod
-	---@param dontSetAlerts boolean? Called when user has disabled DBM bars and is ONLY using timeline, therefor we must enable SetTimeline calls even in hardcodes
+	---@param dontSetAlerts boolean? Called on engage when we only want to set timeline parameters and not touch encounter alerts
 	local function setFallback(self, dontSetAlerts)
 		if not dontSetAlerts then
 			if self:IsTank() then
@@ -50,10 +51,13 @@ if DBM:IsPostMidnight() then
 			end
 			specWarnPowerVacuum:SetAlert(296, "runout", 2)
 		end
-		timerArcaneBarrageCD:SetTimeline(293)
-		timerAstralBlastCD:SetTimeline(294)
-		timerEnergyBombCD:SetTimeline(295)
-		timerPowerVacuumCD:SetTimeline(296)
+		--If user has DBM bars enabled, we only want to register colors to the blizz api so that the blizz bars are also colorized.
+	--If user has bars disabled, or we are in a bad state, onlyColor is false and we register countdowns as well.
+	local onlyColor = not DBM.Options.HideDBMBars and not badStateDetected
+		timerArcaneBarrageCD:SetTimeline(293, onlyColor)
+		timerAstralBlastCD:SetTimeline(294, onlyColor)
+		timerEnergyBombCD:SetTimeline(295, onlyColor)
+		timerPowerVacuumCD:SetTimeline(296, onlyColor)
 	end
 
 	function mod:OnLimitedCombatStart()
@@ -70,10 +74,7 @@ if DBM:IsPostMidnight() then
 				"ENCOUNTER_TIMELINE_EVENT_ADDED",
 				"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED"
 			)
-			--SetTimeline events since user has disabled DBM Bars (so they can still get countdowns in blizzard timeline API instead)
-			if DBM.Options.HideDBMBars then
-				setFallback(self, true)
-			end
+			setFallback(self, true)
 		else
 			setFallback(self)
 		end
@@ -169,12 +170,12 @@ else
 	local warnOverwhelmingPoweer					= mod:NewCountAnnounce(389011, 3, nil, nil, DBM_CORE_L.AUTO_ANNOUNCE_OPTIONS.stack:format(389011))--Typical stack warnings have amount and playername, but since used as personal, using count object to just display amount then injecting option text for stack
 	local warnEnergyBomb							= mod:NewTargetAnnounce(374352, 3)
 
-	local specWarnAstralBreath						= mod:NewSpecialWarningDodge(374361, nil, nil, nil, 2, 2)
-	local specWarnPowerVacuum						= mod:NewSpecialWarningRun(388822, nil, nil, nil, 4, 2)
-	local specWarnEnergyBomb						= mod:NewSpecialWarningMoveAway(374352, nil, nil, nil, 1, 2)
+	local specWarnAstralBreath						= mod:NewSpecialWarningDodge(374361, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
+	local specWarnPowerVacuum						= mod:NewSpecialWarningRun(388822, nil, nil, nil, 4, 2, nil, nil, "justrun")
+	local specWarnEnergyBomb						= mod:NewSpecialWarningMoveAway(374352, nil, nil, nil, 1, 2, nil, nil, "scatter")
 	local yellEnergyBomb							= mod:NewYell(374352)
 	local yellEnergyBombFades						= mod:NewShortFadesYell(374352)
-	local specWarnGTFO								= mod:NewSpecialWarningGTFO(389007, nil, nil, nil, 1, 8)
+	local specWarnGTFO								= mod:NewSpecialWarningGTFO(389007, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 	local timerAstralBreathCD						= mod:NewCDTimer(26.3, 374361, nil, nil, nil, 3)--26-32
 	local timerPowerVacuumCD						= mod:NewCDTimer(21, 388822, nil, nil, nil, 2)--22-29

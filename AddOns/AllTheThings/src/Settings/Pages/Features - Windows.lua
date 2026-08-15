@@ -31,12 +31,19 @@ local function OnTooltipForWindowButton(self, tooltipInfo)
 		if description then tinsert(tooltipInfo, { left = "|cffffffff" .. description .. "|r\n\n", wrap = true }); end
 	end
 
+	local commandTexts = {}
 	if window.Commands then
-		local commands = "";
-		for k=1,#window.Commands,1 do
-			commands = commands .. "\n  /" .. window.Commands[k];
+		for k=1,#window.Commands do
+			commandTexts[#commandTexts + 1] = "/"..window.Commands[k]
 		end
-		tinsert(tooltipInfo, { left = "Commands: |cffcccccc" .. commands .. "|r" });
+	end
+	if window.RootCommands then
+		for k=1,#window.RootCommands do
+			commandTexts[#commandTexts + 1] = "/att "..window.RootCommands[k]
+		end
+	end
+	if #commandTexts > 0 then
+		tinsert(tooltipInfo, { left = "Commands: |cffcccccc\n  " .. app.TableConcat(commandTexts, nil, nil, "\n  ") .. "|r" });
 	end
 	if window.HasPendingUpdate then
 		tinsert(tooltipInfo, { left = " " });
@@ -79,7 +86,7 @@ local function RefreshWindowManager()
 	for i,suffix in ipairs(sortedList) do
 		local window = app.Windows[suffix];
 		if window then
-			if not window.dynamic and window.Commands and not window.HideFromSettings then
+			if not window.dynamic and (window.Commands or window.RootCommands) and not window.HideFromSettings then
 				j = j + 1;
 				local button = WindowButtons[j];
 				if not button then
@@ -176,13 +183,13 @@ local function RefreshWindowStyles(self)
 		end
 		lastChild = styleHeader;
 		lastXOffset = 0;
-		
+
 		local buttons = config.buttons;
 		if not buttons then
 			buttons = {};
 			config.buttons = buttons;
 		end
-		
+
 		local buttonIndex = 1;
 		for suffix,window in pairs(windows) do
 			local button = buttons[buttonIndex];

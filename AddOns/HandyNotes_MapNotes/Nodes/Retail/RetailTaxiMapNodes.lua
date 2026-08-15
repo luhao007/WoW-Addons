@@ -262,10 +262,15 @@ ns.currentSourceFile = "RetailTaxiMapNodes.lua"
             nodes[2481][63570749] = { id = 1313, type = "Dungeon", showInZone = true } -- Arena der Leerennarbe
             nodes[2481][67331218] = { id = 1309, type = "Dungeon", showInZone = true } -- Das blendende Tal
             nodes[2481][61163189] = { id = 1311, type = "Dungeon", showInZone = true } -- Nalorakks Bau
-        
+            nodes[2479][63216169] = { id = 1316, type = "Dungeon", showInZone = true } -- Nexuspunkt Xenas
+            nodes[2479][51202026] = { id = 1313, type = "Dungeon", showInZone = true } -- Arena der Leerennarbe            
+            nodes[2480][25037672] = { id = 1309, type = "Dungeon", showInZone = true } -- Das blendende Tal
+            
             nodes[2481][62991170] = { id = 1307, type = "Raid", showInZone = true } -- Leerenspitze
             nodes[2481][68261100] = { id = 1314, type = "Raid", showInZone = true } -- Der Traumriss
             nodes[2481][56630799] = { id = 1308, type = "Raid", showInZone = true } -- Marsch auf Quel'Danas
+            nodes[2479][45416349] = { id = 1307, type = "Raid", showInZone = true } -- Leerenspitze
+            nodes[2480][61066455] = { id = 1314, type = "Raid", showInZone = true } -- Der Traumriss
 
         --Eastern Kingdoms
             nodes[2481][54756910] = { id = 239, type = "Dungeon", showInZone = true } -- Uldaman (inside cave) 
@@ -287,11 +292,12 @@ ns.currentSourceFile = "RetailTaxiMapNodes.lua"
             nodes[2481][36485452] = { id = 75, type = "Raid", showInZone = true } -- Baradin Hold
             nodes[2481][50178406] = { id = { 745, 860 }, type = "MultipleM", showInZone = true } -- Karazhan, Return to Karazhan
             nodes[2481][47423391] = { id = { 311, 316 }, type = "MultipleD", showInZone = true } -- Scarlet Halls, Monastery 
-            nodes[2481][53576733] = { id = { 1197, 239 }, type = "MultipleD", showInZone = true } --  Legacy of Tyr Dragonflight Dungeon & Vanilla Uldaman 
+            nodes[2481][53576733] = { id = { 1197, 239 }, type = "MultipleD", showInZone = true } -- Legacy of Tyr Dragonflight Dungeon & Vanilla Uldaman 
             nodes[2481][48467081] = { id = { 741, 742, 66, 228, 229, 559 }, name = L["Way to the Instance Entrance"], type = "MultipleM", showInZone = true } -- Molten Core, Blackwing Lair, Blackrock Caverns, Blackrock Depths, Lower Blackrock Spire, Upper Blackrock Spire 
             nodes[2481][46853450] = { name = ns.ScarletMonastery .. " - " .. L["Old Version"] .. ":\n" .. L["Graveyard"] .. "\n" .. L["Cathedral"] .. "\n" .. L["Library"] .. "\n" .. L["Armory"] .. "\n\n" .. REQUIRES_LABEL .. " (" .. L["Old Keyring \n You get the Scarlet Key in the \n [Loot-Filled Pumpkin] from [Hallow's End Event] or from the [Auction House] \n now you can activate the [Old Keyring] here \n to activate old dungeonversions from the Scarlet Monastery"] .. ")", type = "MultiVInstanceD", showInZone = true } -- Scarlet Monastery Key for Old dungeons
             nodes[2481][52003970] = { name = ns.Scholomance .. " - " .. L["Old Version"] .. "\n" .. L["Secret Entrance"] .. "\n\n" .. REQUIRES_LABEL .. " " .. L["(Memory of Scholomance - Achievement)"], type = "VInstanceD", showInZone = true } -- Old Scholomance version - Memory of Scholomance - Secret Entrance Old Scholomance version            
             nodes[2481][54903391] = { name = ns.Naxxramas .. " - " .. L["Old Version"] .. "\n" .. L["Secret Entrance"] .. "\n\n" .. REQUIRES_LABEL .. " " .. L["(Wards of the Dread Citadel - Achievement)"], type = "VInstanceR", showInZone = true }-- Old Naxxramas version - Secret Entrance - Wards of the Dread Citadel 
+            nodes[2481][71062590] = { id = { 1322, 1320 }, type = "MultipleM", showInZone = true } -- Altar der Fänge & Der Giftige Abgrund 
         end
     end
 end

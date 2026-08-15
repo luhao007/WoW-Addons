@@ -83,7 +83,8 @@ addon.Options.Defaults = {
                 PasteToChat = 4,
                 ToggleTracking = 4,
                 ToggleWatchList = 2,
-                ToggleExcluded = 1
+                ToggleExcluded = 1,
+                PopOut = 3
             },
             MouseWheelPanScalar = 1,
             ShowTemporarilyObtainableIcon = true,
@@ -92,6 +93,12 @@ addon.Options.Defaults = {
             TabPriority = 5,
             ShowWarbandIcon = true,
             WarbandHeaderColor = true,
+            ShowRewardPreviewIcon = true,
+            RewardPreviewMouseoverShow = false,
+            RewardPreviewInvertVerticalRotation = false,
+            RewardPreviewMaxIndividualIcons = 3,
+            RewardPreviewDefaultWidth = 280,
+            RewardPreviewDefaultHeight = 360,
             -- ShowOtherFactionWarbandAsCompleted = true
         },
         RightClickMenu = {
@@ -100,6 +107,21 @@ addon.Options.Defaults = {
                 AddLocale = true,
                 AddRelatedTab = 1
             }
+        },
+        Popout = {
+            PersistAcrossSessions = true,
+            RememberSize = true,
+            RememberLastPosition = true,
+            DefaultWidth = 434,
+            CloseOnEarn = true,
+            CloseOnEarnDelay = 2,
+            EnableSnapping = true,
+            SnapDistance = 20,
+            AutoHideCloseButton = false,
+            AutoHideResizeButton = false,
+            FadeWhenNotHovered = false,
+            FadedOpacity = 0.5,
+            FadeSpeed = 0.2
         },
         Tooltip = {
             Categories = {

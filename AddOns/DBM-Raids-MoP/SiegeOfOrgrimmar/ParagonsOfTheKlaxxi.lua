@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(853, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260806180003")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(71152, 71153, 71154, 71155, 71156, 71157, 71158, 71160, 71161)
 mod:SetEncounterID(1593)
@@ -34,6 +38,7 @@ mod:RegisterEventsInCombat(
 local warnActivated					= mod:NewTargetAnnounce(118212, 3, 143542)
 --Kil'ruk the Wind-Reaver
 local warnDeathFromAbove			= mod:NewTargetAnnounce(142232, 3)
+local warnGouge						= mod:NewTargetNoFilterAnnounce(143939, 3, nil, "Healer")
 --Xaril the Poisoned-Mind
 local warnToxicInjection			= mod:NewSpellAnnounce(142528, 3)
 mod:AddBoolOption("warnToxicCatalyst", true, "announce")
@@ -50,21 +55,20 @@ local warnEncaseInAmber				= mod:NewTargetAnnounce(142564, 4)
 --Iyyokuk the Lucid
 local warnCalculated				= mod:NewTargetAnnounce(144095, 3)--Wild variation on timing noted, 34-130.8 variation (wtf)
 --Ka'roz the Locust
-local warnFlash						= mod:NewTargetCountAnnounce("ej8058", 3)
+local warnFlash						= mod:NewTargetCountAnnounce(-8058, 3)
 --Rik'kal the Dissector
 local warnInjection					= mod:NewStackAnnounce(143339, 3)
 local warnMutate					= mod:NewTargetCountAnnounce(143337, 3)
-local warnParasitesLeft				= mod:NewAddsLeftAnnounce("ej8065", 3, 143383, "Tank")
+local warnParasitesLeft				= mod:NewAddsLeftAnnounce(-8065, 3, 143383, "Tank")
 --Hisek the Swarmkeeper
 local warnAim						= mod:NewTargetCountAnnounce(142948, 4)
 local warnRapidFire					= mod:NewSpellAnnounce(143243, 3)
 
 --All
-local specWarnActivated				= mod:NewSpecialWarningTarget(118212)
-local specWarnActivatedVulnerable	= mod:NewSpecialWarning("specWarnActivatedVulnerable", "Tank")--Alternate activate warning to warn a tank not to pick up a specific boss
+local specWarnActivated				= mod:NewSpecialWarningTarget(118212, nil, nil, nil, 1, 2, nil, nil, "targetchange")
+local specWarnActivatedVulnerable	= mod:NewSpecialWarning("specWarnActivatedVulnerable", "Tank", nil, nil, 1, 2, nil, nil, 118212, nil, "dontmove")--Alternate activate warning to warn a tank not to pick up a specific boss
 --Kil'ruk the Wind-Reaver
-local specWarnGouge					= mod:NewSpecialWarningYou(143939)
-local specWarnGougeOther			= mod:NewSpecialWarningTarget(143939, "Tank|Healer")
+local specWarnGouge					= mod:NewSpecialWarningYou(143939, nil, nil, nil, 1, 19, nil, nil, "stunyou")
 local specWarnDeathFromAbove		= mod:NewSpecialWarningYou(142232)
 local specWarnDeathFromAboveNear	= mod:NewSpecialWarningClose(142232)
 local yellDeathFromAbove			= mod:NewYell(142232)
@@ -91,7 +95,7 @@ local yellCatalystGreen				= mod:NewYell(142730, nil, nil, false)
 local specWarnMesmerize				= mod:NewSpecialWarningYou(142671)
 local specWarnMesmerizeOther		= mod:NewSpecialWarningTarget(142671, false)--Person who grabs korven's amber wants this
 local yellMesmerize					= mod:NewYell(142671)
-local specWarnKunchongs				= mod:NewSpecialWarningSwitch("ej8043", "Dps")
+local specWarnKunchongs				= mod:NewSpecialWarningSwitch(-8043, "Dps")
 --Korven the Prime
 local specWarnShieldBash			= mod:NewSpecialWarningSpell(143974, "Tank")
 local specWarnShieldBashOther		= mod:NewSpecialWarningTarget(143974, "Tank|Healer")
@@ -102,9 +106,9 @@ local yellCalculated				= mod:NewYell(142416, nil, false)
 local specWarnInsaneCalculationFire	= mod:NewSpecialWarningSpell(142416, nil, nil, nil, 2)
 --Ka'roz the Locust
 local specWarnFlashCast				= mod:NewSpecialWarningSpell(143701, nil, nil, nil, 2)--I realize two abilities on same boss both using same sound is less than ideal, but user can change it now, and 1 or 3 feel appropriate for both of these
-local specWarnFlash					= mod:NewSpecialWarningYou("ej8058")--Flash is name of his charge ability
-local specWarnFlashNear				= mod:NewSpecialWarningClose("ej8058")
-local yellFlash						= mod:NewYell("ej8058")
+local specWarnFlash					= mod:NewSpecialWarningYou(-8058)--Flash is name of his charge ability
+local specWarnFlashNear				= mod:NewSpecialWarningClose(-8058)
+local yellFlash						= mod:NewYell(-8058)
 local yellWhirling					= mod:NewYell(143701, nil, false)
 local specWarnHurlAmber				= mod:NewSpecialWarningSpell(143759, nil, nil, nil, 2)--I realize two abilities on same boss both using same sound is less than ideal, but user can change it now, and 1 or 3 feel appropriate for both of these
 local specWarnCausticAmber			= mod:NewSpecialWarningMove(143735)--Stuff on the ground
@@ -127,7 +131,7 @@ local timerGouge					= mod:NewTargetTimer(10, 143939, nil, "Tank", nil, 5)
 local timerReaveCD					= mod:NewCDTimer(33, 148676, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
 local timerDFACD					= mod:NewCDTimer(34, 142232, nil, nil, nil, 3)--34-43 variation
 --Xaril the Poisoned-Mind
-local timerToxicCatalystCD			= mod:NewCDTimer(31.4, "ej8036", nil, nil, nil, 3)
+local timerToxicCatalystCD			= mod:NewCDTimer(31.4, -8036, nil, nil, nil, 3)
 --Kaz'tik the Manipulator
 local timerMesmerizeCD				= mod:NewCDTimer(34, 142671, nil, nil, nil, 3)
 --Korven the Prime
@@ -155,8 +159,8 @@ local timerRapidFireCD				= mod:NewCDTimer(47, 143243, nil, nil, nil, 2, nil, DB
 
 local berserkTimer					= mod:NewBerserkTimer(720)
 
-mod:AddSetIconOption("SetIconOnAim", 142948, false)
-mod:AddSetIconOption("SetIconOnMesmerize", 142671, false)
+mod:AddSetIconOption("SetIconOnAim", 142948, false, 0, {3})
+mod:AddSetIconOption("SetIconOnMesmerize", 142671, false, 0, {1})
 
 local calculatingDude, readyToFight = DBM:EJ_GetSectionInfo(8012), DBM:GetSpellName(143542)
 local vulnerable1, vulnerable2, vulnerable3, vulnerable4 = DBM:GetSpellName(143279), DBM:GetSpellName(143275), DBM:GetSpellName(142929), DBM:GetSpellName(142931)
@@ -218,12 +222,15 @@ local function warnActivatedTargets(self, vulnerable)
 	if #activatedTargets > 1 then
 		warnActivated:Show(table.concat(activatedTargets, "<, >"))
 		specWarnActivated:Show(table.concat(activatedTargets, ", "))
+		specWarnActivated:Play("targetchange")
 	else
 		warnActivated:Show(activatedTargets[1])
 		if vulnerable and self:IsTank() then
 			specWarnActivatedVulnerable:Show(activatedTargets[1])
+			specWarnActivatedVulnerable:Play("dontmove")
 		else
 			specWarnActivated:Show(activatedTargets[1])
+			specWarnActivated:Play("targetchange")
 		end
 	end
 	table.wipe(activatedTargets)
@@ -621,17 +628,15 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerGouge:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnGouge:Show()
+			specWarnGouge:Play("stunyou")
 		else
-			specWarnGougeOther:Show(args.destName)
+			warnGouge:Show(args.destName)
 		end
 	elseif spellId == 143974 then
 		timerShieldBash:Start(args.destName)
-		for i = 1, 5 do
-			local bossUnitID = "boss"..i
-			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and not UnitDetailedThreatSituation("player", bossUnitID) then--We are not highest threat target
-				specWarnShieldBashOther:Show(args.destName)--So warn AGAIN
-				break
-			end
+		--We are not highest threat target
+		if not self:IsTanking("player", nil, nil, true, args.sourceGUID) then
+			specWarnShieldBashOther:Show(args.destName)--So warn AGAIN
 		end
 	elseif spellId == 143701 then
 		if args:IsPlayer() then

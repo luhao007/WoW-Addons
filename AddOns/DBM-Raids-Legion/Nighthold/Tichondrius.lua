@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1762, "DBM-Raids-Legion", 3, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035302")
+mod:SetRevision("20260523021952")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(103685)
 mod:SetEncounterID(1862)
@@ -28,27 +28,27 @@ mod:RegisterEventsInCombat(
  --(ability.id = 212997 or ability.id = 213238 or ability.id = 208230 or ability.id = 213531 or ability.id = 206365) and type = "begincast"
 local warnCarrionPlague				= mod:NewTargetAnnounce(206480, 3)
 local warnBrandOfArgus				= mod:NewTargetAnnounce(212794, 4)
-local warnBloodFang					= mod:NewCountAnnounce("ej13528", 1, 24733)
+local warnBloodFang					= mod:NewCountAnnounce(-13528, 1, 24733)
 --Nightborne
 local warnVolatileWound				= mod:NewStackAnnounce(216024, 3, nil, false, 2)
 --The Legion
 local warnBurningSoul				= mod:NewTargetAnnounce(216040, 4)
 local warnRingOfShadow				= mod:NewSpellAnnounce(216723, 3)
 
-local specWarnCarrionPlague			= mod:NewSpecialWarningMoveAway(206480, nil, nil, nil, 1, 2)
-local specWarnSeekerSwarm			= mod:NewSpecialWarningDodgeCount(213238, nil, nil, nil, 2, 6)
+local specWarnCarrionPlague			= mod:NewSpecialWarningMoveAway(206480, nil, nil, nil, 1, 2, nil, nil, "scatter")
+local specWarnSeekerSwarm			= mod:NewSpecialWarningDodgeCount(213238, nil, nil, nil, 2, 6, nil, nil, "farfromline")
 local yellSeekerSwarm				= mod:NewYell(213238)--Carrion plague targets yell when it's relevant. On seeker swarm cast
 local yellBrandOfArgus				= mod:NewPosYell(212794, 156225)--"Branded" short text
-local specWarnFeastOfBlood			= mod:NewSpecialWarningRun(208230, nil, nil, nil, 1, 2)--Move away, or run? neither one really says "get 30 yards from boss"
-local specWarnFeastOfBloodOther		= mod:NewSpecialWarningTaunt(208230, nil, nil, nil, 1, 2)
-local specWarnEchoesOfVoid			= mod:NewSpecialWarningDodgeCount(213531, nil, nil, nil, 3, 2)
-local specWarnCarrionNightmare 		= mod:NewSpecialWarningDodge(215988, nil, nil, nil, 1, 2)
-local specWarnAdds					= mod:NewSpecialWarningAdds(216726, "-Healer", nil, nil, 1, 2)
+local specWarnFeastOfBlood			= mod:NewSpecialWarningRun(208230, nil, nil, nil, 1, 2, nil, nil, "runout")--Move away, or run? neither one really says "get 30 yards from boss"
+local specWarnFeastOfBloodOther		= mod:NewSpecialWarningTaunt(208230, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnEchoesOfVoid			= mod:NewSpecialWarningDodgeCount(213531, nil, nil, nil, 3, 2, nil, nil, "findshelter")
+local specWarnCarrionNightmare 		= mod:NewSpecialWarningDodge(215988, nil, nil, nil, 1, 2, nil, nil, "watchstep")
+local specWarnAdds					= mod:NewSpecialWarningAdds(216726, "-Healer", nil, nil, 1, 2, nil, nil, "killmob")
 --Nightborne
-local specWarnBlastNova				= mod:NewSpecialWarningInterrupt(216034, "HasInterrupt", nil, nil, 2, 2)
-local specWarnNetherZoneGTFO		= mod:NewSpecialWarningMove(216027, nil, nil, nil, 2, 2)
+local specWarnBlastNova				= mod:NewSpecialWarningInterrupt(216034, "HasInterrupt", nil, nil, 2, 2, nil, nil, "kickcast")
+local specWarnNetherZoneGTFO		= mod:NewSpecialWarningMove(216027, nil, nil, nil, 2, 2, nil, nil, "runaway")
 --The Legion
-local specWarnBurningSoul			= mod:NewSpecialWarningMoveAway(216040, nil, nil, nil, 1, 2)
+local specWarnBurningSoul			= mod:NewSpecialWarningMoveAway(216040, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellBurningSoul				= mod:NewYell(216040)
 
 local timerCarrionPlagueCD			= mod:NewNextCountTimer(25, 212997, nil, nil, nil, 3)

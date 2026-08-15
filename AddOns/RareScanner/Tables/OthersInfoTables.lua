@@ -216,4 +216,16 @@ private.DRAGON_GLYPHS = {
 	[61560] = { zoneID = 2405, artID = { 1936 }, x = 3608, y = 3727, parent = 61583, criteria = 10 }; --Skyriding Glyphs: Shadowguard Point
 	[61559] = { zoneID = 2405, artID = { 1936 }, x = 4925, y = 8748, parent = 61583, criteria = 11 }; --Skyriding Glyphs: The Gorging Pit
 	
+	-- The Coiled Isles Glyph Hunter
+	[63394] = { zoneID = 2512, artID = { 2189 }, x = 3740, y = 6053, parent = 63395, criteria = 1 }; --Skyriding Glyphs: The Fangs
+	[63420] = { zoneID = 2512, artID = { 2189 }, x = 2663, y = 6315, parent = 63395, criteria = 2 }; --Skyriding Glyphs: The Forum
+	[63421] = { zoneID = 2512, artID = { 2189 }, x = 2882, y = 7523, parent = 63395, criteria = 3 }; --Skyriding Glyphs: The Wreck of Sethralis's Scales
+	[63422] = { zoneID = 2512, artID = { 2189 }, x = 4056, y = 9049, parent = 63395, criteria = 4 }; --Skyriding Glyphs: Southern Island
+	[63423] = { zoneID = 2512, artID = { 2189 }, x = 4585, y = 6494, parent = 63395, criteria = 5 }; --Skyriding Glyphs: Gate of the Eastern Fang
+	[63424] = { zoneID = 2512, artID = { 2189 }, x = 5895, y = 4892, parent = 63395, criteria = 6 }; --Skyriding Glyphs: Tokka's Landing
+	[63425] = { zoneID = 2512, artID = { 2189 }, x = 6412, y = 6066, parent = 63395, criteria = 7 }; --Skyriding Glyphs: The Whispering Marsh
+	[63426] = { zoneID = 2512, artID = { 2189 }, x = 7029, y = 4816, parent = 63395, criteria = 8 }; --Skyriding Glyphs: The Wreck of Paku's Talon
+	[63427] = { zoneID = 2512, artID = { 2189 }, x = 5201, y = 3841, parent = 63395, criteria = 9 }; --Skyriding Glyphs: The Serpent's Tail
+	[63428] = { zoneID = 2512, artID = { 2189 }, x = 4291, y = 3060, parent = 63395, criteria = 10 }; --Skyriding Glyphs: Blistering Terrace
+	[63430] = { zoneID = 2512, artID = { 2189 }, x = 4382, y = 4419, parent = 63395, criteria = 11 }; --Skyriding Glyphs: Gate of the Serpent's Eye
 }

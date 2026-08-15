@@ -14,6 +14,8 @@ function EventRuntime:HandleEvent(event, arg1, arg2, ctx)
         return false
     end
 
+    local requestDeferredPreyRefresh = ctx.requestDeferredPreyRefresh
+
     -- Taint safety: never propagate noisy widget payload args.
     -- UPDATE_UI_WIDGET args can carry secret-number values; addons should not
     -- read/forward them unless absolutely required.
@@ -174,19 +176,6 @@ function EventRuntime:HandleEvent(event, arg1, arg2, ctx)
 
     if isNoisyEvent then
         now = type(ctx.getTime) == "function" and ctx.getTime() or 0
-        local hasPreyContext = state.activeQuestID or (now < (state.killStageUntil or 0))
-        local outOfZoneQuestIdle = type(ctx.isValidQuestID) == "function"
-            and ctx.isValidQuestID(state.activeQuestID)
-            and state.inPreyZone == false
-            and not (now < (state.killStageUntil or 0))
-            and not (now < (state.ambushAlertUntil or 0))
-            and not (now < (state.bloodyCommandAlertUntil or 0))
-        if (not isRestrictedInstance)
-            and hasPreyContext
-            and not outOfZoneQuestIdle
-            and type(ctx.runModuleHook) == "function" then
-            ctx.runModuleHook("OnEvent", event, arg1, arg2)
-        end
     else
         if (not (isRestrictedInstance and isPreySignalEvent)) and type(ctx.runModuleHook) == "function" then
             ctx.runModuleHook("OnEvent", event, arg1, arg2)
@@ -321,6 +310,11 @@ function EventRuntime:HandleEvent(event, arg1, arg2, ctx)
         and not ((state.killStageUntil or 0) > now)
         and not ((state.ambushAlertUntil or 0) > now)
         and not ((state.bloodyCommandAlertUntil or 0) > now) then
+        return true
+    end
+
+    if isNoisyEvent and type(requestDeferredPreyRefresh) == "function" then
+        requestDeferredPreyRefresh()
         return true
     end
 

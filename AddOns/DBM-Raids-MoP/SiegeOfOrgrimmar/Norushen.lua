@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(866, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260523022011")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(72276)
 --mod:SetEncounterID(1624)
@@ -29,8 +33,6 @@ mod:RegisterEvents(
 	"GOSSIP_SHOW"
 )
 
-local boss = DBM:EJ_GetSectionInfo(8216)
-
 --Amalgam of Corruption
 local warnSelfDoubt						= mod:NewStackAnnounce(146124, 2, nil, "Tank")
 local warnResidualCorruption			= mod:NewSpellAnnounce(145073, 2, nil, false, 2)
@@ -40,20 +42,20 @@ local warnManifestationSoon				= mod:NewSoonAnnounce(-8232, 2)
 local warnDishearteningLaugh			= mod:NewSpellAnnounce(146707, 3)
 
 --Amalgam of Corruption
-local specWarnUnleashedAnger			= mod:NewSpecialWarningDefensive(145216, nil, nil, nil, 1, 2)
-local specWarnSelfDoubtOther			= mod:NewSpecialWarningTaunt(146124, nil, nil, nil, 1, 2)--Stack warning, to taunt off other tank
-local specWarnBlindHatred				= mod:NewSpecialWarningSpell(145226, nil, nil, nil, 2, 2)
-local specWarnManifestation				= mod:NewSpecialWarningSwitchCount(-8232, "-Healer", nil, nil, 1, 2)--Unleashed Manifestation of Corruption
+local specWarnUnleashedAnger			= mod:NewSpecialWarningDefensive(145216, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnSelfDoubtOther			= mod:NewSpecialWarningTaunt(146124, nil, nil, nil, 1, 2, nil, nil, "tauntboss")--Stack warning, to taunt off other tank
+local specWarnBlindHatred				= mod:NewSpecialWarningSpell(145226, nil, nil, nil, 2, 2, nil, nil, "farfromline")
+local specWarnManifestation				= mod:NewSpecialWarningSwitchCount(-8232, "-Healer", nil, nil, 1, 2, nil, nil, "bigmob")--Unleashed Manifestation of Corruption
 --Test of Serenity (DPS)
-local specWarnTearReality				= mod:NewSpecialWarningDodge(144482, nil, nil, nil, 2, 2)
+local specWarnTearReality				= mod:NewSpecialWarningDodge(144482, nil, nil, nil, 2, 2, nil, nil, "shockwave")
 --Test of Reliance (Healer)
-local specWarnLingeringCorruption		= mod:NewSpecialWarningDispel(144514, nil, nil, nil, 1, 2)
-local specWarnBottomlessPitMove			= mod:NewSpecialWarningGTFO(146703, nil, nil, nil, 1, 8)
+local specWarnLingeringCorruption		= mod:NewSpecialWarningDispel(144514, nil, nil, nil, 1, 2, nil, nil, "helpdispel")
+local specWarnBottomlessPitMove			= mod:NewSpecialWarningGTFO(146703, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 --Test of Confidence (tank)
-local specWarnTitanicSmash				= mod:NewSpecialWarningDodge(144628, nil, nil, nil, 2, 2)
-local specWarnBurstOfCorruption			= mod:NewSpecialWarningSpell(144654, nil, nil, nil, 2, 2)
-local specWarnHurlCorruption			= mod:NewSpecialWarningInterrupt(144649, nil, nil, nil, 3, 2)
-local specWarnPiercingCorruption		= mod:NewSpecialWarningDefensive(144657, nil, nil, nil, 1, 2)
+local specWarnTitanicSmash				= mod:NewSpecialWarningDodge(144628, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnBurstOfCorruption			= mod:NewSpecialWarningSpell(144654, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnHurlCorruption			= mod:NewSpecialWarningInterrupt(144649, nil, nil, nil, 3, 2, nil, nil, "kickcast")
+local specWarnPiercingCorruption		= mod:NewSpecialWarningDefensive(144657, nil, nil, nil, 1, 2, nil, nil, "defensive")
 
 --Amalgam of Corruption
 local timerCombatStarts					= mod:NewCombatTimer(25)

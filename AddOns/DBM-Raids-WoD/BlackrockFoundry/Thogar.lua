@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1147, "DBM-Raids-WoD", 2, 457)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035313")
+mod:SetRevision("20260525233107")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(76906)--81315 Crack-Shot, 81197 Raider, 77487 Grom'kar Firemender, 80791 Grom'kar Man-at-Arms, 81318 Iron Gunnery Sergeant, 77560 Obliterator Cannon, 81612 Deforester
 mod:SetEncounterID(1692)
@@ -28,21 +28,21 @@ local warnTrain						= mod:NewTargetCountAnnounce(176312, 4, nil, nil, nil, nil,
 local warnDelayedSiegeBomb			= mod:NewTargetAnnounce(159481, 3)
 
 --Operator Thogar
-local specWarnProtoGrenade			= mod:NewSpecialWarningMove(165195, nil, nil, nil, 1, 2)
-local specWarnProtoGrenadeNear		= mod:NewSpecialWarningClose(165195, nil, nil, nil, 1, 2)
+local specWarnProtoGrenade			= mod:NewSpecialWarningMove(165195, nil, nil, nil, 1, 2, nil, nil, "runaway")
+local specWarnProtoGrenadeNear		= mod:NewSpecialWarningClose(165195, nil, nil, nil, 1, 2, nil, nil, "runaway")
 local yellProtoGrenade				= mod:NewYell(165195)
-local specWarnEnkindle				= mod:NewSpecialWarningStack(155921, nil, 2, nil, nil, 1, 6)--Maybe need 3 for new cd?
-local specWarnEnkindleOther			= mod:NewSpecialWarningTaunt(155921, nil, nil, nil, 1, 2)
-local specWarnTrain					= mod:NewSpecialWarningDodge(176312, nil, nil, nil, 3, 2)
-local specWarnSplitSoon				= mod:NewSpecialWarning("specWarnSplitSoon", nil, nil, nil, 1, 2)--TODO, maybe include types in the split?
+local specWarnEnkindle				= mod:NewSpecialWarningStack(155921, nil, 2, nil, nil, 1, 6, nil, nil, "stackhigh")--Maybe need 3 for new cd?
+local specWarnEnkindleOther			= mod:NewSpecialWarningTaunt(155921, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnTrain					= mod:NewSpecialWarningDodge(176312, nil, nil, nil, 3, 2, nil, nil, "chargemove")
+local specWarnSplitSoon				= mod:NewSpecialWarning("specWarnSplitSoon", nil, nil, nil, 1, 2, nil, nil, nil, nil, "mobsoon")--TODO, maybe include types in the split?
 --Adds
 local specWarnCauterizingBolt		= mod:NewSpecialWarningInterrupt(160140, "-Healer", nil, 2)
 local specWarnCauterizingBoltDispel	= mod:NewSpecialWarningDispel(160140, "MagicDispeller")
 local specWarnIronbellow			= mod:NewSpecialWarningSpell(163753, nil, nil, nil, 2)
-local specWarnDelayedSiegeBomb		= mod:NewSpecialWarningYou(159481, nil, nil, nil, nil, 2)
+local specWarnDelayedSiegeBomb		= mod:NewSpecialWarningYou(159481, nil, nil, nil, nil, 2, nil, nil, "keepmove")
 local specWarnDelayedSiegeBombMove	= mod:NewSpecialWarningMove(159481)
 local yellDelayedSiegeBomb			= mod:NewCountYell(159481)
-local specWarnManOArms				= mod:NewSpecialWarningSwitch("ej9549", "-Healer")
+local specWarnManOArms				= mod:NewSpecialWarningSwitch(-9549, "-Healer")
 local specWarnBurning				= mod:NewSpecialWarningStack(164380, nil, 2)--Mythic
 
 --Operator Thogar
@@ -57,7 +57,7 @@ local timerDelayedSiegeBomb			= mod:NewNextCountTimer(6, 159481)
 local berserkTimer					= mod:NewBerserkTimer(492)
 
 mod:AddInfoFrameOption(176312)
-mod:AddSetIconOption("SetIconOnAdds", "ej9549", false, 5)
+mod:AddSetIconOption("SetIconOnAdds", -9549, false, 5)
 mod:AddDropdownOption("TrainVoiceAnnounce", {"LanesOnly", "MovementsOnly", "LanesandMovements"}, "LanesOnly", "misc", nil, 176312)
 mod:AddDropdownOption("InfoFrameSpeed", {"Immediately", "Delayed"}, "Delayed", "misc", nil, 176312)
 

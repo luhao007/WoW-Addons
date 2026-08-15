@@ -7,18 +7,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
 
 local defaults = {
     char = {
-        EssentialCooldownViewerSpellIDs = {
-            ["*"] = {},
-        },
-        UtilityCooldownViewerSpellIDs = {
-            ["*"] = {},
-        },
-        BuffIconCooldownViewerSpellIDs = {
-            ["*"] = {},
-        },
-        BuffBarCooldownViewerSpellIDs = {
-            ["*"] = {},
-        },
         AutoLayoutSwitching = {},
     },
     global = {
@@ -29,9 +17,7 @@ local defaults = {
             soulShards = true,
             achievementAlert = true, -- alertFrame, using the name acheivement for backward compatibility
             targetOfTarget = true,
-            targetCast = true,
             focusTargetOfTarget = true,
-            focusCast = true,
             compactRaidFrameContainer = false,
             talkingHead = true,
             minimap = true,
@@ -80,6 +66,9 @@ local defaults = {
             targetFrameResize = false,
             chatFrame = false,
             battlefieldMap = false,
+            anchorToEnabled = false,
+            reparentEnabled = false,
+            targetCast = true,
         },
         QueueStatusButton = {},
         TotemFrame = {},
@@ -123,9 +112,6 @@ local defaults = {
         ContainerFrameCombinedBags = {},
         MinimapZoneName = {},
         MinimapSeparated = {},
-        TargetDebuffs = {},
-        TargetBuffs = {},
-        FocusBuffs = {},
         GameMenuFrame = {},
         LOC = {},
         PetFrame = {},
@@ -144,6 +130,7 @@ local defaults = {
         ChatFrame1EditBox = {},
         GeneralDockManager = {},
         BattlefieldMapFrame = {},
+        TargetBuffs = {},
     }
 }
 
@@ -218,11 +205,6 @@ local options = {
                     desc = string.format(L["TOGGLE_SUPPORT_STRING"], L["Focus ToT"]),
                     type = "toggle",
                 },
-                focusCast = {
-                    name = L["Focus Cast Bar"],
-                    desc = string.format(L["TOGGLE_SUPPORT_STRING"], L["Focus Cast Bar"]),
-                    type = "toggle",
-                },
                 targetFrame = {
                     name = TARGET,
                     desc = string.format(L["TOGGLE_ADDITIONAL_OPTIONS_SUPPORT_STRING"], TARGET),
@@ -234,13 +216,8 @@ local options = {
                     type = "toggle",
                 },
                 focusFrame = {
-                    name = FOCUS,
-                    desc = string.format(L["TOGGLE_ADDITIONAL_OPTIONS_SUPPORT_STRING"], FOCUS),
-                    type = "toggle",
-                },
-                focusFrameBuffs = {
-                    name = FOCUS.." "..BUFFOPTIONS_LABEL,
-                    desc = string.format(L["TOGGLE_SUPPORT_STRING"], FOCUS.." "..BUFFOPTIONS_LABEL),
+                    name = BINDING_NAME_FOCUSTARGET,
+                    desc = string.format(L["TOGGLE_ADDITIONAL_OPTIONS_SUPPORT_STRING"], BINDING_NAME_FOCUSTARGET),
                     type = "toggle",
                 },
                 targetFrameResize = {
@@ -312,8 +289,18 @@ local options = {
             type = "toggle",
         },
         allowSetCoordinates = {
-            name = "Allow custom coordinates",
-            desc = "Allows frames to be positioned using screen coordinates entered into text fields",
+            name = L["OPTION_ALLOW_SET_COORDS_NAME"],
+            desc = L["OPTION_ALLOW_SET_COORDS_DESC"],
+            type = "toggle",
+        },
+        anchorToEnabled = {
+            name = L["OPTION_ANCHOR_TO_NAME"],
+            desc = L["OPTION_ANCHOR_TO_DESC"],
+            type = "toggle",
+        },
+        reparentEnabled = {
+            name = "Reparent Frame",
+            desc = "Allows frames to be reparented to other frames. Use at your own risk. May cause errors if not properly used.",
             type = "toggle",
         },
         playerFrame = {
@@ -413,8 +400,8 @@ local options = {
             type = "toggle",
         },
         extraActionButton = {
-            name = BINDING_NAME_EXTRAACTIONBUTTON1,
-            desc = string.format(L["TOGGLE_ADDITIONAL_OPTIONS_SUPPORT_STRING"], BINDING_NAME_EXTRAACTIONBUTTON1),
+            name = HUD_EDIT_MODE_EXTRA_ABILITIES_LABEL,
+            desc = string.format(L["TOGGLE_ADDITIONAL_OPTIONS_SUPPORT_STRING"], HUD_EDIT_MODE_EXTRA_ABILITIES_LABEL),
             type = "toggle",
         },
         cooldownManager = {
@@ -428,14 +415,14 @@ local options = {
             type = "toggle",
         },
         raidSizeLayoutSwitching = {
-            name = "Layout Switching",
+            name = L["LAYOUT_SWITCHING"],
             type = "group",
             args = addon.GetLayoutChangeOptions(),
         },
         vigorBar = {
-            name = "Vigor Bar",
+            name = L["VIGOR_BAR"],
             type = "toggle",
-            desc = "Add the pre-11.2.7 Dragonriding Vigor bar"
+            desc = L["VIGOR_BAR_DESC"],
         },
         housingControlsFrame = {
             name = BINDING_HEADER_HOUSING_SYSTEM,
@@ -445,7 +432,7 @@ local options = {
         personalResourceDisplay = {
             name = DISPLAY_PERSONAL_RESOURCE,
             type = "toggle",
-            desc = "Splits the Personal Resource Display into 3 separate frames: HP, Power (mana/energy/etc), and Class (holy power, etc). That way you can move them separately, or shove one of them off screen if you want.",
+            desc = L["PERSONAL_RESOURCE_DISPLAY_DESC"],
         },
         chatFrame = {
             name = HUD_EDIT_MODE_CHAT_FRAME_LABEL,

@@ -7,7 +7,7 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(creatureID, creatureID2)
 mod:SetEncounterID(2266, 2285)--2266 horde, 2285 Alliance
@@ -55,22 +55,22 @@ local warnMagmaTrap						= mod:NewCountAnnounce(284374, 4)
 --Team Attacks
 local warnTransforms					= mod:NewSpellAnnounce(282040, 2)
 
-local specWarnMultiSidedStrikeAll		= mod:NewSpecialWarningSpell(285818, nil, nil, nil, 3, 2)
-local specWarnMultiSidedStrike			= mod:NewSpecialWarningYou(282030, nil, nil, nil, 3, 2)
-local specWarnStalking					= mod:NewSpecialWarningYou(285632, nil, nil, nil, 1, 2)
+local specWarnMultiSidedStrikeAll		= mod:NewSpecialWarningSpell(285818, nil, nil, nil, 3, 2, nil, nil, "specialsoon")
+local specWarnMultiSidedStrike			= mod:NewSpecialWarningYou(282030, nil, nil, nil, 3, 2, nil, nil, "targetyou")
+local specWarnStalking					= mod:NewSpecialWarningYou(285632, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local yellStalking						= mod:NewYell(285632)
 --Mage
-local specWarnRisingFlames				= mod:NewSpecialWarningStack(282037, nil, 6, nil, nil, 1, 6)
-local specWarnRisingFlamesOther			= mod:NewSpecialWarningTaunt(282037, nil, nil, nil, 1, 2)
+local specWarnRisingFlames				= mod:NewSpecialWarningStack(282037, nil, 6, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnRisingFlamesOther			= mod:NewSpecialWarningTaunt(282037, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 local yellRisingFlamesFades				= mod:NewShortFadesYell(282037)
-local specWarnShield					= mod:NewSpecialWarningTargetChange(286425, false, nil, nil, 1, 2)
-local specWarnPyroblast					= mod:NewSpecialWarningInterrupt(286379, "HasInterrupt", nil, nil, 1, 2)
-local specWarnSearingEmbers				= mod:NewSpecialWarningYou(286988, false, nil, 2, 1, 2)
+local specWarnShield					= mod:NewSpecialWarningTargetChange(286425, false, nil, nil, 1, 2, nil, nil, "targetchange")
+local specWarnPyroblast					= mod:NewSpecialWarningInterrupt(286379, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnSearingEmbers				= mod:NewSpecialWarningYou(286988, false, nil, 2, 1, 2, nil, nil, "targetyou")
 --local specWarnBloodshard				= mod:NewSpecialWarningInterrupt(273350, false, nil, 4, 1, 2)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 --Team Attacks
-local specWarnFirefromMist				= mod:NewSpecialWarningSwitch(285428, nil, nil, nil, 2, 2)
-local specWarnFlashofPhoenixes			= mod:NewSpecialWarningSpell(284388, nil, nil, nil, 2, 2)
+local specWarnFirefromMist				= mod:NewSpecialWarningSwitch(285428, nil, nil, nil, 2, 2, nil, nil, "attbomb")
+local specWarnFlashofPhoenixes			= mod:NewSpecialWarningSpell(284388, nil, nil, nil, 2, 2, nil, nil, "phasechange")
 
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))
 --local timerDarkRevolationCD			= mod:NewCDCountTimer(55, 273365, nil, nil, nil, 3)

@@ -3,15 +3,25 @@ local appName, app = ...;
 
 local print, tostring, ipairs, pairs, type,math_floor
 	= print, tostring, ipairs, pairs, type,math.floor
+local issecretvalue = app.WOWAPI.issecretvalue
 
 app.print = function(...)
 	print(app.L.SHORTTITLE, ...);
 end
 app.report = function(...)
 	if select("#", ...) > 0 then
-		app.print(...);
+		local addReport = app.Modules.Contributor.AddReportData
+		if addReport then
+			local data = {...}
+			local reportID = data[1]
+			tremove(data, 1)
+			data.ALLOWREPEAT = true
+			addReport("Report", reportID, data, reportID)
+		else
+			app.print(...);
+			app.print(app.Version..": "..app.L.PLEASE_REPORT_MESSAGE);
+		end
 	end
-	app.print(app.Version..": "..app.L.PLEASE_REPORT_MESSAGE);
 end
 app.PrintMemoryUsage = function(...)
 	collectgarbage()
@@ -65,29 +75,35 @@ app.PrintTable = function(t,depth)
 	-- only allowing table prints when Debug print is active
 	if not app.Debugging then return; end
 	if t == nil then print("nil"); return; end
-	if type(t) ~= "table" then print(type(t),t); return; end
+	local secret = issecretvalue(t) and "<secret>" or ""
+	if type(t) ~= "table" then print(type(t),secret,t); return; end
 	depth = depth or 0;
 	if depth == 0 then app._PrintTable = {}; end
 	local p = "";
 	for i=1,depth,1 do
 		p = p .. "-";
 	end
+	if issecretvalue(t) then
+		print(p,secret,tostring(t))
+		return
+	end
 	-- dont accidentally recursively print the same table
 	if not app._PrintTable[t] then
 		app._PrintTable[t] = true;
 		print(p,tostring(t),"__type",t.__type," {");
 		for k,v in pairs(t) do
+			secret = issecretvalue(v) and "<secret>" or ""
 			if SkipTableFields[k] then
-				print(p,k,":",tostring(v), "[SKIPPED]")
+				print(p,k,secret,":",tostring(v), "[SKIPPED]")
 			elseif type(v) == "table" then
 				if k == "g" then
-					print(p,k,": #",v and #v)
+					print(p,k,secret,": #",v and #v)
 				else
 					print(p,k,":");
 					app.PrintTable(v,depth + 1);
 				end
 			else
-				print(p,k,":",tostring(v))
+				print(p,k,secret,":",tostring(v))
 			end
 		end
 		if getmetatable(t) then
@@ -102,6 +118,6 @@ end
 app.PrintError = function(err, source, co)
 	local errorID = app.UniqueCounter.errorID
 	local title, popupID = "Stack Trace #" .. errorID, "runner-error-" .. errorID;
-	app:SetupReportDialog(popupID, title, {"Source:",source,"Error:",err,"Stack:",co and debugstack(co) or debugstack()});
+	app:SetupReportDialog(popupID, title, {"```","Source:",source,"Error:",err,"Stack:",co and debugstack(co) or debugstack(),"```"});
 	app.print(app:Linkify("ERROR "..title, app.Colors.ChatLinkError, "dialog:" .. popupID));
 end

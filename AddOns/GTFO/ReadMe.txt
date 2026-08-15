@@ -2398,3 +2398,36 @@ Change Log:
 * Updated Retail TOC to 12.0.5
 * Updated Wrath Classic TOC to 3.4.5/3.80.1
 * Added Wrath spells for Pit of Saron
+
+6.6
+* Fixed Retail secret boolean taint crashes caused by UnitIsUnit
+
+6.6.1
+* Updated Retail TOC to 12.0.7
+* Added Midnight spells for Sporefall
+* Added Midnight spells for The Voidspire
+* Added Midnight spells for Nexus-Point Xenas
+* Added Legion spells for Seat of the Triumvirate
+
+6.6.2
+* Updated TOC for Classic 1.15.9
+* Updated TOC for TBC 2.5.6
+* Updated TOC for Mists 5.5.4
+
+6.7
+* Updated for patch 12.1 with some aura detection functionality restored :D
+* Fixed issues with handling secret values
+* Re-enabled the Trivial content alerts option, but not the HP thresholds
+* Trivial alert detection properly works while in a Timewalking dungeon or raid as well as seasonal Mythic dungeons
+* Improved tank detection for retail
+* Fixed and added BFA spells for King's Rest
+* Fixed SL spells for Plaguefall
+* Fixed and added DF spells for Ruby Life Pools
+* Fixed TWW spells for Manaforge Omega
+* Added Midnight spells (world)
+* Added Midnight spells (prey)
+* Added Midnight spells for Altar of Fangs
+* Added Midnight spells for Maisara Caverns
+* Added Midnight spells for Sporefall
+* Added Midnight spells for Tidebound Grotto
+* Added Midnight spells for The Venomous Abyss

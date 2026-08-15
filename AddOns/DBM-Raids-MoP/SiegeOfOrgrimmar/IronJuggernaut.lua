@@ -1,9 +1,13 @@
 local mod	= DBM:NewMod(864, "DBM-Raids-MoP", 1, 369)
 local L		= mod:GetLocalizedStrings()
 
-mod.statTypes = "normal,heroic,mythic,lfr"
+if mod:IsMop() then
+	mod.statTypes = "normal10,normal25,heroic10,heroic25,lfr"
+else
+	mod.statTypes = "normal,heroic,mythic,lfr"
+end
 
-mod:SetRevision("20260315035327")
+mod:SetRevision("20260709014340")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(71466)
 mod:SetEncounterID(1600)
@@ -37,17 +41,16 @@ local warnExplosiveTar			= mod:NewSpellAnnounce(144492, 3)
 local warnCutterLaser			= mod:NewTargetAnnounce(146325, 4)--Not holding my breath this shows in combat log.
 
 --Assault Mode
-local specWarnIgniteArmor		= mod:NewSpecialWarningStack(144467, nil, 3)
-local specWarnIgniteArmorOther	= mod:NewSpecialWarningTaunt(144467)
-local specWarnBorerDrill		= mod:NewSpecialWarningSpell(144218, false, nil, nil, 2)
-local specWarnBorerDrillMove	= mod:NewSpecialWarningMove(144218)
+local specWarnIgniteArmor		= mod:NewSpecialWarningStack(144467, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnIgniteArmorOther	= mod:NewSpecialWarningTaunt(144467, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnBorerDrill		= mod:NewSpecialWarningDodge(144218, false, nil, nil, 2)
+local specWarnGTFO				= mod:NewSpecialWarningGTFO(144218, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 --Siege Mode
-local specWarnSeismicActivity	= mod:NewSpecialWarningSpell(144483, nil, nil, nil, 2)
-local specWarnShockPulse		= mod:NewSpecialWarningCount(144485, nil, nil, nil, 2)
-local specWarnCutterLaser		= mod:NewSpecialWarningRun(146325, nil, nil, 2, 4)
-local specWarnExplosiveTar		= mod:NewSpecialWarningMove(144498)
+local specWarnSeismicActivity	= mod:NewSpecialWarningSpell(144483, nil, nil, nil, 2, 2, nil, nil, "phasechange")
+local specWarnShockPulse		= mod:NewSpecialWarningCount(144485, nil, nil, nil, 2, 2, nil, nil, "carefly")
+local specWarnCutterLaser		= mod:NewSpecialWarningRun(146325, nil, nil, 2, 4, 2, nil, nil, "laserrun")
 local yellCutterLaser			= mod:NewYell(146325)
-local specWarnMortarBarrage		= mod:NewSpecialWarningSpell(144555, nil, nil, nil, 2)
+local specWarnMortarBarrage		= mod:NewSpecialWarningSpell(144553, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 local timerDemolisherCanonCD	= mod:NewCDTimer(6.1, 144154, nil, false)--Spammy. off by default
 --Assault Mode
@@ -62,12 +65,10 @@ local timerSiegeModeCD			= mod:NewNextTimer(114, 84974, nil, nil, "timerSiegeMod
 local timerCutterLaser			= mod:NewBuffFadesTimer(10, 146325)--Spell tooltip says 15 but combat log showed 10
 local timerShockPulseCD			= mod:NewNextCountTimer(14.5, 144485, nil, nil, nil, 2)
 local timerExplosiveTarCD		= mod:NewNextTimer(30, 144492, nil, nil, nil, 3)
-local timerMortarBarrageCD		= mod:NewNextTimer(30, 144555, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerMortarBarrageCD		= mod:NewNextTimer(30, 144553, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
 
 local berserkTimer				= mod:NewBerserkTimer(600)
 
-
---Important, needs recover
 mod.vb.shockCount = 0
 mod.vb.siegeMode = false
 mod.vb.firstTar = false
@@ -100,6 +101,7 @@ function mod:SPELL_CAST_START(args)
 		timerBorerDrillCD:Cancel()
 		timerRicochetCD:Cancel()
 		specWarnSeismicActivity:Show()
+		specWarnSeismicActivity:Play("phasechange")
 		timerExplosiveTarCD:Start(4.8)
 		timerShockPulseCD:Start(nil, 1)
 		if self:IsMythic() then
@@ -109,6 +111,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 144485 then
 		self.vb.shockCount = self.vb.shockCount + 1
 		specWarnShockPulse:Show(self.vb.shockCount)
+		specWarnShockPulse:Play("carefly")
 		if self.vb.shockCount < 3 then
 			timerShockPulseCD:Start(nil, self.vb.shockCount+1)
 		end
@@ -128,7 +131,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:AntiSpam(3, 1) then
 			timerIgniteArmorCD:Start()
 		end
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId, "boss1") then
 			local amount = args.amount or 1
 			warnIgniteArmor:Show(args.destName, amount)
@@ -136,8 +139,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			if amount >= 3 then
 				if args:IsPlayer() then
 					specWarnIgniteArmor:Show(amount)
+					specWarnIgniteArmor:Play("stackhigh")
 				else
 					specWarnIgniteArmorOther:Show(args.destName)
+					specWarnIgniteArmorOther:Play("tauntboss")
 				end
 			end
 		end
@@ -146,7 +151,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 144459 then
 		warnLaserBurn:CombinedShow(0.5, args.destName)
 	elseif spellId == 144498 and args:IsPlayer() then
-		specWarnExplosiveTar:Show()
+		specWarnGTFO:Show(args.spellName)
+		specWarnGTFO:Play("watchfeet")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -161,9 +167,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 144218 and destGUID == UnitGUID("player") and self:AntiSpam(2.5, 2) then
-		specWarnBorerDrillMove:Show()
+		specWarnGTFO:Show(spellName)
+		specWarnGTFO:Play("watchfeet")
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
@@ -207,6 +214,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		end--]]--TODO, verify consistency, as 22 seems odd and could have just been a delayed cast.
 	elseif spellId == 144555 then
 		specWarnMortarBarrage:Show()
+		specWarnMortarBarrage:Play("watchstep")
 		if not self.vb.firstMortar then
 			self.vb.firstMortar = true
 			timerMortarBarrageCD:Start()
@@ -225,11 +233,13 @@ function mod:OnSync(msg, guid)
 	if not self:IsInCombat() then return end
 	if msg == "LaserTarget" and guid then
 		local targetName = DBM:GetFullPlayerNameByGUID(guid)
-		warnCutterLaser:Show(targetName)
 		if targetName == UnitName("player") then
 			timerCutterLaser:Start()
 			specWarnCutterLaser:Show()
+			specWarnCutterLaser:Play("laserrun")
 			yellCutterLaser:Yell()
+		else
+			warnCutterLaser:Show(targetName)
 		end
 	elseif msg == "LaserTargetRemoved" and guid then
 		timerCutterLaser:Cancel(DBM:GetFullPlayerNameByGUID(guid))

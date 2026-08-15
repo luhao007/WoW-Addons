@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2197, "DBM-BfA", 1, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(140252)
 --mod:SetEncounterID(1880)
@@ -17,8 +17,8 @@ mod:RegisterEventsInCombat(
 
 local warnPermafrostSpike			= mod:NewSpellAnnounce(274896, 2)
 
-local specWarnGlacialBreath			= mod:NewSpecialWarningDodge(274891, nil, nil, nil, 2, 2)
-local specWarnFreezingTempest		= mod:NewSpecialWarningMoveTo(274895, nil, nil, 2, 3, 2)
+local specWarnGlacialBreath			= mod:NewSpecialWarningDodge(274891, nil, nil, nil, 2, 2, nil, nil, "breathsoon")
+local specWarnFreezingTempest		= mod:NewSpecialWarningMoveTo(274895, nil, nil, 2, 3, 2, nil, nil, "findshelter")
 
 local timerPermafrostSpikeCD		= mod:NewCDTimer(10.2, 274896, nil, nil, nil, 3)
 local timerGlacialBreathCD			= mod:NewCDTimer(43.2, 274891, nil, nil, nil, 3)

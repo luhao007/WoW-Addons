@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("NyalothaTrash", "DBM-Raids-BfA", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 mod.isTrashMod = true
@@ -17,21 +17,21 @@ mod:RegisterEvents(
 local warnPsychicDetonation					= mod:NewTargetNoFilterAnnounce(316623, 3)
 local warnFearTheVoid						= mod:NewTargetAnnounce(311550, 3)
 
-local specWarnShadowSmash					= mod:NewSpecialWarningDodge(310780, nil, nil, nil, 2, 2)
-local specWarnBurstingShadows				= mod:NewSpecialWarningDodge(315011, nil, nil, nil, 2, 2)
-local specWarnDreadWind						= mod:NewSpecialWarningDodge(159409, nil, nil, nil, 2, 2)
-local specWarnBrutalSmash					= mod:NewSpecialWarningDodge(315932, nil, nil, nil, 3, 2)--This will wreck even a tank, it does over 900k damage, airhorn
-local specWarnRainofBlood					= mod:NewSpecialWarningDodge(311544, nil, nil, nil, 2, 2)
-local specWarnSanguineFountain				= mod:NewSpecialWarningDodge(314433, nil, nil, nil, 2, 2)
-local specWarnFeartheVoid					= mod:NewSpecialWarningMoveAway(311550, nil, nil, nil, 1, 2)--Aoe Fear
+local specWarnShadowSmash					= mod:NewSpecialWarningDodge(310780, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBurstingShadows				= mod:NewSpecialWarningDodge(315011, nil, nil, nil, 2, 2, nil, nil, "watchorb")
+local specWarnDreadWind						= mod:NewSpecialWarningDodge(159409, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnBrutalSmash					= mod:NewSpecialWarningDodge(315932, nil, nil, nil, 3, 2, nil, nil, "watchstep")--This will wreck even a tank, it does over 900k damage, airhorn
+local specWarnRainofBlood					= mod:NewSpecialWarningDodge(311544, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnSanguineFountain				= mod:NewSpecialWarningDodge(314433, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+local specWarnFeartheVoid					= mod:NewSpecialWarningMoveAway(311550, nil, nil, nil, 1, 2, nil, nil, "runout")--Aoe Fear
 local yellFeartheVoid						= mod:NewYell(311550)
 local yellFeartheVoidFades					= mod:NewShortFadesYell(316623)
-local specWarnPsychicDetonation				= mod:NewSpecialWarningMoveAway(316623, nil, nil, nil, 1, 2)
+local specWarnPsychicDetonation				= mod:NewSpecialWarningMoveAway(316623, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellPsychicDetonation					= mod:NewYell(316623)
 local yellPsychicDetonationFades			= mod:NewShortFadesYell(316623)
-local specWarnAnnihilation					= mod:NewSpecialWarningDodgeLoc(307403, nil, nil, nil, 2, 2)
-local specWarnDirgefromBelow				= mod:NewSpecialWarningInterrupt(310839, "HasInterrupt", nil, nil, 1, 2)
-local specWarnVoidBoltVolley				= mod:NewSpecialWarningInterrupt(311576, "HasInterrupt", nil, nil, 1, 2)
+local specWarnAnnihilation					= mod:NewSpecialWarningDodgeLoc(307403, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnDirgefromBelow				= mod:NewSpecialWarningInterrupt(310839, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnVoidBoltVolley				= mod:NewSpecialWarningInterrupt(311576, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 
 local playerName = UnitName("player")
 

@@ -180,10 +180,11 @@ end
 -- Implementation
 app:CreateWindow("Random", {
 	Commands = { "attrandom" },
+	RootCommands = { "ran", "rand", "random" },
 	IgnoreQuestUpdates = true,
 	OnLoad = function(self, settings)
 		SearchFilter = settings.SearchFilter or "Quest";
-		
+
 		-- For this window's options to work, Prime needs to be fully initialized.
 		local prime = app:GetWindow("Prime");
 		if not prime.data.TLUG then prime:ForceUpdate(); end
@@ -197,7 +198,7 @@ app:CreateWindow("Random", {
 		for i=#self.data.g,#self.data.options + 1,-1 do
 			tremove(self.data.g, i);
 		end
-		
+
 		-- Call to our method and build a list to draw from
 		local cache = app.GetCachedData("SEARCH::" .. SearchFilter, CreateCache);
 		local weightedTable, totalWeight = unpack(cache);

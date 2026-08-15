@@ -122,6 +122,7 @@ local baseLocale = {
     ["My Corpse"] = "My Corpse",
     ["No"] = "No",
     ["No contents to save"] = "No contents to save",
+    ["No map data is available for map #%d."] = "No map data is available for map #%d.",
     ["No page found with title '%s'"] = "No page found with title '%s'",
     ["No pages saved"] = "No pages saved",
     ["Normally when TomTom sets the closest waypoint it chooses the waypoint in your current zone. This option will cause TomTom to search for any waypoints on your current continent. This may lead you outside your current zone, so it is disabled by default."] = "Normally when TomTom sets the closest waypoint it chooses the waypoint in your current zone. This option will cause TomTom to search for any waypoints on your current continent. This may lead you outside your current zone, so it is disabled by default.",

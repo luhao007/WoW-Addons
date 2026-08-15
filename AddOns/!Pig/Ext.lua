@@ -1,17 +1,17 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
+local addonName, PD = ...;
 local Locale= GetLocale()
-local EnableAddOn=EnableAddOn or C_AddOns and C_AddOns.EnableAddOn
+local L=PD.locale
+local Data=PD.Data
 -----
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
 local PIGOptionsList=Create.PIGOptionsList
 local PIGFontString=Create.PIGFontString
 local PIGSetFont=Create.PIGSetFont
-local Data=addonTable.Data
+
 --------
-local extname ={"Tardis","GDKP","Farm"}
+local extname ={"Tardis","GDKP","Farm","LFG"}
 L.addnames ={addonName}
 for i=1,#extname do
 	L.addnames[i+1] =addonName.."_"..extname[i]
@@ -21,36 +21,17 @@ L.audioName ={}
 for i=1,#audioname do
 	L.audioName[i]=addonName.."_"..audioname[i].."Audio"
 end
-local addData={
-	[L.addnames[1]]={
-		open=true,
-	},
-	[L.addnames[2]]={
-		open=true,
-	},
-	[L.addnames[3]]={
-		open=true,
-	},
-	[L.addnames[4]]={
-		open=true,
-	},
-	[L.audioName[1]]={
-		open=true,
-	},
-	[L.audioName[2]]={
-		open=true,
-	},
-	[L.audioName[3]]={
-		open=true,
-	},
-	[L.audioName[4]]={
-		open=true,
-	},
-}
+local addData={}
+for i=1,#L.addnames do
+	addData[L.addnames[i]]={open=true,}
+end
+for i=1,#L.audioName do
+	addData[L.audioName[i]]={open=true,}
+end
 if Locale == "zhCN" or Locale == "zhTW" then
 	local DOWN_url1 = "网易DD(dd.163.com)|cff00FFFF插件库|r搜索"
 	local DOWN_url2 = "新手盒子(wclbox.com)|cff00FFFF插件库|r搜索"
-	local DOWN_url3 = "新手盒子(wclbox.com)|cffFF00FF配置分享改为按标题&作者搜索"
+	--local DOWN_url3 = "新手盒子(wclbox.com)|cffFF00FF配置分享改为按标题&作者搜索"
 	for i=1,#L.addnames do
 		addData[L.addnames[i]].down_1 = DOWN_url1
 		addData[L.addnames[i]].down_2 = DOWN_url2
@@ -62,12 +43,14 @@ if Locale == "zhCN" or Locale == "zhTW" then
 	if Locale == "zhCN" then
 		addData[L.addnames[1]].nameLocale="工具箱"
 		addData[L.addnames[1]].tooltip="工具合集。整合很多小功能，可以极大减少你的插件数量"
-		addData[L.addnames[2]].nameLocale="汇合石(时空之门)"
-		addData[L.addnames[2]].tooltip="组队增强，查找队伍或车头/找队员/换位面/便捷喊话（智能邀请回复）"
+		addData[L.addnames[2]].nameLocale="时空之门"
+		addData[L.addnames[2]].tooltip="寻找车头/老板/换位面/便捷喊话(智能邀请回复)"
 		addData[L.addnames[3]].nameLocale="金团助手"
 		addData[L.addnames[3]].tooltip="拾取记录，快速拍卖/出价，补助/罚款记录，分G助手等"
 		addData[L.addnames[4]].nameLocale="带本助手"
 		addData[L.addnames[4]].tooltip="伐木/带本日志"
+		addData[L.addnames[5]].nameLocale="汇合石(集合石)"
+		addData[L.addnames[5]].tooltip="类集合石插件，提供查找队伍/成员功能"
 		addData[L.audioName[1]].nameLocale="饽饽语音包"
 		addData[L.audioName[1]].tooltip="..."
 		addData[L.audioName[2]].nameLocale="露露语音包"
@@ -79,12 +62,14 @@ if Locale == "zhCN" or Locale == "zhTW" then
 	elseif Locale == "zhTW" then
 		addData[L.addnames[1]].nameLocale="工具箱"
 		addData[L.addnames[1]].tooltip="工具合集。整合很多小功能，可以極大減少你的插件數量"
-		addData[L.addnames[2]].nameLocale="匯合石(時空之門)"
-		addData[L.addnames[2]].tooltip="組隊增強，查找隊伍或車頭/找隊員/換位面/便捷喊話（智能邀請回復）"
+		addData[L.addnames[2]].nameLocale="時空之門"
+		addData[L.addnames[2]].tooltip="尋找車頭/老闆/換位面/便捷喊話(智能邀請回覆)"
 		addData[L.addnames[3]].nameLocale="金團助手"
 		addData[L.addnames[3]].tooltip="拾取記錄，快速拍賣/出價，補助/罰款記錄，分G助手等"
 		addData[L.addnames[4]].nameLocale="帶本助手"
 		addData[L.addnames[4]].tooltip="伐木/帶本日誌"
+		addData[L.addnames[5]].nameLocale="匯合石(集合石)"
+		addData[L.addnames[5]].tooltip="類集合石插件，提供尋找隊伍/成員功能"
 		addData[L.audioName[1]].nameLocale="餑餑語音包"
 		addData[L.audioName[1]].tooltip="..."
 		addData[L.audioName[2]].nameLocale="露露語音包"
@@ -97,7 +82,18 @@ if Locale == "zhCN" or Locale == "zhTW" then
 else
 	local DOWN_url1 = "CurseForge app Search"
 	local DOWN_url2 = "Wago Add Search"
-	local DOWN_url3 = "----"
+	local DOWN_url3 = "Contact the author to obtain it."
+	for i=1,#L.addnames-1 do
+		addData[L.addnames[i]].down_1 = DOWN_url1
+		addData[L.addnames[i]].down_2 = DOWN_url2
+	end
+	addData[L.addnames[4]].down_1 = DOWN_url3
+	addData[L.addnames[4]].down_2 = DOWN_url3
+	for i=1,#L.audioName do
+		addData[L.audioName[i]].down_1 = DOWN_url1
+		addData[L.audioName[i]].down_2 = DOWN_url2
+	end
+
 	addData[L.addnames[1]].nameLocale="Toolbox"
 	addData[L.addnames[1]].tooltip="A toolbox. Integrating many small features can greatly reduce the number of plug-ins you have"
 	addData[L.addnames[2]].nameLocale="Rally(Tardis)"
@@ -106,12 +102,8 @@ else
 	addData[L.addnames[3]].tooltip="GDKP Assistant"
 	addData[L.addnames[4]].nameLocale="Farm"
 	addData[L.addnames[4]].tooltip="Dungeon adventure log"
-	for i=1,#L.addnames-1 do
-		addData[L.addnames[i]].down_1 = DOWN_url1
-		addData[L.addnames[i]].down_2 = DOWN_url2
-	end
-	addData[L.addnames[4]].down_1 = DOWN_url3
-	addData[L.addnames[4]].down_2 = DOWN_url3
+	addData[L.addnames[5]].nameLocale="LFG_Plus"
+	addData[L.addnames[5]].tooltip="Group Finder Page Enhancement"
 	---
 	addData[L.audioName[1]].nameLocale=audioname[1].."Audio"
 	addData[L.audioName[1]].tooltip="..."
@@ -121,10 +113,7 @@ else
 	addData[L.audioName[3]].tooltip="..."
 	addData[L.audioName[4]].nameLocale=audioname[4].."Audio"
 	addData[L.audioName[4]].tooltip="..."
-	for i=1,#L.audioName do
-		addData[L.audioName[i]].down_1 = DOWN_url1
-		addData[L.audioName[i]].down_2 = DOWN_url2
-	end
+
 end
 L.ExtList = {}
 for i=1,#L.addnames do
@@ -202,7 +191,7 @@ local function add_extLsitFrame(ly,fuFrame,addname,adddata,YY)
 			addnameF.err:SetTextColor(1, 0, 0, 1);
 			addnameF.Reloadbut = PIGButton(addnameF,{"LEFT", addnameF.err, "RIGHT", 0,0},{100,22},ENABLE);
 			addnameF.Reloadbut:SetScript("OnClick", function ()
-				EnableAddOn(addname)
+				PIGEnableAddOn(addname)
 				ReloadUI();
 			end)
 			addnameF.Reloadbut:Hide()
@@ -230,19 +219,44 @@ local function add_extLsitFrame(ly,fuFrame,addname,adddata,YY)
 	return addnameF
 end
 Create.add_extLsitFrame=add_extLsitFrame
+local function Update_SetUI(addname)
+	local SetUIData=L.ExtList[addname].SetUIData
+	local fuFrame,fuFrameBut,Update_SetUI=unpack(SetUIData)
+	if not L.ExtList[addname].open then
+		add_extLsitFrame("open",fuFrame,addname,L.ExtList[addname])
+	elseif not PIGIsAddOnLoaded(addname) then
+		add_extLsitFrame("error",fuFrame,addname,L.ExtList[addname])
+	end
+end
 for ExtID=2,#L.addnames do
 	local addname=L.addnames[ExtID]
 	local adddata=L.ExtList[addname]
-	local fuFrame,fuFrameBut = PIGOptionsList(adddata.nameLocale,"EXT")
-	Data.Ext[addname]={fuFrame,fuFrameBut,adddata}
-	function fuFrame.IsOpenUpdate(add_name)
-		if not L.ExtList[add_name].open then
-			add_extLsitFrame("open",fuFrame,add_name,L.ExtList[add_name])
-		elseif not PIGIsAddOnLoaded(add_name) then
-			add_extLsitFrame("error",fuFrame,add_name,L.ExtList[add_name])
+	adddata.Update_SetUI=Update_SetUI
+end
+function PD.ExtAddonsFun()
+	for ExtID=2,#L.addnames do
+		local adddata=L.ExtList[L.addnames[ExtID]]
+		if adddata.LoadFun then
+			adddata.LoadFun()
+			adddata.OpenSetUI=function(button)
+				if button=="RightButton" then
+					PD.UpdateOptionsUI()
+					local fuFrame,fuFrameBut=unpack(L.ExtList[L.addnames[ExtID]].SetUIData)
+					Create.Show_TabBut(fuFrame,fuFrameBut)
+				end
+			end
 		end
 	end
-	fuFrame:HookScript("OnShow", function (self)
-		if self.IsOpenUpdate then self.IsOpenUpdate(addname) end
-	end);
+end
+
+function PD.addOptions_Ext()
+	for ExtID=2,#L.addnames do
+		local addname=L.addnames[ExtID]
+		local adddata=L.ExtList[addname]
+		local fuFrame,fuFrameBut = PIGOptionsList(adddata.nameLocale,"EXT")
+		adddata.SetUIData={fuFrame,fuFrameBut}
+		fuFrame:HookScript("OnShow", function (self)
+			adddata.Update_SetUI(addname)
+		end);
+	end
 end

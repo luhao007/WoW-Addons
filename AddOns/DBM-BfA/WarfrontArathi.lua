@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("WarfrontArathi", "DBM-BfA", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 
@@ -29,19 +29,19 @@ local warnAncestralCall				= mod:NewSpellAnnounce(303075, 3)
 local warnDevastated				= mod:NewTargetNoFilterAnnounce(297012, 4, nil, "Tank|Healer")
 
 --General Stuff (trash)
-local specWarnHeal					= mod:NewSpecialWarningInterrupt(262309, "HasInterrupt", nil, nil, 1, 2)
+local specWarnHeal					= mod:NewSpecialWarningInterrupt(262309, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 --Alliance - Rokhan
-local specWarnChainedLightning		= mod:NewSpecialWarningInterrupt(273110, "HasInterrupt", nil, nil, 1, 2)
-local specWarnFlamePlague			= mod:NewSpecialWarningMoveAway(303808, nil, nil, nil, 1, 2)
+local specWarnChainedLightning		= mod:NewSpecialWarningInterrupt(273110, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+local specWarnFlamePlague			= mod:NewSpecialWarningMoveAway(303808, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellFlamePlague				= mod:NewYell(303808)
-local specWarnHexBomb				= mod:NewSpecialWarningMoveAway(272853, nil, nil, nil, 1, 2)
+local specWarnHexBomb				= mod:NewSpecialWarningMoveAway(272853, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellHexBomb					= mod:NewYell(272853)
 local yellHexBombFadesFades			= mod:NewShortFadesYell(272853)
 --Horde - Danath Trollbane
-local specWarnDevastated			= mod:NewSpecialWarningDefensive(297012, nil, nil, nil, 1, 2)
-local specWarnDevastatedSwap		= mod:NewSpecialWarningTaunt(297012, nil, nil, nil, 1, 2)
-local specWarnEarthshatter			= mod:NewSpecialWarningDodge(270411, nil, nil, nil, 2, 2)
-local specWarnStromgardeBombardment	= mod:NewSpecialWarningDodge(276658, nil, nil, nil, 2, 2)
+local specWarnDevastated			= mod:NewSpecialWarningDefensive(297012, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnDevastatedSwap		= mod:NewSpecialWarningTaunt(297012, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnEarthshatter			= mod:NewSpecialWarningDodge(270411, nil, nil, nil, 2, 2, nil, nil, "shockwave")
+local specWarnStromgardeBombardment	= mod:NewSpecialWarningDodge(276658, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 --Alliance - Rokhan
 local timerFlamePlagueCD			= mod:NewCDTimer(35.1, 303808, nil, nil, nil, 3, nil, nil, nil, 1, 3)

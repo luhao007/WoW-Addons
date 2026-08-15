@@ -151,7 +151,7 @@ function Details:ResetSpecCache(forced)
                 if (type(playerSpec) == "number") then
                     local specId = DetailsFramework.GetSpecializationInfo(playerSpec)
                     if (type(specId) == "number") then
-                        local playerGuid = UnitGUID(Details.playername)
+                        local playerGuid = UnitGUID("player")
                         if (playerGuid) then
                             Details.cached_specs[playerGuid] = specId
                         end
@@ -568,7 +568,16 @@ end
 --compress data
 
 -- ~compress ~zip ~export ~import ~deflate ~serialize
-function Details:CompressData(data, dataType)
+function Details:CompressData(data, dataType, bUseBlizzardEncoding)
+	if bUseBlizzardEncoding then
+		local dataCopied = DetailsFramework.table.copytocompress({}, data)
+		local serializedString = C_EncodingUtil.SerializeCBOR(dataCopied)
+		local compressedString = C_EncodingUtil.CompressString(serializedString)
+		local encodedString = C_EncodingUtil.EncodeBase64(compressedString)
+		local file = "D!ProfileV2-" .. encodedString
+		return file
+	end
+
 	local LibDeflate = LibStub:GetLibrary("LibDeflate")
 	local LibAceSerializer = LibStub:GetLibrary("AceSerializer-3.0")
 
@@ -594,6 +603,17 @@ function Details:CompressData(data, dataType)
 end
 
 function Details:DecompressData(data, dataType)
+	if data:sub(1, #"D!ProfileV2-") == "D!ProfileV2-" then
+		local encodedString = string.sub(data, #"D!ProfileV2-" + 1)
+		local decodedString = C_EncodingUtil.DecodeBase64(encodedString)
+		local decompressedString = C_EncodingUtil.DecompressString(decodedString)
+		if (decompressedString) then
+			local decodedData = C_EncodingUtil.DeserializeCBOR(decompressedString)
+			return decodedData
+		end
+		return ""
+	end
+
 	local LibDeflate = LibStub:GetLibrary("LibDeflate")
 	local LibAceSerializer = LibStub:GetLibrary("AceSerializer-3.0")
 

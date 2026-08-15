@@ -2,7 +2,7 @@
 local mod	= DBM:NewMod("Thaddius", "DBM-Raids-WoTLK", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260425035317")
+mod:SetRevision("20260726162743")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15928)
 mod:SetEncounterID(1120)
@@ -22,8 +22,8 @@ local warnShiftCasting		= mod:NewCastAnnounce(28089, 4)
 local warnThrow				= mod:NewSpellAnnounce(28338, 2)
 local warnThrowSoon			= mod:NewSoonAnnounce(28338, 1)
 
-local warnChargeChanged		= mod:NewSpecialWarning("WarningChargeChanged", nil, nil, nil, 3, 2, nil, nil, 28089)
-local warnChargeNotChanged	= mod:NewSpecialWarning("WarningChargeNotChanged", false, nil, nil, 1, 12, nil, nil, 28089)
+local warnChargeChanged		= mod:NewSpecialWarning("WarningChargeChanged", nil, nil, nil, 3, 2, nil, nil, 28089, nil, "stilldanger")
+local warnChargeNotChanged	= mod:NewSpecialWarning("WarningChargeNotChanged", false, nil, nil, 1, 12, nil, nil, 28089, nil, "dontmove")
 local yellShift				= mod:NewShortPosYell(28089, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
 
 local enrageTimer			= mod:NewBerserkTimer(365)
@@ -71,20 +71,12 @@ do
 	function mod:UNIT_AURA()
 		if self.vb.phase ~= 2 or not lastShift or (GetTime() - lastShift) < 3 then return end
 		local charge
-		local i = 1
-		-- Modify the original C_Spell.UnitDebuff to DBM:UnitDebuff
-		while DBM:UnitDebuff("player", i) do
-			local _, icon, count, _, _, _, _, _, _, _, _, _, _, _, _, count2 = DBM:UnitDebuff("player", i)
-			if icon == "Interface\\Icons\\Spell_ChargeNegative" or icon == 135768 then--Not sure if classic will return data ID or path, so include both
-				if (count2 or count) > 1 then return end--Incorrect aura, it's stacking damage one
-				charge = L.Charge1
-				yellShift:Yell(7, "- -")
-			elseif icon == "Interface\\Icons\\Spell_ChargePositive" or icon == 135769 then--Not sure if classic will return data ID or path, so include both
-				if (count2 or count) > 1 then return end--Incorrect aura, it's stacking damage one
-				charge = L.Charge2
-				yellShift:Yell(6, "+ +")
-			end
-			i = i + 1
+		if DBM:UnitDebuff("player", 28084) then
+		    charge = L.Charge1 -- Negative Charge
+			yellShift:Yell(7, "- -")
+		elseif DBM:UnitDebuff("player", 28059) then
+		    charge = L.Charge2 -- Positive Charge
+			yellShift:Yell(6, "+ +")
 		end
 		if charge then
 			lastShift = nil

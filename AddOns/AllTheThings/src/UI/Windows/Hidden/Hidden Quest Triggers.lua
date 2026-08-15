@@ -6,6 +6,7 @@ local DESCRIPTION_SEPARATOR = app.DESCRIPTION_SEPARATOR;
 -- Implementation
 app:CreateWindow("Hidden Quest Triggers", {
 	Commands = { "atthqt", "atthqts" },
+	RootCommands = { "hqt" },
 	HideFromSettings = true,
 	Preload = true,
 	OnInit = function(self)

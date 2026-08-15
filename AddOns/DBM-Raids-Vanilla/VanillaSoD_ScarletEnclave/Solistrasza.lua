@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20260315035425")
+mod:SetRevision("20260709012018")
 mod:DisableHardcodedOptions()
 
 mod:SetZone(2856)
@@ -35,7 +35,7 @@ local timerAddExplode	= mod:NewCastNPTimer(30, 1232333)
 
 -- Cremation: Hotfixed, can no longer be interrupted
 local timerCremation	= mod:NewVarTimer("v30-45", 1228044)
-local specWarnCremation	= mod:NewSpecialWarningDodge(1228044, true, nil, 2, 1, 2)
+local specWarnCremation	= mod:NewSpecialWarningDodge(1228044, true, nil, 2, 1, 2, nil, nil, "watchstep")
 
 -- Hallowed Dive: 3 different spells, looks like 1227696 happens first, timer seems random, dodge this, but not super important
 -- This might mess with other timers, as it's a somewhat long animation
@@ -44,7 +44,7 @@ local warnHallowedDive = mod:NewSpellAnnounce(1227696)
 -- Tarnished Breath: Tank swap mechanic, 10% damage per stack, so probably swap at 1 already, or at most 2
 -- Don't make the main warning tank only, there are too many tank specs in SoD that aren't handled by this (Warlock, Shaman, Rogue)
 local warnBreathStack		= mod:NewStackAnnounce(1231993, 2)
-local specWarnBreathStack	= mod:NewSpecialWarningStack(1231993, "Tank", 2, nil, nil, 1, 6)
+local specWarnBreathStack	= mod:NewSpecialWarningStack(1231993, "Tank", 2, nil, nil, 1, 6, nil, nil, "tauntboss")
 local yellBreathStack		= mod:NewCountYell(1231993)
 
 
@@ -114,7 +114,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(1231993) then
 		local amount = args.amount or 1
-		local uId = DBM:GetRaidUnitId(args.destName)
+		local uId = DBM:GetRaidUnitId(args.destName, true)
 		if self:IsTanking(uId, nil, nil, false, args.sourceGUID) then
 			warnBreathStack:Show(args.destName, amount)
 			if args:IsPlayer() then

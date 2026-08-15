@@ -35,6 +35,7 @@ local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 	fujiui.ButList={}
 	local function addqkbut(id)
 		local But = CreateFrame("CheckButton",nil, fujiui, "SecureActionButtonTemplate");
+		But:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square")
 		But.icon = But:CreateTexture()
 		But.icon:SetSize(54,54);
 		But.icon:SetAllPoints(But)
@@ -227,8 +228,10 @@ local function TradeSkillFunc()
 					if ElvUI then
 						SlotDropDown:ClearAllPoints()
 						SlotDropDown:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 530, -30)
-						self.backdrop:SetPoint("TOPLEFT",self,"TOPLEFT",0,0);
-						self.backdrop:SetPoint("BOTTOMRIGHT",self,"BOTTOMRIGHT",-32,42);
+						if self.backdrop then
+							self.backdrop:SetPoint("TOPLEFT",self,"TOPLEFT",0,0);
+							self.backdrop:SetPoint("BOTTOMRIGHT",self,"BOTTOMRIGHT",-32,42);
+						end
 					end	
 				end);
 			else

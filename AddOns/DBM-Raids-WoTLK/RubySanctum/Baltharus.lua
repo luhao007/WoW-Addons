@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,normal25,heroic,heroic25"
 
-mod:SetRevision("20260315035355")
+mod:SetRevision("20260523022030")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(39751)
 mod:SetEncounterID(not mod:IsPostCata() and 890 or 1147)
@@ -24,8 +24,8 @@ local warningSplitSoon		= mod:NewAnnounce("WarningSplitSoon", 2)
 local warnWhirlwind			= mod:NewSpellAnnounce(75125, 3, nil, "Tank|Healer")
 local warningWarnBrand		= mod:NewTargetAnnounce(74505, 4)
 
-local specWarnBrand			= mod:NewSpecialWarningYou(74505, nil, nil, nil, 3, 2)
-local specWarnRepellingWave	= mod:NewSpecialWarningSpell(74509, nil, nil, nil, 2, 2)
+local specWarnBrand			= mod:NewSpecialWarningYou(74505, nil, nil, nil, 3, 2, nil, nil, "targetyou")
+local specWarnRepellingWave	= mod:NewSpecialWarningSpell(74509, nil, nil, nil, 2, 2, nil, nil, "carefly")
 
 local timerWhirlwind		= mod:NewBuffActiveTimer(4, 75125, nil, "Tank|Healer", nil, 3)
 local timerRepellingWave	= mod:NewCastTimer(4, 74509, nil, nil, nil, 2)--1 second cast + 3 second stun

@@ -1,3 +1,6 @@
-ReplaceMent = {
-    
+WagoAppCompanionData = {
+    ["stash"] = {},
+    ["ids"] = {},
+    ["slugs"] = {},
+    ["uids"] = {}
 }

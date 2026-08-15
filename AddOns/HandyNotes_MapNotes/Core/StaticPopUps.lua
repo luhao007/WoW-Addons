@@ -15,15 +15,17 @@ function ns.RestoreStaticPopUpsRetail()
       if ns.Addon.db.profile.RestoreAllIcons then
         wipe(ns.dbProfile.CapitalsDeletedIcons)
         wipe(ns.dbProfile.MinimapCapitalsDeletedIcons)
-        wipe(ns.dbProfile.CapitalsDeletedIcons)
-        wipe(ns.dbProfile.MinimapCapitalsDeletedIcons)
         wipe(ns.dbProfile.AzerothDeletedIcons)
         wipe(ns.dbProfile.ContinentDeletedIcons)
         wipe(ns.dbProfile.ZoneDeletedIcons)
         wipe(ns.dbProfile.MinimapZoneDeletedIcons)
         wipe(ns.dbProfile.DungeonDeletedIcons)
+        wipe(ns.dbProfile.TaxiDeletedIcons)
+        wipe(ns.dbProfile.DelveDeletedIcons)
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["All deleted icons have been restored"])
       end
+      if ns.RefreshTaxiMapIfOpen then ns.RefreshTaxiMapIfOpen() end
+      if ns.RefreshContinentDelvesPins then ns.RefreshContinentDelvesPins() end
       HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
     end,
     OnCancel = function()
@@ -138,7 +140,48 @@ function ns.RestoreStaticPopUpsRetail()
     end,
     timeout = 5,
   }
-  
+
+  StaticPopupDialogs["Restore_Taxi?"] = {
+    text = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " • " .. FLIGHT_MAP .. " " .. TextIconMNL4:GetIconString() .. "\n" .. L["Restore all deleted icons"] .. " ?",
+    button1 = YES,
+    button2 = NO,
+    showAlert = true,
+    exclusive = true,
+    whileDead = true,
+    hideOnEscape = true,
+    OnAccept = function()
+      if ns.Addon.db.profile.RestoreTaxiDeletedIcons then
+        wipe(ns.dbProfile.TaxiDeletedIcons)
+        print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", FLIGHT_MAP .. " - " .. "|cff00ff00" .. L["All deleted icons have been restored"])
+      end
+      if ns.RefreshTaxiMapIfOpen then ns.RefreshTaxiMapIfOpen() end
+      HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+    end,
+    timeout = 5,
+  }
+
+  StaticPopupDialogs["Restore_Delve?"] = {
+    text = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " • " .. DELVES_LABEL .. " " .. TextIconMNL4:GetIconString() .. "\n" .. L["Restore all deleted icons"] .. " ?",
+    button1 = YES,
+    button2 = NO,
+    showAlert = true,
+    exclusive = true,
+    whileDead = true,
+    hideOnEscape = true,
+    OnAccept = function()
+      if ns.Addon.db.profile.RestoreDelveDeletedIcons then
+        wipe(ns.dbProfile.DelveDeletedIcons)
+        print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", DELVES_LABEL .. " - " .. "|cff00ff00" .. L["All deleted icons have been restored"])
+      end
+      if ns.RefreshContinentDelvesPins then ns.RefreshContinentDelvesPins() end
+      HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+    end,
+    OnCancel = function()
+      print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. "|cffffff00 " .. DELVES_LABEL .. " - " .. L["Restore all deleted icons"] .. "|cffff0000 " .. L["canceled"])
+    end,
+    timeout = 5,
+  }
+
   StaticPopupDialogs["Leave_Delve?"] = {
     text = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " • " .. INSTANCE_LEAVE .. " (" .. DELVES_LABEL .. ") ?" .. " " .. TextIconMNL4:GetIconString() .."\n" .. "\n" .. L["If you press 'YES', the current run is over and you will be placed outside the entrance"] .. " (" .. DELVE_LABEL .. ")" .. "\n" .. "\n" .. L["This will immediately abort and end the current instance run!"],
     button1 = YES,
@@ -171,8 +214,6 @@ function ns.RestoreStaticPopUps()
     hideOnEscape = true,
     OnAccept = function()
       if ns.Addon.db.profile.RestoreAllIcons then
-        wipe(ns.dbProfile.CapitalsDeletedIcons)
-        wipe(ns.dbProfile.MinimapCapitalsDeletedIcons)
         wipe(ns.dbProfile.CapitalsDeletedIcons)
         wipe(ns.dbProfile.MinimapCapitalsDeletedIcons)
         wipe(ns.dbProfile.AzerothDeletedIcons)

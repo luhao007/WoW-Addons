@@ -25,7 +25,13 @@ local function AddWaypointUIWaypoint(mapID, x, y, name)
 		local fixedX = RSUtils.FixCoord(x)
 		local fixedY = RSUtils.FixCoord(y)
 		if (fixedX and fixedY) then
-			WaypointUIAPI.Navigation.NewUserNavigation(name, tonumber(mapID), fixedX * 100, fixedY * 100)
+			WaypointUIAPI.Navigation.NewUserNavigation({
+                name = name,
+                mapID = tonumber(mapID),
+                x = fixedX * 100,
+                y = fixedY * 100,
+            })
+            
 			waypointui_waypoint = true
 		end
 	end

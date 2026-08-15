@@ -35,10 +35,76 @@ end)
 frame.Bg:SetTexture("Interface\\FrameGeneral\\UI-Background-Rock")
 frame.Bg:SetColorTexture(0, 0, 0, 0.8)
 
-CreateFrame("Button", nil, frame, "UIPanelCloseButtonDefaultAnchors")
+local closeBtn = CreateFrame("Button", nil, frame, "UIPanelCloseButtonDefaultAnchors")
+closeBtn:SetFrameLevel(frame.NineSlice:GetFrameLevel() + 10)
+
+local spareTextFrames, usedTextFrames = {}, {}
+local pendingInspects = {}
+local pendingCommReplies = {}
+local guildGearData = {}
+local inspectRetryCounts = {}
+local inspectRetryDeadlines = {}
+local knownRosterMembers = {}
+local activeInspect = {}
+local inspectToken = 0
+local commRequestToken = 0
+local guildSyncToken = 0
+local guildGearQuerySent = false
+local guildUpdatePending = false
+local inspectUpdateElapsed = 0
+local pendingRosterRefresh = false
+local sortGear = {}
+local commReplyTimeoutSeconds = 3
+local inspectTimeoutSeconds = 4
+local inspectMaxRetries = 6
+local guildGearQuerySpamSeconds = 60
+local maxReasonableItemLevel = 10000
+local guildUpdateDebounceSeconds = 0.2
+local inspectRetryWindowSeconds = 30
+local validAnchorPoints = {
+	TOP = true,
+	BOTTOM = true,
+	LEFT = true,
+	RIGHT = true,
+	CENTER = true,
+	TOPLEFT = true,
+	TOPRIGHT = true,
+	BOTTOMLEFT = true,
+	BOTTOMRIGHT = true
+}
+
+local tabs, tabsBtn, selectedTab = {}, {}, 1
+
+local WipeTextFrames, Refresh, SendGuildGearSyncRequest, ShouldUseCommScan, RequestNextInspect, HandleRosterUpdate, ScanGear
+
+function frame:CreateTab(title, OnShowFn)
+	local i = #tabs + 1
+	tabs[i] = OnShowFn
+	---@class DBMGearTabButton: Button
+	---@field Text FontString
+	local _tab = CreateFrame("Button", nil, frame, "PanelTabButtonTemplate")
+	tabsBtn[i] = _tab
+	PanelTemplates_SetNumTabs(self, i)
+	if i == 1 then
+		_tab:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 11, 2)
+	else
+		_tab:SetPoint("TOPLEFT", tabsBtn[i - 1], "TOPRIGHT", 1, 0)
+	end
+	_tab.Text:SetText(title)
+	_tab:SetScript("OnClick", function()
+		self:ShowTab(i)
+	end)
+end
+
+function frame:ShowTab(tab)
+	PanelTemplates_SetTab(self, tab)
+	WipeTextFrames()
+	selectedTab = tab
+	tabs[tab]()
+end
 
 local scroll = CreateFrame("ScrollFrame", nil, frame, "ScrollFrameTemplate")
-scroll:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -30)
+scroll:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -50)
 scroll:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -24, 30)
 
 local child = CreateFrame("Frame", nil, scroll)
@@ -54,33 +120,17 @@ refresh:Show()
 refresh:SetNormalTexture("Interface\\Buttons\\UI-RefreshButton")
 refresh:SetPushedTexture("Interface\\Buttons\\UI-RefreshButton-Down")
 refresh:SetHighlightTexture("Interface\\Buttons\\UI-RefreshButton")
+refresh:SetScript("OnClick", function()
+	if selectedTab == 1 then
+		Refresh()
+	elseif selectedTab == 2 then
+		if ShouldUseCommScan() and IsInGuild() then
+			SendGuildGearSyncRequest()
+		end
+	end
+end)
 
-local spareTextFrames, usedTextFrames = {}, {}
-local pendingInspects = {}
-local inspectRetryCounts = {}
-local inspectRetryDeadlines = {}
-local knownRosterMembers = {}
-local activeInspect = {}
-local inspectToken = 0
-local inspectUpdateElapsed = 0
-local pendingRosterRefresh = false
-local sortGear = {}
-local inspectTimeoutSeconds = 4
-local inspectMaxRetries = 6
-local inspectRetryWindowSeconds = 30
-local validAnchorPoints = {
-	TOP = true,
-	BOTTOM = true,
-	LEFT = true,
-	RIGHT = true,
-	CENTER = true,
-	TOPLEFT = true,
-	TOPRIGHT = true,
-	BOTTOMLEFT = true,
-	BOTTOMRIGHT = true
-}
-
-local function WipeTextFrames()
+function WipeTextFrames()
 	for _frame in next, usedTextFrames do
 		if not _frame.Keep and not _frame.IsSpare then
 			_frame.IsSpare = true
@@ -207,7 +257,7 @@ local function SortGear(v1, v2)
 	return v1.name < v2.name
 end
 
-local function Update()
+local function UpdateRaidTab()
 	wipe(sortGear)
 	for _, v in pairs(DBM:GetRaidRoster()) do
 		tinsert(sortGear, v)
@@ -249,10 +299,63 @@ local function Update()
 	scroll:UpdateScrollChildRect()
 end
 
+local function UpdateGuildTab()
+	WipeTextFrames()
+
+	local guildPlayers = {}
+	for name in pairs(guildGearData) do
+		tinsert(guildPlayers, {name = name, class = guildGearData[name].class, gearilvl = guildGearData[name].itemLevel, gearmissinggems = guildGearData[name].missingGems, gearmissingenchants = guildGearData[name].missingEnchants})
+	end
+	tsort(guildPlayers, SortGear)
+
+	for i, v in ipairs(guildPlayers) do
+		local fullName = v.name
+		local name = DBM:GetShortServerName(fullName) or fullName
+		local playerClass = v.class
+		local playerColor = RAID_CLASS_COLORS[playerClass]
+		if playerColor then
+			name = ("|r|cff%.2x%.2x%.2x%s|r|cff%.2x%.2x%.2x"):format(playerColor.r * 255, playerColor.g * 255, playerColor.b * 255, name, 0.41 * 255, 0.8 * 255, 0.94 * 255)
+		end
+
+		local offset = -((i - 1) * 14) - 4
+		local textPlayer, textItemLevel, textMissingGems, textMissingEnchants = GetTextFrame(), GetTextFrame(), GetTextFrame(), GetTextFrame()
+
+		textPlayer:SetText(name)
+		textPlayer:SetPoint("TOP", titlePlayer, "BOTTOM", 0, offset)
+		textPlayer:SetWidth(playerWidth)
+
+		textItemLevel:SetText(GetGearText(v))
+		textItemLevel:SetPoint("TOP", titleItemLevel, "BOTTOM", 0, offset)
+		textItemLevel:SetWidth(itemLevelWidth)
+
+		textMissingGems:SetText(tostring(v.gearmissinggems or 0))
+		textMissingGems:SetPoint("TOP", titleMissingGems, "BOTTOM", 0, offset)
+		textMissingGems:SetWidth(missingGemsWidth)
+
+		textMissingEnchants:SetText(tostring(v.gearmissingenchants or 0))
+		textMissingEnchants:SetPoint("TOP", titleMissingEnchants, "BOTTOM", 0, offset)
+		textMissingEnchants:SetWidth(missingEnchantsWidth)
+	end
+
+	local scrollHeight = scroll:GetHeight()
+	child:SetHeight(mmax(scrollHeight, 50 + #guildPlayers * 14))
+	scroll:UpdateScrollChildRect()
+end
+
+local function Update()
+	if selectedTab == 1 then
+		UpdateRaidTab()
+	elseif selectedTab == 2 then
+		UpdateGuildTab()
+	end
+end
+
 local function ClearInspectQueue()
 	inspectToken = inspectToken + 1
+	commRequestToken = commRequestToken + 1
 	ClearInspectPlayer()
 	wipe(pendingInspects)
+	wipe(pendingCommReplies)
 	wipe(inspectRetryCounts)
 	wipe(inspectRetryDeadlines)
 	wipe(knownRosterMembers)
@@ -260,6 +363,7 @@ local function ClearInspectQueue()
 end
 
 local function MarkInspectUnavailable(name)
+	pendingCommReplies[name] = nil
 	inspectRetryCounts[name] = nil
 	inspectRetryDeadlines[name] = nil
 	SetPlayerGearState(name, nil, nil, nil, false, true)
@@ -285,9 +389,83 @@ local function QueueInspectRetry(name)
 	return false
 end
 
-local RequestNextInspect
-local Refresh
-local HandleRosterUpdate
+function ShouldUseCommScan()
+	if not (C_ChatInfo and C_ChatInfo.InChatMessagingLockdown) then
+		return false
+	end
+	return not C_ChatInfo.InChatMessagingLockdown()
+end
+
+local function ShouldAwaitCommReply(name)
+	return DBM:CheckDBM(name) and true or false
+end
+
+local function RemovePendingInspect(name)
+	for i = #pendingInspects, 1, -1 do
+		if pendingInspects[i] == name then
+			tremove(pendingInspects, i)
+		end
+	end
+end
+
+local function SendGearSyncRequest()
+	if not frame:IsShown() or not private.sendSync or not ShouldUseCommScan() or not next(pendingCommReplies) then
+		return
+	end
+	commRequestToken = commRequestToken + 1
+	local requestToken = commRequestToken
+	private.sendSync(private.DBMSyncProtocol or 1, "GIQ", nil, "NORMAL")
+	C_Timer.After(commReplyTimeoutSeconds, function()
+		if not frame:IsShown() or requestToken ~= commRequestToken then
+			return
+		end
+		local queuedInspect = false
+		for name in pairs(pendingCommReplies) do
+			pendingCommReplies[name] = nil
+			if knownRosterMembers[name] then
+				tinsert(pendingInspects, name)
+				queuedInspect = true
+			end
+		end
+		if queuedInspect then
+			Update()
+			RequestNextInspect()
+		end
+	end)
+end
+
+function SendGuildGearSyncRequest()
+	if not frame:IsShown() or not private.sendGuildSync or not ShouldUseCommScan() or not IsInGuild() then
+		return
+	end
+	wipe(guildGearData)
+	guildGearQuerySent = true
+	-- Seed our own data since self-sent GGR messages are filtered out in AddonComms.
+	-- UnitName("player") has no realm suffix, matching the key format GetCorrectSender produces
+	-- for same-realm WHISPER senders. Cross-realm peers arrive as "Name-Realm" via GetCorrectSender,
+	-- so there is no collision between the local player and any same-name cross-realm guild member.
+	local selfName = UnitName("player")
+	local selfItemLevel, selfMissingGems, selfMissingEnchants = ScanGear("player")
+	if type(selfItemLevel) == "number" then
+		local selfClass = select(2, UnitClass("player"))
+		guildGearData[selfName] = {class = selfClass, itemLevel = selfItemLevel, missingGems = selfMissingGems or 0, missingEnchants = selfMissingEnchants or 0}
+	end
+	guildSyncToken = guildSyncToken + 1
+	local requestToken = guildSyncToken
+	private.sendGuildSync(private.DBMSyncProtocol or 1, "GGQ", nil)
+	C_Timer.After(commReplyTimeoutSeconds + 2, function()
+		-- Guard staleness first: a rapid re-request increments guildSyncToken, making this timer stale.
+		-- Resetting guildGearQuerySent here would close the active query window and silently drop replies.
+		if requestToken ~= guildSyncToken then
+			return
+		end
+		guildGearQuerySent = false
+		if not frame:IsShown() or selectedTab ~= 2 then
+			return
+		end
+		Update()
+	end)
+end
 
 --Only valid for midnight. No classic flavors supported since I don't play those
 local enchantableSlots = {
@@ -308,9 +486,8 @@ local enchantableSlots = {
 --	[17] = true,--OffHand
 }
 
---TODO, replace with a sync based approach that can remove some limitations like decimal ilvl on players other than self
 --TODO, collect list of enchant Ids and show a () next to count showing number of cheap enchants in use
-local function ScanGear(unit)
+function ScanGear(unit)
 	if not unit then
 		return
 	end
@@ -389,6 +566,7 @@ local function FinishInspect(token, itemLevel, missingGems, missingEnchants)
 	if type(itemLevel) ~= "number" then
 		QueueInspectRetry(activeInspect.name)
 	else
+		pendingCommReplies[activeInspect.name] = nil
 		inspectRetryCounts[activeInspect.name] = nil
 		inspectRetryDeadlines[activeInspect.name] = nil
 		SetPlayerGearState(activeInspect.name, itemLevel, missingGems, missingEnchants, false, false)
@@ -452,7 +630,9 @@ end
 
 local function SeedRaid()
 	local playerName = DBM:GetUnitFullName("player")
+	local useComms = private.sendSync and ShouldUseCommScan()
 	wipe(knownRosterMembers)
+	wipe(pendingCommReplies)
 	for name in pairs(DBM:GetRaidRoster()) do
 		knownRosterMembers[name] = true
 		if name == playerName then
@@ -463,15 +643,24 @@ local function SeedRaid()
 				MarkInspectUnavailable(name)
 			else
 				SetPlayerGearState(name, nil, nil, nil, true, false)
-				tinsert(pendingInspects, name)
+				if useComms and ShouldAwaitCommReply(name) then
+					pendingCommReplies[name] = true
+				else
+					tinsert(pendingInspects, name)
+				end
 			end
 		end
+	end
+	if useComms then
+		SendGearSyncRequest()
 	end
 end
 
 function HandleRosterUpdate()
 	local roster = DBM:GetRaidRoster()
 	local playerName = DBM:GetUnitFullName("player")
+	local useComms = private.sendSync and ShouldUseCommScan()
+	local needsCommRequest = false
 	local currentMembers = {}
 
 	for i = #pendingInspects, 1, -1 do
@@ -491,6 +680,11 @@ function HandleRosterUpdate()
 			inspectRetryDeadlines[name] = nil
 		end
 	end
+	for name in next, pendingCommReplies do
+		if not roster[name] then
+			pendingCommReplies[name] = nil
+		end
+	end
 
 	if activeInspect.name and not roster[activeInspect.name] then
 		wipe(activeInspect)
@@ -508,15 +702,31 @@ function HandleRosterUpdate()
 					MarkInspectUnavailable(name)
 				else
 					SetPlayerGearState(name, nil, nil, nil, true, false)
-					tinsert(pendingInspects, name)
+					if useComms and ShouldAwaitCommReply(name) then
+						pendingCommReplies[name] = true
+						needsCommRequest = true
+					else
+						tinsert(pendingInspects, name)
+					end
 				end
 			end
+		end
+	end
+
+	if not useComms and next(pendingCommReplies) then
+		for name in pairs(pendingCommReplies) do
+			pendingCommReplies[name] = nil
+			tinsert(pendingInspects, name)
 		end
 	end
 
 	wipe(knownRosterMembers)
 	for name in pairs(currentMembers) do
 		knownRosterMembers[name] = true
+	end
+
+	if useComms and needsCommRequest then
+		SendGearSyncRequest()
 	end
 
 	Update()
@@ -529,10 +739,6 @@ function Refresh()
 	Update()
 	RequestNextInspect()
 end
-
-refresh:SetScript("OnClick", function()
-	Refresh()
-end)
 
 local function OnEvent(_, event, arg1)
 	if event == "GROUP_ROSTER_UPDATE" then
@@ -601,10 +807,109 @@ function GearCheck:Show()
 	frame:RegisterEvent("PLAYER_REGEN_ENABLED")
 	frame:SetScript("OnEvent", OnEvent)
 	frame:SetScript("OnUpdate", OnUpdate)
+	if #tabs == 0 then
+		frame:CreateTab(GROUP, function()
+			if frame:IsShown() then
+				Refresh()
+			end
+		end)
+		frame:CreateTab(GUILD, function()
+			if ShouldUseCommScan() and IsInGuild() then
+				SendGuildGearSyncRequest()
+			end
+		end)
+	end
 	frame:Show()
-	Refresh()
+	frame:ShowTab(1)
 end
 
 function GearCheck:Hide()
 	frame:Hide()
+end
+
+function GearCheck:OnSync(event, sender, itemLevel, missingGems, missingEnchants, classToken)
+	if event == "GIQ" then
+		if not private.sendSync or sender == UnitName("player") or not DBM:GetRaidRoster(sender) then
+			return
+		end
+		local selfItemLevel, selfMissingGems, selfMissingEnchants = ScanGear("player")
+		if type(selfItemLevel) == "number" then
+			private.sendSync(private.DBMSyncProtocol or 1, "GIR", ("%s\t%d\t%d"):format(selfItemLevel, selfMissingGems or 0, selfMissingEnchants or 0), "NORMAL")
+		end
+	elseif event == "GIR" then
+		if sender == DBM:GetUnitFullName("player") then
+			return
+		end
+		if not DBM:GetRaidRoster(sender) then
+			return
+		end
+		pendingCommReplies[sender] = nil
+		RemovePendingInspect(sender)
+		if activeInspect.name == sender then
+			wipe(activeInspect)
+			ClearInspectPlayer()
+		end
+		itemLevel = tonumber(itemLevel)
+		missingGems = tonumber(missingGems)
+		missingEnchants = tonumber(missingEnchants)
+		if type(itemLevel) == "number" then
+			inspectRetryCounts[sender] = nil
+			inspectRetryDeadlines[sender] = nil
+			SetPlayerGearState(sender, RoundItemLevel(itemLevel), missingGems or 0, missingEnchants or 0, false, false)
+		else
+			SetPlayerGearState(sender, nil, nil, nil, true, false)
+			tinsert(pendingInspects, sender)
+		end
+		if frame:IsShown() then
+			Update()
+			if #pendingInspects > 0 and not activeInspect.name then
+				RequestNextInspect()
+			end
+		end
+	elseif event == "GGQ" then
+		-- Use UnitName (no realm) to match the ambiguated sender format from GetCorrectSender.
+		-- GetUnitFullName returns "Name-Realm" which never equals an ambiguated same-realm sender.
+		if not private.sendWhisperSync or sender == UnitName("player") or not IsInGuild() then
+			return
+		end
+		if C_ChatInfo and C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown() then
+			return
+		end
+		if not DBM:AntiSpam(guildGearQuerySpamSeconds, "GGQ:" .. sender) then
+			return
+		end
+		local selfItemLevel, selfMissingGems, selfMissingEnchants = ScanGear("player")
+		if type(selfItemLevel) == "number" then
+			local selfClass = select(2, UnitClass("player")) or ""
+			private.sendWhisperSync(private.DBMSyncProtocol or 1, "GGR", ("%s\t%d\t%d\t%s"):format(selfItemLevel, selfMissingGems or 0, selfMissingEnchants or 0, selfClass), sender, "NORMAL")
+		end
+	elseif event == "GGR" then
+		if sender == UnitName("player") then
+			return
+		end
+		if not guildGearQuerySent or not IsInGuild() then
+			return
+		end
+		itemLevel = tonumber(itemLevel)
+		missingGems = tonumber(missingGems)
+		missingEnchants = tonumber(missingEnchants)
+		if type(classToken) ~= "string" or classToken == "" then
+			classToken = nil
+		end
+		if type(itemLevel) ~= "number" or itemLevel < 0 or itemLevel > maxReasonableItemLevel then
+			return
+		end
+		missingGems = mmax(0, mfloor(missingGems or 0))
+		missingEnchants = mmax(0, mfloor(missingEnchants or 0))
+		guildGearData[sender] = {class = classToken, itemLevel = itemLevel, missingGems = missingGems, missingEnchants = missingEnchants}
+		if frame:IsShown() and selectedTab == 2 and not guildUpdatePending then
+			guildUpdatePending = true
+			C_Timer.After(guildUpdateDebounceSeconds, function()
+				guildUpdatePending = false
+				if frame:IsShown() and selectedTab == 2 then
+					Update()
+				end
+			end)
+		end
+	end
 end

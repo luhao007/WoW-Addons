@@ -1,6 +1,6 @@
 local addonName, T = ...
-if T.Mark ~= 50 then
-	local m = T.Mark == nil and "You must restart World of Warcraft after installing this update." or ADDON_INCOMPATIBLE
+if T.Mark ~= 266 then
+	local m = "Restart World of Warcraft. If this error persists, delete and re-install Master Plan."
 	if type(T.L) == "table" and type(T.L[m]) == "string" then m = T.L[m] end
 	return print("|cffffffff[Master Plan]: |cffff8000" .. m)
 end

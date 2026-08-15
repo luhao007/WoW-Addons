@@ -70,10 +70,11 @@ local Alts = {} -- namespace for Alts routines as needed
 ---@field sync_global boolean -- may implement
 
 -- ******************************** Variables *******************************
-local alts_tt = {}  -- Holds alt data for tooltip display; gen once except for logged in toon
+local alts_tt = {}  -- Holds alt data for tooltip display
 local alts_tt_sort_col = "" -- one sort to rule them all...
 local alts_tt_sort_ascend = true -- default on click; click again to flip
 local tt_frame = {} -- tooltip on the QTip :)
+local menu_toons = {} -- sorted foir menu
 
 Titan_Debug.alts = {}
 Titan_Debug.alts.tool_tips = false
@@ -913,23 +914,17 @@ local function GeneratorFunction(owner, rootDescription)
 	--		for idx, pdata in TitanUtils_PlayerIter() do
 	local opts_show_toons = Titan_Menu.AddButton(root, L["TITAN_PANEL_MENU_PROFILE_CHARS"])
 	do -- next level options
-		for idx, pdata in TitanUtils_PlayerIter() do
-			local result, toon_info = TitanUtils_GetProfileInfo(idx, "Alts", false)
-			if result == "is_custom" then
-				-- skip, can not log in
-			elseif toon_info then
-				Titan_Menu.AddSelectorGeneric(opts_show_toons, idx,
-					function(data)
-						return data.toon.show
-					end,
-					function(data)
-						data.toon.show = not data.toon.show
-					end,
-					{ toon = toon_info }
-				)
-			else
-				-- not user selectable to hide
-			end
+		for idx = 1, #menu_toons do -- already curated
+			local result, toon_info = TitanUtils_GetProfileInfo(menu_toons[idx], "Alts", false)
+			Titan_Menu.AddSelectorGeneric(opts_show_toons, menu_toons[idx],
+				function(data)
+					return data.toon.show
+				end,
+				function(data)
+					data.toon.show = not data.toon.show
+				end,
+				{ toon = toon_info }
+			)
 		end
 	end
 	Titan_Menu.SetScroll(opts_show_toons, scroll_hgt) -- in case menu height is larger than screen / window
@@ -1029,6 +1024,27 @@ local function OnShow(self)
 	max_level = GetMaxPlayerLevel() -- GetMaxLevelForPlayerExpansion()
 
 	TitanPanelGetVar("TooltipTimeout")
+
+	do -- sort toon list for menu; only need once
+		menu_toons = {}
+		for idx, pdata in TitanUtils_PlayerIter() do
+			local result, toon_info = TitanUtils_GetProfileInfo(idx, "Alts", false)
+			if result == "is_custom" then
+				-- skip, can not log in
+			elseif toon_info then
+				table.insert(menu_toons, idx)
+			else
+				-- not user selectable so hide
+			end
+		end
+		-- sort the list, regardless of server
+		for idx = 1, #menu_toons do
+			table.sort(menu_toons, function(a, b)
+				return a < b
+			end)
+		end
+	end
+
 end
 
 local function OnHide(self)
@@ -1119,7 +1135,15 @@ local function Create_Frames()
 		if is_over then
 			TitanUtils_StopFrameCounting(self)
 		else
-			TitanUtils_CheckFrameCounting(self, elapsed);
+			local status = TitanUtils_CheckFrameCounting(self, elapsed)
+			if status == "Active" then
+				-- counting down
+			elseif status == "Inactive" then
+				-- user needs time to enter
+			else
+				-- should catch all the edge cases
+				self:Hide()
+			end
 		end
 	end)
 

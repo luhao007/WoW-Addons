@@ -28,18 +28,25 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S1 = "Nemesis: |cnHIGHLIGHT_
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S2 = "Nemesis: |cnHIGHLIGHT_FONT_COLOR:The Underpin|r~The War Within Season 2"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S3 = "Nemesis: |cnHIGHLIGHT_FONT_COLOR:Ky'Veza|r~The War Within Season 3"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S1 = "Nemesis: |cnHIGHLIGHT_FONT_COLOR:Nullaeus|r~Midnight Season 1"
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S2 = "Nemesis: |cnHIGHLIGHT_FONT_COLOR:Azta'rec|r~Midnight Season 2"
+-----
 
 -- Delves UI
+
+Lockit.UI_DELVES_LIST_MODIFIERS_TEXT = _G["MODIFIERS_COLON"]
 
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "Besuche die Gebiete von Khaz Algar, um den Fortschritt zu sehen."
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "Besuche die Gebiete von Quel'Thalas, um den Fortschritt zu sehen."
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "Erscheint nur in großzügigen Tiefen der |cnNORMAL_FONT_COLOR:Stufe 11|r |A:delves-bountiful:16:16|a."
+Lockit.UI_GILDED_STASH_CRESTS_NOTE = "Each stash contains %d |cnIQ4:Myth Crests|r (|cnNORMAL_FONT_COLOR:%d per week|r in total)."
+Lockit.UI_JOURNEY_LEVEL_REQUIRED = "Requires Journey Level %d"
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "Keine aktiven Tiefen."
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Klicken, um Beuteinformationen der Tiefen anzuzeigen>"
 
 -- Loot Info
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "Schließe eine Tiefe ab um folgendes zu erhalten:"
+Lockit.UI_LOOT_INFO_TIPS = "|A:delves-treasure-upgrade:16:16|a |cnNORMAL_FONT_COLOR:%s|r: Enemy groups should be killed before the final boss. Killing them later doesn't add more rewards to the chest. Crests are added killing 3+ groups on the specified Tiers.\n\n|T%s:16|t |cnNORMAL_FONT_COLOR:%s|r: Unlocks at Delves Journey Level 4. The stash is lootable 4 times per week."
 
 -- Delves Gossip
 Lockit.UI_DELVE_AUTO_ENTER_SELECTED_TIER = "Auto Enter (Tier %d)" -- %d is a Tier number (1-11).
@@ -62,9 +69,9 @@ Lockit.UI_SETTING_DELVE_PROGRESS_WIDGETS_NAME = "Tiefen-Fortschrittsinfo"
 Lockit.UI_SETTING_DELVES_LIST_INFO_WIDGETS_TOOLTIP = "Tiefen-Liste: Zeige den Erfolgsfortschritt für jede Tiefe an (Geschichten und Truhen)."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_NAME = "Art der Wegpunktverfolgung"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_START = "Wähle aus, welche Art von Wegpunkten für die Navigation verwendet werden soll.\n\nMögliche Optionen:"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "- Blizzards-Kartenpin (die Standard-Navigation im Spiel)"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "- TomTom-Wegpunkte"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "- MapPinEnhanced-Wegpunkte"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "   • Blizzards-Kartenpin (die Standard-Navigation im Spiel)"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "   • TomTom-Wegpunkte"
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "   • MapPinEnhanced-Wegpunkte"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM_UNAVAILABLE_FORMAT = "%s (%s)."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_NAME = "Blizzard"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_DESCRIPTION = "verwende Blizzards-Kartenpin"
@@ -93,7 +100,7 @@ Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "Highlight whether the active
 Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Show Minimap Icon"
 Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to quickly access the current season Delves info."
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Auto Enter Delves"
-Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n- The Tier has not been unlocked yet.\n- It's a Nemesis Delve.\n- It's a Bountiful Delve but you don't have a |cnIQ4:Restored Coffer Key|r nor enough |cnIQ3:Coffer Key Shards|r to assemble the key."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n   • The Tier has not been unlocked yet.\n   • It's a Nemesis Delve.\n   • It's a Bountiful Delve but you don't have a |cnIQ4:Restored Coffer Key|r nor enough |cnIQ3:Coffer Key Shards|r to assemble the key."
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "Delve Tier to enter."
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "Enter Delay"
 Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "A Delve will be entered with a delay (in seconds).\n\nThere is a button in the window displayed entering a Delve. It can be clicked to cancel the auto entering before the delay countdown elapsed."
@@ -116,6 +123,11 @@ Lockit.UI_SETTING_LOGS_NAME = "Debugmeldungen aktivieren"
 Lockit.UI_SETTING_LOGS_TOOLTIP = "Erlaubt die Ausgabe von Debugmeldungen im Chat. Wird für Entwicklungs- und Testzwecke verwendet."
 
 Lockit.UI_SETTINGS_TRANSLATION_TITLE = "Ein besonderer Dank an die folgenden Übersetzer:"
+
+-- The following strings are joined into a list using "\n" (a new line) as a delimiter.
+Lockit.UI_SETTINGS_SLASH_CMD_TEXT = "Slash Commands:"
+Lockit.UI_SETTINGS_SLASH_CMD_SHOWDELVES = "   • |cnNORMAL_FONT_COLOR:/delvecompanion|r or |cnNORMAL_FONT_COLOR:/delvecomp|r or |cnNORMAL_FONT_COLOR:/delves|r: Opens the current season Delves encounter in the Adventure Guide (the same behaviour as clicking the minimap icon)." -- The commands themselves should NOT be translated.
+-----
 
 Lockit.UI_SETTINGS_LINKS_TITLE = "Links"
 Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_CURSEFORGE = "Klicke hier um die URL nach |cnNORMAL_FONT_COLOR:CurseForge|r zu kopieren."

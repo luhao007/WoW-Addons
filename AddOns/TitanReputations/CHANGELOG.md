@@ -1,6 +1,6 @@
 # Titan Panel [Reputation]
 
-## [v1.60](https://github.com/Eliote/TitanReputation/tree/v1.60) (2026-04-04)
-[Full Changelog](https://github.com/Eliote/TitanReputation/compare/v1.59...v1.60) [Previous Releases](https://github.com/Eliote/TitanReputation/releases)
+## [v1.61](https://github.com/Eliote/TitanReputation/tree/v1.61) (2026-07-22)
+[Full Changelog](https://github.com/Eliote/TitanReputation/compare/v1.60...v1.61) [Previous Releases](https://github.com/Eliote/TitanReputation/releases)
 
-- Add Russian localization  
+- Update toc file  

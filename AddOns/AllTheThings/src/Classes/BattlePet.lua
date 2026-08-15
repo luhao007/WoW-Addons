@@ -20,19 +20,6 @@ local CLASSNAME = "BattlePet"
 local C_PetJournal_GetNumCollectedInfo,C_PetJournal_GetPetInfoByPetID,C_PetJournal_GetPetInfoBySpeciesID,C_PetJournal_GetPetInfoByIndex,C_PetJournal_GetNumPets,C_PetJournal_GetPetStats
 	= C_PetJournal.GetNumCollectedInfo,C_PetJournal.GetPetInfoByPetID,C_PetJournal.GetPetInfoBySpeciesID,C_PetJournal.GetPetInfoByIndex,C_PetJournal.GetNumPets,C_PetJournal.GetPetStats
 
--- Due to bad Blizzard data being returned from C_PetJournal.GetNumPets
--- we can only use the method of scanning the players collected pets if this API returns the proper number of total
--- pets existing within the game
-app.PrintDebug("BattlePet.Load:C_PetJournal_GetNumPets",C_PetJournal_GetNumPets())
-local TOTAL_PETS_FOR_SCAN
-if app.IsClassic then
-	-- TODO: adjust/revise if viable
-	TOTAL_PETS_FOR_SCAN = 100
-else
-	-- updated 11.1
-	TOTAL_PETS_FOR_SCAN = 2412
-end
-
 local cache = app.CreateCache(KEY);
 local function CacheInfo(t, field)
 	local _t, id = cache.GetCached(t);
@@ -63,7 +50,7 @@ local CollectedSpeciesHelper = setmetatable({}, {
 			local num = C_PetJournal_GetNumCollectedInfo(key)
 			-- app.PrintDebug("SPECIES->NUM",key,num)
 			if not num then
-				app.PrintDebug("SpeciesID " .. key .. " was not found.")
+				-- app.PrintDebug("SpeciesID " .. key .. " was not found.")
 				num = 0
 			end
 			t[key] = num
@@ -101,14 +88,16 @@ app.CreateSpecies = app.CreateClass(CLASSNAME, KEY, {
 		return app.TypicalAccountCollected(CACHE, t[KEY])
 	end,
 	saved = function(t)
-		local saved = CollectedSpeciesHelper[t[KEY]] > 0
+		local id = t[KEY]
+		local saved = CollectedSpeciesHelper[id] > 0
 		-- weird bug where ATT fails to scan battle pets,
 		-- can manually make it collected when checking the saved state (i.e. displayed in a row)
 		-- character collected
 		if saved then
-			if not t.collected then
-				app.SetThingCollected(KEY, t[KEY], not PerCharacterSpecies[t[KEY]], true)
-			end
+			-- hopefully no longer needed...
+			-- if not t.collected then
+			-- 	app.SetThingCollected(KEY, id, not PerCharacterSpecies[id], true)
+			-- end
 			return 1
 		end
 	end,
@@ -149,62 +138,26 @@ app.CreateSpecies = app.CreateClass(CLASSNAME, KEY, {
 },
 function(t) return t.itemID end);
 
-local function RefreshBattlePets()
-	local totalPets, ownedPets = C_PetJournal_GetNumPets()
-	app.PrintDebug("RCBP",totalPets,ownedPets)
+app.AddEventHandler("OnRefreshCollections", function()
 	wipe(CollectedSpeciesHelper)
 	local acct, char, none = {}, {}, {}
-	local count = 0
 	local num
-	-- ownedPets may reflect accurately but the C_PetJournal_GetPetInfoByIndex data will be missing entirely regardless
-	ownedPets = (totalPets or 0) >= TOTAL_PETS_FOR_SCAN and ownedPets or 0
 
-	if ownedPets > 0 then
-		-- ideally this is the case: we can scan user's actually-collected pets, track the petID's,
-		-- and everything is great
-		app.PrintDebug("RCBP:Scan")
-		local petID, speciesID
-		for i=1,ownedPets do
-			petID, speciesID = C_PetJournal_GetPetInfoByIndex(i)
-			-- app.PrintDebug("RCBP",i,petID,speciesID,speciesID and CollectedSpeciesHelper[speciesID])
-			-- apparently some users can have a nil speciesID here...
-			if speciesID then
-				num = CollectedSpeciesHelper[speciesID]
-				if num > 0 then
-					if petID then
-						PetIDSpeciesIDHelper[petID] = speciesID
-					end
-					if PerCharacterSpecies[speciesID] then
-						char[speciesID] = true
-					end
-					acct[speciesID] = true
-					count = count + 1
-				end
-			end
-		end
-		-- when the actual set of learned pets has ACTUALLY been scanned and determined
-		-- we can wipe the BattlePet caches to ensure data is accurate
-		if count > 0 then
-			app.WipeCached(CACHE)
-			app.WipeCached(CACHE, true)
-		end
-	else
-		app.PrintDebug("RCBP:Cache")
-		-- otherwise we will have to use the ATT speciesID cache to scan collected, and this will mean that
-		-- caged pets will fail to be detected as removed immediately and require a refresh to detect
-		for speciesID,_ in pairs(app.GetRawFieldContainer("speciesID")) do
-			-- app.PrintDebug("RCBP",speciesID,CollectedSpeciesHelper[speciesID])
-			num = CollectedSpeciesHelper[speciesID]
-			if num > 0 then
-				if PerCharacterSpecies[speciesID] then
-					char[speciesID] = true
-				end
-				acct[speciesID] = true
+	-- app.PrintDebug("RCBP.Cache")
+	for speciesID in pairs(app.GetRawFieldContainer("speciesID")) do
+		-- app.PrintDebug("RCBP",speciesID,CollectedSpeciesHelper[speciesID])
+		num = CollectedSpeciesHelper[speciesID]
+		if num > 0 then
+			if PerCharacterSpecies[speciesID] then
+				char[speciesID] = true
 			else
-				none[speciesID] = true
+				acct[speciesID] = true
 			end
+		else
+			none[speciesID] = true
 		end
 	end
+	-- app.PrintDebug("RCBP.Cache.Done")
 	-- Remove unknown
 	app.SetBatchCached(CACHE, none)
 	app.SetBatchAccountCached(CACHE, none)
@@ -212,12 +165,30 @@ local function RefreshBattlePets()
 	app.SetBatchCached(CACHE, char, 1)
 	app.SetBatchAccountCached(CACHE, acct, 1)
 	-- app.PrintDebug("RCBP-Done")
-end
-app.AddEventHandler("OnRefreshCollections", RefreshBattlePets)
+end)
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
 	if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
 	if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
 end)
+do
+local function SyncPetIDSpeciesIDHelper()
+	-- app.PrintDebug("RCBP.SyncPetIDs")
+	local i = 1
+	local petID, speciesID = C_PetJournal_GetPetInfoByIndex(i)
+	while petID do
+		-- app.PrintDebug("RCBP",i,petID,speciesID,speciesID and CollectedSpeciesHelper[speciesID])
+		-- apparently some users can have a nil speciesID here...
+		if speciesID then
+			PetIDSpeciesIDHelper[petID] = speciesID
+		end
+		i = i + 1
+		petID, speciesID = C_PetJournal_GetPetInfoByIndex(i)
+	end
+	app.RemoveEventHandler(SyncPetIDSpeciesIDHelper)
+	-- app.PrintDebug("RCBP.SyncPetIDs.Done",i-1)
+end
+app.AddEventHandler("OnRefreshCollectionsDone", SyncPetIDSpeciesIDHelper)
+end
 -- at some point speciesID began to be included in the Event payload, huzzah!
 app.AddEventRegistration("NEW_PET_ADDED", function(petID, speciesID)
 	local speciesID = speciesID or PetIDSpeciesIDHelper[petID]

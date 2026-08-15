@@ -7,7 +7,8 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20260324053510")
+mod:SetRevision("20260724035829")
+mod:SetMinSyncRevision(20260522000000) -- 2026, May 22nd
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15989)
 mod:SetEncounterID(1119)
@@ -20,79 +21,92 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 28522 28547 1219729 1219732",
 	"SPELL_CAST_START 28524",
-	"SPELL_CAST_SUCCESS 28542"--55665 Wrath spellId
+	"SPELL_CAST_SUCCESS 28542"
 )
-
 
 --[[
 ability.id = 28524 and type = "begincast"
  or (ability.id = 28542 or ability.id = 28560) and type = "cast"
 --]]
---TODO, air phase and landing better detection from transcriptor, timer adjustments
-local warnDrainLifeNow	= mod:NewSpellAnnounce(28542, 2)
-local warnDrainLifeSoon	= mod:NewSoonAnnounce(28542, 1)
-local warnIceBlock
-if DBM:IsSeasonal("SeasonOfDiscovery") then
-	warnIceBlock		= mod:NewTargetCountAnnounce(28522, 2)
+local airPhaseTimer = "v54.3-70.8"
+
+local warnDrainLifeNow	= mod:NewSpellAnnounce(28542, 3)
+local warnDrainLifeSoon	= mod:NewSoonAnnounce(28542, 2, nil, "RemoveCurse")
+local warnIceBlock		= mod:NewTargetCountAnnounce(28522, 2)
 	warnIceBlock.noFilter = true
-else
-	warnIceBlock		= mod:NewTargetNoFilterAnnounce(28522, 2)
-end
+
 local warnAirPhaseSoon	= mod:NewAnnounce("WarningAirPhaseSoon", 3, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp")
 local warnAirPhaseNow	= mod:NewAnnounce("WarningAirPhaseNow", 4, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp")
 local warnLanded		= mod:NewAnnounce("WarningLanded", 4, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp")
 
-local warnBlizzard		= mod:NewSpecialWarningGTFO(28547, nil, nil, nil, 1, 8)
-local warnFrostBreath	= mod:NewSpecialWarning("WarningFrostBreath", nil, nil, nil, 1, 2)
+local warnBlizzard		= mod:NewSpecialWarningGTFO(28547, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local warnFrostBreath	= mod:NewSpecialWarningSpell(28524, nil, nil, nil, 3, 2, nil, "135833", "findshelter")
 local yellIceBlock		= mod:NewYell(28522)
 
-local timerDrainLife	= mod:NewCDTimer(22, 28542, nil, nil, nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
-local timerAirPhase		= mod:NewTimer(66, "TimerAir", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)--80?
+local timerDrainLife	= mod:NewVarTimer("v21.1-27.5", 28542, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
+local timerAirPhase		= mod:NewTimer(airPhaseTimer, "TimerAir", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)
 local timerLanding		= mod:NewTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 36 or 28.5, "TimerLanding", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, 6)
-local timerFrostBreath	= mod:NewTimer(7, "TimerFrostBreath", 15876, nil, nil, 2, DBM_COMMON_L.DEADLY_ICON) -- Using the icon for spell 15876 Ice Blast because Frost Breath icon is the default Samwise icon
+local timerFrostBreath 	= mod:NewCastTimer(7, 28524, nil, nil, nil, 2, "135833", DBM_COMMON_L.DEADLY_ICON, nil, 1, 5) -- Using the icon for Frost Breath for later expansions since Era default is Samwise icon
 
-local timerBomb			= mod:NewNextTimer(30.75, 1219729)
-local specWarnBomb		= mod:NewSpecialWarningYou(1219729, nil, nil, nil, 3, 12)
-local specWarnBombSoak	= mod:NewSpecialWarningSoak(1219729, nil, nil, nil, 2, 12)
-local yellBomb			= mod:NewYell(1219729)
-local yellBombFades		= mod:NewShortFadesYell(1219729)
+local timerBomb, specWarnBomb, specWarnBombSoak, yellBomb, yellBombFades
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+	timerBomb			= mod:NewNextTimer(30.75, 1219729)
+	specWarnBomb		= mod:NewSpecialWarningYou(1219729, nil, nil, nil, 3, 12, nil, nil, "bombyou")
+	specWarnBombSoak	= mod:NewSpecialWarningSoak(1219729, nil, nil, nil, 2, 12, nil, nil, "helpsoak")
+	yellBomb			= mod:NewYell(1219729)
+	yellBombFades		= mod:NewShortFadesYell(1219729)
+mod:AddSetIconOption("SetIconOnBombTarget", 1219729, true, 0, {3, 6})
+end
 
 local berserkTimer		= mod:NewBerserkTimer(900)
-
-mod:AddSetIconOption("SetIconOnBombTarget", 1219729, true, 0, {3, 6})
 
 local noTargetTime = 0
 mod.vb.isFlying = false
 mod.vb.iceBlocks = 0
+mod.vb.airPhaseHPThreshold = false
 local UnitAffectingCombat = UnitAffectingCombat
+local isMythic = select(5, DBM:GetCurrentInstanceDifficulty()) == 4
 
 local function resetIsFlying(self)
 	self.vb.isFlying = false
 end
 
-local airPhaseTimer = 66 -- TODO: maybe slightly shorter on non-mythic? but at most a few seconds, doesn't matter because the cast resets it
-
 local function Landing()
 	mod.vb.iceBlocks = 0
-	warnAirPhaseSoon:Schedule(airPhaseTimer - 10)
+	if isMythic or DBM:IsSeasonal("SeasonOfDiscovery") then
+		warnAirPhaseSoon:Schedule(airPhaseTimer - 10)
+	elseif not mod.vb.airPhaseHPThreshold then
+		warnAirPhaseSoon:Schedule(50)
+	end
 	warnLanded:Show()
-	timerAirPhase:Start(airPhaseTimer)
-	mod:Schedule(airPhaseTimer + 1, timerBomb.Stop, timerBomb)
+	if not mod.vb.airPhaseHPThreshold then
+		timerAirPhase:Start(airPhaseTimer)
+	end
+	if DBM:IsSeasonal("SeasonOfDiscovery") then
+		mod:Schedule(airPhaseTimer + 1, timerBomb.Stop, timerBomb)
+	end
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	noTargetTime = 0
 	self.vb.isFlying = false
 	self.vb.iceBlocks = 0
+	self.vb.airPhaseHPThreshold = false
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 	-- TODO: confirm this, it seems to have changed with the Mythic hot fixes for both mythic and normal?
-	local isMythic = select(5, DBM:GetCurrentInstanceDifficulty()) == 4
-	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or 48.5
-	warnAirPhaseSoon:Schedule(initialAirPhaseTimer - 10 - delay)
-	timerAirPhase:Start(initialAirPhaseTimer - delay)
-	self:Schedule(initialAirPhaseTimer + 1 - delay, timerBomb.Stop, timerBomb)
-	berserkTimer:Start(900-delay)
+	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or "v31.2-45.9" -- Air phase timer is variable on Era
+	if isMythic or DBM:IsSeasonal("SeasonOfDiscovery") then
+		warnAirPhaseSoon:Schedule(initialAirPhaseTimer - 10)
+	else
+		warnAirPhaseSoon:Schedule(30)
+	end
+	timerAirPhase:Start(initialAirPhaseTimer)
+	berserkTimer:Start(900)
 	if DBM:IsSeasonal("SeasonOfDiscovery") then -- FIXME: should filter for mythic, but I don't trust the current detection logic
-		timerBomb:Start(30.75 - delay)
+		timerBomb:Start(30.75)
+		self:Schedule(initialAirPhaseTimer + 1, timerBomb.Stop, timerBomb)
 	end
 	self:RegisterOnUpdateHandler(function(self, elapsed)
 		if not self:IsInCombat() then return end
@@ -124,16 +138,16 @@ function mod:OnCombatStart(delay)
 	end, 0.2)
 end
 
+function mod:OnCombatEnd()
+	self:UnregisterOnUpdateHandler()
+	self:UnregisterShortTermEvents()
+end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(28522) and args:IsDestTypePlayer() then
 		self.vb.iceBlocks = self.vb.iceBlocks + 1
-		if DBM:IsSeasonal("SeasonOfDiscovery") then -- They're a few seconds apart on SoD and she lands after 5
 			---@diagnostic disable-next-line: param-type-mismatch
 			warnIceBlock:Show(self.vb.iceBlocks, args.destName)
-		else -- I don't remember how it worked on Era back in the day, but the combined show may be redundant
-			warnIceBlock:CombinedShow(0.5, args.destName)
-		end
 		if args:IsPlayer() then
 			yellIceBlock:Yell()
 		end
@@ -164,7 +178,9 @@ function mod:SPELL_CAST_START(args)
 		self:Schedule(12.2, Landing, self)
 		warnFrostBreath:Show()
 		warnFrostBreath:Play("findshelter")
+		if DBM:IsSeasonal("SeasonOfDiscovery") then
 		timerBomb:Start(14.9) -- TODO: confirm this
+		end
 	end
 end
 
@@ -173,5 +189,21 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnDrainLifeNow:Show()
 		warnDrainLifeSoon:Schedule(18.5)
 		timerDrainLife:Start()
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self:GetUnitCreatureId(uId) == 15989 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
+		self:SendSync("CancelAirPhaseTimer")
+		self:UnregisterShortTermEvents()
+	end
+end
+
+function mod:OnSync(msg)
+	if not self:IsInCombat() then return end
+	if msg == "CancelAirPhaseTimer" and not self.vb.airPhaseHPThreshold then
+		self.vb.airPhaseHPThreshold = true
+		warnAirPhaseSoon:Cancel()
+		timerAirPhase:Stop()
 	end
 end

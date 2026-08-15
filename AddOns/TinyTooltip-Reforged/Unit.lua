@@ -103,8 +103,7 @@ local function GetOriginalSpecLine(tip, className)
             end
         end
     end
-    local newStr, replaced = string.gsub(best, className, "")
-    return newStr
+    return best
 end
 
 local function ColorBorder(tip, config, raw)

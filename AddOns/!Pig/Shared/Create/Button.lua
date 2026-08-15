@@ -71,13 +71,13 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		end)
 		But:HookScript("OnMouseDown", function(self)
 			if self:IsEnabled() and not self.NoClickTextOpen then
-				local point, relativeTo, relativePoint, offsetX, offsetY = self.Text:GetPoint()
+				local point, relativePoint, offsetX, offsetY = PIGGetPoint(self.Text)
 				self.Text:SetPoint(point,self,relativePoint, offsetX+1.5, offsetY-1.5);
 			end
 		end)
 		But:HookScript("OnMouseUp", function(self)
 			if self:IsEnabled() and not self.NoClickTextOpen then
-				local point, relativeTo, relativePoint, offsetX, offsetY = self.Text:GetPoint()
+				local point, relativePoint, offsetX, offsetY = PIGGetPoint(self.Text)
 				self.Text:SetPoint(point,self,relativePoint, offsetX-1.5, offsetY+1.5);
 			end
 		end)
@@ -226,8 +226,8 @@ function Create.PIGDiyTex(fuF,Point,WH,UIName,TemplateP)
 	if Point then
 		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
 	end
-	local iconX = WH and WH[7] or 0
-	local iconY = WH and WH[8] or 0
+	local iconX = WH and WH[6] or 0
+	local iconY = WH and WH[7] or 0
 	But.icon = But:CreateTexture(nil, TemplateP);
 	But.icon:SetSize(WwwTex,HhhTex)
 	But.icon:SetPoint("CENTER",iconX,iconY);
@@ -470,13 +470,14 @@ function Create.PIGOptionsList_R(fuF,tabname,W,Mode,UIName)
 	TAB_F:Hide()
 	local ziframe = {fuF.Top:GetChildren()}
 	local newWH = {W,24}
-	if Mode=="Left" then newWH={24,W} end
+	if Mode=="Left" then newWH={24,W} elseif Mode=="LeftH" then newWH={W,32} end
 	fuF.Top.tabbut = PIGTabBut(fuF.Top,nil,{newWH[1],newWH[2]},tabname)
-	if Mode=="Left" then
+	fuF.Top.tabbut.Text:SetWidth(W-4)
+	if Mode=="Left" or Mode=="LeftH" then
 		if #ziframe==0 then
 			fuF.Top.tabbut:SetPoint("TOPRIGHT", fuF.Top, "TOPRIGHT", 1, -10);
 		else
-			fuF.Top.tabbut:SetPoint("TOP", ziframe[#ziframe], "BOTTOM", 0, -10);
+			fuF.Top.tabbut:SetPoint("TOPRIGHT", ziframe[#ziframe], "BOTTOMRIGHT", 0, -10);
 		end
 	elseif Mode=="Bot" then
 		if #ziframe==0 then

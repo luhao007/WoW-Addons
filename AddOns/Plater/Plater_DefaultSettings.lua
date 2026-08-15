@@ -159,6 +159,8 @@ PLATER_DEFAULT_SETTINGS = {
 		click_space_scale_friendly = {1, 1},
 		overlap_space_scale = {1, 1},
 		overlap_space_scale_friendly = {1, 1},
+		select_space_scale = {1, 1},
+		select_space_scale_friendly = {1, 1},
 		click_space_friendly = {140, 28}, --classic: {132, 32}, retail: {110, 45},
 		click_space_always_show = false,
 		hide_friendly_castbars = false,
@@ -938,7 +940,6 @@ PLATER_DEFAULT_SETTINGS = {
 		aura_show_only_important_buffs_personal = false,
 		
 		aura_show_important = false,
-		aura_show_important_new = false,
 		aura_show_dispellable = true,
 		aura_show_raid = false,
 		aura_show_only_short_dispellable_on_players = false,
@@ -958,6 +959,7 @@ PLATER_DEFAULT_SETTINGS = {
 		aura_show_crowdcontrol = false,
 		aura_show_offensive_cd = false,
 		aura_show_defensive_cd = false,
+		debuff_hide_permanent = false,
 		
 		aura_border_colors = {
 			steal_or_purge = {0, .5, .98, 1},

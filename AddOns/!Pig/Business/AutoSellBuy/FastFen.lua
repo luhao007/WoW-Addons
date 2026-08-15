@@ -1,12 +1,12 @@
-local _, addonTable = ...;
-local BusinessInfo=addonTable.BusinessInfo
+local _, PD = ...;
+local BusinessInfo=PD.BusinessInfo
 function BusinessInfo.FastFen(QuickButUI_index)
-	local L=addonTable.locale
-	local Fun=addonTable.Fun
-	local Data=addonTable.Data
+	local L=PD.locale
+	local Fun=PD.Fun
+	local Data=PD.Data
 	local bagIDMax= Data.bagData["bagIDMax"]
 	
-	local Create=addonTable.Create
+	local Create=PD.Create
 	local PIGButton = Create.PIGButton
 	local PIGOptionsList_R=Create.PIGOptionsList_R
 	local PIGEnter=Create.PIGEnter
@@ -14,13 +14,9 @@ function BusinessInfo.FastFen(QuickButUI_index)
 	local Show_TabBut_R=Create.Show_TabBut_R
 	local PIGCheckbutton=Create.PIGCheckbutton
 	--
-	local GetContainerNumSlots = C_Container.GetContainerNumSlots
-	local GetContainerItemID = C_Container.GetContainerItemID
-	local GetContainerItemLink = C_Container.GetContainerItemLink
-	local PickupContainerItem =C_Container.PickupContainerItem
 	local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 	---
-	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
+	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.uiData)
 	local _GN,_GNE = L["TRADESELLBUY_FEN2"],"Fen"
 	local BindingName = GnUI.."_".._GNE
 	local IconSpell = {132853,13262}
@@ -40,9 +36,9 @@ function BusinessInfo.FastFen(QuickButUI_index)
 	local DestroyMacro = "/cast %s\n/use %d %d"
 	local function zhixingClick(self,button,ly)
 		if button=="LeftButton" then
-			if not IsPlayerSpell(IconSpell[2]) then PIG_OptionsUI:ErrorMsg(string.format(L["TRADESELLBUY_TISP7"],_GN)) return end
+			if not IsPlayerSpell(IconSpell[2]) then PIGErrorMsg(string.format(L["TRADESELLBUY_TISP7"],_GN)) return end
 			if InCombatLockdown() then
-				PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT)
+				PIGErrorMsg(ERR_NOT_IN_COMBAT)
 			else
 				local fenspellname = PIGGetSpellInfo(IconSpell[2])
 				self:SetAttribute("macrotext1", " ")
@@ -51,9 +47,9 @@ function BusinessInfo.FastFen(QuickButUI_index)
 				local shujuy =PIGA["AutoSellBuy"][_GNE.."_List"]
 				if #shujuy>0 then
 					for bag=0,bagIDMax do			
-						local xx=GetContainerNumSlots(bag)
+						local xx=PIGGetContainerNumSlots(bag)
 						for slot=1,xx do
-							local itemID=GetContainerItemID(bag, slot)
+							local itemID=PIGGetContainerItemID(bag, slot)
 							for k=1,#shujuy do
 								if itemID==shujuy[k][1] then
 									self:SetAttribute("macrotext1", string.format(DestroyMacro, fenspellname, bag, slot))
@@ -62,12 +58,12 @@ function BusinessInfo.FastFen(QuickButUI_index)
 							end
 						end
 					end
-					PIG_OptionsUI:ErrorMsg(string.format(L["TRADESELLBUY_TISP6"],_GN))
+					PIGErrorMsg(string.format(L["TRADESELLBUY_TISP6"],_GN))
 				else
 					if ly==1 then
-						PIG_OptionsUI:ErrorMsg(string.format(L["TRADESELLBUY_TISP4"],_GN)..","..KEY_BUTTON2..SETTINGS);
+						PIGErrorMsg(string.format(L["TRADESELLBUY_TISP4"],_GN)..","..KEY_BUTTON2..SETTINGS);
 					else
-						PIG_OptionsUI:ErrorMsg(string.format(L["TRADESELLBUY_TISP4"],_GN));
+						PIGErrorMsg(string.format(L["TRADESELLBUY_TISP4"],_GN));
 					end
 				end	
 			end
@@ -77,19 +73,16 @@ function BusinessInfo.FastFen(QuickButUI_index)
 		zhixingClick(self,button)
 	end);
 	---
-	local QuickButUI=_G[Data.QuickButUIname]
-	fujiF.QkBut = PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",20,-44},{L["ACTION_ADDQUICKBUT"],string.format(L["ACTION_ADDQUICKBUTTIS"],_GN)})
+	fujiF.QkBut = PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",150,-10},{L["ACTION_ADDQUICKBUT"],string.format(L["ACTION_ADDQUICKBUTTIS"],_GN)})
 	fujiF.QkBut:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["AutoSellBuy"][_GNE.."_QkBut"]=true;
-			QuickButUI.ButList[QuickButUI_index]()
-			self.RL:Hide()
 		else
 			PIGA["AutoSellBuy"][_GNE.."_QkBut"]=false;
-			self.RL:Show()
 		end
+		Fun.QuickBut_Update()
 	end);
-	fujiF.QkBut.RL = PIGButton(fujiF.QkBut,{"LEFT",fujiF.QkBut.Text,"RIGHT",4,0},{60,20},RELOADUI)
+	fujiF.QkBut.RL = PIGButton(fujiF.QkBut,{"LEFT",fujiF.QkBut.Text,"RIGHT",4,0},{80,20},RELOADUI)
 	fujiF.QkBut.RL:Hide()
 	fujiF.QkBut.RL:SetScript("OnClick", function (self)
 		ReloadUI()
@@ -97,11 +90,15 @@ function BusinessInfo.FastFen(QuickButUI_index)
 	fujiF:HookScript("OnShow", function (self)
 		self.QkBut:SetChecked(PIGA["AutoSellBuy"][_GNE.."_QkBut"])
 	end);
-	QuickButUI.ButList[QuickButUI_index]=function()
-		if PIGA["QuickBut"]["Open"] and PIGA["AutoSellBuy"]["Open"] and PIGA["AutoSellBuy"][_GNE.."_QkBut"] then
-			if QuickButUI[_GNE] then return end
-			QuickButUI[_GNE]=true
-			local QkBut=PIGQuickBut(nil,string.format(L["TRADESELLBUY_TISP5"],_GN,GnName),IconSpell[1],nil,FrameLevel,"SecureActionButtonTemplate")
+	Create.PIGaddQuickBut(QuickButUI_index,{
+		Open=function()
+			return PIGA["QuickBut"]["Open"] and PIGA["AutoSellBuy"]["Open"] and PIGA["AutoSellBuy"][_GNE.."_QkBut"]
+		end,
+		Icon=IconSpell[1],
+		FrameLevel=FrameLevel,
+		Tooltip=string.format(L["TRADESELLBUY_TISP5"],_GN,GnName),
+		Template="SecureActionButtonTemplate",
+		fun=function(QkBut)
 			QkBut:SetAttribute("type1", "macro")
 			QkBut:HookScript("PreClick",  function (self,button)
 				zhixingClick(self,button,1)
@@ -116,6 +113,6 @@ function BusinessInfo.FastFen(QuickButUI_index)
 					end
 				end
 			end);
-		end
-	end
+		end,
+	})
 end

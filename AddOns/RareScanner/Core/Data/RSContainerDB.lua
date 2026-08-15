@@ -65,6 +65,49 @@ function RSContainerDB.DeleteContainerOpened(containerID)
 end
 
 ---============================================================================
+-- Times opened database
+---============================================================================
+
+local previousOpenedGuids = {}
+
+function RSContainerDB.IncreaseTimesOpened(containerGUID)
+	if (not containerGUID) then
+		return
+	end
+	
+	local _, _, _, _, _, id = strsplit("-", containerGUID)
+	local containerID = id and tonumber(id) or nil
+	
+	if (not containerID) then
+		return
+	end
+	
+	if (not private.dbglobal.container_counters) then
+		private.dbglobal.container_counters = {}
+	end
+	
+	-- Avoid registering the same open twice
+	if (previousOpenedGuids[containerGUID]) then
+		return
+	end
+	
+	private.dbglobal.container_counters[containerID] = (private.dbglobal.container_counters[containerID] or 0) + 1
+	previousOpenedGuids[containerGUID] = true
+	
+	C_Timer.After(60, function()
+		previousOpenedGuids[containerGUID] = nil
+	end)
+end
+
+function RSContainerDB.GetTimesOpened(containerID)
+	if (not containerID or not private.dbglobal.container_counters) then
+		return 0
+	end
+
+	return private.dbglobal.container_counters[containerID] or 0
+end
+
+---============================================================================
 -- Container internal database
 ----- Stores containers information included with the addon
 ---============================================================================
@@ -74,7 +117,7 @@ function RSContainerDB.GetAllInternalContainerInfo()
 end
 
 function RSContainerDB.GetContainerIDsByMapID(mapID)
-	return RSMapDB.GetEntitiesByMapID(mapID, RSConstants.MAP_ENTITY_CONTAINER, true)
+	return RSMapDB.GetEntitiesByMapID(mapID, RSConstants.MAP_ENTITY_CONTAINER)
 end
 
 function RSContainerDB.GetInternalContainerInfo(containerID)

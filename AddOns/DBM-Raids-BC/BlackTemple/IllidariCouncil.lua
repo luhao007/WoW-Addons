@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal25"
 end
 
-mod:SetRevision("20260315035408")
+mod:SetRevision("20260523022044")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(22949, 22950, 22951, 22952)
 mod:SetEncounterID(608, 2480)
@@ -30,9 +30,9 @@ local warnVanishEnd			= mod:NewEndAnnounce(41476, 3)
 local warnDevAura			= mod:NewSpellAnnounce(41452, 3, nil, "Physical", 2)
 local warnResAura			= mod:NewSpellAnnounce(41453, 3, nil, "-Physical", 2)
 
-local specWarnShield		= mod:NewSpecialWarningReflect(41475, "Dps", nil, nil, 1, 2)
-local specWarnGTFO			= mod:NewSpecialWarningGTFO(41481, nil, nil, nil, 1, 8)
-local specWarnCoH			= mod:NewSpecialWarningInterrupt(41455, "HasInterrupt", nil, 2, 1, 2)
+local specWarnShield		= mod:NewSpecialWarningReflect(41475, "Dps", nil, nil, 1, 2, nil, nil, "stopattack")
+local specWarnGTFO			= mod:NewSpecialWarningGTFO(41481, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+local specWarnCoH			= mod:NewSpecialWarningInterrupt(41455, "HasInterrupt", nil, 2, 1, 2, nil, nil, "kickcast")
 local specWarnImmune		= mod:NewSpecialWarning("Immune", false)
 
 local timerVanish			= mod:NewBuffActiveTimer(31, 41476, nil, nil, nil, 6)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2458, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260525233035")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(180773)
 mod:SetEncounterID(2512)
@@ -44,9 +44,9 @@ local warnWaveofDesintegration					= mod:NewCountAnnounce(361001, 4, nil, "Melee
 local warnDissonance							= mod:NewStackAnnounce(364447, 2, nil, "Tank|Healer")
 local warnBlast									= mod:NewSpellAnnounce(360176, 3, nil, false)--Spammy
 
-local specWarnPreFabricatedSentry				= mod:NewSpecialWarningSwitch(360658, "Tank", nil, nil, 1, 2)
-local specWarnDissonance						= mod:NewSpecialWarningStack(364447, nil, 3, nil, nil, 1, 6)
-local specWarnDissonanceTaunt					= mod:NewSpecialWarningTaunt(364447, nil, nil, nil, 1, 2)
+local specWarnPreFabricatedSentry				= mod:NewSpecialWarningSwitch(360658, "Tank", nil, nil, 1, 2, nil, nil, "changetarget")
+local specWarnDissonance						= mod:NewSpecialWarningStack(364447, nil, 3, nil, nil, 1, 6, nil, nil, "stackhigh")
+local specWarnDissonanceTaunt					= mod:NewSpecialWarningTaunt(364447, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
 
 local timerSentryCD								= mod:NewNextTimer(71.2, 360658, nil, nil, nil, 1, nil, DBM_COMMON_L.TANK_ICON)--Every odd Volatile
 local timerWaveofDisintegrationCD				= mod:NewCDTimer(12.2, 361001, nil, nil, nil, 3)--Time between first and second cast usually 14-15 then 12.2 repeating
@@ -56,9 +56,9 @@ mod:AddTimerLine(DBM:EJ_GetSectionInfo(23875))
 local warnRefractedBlast						= mod:NewCountAnnounce(366693, 2)
 local warnDeresolution							= mod:NewTargetAnnounce(359610, 3)
 
-local specWarnDeresolution						= mod:NewSpecialWarningMoveAway(359610, nil, nil, nil, 1, 2)--Change once clear how it works
+local specWarnDeresolution						= mod:NewSpecialWarningMoveAway(359610, nil, nil, nil, 1, 2, nil, nil, "laserrun")--Change once clear how it works
 local yellDeresolution							= mod:NewYell(359610)
-local specWarnExposedCore						= mod:NewSpecialWarningMoveTo(360412, nil, nil, nil, 3, 2)
+local specWarnExposedCore						= mod:NewSpecialWarningMoveTo(360412, nil, nil, nil, 3, 2, nil, nil, "findshelter")
 
 local timerVolatileMateriumCD					= mod:NewNextTimer(30.6, 365315, nil, nil, nil, 1)
 local timerRefractedBlastCD						= mod:NewCDCountTimer(15, 366693, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--15 but can be delayed by shit
@@ -71,10 +71,10 @@ mod:AddInfoFrameOption(360403, true)
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(23877))
 local warnMatterDisoilution						= mod:NewTargetNoFilterAnnounce(364881, 4)
 
-local specWarnSplitResolution					= mod:NewSpecialWarningDefensive(360162, nil, nil, nil, 1, 2)
-local specWarnPneumaticImpact					= mod:NewSpecialWarningTaunt(360414, nil, nil, nil, 1, 2)
-local specWarnMatterDisolution					= mod:NewSpecialWarningYou(364881, nil, nil, nil, 1, 2)--Initial
-local specWarnMatterDisolutionOut				= mod:NewSpecialWarningMoveAway(364881, nil, nil, nil, 1, 2)--Delayed
+local specWarnSplitResolution					= mod:NewSpecialWarningDefensive(360162, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnPneumaticImpact					= mod:NewSpecialWarningTaunt(360414, nil, nil, nil, 1, 2, nil, nil, "tauntboss")
+local specWarnMatterDisolution					= mod:NewSpecialWarningYou(364881, nil, nil, nil, 1, 2, nil, nil, "targetyou")--Initial
+local specWarnMatterDisolutionOut				= mod:NewSpecialWarningMoveAway(364881, nil, nil, nil, 1, 2, nil, nil, "runout")--Delayed
 local yellMatterDisolutionFades					= mod:NewShortFadesYell(364881)
 
 local timerSplitResolutionCD					= mod:NewCDTimer(30.2, 360162, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)--30.2-34 (also acts as Pneumatic Impact timer)

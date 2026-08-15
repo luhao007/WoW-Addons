@@ -30,6 +30,9 @@ local stringArgCache = {} do
 		return empty
 	end})
 end
+local function prependCountDelta(delta, ...)
+	return delta + select("#", ...), ...
+end
 
 securecall(function() -- zone:Zone/Sub Zone
 	local function onZoneUpdate()
@@ -136,6 +139,7 @@ securecall(function() -- instance:arena/bg/ratedbg/lfr/raid/scenario + outland/n
 		[2706]="world/undermine/tww",
 		[2738]="world/karesh/tww",
 		[0]=MODERN and "world/midnight", [2694]="world/midnight", [2771]="world/midnight",
+		[3047]="world/midnight/val", [3075]="world/midnight/naigtal",
 		[2662]="dungeon/dawnbreaker",
 		[2769]="raid/undermine",
 		[2827]="hvision", [2828]="hvision", [2212]="hvision", [2213]="hvision",
@@ -255,7 +259,7 @@ securecall(function() -- horde/alliance
 end)
 securecall(function() -- moving
 	KR:SetNonSecureConditional("moving", function()
-		return GetUnitSpeed("player") > 0
+		return IsPlayerMoving()
 	end)
 end)
 securecall(function() -- falling
@@ -314,9 +318,6 @@ securecall(function() -- self(de)buff:name, own(de)buff:name, (de)buff:name, cle
 		ownbuff="HELPFUL PLAYER", owndebuff="HARMFUL PLAYER",
 		buff="HELPFUL", debuff="HARMFUL",
 	}
-	local function countSlots(tk, ...)
-		return select("#", ...), tk, ...
-	end
 	local function checkAura(name, args, target)
 		if MODERN and C_Secrets.ShouldAurasBeSecret() then
 			return "lockdown"
@@ -329,7 +330,7 @@ securecall(function() -- self(de)buff:name, own(de)buff:name, (de)buff:name, cle
 		local at, query, filter = stringArgCache[args], C_UnitAuras.GetAuraSlots, conditionalFilter[name]
 		local count, ctok, a,b,c,d,e
 		repeat
-			count, ctok, a,b,c,d,e = countSlots(query(target, filter, 5, ctok))
+			count, ctok, a,b,c,d,e = prependCountDelta(-1, query(target, filter, 5, ctok))
 			for i=1, count do
 				local dat = C_UnitAuras.GetAuraDataBySlot(target, a)
 				local name = dat and dat.name
@@ -441,12 +442,15 @@ securecall(function() -- race:token
 	KR:SetStateConditionalValue("race", map[raceToken] or raceToken)
 end)
 securecall(function() -- professions
-	local ct, ot, syncProfInner = {}, {}
-	local map = MODERN and {
+	KR:SetStateConditionalValue("prof", false)
+	local MODERN_PROFS = MODERN or CF_MISTS
+	local ct, ot, curProfState, syncProfInner = {}, {}, false
+	local map = MODERN_PROFS and {
 		[197]="tail", [165]="lw", [164]="bs",
 		[171]="alch", [202]="engi", [333]="ench", [755]="jc", [773]="scri",
 		[182]="herb", [186]="mine", [393]="skin",
 		[794]="arch", [185]="cook", [356]="fish",
+		[129]="faid",
 		[20219]="nomeng", [20222]="gobeng",
 	}
 	local GetSpellName = C_Spell.GetSpellName
@@ -457,8 +461,10 @@ securecall(function() -- professions
 		[GetSpellName(2259) or ""]="alch",
 		[GetSpellName(4036) or ""]="engi",
 		[GetSpellName(7411) or ""]="ench",
-		[GetSpellName(2366) or ""]="herb",
+		[GetSpellName(2366) or ""]="herb", -- Herb Gathering (skill line is Herbalism, oops)
+		[GetSpellName(2383) or ""]="herb", -- Find Herbs, in spellbook
 		[GetSpellName(2575) or ""]="mine",
+		[GetSpellName(2580) or ""]="mine", -- Find Minerals, in spellbook
 		[GetSpellName(8613) or ""]="skin",
 		[GetSpellName(2550) or ""]="cook",
 		[GetSpellName(3273) or ""]="faid",
@@ -477,7 +483,7 @@ securecall(function() -- professions
 		-- eng8 is in sync code, because factions
 	}
 	map[""]=nil
-	syncProfInner = MODERN and function(id, ...)
+	syncProfInner = MODERN_PROFS and function(n, id, ...)
 		if id then
 			local _1, _2, cur, _cap, ns, sofs, skid, _bonus, specIdx, _ = GetProfessionInfo(id)
 			local et, sid = GetSpellBookItemInfo(ns == 2 and sofs and specIdx > -1 and sofs+2 or 0, "spell")
@@ -485,37 +491,43 @@ securecall(function() -- professions
 			if e1 then ct[e1] = cur end
 			if e2 then ct[e2] = cur end
 		end
-		if select("#", ...) > 0 then
-			return syncProfInner(...)
+		if n > 1 then
+			return syncProfInner(n-1, ...)
 		end
 	end or function()
-		local idx, wasCollapsed
-		for i=1,GetNumSkillLines() do
-			local text, isHeader, isExpanded = GetSkillLineInfo(i)
-			if isHeader and text == TRADE_SKILLS then
-				idx, wasCollapsed = i, not isExpanded
-				ExpandSkillHeader(i)
-				break
+		local idx, nLines0 = 1, GetNumSkillLines()
+		while idx < nLines0 do
+			local hidx, curSkill, skey = idx
+			local text, isHeader, isExpanded = GetSkillLineInfo(idx)
+			if text and isHeader then
+				ExpandSkillHeader(idx)
+				repeat
+					idx, text, isHeader, _, curSkill = idx + 1, GetSkillLineInfo(idx+1)
+					skey = map[text]
+					if skey and not isHeader then
+						ct[skey] = curSkill
+					end
+				until isHeader or not text
+				idx = idx - 1
+				if not isExpanded or isExpanded == 0 then
+					CollapseSkillHeader(hidx)
+					idx = hidx
+				end
 			end
+			idx = idx + 1
 		end
-		if not idx then return end
-		local j, text, isHeader, _, curSkill = idx+1
-		repeat
-			j, text, isHeader, _, curSkill = j+1, GetSkillLineInfo(j)
-			local skey = map[text]
-			if skey and not isHeader then
-				ct[skey] = curSkill
+		local GetSpellName = C_Spell.GetSpellName
+		for k,v in pairs(map) do
+			if ct[v] == nil and GetSpellName(k) then
+				ct[v] = 1
 			end
-		until isHeader or not text
-		if wasCollapsed then
-			CollapseSkillHeader(idx)
 		end
 	end
 	local function syncProf()
 		ct, ot = ot, ct
 		for k in pairs(ct) do ct[k] = nil end
-		if MODERN then
-			syncProfInner(GetProfessions())
+		if MODERN_PROFS then
+			syncProfInner(prependCountDelta(0, GetProfessions()))
 		else
 			syncProfInner()
 		end
@@ -523,11 +535,17 @@ securecall(function() -- professions
 			ct[cnd] = GetSpellInfo(GetSpellInfo(sid) or "\1") and 1 or nil
 		end
 		ct["eng8"] = GetSpellInfo(GetSpellInfo(UnitFactionGroup("player") == "Horde" and 265807 or 264492) or "\1") and 1 or nil
+		local s = false
 		for k,v in pairs(ct) do
 			if ot[k] ~= v then
 				KR:SetThresholdConditionalValue(k, v)
 				ot[k] = v
 			end
+			s = s and (s .. "/" .. k) or k
+		end
+		if curProfState ~= s then
+			curProfState = s
+			KR:SetStateConditionalValue("prof", s)
 		end
 		for k,v in pairs(ot) do
 			if ct[k] ~= v then
@@ -595,7 +613,7 @@ securecall(function() -- pet:stable id; havepet:stable id
 	KR:SetStateConditionalValue("havepet", false)
 	EV.PLAYER_LOGIN, EV.PET_STABLE_UPDATE, EV.PET_INFO_UPDATE, EV.LOCALPLAYER_PET_RENAMED = syncPet, syncPet, syncPet, syncPet
 end)
-securecall(function() -- game:modern/remix/era/sod/cata + era/hc
+securecall(function() -- game:modern/remix/era/sod/classic + era/hc
 	KR:SetStateConditionalValue("game", "daze")
 	function EV.PLAYER_LOGIN()
 		local s
@@ -611,7 +629,7 @@ securecall(function() -- game:modern/remix/era/sod/cata + era/hc
 		elseif MODERN then
 			s = PlayerGetTimerunningSeasonID() and "remix" or "modern"
 		else
-			s = "cata"
+			s = "classic"
 		end
 		KR:SetStateConditionalValue("game", s)
 		return "remove"
@@ -699,12 +717,30 @@ securecall(function() -- worldhover
 	wf:SetAllPoints(WorldFrame)
 end)
 securecall(function() -- imbuedmh, imbuedoh, imbuedrw
+	KR:SetStateConditionalValue("imbuedmh", false)
+	KR:SetStateConditionalValue("imbuedoh", false)
+	KR:SetStateConditionalValue("imbuedrw", false)
+	local weaponInfoOffset = {
+		imbuedmh = MODERN and 1,
+		imbuedoh = MODERN and 5,
+		imbuedrw = not MODERN and 9 or nil, -- BUG[Classic/2408]: SAHT ignores ranged weapon; Modern has no ranged slot
+	}
+	local function checkWeaponImbued(name, _args)
+		local isImbued, _expire, _charges, _enchantID = select(weaponInfoOffset[name], GetWeaponEnchantInfo())
+		return not not isImbued
+	end
+	for k in pairs(weaponInfoOffset) do
+		KR:SetNonSecureConditional(k, checkWeaponImbued)
+	end
+	if MODERN then
+		return
+	end
 	local h = CreateFrame("Frame", nil, nil, "SecureAuraHeaderTemplate")
 	SecureHandlerSetFrameRef(h, "KR", KR:seclib())
 	SecureHandlerExecute(h, [[KR = self:GetFrameRef("KR")]])
 	local t1 = CreateFrame("Frame", nil, h, "SecureFrameTemplate")
 	local t2 = CreateFrame("Frame", nil, h, "SecureFrameTemplate")
-	local t3 = nil -- MODERN has no ranged slot; BUG[Classic/2408]: SAHT ignores ranged weapon
+	local t3 = nil -- BUG[Classic/2408]: SAHT ignores ranged weapon
 	h:SetAttribute("unit", "none")
 	h:SetAttribute("includeWeapons", -1)
 	h:SetAttribute("filter", "NONE")
@@ -716,16 +752,7 @@ securecall(function() -- imbuedmh, imbuedoh, imbuedrw
 		SecureHandlerWrapScript(sf, 'OnHide', h, [[KR:RunAttribute("UpdateStateConditional", self:GetAttribute("cname"), nil, "*")]])
 		sf:Hide()
 	end
-	KR:SetStateConditionalValue("imbuedmh", false)
-	KR:SetStateConditionalValue("imbuedoh", false)
 	h:Show()
-
-	if not MODERN then
-		KR:SetNonSecureConditional("imbuedrw", function(_, _args)
-			local isImbued, _expire, _charges, _enchantID = select(9, GetWeaponEnchantInfo())
-			return not not isImbued
-		end)
-	end
 end)
 securecall(function() -- bar:id (future-aware)
 	local CMD_SWAP, CMD_SET, NUM_PAGES = SLASH_SWAPACTIONBAR1, SLASH_CHANGEACTIONBAR1, NUM_ACTIONBAR_PAGES
@@ -978,28 +1005,9 @@ securecall(function() -- myth:token
 		return
 	end
 	local mapTokens = {
-		-- Mythic Plus [TWW S3]:
-		[2830]="aldani/eda",
-		[2773]="floodgate/flo",
-		[2662]="dawnbreaker/dwn",
-		[2660]="arakara/coe",
-		[2649]="priory/psf",
-		[2441]="tazavesh/tzv",
-		[2287]="atonement/hoa",
 		-- Raids:
 		[2769]="liberation/lou",
 		[2810]="manaforge/mfo",
-		-- Legion Remix M+:
-		[1651]="karazhan/kar",
-		[1456]="azshara/eoa",
-		[1477]="valor/hov",
-		[1458]="lair/nel",
-		[1571]="stars/cos",
-		[1466]="thicket/dht",
-		[1493]="vault/vow",
-		[1501]="rook/brh",
-		[1492]="maw/mos",
-		[1516]="arcway/arc",
 		-- Midnight S1:
 		[2526]="academy/aca",
 		[2811]="magterr/mgt",
@@ -1009,6 +1017,15 @@ securecall(function() -- myth:token
 		[1753]="sottrium/tri",
 		[2805]="windspire/wnd",
 		[2915]="xenas/npx",
+		-- Midnight S2:
+		[2993]="altar/aof",
+		[2813]="murder/row",
+		[2825]="nalorakk/den",
+		[2859]="blindvale/blv",
+		[2923]="voidscar/vsa",
+		[1762]="krest/rst",
+		[1877]="sethraliss/sss",
+		[2521]="rubypools/rlp",
 	}
 	local KEYSTONE_LINK_FRAGMENT = "|Hitem:180653:"
 	local KEYSTONE_ICON_ID = C_Item.GetItemIconByID(KEYSTONE_LINK_FRAGMENT)
@@ -1136,6 +1153,27 @@ securecall(function() -- prey:qid
 	EV.UPDATE_ALL_UI_WIDGETS = checkWidget
 	EV.PLAYER_REGEN_ENABLED = syncPrey
 	EV.PLAYER_LOGIN = checkWidget
+end)
+securecall(function() -- Housing Return
+	KR:SetStateConditionalValue("housereturn", false)
+	if not MODERN then
+		return
+	end
+	local function syncReturn()
+		local v = not not C_HousingNeighborhood.CanReturnAfterVisitingHouse()
+		KR:SetStateConditionalValue("housereturn", v)
+	end
+	EV.PLAYER_ENTERING_WORLD = syncReturn
+	EV.UPDATE_UI_WIDGET = syncReturn
+end)
+securecall(function() -- Warbank
+	KR:SetStateConditionalValue("warbank", false)
+	if MODERN then
+		function EV.PLAYER_ENTERING_WORLD()
+			local isAvailable = C_Bank.FetchBankLockedReason(2) == nil
+			KR:SetStateConditionalValue("warbank", isAvailable)
+		end
+	end
 end)
 
 securecall(function() -- Managed role units

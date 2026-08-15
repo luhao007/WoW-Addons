@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2141, "DBM-BfA", 2, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035238")
+mod:SetRevision("20260523021943")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(132253)
 --mod:SetEncounterID(1880)
@@ -16,9 +16,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 261467 261088"
 )
 
-local specWarnStormWing				= mod:NewSpecialWarningSpell(260908, nil, nil, nil, 2, 2)
-local specWarnHurricaneCrash		= mod:NewSpecialWarningRun(261088, nil, nil, nil, 4, 2)
-local specWarnMatriarchsCall		= mod:NewSpecialWarningSwitch(261467, "-Healer", nil, 2, 1, 2)
+local specWarnStormWing				= mod:NewSpecialWarningSpell(260908, nil, nil, nil, 2, 2, nil, nil, "aesoon")
+local specWarnHurricaneCrash		= mod:NewSpecialWarningRun(261088, nil, nil, nil, 4, 2, nil, nil, "justrun")
+local specWarnMatriarchsCall		= mod:NewSpecialWarningSwitch(261467, "-Healer", nil, 2, 1, 2, nil, nil, "killmob")
 
 local timerStormWingCD				= mod:NewCDTimer(46.2, 260908, nil, nil, nil, 2)
 local timerHurricaneCrashCD			= mod:NewCDTimer(46.2, 261088, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)

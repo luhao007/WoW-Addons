@@ -111,7 +111,7 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 	local PIGDownList = CreateFrame("Frame", nil, UIParent,"BackdropTemplate",i);
 	PIG_DropDown[i]=PIGDownList
 	PIGDownList:SetBackdrop(Create.BackdropData)
-	PIGDownList:SetBackdropColor(unpack(Create.BackdropColor));
+	PIGDownList:SetBackdropColor(0.1,0.1,0.1,1);
 	PIGDownList:SetBackdropBorderColor(unpack(Create.BackdropBorderColor));
 	PIGDownList:Hide()
 	PIGDownList:SetClampedToScreen(true)
@@ -157,34 +157,48 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 		CheckBut.UnCheck:SetTexture("Interface/Common/UI-DropDownRadioChecks");
 		CheckBut.UnCheck:SetSize(ButHeight,ButHeight);
 		CheckBut.UnCheck:SetPoint("LEFT", 0, 0);
-
+		CheckBut.Icon = CheckBut:CreateTexture(nil, "BORDER");
+		CheckBut.Icon:SetSize(ButHeight,ButHeight);
+		CheckBut.Icon:SetPoint("LEFT", CheckBut.Check,"RIGHT", 0, 0);
+		CheckBut.Icon:Hide();
 		CheckBut.ExpandArrow = CheckBut:CreateTexture(nil, "BORDER");
+		CheckBut.ExpandArrow:SetTexture("Interface/ChatFrame/ChatFrameExpandArrow");
 		CheckBut.ExpandArrow:SetSize(ButHeight,ButHeight);
 		CheckBut.ExpandArrow:SetPoint("RIGHT", 0, 0);
 		CheckBut.ExpandArrow:Hide();
-
 		CheckBut.Text = CheckBut:CreateFontString();
-		CheckBut.Text:SetPoint("LEFT", 18, 0);
 		CheckBut.Text:SetFont(FontUrl,14)
+		function CheckBut:Enable()
+			self.Text:SetTextColor(1, 1, 1, 1);
+			self.Check:SetDesaturated(false)
+			self.UnCheck:SetDesaturated(false)
+			self.Icon:SetDesaturated(false)
+		end
+		function CheckBut:Disable()
+			self.Text:SetTextColor(0.5, 0.5, 0.5, 1);
+			self.Check:SetDesaturated(true)
+			self.UnCheck:SetDesaturated(true)
+			self.Icon:SetDesaturated(true)
+		end
+		function CheckBut:SetEnabled(bool)
+			if bool then
+				self:Enable()
+			else
+				self:Disable()
+			end
+		end
 		CheckBut:HookScript("OnMouseDown", function (self)
 			if self.isTitle then return end
+			if not self.func then return end
 			local fujilist = self:GetParent()
 			local xialaMenu = fujilist.dropdown
-			if xialaMenu.EasyMenu=="DJEasyMenu" or self.notCheckable then
-				self.Text:SetPoint("LEFT", 5, -1);
-			else
-				self.Text:SetPoint("LEFT", 19, -1);
-			end
+			self.Text:SetPoint("LEFT", self.TextPoint[1]+1, self.TextPoint[2]-1);
 		end);
 		CheckBut:HookScript("OnMouseUp", function (self)
 			if self.isTitle then return end
 			local fujilist = self:GetParent()
 			local xialaMenu = fujilist.dropdown
-			if xialaMenu.EasyMenu=="DJEasyMenu" or self.notCheckable then
-				self.Text:SetPoint("LEFT", 4, 0);
-			else
-				self.Text:SetPoint("LEFT", 18, 0);
-			end
+			self.Text:SetPoint("LEFT", self.TextPoint[1], self.TextPoint[2]);
 		end);
 		CheckBut:HookScript("OnEnter", function (self)
 			if self.isTitle then self.Highlight:Hide() return end
@@ -217,6 +231,7 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 		CheckBut:RegisterForClicks("LeftButtonUp","RightButtonUp")
 		CheckBut:HookScript("OnClick", function (self,button)
 			if self.isTitle then return end
+			if not self.func then return end
 			if self.isNotRadio then
 				local xchecked = self:GetChecked()
 				self.checked = xchecked
@@ -258,7 +273,7 @@ end
 function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 	local DownMenu = CreateFrame("Frame", UIname, fuF,"BackdropTemplate");
 	DownMenu.EasyMenu=EasyMenu
-	if EasyMenu=="EasyMenu" or EasyMenu=="DJEasyMenu" then	
+	if EasyMenu=="EasyMenu" then	
 		DownMenu:SetAllPoints(fuF)
 		DownMenu.Button = CreateFrame("Button",nil,DownMenu, "TruncatedButtonTemplate");
 		DownMenu.Button:SetAllPoints(DownMenu)
@@ -301,7 +316,6 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 	DownMenu.Button:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
 	DownMenu.Button:RegisterForClicks("LeftButtonUp","RightButtonUp");
 	local function zhixing_Show(fujiFrame)
-		if fujiFrame.EasyMenu=="DJEasyMenu" then return end
 		if PIG_DropDown[1]:IsShown() then
 			PIG_DropDown[1]:Hide()
 		else
@@ -321,8 +335,8 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 			PIG_DropDown[1].showTimer = UIDROPDOWNMENU_SHOW_TIME;
 			PIG_DropDown[1].isCounting = 1;
 			PIG_DropDown[1]:ClearAllPoints();
-			if fujiFrame.EasyMenu=="EasyMenu" or fujiFrame.EasyMenu=="DJEasyMenu" then
-				PIG_DropDown[1]:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+			if fujiFrame.EasyMenu=="EasyMenu" then
+				if Point then PIG_DropDown[1]:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);end
 			else
 				PIG_DropDown[1]:SetPoint("TOPLEFT",fujiFrame, "BOTTOMLEFT", 0,0);
 			end
@@ -397,26 +411,9 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 		CheckBut.notCheckable=info.notCheckable
 		CheckBut.isNotRadio=info.isNotRadio
 		CheckBut.isTitle=info.isTitle
-		CheckBut.func=info.func or function() end
+		CheckBut.func=info.func
 		CheckBut:SetChecked(info.checked);
-		CheckBut.Text:SetTextColor(1, 1, 1, 1);
-		if self.EasyMenu=="DJEasyMenu" or info.notCheckable or info.isTitle then
-			CheckBut.Check:Hide();
-			CheckBut.UnCheck:Hide();
-			CheckBut.Text:SetPoint("LEFT", 4, 0);
-			if info.isTitle then
-				CheckBut.Text:SetTextColor(1, 0.843, 0, 1);
-			end
-		else
-			CheckBut.Text:SetPoint("LEFT", 18, 0);
-			if info.checked then
-				CheckBut.Check:Show();
-				CheckBut.UnCheck:Hide();
-			else
-				CheckBut.Check:Hide();
-				CheckBut.UnCheck:Show();
-			end
-		end
+		CheckBut:SetEnabled(not info.enabled);
 		if info.isNotRadio then
 			CheckBut.Check:SetTexCoord(0.0, 0.5, 0.0, 0.5);
 			CheckBut.UnCheck:SetTexCoord(0.5, 1.0, 0.0, 0.5);
@@ -424,20 +421,29 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 			CheckBut.Check:SetTexCoord(0.0, 0.5, 0.5, 1.0);
 			CheckBut.UnCheck:SetTexCoord(0.5, 1.0, 0.5, 1.0);
 		end
-		CheckBut.hasArrow=info.hasArrow
-		if self.EasyMenu=="EasyMenu" then
-			CheckBut.icon=info.icon
-			CheckBut.ExpandArrow:SetTexture(info.icon);
-			CheckBut.ExpandArrow:Show();
-		else
-			CheckBut.ExpandArrow:SetTexture("Interface/ChatFrame/ChatFrameExpandArrow");
-			if info.hasArrow then
-				CheckBut.menuList=info.menuList
-				CheckBut.ExpandArrow:Show();
-			else
-				CheckBut.ExpandArrow:Hide();
+		if info.notCheckable or info.isTitle then
+			CheckBut.Check:Hide();
+			CheckBut.UnCheck:Hide();
+			CheckBut.TextPoint={4, 0}
+			if info.isTitle then
+				CheckBut.Text:SetTextColor(1, 0.843, 0, 1);
 			end
+		else
+			CheckBut.TextPoint={14, 0}
+			CheckBut.Check:SetShown(info.checked);
+			CheckBut.UnCheck:SetShown(not info.checked);
 		end
+		CheckBut.Icon:SetShown(info.icon);
+		if info.icon then
+			CheckBut.Icon:SetTexture(info.icon);
+			CheckBut.TextPoint={14+ButHeight+3, 0}
+		end
+		CheckBut.Text:SetPoint("LEFT", CheckBut,CheckBut.TextPoint[1], CheckBut.TextPoint[2]);
+		CheckBut.hasArrow=info.hasArrow
+		CheckBut.menuList=info.menuList
+		CheckBut.ExpandArrow:SetShown(info.hasArrow);
+		
+		----
 		if index==1 then
 			CheckBut:SetPoint("TOPLEFT",listFrame,"TOPLEFT",4,-4);
 			CheckBut:SetPoint("TOPRIGHT",listFrame,"TOPRIGHT",-4,-4);

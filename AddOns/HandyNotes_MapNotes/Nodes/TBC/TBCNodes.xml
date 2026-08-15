@@ -1,0 +1,16 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+    <Script file="TBCMinimapInfo.lua"/>
+    <Script file="TBCZoneInfo.lua"/>
+    <Script file="TBCZoneFP.lua"/>
+    <Script file="TBCMinimapFP.lua"/>
+    <Script file="TBCZoneGhost.lua"/>
+    <Script file="TBCMinimapGhost.lua"/>
+    <Script file="TBCContinentInfo.lua"/>
+    <Script file="TBCWorldMapInfo.lua"/>
+    <Script file="TBCFogOfWarNodes.lua"/>
+    <Script file="TBCCapitals.lua"/>
+    <Script file="TBCCapitalsMinimap.lua"/>
+    <Script file="TBCPathsZoneNodes.lua"/>
+    <Script file="TBCPathsMiniMapNodes.lua"/>
+    <Script file="TBCBlizzAreaPoisNodesInfo.lua"/>
+</Ui>

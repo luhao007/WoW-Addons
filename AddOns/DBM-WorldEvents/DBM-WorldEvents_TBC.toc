@@ -1,4 +1,4 @@
-## Interface: 120001, 120005
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0World Events|r
@@ -45,7 +45,7 @@
 ## X-DBM-Mod-MapID: 230,189,547,530
 ## X-DBM-Mod-Sort: 1054
 ## X-DBM-Mod-LoadCID: 20130,18166
-## X-DBM-Mod-MinCoreRevision: 12473
+## X-DBM-Mod-MinCoreRevision: 20260522000000
 ## X-Part-Of: DBM-Core
 
 localization.en.lua

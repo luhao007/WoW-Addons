@@ -128,14 +128,15 @@ ns.currentSourceFile = "RetailWorldNodesLocation.lua"
                 nodes[946][64808300] = { mnID = 2274, name = "", type = "Portal", showInZone = true, TransportName = ns.Dornogal .. " " .. L["Portals"] .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus } -- Portals 
             end
 
+
         -- Midnight   
             if self.db.profile.showCosmosQuelThalas then
                 nodes[946][68406930] = { mnID = 2537, name = EXPANSION_NAME11, type = "MN8", showInZone = true } -- Expansion Logo
-                nodes[946][68407400] = { mnID = 2537, id = { 1307, 1314, 1308 }, type = "Raid", showInZone = true } -- Raids 
-                nodes[946][68407850] = { mnID = 2537, id = { 1300, 1299, 1304, 1315, 1316, 1313, 1309, 1311 }, type = "Dungeon", showInZone = true } -- Dungeons
+                nodes[946][68407400] = { mnID = 2537, id = { 1305, 1307, 1308, 1314, 1320 }, type = "Raid", showInZone = true } -- Raids 
+                nodes[946][68407850] = { mnID = 2537, id = { 1300, 1299, 1304, 1315, 1316, 1313, 1309, 1311, 1322 }, type = "Dungeon", showInZone = true } -- Dungeons
                 nodes[946][68408300] = { mnID = 2537, name = "", type = "Portal", showInZone = true, TransportName = ns.SilvermoonMN .. " " .. L["Portals"] .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Harandar .. "\n\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus} -- Portals 
             end
-            
+
         end
     end
 

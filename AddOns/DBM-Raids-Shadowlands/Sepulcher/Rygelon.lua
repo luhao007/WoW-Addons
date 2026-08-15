@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2467, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20260315035226")
+mod:SetRevision("20260523021934")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(182777)
 mod:SetEncounterID(2549)
@@ -40,7 +40,7 @@ mod:RegisterEventsInCombat(
 --]]
 --General
 local berserkTimer								= mod:NewBerserkTimer(600)
-local specWarnGTFO								= mod:NewSpecialWarningGTFO(362798, nil, nil, nil, 1, 8)
+local specWarnGTFO								= mod:NewSpecialWarningGTFO(362798, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 --Rygelon
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(24245))
@@ -56,18 +56,18 @@ local warnRadiantPlasma							= mod:NewSpellAnnounce(366606, 4)--No one is tanki
 local warnDarkQuasarBoss						= mod:NewStackAnnounce(368080, 2)
 local warnDarkQuasarBossFaded					= mod:NewEndAnnounce(368080, 1)
 
-local specWarnDarkEclipse						= mod:NewSpecialWarningYou(361548, nil, nil, nil, 1, 2)
+local specWarnDarkEclipse						= mod:NewSpecialWarningYou(361548, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellDarkEclipse							= mod:NewShortPosYell(361548)
 local yellDarkEclipseFades						= mod:NewIconFadesYell(361548)
-local specWarnCelestialCollapse					= mod:NewSpecialWarningCount(362275, false, nil, nil, 1, 2)
-local specWarnEventHorizon						= mod:NewSpecialWarningYou(362206, nil, nil, nil, 1, 2)
+local specWarnCelestialCollapse					= mod:NewSpecialWarningCount(362275, false, nil, nil, 1, 2, nil, nil, "specialsoon")
+local specWarnEventHorizon						= mod:NewSpecialWarningYou(362206, nil, nil, nil, 1, 2, nil, nil, "range5")
 local yellEventHorizonFades						= mod:NewShortFadesYell(362206)
-local specWarnCosmicIrregularity				= mod:NewSpecialWarningStack(362088, nil, 4, nil, nil, 1, 6, 4)
-local specWarnStellarShroud						= mod:NewSpecialWarningCount(366379, nil, nil, nil, 2, 2, 4)
-local specWarnCorruptedStrikes					= mod:NewSpecialWarningDefensive(362184, nil, nil, nil, 1, 2)
-local specWarnMassiveBang						= mod:NewSpecialWarningCount(363533, nil, nil, nil, 2, 2)--First warn, begin cast
-local specWarnMassiveBangEscape					= mod:NewSpecialWarningMoveTo(363533, nil, nil, nil, 3, 2)--Second warn if not in singularity by 4 sec
-local specWarnDarkQuasarPersonal				= mod:NewSpecialWarningMoveAway(368082, nil, nil, nil, 1, 2)
+local specWarnCosmicIrregularity				= mod:NewSpecialWarningStack(362088, nil, 4, nil, nil, 1, 6, 4, nil, "stackhigh")
+local specWarnStellarShroud						= mod:NewSpecialWarningCount(366379, nil, nil, nil, 2, 2, 4, nil, "aesoon")
+local specWarnCorruptedStrikes					= mod:NewSpecialWarningDefensive(362184, nil, nil, nil, 1, 2, nil, nil, "defensive")
+local specWarnMassiveBang						= mod:NewSpecialWarningCount(363533, nil, nil, nil, 2, 2, nil, nil, "specialsoon")--First warn, begin cast
+local specWarnMassiveBangEscape					= mod:NewSpecialWarningMoveTo(363533, nil, nil, nil, 3, 2, nil, nil, "findshelter")--Second warn if not in singularity by 4 sec
+local specWarnDarkQuasarPersonal				= mod:NewSpecialWarningMoveAway(368082, nil, nil, nil, 1, 2, nil, nil, "runout")
 local yellarkQuasarPersonal						= mod:NewShortFadesYell(368082)
 
 local timerDarkEclipseCD						= mod:NewCDCountTimer(11, 361548, nil, nil, nil, 3)
@@ -89,8 +89,8 @@ mod:AddTimerLine(singularityName)
 local warnSingularity							= mod:NewYouAnnounce(362207, 1)
 local warnGravitationalCollapse					= mod:NewCastAnnounce(364386, 4)
 
-local specWarnShatterSphere						= mod:NewSpecialWarningSpell(364114, nil, nil, nil, 2, 2)
-local specWarnGravitationalCollapse				= mod:NewSpecialWarningSoak(364386, "Tank", nil, nil, 3, 2)
+local specWarnShatterSphere						= mod:NewSpecialWarningSpell(364114, nil, nil, nil, 2, 2, nil, nil, "phasechange")
+local specWarnGravitationalCollapse				= mod:NewSpecialWarningSoak(364386, "Tank", nil, nil, 3, 2, nil, nil, "helpsoak")
 
 local timerShatterSphereCD						= mod:NewCDTimer(26.6, 364114, nil, nil, nil, 6)
 
