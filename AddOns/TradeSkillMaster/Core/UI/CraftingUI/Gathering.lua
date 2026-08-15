@@ -283,7 +283,6 @@ function private.SourceDropdownOnSelectionChanged(dropdown)
 	local setupFrame = dropdown:GetParentElement():GetParentElement()
 	private.UpdateSourceRows(setupFrame)
 	setupFrame:Draw()
-	TSM.Crafting.Gathering.OnQueuedCraftsUpdated()
 end
 
 

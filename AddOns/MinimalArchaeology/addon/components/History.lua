@@ -51,7 +51,7 @@ end
 
 local function HistoryButtonTooltip(RaceID)
 	GameTooltip:SetOwner(MinArch.raceButtons[RaceID], "ANCHOR_TOPLEFT");
-	GameTooltip:AddLine((MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), 1.0, 1.0, 1.0, 1.0)
+	GameTooltip:AddLine((MinArch.artifacts[RaceID].race or ("种族" .. RaceID)), 1.0, 1.0, 1.0, 1.0)
 	GameTooltip:Show();
 end
 
@@ -190,7 +190,7 @@ local function BuildHistory(RaceID, caller)
     Common:DisplayStatusMessage("BuildHistory " .. caller, MINARCH_MSG_DEBUG)
 
     local i = 1 -- unknownArtifactInfoIndex[RaceID];
-    Common:DisplayStatusMessage("Bulding history for race " .. RaceID .. " from index: " .. i, MINARCH_MSG_DEBUG)
+    Common:DisplayStatusMessage("正在为种族" .. RaceID .. "构建历史记录, 从索引: " .. i, MINARCH_MSG_DEBUG)
 	while true do
 		local name, desc, rarity, icon, spelldesc, itemrare, _, spellId, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, i)
 
@@ -210,11 +210,11 @@ local function BuildHistory(RaceID, caller)
 			if (details.name == name and details.icon ~= icon) then
 				MinArchIconDB[RaceID] = MinArchIconDB[RaceID] or {}
 				MinArchIconDB[RaceID][icon] = details.icon
-				Common:DisplayStatusMessage("Minimal Archaeology - icon discrepancy detected", MINARCH_MSG_DEBUG)
-				Common:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-				Common:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
-				Common:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
-				Common:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("迷你考古助手 - 检测到图标不一致问题", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("种族" .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("种族" .. RaceID)), MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("物品" .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("物品图标'" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("神器图标'" .. icon .. "'", MINARCH_MSG_DEBUG)
 				icon = details.icon
 			end
 		end
@@ -236,12 +236,12 @@ local function BuildHistory(RaceID, caller)
                 -- Change MinArchHistDB to include the alternate item IDs (for example, Orb of Sciallax can give 6 different relics items)
                 -- Gather the name and icon info here.
                 --[[if (details.name ~= name) then
-                    Common:DisplayStatusMessage("Minimal Archaeology - item and artifact names differ", MINARCH_MSG_DEBUG)
-                    Common:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-                    Common:DisplayStatusMessage("Item " .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
-                    Common:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
-                    Common:DisplayStatusMessage("Item icon '" .. details.icon .. "'", MINARCH_MSG_DEBUG)
-                    Common:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("迷你考古助手 - 物品与神器名称不一致", MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("种族" .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("种族" .. RaceID)), MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("物品" .. itemid .. ": " .. details.name, MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("神器: " .. name, MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("物品图标'" .. details.icon .. "'", MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage("神器图标'" .. icon .. "'", MINARCH_MSG_DEBUG)
                 end]]--
 
                 match = details;
@@ -267,10 +267,10 @@ local function BuildHistory(RaceID, caller)
         end
 
 		if foundCount == 0 and IsItemDetailsLoaded(RaceID) then
-			Common:DisplayStatusMessage("Minimal Archaeology - found unknown artifact", MINARCH_MSG_DEBUG)
-			Common:DisplayStatusMessage("Race " .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)), MINARCH_MSG_DEBUG)
-			Common:DisplayStatusMessage("Artifact: " .. name, MINARCH_MSG_DEBUG)
-			Common:DisplayStatusMessage("Artifact icon '" .. icon .. "'", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("迷你考古助手 - 发现未知神器", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("种族" .. RaceID .. ": " .. (MinArch.artifacts[RaceID].race or ("种族" .. RaceID)), MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("神器: " .. name, MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("神器图标'" .. icon .. "'", MINARCH_MSG_DEBUG)
 		end
 
 		i=i+1;
@@ -387,7 +387,7 @@ function History:Init()
 
     InitStatistics()
 
-	Common:DisplayStatusMessage("Minimal Archaeology History Initialized!");
+	Common:DisplayStatusMessage("迷你考古助手历史初始化!");
 end
 
 function History:LoadItemDetails(RaceID, caller)
@@ -422,10 +422,10 @@ function History:LoadItemDetails(RaceID, caller)
 
 	MinArch.HistoryListLoaded[RaceID] = allGood
 	if allGood then
-		Common:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now.", MINARCH_MSG_DEBUG)
-		Common:DisplayStatusMessage("Minimal Archaeology - All " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are loaded now (" .. caller .. ").", MINARCH_MSG_DEBUG)
+		Common:DisplayStatusMessage("迷你考古助手 - 所有" .. (MinArch.artifacts[RaceID].race or ("种族" .. RaceID)) .. "物品已加载.", MINARCH_MSG_DEBUG)
+		Common:DisplayStatusMessage("迷你考古助手 - 所有" .. (MinArch.artifacts[RaceID].race or ("种族" .. RaceID)) .. "物品已加载 (" .. caller .. ").", MINARCH_MSG_DEBUG)
 	else
-		Common:DisplayStatusMessage("Minimal Archaeology - Some " .. (MinArch.artifacts[RaceID].race or ("Race" .. RaceID)) .. " items are not loaded yet (" .. caller .. ").", MINARCH_MSG_DEBUG)
+		Common:DisplayStatusMessage("迷你考古助手 - 部分" .. (MinArch.artifacts[RaceID].race or ("种族" .. RaceID)) .. "物品尚未加载 (" .. caller .. ").", MINARCH_MSG_DEBUG)
         History:DelayedUpdate();
 	end
 
@@ -508,7 +508,7 @@ function History:GetHistory(RaceID, caller)
             local name, desc, _, _, spelldesc, _, _, _, firstcomplete, totalcomplete = GetArtifactInfoByRace(RaceID, details.apiIndex)
             if (previousCompleted and previousCompleted > 0 and previousCompleted > totalcomplete) then
                 -- Don't update stored data if the response is bogus
-                Common:DisplayStatusMessage("Bogus data from API, skipping detail update", MINARCH_MSG_DEBUG)
+                Common:DisplayStatusMessage("来自应用程序接口的虚假数据, 跳过细节更新", MINARCH_MSG_DEBUG)
                 -- BuildHistory(RaceID, 'GetHistory');
                 -- History:DelayedUpdate();
                 -- return;
@@ -762,7 +762,7 @@ local function HistoryTooltip(self, RaceID, ItemID)
     end
 
 	if not artifact["firstcomplete"] then
-		GameTooltip:AddLine("Incomplete", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
+		GameTooltip:AddLine("未完成", GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
 	elseif artifact["firstcomplete"] == 0 then
 		GameTooltip:AddLine(" ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 		if (artifact["sellprice"] ~= nil) then
@@ -770,7 +770,7 @@ local function HistoryTooltip(self, RaceID, ItemID)
 				GameTooltip:AddLine("|cffffffff"..C_CurrencyInfo.GetCoinTextureString(artifact["sellprice"]), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 			end
 		end
-		GameTooltip:AddLine("In Progress", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
+		GameTooltip:AddLine("进度", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 	else
 		GameTooltip:AddLine(" ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
 		if (artifact["sellprice"] ~= nil) then
@@ -920,7 +920,7 @@ function History:CreateHistoryList(RaceID, caller)
 		end
 
 		if allGood then
-			Common:DisplayStatusMessage("Minimal Archaeology - All items are loaded now.", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("迷你考古助手 - 所有物品现在都已加载.", MINARCH_MSG_DEBUG)
 		else
 			return
 		end
@@ -1190,7 +1190,7 @@ end
 
 function History:DelayedUpdate()
     if (histEventTimer ~= nil) then
-        Common:DisplayStatusMessage("CreateHistory called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage("CreateHistory调用过于频繁, 已延迟" .. historyUpdateTimout .. "秒", MINARCH_MSG_DEBUG)
         histEventTimer:Cancel();
     end
     histEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()

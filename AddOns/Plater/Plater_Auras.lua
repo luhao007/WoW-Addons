@@ -202,7 +202,7 @@ function Plater.AddExtraAura(unitGUID, spellId, duration, borderColor, overlayCo
 
 	if (not spellName) then
 		if (showErrors) then
-			Plater:Msg("platerInternal.ExtraAuras.Add(): invalid spellId or spell does not exists.")
+			Plater:Msg("platerInternal.ExtraAuras.Add(): 无效的法术ID或法术不存在.")
 		end
 		return
 	end

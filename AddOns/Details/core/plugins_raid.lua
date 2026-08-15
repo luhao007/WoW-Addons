@@ -367,7 +367,7 @@
 				if (second < 10) then
 					second = "0" .. second
 				end
-				local msg = "|cFFFFFF00[|r".. minute ..  ":" .. second .. "|cFFFFFF00]|r Interrupt: " .. spellname .. " (" .. class_color .. _detalhes:GetOnlyName(who_name) .. "|r)"
+				local msg = "|cFFFFFF00[|r".. minute ..  ":" .. second .. "|cFFFFFF00]|r 打断: " .. spellname .. " (" .. class_color .. _detalhes:GetOnlyName (who_name) .. "|r)"
 
 				_detalhes:SendMsgToChannel (msg, "PRINT")
 			end
@@ -487,7 +487,7 @@
 			if (second < 10) then
 				second = "0" .. second
 			end
-			msg = "|cFF8F8FFF[|r".. minute ..  ":" .. second .. "|cFF8F8FFF]|r Cooldown: " .. spellname .. " (" .. class_color .. _detalhes:GetOnlyName(who_name) .. "|r" .. class_color2 .. alvo_name .. "|r)"
+			msg = "|cFF8F8FFF[|r".. minute ..  ":" .. second .. "|cFF8F8FFF]|r CD: " .. spellname .. " (" .. class_color .. _detalhes:GetOnlyName (who_name) .. "|r" .. class_color2 .. alvo_name .. "|r)"
 
 			_detalhes:SendMsgToChannel (msg, "PRINT")
 
@@ -564,7 +564,7 @@
 					local coords = CLASS_ICON_TCOORDS [class]
 					class_color = "|TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:256:256:" .. coords[1]/2*256 .. ":" .. coords[2]/2*256 .. ":" .. coords[3]/2*256 .. ":" .. coords[4]/2*256 .. "|t |c" .. RAID_CLASS_COLORS [class].colorStr
 				end
-				msg = "Death: " .. class_color .. alvo_name .. "|r ->"
+				msg = "死亡: " .. class_color .. alvo_name .. "|r ->"
 			else
 				msg = _cstr (Loc ["STRING_OPTIONS_RT_DEATH_MSG"], alvo_name) .. ":"
 			end

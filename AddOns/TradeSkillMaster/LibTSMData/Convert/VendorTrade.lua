@@ -20,8 +20,6 @@ function VendorTrade.Get()
 		return DATA.Retail
 	elseif LibTSMData.IsPandaClassic() then
 		return DATA.Panda
-	elseif LibTSMData.IsBCClassic() then
-		return DATA.BCC
 	elseif LibTSMData.IsVanillaClassic() then
 		return DATA.Vanilla
 	else
@@ -36,15 +34,6 @@ end
 -- ============================================================================
 
 DATA.Vanilla = {
-}
-
-
-
--- ============================================================================
--- Burning Crusade
--- ============================================================================
-
-DATA.BCC = {
 }
 
 

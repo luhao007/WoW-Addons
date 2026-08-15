@@ -275,10 +275,7 @@ local legionToys = {
 		cat = CONSTANTS.ITEM_CATEGORIES.LEGION,
 		type = CONSTANTS.ITEM_TYPES.ITEM,
 		isToy = true,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1866, -- Gul'dan
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Skull of Corruption"],
 		itemId = 143544,
 		chance = 30,

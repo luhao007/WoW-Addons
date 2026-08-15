@@ -36,7 +36,7 @@ function Plater.OpenColorFrame()
 	--close button
 	local closeButton = DF:CreateButton (a, function() a:Hide() end, 160, 20, "", -1, nil, nil, nil, nil, nil, DF:GetTemplate ("button", "OPTIONS_BUTTON_TEMPLATE"))
 	closeButton:SetPoint ("topright", a, "topright", -1, 0)
-	closeButton:SetText ("Close Color Palette")
+	closeButton:SetText ("关闭调色板")
 
 	DF:ApplyStandardBackdrop (a)
 

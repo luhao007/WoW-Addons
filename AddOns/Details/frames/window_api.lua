@@ -43,14 +43,14 @@ function Details:CreateAPI2Frame()
         local onSelectAPI = function(self)
             local apiName = apiFunctionNames [self.index]
             if (not apiName) then
-                Details:Msg("API name not found:", apiName)
+                Details:Msg("API名字没有找到:", apiName)
                 return
             end
             
             --fill the box in the right with information about the API
             local apiInfo = api [self.index]
             if (not apiInfo) then
-                Details:Msg("API information for api not found", apiName)
+                Details:Msg("未找到api的API信息", apiName)
                 return
             end
             
@@ -236,10 +236,10 @@ function Details:CreateAPI2Frame()
             parametersHeader:SetPoint("topleft", Api2Frame, "topleft", xAnchorPoint, parametersYStart)
             parametersHeader:SetBackdrop({bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
             parametersHeader:SetBackdropColor(unpack(backdropColor))
-            parametersHeader.name = DetailsFramework:CreateLabel(parametersHeader, "Name", 12, "yellow")
-            parametersHeader.typeData = DetailsFramework:CreateLabel(parametersHeader, "Type", 12, "yellow")
-            parametersHeader.required = DetailsFramework:CreateLabel(parametersHeader, "Is Required", 12, "yellow")
-            parametersHeader.default = DetailsFramework:CreateLabel(parametersHeader, "Default Value", 12, "yellow")
+            parametersHeader.name = DetailsFramework:CreateLabel(parametersHeader, "名字", 12, "yellow")
+            parametersHeader.typeData = DetailsFramework:CreateLabel(parametersHeader, "类型", 12, "yellow")
+            parametersHeader.required = DetailsFramework:CreateLabel(parametersHeader, "是必需的", 12, "yellow")
+            parametersHeader.default = DetailsFramework:CreateLabel(parametersHeader, "默认值", 12, "yellow")
             parametersHeader.name:SetPoint("left", parametersHeader, "left", 2, 0)
             parametersHeader.typeData:SetPoint("left", parametersHeader, "left", space1, 0)
             parametersHeader.required:SetPoint("left", parametersHeader, "left", space2, 0)
@@ -291,7 +291,7 @@ function Details:CreateAPI2Frame()
         
         --return value box
             local returnYStart = yStart - 260
-            local returnString = DetailsFramework:CreateLabel(Api2Frame, "Return Values", 12, "orange")
+            local returnString = DetailsFramework:CreateLabel(Api2Frame, "返回值", 12, "orange")
             returnString:SetPoint("topleft", Api2Frame, "topleft", xAnchorPoint, returnYStart)
             
             returnYStart = returnYStart - 20
@@ -302,8 +302,8 @@ function Details:CreateAPI2Frame()
             returnHeader:SetPoint("topleft", Api2Frame, "topleft", xAnchorPoint, returnYStart)
             returnHeader:SetBackdrop({bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
             returnHeader:SetBackdropColor(unpack(backdropColor))
-            returnHeader.name = DetailsFramework:CreateLabel(returnHeader, "Name", 12, "yellow")
-            returnHeader.typeData = DetailsFramework:CreateLabel(returnHeader, "Type", 12, "yellow")
+            returnHeader.name = DetailsFramework:CreateLabel(returnHeader, "名字", 12, "yellow")
+            returnHeader.typeData = DetailsFramework:CreateLabel(returnHeader, "类型", 12, "yellow")
             returnHeader.name:SetPoint("left", returnHeader, "left", 2, 0)
             returnHeader.typeData:SetPoint("left", returnHeader, "left", space1, 0)
 

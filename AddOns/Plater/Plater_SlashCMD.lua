@@ -151,7 +151,7 @@ function SlashCmdList.PLATER (msg, editbox)
 		local id = tonumber(idStr)
 		if id then
 			if Plater.db.profile.npc_cache[id] then
-				print("ID", id, "already added.")
+				print("ID", id, "已添加.")
 				return
 			end
 			-- get npc info and add, zone unknown
@@ -178,10 +178,10 @@ function SlashCmdList.PLATER (msg, editbox)
 				if translator.retries > 10 then return end
 				local npcName = GetCreatureNameFromID(id)
 				if npcName then
-					print("Adding", id, "as", npcName)
+					print("添加", id, "为", npcName)
 					Plater.db.profile.npc_cache[id] = {npcName, "UNKNOWN", Plater.Locale or "enUS"}
 				else
-					print("Adding:,", id, "try fetching name again...")
+					print("添加:,", id, "尝试重新获取名称...")
 					C_Timer.After(0.25, translator.translate)
 				end
 			end
@@ -202,7 +202,7 @@ function SlashCmdList.PLATER (msg, editbox)
 				local colorDB = Plater.db.profile.npc_cache
 				if (not colorDB [npcId]) then
 					Plater.db.profile.npc_cache [npcId] = {plateFrame [MEMBER_NAME] or "UNKNOWN", Plater.ZoneName or "UNKNOWN", Plater.Locale or "enUS"}
-					Plater:Msg ("Unit added.")
+					Plater:Msg ("添加单位.")
 
 					if (PlaterOptionsPanelFrame and PlaterOptionsPanelFrame:IsShown()) then
 						PlaterOptionsPanelContainerColorManagementColorsScroll:Hide()
@@ -212,13 +212,13 @@ function SlashCmdList.PLATER (msg, editbox)
 					end
 
 				else
-					Plater:Msg ("Unit already added.")
+					Plater:Msg ("已添加单位.")
 				end
 			else
-				Plater:Msg ("Invalid npc nameplate.")
+				Plater:Msg ("无效的 npc 姓名版.")
 			end
 		else
-			Plater:Msg ("you need to target a npc or the npc nameplate couldn't be found.")
+			Plater:Msg ("需要锁定一个角色否则无法找到角色姓名版.")
 		end
 
 		return
@@ -235,12 +235,12 @@ function SlashCmdList.PLATER (msg, editbox)
 		end
 
 		if (not Plater.rare_ticker) then
-			Plater:Msg("Plater will flash the taskbar wow icon when a rare spawns.")
+			Plater:Msg("当稀有生物出现时 Plater 会闪烁任务栏上的 wow 图标.")
 			Plater.rare_ticker = _G.C_Timer.NewTicker(3, waitTick)
 		else
 			Plater.rare_ticker:Cancel()
 			Plater.rare_ticker = nil
-			Plater:Msg("Plater stopped looking for rares.")
+			Plater:Msg("Plater 不再寻找稀有物品.")
 		end
 
 		return
@@ -301,19 +301,19 @@ function SlashCmdList.PLATER (msg, editbox)
 		ReloadUI()
 
 	elseif msg ~= "" then
-		local usage = "Usage Info:"
-		usage = usage .. "\n|cffffaeae/plater|r : Open the Plater options window"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33version|r: print Plater version information"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33profstart|r: Start Plater profiling"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33profstop|r: Stop Plater profiling"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33profprint|r: Print gathered profiling information"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33add|r: Adds the targeted unit to the NPC Cache"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33colors|r: Opens the Plater color palette"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33minimap|r: Toggle the Plater minimap icon"
-		usage = usage .. "\n|cffffaeae/plater|r |compartment|r: Toggle the Plater addon compartment icon"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33cvar <cvar name>|r: Print information about a cvar value stored in the profile"
-		usage = usage .. "\n|cffffaeae/plater|r |cffffff33resetcvar(s) <cvar name>|r: Resets the given or all relevant cvars to default value for this session"
-		usage = usage .. "\n|cffffaeaeVersion:|r |cffffff33" .. Plater.GetVersionInfo() .. "|r"
+		local usage = "使用说明:"
+		usage = usage .. "\n|cffffaeae/plater|r : 打开 Plater 选项窗口"
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33version|r: 打印 Plater 版本信息"
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33profstart|r: 启动 Plater 剖析"
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33profstop|r: 停止 Plater 剖析"
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33profprint|r: 打印收集到的剖析信息"
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33add|r: 将目标单位添加到 NPC 缓存中"
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33colors|r: 打开 Plater 调色板"
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33minimap|r: 切换 Plater 小地图图标"
+		usage = usage .. "\n|cffffaeae/plater|r |compartment|r: 切换 Plater 插件隔间图标"
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33cvar <cvar name>|r: 打印配置文件中存储的 cvar 值的相关信息."
+		usage = usage .. "\n|cffffaeae/plater|r |cffffff33resetcvar(s) <cvar name>|r: 给定或所有相关 cvars 重置为本次会话的默认值"
+		usage = usage .. "\n|cffffaeae版本:|r |cffffff33" .. Plater.GetVersionInfo() .. "|r"
 		Plater:Msg(usage)
 		return
 

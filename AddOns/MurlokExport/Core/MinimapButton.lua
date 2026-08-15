@@ -27,7 +27,7 @@ local function OnTooltipShow(tooltip, button)
 	end
 
 	tooltip:AddLine(MURLOKEXPORT_TITLE, 1, 1, 1)
-	tooltip:AddLine("Simple addon to display Murlok.io rated Mythic+ or PvP data", 0.4, 0.8, 1, 1)
+	tooltip:AddLine("一款轻量级插件, 用于显示Murlok.io平台的大秘境或PvP数据", 0.4, 0.8, 1, 1)
 end
 
 local function getAnchors(frame)

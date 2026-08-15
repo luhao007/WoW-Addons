@@ -404,10 +404,7 @@ local bfaMounts = {
 	["Mechagon Peacekeeper"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2291, -- HK-8 Aerial Oppression Unit
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Mechagon Peacekeeper"],
 		spellId = 299158,
 		itemId = 168826,
@@ -672,7 +669,7 @@ local bfaMounts = {
 			"876", -- Kul'tiras
 			"974", -- Tol'Dagor
 			"1161", -- Boralus
-			"1352", -- Battle for Dazar'alor (Raid)
+			"1364", -- Battle for Dazar'alor (Raid)
 			"1462", -- Mechagon Island
 			"1165", -- Dazar'alor
 		},
@@ -687,7 +684,7 @@ local bfaMounts = {
 			{ m = CONSTANTS.UIMAPIDS.KULTIRAS },
 			{ m = CONSTANTS.UIMAPIDS.TORDAGOR },
 			{ m = CONSTANTS.UIMAPIDS.BORALUS },
-			{ m = CONSTANTS.UIMAPIDS.BATTLE_FOR_DAZARALOR_RAID, i = true },
+			{ m = CONSTANTS.UIMAPIDS.BATTLE_FOR_DAZARALOR_RAID },
 			{ m = CONSTANTS.UIMAPIDS.MECHAGON_ISLAND },
 			{ m = CONSTANTS.UIMAPIDS.DAZARALOR },
 		},
@@ -735,7 +732,7 @@ local bfaMounts = {
 			[CONSTANTS.INSTANCE_DIFFICULTIES.MYTHIC_RAID] = true, -- Mythic (Raids)
 			[CONSTANTS.INSTANCE_DIFFICULTIES.LFR] = true, -- LFR
 		},
-		coords = { { m = CONSTANTS.UIMAPIDS.BATTLE_FOR_DAZARALOR_RAID, i = true } },
+		coords = { { m = 1364, i = true } },
 	},
 	["Risen Mare"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,

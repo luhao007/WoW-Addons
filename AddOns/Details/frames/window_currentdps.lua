@@ -17,7 +17,7 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 
 		local DF = Details.gump
 	
-		local f = DF:CreateSimplePanel(UIParent, 700, 400, "Details! Arena Damage Bar Options", "DetailsCurrentRealDPSOptions")
+		local f = DF:CreateSimplePanel(UIParent, 700, 400, "Details! 当前真实DPS选项", "DetailsCurrentRealDPSOptions")
 		f:SetPoint("center", UIParent, "center")
 		f:SetScript("OnMouseDown", nil)
 		f:SetScript("OnMouseUp", nil)
@@ -59,11 +59,11 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				Details:UpdateTheRealCurrentDPSFrame(testUsing)
 			end
 			local strataTable = {}
-			strataTable [1] = {value = "BACKGROUND", label = "BACKGROUND", onclick = set_frame_strata}
-			strataTable [2] = {value = "LOW", label = "LOW", onclick = set_frame_strata}
-			strataTable [3] = {value = "MEDIUM", label = "MEDIUM", onclick = set_frame_strata}
-			strataTable [4] = {value = "HIGH", label = "HIGH", onclick = set_frame_strata}
-			strataTable [5] = {value = "DIALOG", label = "DIALOG", onclick = set_frame_strata}
+			strataTable [1] = {value = "BACKGROUND", label = "背景", onclick = set_frame_strata}
+			strataTable [2] = {value = "LOW", label = "低", onclick = set_frame_strata}
+			strataTable [3] = {value = "MEDIUM", label = "中", onclick = set_frame_strata}
+			strataTable [4] = {value = "HIGH", label = "高", onclick = set_frame_strata}
+			strataTable [5] = {value = "DIALOG", label = "窗口", onclick = set_frame_strata}
 			
 		--font options
 			local set_font_shadow= function(_, _, shadow)
@@ -71,9 +71,9 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				Details:UpdateTheRealCurrentDPSFrame(testUsing)
 			end
 			local fontShadowTable = {}
-			fontShadowTable [1] = {value = "NONE", label = "None", onclick = set_font_shadow}
-			fontShadowTable [2] = {value = "OUTLINE", label = "Outline", onclick = set_font_shadow}
-			fontShadowTable [3] = {value = "THICKOUTLINE", label = "Thick Outline", onclick = set_font_shadow}
+			fontShadowTable [1] = {value = "NONE", label = "无", onclick = set_font_shadow}
+			fontShadowTable [2] = {value = "OUTLINE", label = "轮廓", onclick = set_font_shadow}
+			fontShadowTable [3] = {value = "THICKOUTLINE", label = "轮廓加粗", onclick = set_font_shadow}
 			
 			local on_select_text_font = function(self, fixed_value, value)
 				Details.realtime_dps_meter.font_face = value
@@ -96,7 +96,7 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 		--options table
 		local options = {
 		
-			{type = "label", get = function() return "Frame Settings:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+			{type = "label", get = function() return "框架设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 			--enabled
 			{
 				type = "toggle",
@@ -111,8 +111,8 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 						end
 					end)
 				end,
-				desc = "Enabled",
-				name = "Enabled",
+				desc = "启用",
+				name = "启用",
 				text_template = options_text_template,
 			},
 			--locked
@@ -124,8 +124,8 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 					Details:UpdateTheRealCurrentDPSFrame(testUsing)
 					lockCallback()
 				end,
-				desc = "Locked",
-				name = "Locked",
+				desc = "锁定",
+				name = "锁定",
 				text_template = options_text_template,
 			},
 			--showtitle
@@ -136,8 +136,8 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 					Details.realtime_dps_meter.frame_settings.show_title = not Details.realtime_dps_meter.frame_settings.show_title
 					Details:UpdateTheRealCurrentDPSFrame(testUsing)
 				end,
-				desc = "Show Title",
-				name = "Show Title",
+				desc = "显示标题",
+				name = "显示标题",
 				text_template = options_text_template,
 			},
 			--backdrop color
@@ -151,8 +151,8 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 					color[1], color[2], color[3], color[4] = r, g, b, a
 					Details:UpdateTheRealCurrentDPSFrame(testUsing)
 				end,
-				desc = "Backdrop Color",
-				name = "Backdrop Color",
+				desc = "背景色",
+				name = "背景色",
 				text_template = options_text_template,
 			},
 			--statra
@@ -160,7 +160,7 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				type = "select",
 				get = function() return Details.realtime_dps_meter.frame_settings.strata end,
 				values = function() return strataTable end,
-				name = "Frame Strata"
+				name = "框体结构"
 			},
 			--speed
 			{
@@ -173,8 +173,8 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				min = 1,
 				max = 6,
 				step = 1,
-				name = "Speed",
-				desc = "Low is faster",
+				name = "速度",
+				desc = "低位更快",
 				text_template = options_text_template,
 			},
 			--width
@@ -188,7 +188,7 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				min = 1,
 				max = 500,
 				step = 1,
-				name = "Width",
+				name = "宽度",
 				text_template = options_text_template,
 			},			
 			--height
@@ -202,13 +202,13 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				min = 1,
 				max = 300,
 				step = 1,
-				name = "Height",
+				name = "高度",
 				text_template = options_text_template,
 			},
 
 			--[=[
 			{type = "breakline"},
-			{type = "label", get = function() return "Enabled On:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+			{type = "label", get = function() return "启用在:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 			--arenas
 			{
 				type = "toggle",
@@ -217,7 +217,7 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 					Details.realtime_dps_meter.arena_enabled = not Details.realtime_dps_meter.arena_enabled
 					Details:LoadFramesForBroadcastTools()
 				end,
-				name = "Arena Matches",
+				name = "竞技场比赛",
 				text_template = options_text_template,
 			},
 			--mythic dungeon
@@ -228,13 +228,13 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 					Details.realtime_dps_meter.mythic_dungeon_enabled = not Details.realtime_dps_meter.mythic_dungeon_enabled
 					Details:LoadFramesForBroadcastTools()
 				end,
-				name = "Mythic Dungeons",
+				name = "史诗地下城",
 				text_template = options_text_template,
 			},
 			--]=]
 
 			{type = "breakline"},
-			{type = "label", get = function() return "Text Settings:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+			{type = "label", get = function() return "文本设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 			--font size
 			{
 				type = "range",
@@ -246,7 +246,7 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				min = 4,
 				max = 32,
 				step = 1,
-				name = "Font Size",
+				name = "字体大小",
 				text_template = options_text_template,
 			},
 			--font color
@@ -260,8 +260,8 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 					color[1], color[2], color[3], color[4] = r, g, b, a
 					Details:UpdateTheRealCurrentDPSFrame(testUsing)
 				end,
-				desc = "Font Color",
-				name = "Font Color",
+				desc = "字体颜色",
+				name = "字体颜色",
 				text_template = options_text_template,
 			},
 			--font shadow
@@ -269,14 +269,14 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				type = "select",
 				get = function() return Details.realtime_dps_meter.font_shadow end,
 				values = function() return fontShadowTable end,
-				name = "Font Shadow"
+				name = "字体阴影"
 			},
 			--font face
 			{
 				type = "select",
 				get = function() return Details.realtime_dps_meter.font_face end,
 				values = function() return DF:BuildDropDownFontList (on_select_text_font) end,
-				name = "Font Face",
+				name = "字面",
 				text_template = options_text_template,
 			},
 
@@ -290,7 +290,7 @@ function Details:OpenCurrentRealDPSOptions(from_options_panel)
 				min = 0,
 				max = 150,
 				step = 1,
-				name = "Text Position",
+				name = "文本位置",
 				text_template = options_text_template,
 			},
 		}
@@ -357,7 +357,7 @@ function Details:CreateCurrentDpsFrame(parent, name)
 		f:SetClampedToScreen(true)
 
 		f.movemeLabel = f:CreateFontString(nil, "overlay", "GameFontNormal")
-		f.movemeLabel:SetText("Move-Me")
+		f.movemeLabel:SetText("移动我")
 
 		f.lockButton = DetailsFramework:CreateButton(f, function()
 			Details.realtime_dps_meter.frame_settings.locked = not Details.realtime_dps_meter.frame_settings.locked
@@ -476,7 +476,7 @@ function Details:CreateCurrentDpsFrame(parent, name)
 	--title bar
 		local TitleString = f:CreateFontString(nil, "overlay", "GameFontNormal")
 		TitleString:SetPoint("top", f, "top", 0, -5)
-		TitleString:SetText("Details! Arena Real Time DPS Tracker")
+		TitleString:SetText("Details! 竞技场实时DPS追踪")
 		DF:SetFontSize(TitleString, 9)
 		local TitleBackground = f:CreateTexture(nil, "artwork")
 		TitleBackground:SetTexture([[Interface\Tooltips\UI-Tooltip-Background]])
@@ -509,7 +509,7 @@ function Details:CreateCurrentDpsFrame(parent, name)
 
 	--labels for mythic dungeon / group party
 		local labelGroupDamage = f:CreateFontString(nil, "overlay", "GameFontNormal")
-		labelGroupDamage:SetText("Real Time Group DPS")
+		labelGroupDamage:SetText("实时队伍DPS")
 		DF:SetFontSize(labelGroupDamage, 14)
 		DF:SetFontOutline (labelGroupDamage, "NONE")
 		

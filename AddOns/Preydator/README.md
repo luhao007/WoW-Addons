@@ -2,21 +2,13 @@
 
 Preydator is a focused Prey Hunt companion addon for World of Warcraft, featuring Predator-inspired audio cues, a customizable hunt progress bar, and stage-based tracking built from Blizzard quest/widget APIs.
 
-Current release: `v3.0.1`
-
-Runtime safety note: In restricted instance content (`party`, `raid`, `scenario`, `delve`, `arena`, `pvp`), Preydator is intended to fail closed and keep runtime behavior inactive.
-Widget safety note: Preydator captures prey stage data from `Setup` snapshots and a constrained tracked-frame refresh path while explicitly skipping known taint-prone fields (`shownState`, `widgetID`, `widgetType`). Numeric payload handling stays on the sanitized `pcall -> tostring -> tonumber` path to reduce world-map tooltip/layout taint risk.
-Refresh safety note: when Blizzard briefly fails to return the active prey quest during reload or refresh timing windows, Preydator now keeps the already-tracked live prey quest as authoritative as long as it still exists in the quest log, preventing stage/progress resets like `66% -> 0%` mid-hunt.
-Zone safety note: prey-zone matching now re-evaluates stale quest map data against the live player map so new maps do not remain stuck on a previous zone ID, and the built-in report window keeps copy behavior safe from unintended overwrite when the user is selecting text.
+Current release: `v2.0.6`
 
 ## What Preydator tracks
 
 - Active prey quest and stage transitions in real time
 - Out-of-zone state and fallback labels
 - Stage-based progress display using Blizzard's exposed stage model
-- Locale-aware hunt/achievement label normalization for non-English clients (prefix and difficulty marker parsing)
-- Hunt Table achievement signal matching with strict mode boundaries and compact punctuation/title normalization handling
-- Hunt Table mode memory stores only confirmed quest difficulty detections and reuses questID mappings to reduce locale/parsing drift
 
 Important: Blizzard does not expose a true percent completion for Prey Hunts. Preydator uses stage transitions and fallback stage percentages.
 
@@ -32,18 +24,21 @@ Important: Blizzard does not expose a true percent completion for Prey Hunts. Pr
 
 ## UI and layout features (2.0.3)
 
-- New module runtime controls for Bar, Sounds, Hunt Table, and a standalone launcher
+- New module runtime controls for Bar, Sounds, Currency, Hunt Table, and Warband
 - Module-aware settings locking with reload detection when module state changes
 - CPU optimizations for zone caching and reduced unnecessary update routes
 - New installs start with the bar unlocked for quick placement; lock it in Options when finished
 - 4K display support with corrected dropdown scaling and UI-scale normalization
 - Account-wide prey unlock tracking for Nightmare difficulty
 - Bar position persistence across reloads with resilient backup coordinate sync
+- New Currency Tracker window for approved Prey currencies
+- New Warband currency table with sortable columns and realm grouping
 - Hunt Table tracker with grouping/sorting, reward icons, collapsible headers, and direct accept/open actions
-- Hunt Table `Prey Track (Alts)` with `N/H/Ni` available/completed modes and weekly-aware tracking snapshots
-- Hunt Table achievement signals resolve from explicit questID criteria mappings only (no title/name fallback matching)
-- Hunt Table achievement signals on higher-tier rows can cumulatively include unmet lower-tier mapped achievements for the same prey target while remaining questID/criteria anchored
-- One-time splash screen for Preydator 3.0 (with Show What's New in Advanced tab)
+- Warband `Prey Track (Alts)` with `N/H/Ni` available/completed modes and weekly-aware tracking snapshots
+- Session delta tracking for approved Prey currencies
+- Theme support in currency windows: `Light`, `Brown`, `Dark`
+- One-time What's New splash for currency launch (with Show Again in Advanced tab)
+- Currencies tab now includes direct controls for tracker/warband visibility, tracked currency selection, random hunt cost context, and panel layout sliders
 
 - Modular tabbed settings panel: `General`, `Display`, `Text`, `Audio`, `Advanced`
 - Compact Edit Mode quick-settings window
@@ -80,7 +75,7 @@ Important: Blizzard does not expose a true percent completion for Prey Hunts. Pr
 - Full stage label editing for all 4 stages
 - Prefix + suffix label system
 - Dedicated `Out of Zone Prefix` and `Ambush Prefix`
-- Ambush/Bloody suffix fields support exact variable markers (`preyTargetName`, `bloodyCommandSourceName`) or literal custom text
+- Ambush custom override text
 - Label modes:
 	- Centered
 	- Left (Prefix only)
@@ -94,59 +89,36 @@ Important: Blizzard does not expose a true percent completion for Prey Hunts. Pr
 
 - Stage 1-4 sound selection
 - Ambush sound selection
-- Echo of Predation sound selection (Nightmare prey encounter)
 - Sound channel selection
 - Sound enhancement control
-- Stage sound test buttons (1-4), Ambush test, Bloody Command test, and Echo of Predation test button
+- Stage sound test buttons (1-4) and Ambush test button
 - Custom sound file add/remove in settings UI
 - Protected default sound files cannot be removed
-- Sound selection uses a dedicated searchable picker popup (15 visible rows with scrollbar) for Stage 1-4, Ambush, Bloody Command, and Echo of Predation
-- Sound list order is stable: `None`, custom addon-local sounds, bundled Preydator defaults, then extra registered sounds from LibSharedMedia when available
-- Ambush alert trigger supports prey-name matching plus fallback ambush phrase matching (including trap callouts) while an active prey hunt context is valid
-- Bloody Command alert trigger: Nightmare prey only, stages 1-3
-- Existing custom/addon-local sound selections are preserved across updates, including migrated addon-local path casing/format variants
-- The legacy 2.2.0 audio migration prompt is retired so updates cannot accidentally replace saved sound choices
 
 Bundled default files:
 
 - `predator-alert.ogg`
 - `predator-ambush.ogg`
-- `predator-snarl-01.ogg`
 - `predator-torment.ogg`
 - `predator-kill.ogg`
-- `well-we-ve-prepared-a-trap-for-this-predator.ogg`
-- `predator-kills-its-prey-to-survive.ogg`
-- `echo-of-predation.ogg`
-
-2.2.0 default mapping:
-
-- Stage 1: `predator-ambush.ogg`
-- Stage 2: `predator-snarl-01.ogg`
-- Stage 3: `predator-torment.ogg`
-- Stage 4: `predator-kill.ogg`
-- Ambush trigger: `well-we-ve-prepared-a-trap-for-this-predator.ogg`
-- Bloody Command trigger: `predator-kills-its-prey-to-survive.ogg`
-- Echo of Predation: `echo-of-predation.ogg`
 
 ## Visibility and icon behavior
 
 - `Only show in prey zone`
 - `Show in Edit Mode preview`
 - `Disable Default Prey Icon`
-- Bar-side zone resolution includes a self-contained fallback that can certify the current prey map from a fresh tracked prey-widget setup signal when Blizzard zone APIs are unresolved (independent of Hunt Scanner cache).
+- Stage 4 map-open fallback behavior when icon is disabled
 
 ## Diagnostics and debug
 
 - `/pd inspect` live diagnostic output
-- `/pd qinspect` quest-focused diagnostic output
-- `/pd hinspect` hunt snapshot diagnostic output
+- `/pd mem` memory snapshot
 - Debug system defaults to off
 - Advanced tab `Enable Debug` toggle
 - Slash debug controls remain available:
 	- `/pd debug on`
 	- `/pd debug off`
 	- `/pd debug show`
-	- `/pd debug bs`
 	- `/pd debug clear`
 
 ## Roadmap progress snapshot
@@ -159,43 +131,14 @@ Bundled default files:
 
 ## Slash commands
 
-- Entry point:
-	- `/pd`
-
-- UI / bar controls:
-	- `/pd options` - open the Preydator options panel.
-	- `/pd show` - force the progress bar visible.
-	- `/pd hide` - return the progress bar to automatic visibility.
-	- `/pd toggle` - toggle forced visibility on/off.
-
-- Debug log controls:
-	- `/pd debug on` - enable debug logging.
-	- `/pd debug off` - disable debug logging.
-	- `/pd debug show` - print the latest debug log lines.
-	- `/pd debug bs` - open the debug log in the built-in report window.
-	- `/pd debug clear` - clear stored debug log lines.
-
-- Inspect diagnostics:
-	- `/pd inspect` - print live addon diagnostics to chat.
-	- `/pd inspect bs` - open live addon diagnostics in the built-in report window.
-
-- Quest inspect diagnostics:
-	- `/pd qinspect` - inspect the active prey quest.
-	- `/pd qinspect <questID>` - inspect a specific quest ID.
-	- `/pd qinspect bs` - open active prey quest diagnostics in the built-in report window.
-	- `/pd qinspect <questID> bs` - open specific quest diagnostics in the built-in report window.
-
-- Hunt snapshot diagnostics:
-	- `/pd hinspect` - print the current hunt snapshot to chat.
-	- `/pd hinspect bs` - open the current hunt snapshot in the built-in report window.
-	- `/pd hinspectcopy` - print the last captured hunt payload.
-	- `/pd hinspectcopy bs` - open the last captured hunt payload in the built-in report window.
-
-- Launcher shortcuts (minimap button / addon compartment):
-	- `Left Click` - open Options.
-	- `Right Click` - open the built-in report window.
-
-Removed legacy aliases: `/preydator`, `/pd open`, `/pd mem`, `/pd memory`, `inspectquest*`, and `huntdebug*`.
+- `/pd options` or `/preydator options` - open settings
+- `/pd inspect` - print live diagnostics
+- `/pd inspect bs` - send inspect diagnostics to BugSack
+- `/pd show` - force show bar
+- `/pd hide` - return to auto visibility
+- `/pd toggle` - toggle force show
+- `/pd mem` - print memory usage snapshot
+- `/pd debug <on|off|show|clear>` - debug logging tools
 
 ## Optional custom audio
 

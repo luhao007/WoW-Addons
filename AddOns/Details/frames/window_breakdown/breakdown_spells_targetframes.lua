@@ -297,7 +297,7 @@ function spellsTab.CreateTargetContainer(tabFrame) --~create ~target ~createtarg
 
 		---@type breakdownreporttable
 		local reportData = {
-			title = "Target of " .. detailsFramework:RemoveRealmName(actorObject:Name()) .. " | " .. subDisplayName .. " | " .. combatName
+			title = "目标 " .. detailsFramework:RemoveRealmName(actorObject:Name()) .. " | " .. subDisplayName .. " | " .. combatName
 		}
 
 		local topValue = data[1] and data[1].total or 0

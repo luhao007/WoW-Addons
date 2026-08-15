@@ -172,8 +172,8 @@ end
 ---@param windowIndex number
 ---@return number
 local getWindowIndex = function(windowIndex)
-    assert(type(windowIndex) == "number", "windowIndex must be a number")
-    assert(windowIndex >= 1, "windowIndex must be >= 1")
+    assert(type(windowIndex) == "number", "windowIndex必须为数字")
+    assert(windowIndex >= 1, "windowIndex必须 >= 1")
     return math.floor(windowIndex)
 end
 
@@ -185,7 +185,7 @@ function breakdownMidnight.GetBreakdownWindow(windowIndex, shouldNotError)
     local index = getWindowIndex(windowIndex)
     local windowFrame = breakdownMidnight.BreakdownWindows[index]
     if (not windowFrame and not shouldNotError) then
-        error("breakdown window " .. index .. " does not exist")
+        error("细分窗口" .. index .. "不存在")
     end
     return windowFrame
 end
@@ -244,7 +244,7 @@ function breakdownMidnight.CreateBreakdownWindow(windowIndex, parentFrame)
     titleIcon:SetPoint("topleft", windowFrame, "topleft", CONST_WINDOW_PADDING, -5)
     windowFrame.TitleIcon = titleIcon
 
-    local titleText = detailsFramework:CreateLabel(windowFrame, Loc["STRING_PLAYER_DETAILS"] or "Breakdown", 12, "DETAILS_HEADER_YELLOW")
+    local titleText = detailsFramework:CreateLabel(windowFrame, Loc["STRING_PLAYER_DETAILS"] or "玩家详情", 12, "DETAILS_HEADER_YELLOW")
     titleText:SetPoint("left", titleIcon, "right", 4, 0)
     windowFrame.TitleText = titleText
 
@@ -322,9 +322,9 @@ end
 ---@return detailsbreakdownmidnight_window
 function breakdownMidnight.OpenApocalypseBreakdown(windowIndex, instance, segmentType, segmentId, attributeId, actorObject)
     local index = getWindowIndex(windowIndex)
-    assert(type(segmentType) == "number", "segmentType must be a number")
-    assert(type(segmentId) == "number", "segmentId must be a number")
-    assert(type(attributeId) == "number", "attributeId must be a number")
+    assert(type(segmentType) == "number", "segmentType必须为数字")
+    assert(type(segmentId) == "number", "segmentId必须为数字")
+    assert(type(attributeId) == "number", "attributeId必须为数字")
 
     local shouldNotError = true
     local windowFrame = breakdownMidnight.GetBreakdownWindow(index, shouldNotError)
@@ -384,11 +384,11 @@ function breakdownMidnight.RefreshApocalypseBreakdown(windowIndex)
     local attributeId = windowFrame:GetCurrentAttributeId()
     local actorObject = windowFrame:GetPlayerObject()
 
-    assert(instance, "instance is missing for breakdown window " .. index)
-    assert(type(segmentType) == "number", "segmentType is missing for breakdown window " .. index)
-    assert(type(segmentId) == "number", "segmentId is missing for breakdown window " .. index)
-    assert(type(attributeId) == "number", "attributeId is missing for breakdown window " .. index)
-    assert(actorObject, "actorObject is missing for breakdown window " .. index)
+    assert(instance, "首领战在详情窗口" .. index .. "中缺失")
+    assert(type(segmentType) == "number", "segmentType在详情窗口" .. index .. "中缺失")
+    assert(type(segmentId) == "number", "segmentId在详情窗口" .. index .. "中缺失")
+    assert(type(attributeId) == "number", "attributeId在详情窗口" .. index .. "中缺失")
+    assert(actorObject, "actorObject在详情窗口" .. index .. "中缺失")
 
     return breakdownMidnight.OpenApocalypseBreakdown(index, instance, segmentType, segmentId, attributeId, actorObject)
 end

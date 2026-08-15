@@ -500,7 +500,7 @@ function Details:OpenForge()
                 {name = L["STRING_FORGE_HEADER_SCHOOL"], width = 60, type = "entry", func = no_func},
                 {name = L["STRING_FORGE_HEADER_CASTER"], width = 100, type = "entry", func = no_func},
                 {name = L["STRING_FORGE_HEADER_EVENT"], width = 140, type = "entry", func = no_func},
-                {name = "Ignore", width = 50, type = "checkbox", func = spell_ignore_spell_func, icon = [[Interface\Glues\LOGIN\Glues-CheckBox-Check]], notext = true, iconalign = "center"},
+                {name = "忽略", width = 50, type = "checkbox", func = spell_ignore_spell_func, icon = [[Interface\Glues\LOGIN\Glues-CheckBox-Check]], notext = true, iconalign = "center"},
                 ----{name = L["STRING_FORGE_HEADER_CREATEAURA"], width = 86, type = "button", func = spell_open_aura_creator, icon = [[Interface\AddOns\WeakAuras\Media\Textures\icon]], notext = true, iconalign = "center"},
             },
             fill_panel = false,
@@ -701,8 +701,8 @@ function Details:OpenForge()
         end
 
         local allNpcsModule = {
-            name = "Npc List", --localize-me
-            desc = "Show a list of known npcs", --localize-me
+            name = "NPC列表", --localize-me
+            desc = "显示已知的NPC列表", --localize-me
 
             filters_widgets = function()
                 if (not DetailsForgeEncounterNpcIDsFilterPanel) then
@@ -751,7 +751,7 @@ function Details:OpenForge()
                 {name = L["STRING_FORGE_HEADER_INDEX"], width = 40, type = "text", func = no_func},
                 {name = L["STRING_FORGE_HEADER_NAME"], width = 200, type = "entry", func = no_func},
                 {name = "NpcId", width = 60, type = "entry", func = no_func},
-                {name = "Ignore", width = 50, type = "checkbox", func = ignoreNpcFunc, icon = [[Interface\Glues\LOGIN\Glues-CheckBox-Check]], notext = true, iconalign = "center"},
+                {name = "忽略", width = 50, type = "checkbox", func = ignoreNpcFunc, icon = [[Interface\Glues\LOGIN\Glues-CheckBox-Check]], notext = true, iconalign = "center"},
             },
 
             fill_panel = false,

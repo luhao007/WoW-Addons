@@ -110,7 +110,7 @@ end
 
 function AuraScan.AddAura(spellId, bAddToTimeLine)
     if (not spellId or type(spellId) ~= "number") then
-        Details:Msg("AuraScan.AddAura() called, but spellId is not a number.")
+        Details:Msg("调用了AuraScan.AddAura(), 但spellId不是数字.")
         return
     end
 
@@ -122,14 +122,14 @@ function AuraScan.AddAura(spellId, bAddToTimeLine)
             AuraScan.AurasToTimeline[spellId] = true
         end
     else
-        Details:Msg("AuraScan.AddAura() called, but spellId is not a valid spell.")
+        Details:Msg("调用了AuraScan.AddAura(), 但spellId不是有效法术.")
     end
 end
 
 --is the aura added?
 function AuraScan.IsAuraAdded(spellId)
     if (not spellId or type(spellId) ~= "number") then
-        Details:Msg("AuraScan.IsAuraAdded() called, but spellId is not a number.")
+        Details:Msg("调用了AuraScan.IsAuraAdded(), 但spellId不是数字.")
         return
     end
     return AuraScan.AurasToScan[spellId]
@@ -137,7 +137,7 @@ end
 
 function AuraScan.RemoveAura(spellId)
     if (not spellId or type(spellId) ~= "number") then
-        Details:Msg("AuraScan.RemoveAura() called, but spellId is not a number.")
+        Details:Msg("调用了AuraScan.RemoveAura(), 但spellId不是数字.")
         return
     end
     AuraScan.AurasToScan[spellId] = nil
@@ -274,7 +274,7 @@ local fRemoveAura = function(auraInstanceId)
                 end
 
                 if (not auraTimelineTableWhenAdded) then
-                    Details:Msg("|cFFFF9900AuraScan: fRemoveAura() addedAura was not found in the timeline.")
+                    Details:Msg("|cFFFF9900AuraScan: fRemoveAura()间轴中未发现addedAura.")
                     return
                 end
 
@@ -428,6 +428,6 @@ function AuraScan.Stop()
             callback("TIMELINE_READY", AuraScan.AuraTimelineStorage)
         end
     else
-        Details:Msg("AuraScan.Stop() called, but AuraScan is not enabled.")
+        Details:Msg("调用了AuraScan.Stop(), 但AuraScan未启用.")
     end
 end

@@ -106,7 +106,7 @@
 											if (cooldownDMPE + 300 > GetTime()) then
 												return --on cooldown
 											end
-											Details:Msg("Someone gave you a 'GG, Well Played!' on Details! Mythic Plus addon (get from CurseForge or Wago).")
+											Details:Msg("有人在Details! Mythic Plus addon(可通过CurseForge或Wago获取)中给你发送了'GG, 你真棒!'留言.")
 											cooldownDMPE = GetTime()
 										end
 									end
@@ -346,7 +346,7 @@
 				if (lowerInstanceId) then
 					local instance = Details:GetInstance(lowerInstanceId)
 					if (instance) then
-						instance:InstanceAlert("Update Available!", {[[Interface\GossipFrame\AvailableQuestIcon]], 16, 16, false}, Details.update_warning_timeout, {Details.OpenUpdateWindow})
+						instance:InstanceAlert("可用更新!", {[[Interface\GossipFrame\AvailableQuestIcon]], 16, 16, false}, Details.update_warning_timeout, {Details.OpenUpdateWindow})
 					end
 				end
 				Details:Msg(Loc["STRING_VERSION_AVAILABLE"])

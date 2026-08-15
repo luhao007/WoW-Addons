@@ -134,7 +134,7 @@ function platerInternal.CreateCastBarOptions()
 
         --outline table
         local outline_modes = {"NONE", "MONOCHROME", "OUTLINE", "THICKOUTLINE", "MONOCHROME, OUTLINE", "MONOCHROME, THICKOUTLINE", "SLUG", "OUTLINE, SLUG"}
-        local outline_modes_names = {"None", "Monochrome", "Outline", "Thick Outline", "Monochrome Outline", "Monochrome Thick Outline", "SLUG", "Slug Outline"}
+        local outline_modes_names = {"无", "单色", "轮廓", "粗轮廓", "单色轮廓", "单色粗轮廓", "实心条", "轮廓条"}
         local build_outline_modes_table = function (actorType, member)
             local t = {}
             for i = 1, #outline_modes do
@@ -333,7 +333,7 @@ function platerInternal.CreateCastBarOptions()
         },
         
         {type = "blank"},
-        {type = "label", get = function() return "Boss-Mod Support:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "首领模块支持:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         
         {
             type = "toggle",
@@ -342,8 +342,8 @@ function platerInternal.CreateCastBarOptions()
                 Plater.db.profile.bossmod_castrename_enabled = value
                 --Plater.UpdateAllPlates()
             end,
-            name = "Enable boss-mod cast spell renaming",
-            desc = "Enable cast rename based on BigWigs or DBM spell names.",
+            name = "启用首领模块施法技能重命名",
+            desc = "启用基于BigWigs法术名称的法术重命名.",
         },
 
         {type = "breakline"},
@@ -479,8 +479,8 @@ function platerInternal.CreateCastBarOptions()
                 Plater.UpdateAllPlates()
                 Plater.DoCastBarTest()
             end,
-            name = "Empowered",
-            desc = "Empowered",
+            name = "蓄力",
+            desc = "蓄力",
             hidden = not IS_WOW_PROJECT_MIDNIGHT,
         },
         {
@@ -495,8 +495,8 @@ function platerInternal.CreateCastBarOptions()
                 Plater.UpdateAllPlates()
                 Plater.DoCastBarTest (true)
             end,
-            name = "Important",
-            desc = "Important",
+            name = "重要",
+            desc = "重要",
             hidden = not IS_WOW_PROJECT_MIDNIGHT,
         },
         {
@@ -563,7 +563,7 @@ function platerInternal.CreateCastBarOptions()
 
         {type = "breakline"},
         --toggle cast bar target
-        {type = "label", get = function() return "Cast Bar Target Name:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "施法条目标名称:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         {
             type = "toggle",
             get = function() return Plater.db.profile.castbar_target_show end,
@@ -612,8 +612,8 @@ function platerInternal.CreateCastBarOptions()
 			max = 300,
 			step = 1,
 			usedecimals = false,
-			name = "Max width",
-			desc = "Target text width limitation.\n 0 = no limitation",
+			name = "最大宽度",
+			desc = "目标文本的宽度限制.\n 0 = 无限制.",
 		},
         {
             type = "toggle",
@@ -622,8 +622,8 @@ function platerInternal.CreateCastBarOptions()
                 Plater.db.profile.castbar_target_text_wrap  = value
                 Plater.UpdateAllPlates()
             end,
-            name = "Text wrap",
-            desc = "Enables/Disables text wrapping to multi-line.",
+            name = "文本换行",
+            desc = "启用/禁用文本自动换行为多行.",
         },
         --text font
         {
@@ -771,8 +771,8 @@ function platerInternal.CreateCastBarOptions()
                 Plater.db.profile.castbar_icon_showshield = value
                 Plater.RefreshDBUpvalues()
             end,
-            name = "Show Shield",
-            desc = "Shows or hides the shield icon for not interruptible casts.",
+            name = "显示护盾",
+            desc = "显示或隐藏不可打断施法的护盾图标.",
         },
 
         {type = "blank"},
@@ -795,7 +795,7 @@ function platerInternal.CreateCastBarOptions()
     --the -30 is to fix an annomaly where the options for castbars starts 30 pixels to the right, dunno why (tercio)
     castBar_options.always_boxfirst = true
     castBar_options.language_addonId = addonId
-    castBar_options.Name = "Cast Bar Options"
+    castBar_options.Name = "施法条选项"
     DF:BuildMenu (castBarFrame, castBar_options, startX-20, startY, heightSize, false, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template, platerInternal.OptionsGlobalCallback)
 
     platerInternal.LoadOnDemand_IsLoaded.CastOptions = true

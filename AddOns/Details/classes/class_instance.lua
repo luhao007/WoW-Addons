@@ -365,8 +365,8 @@ local instanceMixins = {
 
 		--debug: check if the if combatObject has been destroyed
 		if (combatObject.__destroyed and not Details:IsUsingBlizzardAPI(instance)) then
-			Details:Msg("a deleted combat object was found refreshing a window, please report this bug on discord:")
-			Details:Msg("combat destroyed by:", combatObject.__destroyedBy)
+			Details:Msg("发现一个被删除的战斗对象正在刷新一个窗口, 请在discord上报告这个错误:")
+			Details:Msg("战斗中被摧毁的:", combatObject.__destroyedBy)
 			local bForceChange = true
 			instance:SetSegment(DETAILS_SEGMENTID_CURRENT, bForceChange)
 			return
@@ -914,7 +914,7 @@ local instanceMixins = {
 		if (actor) then
 			Details:DumpActorInfo(actor)
 		else
-			Details:Msg("no actor found in line index", index)
+			Details:Msg("未找到行索引中的角色", index)
 		end
 	end,
 
@@ -2747,7 +2747,7 @@ function Details:SwitchTo (switch_table, nosave)
 			Details.RaidTables:EnableRaidMode (self, switch_table [2])
 		else
 			local plugin = Details:GetPlugin (plugin_global_name)
-			Details:Msg("Auto Switch: a window is already showing " .. (plugin.__name or "" .. ", please review your switch config."))
+			Details:Msg("自动切换: 一个窗口已经在显示" .. (plugin.__name or "" .. ", 请检查切换配置."))
 		end
 	else
 		--muda para um atributo normal
@@ -3444,7 +3444,7 @@ function Details:TrocaTabela(instance, segmentId, attributeId, subAttributeId, f
 	if (not Details222.Instances.ValidateAttribute(attributeId, subAttributeId)) then
 		subAttributeId = 1
 		attributeId = 1
-		Details:Msg("invalid attribute, switching to damage done.")
+		Details:Msg("无效的属性, 转为造成伤害.")
 	end
 
 	if (not detailsFramework:IsAddonApocalypseWow() and Details.auto_swap_to_dynamic_overall and Details.in_combat and UnitAffectingCombat("player")) then
@@ -4057,7 +4057,7 @@ function Details:SendApocalypseReport()
 	if (reportData) then
 		local totalAmount = reportData.totalAmount
 		if (issecretvalue(totalAmount)) then
-			Details:Msg("Report data is secret, try after combat.")
+			Details:Msg("报告数据为机密, 请在战斗结束后重试.")
 			return
 		end
 

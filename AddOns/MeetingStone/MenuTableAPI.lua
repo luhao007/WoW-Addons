@@ -37,9 +37,7 @@ end
 local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
 	--2022-11-17
     --local fullName, shortName, categoryId, groupId, _, filters = C_LFGList.GetActivityInfo(activityId)
-
-
-    
+	
 	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
 	local fullName = activityInfo.fullName;
 	local shortName = activityInfo.shortName;
@@ -49,7 +47,7 @@ local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
     --1574这个地下堡的中文翻译错了11层写成了10层
     if activityId == 1574 then
         fullName = string.gsub(fullName , '10' , '11')
-    end      	
+    end 
 	
     if customId then
         fullName = ACTIVITY_CUSTOM_NAMES[customId]
@@ -282,7 +280,7 @@ local function MakeMenuTable(list, baseFilter, menuType)
     end
 
     return list
-end 
+end
 
 function GetActivitesMenuTable(menuType)
     currentCodeCache = wipe(activityCodeCaches[menuType])
@@ -293,36 +291,20 @@ function GetActivitesMenuTable(menuType)
     MakeMenuTable(list, Enum.LFGListFilter.PvE, menuType)
     MakeMenuTable(list, Enum.LFGListFilter.PvP, menuType)
 
-    if menuType == ACTIVITY_FILTER_BROWSE then
-		 tinsert(list, 1, {
-            text = L['|cffffff00赛季地下城|r'],
-            notClickable = false,
-            hasArrow = false,
-            value =  'mplus',
-            categoryId = 2
-        })
-        tinsert(list, 2, {
-            text = L['|cff00ff00最近搜索|r'],
+    if menuType == ACTIVITY_FILTER_BROWSE or menuType == ACTIVITY_FILTER_CREATE then
+        tinsert(list, 1, {
+            text = menuType == ACTIVITY_FILTER_CREATE and L['|cff00ff00最近创建|r'] or L['|cff00ff00最近搜索|r'],
             notClickable = true,
             hasArrow = true,
             menuTable = RefreshHistoryMenuTable(menuType),
+        })
+		 tinsert(list, 2, {
+            text = L['|cffffff00当前版本地下城|r'],
+            notClickable = true,
+            hasArrow = true,
+            menuTable = ListOfDungeons(menuType),
         })
     end
-    if menuType == ACTIVITY_FILTER_CREATE then
-        tinsert(list, 1, {
-            text = L['|cff00ff00最近创建|r'],
-            notClickable = true,
-            hasArrow = true,
-            menuTable = RefreshHistoryMenuTable(menuType),
-        })
-        tinsert(list, 2, {
-           text = L['|cffffff00赛季地下城|r'],
-           notClickable = true,
-           hasArrow = true,
-           menuTable = ListOfDungeons(menuType),
-       })
-   end
-
 
     -- if UnitLevel('player') >= 70 then
     --     if menuType == ACTIVITY_FILTER_CREATE then
@@ -433,27 +415,22 @@ function ListOfDungeons(menuType)
     -- local Activitys = { 1288, 1287, 1285, 1284,1290,703,713,534 }
 
     -- 11.1 S2
-    --local Dungeons = { 322, 324, 325, 327, 371,266,140,257} 
+    --local Dungeons = { 322, 324, 325, 327, 140, 257, 266, 371}
     --local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550}
-    
-    -- local Dungeons =  C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE))
-    -- if #Dungeons then
-    --     Dungeons = { 323, 324, 326, 371, 381, 261,280,281}
-    -- end
 
-    --local Dungeons = C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE))
-    --C_ChallengeMode.GetMapTable()
-    local  Dungeons = {396,420,306,382,392,398,139,141}--{370,399,400,401,9,52,133,302}
-    --C_LFGList.GetAvailableActivities(2,396)
-    --local  Activitys = {1751,1541,1701,1723,1756,1759,1763,1767}--{1284,1281,1285,1550,1694,699,1016,1017}
- 
-    --381/1694/生态 324/1281/修道院 326/1285/破晨号 371/1550/水闸 280/1016/天街 281/1017/宏图  261/699/赎罪 323/1284/回响
-    
+    -- 11.2 S3
+    --local Dungeons  = { 323, 324, 326, 371, 381, 261,280,281,272}
+    --local Activitys  = {1284,1281,1285,1550,1694,699,1016,1017,746}
+
+    -- 11.2.7 leg
+
+    local Dungeons = {396,420,306,382,392,398,139,141}--{ 396, 370,382,392, 398, 399, 400 ,401}
+    --local Activitys = {1284,1281,1285,1550,1694,699,1016,1017} 
+  
     -- C_MythicPlus.IsMythicPlusActive()
     -- C_LFGList.GetActivityInfoTable(i)
     -- /run for i=750,2000 do local info = C_LFGList.GetActivityInfoTable(i); if info then print(i, info.fullName) end end
-    --/run local info = C_LFGList.GetAvailableActivities(GROUP_FINDER_CATEGORY_ID_DUNGEONS);for i=1,#info do local act= C_LFGList.GetActivityInfoTable(info[i]);print(info[i],act.fullName,act.groupFinderActivityGroupID) end
-
+	
     for k, groupId in ipairs(Dungeons) do
         local data = {}
         local _activities = C_LFGList.GetAvailableActivities(GROUP_FINDER_CATEGORY_ID_DUNGEONS,groupId)

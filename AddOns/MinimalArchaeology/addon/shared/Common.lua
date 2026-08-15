@@ -471,27 +471,27 @@ end
 function Common:CanCast()
     -- Prevent casting in combat
     if (InCombatLockdown()) then
-        Common:DisplayStatusMessage('Can\'t cast: combat lockdown', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('不能施放: 战斗锁定', MINARCH_MSG_DEBUG)
         return false;
     end
 
     -- Check general conditions
     if InCombatLockdown() or not CanScanResearchSite() or Common:GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
-        Common:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('不能施放: 不在研究地点或法术处于冷却状态', MINARCH_MSG_DEBUG)
         return false;
     end
 
     -- Check custom conditions (mounted, flying)
     if IsMounted() and MinArch.db.profile.dblClick.disableMounted then
-        Common:DisplayStatusMessage('Can\'t cast: disabled in settings - mounted', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('不能施放: 在设置中禁用 - 坐骑', MINARCH_MSG_DEBUG)
         return false;
     end
     if IsFlying() and MinArch.db.profile.dblClick.disableInFlight then
-        Common:DisplayStatusMessage('Can\'t cast: disabled in settings - flying', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('不能施放: 在设置中禁用 - 飞行', MINARCH_MSG_DEBUG)
         return false;
     end
 	if GetNumLootItems() ~= 0 then
-		Common:DisplayStatusMessage('Can\'t cast while looting', MINARCH_MSG_DEBUG)
+		Common:DisplayStatusMessage('不能在拾取时施放', MINARCH_MSG_DEBUG)
 		return false
 	end
 

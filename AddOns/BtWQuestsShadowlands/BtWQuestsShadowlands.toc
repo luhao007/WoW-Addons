@@ -1,6 +1,6 @@
 ## Interface: 120001, 120005, 120007, 120100
 ## Author: Breen
-## Version: v6.26
+## Version: v6.27
 
 ## Title: BtWQuests: Shadowlands
 ## Notes: Shadowlands quest data for BtWQuests

@@ -53,7 +53,7 @@ local getSpellInfo = function(spellId)
     if not spellInfo then
         ---@diagnostic disable-next-line: missing-fields
         spellInfo = {
-            name = "Unknown Spell",
+            name = "未知法术",
             iconID = 136243, --question mark
         }
     end
@@ -103,10 +103,10 @@ local getActorSpells = function(actorObject)
         {key="icon", text="", width=false, align="left", canSort=false, dataType="string", offset=0},
         {key="rank", text="#", width=false, align="center", canSort=true, dataType="number", offset=0},
         {key="expand", text="", width=16, align="center", canSort=false, dataType="string", offset=0},
-        {key="name", text="Spell Name", width=174, align="left", canSort=true, dataType="string", offset=0},
-        {key="amount", text="Amount", width=false, align="center", canSort=true, dataType="number", offset=0},
+        {key="name", text="法术名称", width=174, align="left", canSort=true, dataType="string", offset=0},
+        {key="amount", text="数量", width=false, align="center", canSort=true, dataType="number", offset=0},
         {key="dps", text="DPS", width=false, align="center", canSort=true, dataType="number", offset=0},
-        {key="percent", text="Percent", width=false, align="center", canSort=true, dataType="number", offset=0, usable=true},
+        {key="percent", text="百分比", width=false, align="center", canSort=true, dataType="number", offset=0, usable=true},
     }
 
     if not couldGetPercent then
@@ -146,10 +146,10 @@ local getEDT = function(sourceSpells, classFileName)
         {key="icon", text="", width=false, align="left", canSort=false, dataType="string", offset=0}, --icon
         {key="rank", text="#", width=false, align="center", canSort=true, dataType="number", offset=0}, --rank
         {key="expand", text="", width=16, align="center", canSort=false, dataType="string", offset=0}, --expand
-        {key="name", text="From Player", width=154, align="left", canSort=true, dataType="string", offset=0}, --spell name
-        {key="amount", text="Amount", width=false, align="right", canSort=true, dataType="number", offset=0}, --amount
+        {key="name", text="来源玩家", width=154, align="left", canSort=true, dataType="string", offset=0}, --spell name
+        {key="amount", text="数量", width=false, align="right", canSort=true, dataType="number", offset=0}, --amount
         --{key="dps", text="DPS", width=false, align="right", canSort=true, dataType="number", offset=0}, --dps
-        --{key="percent", text="Percent", width=false, align="right", canSort=true, dataType="number", offset=0, usable=false}, --percent
+        --{key="percent", text="百分比", width=false, align="right", canSort=true, dataType="number", offset=0, usable=false}, --percent
     }
 
     return targetData, headerData
@@ -272,10 +272,10 @@ local getSourceSpells = function(sourceSpells, classFileName)
         {key="icon", text="", width=false, align="left", canSort=false, dataType="string", offset=0}, --icon
         {key="rank", text="#", width=false, align="center", canSort=true, dataType="number", offset=0}, --rank
         {key="expand", text="", width=16, align="center", canSort=false, dataType="string", offset=0}, --expand
-        {key="name", text="Spell Name", width=174, align="left", canSort=true, dataType="string", offset=0}, --spell name
-        {key="amount", text="Amount", width=false, align="center", canSort=true, dataType="number", offset=0}, --amount
+        {key="name", text="技能名称", width=174, align="left", canSort=true, dataType="string", offset=0}, --spell name
+        {key="amount", text="数量", width=false, align="center", canSort=true, dataType="number", offset=0}, --amount
         {key="dps", text="DPS", width=false, align="center", canSort=true, dataType="number", offset=0}, --dps
-        {key="percent", text="Percent", width=false, align="center", canSort=true, dataType="number", offset=0, usable=true}, --percent
+        {key="percent", text="百分比", width=false, align="center", canSort=true, dataType="number", offset=0, usable=true}, --percent
     }
 
     if not couldGetPercent then
@@ -338,10 +338,10 @@ function breakdownMidnight.GenerateTargetsData(windowFrame)
     local headerData = {
         {key="icon", text="", width=false, align="left", canSort=false, dataType="string", offset=0},
         {key="rank", text="#", width=false, align="center", canSort=true, dataType="number", offset=0},
-        {key="name", text="Target Name", width=180, align="left", canSort=true, dataType="string", offset=0},
-        {key="amount", text="Amount", width=false, align="center", canSort=true, dataType="number", offset=0},
+        {key="name", text="目标名称", width=180, align="left", canSort=true, dataType="string", offset=0},
+        {key="amount", text="数量", width=false, align="center", canSort=true, dataType="number", offset=0},
         {key="dps", text="DPS", width=false, align="center", canSort=true, dataType="number", offset=0},
-        {key="percent", text="Percent", width=false, align="center", canSort=true, dataType="number", offset=0},
+        {key="percent", text="百分比", width=false, align="center", canSort=true, dataType="number", offset=0},
     }
 
     return targets, headerData
@@ -375,10 +375,10 @@ function breakdownMidnight.GenerateSpellData(windowFrame)
                 {key="icon", text="", width=false, align="left", canSort=false, dataType="string", offset=0}, --icon
                 {key="rank", text="#", width=false, align="center", canSort=true, dataType="number", offset=0}, --rank
                 {key="expand", text="", width=16, align="center", canSort=false, dataType="string", offset=0}, --expand
-                {key="name", text="Source", width=154, align="left", canSort=true, dataType="string", offset=0}, --spell name
-                {key="time", text="Time", width=false, align="right", canSort=true, dataType="number", offset=0}, --time
-                {key="amount", text="Amount", width=false, align="right", canSort=true, dataType="number", offset=0}, --amount
-                {key="critical", text="Critical", width=false, align="left", canSort=true, dataType="string", offset=0}, --critical
+                {key="name", text="来源", width=154, align="left", canSort=true, dataType="string", offset=0}, --spell name
+                {key="time", text="时间", width=false, align="right", canSort=true, dataType="number", offset=0}, --time
+                {key="amount", text="数量", width=false, align="right", canSort=true, dataType="number", offset=0}, --amount
+                {key="critical", text="暴击", width=false, align="left", canSort=true, dataType="string", offset=0}, --critical
             }
 
             local hasRecap, events, maxHealth, link = Details222.Recap.GetRecapInfo(actor.deathRecapID)
@@ -415,7 +415,7 @@ function breakdownMidnight.GenerateSpellData(windowFrame)
                         local data = {
                             icon = spellIcon,
                             name = spellName .. " (" .. sourceName .. ")", --as the first data is time
-                            texts = {format("%.1f", eventTime - timeOfDeath) .. "s", format("-%s", Details:comma_value(amount)), critical and "Critical" or ""},
+                            texts = {format("%.1f", eventTime - timeOfDeath) .. "秒", format("-%s", Details:comma_value(amount)), critical and "暴击" or ""},
                             amount = healthPercent,
                             data = event,
                             maxAmount = 100,
@@ -480,7 +480,7 @@ function breakdownMidnight.GeneratePlayerData(windowFrame)
     local headerData = {
         {key="icon", text="", width=false, align="left", canSort=false, dataType="string", offset=0},
         {key="rank", text="#", width=false, align="center", canSort=true, dataType="number", offset=0},
-        {key="name", text="Name", width=150, align="left", canSort=true, dataType="string", offset=0},
+        {key="name", text="名字", width=150, align="left", canSort=true, dataType="string", offset=0},
     }
 
     ---@cast playerList damagemeter_combat_session
@@ -537,7 +537,7 @@ function breakdownMidnight.GenerateSegmentData(windowFrame)
     local headerData = {
         {key="icon", text="", width=false, align="left", canSort=false, dataType="string", offset=0},
         {key="elapsed", text="", width=34, align="left", canSort=true, dataType="string", offset=0},
-        {key="name", text="Name", width=137, align="left", canSort=true, dataType="string", offset=0},
+        {key="name", text="名字", width=137, align="left", canSort=true, dataType="string", offset=0},
     }
 
     return segmentData, headerData

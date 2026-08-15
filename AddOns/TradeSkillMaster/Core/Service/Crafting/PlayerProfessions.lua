@@ -65,7 +65,7 @@ function PlayerProfessions.OnInitialize(settingsDB)
 	private.StartPlayerProfessionsThread()
 	private.retryTimer = DelayTimer.New("PLAYER_PROFESSIONS_RETRY", private.PlayerProfessionsSkillUpdate)
 	Event.Register("SKILL_LINES_CHANGED", private.PlayerProfessionsSkillUpdate)
-	Event.Register("LEARNED_SPELL_IN_SKILL_LINE", private.StartPlayerProfessionsThread)
+	Event.Register("LEARNED_SPELL_IN_TAB", private.StartPlayerProfessionsThread)
 end
 
 function PlayerProfessions.GetProfessionSkill(player, profession)
@@ -161,8 +161,8 @@ function private.PlayerProfessionsThread()
 		ProfessionsBookFrame_Update()
 	elseif ClientInfo.IsPandaClassic() then
 		SpellBook_UpdateProfTab()
-	elseif ClientInfo.IsVanillaClassic() or ClientInfo.IsBCClassic() then
-		SpellBookFrame:UpdateSkillLineTabs()
+	else
+		SpellBookFrame_UpdateSkillLineTabs()
 	end
 	local forgetProfession = Threading.AcquireSafeTempTable()
 	for name in pairs(private.settings.playerProfessions) do

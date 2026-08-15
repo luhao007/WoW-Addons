@@ -26,14 +26,14 @@ function Details222.AutoRunCode.DispatchAutoRunCode(codeKey)
     local func = functionCache[codeKey]
 
 	if (type(func) ~= "function") then
-        Details:Msg("error running function for auto run script", codeKey)
+        Details:Msg("自动运行脚本的错误运行函数", codeKey)
 		return
 	end
 
 	local okay, errortext = pcall(func)
 
 	if (not okay) then
-        Details:Msg("error running auto run script: ", codeKey, errortext)
+        Details:Msg("运行自动运行脚本出错: ", codeKey, errortext)
 		return
 	end
 end

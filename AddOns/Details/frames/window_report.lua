@@ -1003,7 +1003,7 @@ local createDropdown = function(thisFrame)
 
 			local successful, errortext = pcall(skin)
 			if (not successful) then
-				Details:Msg("error occurred on report window skin call():", errortext)
+				Details:Msg("报告窗口皮肤call()发生错误:", errortext)
 				pcall(DetailsReportWindow.skins["defaultSkin"])
 			end
 		end

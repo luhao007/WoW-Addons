@@ -11,6 +11,7 @@ local State = LibTSMService:Include("Profession.State")
 local Quality = LibTSMService:Include("Profession.Quality")
 local ItemInfo = LibTSMService:Include("Item.ItemInfo")
 local EnchantData = LibTSMService:From("LibTSMData"):Include("Enchant")
+local OptionalMatData = LibTSMService:From("LibTSMData"):Include("OptionalMat")
 local SalvageData = LibTSMService:From("LibTSMData"):Include("Salvage")
 local TempTable = LibTSMService:From("LibTSMUtil"):Include("BaseType.TempTable")
 local Database = LibTSMService:From("LibTSMUtil"):Include("Database")
@@ -606,7 +607,7 @@ function private.ScanProfession()
 							numResultItems = #result
 						elseif ItemString.GetBase(result) then
 							local ilvlBonuses = info.qualityIlvlBonuses
-							if ilvlBonuses and #ilvlBonuses > 1 then
+							if ilvlBonuses and #ilvlBonuses > 0 then
 								numResultItems = #ilvlBonuses
 							else
 								numResultItems = 1
@@ -736,13 +737,9 @@ function private.GetItemStringAndCraftName(craftString)
 	-- Get the itemString and craft name
 	local itemString, craftName = nil, nil
 	if quality then
-		if type(resultItem) == "table" then
-			assert(resultItem[quality])
-			itemString = ItemString.ToLevel(ItemString.Get(resultItem[quality]))
-		else
-			assert(resultItem)
-			itemString = ItemString.Get(resultItem)
-		end
+		assert(type(resultItem) == "table")
+		assert(resultItem[quality])
+		itemString = ItemString.ToLevel(ItemString.Get(resultItem[quality]))
 		craftName = ItemInfo.GetName(itemString)
 	elseif strfind(resultItem, "enchant:") then
 		itemString = ""
@@ -751,12 +748,9 @@ function private.GetItemStringAndCraftName(craftString)
 		-- Result of craft is item
 		local level = CraftString.GetLevel(craftString)
 		if level and level > 0 then
+			local relLevel = OptionalMatData.ItemLevelByRank[level]
 			local baseItemString = ItemString.GetBase(resultItem)
-			local baseItemLevel = ItemInfo.GetItemLevel(baseItemString)
-			if not baseItemLevel then
-				return nil, nil
-			end
-			itemString = baseItemString.."::i"..abs(baseItemLevel + level)
+			itemString = baseItemString..(relLevel < 0 and "::-" or "::+")..abs(relLevel)
 		else
 			itemString = ItemString.GetBase(resultItem)
 		end

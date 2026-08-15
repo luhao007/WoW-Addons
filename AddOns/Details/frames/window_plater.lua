@@ -4,7 +4,7 @@ local Details = _G.Details
 local DF = _G.DetailsFramework
 
 function Details:InitializePlaterIntegrationWindow()
-    local DetailsPlaterIntegrationPanel = DF:CreateSimplePanel(UIParent, 700, 480, "Details! Plater Nameplates Integration", "DetailsPlaterIntegrationPanel")
+    local DetailsPlaterIntegrationPanel = DF:CreateSimplePanel(UIParent, 700, 480, "Details! 姓名版整合", "DetailsPlaterIntegrationPanel")
     DetailsPlaterIntegrationPanel.Frame = DetailsPlaterIntegrationPanel
     DetailsPlaterIntegrationPanel.__name = "Plater Nameplates"
     DetailsPlaterIntegrationPanel.real_name = "DETAILS_PLATERWINDOW"
@@ -25,7 +25,7 @@ function Details.OpenPlaterIntegrationWindow()
         
         DetailsPlaterIntegrationPanel.Initialized = true
         
-        local f = DetailsPlaterIntegrationPanel or DF:CreateSimplePanel(UIParent, 700, 480, "Details! Plater Nameplates Integration", "DetailsPlaterIntegrationPanel")
+        local f = DetailsPlaterIntegrationPanel or DF:CreateSimplePanel(UIParent, 700, 480, "Details! 姓名版整合", "DetailsPlaterIntegrationPanel")
         
         --background
         f.bg1 = f:CreateTexture(nil, "background")
@@ -61,7 +61,7 @@ function Details.OpenPlaterIntegrationWindow()
         
         local menu_table = {
         
-            {type = "label", get = function() return "Add Real Time DPS Info in the Nameplate:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "在姓名版中添加实时DPS信息:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         
             --real time dps from all sources
             {
@@ -73,15 +73,15 @@ function Details.OpenPlaterIntegrationWindow()
                     Details:RefreshPlaterIntegration()
                     
                     if (not value) then
-                        Details:Msg("a /reload might be needed to disable this setting.")
+                        Details:Msg("可能需要/reload来禁用这个设置.")
                     else
                         if (Plater) then
                             Plater.RefreshDBUpvalues()
                         end
                     end
                 end,
-                name = "Show Real Time Dps",
-                desc = "Show Real Time DPS on the nameplate.\n\nReal time DPS is how much damage has been inflicted to the unit in the last 5 seconds.",
+                name = "显示实时Dps",
+                desc = "在姓名版显示实时DPS.\n\n实时DPS是指过去5秒内对单位造成的伤害.",
             },
                 --text size
                 {
@@ -96,8 +96,8 @@ function Details.OpenPlaterIntegrationWindow()
                     min = 6,
                     max = 32,
                     step = 1,
-                    name = "Text Size",
-                    desc = "Text Size",
+                    name = "文字大小",
+                    desc = "文字大小",
                 },
                 --text color
                 {
@@ -113,8 +113,8 @@ function Details.OpenPlaterIntegrationWindow()
                             Plater.UpdateAllPlates()
                         end
                     end,
-                    desc = "Text Color",
-                    name = "Text Color",
+                    desc = "文字颜色",
+                    name = "文字颜色",
                     text_template = options_text_template,
                 },
                 --text shadow
@@ -127,8 +127,8 @@ function Details.OpenPlaterIntegrationWindow()
                             Plater.UpdateAllPlates()
                         end
                     end,
-                    name = "Text Shadow",
-                    desc = "Text Shadow",
+                    name = "文字阴影",
+                    desc = "文字阴影",
                 },
                 --text anchor
                     --anchor location
@@ -136,8 +136,8 @@ function Details.OpenPlaterIntegrationWindow()
                         type = "select",
                         get = function() return Details.plater.realtime_dps_anchor.side end,
                         values = function() return build_anchor_side_table ("realtime_dps_anchor") end,
-                        name = "Anchor Point",
-                        desc = "Which side of the nameplate the text is attach to.",
+                        name = "锚点",
+                        desc = "文字贴在姓名版的哪一面.",
                     },
                     --anchor x offset
                     {
@@ -152,8 +152,8 @@ function Details.OpenPlaterIntegrationWindow()
                         min = -20,
                         max = 20,
                         step = 1,
-                        name = "Anchor X Offset",
-                        desc = "Slightly move the text horizontally.",
+                        name = "锚点X偏移",
+                        desc = "稍微水平移动文本.",
                     },
                     --anchor x offset
                     {
@@ -168,12 +168,12 @@ function Details.OpenPlaterIntegrationWindow()
                         min = -20,
                         max = 20,
                         step = 1,
-                        name = "Anchor Y Offset",
-                        desc = "Slightly move the text vertically.",
+                        name = "锚点Y偏移",
+                        desc = "稍微垂直移动文字.",
                     },	
             
             {type = "breakline"},
-            {type = "label", get = function() return "Add Real Time DPS Info Only From You in the Nameplate:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "在姓名版中添加仅来自你的实时DPS信息:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
             
             --real time dps from the player only
             {
@@ -185,15 +185,15 @@ function Details.OpenPlaterIntegrationWindow()
                     Details:RefreshPlaterIntegration()
                     
                     if (not value) then
-                        Details:Msg("a /reload might be needed to disable this setting.")
+                        Details:Msg("可能需要/reload来禁用这个设置.")
                     else
                         if (Plater) then
                             Plater.RefreshDBUpvalues()
                         end
                     end
                 end,
-                name = "Show Real Time Dps (From You)",
-                desc = "Show Real Time DPS you are currently applying in the unit.\n\nReal time DPS is how much damage has been inflicted to the unit in the last 5 seconds.",
+                name = "显示实时Dps (来自你)",
+                desc = "显示你目前在单位中的实时DPS.\n\n实时DPS是指过去5秒内对单位造成的伤害.",
             },
                 --text size
                 {
@@ -208,8 +208,8 @@ function Details.OpenPlaterIntegrationWindow()
                     min = 6,
                     max = 32,
                     step = 1,
-                    name = "Text Size",
-                    desc = "Text Size",
+                    name = "文字大小",
+                    desc = "文字大小",
                 },
                 --text color
                 {
@@ -225,8 +225,8 @@ function Details.OpenPlaterIntegrationWindow()
                             Plater.UpdateAllPlates()
                         end
                     end,
-                    desc = "Text Color",
-                    name = "Text Color",
+                    desc = "文字颜色",
+                    name = "文字颜色",
                     text_template = options_text_template,
                 },
                 --text shadow
@@ -239,8 +239,8 @@ function Details.OpenPlaterIntegrationWindow()
                             Plater.UpdateAllPlates()
                         end
                     end,
-                    name = "Text Shadow",
-                    desc = "Text Shadow",
+                    name = "文字阴影",
+                    desc = "文字阴影",
                 },
                 --text anchor
                     --anchor location
@@ -248,8 +248,8 @@ function Details.OpenPlaterIntegrationWindow()
                         type = "select",
                         get = function() return Details.plater.realtime_dps_player_anchor.side end,
                         values = function() return build_anchor_side_table ("realtime_dps_player_anchor") end,
-                        name = "Anchor Point",
-                        desc = "Which side of the nameplate the text is attach to.",
+                        name = "锚点",
+                        desc = "文字贴在姓名版的哪一面.",
                     },
                     --anchor x offset
                     {
@@ -264,8 +264,8 @@ function Details.OpenPlaterIntegrationWindow()
                         min = -20,
                         max = 20,
                         step = 1,
-                        name = "Anchor X Offset",
-                        desc = "Slightly move the text horizontally.",
+                        name = "锚点X偏移",
+                        desc = "稍微水平移动文本.",
                     },
                     --anchor x offset
                     {
@@ -280,12 +280,12 @@ function Details.OpenPlaterIntegrationWindow()
                         min = -20,
                         max = 20,
                         step = 1,
-                        name = "Anchor Y Offset",
-                        desc = "Slightly move the text vertically.",
+                        name = "锚点Y偏移",
+                        desc = "稍微垂直移动文字.",
                     },	
             
             {type = "breakline"},
-            {type = "label", get = function() return "Add Total Damage Taken in the Nameplate:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "在姓名版中添加收到总伤害:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
             
             --total damage taken from all sources
             {
@@ -304,8 +304,8 @@ function Details.OpenPlaterIntegrationWindow()
                         end
                     end
                 end,
-                name = "Show Total Damage Taken",
-                desc = "Show the total damage taken by the unit",
+                name = "显示受到的总伤害",
+                desc = "显示该单位受到的总伤害",
             },
                 --text size
                 {
@@ -320,8 +320,8 @@ function Details.OpenPlaterIntegrationWindow()
                     min = 6,
                     max = 32,
                     step = 1,
-                    name = "Text Size",
-                    desc = "Text Size",
+                    name = "文字大小",
+                    desc = "文字大小",
                 },
                 --text color
                 {
@@ -337,8 +337,8 @@ function Details.OpenPlaterIntegrationWindow()
                             Plater.UpdateAllPlates()
                         end
                     end,
-                    desc = "Text Color",
-                    name = "Text Color",
+                    desc = "文字颜色",
+                    name = "文字颜色",
                     text_template = options_text_template,
                 },
                 --text shadow
@@ -351,8 +351,8 @@ function Details.OpenPlaterIntegrationWindow()
                             Plater.UpdateAllPlates()
                         end
                     end,
-                    name = "Text Shadow",
-                    desc = "Text Shadow",
+                    name = "文字阴影",
+                    desc = "文字阴影",
                 },
                 --text anchor
                     --anchor location
@@ -360,8 +360,8 @@ function Details.OpenPlaterIntegrationWindow()
                         type = "select",
                         get = function() return Details.plater.damage_taken_anchor.side end,
                         values = function() return build_anchor_side_table ("damage_taken_anchor") end,
-                        name = "Anchor Point",
-                        desc = "Which side of the nameplate the text is attach to.",
+                        name = "锚点",
+                        desc = "文字贴在姓名版的哪一面.",
                     },
                     --anchor x offset
                     {
@@ -376,8 +376,8 @@ function Details.OpenPlaterIntegrationWindow()
                         min = -20,
                         max = 20,
                         step = 1,
-                        name = "Anchor X Offset",
-                        desc = "Slightly move the text horizontally.",
+                        name = "锚点X偏移",
+                        desc = "稍微水平移动文本.",
                     },
                     --anchor x offset
                     {
@@ -392,8 +392,8 @@ function Details.OpenPlaterIntegrationWindow()
                         min = -20,
                         max = 20,
                         step = 1,
-                        name = "Anchor Y Offset",
-                        desc = "Slightly move the text vertically.",
+                        name = "锚点Y偏移",
+                        desc = "稍微垂直移动文字.",
                     },
         }
         
@@ -421,9 +421,9 @@ function Details.OpenPlaterIntegrationWindow()
         titleBackground:SetBackdropColor(.5, .5, .5, .7)
         titleBackground:SetBackdropBorderColor(0, 0, 0, 1)
         
-        local platerTitle = DF:CreateLabel(titleBackground, "Plater Nameplates Integration", 16, "white")
-        local platerDesc1 = DF:CreateLabel(titleBackground, "Add DPS and Damage information directly into the nameplate", 11, "silver")
-        local platerDesc2 = DF:CreateLabel(titleBackground, "See how much damage the enemy is taking in real time!", 11, "silver")
+        local platerTitle = DF:CreateLabel(titleBackground, "姓名版整合", 16, "white")
+        local platerDesc1 = DF:CreateLabel(titleBackground, "直接在姓名版上添加DPS和伤害信息", 11, "silver")
+        local platerDesc2 = DF:CreateLabel(titleBackground, "实时查看敌人受到多少伤害!", 11, "silver")
         local platerImage = DF:CreateImage(titleBackground, "Interface\\AddOns\\Details\\images\\plater_image")
         platerImage:SetSize(256, 64)
         
@@ -441,7 +441,7 @@ function Details.OpenPlaterIntegrationWindow()
                 end
             end
             
-            local PlaterDisabled1 = DF:CreateLabel(f, "Plater isn't installed! you may download it from the Curseforge app.", 16, "red")
+            local PlaterDisabled1 = DF:CreateLabel(f, "Plater没有安装! 你可以从Curseforge应用程序中下载它.", 16, "red")
             PlaterDisabled1:SetPoint(10, -330)
         end
         

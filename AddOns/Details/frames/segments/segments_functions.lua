@@ -52,12 +52,12 @@ segmentSelectionMidnight.MainFrameMixin = {
 
     SetDataProviders = function(self, leftProvider, rightProvider)
         if leftProvider ~= nil then
-            assert(type(leftProvider) == "function", "Left provider must be a function.")
+            assert(type(leftProvider) == "function", "左侧数据提供器必须是一个函数.")
             self.CustomLeftDataProvider = leftProvider
         end
 
         if rightProvider ~= nil then
-            assert(type(rightProvider) == "function", "Right provider must be a function.")
+            assert(type(rightProvider) == "function", "右侧数据提供器必须是一个函数.")
             self.CustomRightDataProvider = rightProvider
         end
     end,
@@ -72,8 +72,8 @@ segmentSelectionMidnight.MainFrameMixin = {
         leftData = detailsFramework.table.reverse(leftData)
         rightData = detailsFramework.table.reverse(rightData)
 
-        assert(type(leftData) == "table", "Left provider must return a table.")
-        assert(type(rightData) == "table", "Right provider must return a table.")
+        assert(type(leftData) == "table", "左侧数据提供器必须返回一个table.")
+        assert(type(rightData) == "table", "右侧数据提供器必须返回一个table.")
 
         local linesInUseLeft = self.LeftPanel:Refresh(leftData)
         local linesInUseRight = self.RightPanel:Refresh(rightData)
@@ -168,7 +168,7 @@ segmentSelectionMidnight.OnClickLine = function(line) --~click õnclick ~onclick
     local sourceType = line.dataFor
     local rowData = line.rowData
     local instance = mainFrame:GetInstance()
-    assert(instance, "Instance not found for segment selection frame.")
+    assert(instance, "未找到用于分段选择框的实例.")
 
     if sourceType == "blizzard" then
         local bForceRefresh = true

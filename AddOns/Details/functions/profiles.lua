@@ -191,7 +191,7 @@ local safe_load = function(func, param1, ...)
 			Details:CreatePanicWarning()
 		end
 		Details.do_not_save_skins = true
-		Details.instance_load_failed.text:SetText("Failed to load a Details! window.\n/reload or reboot the game client may fix the problem.\nIf the problem persist, try /details reinstall.\nError: " .. errortext)
+		Details.instance_load_failed.text:SetText("无法加Details!窗口.\n/reload或重新启动游戏客户端可能会解决问题.\n如果问题仍然存在，请尝试/details重新安装.\n错误: " .. errortext)
 	end
 	return okey
 end
@@ -202,7 +202,7 @@ function Details:ApplyProfile(profileName, bNoSave, bIsCopy)
 
 	--if the profile doesn't exist, just quit
 		if (not profile) then
-			Details:Msg("Profile Not Found.")
+			Details:Msg("未找到配置文件.")
 			return false
 		end
 
@@ -356,10 +356,10 @@ function Details:ApplyProfile(profileName, bNoSave, bIsCopy)
 						instance.posicao = Details.CopyTable(skin.__pos)
 					else
 						if (not instance.posicao) then
-							print("|cFFFF2222Details!: Position for a window wasn't found! Moving it to the center of the screen.|r\nType '/details exitlog' to check for errors.")
+							print ("|cFFFF2222Details!: 找不到窗口的位置！ 将其移动到屏幕中央.|r\n键入 '/details exitlog' 检查错误.")
 							instance.posicao = {normal = {x = 1, y = 1, w = 300, h = 200}, solo = {}}
 						elseif (not instance.posicao.normal) then
-							print("|cFFFF2222Details!: Normal position for a window wasn't found! Moving it to the center of the screen.|r\nType '/details exitlog' to check for errors.")
+							print ("|cFFFF2222Details!: 找不到窗口的正常位置！ 将其移动到屏幕中央.|r\n键入 '/details exitlog' 检查错误.")
 							instance.posicao.normal = {x = 1, y = 1, w = 300, h = 200}
 						end
 					end
@@ -1227,7 +1227,7 @@ local default_player_data = {
 			players = {
 				--damage done by each player
 				{
-					name = "Damage of Each Individual Player",
+					name = "每个玩家的伤害",
 					combatObjectContainer = 1,
 					playerOnly = true,
 					playerKey = "total",
@@ -1237,7 +1237,7 @@ local default_player_data = {
 			totals = {
 				--total damage done by the raid group
 				{
-					name = "Damage of All Player Combined",
+					name = "所有玩家的伤害总和",
 					combatObjectSubTableName = "totals",
 					combatObjectSubTableKey = 1,
 				},
@@ -1742,12 +1742,12 @@ local default_global_data = {
 
 	--run code
 		run_code = {
-			["on_specchanged"] = "\n-- run when the player changes its spec",
-			["on_zonechanged"] = "\n-- when the player changes zone, this code will run",
-			["on_init"] = "\n-- code to run when Details! initializes, put here code which only will run once\n-- this also will run then the profile is changed\n\n--size of the death log tooltip in the Deaths display (default 350)\nDetails.death_tooltip_width = 350;\n\n--when in arena or battleground, details! silently switch to activity time (goes back to the old setting on leaving, default true)\nDetails.force_activity_time_pvp = true;\n\n--speed of the bar animations (default 33)\nDetails.animation_speed = 33;\n\n--threshold to trigger slow or fast speed (default 0.45)\nDetails.animation_speed_mintravel = 0.45;\n\n--call to update animations\nDetails:RefreshAnimationFunctions();\n\n--max window size, does require a /reload to work (default 480 x 450)\nDetails.max_window_size.width = 480;\nDetails.max_window_size.height = 450;\n\n--use the arena team color as the class color (default true)\nDetails.color_by_arena_team = true;\n\n--how much time the update warning is shown (default 10)\nDetails.update_warning_timeout = 10;",
-			["on_leavecombat"] = "\n-- this code runs when the player leave combat",
-			["on_entercombat"] = "\n-- this code runs when the player enters in combat",
-			["on_groupchange"] = "\n-- this code runs when the player enter or leave a group",
+			["on_specchanged"] = "\n-- 当玩家改变其专精时运行",
+			["on_zonechanged"] = "\n-- 当玩家更改区域时，此代码将运行",
+			["on_init"] = "\n-- Details!初始化时运行代码, 把代码放在这里只运行一次\n-- 这也将运行，然后更改配置文件\n\n--死亡显示中死亡日志工具提示的大小(默认为350)\nDetails.death_tooltip_width = 350;\n\n--在竞技场或战场时，Details!默认激活时间（离开时返回旧设置，默认为true）\nDetails.force_activity_time_pvp = true;\n\n--在竞技场内使用玩家条中的角色图标（默认为false）\nDetails.show_arena_role_icon = false;\n\n--计量条动画的速度（默认33）\nDetails.animation_speed = 33;\n\n--触发慢速或快速的阈值（默认值为0.45）\nDetails.animation_speed_mintravel = 0.45;\n\n--调用更新动画\nDetails:RefreshAnimationFunctions();\n\n--最大窗口大小, 需要/reload才能生效(默认 480 x 450)\nDetails.max_window_size.width = 480;\nDetails.max_window_size.height = 450;\n\n--使用竞技场团队颜色作为职业颜色（默认为true）\nDetails.color_by_arena_team = true;\n\n--在竞技场内使用播放器栏中的角色图标（默认为false）\nDetails.show_arena_role_icon = false;\n\n--显示更新警告的时间（默认为10）\nDetails.update_warning_timeout = 10;",
+			["on_leavecombat"] = "\n-- 这个代码在玩家离开战斗时运行",
+			["on_entercombat"] = "\n-- 这个代码在玩家进入战斗时运行",
+			["on_groupchange"] = "\n-- 此代码在玩家进入或离开队伍时运行",
 		},
 
 	--plater integration
@@ -2034,7 +2034,7 @@ function Details:ExportCurrentProfile(profileName)
 	--data saved inside the profile
 	local profileObject = Details:GetProfile(profileName or Details:GetCurrentProfileName(), false)
 	if (not profileObject) then
-		Details:Msg("fail to get the current profile.")
+		Details:Msg("无法获得当前配置.")
 		return false
 	end
 
@@ -2086,7 +2086,7 @@ end
 ---@return boolean
 function Details:ImportProfile (profileString, newProfileName, bImportAutoRunCode, bIsFromImportPrompt, overwriteExisting)
 	if (not newProfileName or type(newProfileName) ~= "string" or string.len(newProfileName) < 2) then
-		Details:Msg("invalid profile name or profile name is too short.") --localize-me
+		Details:Msg("无效的配置名称或配置名称太短.") --localize-me
 		return false
 	end
 
@@ -2108,7 +2108,7 @@ function Details:ImportProfile (profileString, newProfileName, bImportAutoRunCod
 			--profile doesn't exists, create new
 			profileObject = Details:CreateProfile (newProfileName)
 			if (not profileObject) then
-				Details:Msg("failed to create a new profile.")--localize-me
+				Details:Msg("无法创建新的配置.")--localize-me
 				return
 			end
 		end
@@ -2199,13 +2199,13 @@ function Details:ImportProfile (profileString, newProfileName, bImportAutoRunCod
 		end
 
 		if(nameWasDuplicate) then
-			Details:Msg("profile name already exists and was imported as:", newProfileName)--localize-me
+			Details:Msg("配置名称已经存在并被导入为:", newProfileName)--localize-me
 		else
-			Details:Msg("profile successfully imported.")--localize-me
+			Details:Msg("配置文件成功导入.")--localize-me
 		end
 		return true
 	else
-		Details:Msg("failed to decompress profile data.")--localize-me
+		Details:Msg("无法解压缩配置文件数据.")--localize-me
 		return false
 	end
 end
@@ -2225,7 +2225,7 @@ function Details.ShowImportProfileConfirmation(message, callback)
 		promptFrame:SetScript("OnMouseDown", function(self, button) if (button == "RightButton") then promptFrame.EntryBox:ClearFocus() promptFrame:Hide() end end)
 		table.insert(UISpecialFrames, "DetailsImportProfileDialog")
 
-		detailsFramework:CreateTitleBar(promptFrame, "Import Profile Confirmation")
+		detailsFramework:CreateTitleBar(promptFrame, "导入配置确认")
 		detailsFramework:ApplyStandardBackdrop(promptFrame)
 
 		local prompt = promptFrame:CreateFontString(nil, "overlay", "GameFontNormal")
@@ -2250,11 +2250,11 @@ function Details.ShowImportProfileConfirmation(message, callback)
 		--create the checkbox label with the text: "Import Auto Run Scripts"
 		local checkboxLabel = promptFrame:CreateFontString(nil, "overlay", "GameFontNormal")
 		checkboxLabel:SetPoint("left", checkbox.widget, "right", 2, 0)
-		checkboxLabel:SetText("Import Auto Run Scripts")
+		checkboxLabel:SetText("导入自动运行脚本")
 		checkboxLabel:SetJustifyH("left")
 		promptFrame.checkboxLabel = checkboxLabel
 
-		local buttonTrue = detailsFramework:CreateButton(promptFrame, nil, 60, 20, "Okay", nil, nil, nil, nil, nil, nil, options_dropdown_template)
+		local buttonTrue = detailsFramework:CreateButton(promptFrame, nil, 60, 20, "确认", nil, nil, nil, nil, nil, nil, options_dropdown_template)
 		buttonTrue:SetPoint("bottomright", promptFrame, "bottomright", -10, 5)
 		promptFrame.button_true = buttonTrue
 

@@ -274,7 +274,7 @@
 				---@type instance
 				local lowerInstanceObject = Details:GetInstance(lowerInstanceId)
 				if (lowerInstanceObject) then
-					lowerInstanceObject:InstanceAlert("combat ignored: less than 5 seconds.", {[[Interface\BUTTONS\UI-GROUPLOOT-PASS-DOWN]], 18, 18, false, 0, 1, 0, 1}, 20, {function() Details:Msg("combat ignored: elapsed time less than 5 seconds."); Details:Msg("add '|cFFFFFF00Details.minimum_combat_time = 2;|r' on Auto Run Code to change the minimum time.") end})
+					lowerInstanceObject:InstanceAlert("无视战斗: 不到5秒.", {[[Interface\BUTTONS\UI-GROUPLOOT-PASS-DOWN]], 18, 18, false, 0, 1, 0, 1}, 20, {function() Details:Msg("无视战斗: 用时少于5秒."); Details:Msg("在自动运行代码上添加'|cFFFFFF00Details.minimum_combat_time = 2;|r'来改变最小时间.") end})
 					Details:SetTutorialCVar("MIN_COMBAT_TIME", true)
 				end
 			end
@@ -344,7 +344,7 @@
 	end
 
 	function Details:EntrarEmCombate(...)
-		Details:Msg("deprecated path on control.lua")
+		Details:Msg("control.lua上的废弃路径")
 		print(debugstack())
 		return Details222.StartCombat(...)
 	end
@@ -512,8 +512,8 @@
 		currentCombat.bIsClosed = true
 
 		if (currentCombat.__destroyed) then
-			Details:Msg("a deleted combat was found during combat end, please report this bug on discord:")
-			Details:Msg("combat destroyed by:", currentCombat.__destroyedBy)
+			Details:Msg("在战斗结束时发现了一个被删除的战斗, 请在discord报告这个错误:")
+			Details:Msg("战斗被删除:", currentCombat.__destroyedBy)
 		end
 
 		local mapID = C_Map.GetBestMapForUnit("player")
@@ -635,7 +635,7 @@
 					SegmentID = Details.MythicPlus.SegmentID, --segment number within the dungeon
 					--default to trash
 					SegmentType = DETAILS_SEGMENTTYPE_MYTHICDUNGEON_TRASH,
-					SegmentName = "Trash #" .. (Details.MythicPlus.SegmentID or 0), --localize-me
+					SegmentName = "小怪 #" .. (Details.MythicPlus.SegmentID or 0), --localize-me
 				}
 				currentCombat.is_mythic_dungeon = mythicPlusInfo
 			end
@@ -831,7 +831,7 @@
 			if (Details.shareData) then
 				local zipData = Details:CompressData(currentCombat, "comm")
 				if (zipData) then
-					print("has zip data")
+					print("有压缩数据")
 				end
 			end
 		else
@@ -1115,11 +1115,11 @@
 		end
 
 		--register chart data
-		Details:TimeDataRegister("Your Team Damage", string_arena_myteam_damage, nil, "Details!", "v1.0", [[Interface\ICONS\Ability_DualWield]], true, true)
-		Details:TimeDataRegister("Enemy Team Damage", string_arena_enemyteam_damage, nil, "Details!", "v1.0", [[Interface\ICONS\Ability_DualWield]], true, true)
+		Details:TimeDataRegister ("你团队伤害", string_arena_myteam_damage, nil, "Details!", "v1.0", [[Interface\ICONS\Ability_DualWield]], true, true)
+		Details:TimeDataRegister ("敌对团队伤害", string_arena_enemyteam_damage, nil, "Details!", "v1.0", [[Interface\ICONS\Ability_DualWield]], true, true)
 
-		Details:TimeDataRegister("Your Team Healing", string_arena_myteam_heal, nil, "Details!", "v1.0", [[Interface\ICONS\Ability_DualWield]], true, true)
-		Details:TimeDataRegister("Enemy Team Healing", string_arena_enemyteam_heal, nil, "Details!", "v1.0", [[Interface\ICONS\Ability_DualWield]], true, true)
+		Details:TimeDataRegister ("你团队治疗", string_arena_myteam_heal, nil, "Details!", "v1.0", [[Interface\ICONS\Ability_DualWield]], true, true)
+		Details:TimeDataRegister ("敌对团队治疗", string_arena_enemyteam_heal, nil, "Details!", "v1.0", [[Interface\ICONS\Ability_DualWield]], true, true)
 
 		Details.lastArenaStartTime = GetTime()
 
@@ -1251,11 +1251,11 @@
 			Details:CancelTimer(Details.start_arena, true)
 		end
 
-		Details:TimeDataUnregister("Your Team Damage")
-		Details:TimeDataUnregister("Enemy Team Damage")
+		Details:TimeDataUnregister ("你团队伤害")
+		Details:TimeDataUnregister ("敌对团队伤害")
 
-		Details:TimeDataUnregister("Your Team Healing")
-		Details:TimeDataUnregister("Enemy Team Healing")
+		Details:TimeDataUnregister ("你团队治疗")
+		Details:TimeDataUnregister ("敌对团队治疗")
 
 		Details:EndCombat()
 
@@ -1734,7 +1734,7 @@
 
 		if (not object.ToolTip) then
 			if (object.__destroyed) then
-				Details:Msg("object:ToolTip() is invalid.", object.__destroyedBy)
+				Details:Msg("object:ToolTip()无效.", object.__destroyedBy)
 				self:ResetWindow()
 				self:RefreshWindow(true)
 				return
@@ -1905,9 +1905,9 @@
 								return actorObject:MontaInfo()
 							end
 						else
-							Details:Msg("Invalid actor object on breakdown window.")
+							Details:Msg("分解窗口上的无效玩家对象.")
 							if (actorObject.__destroyed) then
-								Details:Msg("Invalidation Reason:", actorObject.__destroyedBy)
+								Details:Msg("无效原因:", actorObject.__destroyedBy)
 							end
 						end
 					end

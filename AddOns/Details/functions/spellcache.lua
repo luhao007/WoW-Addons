@@ -207,26 +207,26 @@ do
 			[77535] = {name = GetSpellInfo(77535), icon = "Interface\\Addons\\Details\\images\\icon_blood_shield"},
 
 			--bfa trinkets (deprecated)
-			[278155] = {name = GetSpellInfo(278155) .. " (Trinket)"}, --[Twitching Tentacle of Xalzaix]
-			[279664] = {name = GetSpellInfo(279664) .. " (Trinket)"}, --[Vanquished Tendril of G'huun]
-			[278227] = {name = GetSpellInfo(278227) .. " (Trinket)"}, --[T'zane's Barkspines]
-			[278383] = {name = GetSpellInfo(278383) .. " (Trinket)"}, --[Azurethos' Singed Plumage]
-			[278862] = {name = GetSpellInfo(278862) .. " (Trinket)"}, --[Drust-Runed Icicle]
-			[278359] = {name = GetSpellInfo(278359) .. " (Trinket)"}, --[Doom's Hatred]
-			[278812] = {name = GetSpellInfo(278812) .. " (Trinket)"}, --[Lion's Grace]
-			[270827] = {name = GetSpellInfo(270827) .. " (Trinket)"}, --[Vessel of Skittering Shadows]
-			[271071] = {name = GetSpellInfo(271071) .. " (Trinket)"}, --[Conch of Dark Whispers]
-			[270925] = {name = GetSpellInfo(270925) .. " (Trinket)"}, --[Hadal's Nautilus]
-			[271115] = {name = GetSpellInfo(271115) .. " (Trinket)"}, --[Ignition Mage's Fuse]
-			[271462] = {name = GetSpellInfo(271462) .. " (Trinket)"}, --[Rotcrusted Voodoo Doll]
-			[271465] = {name = GetSpellInfo(271465) .. " (Trinket)"}, --[Rotcrusted Voodoo Doll]
-			[268998] = {name = GetSpellInfo(268998) .. " (Trinket)"}, --[Balefire Branch]
-			[271671] = {name = GetSpellInfo(271671) .. " (Trinket)"}, --[Lady Waycrest's Music Box]
-			[277179] = {name = GetSpellInfo(277179) .. " (Trinket)"}, --[Dread Gladiator's Medallion]
-			[277187] = {name = GetSpellInfo(277187) .. " (Trinket)"}, --[Dread Gladiator's Emblem]
-			[277181] = {name = GetSpellInfo(277181) .. " (Trinket)"}, --[Dread Gladiator's Insignia]
-			[277185] = {name = GetSpellInfo(277185) .. " (Trinket)"}, --[Dread Gladiator's Badge]
-			[278057] = {name = GetSpellInfo(278057) .. " (Trinket)"}, --[Vigilant's Bloodshaper]
+			[278155] = {name = GetSpellInfo(278155) .. " (饰品)"}, --[Twitching Tentacle of Xalzaix]
+			[279664] = {name = GetSpellInfo(279664) .. " (饰品)"}, --[Vanquished Tendril of G'huun]
+			[278227] = {name = GetSpellInfo(278227) .. " (饰品)"}, --[T'zane's Barkspines]
+			[278383] = {name = GetSpellInfo(278383) .. " (饰品)"}, --[Azurethos' Singed Plumage]
+			[278862] = {name = GetSpellInfo(278862) .. " (饰品)"}, --[Drust-Runed Icicle]
+			[278359] = {name = GetSpellInfo(278359) .. " (饰品)"}, --[Doom's Hatred]
+			[278812] = {name = GetSpellInfo(278812) .. " (饰品)"}, --[Lion's Grace]
+			[270827] = {name = GetSpellInfo(270827) .. " (饰品)"}, --[Vessel of Skittering Shadows]
+			[271071] = {name = GetSpellInfo(271071) .. " (饰品)"}, --[Conch of Dark Whispers]
+			[270925] = {name = GetSpellInfo(270925) .. " (饰品)"}, --[Hadal's Nautilus]
+			[271115] = {name = GetSpellInfo(271115) .. " (饰品)"}, --[Ignition Mage's Fuse]
+			[271462] = {name = GetSpellInfo(271462) .. " (饰品)"}, --[Rotcrusted Voodoo Doll]
+			[271465] = {name = GetSpellInfo(271465) .. " (饰品)"}, --[Rotcrusted Voodoo Doll]
+			[268998] = {name = GetSpellInfo(268998) .. " (饰品)"}, --[Balefire Branch]
+			[271671] = {name = GetSpellInfo(271671) .. " (饰品)"}, --[Lady Waycrest's Music Box]
+			[277179] = {name = GetSpellInfo(277179) .. " (饰品)"}, --[Dread Gladiator's Medallion]
+			[277187] = {name = GetSpellInfo(277187) .. " (饰品)"}, --[Dread Gladiator's Emblem]
+			[277181] = {name = GetSpellInfo(277181) .. " (饰品)"}, --[Dread Gladiator's Insignia]
+			[277185] = {name = GetSpellInfo(277185) .. " (饰品)"}, --[Dread Gladiator's Badge]
+			[278057] = {name = GetSpellInfo(278057) .. " (饰品)"}, --[Vigilant's Bloodshaper]
 		}
 
 	elseif (DetailsFramework.IsTWWWow()) then
@@ -334,10 +334,10 @@ do
 			[108271] = {name = GetSpellInfo(108271), icon = "Interface\\Addons\\Details\\images\\icon_astral_shift"},
 			[196917] = {name = lightOfTheMartyr_Name .. " (" .. Loc ["STRING_DAMAGE"] .. ")", icon = lightOfTheMartyr_Icon},
 			[77535] = {name = GetSpellInfo(77535), icon = "Interface\\Addons\\Details\\images\\icon_blood_shield"},
-			[395296] = {name = GetSpellInfo(395296) .. " (on your self)", icon = "Interface\\Addons\\Details\\images\\ebon_might"},
+			[395296] = {name = GetSpellInfo(395296) .. " (对自己)", icon = "Interface\\Addons\\Details\\images\\ebon_might"},
 
-			[424428] = {name = (GetSpellInfo(424428) or "none") .. " (4P)", icon = "Interface\\Addons\\Details\\images\\spells\\eruption_tier4.jpg", defaultName = GetSpellInfo(424428), breakdownCanStack = true}, --augmentation 4pc tier 10.2
-			[422779] = {name = (GetSpellInfo(422779) or "none") .. " (4P)", icon = "Interface\\Addons\\Details\\images\\spells\\burning_frenzy_tier4.jpg", defaultName = GetSpellInfo(422779)}, --feral 4pc tier 10.2
+			[424428] = {name = (GetSpellInfo(424428) or "无") .. " (4P)", icon = "Interface\\Addons\\Details\\images\\spells\\eruption_tier4.jpg", defaultName = GetSpellInfo(424428), breakdownCanStack = true}, --augmentation 4pc tier 10.2
+			[422779] = {name = (GetSpellInfo(422779) or "无") .. " (4P)", icon = "Interface\\Addons\\Details\\images\\spells\\burning_frenzy_tier4.jpg", defaultName = GetSpellInfo(422779)}, --feral 4pc tier 10.2
 		}
 
 		customItemList[394453] = {itemId = 195480, isPassive = true} --ring: Seal of Diurna's Chosen
@@ -743,7 +743,7 @@ do
 		if (spellName) then
 			rawset(Details.spellcache, spellId, {spellName .. Loc ["STRING_DOT"], rank, spellIcon})
 		else
-			rawset(Details.spellcache, spellId, {"Unknown DoT Spell? " .. Loc ["STRING_DOT"], rank, [[Interface\InventoryItems\WoWUnknownItem01]]})
+			rawset (Details.spellcache, spellId, {"未知DOT法术? " .. Loc ["STRING_DOT"], rank, [[Interface\InventoryItems\WoWUnknownItem01]]})
 		end
 	end
 end

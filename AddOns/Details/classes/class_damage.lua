@@ -4580,7 +4580,7 @@ function damageClass.PredictedAugSpellsOnEnter(self)
 
 		--add the total combat time into the tooltip
 		local combatTimeMinutes, combatTimeSeconds = math.floor(combatTime / 60), math.floor(combatTime % 60)
-		GameCooltip:AddLine("Combat Time", combatTimeMinutes .. "m " .. combatTimeSeconds .. "s" .. "(" .. format("%.1f", 100) .. "%)")
+		GameCooltip:AddLine("战斗时间", combatTimeMinutes .. "m " .. combatTimeSeconds .. "s" .. "(" .. format("%.1f", 100) .. "%)")
 		GameCooltip:AddIcon([[Interface\TARGETINGFRAME\UnitFrameIcons]], nil, nil, iconSize, iconSize, iconBorderInfo.L, iconBorderInfo.R, iconBorderInfo.T, iconBorderInfo.B)
 		Details:AddTooltipBackgroundStatusbar(false, 100, true, "darkgreen")
 
@@ -4597,10 +4597,10 @@ function damageClass.PredictedAugSpellsOnEnter(self)
 			local percent = evokerEbonMightUptime / combatTime * 100
 
 			if (minutes > 0) then
-				GameCooltip:AddLine(ebonMightSpellName .. "(self)", minutes .. "m " .. seconds .. "s" .. "(" .. format("%.1f", percent) .. "%)")
+				GameCooltip:AddLine(ebonMightSpellName .. "(自己)", minutes .. "m " .. seconds .. "s" .. "(" .. format("%.1f", percent) .. "%)")
 				Details:AddTooltipBackgroundStatusbar(false, percent, true, ebonMightColor)
 			else
-				GameCooltip:AddLine(ebonMightSpellName .. "(self)", seconds .. "s" .. "(" .. format("%.1f", percent) .. "%)")
+				GameCooltip:AddLine(ebonMightSpellName .. "(自己)", seconds .. "s" .. "(" .. format("%.1f", percent) .. "%)")
 				Details:AddTooltipBackgroundStatusbar(false, percent, true, ebonMightColor)
 			end
 
@@ -4738,7 +4738,7 @@ function damageClass.PredictedAugSpellsOnEnter(self)
 		GameCooltip:AddIcon(" ", 1, 1, 10, 10)
 
 		if (evokerObject) then
-			GameCooltip:AddLine("Prescience Uptime by Amount of Applications")
+			GameCooltip:AddLine("按应用数量分列的先知先觉运作时间")
 			local prescienceData = evokerObject.cleu_prescience_time
 
 			if (prescienceData) then
@@ -4753,7 +4753,7 @@ function damageClass.PredictedAugSpellsOnEnter(self)
 					if (time > 0) then
 						local uptimePercent = time / combatTime * 100
 						local timeString = detailsFramework:IntegerToTimer(time)
-						GameCooltip:AddLine("Presciece Applied: " .. amountOfPrescienceApplied, timeString .. "(" .. format("%.1f", uptimePercent) .. "%)")
+						GameCooltip:AddLine("先知先觉应用: " .. amountOfPrescienceApplied, timeString .. "(" .. format("%.1f", uptimePercent) .. "%)")
 						--5199639 prescience icon
 						GameCooltip:AddIcon([[Interface\AddOns\Details\images\spells\prescience_time]], nil, nil, iconSize, iconSize)
 						Details:AddTooltipBackgroundStatusbar(false, time/totalTimeWithPrescienceUp*100, true, "green")
@@ -4785,7 +4785,7 @@ function damageClass.PredictedAugSpellsOnEnter(self)
 		if (#manaRestoredToHealers > 0) then
 			GameCooltip:AddLine(" ")
 			GameCooltip:AddIcon(" ", 1, 1, 10, 10)
-			GameCooltip:AddLine("Mana Restored to Healers:")
+			GameCooltip:AddLine("治疗法力回复:")
 
 			table.sort(manaRestoredToHealers, Details.Sort2)
 
@@ -4808,7 +4808,7 @@ function damageClass.PredictedAugSpellsOnEnter(self)
 		end
 	end
 
-	GameCooltip:AddLine("feature under test, can't disable atm")
+	GameCooltip:AddLine("功能正在测试中, 目前无法禁用")
 	GameCooltip:AddIcon([[Interface\BUTTONS\UI-GROUPLOOT-PASS-DOWN]], nil, nil, 16, 16)
 
 	--GameCooltip:SetOption("LeftBorderSize", -5)
@@ -4896,7 +4896,7 @@ function damageClass:ToolTip_DamageDone(instance, numero, barra, keydown)
 			class = "UNKNOW"
 		end
 		if (not Details.class_colors[class]) then
-			return print("Details!: error class not found:", class, "for", self.nome)
+			return print("Details!: 未找到错误职业:", class, "对应对象", self.nome)
 		end
 		r, g, b = unpack(Details.class_colors[class])
 	end
@@ -5214,7 +5214,7 @@ function damageClass:ToolTip_DamageDone(instance, numero, barra, keydown)
 				--small blank space
 				Details:AddTooltipSpellHeaderText("", headerColor, 1, false, 0.1, 0.9, 0.1, 0.9, true)
 
-				Details:AddTooltipSpellHeaderText("Damage Per Phase", headerColor, 1, [[Interface\Garrison\orderhall-missions-mechanic8]], 11/64, 53/64, 11/64, 53/64) --localize-me
+				Details:AddTooltipSpellHeaderText("战斗片段的伤害", headerColor, 1, [[Interface\Garrison\orderhall-missions-mechanic8]], 11/64, 53/64, 11/64, 53/64) --localize-me
 				Details:AddTooltipHeaderStatusbar(r, g, b, barAlha)
 
 				local playerPhases = {}
@@ -5244,7 +5244,7 @@ function damageClass:ToolTip_DamageDone(instance, numero, barra, keydown)
 
 				for i = 1, #playerPhases do
 					--[1] Phase Number [2] Amount Done [3] Rank [4] Percent
-					GameCooltip:AddLine("|cFFF0F0F0Phase|r " .. playerPhases [i][1], formatTooltipNumber(_, playerPhases [i][2]) .. "  (|cFFFFFF00#" .. playerPhases [i][3] ..  "|r,  " .. format("%.1f", playerPhases [i][4]) .. "%)")
+					GameCooltip:AddLine("|cFFF0F0F0片段|r " .. playerPhases [i][1], formatTooltipNumber (_, playerPhases [i][2]) .. "(|cFFFFFF00#" .. playerPhases [i][3] ..  "|r, " .. format("%.1f", playerPhases [i][4]) .. "%)")
 					GameCooltip:AddIcon([[Interface\Garrison\orderhall-missions-mechanic9]], 1, 1, 14, 14, 11/64, 53/64, 11/64, 53/64)
 					Details:AddTooltipBackgroundStatusbar()
 				end
@@ -5294,7 +5294,7 @@ function damageClass:ReportEnemyDamageTaken(actor, instance, ShiftKeyDown, Contr
 			icon = [[Interface\ICONS\Pet_Type_Undead]],
 			attribute = "damagedone",
 			author = Details.playername,
-			desc = inimigo .. " Damage Taken",
+			desc = inimigo .. " 承受伤害",
 			source = "[raid]",
 			target = inimigo,
 			script = false,
@@ -6401,7 +6401,7 @@ function damageClass:MontaInfoDamageDone()
 				if (bestRank) then
 					--discover which are the player position in the guild rank
 					local rankPosition = Details222.storage.GetUnitGuildRank(diffEngName, combatObject:GetBossInfo().id, "DAMAGER", playerName, true)
-					local text1 = playerName .. " Guild Rank on " ..(combatObject:GetBossInfo().name or "") .. ": |cFFFFFF00" ..(rankPosition or "x") .. "|r Best Dps: |cFFFFFF00" .. Details:ToK2((bestRank.total or SMALL_NUMBER) / encounterTable.elapsed) .. "|r(" .. encounterTable.date:gsub(".*%s", "") .. ")"
+					local text1 = playerName .. " 团队排名 " ..(combatObject:GetBossInfo().name or "") .. ": |cFFFFFF00" ..(rankPosition or "x") .. "|r 最佳 Dps: |cFFFFFF00" .. Details:ToK2((bestRank.total or SMALL_NUMBER) / encounterTable.elapsed) .. "|r(" .. encounterTable.date:gsub(".*%s", "") .. ")"
 					breakdownWindowFrame:SetStatusbarText(text1, 10, "gray")
 				else
 					breakdownWindowFrame:SetStatusbarText()
@@ -7110,12 +7110,12 @@ function damageClass:BuildSpellDetails(spellBar, spellBlockContainer, blockIndex
 			if (trinketProcData) then
 				local trinketProc = trinketProcData[spellId]
 				if (trinketProc) then
-					blockLine1.leftText:SetText("Procs: " .. trinketProc.total)
+					blockLine1.leftText:SetText("触发: " .. trinketProc.total)
 				end
 			end
 
 		elseif(Details.GetItemSpellInfo(spellId)) then
-			blockLine1.leftText:SetText("Uses: " .. totalCasts)
+			blockLine1.leftText:SetText("使用: " .. totalCasts)
 		end
 
 		blockLine1.rightText:SetText(Loc ["STRING_HITS"]..": " .. totalHits) --hits and uptime
@@ -7171,26 +7171,26 @@ function damageClass:BuildSpellDetails(spellBar, spellBlockContainer, blockIndex
 		empowerBlock:SetColor(0.200, 0.576, 0.498, 0.6)
 
 		local blockLine1, blockLine2, blockLine3 = empowerBlock:GetLines()
-		blockLine1.leftText:SetText("Spell Empower Average Level: " .. string.format("%.2f", empowerLevelSum / empowerAmount))
+		blockLine1.leftText:SetText("法术蓄力平均等级: " .. string.format("%.2f", empowerLevelSum / empowerAmount))
 
 		if (level1AverageDamage ~= "0") then
-			blockLine2.leftText:SetText("#1 Avg: " .. level1AverageDamage .. "(" ..(empowerAmountPerLevel[1] or 0) .. ")")
+			blockLine2.leftText:SetText("#1 平均: " .. level1AverageDamage .. "(" ..(empowerAmountPerLevel[1] or 0) .. ")")
 		end
 
 		if (level2AverageDamage ~= "0") then
-			blockLine2.centerText:SetText("#2 Avg: " .. level2AverageDamage .. "(" ..(empowerAmountPerLevel[2] or 0) .. ")")
+			blockLine2.centerText:SetText("#2 平均: " .. level2AverageDamage .. "(" ..(empowerAmountPerLevel[2] or 0) .. ")")
 		end
 
 		if (level3AverageDamage ~= "0") then
-			blockLine2.rightText:SetText("#3 Avg: " .. level3AverageDamage .. "(" ..(empowerAmountPerLevel[3] or 0) .. ")")
+			blockLine2.rightText:SetText("#3 平均: " .. level3AverageDamage .. "(" ..(empowerAmountPerLevel[3] or 0) .. ")")
 		end
 
 		if (level4AverageDamage ~= "0") then
-			blockLine3.leftText:SetText("#4 Avg: " .. level4AverageDamage .. "(" ..(empowerAmountPerLevel[4] or 0) .. ")")
+			blockLine3.leftText:SetText("#4 平均: " .. level4AverageDamage .. "(" ..(empowerAmountPerLevel[4] or 0) .. ")")
 		end
 
 		if (level5AverageDamage ~= "0") then
-			blockLine3.rightText:SetText("#5 Avg: " .. level5AverageDamage .. "(" ..(empowerAmountPerLevel[5] or 0) .. ")")
+			blockLine3.rightText:SetText("#5 平均: " .. level5AverageDamage .. "(" ..(empowerAmountPerLevel[5] or 0) .. ")")
 		end
 	end
 

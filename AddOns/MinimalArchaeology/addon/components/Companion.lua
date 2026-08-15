@@ -685,7 +685,7 @@ function Companion:Init()
     end
 
     if not Companion.initialized then
-        Common:DisplayStatusMessage("Initializing Companion", MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage("初始化伴侣", MINARCH_MSG_DEBUG)
 
         Companion.frame:SetFrameStrata("BACKGROUND")
         Companion.frame:SetWidth(142)
@@ -856,7 +856,7 @@ function Companion:ShowSolveButtonForRace(raceID, alwaysShow)
     local artifact = MinArch['artifacts'][raceID]
 
     if not artifact then
-        Common:DisplayStatusMessage('Artifact not found for ' .. raceID, MINARCH_MSG_STATUS)
+        Common:DisplayStatusMessage('未找到下列神器' .. raceID, MINARCH_MSG_STATUS)
         return false;
     end
 

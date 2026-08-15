@@ -281,7 +281,7 @@ function segmentSelectionMidnight.Show(instance, leftProvider, rightProvider)
         mainFrame:SetDataProviders(leftProvider, rightProvider)
     end
 
-    assert(instance, "A window reference is required to show the segment selection frame.")
+    assert(instance, "需要窗口引用才能显示分段选择框.")
     mainFrame.instance = instance
     mainFrame:RefreshMe()
     mainFrame:Show()

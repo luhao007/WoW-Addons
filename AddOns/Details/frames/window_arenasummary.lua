@@ -709,14 +709,14 @@ function ArenaSummary.CreateWindow() --~create
     --header
 		local headerTable = {
 			{text = "", width = 22}, --1
-			{text = "Name", width = 120}, --2
-			{text = "Kills", width = 60}, --3
-			{text = "Peak Dps", width = 90}, --4
+			{text = "名称", width = 120}, --2
+			{text = "击杀", width = 60}, --3
+			{text = "单次最高伤", width = 90}, --4
 			{text = "Dps", width = 60}, --5
             {text = "Hps", width = 60}, --6
-            {text = "Dispels", width = 60}, --7
-            {text = "Interrupts", width = 70}, --8
-            {text = "CCs", width = 70}, --9
+            {text = "驱散", width = 60}, --7
+            {text = "打断", width = 70}, --8
+            {text = "控制", width = 70}, --9
 		}
 
         local headerTableHash = {
@@ -1230,33 +1230,33 @@ function ArenaSummary.CreateWindow() --~create
 end
 
 function ArenaSummary.UncompressArena(headerIndex)
-    assert(type(headerIndex) == "number", "UncompressedArena(headerIndex): headerIndex must be a number.")
-    assert(C_EncodingUtil, "C_EncodingUtil is nil")
+    assert(type(headerIndex) == "number", "UncompressedArena(headerIndex): headerIndex必须为数字类型.")
+    assert(C_EncodingUtil, "C_EncodingUtil为nil")
 
     local compressedArenas = Details.arena_data_compressed
     --print("##:", #compressedArenas, "headerIndex:", headerIndex)
 
     local arenaData = compressedArenas[headerIndex]
     if (not arenaData) then
-        print("not found arenaData for headerIndex: " .. headerIndex)
+        print("未找到headerIndex: " .. headerIndex .. "对应的竞技场数据")
         return nil
     end
 
     local dataDecoded = C_EncodingUtil.DecodeBase64(arenaData)
     if (not dataDecoded) then
-        print("UncompressedRun(headerIndex): C_EncodingUtil.DecodeBase64 failed")
+        print("UncompressedRun(headerIndex): C_EncodingUtil.DecodeBase64解码失败")
         return nil
     end
 
     local dataDecompressed = C_EncodingUtil.DecompressString(dataDecoded, Enum.CompressionMethod.Deflate)
     if (not dataDecompressed) then
-        print("UncompressedRun(headerIndex): C_EncodingUtil.DecompressString failed")
+        print("UncompressedRun(headerIndex): C_EncodingUtil.DecompressString解码失败")
         return nil
     end
 
     local arenaInfo = C_EncodingUtil.DeserializeCBOR(dataDecompressed)
     if (not arenaInfo) then
-        print("UncompressedRun(headerIndex): C_EncodingUtil.DeserializeCBOR failed")
+        print("UncompressedRun(headerIndex): C_EncodingUtil.DeserializeCBOR解码失败")
         return nil
     end
 

@@ -18,12 +18,12 @@ function Plater.DebugTargetNameplate()
     local plateFrame = C_NamePlate.GetNamePlateForUnit("target", issecure())
     if (plateFrame) then
         if (not _G.FrameInspect) then
-            Plater:Msg("Please install FrameInspect addon to use this function.")
+            Plater:Msg("请安装FrameInspect插件以使用此功能.")
             return
         end
         _G.FrameInspect.Inspect(plateFrame)
     else
-        Plater:Msg("You don't have a target or the nameplate is protected.")
+        Plater:Msg("你没有目标或姓名版受到保护.")
             return
     end
 end
@@ -139,7 +139,7 @@ function platerInternal.InstallMDTHooks()
                     if (castTime and castTime > 0) then
                         if (not spellButton.GoToPlaterButton) then
                             spellButton.GoToPlaterButton = DF:CreateButton(spellButton, fSeeSpellOnPlater, 1, 1, "", spellId)
-                            spellButton.GoToPlaterButton.tooltip = "Setup this spell on Plater"
+                            spellButton.GoToPlaterButton.tooltip = "在Plater上设置这个法术"
                             --DF:ApplyStandardBackdrop(spellButton.GoToPlaterButton) --debug button size
                         end
 
@@ -188,7 +188,7 @@ function Plater.DebugColorAnimation()
         end
     end)
 
-    Plater:Msg ("is now animating color nameplates in your screen for test purposes.")
+    Plater:Msg ("为测试目的现在可在屏幕中动画显示彩色姓名版.")
 end
 
 function Plater.DebugHealthAnimation()
@@ -235,5 +235,5 @@ function Plater.DebugHealthAnimation()
         end
     end)
 
-    Plater:Msg ("is now animating nameplates in your screen for test purposes.")
+    Plater:Msg ("为测试目的现在可在屏幕中显示动画姓名版.")
 end

@@ -211,15 +211,12 @@ local bfaToys = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.ITEM,
 		isToy = true,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2253, -- Doom's Howl
-		},
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
 		name = L["Toy Siege Tower"],
 		itemId = 163828,
 		npcs = { 138122 },
 		questId = { 53001, 53002 }, -- Loot lockout
-		chance = 20,
+		chance = 100, -- Need more data. Until then, this is a blind guess...
 		requiresAlliance = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.ARATHI_HIGHLANDS, x = 37.09, y = 39.21, n = L["Doom's Howl"] } },
 		enableCoin = true,
@@ -228,15 +225,12 @@ local bfaToys = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.ITEM,
 		isToy = true,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2252, -- The Lion's Roar
-		},
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
 		name = L["Toy War Machine"],
 		itemId = 163829,
 		npcs = { 137374 },
 		questId = { 53001, 53002 }, -- Loot Lockout
-		chance = 20,
+		chance = 100, -- Blind guess :|
 		requiresHorde = true,
 		coords = { { m = CONSTANTS.UIMAPIDS.ARATHI_HIGHLANDS, x = 37.09, y = 39.21, n = L["The Lion's Roar"] } },
 		enableCoin = true,
@@ -612,11 +606,7 @@ local bfaToys = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.ITEM,
 		isToy = true,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2372, -- Oblivion Elemental (8.3)
-			3088, -- Oblivion Elemental (11.1.5)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		name = L["Void-Touched Souvenir Totem"],
 		itemId = 174924,
 		chance = 100, -- Blind guess (no data)
@@ -735,10 +725,7 @@ local bfaToys = {
 	["Viable Cobra Egg"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.ITEM,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2125, -- Merektha
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Viable Cobra Egg"],
 		itemId = 160832,
 		npcs = { 133384 },

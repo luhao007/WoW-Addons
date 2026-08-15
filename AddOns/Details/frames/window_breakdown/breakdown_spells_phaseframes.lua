@@ -259,13 +259,13 @@ function spellsTab.CreatePhasesContainer(tabFrame) --~phase ~createphasecontaine
 
 		---@type breakdownreporttable
 		local reportData = {
-			title = "Phases for " .. detailsFramework:RemoveRealmName(actorObject:Name()) .. " | " .. subDisplayName .. " | " .. combatName
+			title = "分阶段 " .. detailsFramework:RemoveRealmName(actorObject:Name()) .. " | " .. subDisplayName .. " | " .. combatName
 		}
 
 		for i = 1, #data do
 			local dataTable = data[i]
 			reportData[#reportData+1] = {
-				name = "Phase:" .. dataTable.phaseName,
+				name = "阶段:" .. dataTable.phaseName,
 				amount = formatFunc(nil, dataTable.amountDone),
 				percent = string.format("%.1f", dataTable.percentDone) .. "%",
 			}
@@ -418,7 +418,7 @@ function spellsTab.CreatePhasesContainer(tabFrame) --~phase ~createphasecontaine
 
 	tabFrame.phases = container:CreateFontString(nil, "overlay", "QuestFont_Large")
 	tabFrame.phases:SetPoint("bottomleft", container, "topleft", 2, 2)
-	tabFrame.phases:SetText("Phases:") --localize-me
+	tabFrame.phases:SetText("阶段:") --localize-me
 
 	return phaseScrollFrame
 end

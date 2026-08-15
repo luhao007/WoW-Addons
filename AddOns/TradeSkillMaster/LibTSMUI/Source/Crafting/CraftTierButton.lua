@@ -8,10 +8,10 @@ local LibTSMUI = select(2, ...).LibTSMUI
 local L = LibTSMUI.Locale.GetTable()
 local UIElements = LibTSMUI:Include("Util.UIElements")
 local Money = LibTSMUI:From("LibTSMUtil"):Include("UI.Money")
+local CraftString = LibTSMUI:From("LibTSMTypes"):Include("Crafting.CraftString")
 local TradeSkill = LibTSMUI:From("LibTSMWoW"):Include("API.TradeSkill")
 local Profession = LibTSMUI:From("LibTSMService"):Include("Profession")
 local Theme = LibTSMUI:From("LibTSMService"):Include("UI.Theme")
-local CraftString = LibTSMUI:From("LibTSMTypes"):Include("Crafting.CraftString")
 local private = {}
 
 
@@ -102,12 +102,13 @@ function CraftTierButton:Acquire()
 	-- Set the header state
 	local qualityPublisher = self._state:PublisherForKeyChange("craftString")
 		:IgnoreNil()
+		:MapWithFunction(CraftString.GetQuality)
 		:Share(2)
 	qualityPublisher
-		:MapWithFunction(private.CraftStringToCraftedQuality)
+		:MapWithFunction(TradeSkill.GetCraftedQualityChatIcon)
 		:CallMethod(self:GetElement("header.icon"), "SetText")
 	qualityPublisher
-		:MapWithFunction(private.CraftStringToCraftedQualityColorKey)
+		:MapWithFunction(Theme.GetCraftedQualityColorKey)
 		:CallMethod(self:GetElement("header"), "SetRoundedBackgroundColor")
 	self._state:PublisherForKeyChange("craftString")
 		:IgnoreNil()
@@ -209,18 +210,6 @@ end
 -- ============================================================================
 -- Private Helper Functions
 -- ============================================================================
-
-function private.CraftStringToCraftedQuality(craftString)
-	local craftQuality = CraftString.GetQuality(craftString)
-	local useMidnightIcon = TradeSkill.IsMidnightRecipe(CraftString.GetSpellId(craftString))
-	return TradeSkill.GetCraftedQualityChatIcon(craftQuality, useMidnightIcon)
-end
-
-function private.CraftStringToCraftedQualityColorKey(craftString)
-	local craftQuality = CraftString.GetQuality(craftString)
-	local useMidnightIcon = TradeSkill.IsMidnightRecipe(CraftString.GetSpellId(craftString))
-	return Theme.GetCraftedQualityColorKey(craftQuality, useMidnightIcon)
-end
 
 function private.StateToBorderColor(state)
 	return (state.selected or state.mouseOver) and "ACTIVE_BG_ALT" or "ACTIVE_BG"

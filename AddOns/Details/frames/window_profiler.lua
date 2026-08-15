@@ -36,7 +36,7 @@ function Details:OpenProfiler()
     
     local string_profiler = f:CreateFontString(nil, "artwork", "GameFontNormal")
     string_profiler:SetPoint("top", logo, "bottom", -20, 10)
-    string_profiler:SetText("Profiler!")
+    string_profiler:SetText("配置!")
     
     local string_profiler = f:CreateFontString(nil, "artwork", "GameFontNormal")
     string_profiler:SetPoint("topleft", f, "topleft", 10, -130)

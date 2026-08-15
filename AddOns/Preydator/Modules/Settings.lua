@@ -1,4 +1,4 @@
----@diagnostic disable
+---@diagnostic disable: undefined-field, inject-field, param-type-mismatch
 
 local _, addonTable = ...
 local Preydator = _G.Preydator or addonTable
@@ -13,7 +13,6 @@ local constants = Preydator.Constants
 local Settings = _G.Settings
 local CreateFrame = _G.CreateFrame
 local UIParent = _G.UIParent
-local InCombatLockdown = _G.InCombatLockdown
 local UIDropDownMenu_Initialize = _G.UIDropDownMenu_Initialize
 local UIDropDownMenu_CreateInfo = _G.UIDropDownMenu_CreateInfo
 local UIDropDownMenu_SetWidth = _G.UIDropDownMenu_SetWidth
@@ -21,6 +20,12 @@ local UIDropDownMenu_SetText = _G.UIDropDownMenu_SetText
 local UIDropDownMenu_AddButton = _G.UIDropDownMenu_AddButton
 local ColorPickerFrame = _G.ColorPickerFrame
 local OpacitySliderFrame = _G.OpacitySliderFrame
+local C_CurrencyInfo = _G.C_CurrencyInfo
+local hooksecurefunc = _G.hooksecurefunc
+
+local preydatorDropdownRegistry = setmetatable({}, { __mode = "k" })
+local dropdownScaleHookInstalled = false
+
 local function ApplyDropdownListScale(level, dropDownFrame)
     if not dropDownFrame or not dropDownFrame.GetEffectiveScale then
         return
@@ -40,43 +45,19 @@ local function ApplyDropdownListScale(level, dropDownFrame)
     listFrame:SetScale(desiredScale)
 end
 
-local function ApplyDropdownListLimit(maxScrollItems)
-    if type(maxScrollItems) ~= "number" or maxScrollItems <= 0 then
+local function EnsureDropdownScaleHook()
+    if dropdownScaleHookInstalled or type(hooksecurefunc) ~= "function" then
         return
     end
 
-    local listFrame = _G.DropDownList1
-    if not listFrame then
-        return
-    end
-
-    listFrame.maxScrollItems = math.floor(maxScrollItems)
-end
-
-local function BindDropdownScale(dropdown, maxScrollItems)
-    if not dropdown or dropdown.PreydatorScaleHookBound then
-        return
-    end
-
-    local button = dropdown.Button
-    if not button then
-        return
-    end
-
-    dropdown.PreydatorScaleHookBound = true
-    button:HookScript("OnClick", function()
-        local timer = _G.C_Timer
-        if timer and type(timer.After) == "function" then
-            timer.After(0, function()
-                ApplyDropdownListLimit(maxScrollItems)
-                ApplyDropdownListScale(1, dropdown)
-            end)
+    hooksecurefunc("ToggleDropDownMenu", function(level, _, dropDownFrame)
+        if not dropDownFrame or not preydatorDropdownRegistry[dropDownFrame] then
             return
         end
-
-        ApplyDropdownListLimit(maxScrollItems)
-        ApplyDropdownListScale(1, dropdown)
+        ApplyDropdownListScale(level, dropDownFrame)
     end)
+
+    dropdownScaleHookInstalled = true
 end
 
 local COLUMN_LEFT_X = 5
@@ -91,8 +72,6 @@ local DEFAULT_SLIDER_WIDTH = 170
 local DEFAULT_SLIDER_SCALE = 1
 local DEFAULT_SLIDER_VALUEBOX_WIDTH = 56
 local DEFAULT_SLIDER_VALUEBOX_HEIGHT = 20
-
-local pendingOpenOptionsAfterCombat = false
 
 local TEXTURE_OPTIONS = {
     default = { text = L["Default"] },
@@ -113,7 +92,6 @@ local CHANNEL_OPTIONS = {
     SFX = { text = L["SFX"] },
     Dialog = { text = L["Dialog"] },
     Ambience = { text = L["Ambience"] },
-    Music = { text = L["Music"] },
 }
 
 local BAR_ACCESSIBILITY_OPTIONS = {
@@ -200,19 +178,6 @@ local HUNT_ALIGN_OPTIONS = {
     { key = "top", text = L["Top"] },
     { key = "middle", text = L["Middle"] },
     { key = "bottom", text = L["Bottom"] },
-}
-
-local ACHIEVEMENT_SIGNAL_STYLE_OPTIONS = {
-    icon_only = { text = L["Icon Only"] },
-    icon_count = { text = L["Icon + Count"] },
-    count_only = { text = L["Text Only"] },
-}
-
-local HUNT_REWARD_STYLE_OPTIONS = {
-    icon_text  = { text = L["Icon + Text"] },
-    icon_count = { text = L["Icon + Count"] },
-    text_only  = { text = L["Text Only"] },
-    icon_only  = { text = L["Icon Only"] },
 }
 
 local PERCENT_DISPLAY_OPTIONS = {
@@ -421,290 +386,15 @@ local function CreateSlider(parent, x, y, label, minValue, maxValue, step, gette
     })
 end
 
-local SOUND_PICKER_VISIBLE_ROWS = 15
-local SOUND_PICKER_ROW_HEIGHT = 22
-
-local function BuildDropdownOptionList(optionSource)
-    local optionList = {}
-    if type(optionSource) == "table" and #optionSource > 0 then
-        for _, entry in ipairs(optionSource) do
-            if type(entry) == "table" and entry.key ~= nil then
-                optionList[#optionList + 1] = { key = entry.key, entry = entry }
-            end
-        end
-    else
-        for key, entry in pairs(optionSource or {}) do
-            optionList[#optionList + 1] = { key = key, entry = entry }
-        end
-
-        table.sort(optionList, function(left, right)
-            return tostring(left.entry and left.entry.text or "") < tostring(right.entry and right.entry.text or "")
-        end)
-    end
-
-    return optionList
-end
-
-local function EnsureSoundPickerFrame()
-    local soundPickerFrame = _G.PreydatorSoundPickerFrame
-    if soundPickerFrame then
-        return soundPickerFrame
-    end
-
-    local frame = CreateFrame("Frame", "PreydatorSoundPickerFrame", UIParent, "BasicFrameTemplateWithInset")
-    frame:SetSize(520, 500)
-    frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-    frame:SetFrameStrata("DIALOG")
-    frame:Hide()
-    frame:SetMovable(true)
-    frame:EnableMouse(true)
-    frame:RegisterForDrag("LeftButton")
-    frame:SetScript("OnDragStart", function(self)
-        self:StartMoving()
-    end)
-    frame:SetScript("OnDragStop", function(self)
-        self:StopMovingOrSizing()
-    end)
-
-    if frame.TitleText then
-        frame.TitleText:SetText(L["Sound Picker"] or "Sound Picker")
-    end
-
-    if type(_G.UISpecialFrames) == "table" then
-        _G.UISpecialFrames[#_G.UISpecialFrames + 1] = "PreydatorSoundPickerFrame"
-    end
-
-    local searchLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    searchLabel:SetPoint("TOPLEFT", frame, "TOPLEFT", 16, -34)
-    searchLabel:SetText(L["Search"] or "Search")
-
-    local searchBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
-    searchBox:SetAutoFocus(false)
-    searchBox:SetSize(330, 22)
-    searchBox:SetPoint("TOPLEFT", searchLabel, "BOTTOMLEFT", 0, -6)
-    searchBox:SetTextInsets(6, 6, 0, 0)
-    frame.searchBox = searchBox
-
-    local listContainer = CreateFrame("Frame", nil, frame, "InsetFrameTemplate")
-    listContainer:SetPoint("TOPLEFT", searchBox, "BOTTOMLEFT", -4, -8)
-    listContainer:SetSize(488, 380)
-    listContainer:EnableMouseWheel(true)
-    frame.listContainer = listContainer
-
-    local scrollProxy = CreateFrame("ScrollFrame", nil, frame)
-    scrollProxy:SetPoint("TOPLEFT", listContainer, "TOPLEFT", 0, 0)
-    scrollProxy:SetPoint("BOTTOMRIGHT", listContainer, "BOTTOMRIGHT", 0, 0)
-
-    local scrollSlider = CreateFrame("Slider", nil, scrollProxy, "OptionsSliderTemplate")
-    scrollSlider:SetOrientation("VERTICAL")
-    scrollSlider:SetPoint("TOPLEFT", listContainer, "TOPRIGHT", -18, -18)
-    scrollSlider:SetPoint("BOTTOMLEFT", listContainer, "BOTTOMRIGHT", -18, 18)
-    scrollSlider:SetWidth(16)
-    scrollSlider:SetMinMaxValues(0, 0)
-    scrollSlider:SetValueStep(1)
-    scrollSlider:SetObeyStepOnDrag(true)
-    scrollSlider:SetValue(0)
-    if scrollSlider.Low then scrollSlider.Low:Hide() end
-    if scrollSlider.High then scrollSlider.High:Hide() end
-    if scrollSlider.Text then scrollSlider.Text:Hide() end
-    frame.scrollSlider = scrollSlider
-
-    local clearButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-    clearButton:SetSize(70, 22)
-    clearButton:SetPoint("LEFT", searchBox, "RIGHT", 8, 0)
-    clearButton:SetText(L["Clear"] or "Clear")
-    clearButton:SetScript("OnClick", function()
-        searchBox:SetText("")
-    end)
-
-    local closeButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-    closeButton:SetSize(80, 22)
-    closeButton:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -14, 12)
-    closeButton:SetText(L["Close"] or "Close")
-    closeButton:SetScript("OnClick", function()
-        frame:Hide()
-    end)
-
-    local statusText = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    statusText:SetPoint("LEFT", closeButton, "RIGHT", -340, 0)
-    statusText:SetJustifyH("LEFT")
-    frame.statusText = statusText
-
-    frame.optionRows = {}
-    frame.filteredOptions = {}
-    frame.currentOffset = 0
-    frame.context = nil
-
-    local function RefreshRows()
-        local total = #frame.filteredOptions
-        local maxOffset = math.max(0, total - SOUND_PICKER_VISIBLE_ROWS)
-        frame.currentOffset = math.max(0, math.min(frame.currentOffset or 0, maxOffset))
-
-        scrollSlider:SetMinMaxValues(0, maxOffset)
-        scrollSlider:SetValue(frame.currentOffset)
-        scrollSlider:SetShown(maxOffset > 0)
-
-        local selectedKey = nil
-        if frame.context and type(frame.context.getter) == "function" then
-            selectedKey = frame.context.getter()
-        end
-
-        for rowIndex = 1, SOUND_PICKER_VISIBLE_ROWS do
-            local optionIndex = frame.currentOffset + rowIndex
-            local option = frame.filteredOptions[optionIndex]
-            local row = frame.optionRows[rowIndex]
-            if not row then
-                break
-            end
-
-            if option then
-                row.option = option
-                row.text:SetText(tostring(option.entry and option.entry.text or ""))
-                row:Show()
-                if selectedKey ~= nil and selectedKey == option.key then
-                    row.text:SetTextColor(1.00, 0.82, 0.00)
-                else
-                    row.text:SetTextColor(1.00, 1.00, 1.00)
-                end
-            else
-                row.option = nil
-                row:Hide()
-            end
-        end
-
-        if total > 0 then
-            statusText:SetText(string.format("%d %s", total, (L["sounds"] or "sounds")))
-        else
-            statusText:SetText(L["No matching sounds"] or "No matching sounds")
-        end
-    end
-
-    local function ApplyFilter()
-        local query = string.lower((searchBox:GetText() or ""):match("^%s*(.-)%s*$") or "")
-        frame.filteredOptions = {}
-
-        local source = frame.context and frame.context.optionList or {}
-        for _, option in ipairs(source) do
-            local text = tostring(option.entry and option.entry.text or "")
-            if query == "" or string.find(string.lower(text), query, 1, true) then
-                frame.filteredOptions[#frame.filteredOptions + 1] = option
-            end
-        end
-
-        frame.currentOffset = 0
-        RefreshRows()
-    end
-
-    frame.ApplyFilter = ApplyFilter
-    frame.RefreshRows = RefreshRows
-
-    scrollSlider:SetScript("OnValueChanged", function(_, value)
-        frame.currentOffset = math.floor((value or 0) + 0.5)
-        RefreshRows()
-    end)
-
-    listContainer:SetScript("OnMouseWheel", function(_, delta)
-        local minValue, maxValue = scrollSlider:GetMinMaxValues()
-        if (maxValue or 0) <= (minValue or 0) then
-            return
-        end
-
-        local currentValue = scrollSlider:GetValue() or 0
-        local nextValue = Clamp(currentValue - delta, minValue or 0, maxValue or 0)
-        scrollSlider:SetValue(nextValue)
-    end)
-
-    searchBox:SetScript("OnTextChanged", function()
-        ApplyFilter()
-    end)
-    searchBox:SetScript("OnEnterPressed", function(self)
-        self:ClearFocus()
-    end)
-
-    for rowIndex = 1, SOUND_PICKER_VISIBLE_ROWS do
-        local row = CreateFrame("Button", nil, listContainer)
-        row:SetPoint("TOPLEFT", listContainer, "TOPLEFT", 10, -(12 + (rowIndex - 1) * SOUND_PICKER_ROW_HEIGHT))
-        row:SetPoint("TOPRIGHT", listContainer, "TOPRIGHT", -22, -(12 + (rowIndex - 1) * SOUND_PICKER_ROW_HEIGHT))
-        row:SetHeight(SOUND_PICKER_ROW_HEIGHT)
-
-        local rowHighlight = row:CreateTexture(nil, "HIGHLIGHT")
-        rowHighlight:SetAllPoints(true)
-        rowHighlight:SetColorTexture(1, 1, 1, 0.08)
-
-        local normalBg = row:CreateTexture(nil, "BACKGROUND")
-        normalBg:SetAllPoints(true)
-        normalBg:SetColorTexture(0, 0, 0, 0.18)
-
-        local text = row:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-        text:SetPoint("LEFT", row, "LEFT", 6, 0)
-        text:SetPoint("RIGHT", row, "RIGHT", -6, 0)
-        text:SetJustifyH("LEFT")
-        row.text = text
-
-        row:SetScript("OnClick", function(self)
-            if not self.option or not frame.context then
-                return
-            end
-
-            if type(frame.context.setter) == "function" then
-                frame.context.setter(self.option.key)
-            end
-            if type(frame.context.refresh) == "function" then
-                frame.context.refresh()
-            end
-
-            frame:Hide()
-        end)
-
-        frame.optionRows[rowIndex] = row
-    end
-
-    _G.PreydatorSoundPickerFrame = frame
-    return frame
-end
-
-local function OpenSoundPicker(context)
-    if type(context) ~= "table" then
-        return
-    end
-
-    local frame = EnsureSoundPickerFrame()
-    local titleText = context.pickerTitle or context.label or (L["Sound Picker"] or "Sound Picker")
-    if frame.TitleText then
-        frame.TitleText:SetText(titleText)
-    end
-
-    frame.context = {
-        optionList = BuildDropdownOptionList((type(context.getOptions) == "function" and context.getOptions()) or {}),
-        getter = context.getter,
-        setter = context.setter,
-        refresh = context.refresh,
-    }
-
-    frame.searchBox:SetText("")
-    frame.currentOffset = 0
-    frame:Show()
-    frame:Raise()
-    frame.searchBox:SetFocus()
-    frame:ApplyFilter()
-end
-
-local function CreateDropdown(parent, x, y, label, width, options, getter, setter, maxScrollItems)
+local function CreateDropdown(parent, x, y, label, width, options, getter, setter)
     local title = parent:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     title:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
     title:SetText(label)
 
     local dropdown = CreateFrame("Frame", nil, parent, "UIDropDownMenuTemplate")
     dropdown:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -16, -4)
-
-    local dropdownConfig = nil
-    local scrollLimit = maxScrollItems
-    if type(maxScrollItems) == "table" then
-        dropdownConfig = maxScrollItems
-        scrollLimit = maxScrollItems.maxScrollItems
-    end
-
-    BindDropdownScale(dropdown, scrollLimit)
+    preydatorDropdownRegistry[dropdown] = true
+    EnsureDropdownScaleHook()
 
     local function GetOptions()
         if type(options) == "function" then
@@ -729,14 +419,24 @@ local function CreateDropdown(parent, x, y, label, width, options, getter, sette
     end
 
     UIDropDownMenu_SetWidth(dropdown, width)
-    if type(scrollLimit) == "number" and scrollLimit > 0 then
-        dropdown.maxItems = math.floor(scrollLimit)
-    end
-
     UIDropDownMenu_Initialize(dropdown, function()
-        ApplyDropdownListLimit(scrollLimit)
+        local optionList = {}
+        local optionSource = GetOptions()
+        if type(optionSource) == "table" and #optionSource > 0 then
+            for _, entry in ipairs(optionSource) do
+                if type(entry) == "table" and entry.key ~= nil then
+                    optionList[#optionList + 1] = { key = entry.key, entry = entry }
+                end
+            end
+        else
+            for key, entry in pairs(optionSource) do
+                optionList[#optionList + 1] = { key = key, entry = entry }
+            end
 
-        local optionList = BuildDropdownOptionList(GetOptions())
+            table.sort(optionList, function(left, right)
+                return tostring(left.entry and left.entry.text or "") < tostring(right.entry and right.entry.text or "")
+            end)
+        end
 
         for _, item in ipairs(optionList) do
             local info = UIDropDownMenu_CreateInfo()
@@ -749,23 +449,6 @@ local function CreateDropdown(parent, x, y, label, width, options, getter, sette
             UIDropDownMenu_AddButton(info)
         end
     end)
-
-    if dropdownConfig and dropdownConfig.useSearchPicker and dropdown.Button and dropdown.Button.SetScript then
-        dropdown.Button:SetScript("OnClick", function(self)
-            if self.IsEnabled and not self:IsEnabled() then
-                return
-            end
-
-            OpenSoundPicker({
-                label = label,
-                pickerTitle = dropdownConfig.pickerTitle,
-                getOptions = GetOptions,
-                getter = getter,
-                setter = setter,
-                refresh = RefreshText,
-            })
-        end)
-    end
 
     dropdown.PreydatorRefresh = RefreshText
     function dropdown:PreydatorSetEnabled(enabled)
@@ -781,77 +464,6 @@ local function CreateDropdown(parent, x, y, label, width, options, getter, sette
     end
     RefreshText()
     return dropdown
-end
-
-local function CreateSoundPickerSelector(parent, x, y, label, width, getOptions, getter, setter)
-    local title = parent:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    title:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
-    title:SetText(label)
-
-    local TRIGGER_W = 28
-    local DISPLAY_W = width - TRIGGER_W - 4
-
-    local displayBox = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
-    displayBox:SetSize(DISPLAY_W, 20)
-    displayBox:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
-    displayBox:SetAutoFocus(false)
-    displayBox:SetText("")
-    displayBox:SetScript("OnEditFocusGained", function(self) self:ClearFocus() end)
-
-    local triggerBtn = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
-    triggerBtn:SetSize(TRIGGER_W, 22)
-    triggerBtn:SetPoint("LEFT", displayBox, "RIGHT", 4, -1)
-    triggerBtn:SetText("...")
-
-    local function ResolveOptions()
-        if type(getOptions) == "function" then
-            return getOptions() or {}
-        end
-        return getOptions or {}
-    end
-
-    local function RefreshText()
-        local selected = getter and getter() or nil
-        local optionSource = ResolveOptions()
-        local optionList = BuildDropdownOptionList(optionSource)
-        local selectedText = nil
-
-        for _, option in ipairs(optionList) do
-            if option and option.key == selected then
-                selectedText = tostring(option.entry and option.entry.text or "")
-                break
-            end
-        end
-
-        displayBox:SetText(selectedText and selectedText ~= "" and selectedText or "(none)")
-    end
-
-    local function DoOpen()
-        OpenSoundPicker({
-            label = label,
-            pickerTitle = L["Sound Selection"] or "Sound Selection",
-            getOptions = ResolveOptions,
-            getter = getter,
-            setter = setter,
-            refresh = RefreshText,
-        })
-    end
-
-    displayBox:SetScript("OnMouseDown", DoOpen)
-    triggerBtn:SetScript("OnClick", DoOpen)
-
-    displayBox.PreydatorRefresh = RefreshText
-    function displayBox:PreydatorSetEnabled(enabled)
-        local isEnabled = enabled and true or false
-        self:SetAlpha(isEnabled and 1 or 0.45)
-        triggerBtn:SetAlpha(isEnabled and 1 or 0.45)
-        triggerBtn:SetEnabled(isEnabled)
-        triggerBtn:EnableMouse(isEnabled)
-        self:EnableMouse(isEnabled)
-    end
-
-    RefreshText()
-    return displayBox
 end
 
 local function CreateTextInput(parent, x, y, label, width, getter, setter)
@@ -1015,7 +627,10 @@ local function RefreshHuntTrackerPanel()
 end
 
 local function RefreshCurrencyTrackerPanel()
-    -- Currency tracker no longer exists in Preydator 3.0.
+    local tracker = Preydator:GetModule("CurrencyTracker")
+    if tracker and type(tracker.RefreshCurrencyPage) == "function" then
+        tracker:RefreshCurrencyPage()
+    end
 end
 
 local function BuildModulesPage(owner, parent)
@@ -1046,12 +661,22 @@ local function BuildModulesPage(owner, parent)
     local moduleList = {
         { key = "bar", label = L["Bar Module"], desc = L["Controls the main prey progress bar display and behavior."] },
         { key = "sounds", label = L["Sounds Module"], desc = L["Controls stage sounds and ambush audio settings."] },
+        { key = "currency", label = L["Currency Module"], desc = L["Controls the currency tracker panel and currency displays."] },
         { key = "hunt", label = L["Hunt Table Module"], desc = L["Controls hunt table data, sorting, and panel features."] },
+        { key = "warband", label = L["Warband Module"], desc = L["Controls the warband currency panel and roster view."] },
+        { key = "achievement", label = L["Achievement Module"], desc = L["Coming soon: achievement tracking is not available yet."], comingSoon = true },
     }
+
+    -- Keep achievements forced off until the module is implemented.
+    if customizationV2 and type(customizationV2.Set) == "function" then
+        customizationV2:Set("customizationV2.moduleEnabled.achievement", false)
+    end
 
     local initialModuleState = {}
     for _, module in ipairs(moduleList) do
-        if customizationV2 and type(customizationV2.IsModuleEnabled) == "function" then
+        if module.comingSoon then
+            initialModuleState[module.key] = false
+        elseif customizationV2 and type(customizationV2.IsModuleEnabled) == "function" then
             initialModuleState[module.key] = customizationV2:IsModuleEnabled(module.key) and true or false
         else
             initialModuleState[module.key] = true
@@ -1075,6 +700,7 @@ local function BuildModulesPage(owner, parent)
     local function RefreshReloadButtonVisibility()
         local hasChanges = false
         for _, module in ipairs(moduleList) do
+            if not module.comingSoon then
             local current = true
             if customizationV2 and type(customizationV2.IsModuleEnabled) == "function" then
                 current = customizationV2:IsModuleEnabled(module.key) and true or false
@@ -1083,6 +709,7 @@ local function BuildModulesPage(owner, parent)
             if current ~= initialModuleState[module.key] then
                 hasChanges = true
                 break
+            end
             end
         end
 
@@ -1097,11 +724,17 @@ local function BuildModulesPage(owner, parent)
         local yCheck = yBase + MODULE_CHECKBOX_LIFT
 
         local moduleCheck = RegisterRefresher(owner, CreateCheckbox(parent, x, yCheck, module.label, function()
+            if module.comingSoon then
+                return false
+            end
             if customizationV2 and type(customizationV2.IsModuleEnabled) == "function" then
                 return customizationV2:IsModuleEnabled(module.key)
             end
             return true
         end, function(value)
+            if module.comingSoon then
+                return
+            end
             if customizationV2 and type(customizationV2.Set) == "function" then
                 customizationV2:Set("customizationV2.moduleEnabled." .. module.key, value and true or false)
             end
@@ -1109,12 +742,38 @@ local function BuildModulesPage(owner, parent)
         end))
         moduleCheck:SetScale(1)
 
+        if module.comingSoon then
+            moduleCheck:SetEnabled(false)
+            if moduleCheck.EnableMouse then
+                moduleCheck:EnableMouse(false)
+            end
+            moduleCheck:SetAlpha(0.8)
+            if moduleCheck.Text then
+                moduleCheck.Text:SetTextColor(0.72, 0.72, 0.72)
+            end
+            RegisterRefresher(owner, {
+                PreydatorRefresh = function()
+                    moduleCheck:SetEnabled(false)
+                    if moduleCheck.EnableMouse then
+                        moduleCheck:EnableMouse(false)
+                    end
+                    moduleCheck:SetAlpha(0.8)
+                    if moduleCheck.Text then
+                        moduleCheck.Text:SetTextColor(0.72, 0.72, 0.72)
+                    end
+                end,
+            })
+        end
+
         local desc = parent:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
         desc:SetPoint("TOPLEFT", parent, "TOPLEFT", x + MODULE_DESC_OFFSET_X, yBase - MODULE_DESC_OFFSET_Y)
         desc:SetWidth(MODULE_DESC_WIDTH)
         desc:SetJustifyH("LEFT")
         desc:SetWordWrap(true)
         desc:SetText(module.desc or "")
+        if module.comingSoon then
+            desc:SetTextColor(0.72, 0.72, 0.72)
+        end
     end
 
     RefreshReloadButtonVisibility()
@@ -1124,7 +783,7 @@ local function BuildModulesPage(owner, parent)
     note:SetWidth(500)
     note:SetJustifyH("LEFT")
     note:SetWordWrap(true)
-    note:SetText(L["Module changes require a reload to fully apply. Hunt Table also controls achievement tracking behavior."])
+    note:SetText(L["Module changes require a reload to fully apply. Achievement module remains disabled until it is released."])
     do
         local fontPath, fontSize, fontFlags = note:GetFont()
         if fontPath and fontSize then
@@ -1195,10 +854,24 @@ local function BuildGlobalTopStrip(owner, parent)
     controls[#controls + 1] = soundCheck
     currentX = currentX + checkboxSpacing
 
+    -- Disable Minimap Button checkbox
+    local minimapCheck = CreateCheckbox(stripFrame, currentX, -7, L["Disable Minimap Button"], function()
+        return db.currencyMinimap and db.currencyMinimap.hide == true
+    end, function(value)
+        db.currencyMinimap = db.currencyMinimap or {}
+        db.currencyMinimap.hide = value and true or false
+        db.currencyMinimapButton = not (value and true or false)
+        RefreshCurrencyTrackerPanel()
+    end)
+    minimapCheck:SetSize(24, 24)
+    controls[#controls + 1] = minimapCheck
+
     controls[#controls + 1] = {
         PreydatorRefresh = function()
             local barEnabled = IsModuleEnabled("bar")
             local soundsEnabled = IsModuleEnabled("sounds")
+            local currencyEnabled = IsModuleEnabled("currency")
+            local warbandEnabled = IsModuleEnabled("warband")
             if lockCheck and lockCheck.PreydatorSetEnabled then
                 lockCheck:PreydatorSetEnabled(barEnabled)
             end
@@ -1207,6 +880,9 @@ local function BuildGlobalTopStrip(owner, parent)
             end
             if soundCheck and soundCheck.PreydatorSetEnabled then
                 soundCheck:PreydatorSetEnabled(soundsEnabled)
+            end
+            if minimapCheck and minimapCheck.PreydatorSetEnabled then
+                minimapCheck:PreydatorSetEnabled(currencyEnabled or warbandEnabled)
             end
         end,
     }
@@ -1217,9 +893,21 @@ end
 local function BuildHuntPage(owner, parent)
     local db = api.GetSettings()
     local huntControls = {}
+    local currencyControls = {}
+    local warbandControls = {}
 
     local function TrackHuntControl(control)
         huntControls[#huntControls + 1] = control
+        return RegisterRefresher(owner, control)
+    end
+
+    local function TrackCurrencyControl(control)
+        currencyControls[#currencyControls + 1] = control
+        return RegisterRefresher(owner, control)
+    end
+
+    local function TrackWarbandControl(control)
+        warbandControls[#warbandControls + 1] = control
         return RegisterRefresher(owner, control)
     end
 
@@ -1232,7 +920,80 @@ local function BuildHuntPage(owner, parent)
         owner:RefreshControls()
     end
 
-    local knownCharacters = {}
+    local function ToggleCurrencyPanel()
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.ToggleCurrencyWindow) == "function" then
+            tracker:ToggleCurrencyWindow()
+        else
+            db.currencyWindowEnabled = not (db.currencyWindowEnabled == true)
+            RefreshCurrencyTrackerPanel()
+        end
+        owner:RefreshControls()
+    end
+
+    local function ToggleWarbandPanel()
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.ToggleWarbandWindow) == "function" then
+            tracker:ToggleWarbandWindow()
+        else
+            db.currencyWarbandWindowEnabled = not (db.currencyWarbandWindowEnabled == true)
+            RefreshCurrencyTrackerPanel()
+        end
+        owner:RefreshControls()
+    end
+
+    local function GetKnownWarbandCharacters()
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.GetKnownWarbandCharacters) == "function" then
+            return tracker:GetKnownWarbandCharacters() or {}
+        end
+        return {}
+    end
+
+    local function IsWarbandCharacterShown(charKey)
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.IsWarbandCharacterShown) == "function" then
+            return tracker:IsWarbandCharacterShown(charKey)
+        end
+        return true
+    end
+
+    local function SetWarbandCharacterShown(charKey, shown)
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.SetWarbandCharacterShown) == "function" then
+            tracker:SetWarbandCharacterShown(charKey, shown)
+        else
+            db.currencyWarbandCharacterVisibility = db.currencyWarbandCharacterVisibility or {}
+            db.currencyWarbandCharacterVisibility[charKey] = shown and true or false
+            RefreshCurrencyTrackerPanel()
+        end
+        owner:RefreshControls()
+    end
+
+    local function PurgeHiddenWarbandCharacters()
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.PurgeHiddenWarbandCharacters) == "function" then
+            tracker:PurgeHiddenWarbandCharacters()
+        end
+        RefreshCurrencyTrackerPanel()
+        owner:RefreshControls()
+    end
+
+    local function SetAllWarbandCharactersShown(shown)
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.SetAllWarbandCharactersShown) == "function" then
+            tracker:SetAllWarbandCharactersShown(shown)
+        else
+            db.currencyWarbandCharacterVisibility = db.currencyWarbandCharacterVisibility or {}
+            for _, entry in ipairs(GetKnownWarbandCharacters()) do
+                db.currencyWarbandCharacterVisibility[entry.charKey] = shown and true or false
+            end
+            RefreshCurrencyTrackerPanel()
+        end
+        owner:RefreshControls()
+    end
+
+    local knownCharacters = GetKnownWarbandCharacters()
     local contentHeight = math.max(1594, 1274 + (math.ceil(#knownCharacters / 2) * 28))
 
     local contentViewport = CreateFrame("ScrollFrame", nil, parent)
@@ -1245,7 +1006,7 @@ local function BuildHuntPage(owner, parent)
     content:SetSize(PANEL_WIDTH - 160, contentHeight)
     contentViewport:SetScrollChild(content)
 
-    local panelScrollSlider = CreateFrame("Slider", nil, contentViewport, "OptionsSliderTemplate")
+    local panelScrollSlider = CreateFrame("Slider", nil, parent, "OptionsSliderTemplate")
     panelScrollSlider:SetOrientation("VERTICAL")
     panelScrollSlider:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -2, -24)
     panelScrollSlider:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -2, 26)
@@ -1331,12 +1092,6 @@ local function BuildHuntPage(owner, parent)
         db.huntScannerAnchorAlign = (key == "middle" or key == "bottom") and key or "top"
         RefreshHuntTrackerPanel()
     end))
-    TrackHuntControl(CreateDropdown(content, COLUMN_LEFT_X, -340, L["Reward Display Style"], 170, HUNT_REWARD_STYLE_OPTIONS, function()
-        return db.huntScannerRewardStyle or "icon_text"
-    end, function(value)
-        db.huntScannerRewardStyle = value
-        RefreshHuntTrackerPanel()
-    end))
 
     local note = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     note:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_RIGHT_X, -10)
@@ -1353,7 +1108,7 @@ local function BuildHuntPage(owner, parent)
         self:SetText((db.huntScannerPreviewInOptions == true) and L["Hide Preview Pane"] or L["Show Preview Pane"])
     end
 
-    TrackHuntControl(CreateSlider(content, COLUMN_RIGHT_X, -80, L["Hunt Panel Width"], 280, 620, 1, function()
+    TrackHuntControl(CreateSlider(content, COLUMN_RIGHT_X, -104, L["Hunt Panel Width"], 280, 620, 1, function()
         return db.huntScannerWidth or 336
     end, function(value)
         db.huntScannerWidth = math.floor(value + 0.5)
@@ -1361,7 +1116,7 @@ local function BuildHuntPage(owner, parent)
     end, function(value)
         return tostring(math.floor(value + 0.5))
     end))
-    TrackHuntControl(CreateSlider(content, COLUMN_RIGHT_X, -132, L["Hunt Panel Height"], 320, 900, 1, function()
+    TrackHuntControl(CreateSlider(content, COLUMN_RIGHT_X, -156, L["Hunt Panel Height"], 320, 900, 1, function()
         return db.huntScannerHeight or 460
     end, function(value)
         db.huntScannerHeight = math.floor(value + 0.5)
@@ -1370,7 +1125,7 @@ local function BuildHuntPage(owner, parent)
         return tostring(math.floor(value + 0.5))
     end))
 
-    TrackHuntControl(CreateSlider(content, COLUMN_RIGHT_X, -184, L["Hunt Panel Scale"], 0.70, 1.60, 0.05, function()
+    TrackHuntControl(CreateSlider(content, COLUMN_RIGHT_X, -208, L["Hunt Panel Scale"], 0.70, 1.60, 0.05, function()
         return db.huntScannerScale or 1.00
     end, function(value)
         db.huntScannerScale = value
@@ -1378,7 +1133,7 @@ local function BuildHuntPage(owner, parent)
     end, function(value)
         return string.format("%.2f", value)
     end))
-    TrackHuntControl(CreateSlider(content, COLUMN_RIGHT_X, -236, L["Hunt Panel Font Size"], 10, 24, 1, function()
+    TrackHuntControl(CreateSlider(content, COLUMN_RIGHT_X, -260, L["Hunt Panel Font Size"], 10, 24, 1, function()
         return db.huntScannerFontSize or 12
     end, function(value)
         db.huntScannerFontSize = math.floor(value + 0.5)
@@ -1386,37 +1141,272 @@ local function BuildHuntPage(owner, parent)
     end, function(value)
         return tostring(math.floor(value + 0.5))
     end))
-    TrackHuntControl(CreateColorButton(content, COLUMN_RIGHT_X, -288, L["Normal Difficulty"], function()
-        local colors = db.huntScannerDifficultyColors or {}
-        return colors.normal or { 0.42, 1.00, 0.56, 1.00 }
-    end, function(color)
-        db.huntScannerDifficultyColors = db.huntScannerDifficultyColors or {}
-        db.huntScannerDifficultyColors.normal = { color[1], color[2], color[3], color[4] or 1 }
+    TrackHuntControl(CreateCheckbox(content, COLUMN_RIGHT_X, -300, L["Show Quest Reward Icons"], function()
+        return db.huntScannerShowRewardIcons ~= false
+    end, function(value)
+        db.huntScannerShowRewardIcons = value and true or false
         RefreshHuntTrackerPanel()
-    end, false))
-    TrackHuntControl(CreateColorButton(content, COLUMN_RIGHT_X, -320, L["Hard Difficulty"], function()
-        local colors = db.huntScannerDifficultyColors or {}
-        return colors.hard or { 1.00, 0.67, 0.24, 1.00 }
+    end))
+
+    -- Currency section
+    CreateSectionTitle(content, COLUMN_LEFT_X, -356, L["Currency Panel"])
+    local currencyToggleButton = CreateActionButton(content, COLUMN_RIGHT_X, -356, 180, L["Open Currency"], function()
+        ToggleCurrencyPanel()
+    end)
+    TrackCurrencyControl(currencyToggleButton)
+    currencyToggleButton.PreydatorRefresh = function(self)
+        self:SetText((db.currencyWindowEnabled == true) and L["Close Currency"] or L["Open Currency"])
+    end
+    TrackCurrencyControl(CreateCheckbox(content, COLUMN_LEFT_X, -392, L["Show Random Hunts Available"], function()
+        return db.currencyShowAffordableHunts == true
+    end, function(value)
+        db.currencyShowAffordableHunts = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+    TrackCurrencyControl(CreateCheckbox(content, COLUMN_LEFT_X, -422, L["Hide Currency in Instance"], function()
+        return db.currencyWindowHideInInstance == true
+    end, function(value)
+        db.currencyWindowHideInInstance = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+
+    TrackCurrencyControl(CreateColorButton(content, COLUMN_LEFT_X, -462, L["Gain Color"], function()
+        return db.currencyDeltaGainColor or { 0.15, 0.9, 0.35, 1 }
     end, function(color)
-        db.huntScannerDifficultyColors = db.huntScannerDifficultyColors or {}
-        db.huntScannerDifficultyColors.hard = { color[1], color[2], color[3], color[4] or 1 }
-        RefreshHuntTrackerPanel()
-    end, false))
-    TrackHuntControl(CreateColorButton(content, COLUMN_RIGHT_X, -352, L["Nightmare Difficulty"], function()
-        local colors = db.huntScannerDifficultyColors or {}
-        return colors.nightmare or { 1.00, 0.35, 0.35, 1.00 }
+        db.currencyDeltaGainColor = { color[1], color[2], color[3], color[4] }
+        RefreshCurrencyTrackerPanel()
+    end, true))
+    TrackCurrencyControl(CreateColorButton(content, COLUMN_LEFT_X, -506, L["Spend Color"], function()
+        return db.currencyDeltaLossColor or { 0.95, 0.25, 0.2, 1 }
     end, function(color)
-        db.huntScannerDifficultyColors = db.huntScannerDifficultyColors or {}
-        db.huntScannerDifficultyColors.nightmare = { color[1], color[2], color[3], color[4] or 1 }
-        RefreshHuntTrackerPanel()
-    end, false))
+        db.currencyDeltaLossColor = { color[1], color[2], color[3], color[4] }
+        RefreshCurrencyTrackerPanel()
+    end, true))
+
+    local previewTitle = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    previewTitle:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_LEFT_X, -552)
+    previewTitle:SetText(L["Delta Preview"])
+
+    local function ResolveCurrencyThemeSurface(key, colorKey)
+        local source = THEME_EDITOR_PRESETS[key]
+        if not source and type(db.customThemes) == "table" then
+            source = db.customThemes[key]
+        end
+        if not source then
+            source = THEME_EDITOR_PRESETS.brown
+        end
+        local fallback = THEME_EDITOR_PRESETS.brown[colorKey]
+        local color = source[colorKey] or fallback or { 1, 1, 1, 1 }
+        return { color[1] or 1, color[2] or 1, color[3] or 1, color[4] or 1 }
+    end
+
+    local function CreateDeltaPreviewBox(x, y)
+        local box = CreateFrame("Frame", nil, content, "BackdropTemplate")
+        box:SetSize(42, 62)
+        box:SetPoint("TOPLEFT", content, "TOPLEFT", x, y)
+        box:SetBackdrop({
+            bgFile = "Interface\\Buttons\\WHITE8x8",
+            edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+            edgeSize = 8,
+            insets = { left = 2, right = 2, top = 2, bottom = 2 },
+        })
+        box:SetBackdropBorderColor(0, 0, 0, 0.85)
+
+        local gainText = box:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        gainText:SetPoint("TOP", box, "TOP", 0, -14)
+        gainText:SetText("+123")
+
+        local lossText = box:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        lossText:SetPoint("TOP", box, "TOP", 0, -40)
+        lossText:SetText("-45")
+
+        return { frame = box, gainText = gainText, lossText = lossText }
+    end
+
+    local previewBoxes = {
+        CreateDeltaPreviewBox(COLUMN_LEFT_X, -574),
+        CreateDeltaPreviewBox(COLUMN_LEFT_X + 46, -574),
+        CreateDeltaPreviewBox(COLUMN_LEFT_X + 92, -574),
+    }
+
+    RegisterRefresher(owner, {
+        PreydatorRefresh = function()
+            local gain = db.currencyDeltaGainColor or { 0.15, 0.9, 0.35, 1 }
+            local loss = db.currencyDeltaLossColor or { 0.95, 0.25, 0.2, 1 }
+            local key = db.currencyTheme or "brown"
+            local surfaces = {
+                ResolveCurrencyThemeSurface(key, "section"),
+                ResolveCurrencyThemeSurface(key, "row"),
+                ResolveCurrencyThemeSurface(key, "rowAlt"),
+            }
+            for i, box in ipairs(previewBoxes) do
+                local surface = surfaces[i] or surfaces[2]
+                box.frame:SetBackdropColor(surface[1], surface[2], surface[3], surface[4] or 0.92)
+                box.gainText:SetTextColor(gain[1], gain[2], gain[3], gain[4] or 1)
+                box.lossText:SetTextColor(loss[1], loss[2], loss[3], loss[4] or 1)
+            end
+        end,
+    })
+
+    TrackCurrencyControl(CreateSlider(content, COLUMN_RIGHT_X, -404, L["Currency Width"], 240, 520, 4, function()
+        return db.currencyWindowWidth or 336
+    end, function(value)
+        db.currencyWindowWidth = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    TrackCurrencyControl(CreateSlider(content, COLUMN_RIGHT_X, -458, L["Currency Height"], 64, 700, 4, function()
+        return db.currencyWindowHeight or 280
+    end, function(value)
+        db.currencyWindowHeight = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    TrackCurrencyControl(CreateSlider(content, COLUMN_RIGHT_X, -512, L["Currency Font Size"], 10, 24, 1, function()
+        return db.currencyWindowFontSize or 12
+    end, function(value)
+        db.currencyWindowFontSize = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    TrackCurrencyControl(CreateSlider(content, COLUMN_RIGHT_X, -566, L["Currency Scale"], 0.70, 1.40, 0.05, function()
+        return db.currencyWindowScale or 1.00
+    end, function(value)
+        db.currencyWindowScale = value
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return string.format("%.2f", value)
+    end))
+
+    -- Warband section
+    CreateSectionTitle(content, COLUMN_LEFT_X, -694, L["Warband Panel"])
+    local warbandToggleButton = CreateActionButton(content, COLUMN_RIGHT_X, -694, 180, L["Open Warband"], function()
+        ToggleWarbandPanel()
+    end)
+    TrackWarbandControl(warbandToggleButton)
+    warbandToggleButton.PreydatorRefresh = function(self)
+        self:SetText((db.currencyWarbandWindowEnabled == true) and L["Close Warband"] or L["Open Warband"])
+    end
+    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -754, L["Show Realm"], function()
+        return db.currencyShowRealmInWarband == true
+    end, function(value)
+        db.currencyShowRealmInWarband = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -782, L["Track Alts Weekly"], function()
+        return db.currencyWarbandShowPreyTrack ~= false
+    end, function(value)
+        db.currencyWarbandShowPreyTrack = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -810, L["Show Prey Weekly Completed"], function()
+        return db.currencyWarbandPreyMode == "completed"
+    end, function(value)
+        db.currencyWarbandPreyMode = value and "completed" or "available"
+        RefreshCurrencyTrackerPanel()
+    end))
+    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -838, L["Hide Low Level Alts (78)"], function()
+        return db.currencyWarbandHideLowLevel == true
+    end, function(value)
+        db.currencyWarbandHideLowLevel = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -866, L["Use Icons for Warband Currencies"], function()
+        return db.currencyWarbandUseIcons == true
+    end, function(value)
+        db.currencyWarbandUseIcons = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+    TrackWarbandControl(CreateCheckbox(content, COLUMN_LEFT_X, -894, L["Hide Warband in Instance"], function()
+        return db.currencyWarbandWindowHideInInstance == true
+    end, function(value)
+        db.currencyWarbandWindowHideInInstance = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+
+    TrackWarbandControl(CreateSlider(content, COLUMN_RIGHT_X, -724, L["Warband Width"], 150, 900, 1, function()
+        return db.currencyWarbandWidth or 420
+    end, function(value)
+        db.currencyWarbandWidth = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    TrackWarbandControl(CreateSlider(content, COLUMN_RIGHT_X, -776, L["Warband Height"], 80, 600, 1, function()
+        return db.currencyWarbandHeight or 250
+    end, function(value)
+        db.currencyWarbandHeight = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    TrackWarbandControl(CreateSlider(content, COLUMN_RIGHT_X, -828, L["Warband Font Size"], 10, 24, 1, function()
+        return db.currencyWarbandFontSize or 12
+    end, function(value)
+        db.currencyWarbandFontSize = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    TrackWarbandControl(CreateSlider(content, COLUMN_RIGHT_X, -880, L["Warband Scale"], 0.70, 1.40, 0.05, function()
+        return db.currencyWarbandScale or 1.0
+    end, function(value)
+        db.currencyWarbandScale = value
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return string.format("%.2f", value)
+    end))
+
+    CreateSectionTitle(content, COLUMN_LEFT_X, -980, L["Characters in Tracker"])
+    TrackWarbandControl(CreateActionButton(content, COLUMN_LEFT_X, -1012, 180, L["Select All Characters"], function()
+        SetAllWarbandCharactersShown(true)
+    end))
+    TrackWarbandControl(CreateActionButton(content, COLUMN_RIGHT_X, -1012, 200, L["Remove Unchecked Characters"], function()
+        PurgeHiddenWarbandCharacters()
+    end))
+    for index, entry in ipairs(knownCharacters) do
+        local level = tonumber(entry.level)
+        local levelSuffix = level and string.format(" (L%d)", level) or ""
+        local label = entry.charKey .. levelSuffix
+        local rowIndex = math.floor((index - 1) / 2)
+        local columnX = ((index - 1) % 2 == 0) and COLUMN_LEFT_X or COLUMN_RIGHT_X
+        TrackWarbandControl(CreateCheckbox(content, columnX, -1046 - (rowIndex * 28), label, function()
+            return IsWarbandCharacterShown(entry.charKey)
+        end, function(value)
+            SetWarbandCharacterShown(entry.charKey, value and true or false)
+        end))
+    end
+    if #knownCharacters == 0 then
+        local emptyNote = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        emptyNote:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_LEFT_X, -1046)
+        emptyNote:SetWidth(300)
+        emptyNote:SetJustifyH("LEFT")
+        emptyNote:SetWordWrap(true)
+        emptyNote:SetText(L["No cached characters yet. Log into alts to populate this list."])
+    end
+
     RegisterRefresher(owner, {
         PreydatorRefresh = function()
             local huntEnabled = IsModuleEnabled("hunt")
+            local currencyEnabled = IsModuleEnabled("currency")
+            local warbandEnabled = IsModuleEnabled("warband")
 
             for _, control in ipairs(huntControls) do
                 if control and type(control.PreydatorSetEnabled) == "function" then
                     control:PreydatorSetEnabled(huntEnabled)
+                end
+            end
+            for _, control in ipairs(currencyControls) do
+                if control and type(control.PreydatorSetEnabled) == "function" then
+                    control:PreydatorSetEnabled(currencyEnabled)
+                end
+            end
+            for _, control in ipairs(warbandControls) do
+                if control and type(control.PreydatorSetEnabled) == "function" then
+                    control:PreydatorSetEnabled(warbandEnabled)
                 end
             end
 
@@ -1424,6 +1414,93 @@ local function BuildHuntPage(owner, parent)
         end,
     })
     UpdatePanelScrollBounds()
+end
+
+local function BuildWarbandPage(owner, parent)
+    local db = api.GetSettings()
+    local trackedIDs = { 3392, 3316, 3383, 3341, 3343, 3345, 3310 }
+
+    CreateSectionTitle(parent, COLUMN_LEFT_X, -10, L["Warband Window"])
+    local warbandToggleButton = CreateActionButton(parent, COLUMN_LEFT_X, -38, 180, L["Open Warband"], function()
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.ToggleWarbandWindow) == "function" then
+            tracker:ToggleWarbandWindow()
+        else
+            db.currencyWarbandWindowEnabled = not (db.currencyWarbandWindowEnabled == true)
+            RefreshCurrencyTrackerPanel()
+        end
+        owner:RefreshControls()
+    end)
+    RegisterRefresher(owner, warbandToggleButton)
+    warbandToggleButton.PreydatorRefresh = function(self)
+        self:SetText((db.currencyWarbandWindowEnabled == true) and L["Close Warband"] or L["Open Warband"])
+    end
+
+    RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_LEFT_X, -68, L["Show Realm in Warband"], function()
+        return db.currencyShowRealmInWarband == true
+    end, function(value)
+        db.currencyShowRealmInWarband = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+    RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -96, L["Warband Width"], 150, 900, 1, function()
+        return db.currencyWarbandWidth or 420
+    end, function(value)
+        db.currencyWarbandWidth = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -148, L["Warband Height"], 80, 600, 1, function()
+        return db.currencyWarbandHeight or 250
+    end, function(value)
+        db.currencyWarbandHeight = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -200, L["Warband Font Size"], 10, 24, 1, function()
+        return db.currencyWarbandFontSize or 12
+    end, function(value)
+        db.currencyWarbandFontSize = math.floor(value + 0.5)
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return tostring(math.floor(value + 0.5))
+    end))
+    RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -252, L["Warband Scale"], 0.7, 1.4, 0.05, function()
+        return db.currencyWarbandScale or 1.0
+    end, function(value)
+        db.currencyWarbandScale = value
+        RefreshCurrencyTrackerPanel()
+    end, function(value)
+        return string.format("%.2f", value)
+    end))
+
+    CreateSectionTitle(parent, COLUMN_RIGHT_X, -10, L["Tracked in Warband"])
+    RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_RIGHT_X, -38, L["Show Prey Track (Alts) in Warband"], function()
+        return db.currencyWarbandShowPreyTrack ~= false
+    end, function(value)
+        db.currencyWarbandShowPreyTrack = value and true or false
+        RefreshCurrencyTrackerPanel()
+    end))
+    RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_RIGHT_X, -66, L["Prey Track Shows Completed"], function()
+        return db.currencyWarbandPreyMode == "completed"
+    end, function(value)
+        db.currencyWarbandPreyMode = value and "completed" or "available"
+        RefreshCurrencyTrackerPanel()
+    end))
+    for index, currencyID in ipairs(trackedIDs) do
+        local currencyInfoAPI = _G.C_CurrencyInfo
+        local info = currencyInfoAPI and currencyInfoAPI.GetCurrencyInfo and currencyInfoAPI.GetCurrencyInfo(currencyID)
+        local label = (info and info.name) or ("Currency " .. tostring(currencyID))
+        RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_RIGHT_X, -104 - ((index - 1) * 28), label, function()
+            db.currencyWarbandTrackedIDs = db.currencyWarbandTrackedIDs or {}
+            return db.currencyWarbandTrackedIDs[currencyID] ~= false
+        end, function(value)
+            db.currencyWarbandTrackedIDs = db.currencyWarbandTrackedIDs or {}
+            db.currencyWarbandTrackedIDs[currencyID] = value and true or false
+            RefreshCurrencyTrackerPanel()
+        end))
+    end
 end
 
 local function BuildBarPage(owner, parent)
@@ -1488,10 +1565,10 @@ local function BuildBarPage(owner, parent)
 
     local content = CreateFrame("Frame", nil, contentViewport)
     content:SetPoint("TOPLEFT", contentViewport, "TOPLEFT", 0, 0)
-    content:SetSize(PANEL_WIDTH - 160, 960)
+    content:SetSize(PANEL_WIDTH - 160, 900)
     contentViewport:SetScrollChild(content)
 
-    local contentScrollSlider = CreateFrame("Slider", nil, contentViewport, "OptionsSliderTemplate")
+    local contentScrollSlider = CreateFrame("Slider", nil, parent, "OptionsSliderTemplate")
     contentScrollSlider:SetOrientation("VERTICAL")
     contentScrollSlider:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -2, -24)
     contentScrollSlider:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -2, 26)
@@ -1681,14 +1758,6 @@ local function BuildBarPage(owner, parent)
         api.RequestBarRefresh()
     end))
 
-    local progressSegmentsDropdown = TrackBarControl(CreateDropdown(content, COLUMN_LEFT_X, -406, L["Progress Segments"], 170, PROGRESS_SEGMENT_OPTIONS, function()
-        return db.progressSegments
-    end, function(key)
-        db.progressSegments = key
-        api.NormalizeProgressSettings()
-        api.RequestBarRefresh()
-    end))
-
     CreateSectionTitle(content, BAR_RIGHT_X, -264, L["Percent Display"])
     local percentDisplayDropdown = TrackBarControl(CreateDropdown(content, BAR_RIGHT_X, -294, L["Percent Display"], 170, PERCENT_DISPLAY_OPTIONS, function()
         return db.percentDisplay
@@ -1783,29 +1852,29 @@ local function BuildBarPage(owner, parent)
         api.ApplyBarSettings()
     end))
 
-    CreateSectionTitle(content, COLUMN_LEFT_X, -620, L["Vertical Dimensions"])
-    local verticalFillDirectionDropdown = TrackBarControl(CreateDropdown(content, COLUMN_LEFT_X, -650, L["Vertical Fill Direction"], 170, VERTICAL_FILL_DIRECTION_OPTIONS, function()
+    CreateSectionTitle(content, COLUMN_LEFT_X, -608, L["Vertical Dimensions"])
+    local verticalFillDirectionDropdown = TrackBarControl(CreateDropdown(content, COLUMN_LEFT_X, -638, L["Vertical Fill Direction"], 170, VERTICAL_FILL_DIRECTION_OPTIONS, function()
         return db.verticalFillDirection
     end, function(key)
         db.verticalFillDirection = key
         api.NormalizeDisplaySettings()
         api.RequestBarRefresh()
     end))
-    local verticalTextSideDropdown = TrackBarControl(CreateDropdown(content, COLUMN_LEFT_X, -706, L["Vertical Text Side"], 170, VERTICAL_SIDE_OPTIONS, function()
+    local verticalTextSideDropdown = TrackBarControl(CreateDropdown(content, COLUMN_LEFT_X, -694, L["Vertical Text Side"], 170, VERTICAL_SIDE_OPTIONS, function()
         return db.verticalTextSide
     end, function(key)
         db.verticalTextSide = key
         api.NormalizeDisplaySettings()
         api.RequestBarRefresh()
     end))
-    local verticalTextAlignDropdown = TrackBarControl(CreateDropdown(content, COLUMN_LEFT_X, -762, L["Vertical Text Alignment"], 170, VERTICAL_TEXT_ALIGN_OPTIONS, function()
+    local verticalTextAlignDropdown = TrackBarControl(CreateDropdown(content, COLUMN_LEFT_X, -750, L["Vertical Text Alignment"], 170, VERTICAL_TEXT_ALIGN_OPTIONS, function()
         return db.verticalTextAlign
     end, function(key)
         db.verticalTextAlign = key
         api.NormalizeDisplaySettings()
         api.RequestBarRefresh()
     end))
-    local verticalTickPercentCheck = TrackBarControl(CreateCheckbox(content, COLUMN_LEFT_X, -818, L["Show Percentage at Tick Marks"], function()
+    local verticalTickPercentCheck = TrackBarControl(CreateCheckbox(content, COLUMN_LEFT_X, -806, L["Show Percentage at Tick Marks"], function()
         return db.showVerticalTickPercent == true
     end, function(value)
         db.showVerticalTickPercent = value and true or false
@@ -1814,13 +1883,13 @@ local function BuildBarPage(owner, parent)
     end))
 
     local verticalNote = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    verticalNote:SetPoint("TOPLEFT", content, "TOPLEFT", BAR_RIGHT_X, -620)
+    verticalNote:SetPoint("TOPLEFT", content, "TOPLEFT", BAR_RIGHT_X, -608)
     verticalNote:SetWidth(260)
     verticalNote:SetJustifyH("LEFT")
     verticalNote:SetWordWrap(true)
     verticalNote:SetText(L["HINT_VERTICAL_PERCENT_OFFSET"])
 
-    local textOffsetSlider = TrackBarControl(CreateSlider(content, BAR_RIGHT_X, -650, L["Vertical Text Offset"], 2, 60, 1, function()
+    local textOffsetSlider = TrackBarControl(CreateSlider(content, BAR_RIGHT_X, -638, L["Vertical Text Offset"], 2, 60, 1, function()
         return db.verticalTextOffset or 10
     end, function(value)
         db.verticalTextOffset = math.floor(value + 0.5)
@@ -1829,7 +1898,7 @@ local function BuildBarPage(owner, parent)
     end, function(value)
         return tostring(math.floor(value + 0.5))
     end))
-    local percentOffsetSlider = TrackBarControl(CreateSlider(content, BAR_RIGHT_X, -706, L["Vertical Percent Offset"], 2, 60, 1, function()
+    local percentOffsetSlider = TrackBarControl(CreateSlider(content, BAR_RIGHT_X, -694, L["Vertical Percent Offset"], 2, 60, 1, function()
         return db.verticalPercentOffset or 10
     end, function(value)
         db.verticalPercentOffset = math.floor(value + 0.5)
@@ -1838,14 +1907,14 @@ local function BuildBarPage(owner, parent)
     end, function(value)
         return tostring(math.floor(value + 0.5))
     end))
-    local verticalPercentSideDropdown = TrackBarControl(CreateDropdown(content, BAR_RIGHT_X, -806, L["Vertical Percent Tick Mark"], 170, VERTICAL_PERCENT_SIDE_OPTIONS, function()
+    local verticalPercentSideDropdown = TrackBarControl(CreateDropdown(content, BAR_RIGHT_X, -750, L["Vertical Percent Tick Mark"], 170, VERTICAL_PERCENT_SIDE_OPTIONS, function()
         return db.verticalPercentSide
     end, function(key)
         db.verticalPercentSide = key
         api.NormalizeDisplaySettings()
         api.RequestBarRefresh()
     end))
-    local verticalPercentDisplayDropdown = TrackBarControl(CreateDropdown(content, BAR_RIGHT_X, -862, L["Vertical Percent Display"], 170, VERTICAL_PERCENT_DISPLAY_OPTIONS, function()
+    local verticalPercentDisplayDropdown = TrackBarControl(CreateDropdown(content, BAR_RIGHT_X, -806, L["Vertical Percent Display"], 170, VERTICAL_PERCENT_DISPLAY_OPTIONS, function()
         return db.verticalPercentDisplay
     end, function(key)
         db.verticalPercentDisplay = key
@@ -1879,9 +1948,6 @@ local function BuildBarPage(owner, parent)
         end
         if percentDisplayDropdown.PreydatorSetEnabled then
             percentDisplayDropdown:PreydatorSetEnabled(barEnabled and isHorizontal)
-        end
-        if progressSegmentsDropdown.PreydatorSetEnabled then
-            progressSegmentsDropdown:PreydatorSetEnabled(barEnabled)
         end
         if sparkCheck.PreydatorSetEnabled then
             sparkCheck:PreydatorSetEnabled(barEnabled and isHorizontal)
@@ -2170,16 +2236,9 @@ local function BuildTextPage(owner, parent)
         api.UpdateBarDisplay()
     end))
     RegisterRefresher(owner, CreateTextInput(parent, COLUMN_LEFT_X, -280, L["Ambush Prefix"], 220, function()
-        return db.ambushPrefix or "AMBUSH: "
+        return db.ambushPrefix or ""
     end, function(value)
-        db.ambushPrefix = tostring(value or "AMBUSH: ")
-        api.NormalizeLabelSettings()
-        api.UpdateBarDisplay()
-    end))
-    RegisterRefresher(owner, CreateTextInput(parent, COLUMN_LEFT_X, -326, L["Bloody Command Prefix"], 220, function()
-        return db.bloodyCommandPrefix or "Bloody Command: "
-    end, function(value)
-        db.bloodyCommandPrefix = tostring(value or "Bloody Command: ")
+        db.ambushPrefix = value
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
     end))
@@ -2203,29 +2262,19 @@ local function BuildTextPage(owner, parent)
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
     end))
-    RegisterRefresher(owner, CreateTextInput(parent, TEXT_RIGHT_X, -280, L["Ambush Suffix"], 220, function()
-        return db.ambushSuffix or "preyTargetName"
+    RegisterRefresher(owner, CreateTextInput(parent, TEXT_RIGHT_X, -280, L["Ambush Override Text"], 220, function()
+        return db.ambushCustomText
     end, function(value)
-        db.ambushSuffix = tostring(value or "preyTargetName")
+        db.ambushCustomText = value
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
     end))
-    RegisterRefresher(owner, CreateTextInput(parent, TEXT_RIGHT_X, -326, L["Bloody Command Suffix"], 220, function()
-        return db.bloodyCommandSuffix or "bloodyCommandSourceName"
-    end, function(value)
-        db.bloodyCommandSuffix = tostring(value or "bloodyCommandSourceName")
-        api.NormalizeLabelSettings()
-        api.UpdateBarDisplay()
-    end))
-    CreateActionButton(parent, TEXT_RIGHT_X, -372, 180, L["Restore Default Names"], function()
+    CreateActionButton(parent, TEXT_RIGHT_X, -338, 180, L["Restore Default Names"], function()
         for stageIndex = 1, constants.MAX_STAGE do
             db.stageLabels[stageIndex] = defaults.stageLabels[stageIndex] or ""
         end
         db.outOfZoneLabel = constants.DEFAULT_OUT_OF_ZONE_LABEL
-        db.ambushPrefix = "AMBUSH: "
-        db.ambushSuffix = "preyTargetName"
-        db.bloodyCommandPrefix = "Bloody Command: "
-        db.bloodyCommandSuffix = "bloodyCommandSourceName"
+        db.ambushCustomText = ""
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
         owner:RefreshControls()
@@ -2242,105 +2291,12 @@ local function BuildSoundsPage(owner, parent)
         return RegisterRefresher(owner, control)
     end
 
-    local contentViewport = CreateFrame("ScrollFrame", nil, parent)
-    contentViewport:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 0)
-    contentViewport:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -20, 0)
-    contentViewport:EnableMouseWheel(true)
-
-    local content = CreateFrame("Frame", nil, contentViewport)
-    content:SetPoint("TOPLEFT", contentViewport, "TOPLEFT", 0, 0)
-    content:SetSize(PANEL_WIDTH - 160, 620)
-    contentViewport:SetScrollChild(content)
-
-    local contentScrollSlider = CreateFrame("Slider", nil, contentViewport, "OptionsSliderTemplate")
-    contentScrollSlider:SetOrientation("VERTICAL")
-    contentScrollSlider:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -2, -24)
-    contentScrollSlider:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -2, 26)
-    contentScrollSlider:SetWidth(16)
-    contentScrollSlider:SetMinMaxValues(0, 100)
-    contentScrollSlider:SetValueStep(1)
-    contentScrollSlider:SetObeyStepOnDrag(true)
-    contentScrollSlider:SetValue(0)
-    if contentScrollSlider.Low then contentScrollSlider.Low:Hide() end
-    if contentScrollSlider.High then contentScrollSlider.High:Hide() end
-    if contentScrollSlider.Text then contentScrollSlider.Text:Hide() end
-
-    local function UpdateSoundsScrollBounds()
-        contentViewport:UpdateScrollChildRect()
-        local currentValue = contentScrollSlider:GetValue() or 0
-        local scrollRange = contentViewport:GetVerticalScrollRange() or 0
-        if scrollRange < 0 then
-            scrollRange = 0
-        end
-
-        contentScrollSlider:SetMinMaxValues(0, scrollRange)
-        local clamped = Clamp(currentValue, 0, scrollRange)
-        contentScrollSlider:SetValue(clamped)
-        contentViewport:SetVerticalScroll(clamped)
-
-        if scrollRange <= 0 then
-            contentScrollSlider:SetEnabled(false)
-            contentScrollSlider:SetAlpha(0.35)
-        else
-            contentScrollSlider:SetEnabled(true)
-            contentScrollSlider:SetAlpha(1)
-        end
-    end
-
-    contentScrollSlider:SetScript("OnValueChanged", function(self, value)
-        local _, maxValue = self:GetMinMaxValues()
-        local clamped = Clamp(value or 0, 0, maxValue or 0)
-        contentViewport:SetVerticalScroll(clamped)
-    end)
-
-    contentViewport:SetScript("OnMouseWheel", function(_, delta)
-        local minValue, maxValue = contentScrollSlider:GetMinMaxValues()
-        local currentValue = contentScrollSlider:GetValue() or 0
-        local step = 24
-        local nextValue = Clamp(currentValue - (delta * step), minValue or 0, maxValue or 0)
-        contentScrollSlider:SetValue(nextValue)
-    end)
-
-    if parent.HookScript then
-        parent:HookScript("OnShow", UpdateSoundsScrollBounds)
-        parent:HookScript("OnSizeChanged", UpdateSoundsScrollBounds)
-    end
-    if content.HookScript then
-        content:HookScript("OnSizeChanged", UpdateSoundsScrollBounds)
-    end
-
-    TrackSoundsControl(CreateCheckbox(content, COLUMN_LEFT_X, -10, L["Ambush sound alert"], function()
-        return db.ambushSoundEnabled ~= false
+    TrackSoundsControl(CreateCheckbox(parent, COLUMN_LEFT_X, -10, L["Enable Sounds"], function()
+        return db.soundsEnabled ~= false
     end, function(value)
-        db.ambushSoundEnabled = value and true or false
-        api.NormalizeAmbushSettings()
+        db.soundsEnabled = value and true or false
     end))
-    TrackSoundsControl(CreateCheckbox(content, COLUMN_RIGHT_X, -10, L["Ambush visual alert"], function()
-        return db.ambushVisualEnabled ~= false
-    end, function(value)
-        db.ambushVisualEnabled = value and true or false
-        api.NormalizeAmbushSettings()
-    end))
-    TrackSoundsControl(CreateCheckbox(content, COLUMN_LEFT_X, -38, L["Bloody Command sound alert"], function()
-        return db.bloodyCommandSoundEnabled ~= false
-    end, function(value)
-        db.bloodyCommandSoundEnabled = value and true or false
-        api.NormalizeAmbushSettings()
-    end))
-    TrackSoundsControl(CreateCheckbox(content, COLUMN_RIGHT_X, -38, L["Bloody Command visual alert"], function()
-        return db.bloodyCommandVisualEnabled ~= false
-    end, function(value)
-        db.bloodyCommandVisualEnabled = value and true or false
-        api.NormalizeAmbushSettings()
-    end))
-    TrackSoundsControl(CreateCheckbox(content, COLUMN_RIGHT_X, -66, L["Silence Arator (Astalor Bloodsworn)"], function()
-        return db.silenceArator == true
-    end, function(value)
-        db.silenceArator = value and true or false
-        api.ApplyAratorSilencing()
-    end))
-
-    TrackSoundsControl(CreateDropdown(content, COLUMN_LEFT_X, -82, L["Sound Channel"], 170, function()
+    TrackSoundsControl(CreateDropdown(parent, COLUMN_LEFT_X, -38, L["Sound Channel"], 170, function()
         return CHANNEL_OPTIONS
     end, function()
         return db.soundChannel
@@ -2348,10 +2304,8 @@ local function BuildSoundsPage(owner, parent)
         db.soundChannel = key
         api.NormalizeSoundSettings()
     end))
-
-    CreateSectionTitle(content, COLUMN_LEFT_X, -130, L["Sound Selection"])
-
-    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -160, string.format(L["Stage %d Sound"], 1), 170, function()
+    CreateSectionTitle(parent, COLUMN_LEFT_X, -66, L["Sound Selection"])
+    TrackSoundsControl(CreateDropdown(parent, COLUMN_LEFT_X, -96, string.format(L["Stage %d Sound"], 1), 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.stageSounds[1]
@@ -2359,7 +2313,7 @@ local function BuildSoundsPage(owner, parent)
         db.stageSounds[1] = key
         api.NormalizeSoundSettings()
     end))
-    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -214, string.format(L["Stage %d Sound"], 2), 170, function()
+    TrackSoundsControl(CreateDropdown(parent, COLUMN_LEFT_X, -150, string.format(L["Stage %d Sound"], 2), 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.stageSounds[2]
@@ -2367,7 +2321,7 @@ local function BuildSoundsPage(owner, parent)
         db.stageSounds[2] = key
         api.NormalizeSoundSettings()
     end))
-    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -268, string.format(L["Stage %d Sound"], 3), 170, function()
+    TrackSoundsControl(CreateDropdown(parent, COLUMN_LEFT_X, -204, string.format(L["Stage %d Sound"], 3), 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.stageSounds[3]
@@ -2375,7 +2329,7 @@ local function BuildSoundsPage(owner, parent)
         db.stageSounds[3] = key
         api.NormalizeSoundSettings()
     end))
-    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -322, string.format(L["Stage %d Sound"], 4), 170, function()
+    TrackSoundsControl(CreateDropdown(parent, COLUMN_LEFT_X, -258, string.format(L["Stage %d Sound"], 4), 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.stageSounds[4]
@@ -2383,8 +2337,7 @@ local function BuildSoundsPage(owner, parent)
         db.stageSounds[4] = key
         api.NormalizeSoundSettings()
     end))
-
-    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -376, L["Ambush Sound"], 170, function()
+    TrackSoundsControl(CreateDropdown(parent, COLUMN_LEFT_X, -312, L["Ambush Sound"], 170, function()
         return api.BuildSoundDropdownOptions()
     end, function()
         return db.ambushSoundPath
@@ -2392,47 +2345,12 @@ local function BuildSoundsPage(owner, parent)
         db.ambushSoundPath = key
         api.NormalizeAmbushSettings()
     end))
-    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -430, L["Bloody Command Sound"], 170, function()
-        return api.BuildSoundDropdownOptions()
-    end, function()
-        return db.bloodyCommandSoundPath
-    end, function(key)
-        db.bloodyCommandSoundPath = key
-        api.NormalizeAmbushSettings()
-    end))
-    TrackSoundsControl(CreateSoundPickerSelector(content, COLUMN_LEFT_X, -484, L["Echo of Predation Sound"], 170, function()
-        return api.BuildSoundDropdownOptions()
-    end, function()
-        return db.echoOfPredationSoundPath
-    end, function(key)
-        db.echoOfPredationSoundPath = key
-        api.NormalizeAmbushSettings()
-    end))
-    CreateSectionTitle(content, COLUMN_RIGHT_X, -102, L["Custom Files / Tests"])
-    local combinedAudioHintText = tostring(L["HINT_AUDIO_SLIDER"] or "")
-    local sliderHintText, customInputHintText = combinedAudioHintText:match("^([^\r\n]+)[\r\n]+(.+)$")
-    if not sliderHintText or sliderHintText == "" then
-        sliderHintText = combinedAudioHintText
-    end
+    TrackSoundsControl(CreateSlider(parent, COLUMN_LEFT_X, -366, L["Enhance Sounds"], 0, 100, 5, function() return db.soundEnhance or 0 end, function(value)
+        db.soundEnhance = math.floor(value + 0.5)
+    end, function(value) return tostring(math.floor(value + 0.5)) end))
 
-    local customHintStart = sliderHintText:find("Custom sound input", 1, true)
-    if customHintStart then
-        local extracted = sliderHintText:sub(customHintStart)
-        sliderHintText = (sliderHintText:sub(1, customHintStart - 1):match("^%s*(.-)%s*$") or "")
-        if not customInputHintText or customInputHintText == "" then
-            customInputHintText = extracted
-        end
-    end
-
-    if sliderHintText == "" then
-        sliderHintText = "Slider values can be dragged or typed directly."
-    end
-
-    if not customInputHintText or customInputHintText == "" then
-        customInputHintText = "Custom sound input accepts bare names, .ogg, or full addon paths."
-    end
-
-    local customSoundInput = CreateTextInput(content, COLUMN_RIGHT_X, -132, L["Custom Sound File"], 220, function()
+    CreateSectionTitle(parent, COLUMN_RIGHT_X, -10, L["Custom Files / Tests"])
+    local customSoundInput = CreateTextInput(parent, COLUMN_RIGHT_X, -40, L["Custom Sound File"], 220, function()
         return ""
     end, function()
     end)
@@ -2443,14 +2361,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     customSoundInput:SetText("")
 
-    local customInputHint = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    customInputHint:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_RIGHT_X, -186)
-    customInputHint:SetWidth(250)
-    customInputHint:SetJustifyH("LEFT")
-    customInputHint:SetWordWrap(true)
-    customInputHint:SetText(customInputHintText)
-
-    local addFileButton = CreateActionButton(content, COLUMN_RIGHT_X, -224, 105, L["Add File"], function()
+    local addFileButton = CreateActionButton(parent, COLUMN_RIGHT_X, -86, 105, L["Add File"], function()
         local ok, message = api.AddSoundFileName(customSoundInput:GetText())
         if ok then
             customSoundInput:SetText("")
@@ -2462,7 +2373,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(addFileButton)
 
-    local removeFileButton = CreateActionButton(content, COLUMN_RIGHT_X + 115, -224, 105, L["Remove File"], function()
+    local removeFileButton = CreateActionButton(parent, COLUMN_RIGHT_X + 115, -86, 105, L["Remove File"], function()
         local ok, message = api.RemoveSoundFileName(customSoundInput:GetText())
         if ok then
             customSoundInput:SetText("")
@@ -2474,9 +2385,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(removeFileButton)
 
-    local TEST_SOUND_BUTTON_WIDTH = 190
-
-    local testStage1Button = CreateActionButton(content, COLUMN_RIGHT_X, -268, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 1), function()
+    local testStage1Button = CreateActionButton(parent, COLUMN_RIGHT_X, -130, 140, string.format(L["Test Stage %d"], 1), function()
         local path = api.ResolveStageSoundPath(1)
         if not path then
             print(string.format(L["Preydator: No stage %d sound configured."], 1))
@@ -2488,7 +2397,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testStage1Button)
 
-    local testStage2Button = CreateActionButton(content, COLUMN_RIGHT_X, -298, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 2), function()
+    local testStage2Button = CreateActionButton(parent, COLUMN_RIGHT_X, -160, 140, string.format(L["Test Stage %d"], 2), function()
         local path = api.ResolveStageSoundPath(2)
         if not path then
             print(string.format(L["Preydator: No stage %d sound configured."], 2))
@@ -2500,7 +2409,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testStage2Button)
 
-    local testStage3Button = CreateActionButton(content, COLUMN_RIGHT_X, -328, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 3), function()
+    local testStage3Button = CreateActionButton(parent, COLUMN_RIGHT_X, -190, 140, string.format(L["Test Stage %d"], 3), function()
         local path = api.ResolveStageSoundPath(3)
         if not path then
             print(string.format(L["Preydator: No stage %d sound configured."], 3))
@@ -2512,7 +2421,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testStage3Button)
 
-    local testStage4Button = CreateActionButton(content, COLUMN_RIGHT_X, -358, TEST_SOUND_BUTTON_WIDTH, string.format(L["Test Stage %d"], 4), function()
+    local testStage4Button = CreateActionButton(parent, COLUMN_RIGHT_X, -220, 140, string.format(L["Test Stage %d"], 4), function()
         local path = api.ResolveStageSoundPath(4)
         if not path then
             print(string.format(L["Preydator: No stage %d sound configured."], 4))
@@ -2524,7 +2433,7 @@ local function BuildSoundsPage(owner, parent)
     end)
     TrackSoundsControl(testStage4Button)
 
-    local testAmbushButton = CreateActionButton(content, COLUMN_RIGHT_X, -388, TEST_SOUND_BUTTON_WIDTH, L["Test Ambush"], function()
+    local testAmbushButton = CreateActionButton(parent, COLUMN_RIGHT_X, -250, 140, L["Test Ambush"], function()
         local path = api.ResolveAmbushSoundPath()
         if not path then
             print("Preydator: No ambush sound configured.")
@@ -2535,38 +2444,12 @@ local function BuildSoundsPage(owner, parent)
         end
     end)
     TrackSoundsControl(testAmbushButton)
-    local testBloodyCommandButton = CreateActionButton(content, COLUMN_RIGHT_X, -418, TEST_SOUND_BUTTON_WIDTH, L["Test Bloody Command"], function()
-        local path = api.ResolveBloodyCommandSoundPath()
-        if not path then
-            print("Preydator: No Bloody Command sound configured.")
-            return
-        end
-        if not api.PlayTestSound(path) then
-            print("Preydator: Bloody Command sound file failed to play. Ensure this file exists as .ogg: " .. tostring(path))
-        end
-    end)
-    TrackSoundsControl(testBloodyCommandButton)
-    local testEchoOfPredationButton = CreateActionButton(content, COLUMN_RIGHT_X, -448, TEST_SOUND_BUTTON_WIDTH, L["Test Echo of Predation"], function()
-        local path = api.ResolveEchoOfPredationSoundPath()
-        if not path then
-            print("Preydator: No Echo of Predation sound configured.")
-            return
-        end
-        if not api.PlayTestSound(path) then
-            print("Preydator: Echo of Predation sound file failed to play. Ensure this file exists as .ogg: " .. tostring(path))
-        end
-    end)
-    TrackSoundsControl(testEchoOfPredationButton)
-    local note = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    note:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_RIGHT_X, -488)
+    local note = parent:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    note:SetPoint("TOPLEFT", parent, "TOPLEFT", COLUMN_RIGHT_X, -286)
     note:SetWidth(250)
     note:SetJustifyH("LEFT")
     note:SetWordWrap(true)
-    note:SetText(sliderHintText)
-
-    TrackSoundsControl(CreateSlider(content, COLUMN_RIGHT_X, -530, L["Enhance Sounds"], 0, 100, 5, function() return db.soundEnhance or 0 end, function(value)
-        db.soundEnhance = math.floor(value + 0.5)
-    end, function(value) return tostring(math.floor(value + 0.5)) end))
+    note:SetText(L["HINT_AUDIO_SLIDER"])
 
     RegisterRefresher(owner, {
         PreydatorRefresh = function()
@@ -2576,13 +2459,9 @@ local function BuildSoundsPage(owner, parent)
                     control:PreydatorSetEnabled(soundsEnabled)
                 end
             end
-            customInputHint:SetAlpha(soundsEnabled and 1 or 0.45)
             note:SetAlpha(soundsEnabled and 1 or 0.45)
-            UpdateSoundsScrollBounds()
         end,
     })
-
-    UpdateSoundsScrollBounds()
 end
 
 local function BuildThemePage(owner, parent)
@@ -2635,7 +2514,7 @@ local function BuildThemePage(owner, parent)
     content:SetSize(PANEL_WIDTH - 160, 780)
     contentViewport:SetScrollChild(content)
 
-    local themeScrollSlider = CreateFrame("Slider", nil, contentViewport, "OptionsSliderTemplate")
+    local themeScrollSlider = CreateFrame("Slider", nil, parent, "OptionsSliderTemplate")
     themeScrollSlider:SetOrientation("VERTICAL")
     themeScrollSlider:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -2, -24)
     themeScrollSlider:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -2, 26)
@@ -2693,7 +2572,10 @@ local function BuildThemePage(owner, parent)
         db.themeEnabled = value and true or false
         if value then
             local theme = db.globalTheme or "brown"
+            db.currencyTheme = theme
             db.huntScannerTheme = theme
+            db.currencyWarbandTheme = theme
+            RefreshCurrencyTrackerPanel()
             RefreshHuntTrackerPanel()
         end
         owner:RefreshControls()
@@ -2704,7 +2586,10 @@ local function BuildThemePage(owner, parent)
     end, function(key)
         db.globalTheme = key
         if db.themeEnabled then
+            db.currencyTheme = key
             db.huntScannerTheme = key
+            db.currencyWarbandTheme = key
+            RefreshCurrencyTrackerPanel()
             RefreshHuntTrackerPanel()
         end
     end))
@@ -2718,15 +2603,29 @@ local function BuildThemePage(owner, parent)
 
     CreateSectionTitle(content, THEME_RIGHT_X, -10, L["Per-Module Themes"])
 
-    local huntThemeDropdown = RegisterRefresher(owner, CreateDropdown(content, THEME_RIGHT_X, -40, L["Hunt Table Theme"], 170, GetAllThemeOptions, function()
+    local currencyThemeDropdown = RegisterRefresher(owner, CreateDropdown(content, THEME_RIGHT_X, -40, L["Currency Panel Theme"], 170, GetAllThemeOptions, function()
+        return db.currencyTheme or "brown"
+    end, function(key)
+        db.currencyTheme = key
+        RefreshCurrencyTrackerPanel()
+    end))
+
+    local huntThemeDropdown = RegisterRefresher(owner, CreateDropdown(content, THEME_RIGHT_X, -96, L["Hunt Table Theme"], 170, GetAllThemeOptions, function()
         return db.huntScannerTheme or "brown"
     end, function(key)
         db.huntScannerTheme = key
         RefreshHuntTrackerPanel()
     end))
 
+    local warbandThemeDropdown = RegisterRefresher(owner, CreateDropdown(content, THEME_RIGHT_X, -152, L["Warband Theme"], 170, GetAllThemeOptions, function()
+        return db.currencyWarbandTheme or "brown"
+    end, function(key)
+        db.currencyWarbandTheme = key
+        RefreshCurrencyTrackerPanel()
+    end))
+
     local perModuleNote = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    perModuleNote:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_LEFT_X, -148)
+    perModuleNote:SetPoint("TOPLEFT", content, "TOPLEFT", COLUMN_LEFT_X, -218)
     perModuleNote:SetWidth(220)
     perModuleNote:SetJustifyH("LEFT")
     perModuleNote:SetWordWrap(true)
@@ -2779,8 +2678,10 @@ local function BuildThemePage(owner, parent)
     globalThemeCheck.PreydatorRefresh = function(self)
         if baseGlobalRefresh then baseGlobalRefresh(self) end
 
+        local currencyEnabled = IsModuleEnabled("currency")
         local huntEnabled = IsModuleEnabled("hunt")
-        local anyThemeModuleEnabled = huntEnabled
+        local warbandEnabled = IsModuleEnabled("warband")
+        local anyThemeModuleEnabled = currencyEnabled or huntEnabled or warbandEnabled
         local isGlobal = db.themeEnabled == true
 
         if globalThemeCheck.PreydatorSetEnabled then
@@ -2791,8 +2692,16 @@ local function BuildThemePage(owner, parent)
             globalThemeDropdown:PreydatorSetEnabled(anyThemeModuleEnabled and isGlobal)
         end
 
+        if currencyThemeDropdown.PreydatorSetEnabled then
+            currencyThemeDropdown:PreydatorSetEnabled(currencyEnabled and (not isGlobal))
+        end
+
         if huntThemeDropdown.PreydatorSetEnabled then
             huntThemeDropdown:PreydatorSetEnabled(huntEnabled and (not isGlobal))
+        end
+
+        if warbandThemeDropdown.PreydatorSetEnabled then
+            warbandThemeDropdown:PreydatorSetEnabled(warbandEnabled and (not isGlobal))
         end
 
         if achievementThemeDropdown.PreydatorSetEnabled then achievementThemeDropdown:PreydatorSetEnabled(false) end
@@ -2942,11 +2851,15 @@ local function BuildThemePage(owner, parent)
 
         local changed = false
         changed = ReassignTheme("globalTheme") or changed
+        changed = ReassignTheme("currencyTheme") or changed
         changed = ReassignTheme("huntScannerTheme") or changed
+        changed = ReassignTheme("currencyWarbandTheme") or changed
         changed = ReassignTheme("achievementTheme") or changed
 
         if db.themeEnabled == true and db.globalTheme == "brown" then
+            db.currencyTheme = "brown"
             db.huntScannerTheme = "brown"
+            db.currencyWarbandTheme = "brown"
             changed = true
         end
 
@@ -2967,111 +2880,13 @@ local function BuildThemePage(owner, parent)
 end
 
 local function BuildAchievementsPage(owner, parent)
-    local db = api.GetSettings()
-
-    local function ConfigureCheckboxLabel(control, width)
-        if not (control and control.Text and control.Text.SetWidth) then
-            return
-        end
-
-        control.Text:SetWidth(width)
-        control.Text:SetJustifyH("LEFT")
-        if control.Text.SetWordWrap then
-            control.Text:SetWordWrap(true)
-        end
-    end
-
-    local function ToggleAchievementPreview()
-        local huntScanner = Preydator:GetModule("HuntScanner")
-        local enabled = not (db.huntScannerPreviewInOptions == true)
-        if huntScanner and type(huntScanner.SetPreviewEnabled) == "function" then
-            huntScanner:SetPreviewEnabled(enabled)
-        else
-            db.huntScannerPreviewInOptions = enabled
-            RefreshHuntTrackerPanel()
-        end
-        owner:RefreshControls()
-    end
-
     CreateSectionTitle(parent, COLUMN_LEFT_X, -10, L["Achievements"])
     local note = parent:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    note:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, -42)
-    note:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -16, -42)
+    note:SetPoint("TOPLEFT", parent, "TOPLEFT", COLUMN_LEFT_X, -42)
+    note:SetWidth(420)
     note:SetJustifyH("LEFT")
     note:SetWordWrap(true)
-    note:SetText(L["Hunt Tracker drives achievement indicators and tooltips in the hunt list. Use preview to test icon style, icon size, and tooltip names with sample achievement data."])
-
-    local previewButton = RegisterRefresher(owner, CreateActionButton(parent, COLUMN_LEFT_X + 24, -304, 180, L["Show Preview Pane"], function()
-        ToggleAchievementPreview()
-    end))
-    previewButton.PreydatorRefresh = function(self)
-        self:SetText((db.huntScannerPreviewInOptions == true) and L["Hide Preview Pane"] or L["Show Preview Pane"])
-    end
-
-    local signalCheck = RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_LEFT_X, -106, L["Show Achievement Signals In Hunt Tracker"], function()
-        return db.huntScannerAchievementSignals ~= false
-    end, function(value)
-        db.huntScannerAchievementSignals = value and true or false
-        RefreshHuntTrackerPanel()
-    end))
-    ConfigureCheckboxLabel(signalCheck, 320)
-
-    local tooltipCheck = RegisterRefresher(owner, CreateCheckbox(parent, COLUMN_LEFT_X, -142, L["Show Achievement Names On Mouseover"], function()
-        return db.huntScannerAchievementTooltip ~= false
-    end, function(value)
-        db.huntScannerAchievementTooltip = value and true or false
-        RefreshHuntTrackerPanel()
-    end))
-    ConfigureCheckboxLabel(tooltipCheck, 320)
-
-    local styleDropdown = RegisterRefresher(owner, CreateDropdown(parent, COLUMN_LEFT_X, -184, L["Achievement Signal Style"], 170, ACHIEVEMENT_SIGNAL_STYLE_OPTIONS, function()
-        return db.huntScannerAchievementSignalStyle or "icon_count"
-    end, function(value)
-        db.huntScannerAchievementSignalStyle = value
-        RefreshHuntTrackerPanel()
-    end))
-
-    local badgeColorButton = RegisterRefresher(owner, CreateColorButton(parent, COLUMN_LEFT_X, -244, L["Achievement Badge Color"], function()
-        return db.huntScannerAchievementBadgeColor or { 1.00, 0.86, 0.00, 1.00 }
-    end, function(color)
-        db.huntScannerAchievementBadgeColor = { color[1], color[2], color[3], color[4] or 1 }
-        RefreshHuntTrackerPanel()
-    end, true))
-
-    local iconSizeSlider = RegisterRefresher(owner, CreateSlider(parent, COLUMN_LEFT_X, -286, L["Achievement Icon Size"], 12, 32, 1, function()
-        return tonumber(db.huntScannerAchievementIconSize) or 18
-    end, function(value)
-        db.huntScannerAchievementIconSize = math.floor(value + 0.5)
-        RefreshHuntTrackerPanel()
-    end, function(value)
-        return tostring(math.floor(value + 0.5))
-    end))
-
-    previewButton:SetPoint("TOPLEFT", parent, "TOPLEFT", COLUMN_LEFT_X + 24, -340)
-
-    RegisterRefresher(owner, {
-        PreydatorRefresh = function()
-            local enabled = db.huntScannerAchievementSignals ~= false
-            if tooltipCheck and tooltipCheck.PreydatorSetEnabled then
-                tooltipCheck:PreydatorSetEnabled(enabled)
-            end
-            if styleDropdown and styleDropdown.PreydatorSetEnabled then
-                styleDropdown:PreydatorSetEnabled(enabled)
-            end
-            if badgeColorButton and badgeColorButton.PreydatorSetEnabled then
-                badgeColorButton:PreydatorSetEnabled(enabled)
-            end
-            if iconSizeSlider and iconSizeSlider.PreydatorSetEnabled then
-                iconSizeSlider:PreydatorSetEnabled(enabled and (db.huntScannerAchievementSignalStyle ~= "count_only"))
-            end
-            if signalCheck and signalCheck.PreydatorSetEnabled then
-                signalCheck:PreydatorSetEnabled(IsModuleEnabled("hunt"))
-            end
-            if previewButton and previewButton.PreydatorSetEnabled then
-                previewButton:PreydatorSetEnabled(IsModuleEnabled("hunt"))
-            end
-        end,
-    })
+    note:SetText(L["Achievement tracking coming soon."])
 end
 
 local function BuildProfilesPage(owner, parent)
@@ -3337,22 +3152,34 @@ local function BuildAdvancedPage(owner, parent)
         owner:RefreshControls()
     end)
 
-    CreateActionButton(parent, ADV_LEFT_X, -110, ADV_BUTTON_WIDTH, L["Reset Hunt Table Position"], function()
+    CreateActionButton(parent, ADV_LEFT_X, -110, ADV_BUTTON_WIDTH, L["Reset Tracker Positions"], function()
+        db.currencyWindowPoint = {
+            anchor = defaults.currencyWindowPoint.anchor,
+            relativePoint = defaults.currencyWindowPoint.relativePoint,
+            x = defaults.currencyWindowPoint.x,
+            y = defaults.currencyWindowPoint.y,
+        }
+        db.currencyWarbandWindowPoint = {
+            anchor = defaults.currencyWarbandWindowPoint.anchor,
+            relativePoint = defaults.currencyWarbandWindowPoint.relativePoint,
+            x = defaults.currencyWarbandWindowPoint.x,
+            y = defaults.currencyWarbandWindowPoint.y,
+        }
         db.huntScannerSide = defaults.huntScannerSide
         db.huntScannerAnchorAlign = defaults.huntScannerAnchorAlign
+        RefreshCurrencyTrackerPanel()
         RefreshHuntTrackerPanel()
         owner:RefreshControls()
     end)
 
     CreateSectionTitle(parent, ADV_LEFT_X, -166, L["Maintenance"])
-    CreateAdvancedNote(ADV_LEFT_X, -196, L["Utility actions for release notes and hunt scanner cache maintenance."])
+    CreateAdvancedNote(ADV_LEFT_X, -196, L["Utility actions for release notes and hunt scanner cache refresh."])
 
     CreateActionButton(parent, ADV_LEFT_X, -234, ADV_BUTTON_WIDTH, L["Show What's New"], function()
-        db.preydatorThreeSplashSeenVersion = nil
-        db.soundDefaultsPromptSeenVersion = nil
-
-        if type(Preydator.ShowPreydatorThreeSplashIfNeeded) == "function" then
-            Preydator:ShowPreydatorThreeSplashIfNeeded(true)
+        db.currencyWhatsNewSeenVersion = nil
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.ShowCurrencyWhatsNew) == "function" then
+            tracker:ShowCurrencyWhatsNew(true)
         end
     end)
 
@@ -3371,16 +3198,8 @@ local function BuildAdvancedPage(owner, parent)
         end
     end)
 
-    CreateActionButton(parent, ADV_LEFT_X, -330, ADV_BUTTON_WIDTH, L["Clear Achievement Cache"], function()
-        local huntScanner = Preydator:GetModule("HuntScanner")
-        if huntScanner and type(huntScanner.ClearAchievementCache) == "function" then
-            huntScanner:ClearAchievementCache()
-            print("Preydator: Cleared hunt achievement cache.")
-        end
-    end)
-
-    CreateSectionTitle(parent, ADV_LEFT_X, -384, L["Notes"])
-    CreateAdvancedNote(ADV_LEFT_X, -414, L["HINT_ADVANCED_NOTES"])
+    CreateSectionTitle(parent, ADV_LEFT_X, -352, L["Notes"])
+    CreateAdvancedNote(ADV_LEFT_X, -382, L["HINT_ADVANCED_NOTES"])
 
     -- Right column: restore + debug
     CreateSectionTitle(parent, ADV_RIGHT_X, -10, L["Restore / Reset"])
@@ -3388,13 +3207,10 @@ local function BuildAdvancedPage(owner, parent)
 
     CreateActionButton(parent, ADV_RIGHT_X, -78, ADV_BUTTON_WIDTH, L["Restore Default Names"], function()
         for stageIndex = 1, (constants.MAX_STAGE - 1) do
-            db.stageLabels[stageIndex] = defaults.stageLabels[stageIndex] or ""
+            db.stageLabels[stageIndex] = defaults.stageLabels[stageIndex]
         end
         db.outOfZoneLabel = constants.DEFAULT_OUT_OF_ZONE_LABEL
-        db.ambushPrefix = "AMBUSH: "
-        db.ambushSuffix = "preyTargetName"
-        db.bloodyCommandPrefix = "Bloody Command: "
-        db.bloodyCommandSuffix = "bloodyCommandSourceName"
+        db.ambushCustomText = ""
         api.NormalizeLabelSettings()
         api.UpdateBarDisplay()
         owner:RefreshControls()
@@ -3407,12 +3223,6 @@ local function BuildAdvancedPage(owner, parent)
         db.ambushSoundEnabled = defaults.ambushSoundEnabled
         db.ambushVisualEnabled = defaults.ambushVisualEnabled
         db.ambushSoundPath = defaults.ambushSoundPath
-        db.bloodyCommandSoundEnabled = defaults.bloodyCommandSoundEnabled
-        db.bloodyCommandVisualEnabled = defaults.bloodyCommandVisualEnabled
-        db.bloodyCommandSoundPath = defaults.bloodyCommandSoundPath
-        db.echoOfPredationSoundPath = defaults.echoOfPredationSoundPath
-        db.silenceArator = defaults.silenceArator
-        api.ApplyAratorSilencing()
         db.soundFileNames = {}
         for _, fileName in ipairs(constants.DEFAULT_SOUND_FILENAMES) do
             db.soundFileNames[#db.soundFileNames + 1] = fileName
@@ -3440,10 +3250,10 @@ local function BuildAdvancedPage(owner, parent)
         _G.PreydatorDebugDB.enabled = db.debugSounds and true or false
     end))
 
-    RegisterRefresher(owner, CreateCheckbox(parent, ADV_RIGHT_X, -290, L["Verbose Bloody Command Debug"], function()
-        return db.debugBloodyCommand == true
+    RegisterRefresher(owner, CreateCheckbox(parent, ADV_RIGHT_X, -290, L["Currency Debug Events"], function()
+        return db.currencyDebugEvents == true
     end, function(value)
-        db.debugBloodyCommand = value and true or false
+        db.currencyDebugEvents = value and true or false
     end))
 end
 
@@ -3457,7 +3267,7 @@ function SettingsModule:RefreshControls()
 end
 
 function SettingsModule:BuildTabbedOptions(parent, topOffset, bottomOffset)
-    local tabLabels = { L["Modules"], L["Bar"], L["Stage Text"], L["Sounds"], L["Theme"], L["Panels"], L["Achievements"], L["Profiles"], L["Default Settings"] }
+    local tabLabels = { L["Modules"], L["Bar"], L["Stage Text"], L["Sounds"], L["Theme"], L["Panels"], L["Currency"], L["Achievements"], L["Profiles"], L["Default Settings"] }
 
     -- Build top global control strip
     local stripFrame, stripControls = BuildGlobalTopStrip(self, parent)
@@ -3477,7 +3287,9 @@ function SettingsModule:BuildTabbedOptions(parent, topOffset, bottomOffset)
             end
         end
 
-        if tabLabels[index] == L["Panels"] then
+        if tabLabels[index] == L["Currency"] then
+            RefreshCurrencyTrackerPanel()
+        elseif tabLabels[index] == L["Panels"] then
             RefreshCurrencyTrackerPanel()
             RefreshHuntTrackerPanel()
         end
@@ -3487,6 +3299,13 @@ function SettingsModule:BuildTabbedOptions(parent, topOffset, bottomOffset)
     self.tabFrames = self.tabFrames or {}
     self.refreshers = self.refreshers or {}
 
+    local function BuildCurrenciesPage(owner, frame)
+        local tracker = Preydator:GetModule("CurrencyTracker")
+        if tracker and type(tracker.BuildCurrencyPage) == "function" then
+            tracker:BuildCurrencyPage(owner, frame)
+        end
+    end
+
     local pageBuilders = {
         BuildModulesPage,
         BuildBarPage,
@@ -3494,6 +3313,7 @@ function SettingsModule:BuildTabbedOptions(parent, topOffset, bottomOffset)
         BuildSoundsPage,
         BuildThemePage,
         BuildHuntPage,
+        BuildCurrenciesPage,
         BuildAchievementsPage,
         BuildProfilesPage,
         BuildAdvancedPage,
@@ -3565,32 +3385,15 @@ function SettingsModule:EnsureOptionsPanel()
 end
 
 function SettingsModule:OpenOptionsPanel()
-    if InCombatLockdown and InCombatLockdown() == true then
-        pendingOpenOptionsAfterCombat = true
-        return false
-    end
-
-    pendingOpenOptionsAfterCombat = false
     local panel, categoryID = self:EnsureOptionsPanel()
     if Settings and Settings.OpenToCategory and type(categoryID) == "number" then
         Settings.OpenToCategory(categoryID)
-        return true
+        return
     end
 
     if _G.InterfaceOptionsFrame_OpenToCategory then
         _G.InterfaceOptionsFrame_OpenToCategory("Preydator")
-        return true
     end
-
-    return false
-end
-
-function SettingsModule:OnPlayerRegenEnabled()
-    if pendingOpenOptionsAfterCombat ~= true then
-        return
-    end
-
-    self:OpenOptionsPanel()
 end
 
 function SettingsModule:BuildAdvancedContainer(parent, topOffset, bottomOffset)

@@ -4,13 +4,12 @@ Addon.lua
 @Link    : https://dengsir.github.io
 ]]
 
-local MAJOR, MINOR = 'tdGUI-1.0', 9
+local MAJOR, MINOR = 'tdGUI-1.0', 7
 local GUI, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not GUI then return end
 
 GUI.Retail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
-GUI.BCC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
-GUI.BackdropTemplate = 'BackdropTemplate'
+GUI.BackdropTemplate = GUI.Retail and 'BackdropTemplate' or nil
 
 ---- Embed
 

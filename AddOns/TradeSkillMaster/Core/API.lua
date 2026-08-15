@@ -89,25 +89,6 @@ function TSM_API.RegisterUICallback(uiName, addonTag, func)
 	end
 end
 
---- Shifts a TSM button which is shown on the default UI by the requested offset (relative to its default position)
--- @within UI
--- @tparam string uiName A string which represents the UI (currently only "VENDORING" is supported)
--- @tparam string addonTag A string which uniquely identifies the addon making this call (i.e. "MyAddon")
--- @tparam number xOffset The amount to shift the TSM button by (relative to its default position)
-function TSM_API.ShiftDefaultUIButton(uiName, addonTag, xOffset)
-	private.CheckCallMethod(uiName)
-	private.ValidateArgumentType(addonTag, "string", "addonTag")
-	if addonTag == "" then
-		error("Invalid `addonTag` argument (cannot be an empty string)", 2)
-	end
-	private.ValidateArgumentType(xOffset, "number", "xOffset")
-	if uiName == "VENDORING" then
-		TSM.UI.VendoringUI.ShiftDefaultUIButton(addonTag, xOffset)
-	else
-		error("Invalid uiName: "..tostring(uiName), 2)
-	end
-end
-
 
 
 -- ============================================================================
@@ -511,45 +492,6 @@ end
 
 
 -- ============================================================================
--- Crafting
--- ============================================================================
-
---- Iterates over all items in the crafting queue.
--- @within Crafting
--- @treturn function An iterator with fields: `index`, `recipeString`, `itemString`, `num`
-function TSM_API.CraftingQueueIterator()
-	local result = {}
-	local query = TSM.Crafting.Queue.CreateQuery()
-		:Select("recipeString", "craftString", "num")
-	for _, recipeString, craftString, num in query:Iterator() do
-		local itemString = TSM.Crafting.GetItemString(craftString) or ""
-		tinsert(result, recipeString)
-		tinsert(result, itemString)
-		tinsert(result, num)
-	end
-	query:Release()
-	return private.CraftingQueueIteratorHelper, result, 0
-end
-
---- Gets the materials needed for a specific queued recipe.
--- @within Crafting
--- @tparam string recipeString The recipe string from the crafting queue iterator
--- @tparam table result A table to populate with materials, where keys are item strings and values are quantities
-function TSM_API.GetCraftingQueueItemMaterials(recipeString, result)
-	private.CheckCallMethod(recipeString)
-	private.ValidateArgumentType(recipeString, "string", "recipeString")
-	if not strmatch(recipeString, "^r:%d+") then
-		error("Invalid 'recipeString' argument (must be a valid recipe string): "..tostring(recipeString), 2)
-	end
-	private.ValidateArgumentType(result, "table", "result")
-	for _, itemString, quantity in TSM.Crafting.MatIteratorByRecipeString(recipeString) do
-		result[itemString] = quantity
-	end
-end
-
-
-
--- ============================================================================
 -- Private Helper Functions
 -- ============================================================================
 
@@ -582,14 +524,6 @@ function private.CheckCallMethod(firstArg)
 	if firstArg == TSM_API then
 		error("Invalid usage of colon operator to call TSM_API function", 3)
 	end
-end
-
-function private.CraftingQueueIteratorHelper(tbl, index)
-	index = index + 3
-	if index > #tbl then
-		return
-	end
-	return index, tbl[index - 2], tbl[index - 1], tbl[index]
 end
 
 function private.GroupsUpdated()

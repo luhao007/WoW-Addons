@@ -12,13 +12,13 @@ local FirstEnemy = Addon:NewPlugin('FirstEnemy')
 
 function FirstEnemy:OnInitialize()
     self:EnableWithAddon('Blizzard_PetBattleUI')
-    self:SetPluginTitle(L.SELECTOR_FIRSTENEMY_TITLE)
-    self:SetPluginNotes(L.SELECTOR_FIRSTENEMY_NOTES)
+    self:SetPluginTitle(L.PLUGINFIRSTENEMY_TITLE)
+    self:SetPluginNotes(L.PLUGINFIRSTENEMY_NOTES)
     self:SetPluginIcon([[Interface\ICONS\Ability_Hisek_Aim]])
 end
 
 function FirstEnemy:GetCurrentKey()
-    return C_PetBattles.GetPetSpeciesID(Enum.BattlePetOwner.Enemy, 1)
+    return C_PetBattles.GetPetSpeciesID(LE_BATTLE_PET_ENEMY, 1)
 end
 
 function FirstEnemy:GetTitleByKey(key)

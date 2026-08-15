@@ -174,7 +174,7 @@ function Plater.AddTriggerToScript(triggerId, triggerType, scriptName)
     --attempt to get the scriptObject for the passed scriptName
     local scriptObject = Plater.GetScriptObject(scriptName, "script")
     if (not scriptObject) then
-        return false, "script not found"
+        return false, "脚本未找到"
     end
 
     --remove the trigger from any script to avoid overlaps (a trigger can only exists in one script at time)
@@ -190,7 +190,7 @@ function Plater.AddTriggerToScript(triggerId, triggerType, scriptName)
         detailsFramework.table.addunique(scriptObject.NpcNames, triggerId)
 
     else
-        return false, "invalid triggerType"
+        return false, "无效triggerType"
     end
 
     Plater.WipeAndRecompileAllScripts("script")

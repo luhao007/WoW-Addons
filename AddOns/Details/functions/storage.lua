@@ -731,8 +731,8 @@ function Details222.storage.GetUnitData(difficulty, dungeonEncounterID, role, un
 		return {}
 	end
 
-	assert(type(unitName) == "string", "unitName must be a string.")
-	assert(type(dungeonEncounterID) == "number", "dungeonEncounterID must be a string.")
+	assert(type(unitName) == "string", "unitName必须是一个字符串.")
+	assert(type(dungeonEncounterID) == "number", "dungeonEncounterID必须是一个字符串.")
 
 	---@type details_storage_unitresult[]
 	local resultTable = {}
@@ -771,8 +771,8 @@ function Details222.storage.GetEncounterData(difficulty, dungeonEncounterID, gui
 
 	local encountersTable = savedData[difficulty]
 
-	assert(encountersTable, "Difficulty not found. Use: normal, heroic or mythic.")
-	assert(type(dungeonEncounterID) == "number", "dungeonEncounterID must be a number.")
+	assert(encountersTable, "未找到难度. 使用: 普通, 英雄或史诗.")
+	assert(type(dungeonEncounterID) == "number", "dungeonEncounterID必须是一个字符串.")
 
 	---@type details_encounterkillinfo[]
 	local allEncountersStored = encountersTable[dungeonEncounterID]
@@ -1079,7 +1079,7 @@ function Details.Database.StoreEncounter(combat)
 	---@type table<encounterid, details_encounterkillinfo[]>
 	local encountersTable = savedData[diffName]
 	if (not encountersTable) then
-		Details:Msg("encountersTable not found, diffName:", diffName)
+		Details:Msg("未找到encountersTable, diffName:", diffName)
 		savedData[diffName] = {}
 		encountersTable = savedData[diffName]
 	end

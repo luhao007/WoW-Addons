@@ -145,11 +145,7 @@ function BagTracking.Start()
 	if not ClientInfo.IsRetail() then
 		Event.Register("PLAYERBANKSLOTS_CHANGED", private.BankSlotChangedHandler)
 	end
-	if LibTSMService.IsRetail() then
-		Event.Register("BAG_UPDATE", private.HandleLogin)
-	else
-		Lifecycle.RegisterCallback(private.HandleLogin, Lifecycle.EVENT.LOGIN)
-	end
+	Lifecycle.RegisterCallback(private.HandleLogin, Lifecycle.EVENT.LOGIN)
 end
 
 ---Registers a callback for when the bags change.
@@ -388,9 +384,6 @@ end
 -- ============================================================================
 
 function private.HandleLogin()
-	if LibTSMService.IsRetail() then
-		Event.Unregister("BAG_UPDATE", private.HandleLogin)
-	end
 	-- We'll scan all the bags right away, so wipe the existing quantities
 	wipe(private.storage.bagQuantity)
 	private.quantityDB:SetQueryUpdatesPaused(true)

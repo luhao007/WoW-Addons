@@ -1,19 +1,22 @@
-## Interface: 120007, 120100
-## X-Min-Interface: 120007
-## Version: 12.1.3
-## Category: DBM
-
-## Title:|cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Lairs (Midnight)|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010소굴 (한밤)|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM Мод|r|cffffe00a>|r |cffff6010Логова (Полночь)|r
-## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010巢穴 (至暗之夜)|r
-## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010巢穴（至暗之夜）|r
+## Interface: 120001, 120005, 120007, 120100
 ## Author: MysticalOS
-## LoadOnDemand: 1
+## Version: 12.1.3
+
+## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Lairs (Midnight)|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0巢穴|r |cFF22B14C至暗之夜|r
+
+## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
+
+## Category: DBM
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+
 ## SavedVariables: DBMLairsMidnight_AllSavedVars
 ## SavedVariablesPerCharacter: DBMLairsMidnight_SavedStats
-## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
+
+## X-Min-Interface: 120007
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: LAIR
 ## X-DBM-Mod-Category: MIDNIGHT
@@ -30,6 +33,7 @@
 ## X-DBM-Mod-MinExpansion: 11
 ## X-Curse-Project-ID: 3358
 ## X-Wago-ID: qv633o6b
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 

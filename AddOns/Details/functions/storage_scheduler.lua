@@ -3,6 +3,7 @@ local _
 local _detalhes = 		_G.Details
 local addonName, Details222 = ...
 local detailsFramework = _G.DetailsFramework
+local Loc = _G.LibStub("AceLocale-3.0"):GetLocale("Details")
 
 if not detailsFramework.IsAddonApocalypseWow() then
     return
@@ -115,7 +116,7 @@ function Details222.StorageScheduler.Start()
                     local okay, errorText = pcall(callback, unpack(payload))
                     if not okay then
                         --notify the player
-                        Details:Msg("Storage queue error:", errorText)
+                        Details:Msg(Loc["STRING_STORAGE_QUEUE_ERROR"], errorText)
                         print("loop", "error", segmentId, errorText)
                         queueInfo.attemptsByError = queueInfo.attemptsByError + 1
                         if queueInfo.attemptsByError > 2 then

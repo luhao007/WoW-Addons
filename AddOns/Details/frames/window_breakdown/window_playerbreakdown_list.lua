@@ -326,9 +326,9 @@ local createPlayerScrollBox = function(breakdownWindowFrame, breakdownSideMenu, 
 	--header setup
 	local headerTable = {
 		{text = "", width = 20},
-		{text = "Player Name", width = 100},
+		{text = "玩家名称", width = 100},
 		{text = "iLvL", width = 30},
-		{text = "WCL Parse", width = 60},
+		{text = "WCL解析", width = 60},
 	}
 	local headerOptions = {
 		padding = 2,
@@ -480,7 +480,7 @@ local createSegmentsScrollBox = function(breakdownWindowFrame, breakdownSideMenu
 		--unique combat id from the button clicked
 		local combatUniqueID = self.combatUniqueID
 		if (not Details:DoesCombatWithUIDExists(combatUniqueID)) then
-			Details:Msg("This segment is not available anymore.")
+			Details:Msg("此分段已无法使用.")
 			return
 		end
 

@@ -289,7 +289,7 @@ function Details.ShowDeathTooltip(instance, lineFrame, combatObject, deathTable)
 		local eventFrom = event[6] or ""
 
 		if detailsFramework.IsAddonApocalypseWow() and not damageEventTokens[evType] then
-			Details:Msg("DeathLog event not registered:", evType, "Please report this to the author.")
+			Details:Msg("DeathLog事件未注册:", evType, "请将此问题报告给作者.")
 		end
 
 		if (eventTime + 10 > timeOfDeath) then
@@ -492,7 +492,7 @@ function atributo_misc:ReportSingleDeadLine(morte, instancia, bIsShiftDown, bIsC
 		if (not C_AddOns.IsAddOnLoaded("Blizzard_DeathRecap")) then
 			C_AddOns.LoadAddOn("Blizzard_DeathRecap")
 		end
-		Details:Msg("Opening Blizzard Death Recap with deathRecapId:", thisLine.deathRecapId)
+		Details:Msg("正在打开暴雪死亡回放, deathRecapId:", thisLine.deathRecapId)
 		DeathRecapFrame:OpenRecap(thisLine.deathRecapId)
 		return
 	end
@@ -1296,7 +1296,7 @@ function atributo_misc:ToolTipDead(instancia, numero, barra)
 	--is this even called?
 	do return end
 	local last_dead = self.dead_log [#self.dead_log]
-	Details:Msg("utility class called ToolTipDead, a deprecated function.")
+	Details:Msg("名为ToolTipDead的实用类是一个被废弃的函数.")
 end
 
 function atributo_misc:ToolTipCC(instancia, numero, barra)
@@ -1734,7 +1734,7 @@ function Details:CatchRaidBuffUptime(sOperationType) -- ~scan
 		end
 
 		if (sOperationType == "BUFF_UPTIME_IN") then
-			local string_output = "pre-potion: " --localize-me
+			local string_output = "战斗前药水: " --localize-me
 
 			for playername, potspellid in pairs(potUsage) do
 				local name, _, icon = _GetSpellInfo(potspellid)
@@ -2322,14 +2322,14 @@ function atributo_misc:ToolTipInterrupt(instance, numero, barra)
 	end
 
 	local interruptAmount = combatObject:GetInterruptCastAmount(self.nome)
-	GameCooltip:AddLine("Total Interrupt Cast", interruptAmount)
+	GameCooltip:AddLine("总打断施法", interruptAmount)
 	GameCooltip:AddIcon("", nil, nil, icon_size.W, icon_size.H, icon_border.L, icon_border.R, icon_border.T, icon_border.B)
 	Details:AddTooltipBackgroundStatusbar()
 
 	local overlapsAmount = self.interrupt_cast_overlap or 0
 	amountOfInterruptsCasted = detailsFramework.Math.PositiveNonZero(amountOfInterruptsCasted)
 
-	GameCooltip:AddLine("Overlaps", overlapsAmount .. " (" .. _cstr("%.1f", floor(overlapsAmount)/floor(amountOfInterruptsCasted)*100).."%)")
+	GameCooltip:AddLine("覆盖", overlapsAmount .. " (" .. _cstr("%.1f", floor(overlapsAmount)/floor(amountOfInterruptsCasted)*100).."%)")
 	GameCooltip:AddIcon("", nil, nil, icon_size.W, icon_size.H, icon_border.L, icon_border.R, icon_border.T, icon_border.B)
 	Details:AddTooltipBackgroundStatusbar()
 

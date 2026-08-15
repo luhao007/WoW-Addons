@@ -12,7 +12,7 @@ local Played = ns.BattleCacheManager:GetModule('Played')
 
 
 local function getOpponent(owner)
-    return owner == Enum.BattlePetOwner.Ally and Enum.BattlePetOwner.Enemy or Enum.BattlePetOwner.Ally
+    return owner == LE_BATTLE_PET_ALLY and LE_BATTLE_PET_ENEMY or LE_BATTLE_PET_ALLY
 end
 
 local function getOpponentActivePet(owner)
@@ -54,10 +54,9 @@ Addon:RegisterCondition('hp.full', { type = 'boolean', arg = false }, function(o
 end)
 
 
-Addon:RegisterCondition('hp.can_be_exploded', { type = 'boolean', arg = false }, function(owner, pet)
-    return pet and C_PetBattles.GetHealth(owner, pet) <= floor(logical_max_health(getOpponentActivePet(owner)) * 0.4)
+Addon:RegisterCondition('hp.can_explode', { type = 'boolean', arg = false }, function(owner, pet)
+    return pet and C_PetBattles.GetHealth(owner, pet) < floor(logical_max_health(getOpponentActivePet(owner)) * 0.4)
 end)
-Addon:RegisterCondition('hp.can_explode', ns.Condition.opts['hp.can_be_exploded'], ns.Condition.apis['hp.can_be_exploded'])
 
 
 Addon:RegisterCondition('hp.low', { type = 'boolean', pet = false, arg = false }, function(owner, pet)
@@ -70,22 +69,8 @@ Addon:RegisterCondition('hp.high', { type = 'boolean', pet = false, arg = false 
 end)
 
 
-local function hpp(owner, pet)
-    return C_PetBattles.GetHealth(owner, pet) / logical_max_health(owner, pet) * 100
-end
-
 Addon:RegisterCondition('hpp', { type = 'compare', arg = false }, function(owner, pet)
-    return hpp(owner, pet)
-end)
-
-
-Addon:RegisterCondition('hp.diff', { type = 'compare', arg = false }, function(owner, pet)
-    return C_PetBattles.GetHealth(owner, pet) - C_PetBattles.GetHealth(getOpponentActivePet(owner))
-end)
-
-
-Addon:RegisterCondition('hpp.diff', { type = 'compare', arg = false }, function(owner, pet)
-    return hpp(owner, pet) - hpp(getOpponentActivePet(owner))
+    return C_PetBattles.GetHealth(owner, pet) / logical_max_health(owner, pet) * 100
 end)
 
 
@@ -103,19 +88,18 @@ Addon:RegisterCondition('aura.duration', { type = 'compare' }, function(owner, p
 end)
 
 
-Addon:RegisterCondition('weather.exists', { type = 'boolean', owner = 'not-allowed', pet = false }, function(_, _, weather)
+Addon:RegisterCondition('weather', { type = 'boolean', owner = false, pet = false }, function(_, _, weather)
     local id, name = 0, ''
-    local aura = C_PetBattles.GetAuraInfo(Enum.BattlePetOwner.Weather, PET_BATTLE_PAD_INDEX, 1)
+    local aura = C_PetBattles.GetAuraInfo(LE_BATTLE_PET_WEATHER, PET_BATTLE_PAD_INDEX, 1)
     if aura then
         id, name = C_PetBattles.GetAbilityInfoByID(aura)
     end
     return weather and (id == weather or name == weather)
 end)
-Addon:RegisterCondition('weather', ns.Condition.opts['weather.exists'], ns.Condition.apis['weather.exists'])
 
 
-Addon:RegisterCondition('weather.duration', { type = 'compare', owner = 'not-allowed', pet = false }, function(_, _, weather)
-    local id, _, duration = C_PetBattles.GetAuraInfo(Enum.BattlePetOwner.Weather, PET_BATTLE_PAD_INDEX, 1)
+Addon:RegisterCondition('weather.duration', { type = 'compare', owner = false, pet = false }, function(_, _, weather)
+    local id, _, duration = C_PetBattles.GetAuraInfo(LE_BATTLE_PET_WEATHER, PET_BATTLE_PAD_INDEX, 1)
     if weather and id and (id == weather or select(2, C_PetBattles.GetAbilityInfoByID(id)) == weather) then
         return duration
     end
@@ -136,7 +120,7 @@ end)
 
 Addon:RegisterCondition('ability.duration', { type = 'compare', argParse = Util.ParseAbility }, function(owner, pet, ability)
     local isUsable, currentCooldown, currentLockdown = C_PetBattles.GetAbilityState(owner, pet, ability)
-    return ability and max(currentCooldown, currentLockdown) or infinite
+    return ability and currentCooldown or infinite
 end)
 
 
@@ -157,7 +141,7 @@ Addon:RegisterCondition('ability.type', { type = 'equality', argParse = Util.Par
 end)
 
 
-Addon:RegisterCondition('round', { type = 'compare', owner='optional', pet = false, arg = false }, function(owner)
+Addon:RegisterCondition('round', { type = 'compare', pet = false, arg = false }, function(owner)
     if owner then
         return Round:GetRoundByOwner(owner)
     else
@@ -190,12 +174,12 @@ end)
 
 
 Addon:RegisterCondition('type', { type = 'equality', arg = false, valueParse = Util.ParsePetType }, function(owner, pet)
-    return pet and C_PetBattles.GetPetType(owner, pet)
+    return C_PetBattles.GetPetType(owner, pet)
 end)
 
 
 Addon:RegisterCondition('quality', { type = 'compare', arg = false, valueParse = Util.ParseQuality }, function(owner, pet)
-    return pet and (C_PetBattles.GetBreedQuality(owner, pet) + 1)
+    return pet and C_PetBattles.GetBreedQuality(owner, pet)
 end)
 
 
@@ -218,29 +202,7 @@ Addon:RegisterCondition('collected', { type = 'boolean', arg = false }, function
     return select(2, C_PetJournal.FindPetIDByName(name)) ~= nil
 end)
 
-Addon:RegisterCondition('collected.count', { type = 'compare', arg = false }, function(owner, pet)
-    local species = C_PetJournal.FindPetIDByName(select(2, C_PetBattles.GetName(owner, pet)))
-    local obtainable = species and select(11, C_PetJournal.GetPetInfoBySpeciesID(species))
-
-    if not obtainable then
-        return 0
-    end
-
-    return species and select(1, C_PetJournal.GetNumCollectedInfo(species)) or 0
-end)
-
-Addon:RegisterCondition('collected.max', { type = 'compare', arg = false }, function(owner, pet)
-    local species = C_PetJournal.FindPetIDByName(select(2, C_PetBattles.GetName(owner, pet)))
-    local obtainable = species and select(11, C_PetJournal.GetPetInfoBySpeciesID(species))
-    
-    if not obtainable then
-        return 0
-    end
-
-    return species and select(2, C_PetJournal.GetNumCollectedInfo(species)) or 0
-end)
-
-Addon:RegisterCondition('trap', { type = 'boolean', owner = 'not-allowed', pet = false, arg = false }, function()
+Addon:RegisterCondition('trap', { type = 'boolean', owner = false , pet = false, arg = false }, function()
     local usable, err = C_PetBattles.IsTrapAvailable()
-    return usable or (not usable and err == 4) -- 4 = PETBATTLE_TRAPSTATUS_CANT_TRAP_TOO_MUCH_HEALTH
+    return usable or (not usable and err == 4)
 end)

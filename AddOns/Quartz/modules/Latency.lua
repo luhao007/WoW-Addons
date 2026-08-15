@@ -23,6 +23,8 @@ local MODNAME = "Latency"
 local Latency = Quartz3:NewModule(MODNAME, "AceEvent-3.0", "AceHook-3.0")
 local Player = Quartz3:GetModule("Player")
 
+local ApplyFontStyle = Quartz3.Util.ApplyFontStyle
+
 local media = LibStub("LibSharedMedia-3.0")
 local lsmlist = AceGUIWidgetLSMlists
 
@@ -42,15 +44,17 @@ local defaults = {
 		lagtext = true,
 		lagfont = "Friz Quadrata TT",
 		lagfontsize = 7,
+		lagfontOutline = "SHADOW",
+		lagfontShadowColor = {0, 0, 0, 1},
+		lagfontShadowOffsetX = 0.8,
+		lagfontShadowOffsetY = -0.8,
 		lagtextcolor = {0.7, 0.7, 0.7, 0.8},
 		lagtextalignment = "center", -- L["Left"], L["Right"]
 		lagtextposition = "bottom", --L["Top"], L["Above"], L["Below"]
 
-		-- With "embed", the lag indicator is placed on the left hand side of the bar instead of right for normal casting
-		-- and the castbar time is shifted so that the end of the time accounting for lag lines up with the right hand side of the castbar
-		-- For channeled spells, the lag indicator is shown on the right, and the cast bar is adjusted down from there
-		-- lagpadding is applied only if lagembed is enabled
-		lagembed = false,
+		-- lagmode: "default" = lag at cast end side, "embed" = lag at cast start + time shift, "right" = always right
+		-- lagpadding is applied only if lagmode == "embed"
+		lagmode = "default",
 		lagpadding = 0.0,
 	}
 }
@@ -113,6 +117,14 @@ end
 function Latency:UNIT_SPELLCAST_START(object, bar, unit, guid, spellID)
 	self.hooks[object].UNIT_SPELLCAST_START(object, bar, unit, guid, spellID)
 
+	-- Cast times may be secret - skip latency display
+	if bar.hasSecretTiming then
+		lagbox:Hide()
+		lagtext:Hide()
+		sendTime = nil
+		return
+	end
+
 	local startTime, endTime = bar.startTime, bar.endTime
 	if not sendTime or not endTime then return end
 
@@ -123,7 +135,7 @@ function Latency:UNIT_SPELLCAST_START(object, bar, unit, guid, spellID)
 
 	lagbox:ClearAllPoints()
 	local side
-	if db.lagembed then
+	if db.lagmode == "embed" then
 		if bar.casting then
 			side = "LEFT"
 			lagbox:SetTexCoord(0,perc,0,1)
@@ -136,16 +148,19 @@ function Latency:UNIT_SPELLCAST_START(object, bar, unit, guid, spellID)
 		bar.startTime = startTime
 		endTime = endTime - timeDiff + db.lagpadding
 		bar.endTime = endTime
-	else
+	elseif db.lagmode == "right" then
+		side = "RIGHT"
+		lagbox:SetTexCoord(1-perc,1,0,1)
+	else -- "default"
 		if bar.casting then
 			side = "RIGHT"
 			lagbox:SetTexCoord(1-perc,1,0,1)
 		else -- channeling
 			side = "LEFT"
-			lagbox:SetTexCoord(perc,1,0,1)
+			lagbox:SetTexCoord(0,perc,0,1)
 		end
 	end
-	lagbox:SetDrawLayer(side == "LEFT" and "OVERLAY" or "BACKGROUND")
+	lagbox:SetDrawLayer("BACKGROUND")
 	lagbox:SetPoint(side, Player.Bar.Bar, side)
 	lagbox:SetWidth(Player.Bar.Bar:GetWidth() * perc)
 	lagbox:SetShown(perc > 0)
@@ -188,7 +203,12 @@ end
 function Latency:UNIT_SPELLCAST_DELAYED(object, bar, unit)
 	self.hooks[object].UNIT_SPELLCAST_DELAYED(object, bar, unit)
 
-	if db.lagembed and timeDiff then
+	-- Skip if cast bar has secret timing
+	if bar.hasSecretTiming then
+		return
+	end
+
+	if db.lagmode == "embed" and timeDiff then
 		local startTime = bar.startTime - timeDiff + db.lagpadding
 		bar.startTime = startTime
 		local endTime = bar.endTime - timeDiff + db.lagpadding
@@ -212,9 +232,7 @@ function Latency:ApplySettings()
 		lagbox:SetAlpha(db.lagalpha)
 		lagbox:SetVertexColor(unpack(db.lagcolor))
 
-		lagtext:SetFont(media:Fetch("font", db.lagfont), db.lagfontsize)
-		lagtext:SetShadowColor( 0, 0, 0, 1)
-		lagtext:SetShadowOffset( 0.8, -0.8 )
+		ApplyFontStyle(lagtext, media:Fetch("font", db.lagfont), db.lagfontsize, db.lagfontOutline, db.lagfontShadowColor, db.lagfontShadowOffsetX, db.lagfontShadowOffsetY)
 		lagtext:SetTextColor(unpack(db.lagtextcolor))
 		lagtext:SetNonSpaceWrap(false)
 
@@ -299,10 +317,15 @@ do
 						end,
 						order = 100,
 					},
-					lagembed = {
-						type = "toggle",
-						name = L["Embed"],
-						desc = L["Include Latency time in the displayed cast bar."],
+					lagmode = {
+						type = "select",
+						name = L["Mode"],
+						desc = L["Set the position mode for the latency indicator"],
+						values = {
+							["default"] = L["Default"],
+							["embed"] = L["Embed"],
+							["right"] = L["Always Right"],
+						},
 						order = 101,
 					},
 					lagalpha ={
@@ -319,7 +342,7 @@ do
 						desc = L["Embed mode will decrease it's lag estimates by this amount.  Ideally, set it to the difference between your highest and lowest ping amounts.  (ie, if your ping varies from 200ms to 400ms, set it to 0.2)"],
 						min = 0, max = 1, bigStep = 0.05,
 						disabled = function()
-							return not db.lagembed
+							return db.lagmode ~= "embed"
 						end,
 						order = 103,
 					},
@@ -369,13 +392,47 @@ do
 						disabled = hidelagtextoptions,
 						order = 117,
 					},
+					lagfontOutline = {
+						type = "select",
+						name = L["Font Outline"],
+						desc = L["Font Outline"],
+						values = {["SHADOW"] = L["Shadow"], [""] = L["None"], ["OUTLINE"] = L["Outline"], ["THICKOUTLINE"] = L["Thick Outline"]},
+						disabled = hidelagtextoptions,
+						order = 118,
+					},
+					lagfontShadowColor = {
+						type = "color",
+						name = L["Shadow Color"],
+						desc = L["Shadow Color"],
+						hasAlpha = true,
+						get = getColor,
+						set = setColor,
+						disabled = function() return hidelagtextoptions() or db.lagfontOutline ~= "SHADOW" end,
+						order = 119,
+					},
+					lagfontShadowOffsetX = {
+						type = "range",
+						name = L["Shadow X Offset"],
+						desc = L["Shadow X Offset"],
+						min = -5, max = 5, step = 0.1,
+						disabled = function() return hidelagtextoptions() or db.lagfontOutline ~= "SHADOW" end,
+						order = 120,
+					},
+					lagfontShadowOffsetY = {
+						type = "range",
+						name = L["Shadow Y Offset"],
+						desc = L["Shadow Y Offset"],
+						min = -5, max = 5, step = 0.1,
+						disabled = function() return hidelagtextoptions() or db.lagfontOutline ~= "SHADOW" end,
+						order = 121,
+					},
 					lagtextalignment = {
 						type = "select",
 						name = L["Text Alignment"],
 						desc = L["Set the position of the latency text"],
 						values = {["center"] = L["Center"], ["left"] = L["Left"], ["right"] = L["Right"], ["outside"] = L["Outside"]},
 						disabled = hidelagtextoptions,
-						order = 118,
+						order = 122,
 					},
 					lagtextposition = {
 						type = "select",
@@ -383,7 +440,7 @@ do
 						desc = L["Set the vertical position of the latency text"],
 						values = {["above"] = L["Above"], ["top"] = L["Top"], ["bottom"] = L["Bottom"], ["below"] = L["Below"]},
 						disabled = hidelagtextoptions,
-						order = 119,
+						order = 123,
 					},
 				},
 			}

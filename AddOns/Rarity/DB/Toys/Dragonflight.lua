@@ -308,10 +308,7 @@ local dragonflightToys = {
 		cat = CONSTANTS.ITEM_CATEGORIES.DRAGONFLIGHT,
 		type = CONSTANTS.ITEM_TYPES.ITEM, -- Not a real mount, so this'll have to do
 		isToy = false,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2673, -- Chrono-Lord Deios
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Reins of the Quantum Courser"],
 		itemId = 208216,
 		npcs = {

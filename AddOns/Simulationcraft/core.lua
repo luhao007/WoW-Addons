@@ -22,8 +22,8 @@ SimcLDB = LibStub("LibDataBroker-1.1"):NewDataObject("SimulationCraft", {
   OnTooltipShow = function(tt)
     tt:AddLine("SimulationCraft")
     tt:AddLine(" ")
-    tt:AddLine("Click to show SimC input")
-    tt:AddLine("To toggle minimap button, type '/simc minimap'")
+    tt:AddLine("点击显示SimC输入")
+    tt:AddLine("要开启关闭小地图按钮显示, 请输入'/simc minimap'")
   end
 })
 
@@ -182,7 +182,7 @@ function Simulationcraft:HandleChatCommand(input)
     elseif arg == 'minimap' then
       OptionsDB.profile.minimap.hide = not OptionsDB.profile.minimap.hide
       DEFAULT_CHAT_FRAME:AddMessage(
-        "SimulationCraft: Minimap button is now " .. (OptionsDB.profile.minimap.hide and "hidden" or "shown")
+        "SimulationCraft: 小地图按钮现已" .. (OptionsDB.profile.minimap.hide and "隐藏" or "显示")
       )
       Simulationcraft:UpdateMinimapButton()
       return
@@ -403,8 +403,8 @@ local function WriteLoadoutContent(exportStream, configID, treeID)
           local entryIndex = GetActiveEntryIndex(treeNode);
           if(entryIndex <= 0 or entryIndex > 4) then
             local configInfo = Traits.GetConfigInfo(configID)
-            local errorMsg = "Talent loadout '" .. configInfo.name .. "' is corrupt/incomplete. Find that talent"
-              .. " loadout in your talents UI and delete or update it. It may be on a different spec."
+            local errorMsg = "天赋配置'" .. configInfo.name .. "'已损坏或不完整. 请前往天赋"
+              .. "界面中查找该配置并删除/更新. 它可能属于其他专精."
             print(errorMsg);
             error(errorMsg);
           end
@@ -1017,7 +1017,7 @@ function Simulationcraft:GetMainFrame(text)
     -- Automatic close checkbox
     local checkbox = CreateFrame("CheckButton", "AutomaticClose", f, "ChatConfigCheckButtonTemplate")
     checkbox:SetPoint("BOTTOMLEFT", 12, 18)
-    checkbox.Text:SetText("Close after copy")
+    checkbox.Text:SetText("复制后关闭")
     checkbox:SetChecked(true)
     checkbox:HookScript("OnClick", function(self)
       OptionsDB.profile.closeOnCopy = self:GetChecked()
@@ -1041,7 +1041,7 @@ local function adler32(s)
 
   -- limit s size to ensure that modulo prime can be done only at end
   -- 2^40 is too large for WoW Lua so limit to 2^30
-  if #s > (bit.lshift(1, 30)) then error("adler32: string too large") end
+  if #s > (bit.lshift(1, 30)) then error("adler32: 字符串太大") end
 
   for i = 1,#s do
     local b = string.byte(s, i)
@@ -1185,17 +1185,17 @@ function Simulationcraft:GetSimcProfile(debugOutput, noBags, showMerchant, links
     -- DRAGONFLIGHT
     -- new dragonflight talents
     if Traits.GetLoadoutSerializationVersion() ~= SUPPORTED_LOADOUT_SERIALIZATION_VERSION then
-      simcPrintError = 'This version of the SimC addon does not work with this version of WoW.\n'
-      simcPrintError = simcPrintError .. 'There is a mismatch in the version of talent string exports.\n'
+      simcPrintError = '当前SimC插件版本与魔兽世界游戏版本不兼容.\n'
+      simcPrintError = simcPrintError .. '天赋字符串导出版本不一致.\n'
       simcPrintError = simcPrintError .. '\n'
       if Traits.GetLoadoutSerializationVersion() > SUPPORTED_LOADOUT_SERIALIZATION_VERSION then
-        simcPrintError = simcPrintError .. 'WoW is using a newer version - you probably need to update your addon.\n'
+        simcPrintError = simcPrintError .. '检测到游戏使用了较新的版本——请更新插件至最新版本.\n'
       else
-        simcPrintError = simcPrintError .. 'WoW is using an older version - you may be running an alpha/beta addon that is not currently ready for retail.\n'
+        simcPrintError = simcPrintError .. '检测到游戏使用了较旧的版本——你可能正在运行未适配正式服的测试版插件.\n'
       end
       simcPrintError = simcPrintError .. '\n'
-      simcPrintError = simcPrintError .. 'WoW talent string export version = ' .. Traits.GetLoadoutSerializationVersion() .. '\n'
-      simcPrintError = simcPrintError .. 'Addon talent string export version = ' .. SUPPORTED_LOADOUT_SERIALIZATION_VERSION .. '\n'
+      simcPrintError = simcPrintError .. '游戏天赋字符串导出版本 = ' .. Traits.GetLoadoutSerializationVersion() .. '\n'
+      simcPrintError = simcPrintError .. '插件支持的天赋字符串导出版本 = ' .. SUPPORTED_LOADOUT_SERIALIZATION_VERSION .. '\n'
     end
 
     local currentConfigId = ClassTalents.GetActiveConfigID()
@@ -1338,7 +1338,7 @@ function Simulationcraft:GetSimcProfile(debugOutput, noBags, showMerchant, links
         simulationcraftProfile = simulationcraftProfile .. '# ' .. name .. '\n'
         simulationcraftProfile = simulationcraftProfile .. '# ' .. itemStr .. "\n"
       else -- Someone linked something that was not gear.
-        simcPrintError = "Error: " .. v .. " is not gear."
+        simcPrintError = "错误: " .. v .. "不是装备."
         break
       end
     end
@@ -1377,7 +1377,7 @@ function Simulationcraft:GetSimcProfile(debugOutput, noBags, showMerchant, links
 
   -- sanity checks - if there's anything that makes the output completely invalid, punt!
   if specId==nil then
-    simcPrintError = "Error: You need to pick a spec!"
+    simcPrintError = "错误: 你需要选择一个专精!"
   end
 
   simulationcraftProfile = simulationcraftProfile .. '\n'

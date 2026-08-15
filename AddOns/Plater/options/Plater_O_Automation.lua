@@ -199,7 +199,7 @@ function platerInternal.CreateAutomationOptions()
 				Plater.RefreshAutoToggle()
 			end,
 			name = "OPTIONS_ENABLED",
-			desc = "When enabled, Plater will enable or disable friendly plates based on the settings below.",
+			desc = "启用后, Plater将根据下方设置自动启用或禁用友方姓名板.",
 			group = "combat_toggles",
 		},
 
@@ -298,7 +298,7 @@ function platerInternal.CreateAutomationOptions()
 				Plater.RefreshAutoToggle()
 			end,
 			name = L["OPTIONS_ENABLED"],
-			desc = "When enabled, Plater will enable or disable enemy plates based on the settings below.",
+			desc = "启用后, Plater将根据下方设置自动启用或禁用敌方姓名板.",
 			group = "combat_toggles",
 		},
 
@@ -374,7 +374,7 @@ function platerInternal.CreateAutomationOptions()
 				Plater.RefreshAutoToggle()
 			end,
 			name = "OPTIONS_ENABLED",
-			desc = "When enabled, Plater will enable or disable stacking nameplates based on the settings below.\n\n|cFFFFFF00 Important |r: only toggle on if 'Stacking Nameplates' is enabled in the General Settings tab.",
+			desc = "启用后, Plater将根据下方设置自动启用或禁用堆叠姓名板功能.\n\n|cFFFFFF00重要|r: 仅在通用设置标签页中开启'堆叠姓名板'功能时, 才应启用此项.",
 			group = "three",
 		},
 
@@ -448,7 +448,7 @@ function platerInternal.CreateAutomationOptions()
 				Plater.RefreshAutoToggle()
 			end,
 			name = "OPTIONS_ENABLED",
-			desc = "When enabled, Plater will enable or disable 'always show nameplates' based on the settings below.",
+			desc = "启用后, Plater将根据下方设置自动启用或禁用'始终显示姓名板'.",
 			group = "one",
 		},
 
@@ -514,7 +514,7 @@ function platerInternal.CreateAutomationOptions()
 
     auto_options.always_boxfirst = true
     auto_options.language_addonId = addonId
-    auto_options.Name = "Auto Options"
+    auto_options.Name = "自动选项"
     local startX, startY, heightSize = 10, platerInternal.optionsYStart, 755
 
     DF:BuildMenu(automationFrame, auto_options, startX, startY, heightSize, false, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template, platerInternal.OptionsGlobalCallback)

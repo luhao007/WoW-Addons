@@ -48,12 +48,58 @@ local CastBarTemplate = CreateFrame("Frame")
 local CastBarTemplate_MT = {__index = CastBarTemplate}
 
 local TimeFmt = Quartz3.Util.TimeFormat
+local ApplyFontStyle = Quartz3.Util.ApplyFontStyle
 
 local playerName = UnitName("player")
 
 local function call(obj, method, ...)
 	if type(obj.parent[method]) == "function" then
 		return obj.parent[method](obj.parent, obj, ...)
+	end
+end
+
+-- Cancel native timer animation and reclaim bar control
+local function CancelTimerAnimation(self)
+	if self.hasSecretTiming then
+		-- Reclaim value control and rebind the fill texture the native timer reset.
+		self.Bar:SetMinMaxValues(0, 1)
+		self.Bar:SetStatusBarTexture(media:Fetch("statusbar", self.config.texture))
+	end
+	self.hasSecretTiming = nil
+	self.durationObject = nil
+end
+
+function CastBarTemplate:CancelTimerAnimation()
+	CancelTimerAnimation(self)
+end
+
+-- Apply backdrop settings
+local function ApplyBackdropSettings(self, db, notInterruptible)
+	if notInterruptible and db.noInterruptChangeBorder then
+		self.backdrop.edgeFile = media:Fetch("border", db.noInterruptBorder)
+	else
+		self.backdrop.edgeFile = media:Fetch("border", db.border)
+	end
+	self.backdropInfo = self.backdrop
+	self:ApplyBackdrop()
+
+	if notInterruptible and db.noInterruptChangeBorder then
+		local r, g, b = unpack(db.noInterruptBorderColor)
+		self:SetBackdropBorderColor(r, g, b, db.noInterruptBorderAlpha)
+	else
+		local r, g, b = unpack(Quartz3.db.profile.bordercolor)
+		self:SetBackdropBorderColor(r, g, b, Quartz3.db.profile.borderalpha)
+	end
+
+	local br, bg, bb = unpack(Quartz3.db.profile.backgroundcolor)
+	self:SetBackdropColor(br, bg, bb, Quartz3.db.profile.backgroundalpha)
+end
+
+-- Common cleanup after cast ends
+local function CleanupCastEnd(self)
+	self.TimeText:SetText("")
+	if self.NoInterruptBorderOverlay then
+		self.NoInterruptBorderOverlay:Hide()
 	end
 end
 
@@ -75,6 +121,49 @@ local function OnUpdate(self)
 	local currentTime = GetTime()
 	local startTime, endTime, delay = self.startTime, self.endTime, self.delay
 	local db = self.config
+	
+	-- use duration object if available
+	if self.hasSecretTiming then
+		local durationObj = self.durationObject
+		if durationObj and durationObj.GetRemainingDuration then
+			local remaining = durationObj:GetRemainingDuration()
+			if remaining then
+				self.TimeText:SetFormattedText("%.1f", remaining)
+			else
+				self.TimeText:SetText("")
+			end
+			-- Animation is handled by the bar's native SetTimerDuration
+		else
+			self.TimeText:SetText("")
+		end
+
+		-- If still casting, check unit is still casting (handles out-of-range / missed STOP events)
+		-- If finished/fading, fall through to allow fadeOut animation below
+		if self.channeling or self.casting then
+			local stillCasting
+			if self.casting then
+				stillCasting = UnitCastingInfo(self.unit)
+			else
+				stillCasting = UnitChannelInfo(self.unit)
+			end
+
+			if not stillCasting then
+				-- Cast ended or unit went out of range
+				CancelTimerAnimation(self)
+				self.Bar:SetValue(self.casting and 1.0 or 0)
+				self.Bar:SetStatusBarColor(unpack(Quartz3.db.profile.completecolor))
+				self.casting, self.channeling = nil, nil
+				self.fadeOut = true
+				self.stopTime = currentTime
+				CleanupCastEnd(self)
+				-- Fall through to fadeOut block
+			else
+				if self.Spark then self.Spark:Hide() end
+				return
+			end
+		end
+	end
+	
 	if self.channeling or self.casting then
 		local perc, remainingTime, delayFormat, delayFormatTime
 		if self.casting then
@@ -110,6 +199,8 @@ local function OnUpdate(self)
 		end
 
 		if currentTime > endTime then
+			self.Bar:SetValue(self.casting and 1.0 or 0)
+			self.Bar:SetStatusBarColor(unpack(Quartz3.db.profile.completecolor))
 			self.casting, self.channeling = nil, nil
 			self.fadeOut = true
 			self.stopTime = currentTime
@@ -148,7 +239,7 @@ end
 -- Template Methods
 
 function CastBarTemplate:SetNameText(name)
-	if self.config.targetname and self.targetName and self.targetName ~= "" then
+	if self.config.targetname and self.targetName and (issecretvalue(self.targetName) or self.targetName ~= "") then
 		if self.config.targetnamestyle == "on" then
 			self.Text:SetFormattedText(L["%s on %s"], name, self.targetName)
 		else
@@ -160,33 +251,56 @@ function CastBarTemplate:SetNameText(name)
 end
 
 local function ToggleCastNotInterruptible(self, notInterruptible, init)
-	if self.unit == "player" and not init then return end
 	local db = self.config
 
-	if notInterruptible and db.noInterruptChangeColor then
-		self.Bar:SetStatusBarColor(unpack(db.noInterruptColor))
+	local isSecret = issecretvalue(notInterruptible)
+	if not isSecret and not notInterruptible then
+		notInterruptible = false
 	end
 
-	local r, g, b, a
-	if notInterruptible and db.noInterruptChangeBorder then
-		self.backdrop.edgeFile = media:Fetch("border", db.noInterruptBorder)
-		r,g,b = unpack(db.noInterruptBorderColor)
-		a = db.noInterruptBorderAlpha
-	else
-		self.backdrop.edgeFile = media:Fetch("border", db.border)
-		r,g,b = unpack(Quartz3.db.profile.bordercolor)
-		a = Quartz3.db.profile.borderalpha
+	if db.noInterruptChangeColor then
+		local nr, ng, nb = unpack(db.noInterruptColor)
+		local br, bg, bb = unpack(self.casting and Quartz3.db.profile.castingcolor or Quartz3.db.profile.channelingcolor)
+		self.Bar:GetStatusBarTexture():SetVertexColorFromBoolean(notInterruptible, CreateColor(nr, ng, nb, 1), CreateColor(br, bg, bb, 1))
 	end
 
-	-- apply new backdrop
-	self.backdropInfo = self.backdrop
-	self:ApplyBackdrop()
+	if isSecret then
+		-- Shield handling with SetAlphaFromBoolean
+		if self.Shield then
+			if not db.hideicon and db.noInterruptShield and self.Shield.SetAlphaFromBoolean then
+				self.Shield:Show()
+				self.Shield:SetAlphaFromBoolean(notInterruptible, 1, 0)
+			else
+				self.Shield:Hide()
+			end
+		end
 
-	-- setbackdrop colors
-	self:SetBackdropBorderColor(r, g, b, a)
+		-- Border overlay with SetAlphaFromBoolean
+		if self.NoInterruptBorderOverlay then
+			if db.noInterruptChangeBorder then
+				self.NoInterruptBorderOverlay.backdrop.edgeFile = media:Fetch("border", db.noInterruptBorder)
+				self.NoInterruptBorderOverlay.backdropInfo = self.NoInterruptBorderOverlay.backdrop
+				self.NoInterruptBorderOverlay:ApplyBackdrop()
+				local r, g, b = unpack(db.noInterruptBorderColor)
+				self.NoInterruptBorderOverlay:SetBackdropBorderColor(r, g, b, db.noInterruptBorderAlpha)
+				self.NoInterruptBorderOverlay:SetBackdropColor(0, 0, 0, 0)
+				self.NoInterruptBorderOverlay:Show()
+				self.NoInterruptBorderOverlay:SetAlphaFromBoolean(notInterruptible, 1, 0)
+			else
+				self.NoInterruptBorderOverlay:Hide()
+			end
+		end
 
-	r, g, b = unpack(Quartz3.db.profile.backgroundcolor)
-	self:SetBackdropColor(r, g, b, Quartz3.db.profile.backgroundalpha)
+		ApplyBackdropSettings(self, db)
+		self.lastNotInterruptible = notInterruptible
+		return
+	end
+
+	if self.NoInterruptBorderOverlay then
+		self.NoInterruptBorderOverlay:Hide()
+	end
+
+	ApplyBackdropSettings(self, db, notInterruptible)
 
 	if self.Shield then
 		if notInterruptible and db.noInterruptShield and not db.hideicon then
@@ -239,9 +353,17 @@ function CastBarTemplate:UNIT_SPELLCAST_START(event, unit, guid, spellID)
 		notInterruptible = false
 	end
 
-	local isChargeSpell = numStages and numStages > 0
+	-- endTime/numStages can be secret for other players' casts.
+	-- Revisit if Blizzard provides a proper API for empower duration with secrets.
+	local hasSecret = issecretvalue(startTime) or issecretvalue(endTime)
+	local isChargeSpell
+	if hasSecret then
+		isChargeSpell = numStages and (not issecretvalue(numStages) and numStages > 0 or false)
+	else
+		isChargeSpell = numStages and numStages > 0
+	end
 
-	if isChargeSpell then
+	if isChargeSpell and not hasSecret then
 		endTime = endTime + GetUnitEmpowerHoldAtMaxTime(self.unit)
 	end
 
@@ -253,17 +375,56 @@ function CastBarTemplate:UNIT_SPELLCAST_START(event, unit, guid, spellID)
 		self.casting, self.channeling, self.chargeSpell = nil, true, nil
 	end
 
-	startTime = startTime / 1000
-	endTime = endTime / 1000
-	self.startTime = startTime
-	self.endTime = endTime
+	-- Handle secret timing values
+	if hasSecret then
+		self.hasSecretTiming = true
+		
+		-- Try to get Duration object for animation
+		local durationObj
+		if self.channeling then
+			if UnitEmpoweredChannelDuration then durationObj = UnitEmpoweredChannelDuration(unit) end
+			if not durationObj and UnitChannelDuration then durationObj = UnitChannelDuration(unit) end
+		else
+			if UnitCastingDuration then durationObj = UnitCastingDuration(unit) end
+		end
+		
+		-- If we have a duration object and StatusBar supports SetTimerDuration
+		if durationObj and self.Bar.SetTimerDuration then
+			self.durationObject = durationObj
+			local direction = self.channeling and Enum.StatusBarTimerDirection.RemainingTime or Enum.StatusBarTimerDirection.ElapsedTime
+			self.Bar:SetMinMaxValues(0, 1)
+			self.Bar:SetTimerDuration(durationObj, Enum.StatusBarInterpolation.Immediate, direction)
+		else
+			-- Fallback: static bar position
+			self.durationObject = nil
+			self.Bar:SetMinMaxValues(0, 1)
+			self.Bar:SetValue(self.casting and 0.5 or 0.5)
+		end
+		
+		-- Store dummy values for compatibility
+		self.startTime = GetTime()
+		self.endTime = self.startTime + 1
+	else
+		self.hasSecretTiming = nil
+		self.durationObject = nil
+		startTime = startTime / 1000
+		endTime = endTime / 1000
+		self.startTime = startTime
+		self.endTime = endTime
+		self.Bar:SetMinMaxValues(0, 1)
+	end
 	self.delay = 0
 	self.fadeOut = nil
+	if guid then
+		self.castGUID = guid
+	end
 	self.numStages = numStages
 
 	self.Bar:SetStatusBarColor(unpack(self.casting and Quartz3.db.profile.castingcolor or Quartz3.db.profile.channelingcolor))
 
-	self.Bar:SetValue(self.casting and 0 or 1)
+	if not self.hasSecretTiming then
+		self.Bar:SetValue(self.casting and 0 or 1)
+	end
 	self:Show()
 	self:SetAlpha(db.alpha)
 
@@ -271,8 +432,11 @@ function CastBarTemplate:UNIT_SPELLCAST_START(event, unit, guid, spellID)
 
 	self.Spark:Show()
 
-	if (icon == "Interface\\Icons\\Temp" or icon == 136235) and Quartz3.db.profile.hidesamwise then
-		icon = 136243
+	-- Check Samwise icon - skip if icon is secret
+	if not issecretvalue(icon) then
+		if (icon == "Interface\\Icons\\Temp" or icon == 136235) and Quartz3.db.profile.hidesamwise then
+			icon = 136243
+		end
 	end
 	self.Icon:SetTexture(icon)
 
@@ -299,6 +463,8 @@ function CastBarTemplate:UNIT_SPELLCAST_STOP(event, unit)
 		return
 	end
 
+	CancelTimerAnimation(self)
+
 	self.Bar:SetValue(self.casting and 1.0 or 0)
 	self.Bar:SetStatusBarColor(unpack(Quartz3.db.profile.completecolor))
 
@@ -306,17 +472,29 @@ function CastBarTemplate:UNIT_SPELLCAST_STOP(event, unit)
 	self.fadeOut = true
 	self.stopTime = GetTime()
 
-	self.TimeText:SetText("")
-
+	CleanupCastEnd(self)
 	call(self, "UNIT_SPELLCAST_STOP", unit)
 end
 CastBarTemplate.UNIT_SPELLCAST_CHANNEL_STOP = CastBarTemplate.UNIT_SPELLCAST_STOP
 CastBarTemplate.UNIT_SPELLCAST_EMPOWER_STOP = CastBarTemplate.UNIT_SPELLCAST_STOP
 
-function CastBarTemplate:UNIT_SPELLCAST_FAILED(event, unit)
-	if self.channeling or self.casting or (unit ~= self.unit and not (self.unit == "player" and unit == "vehicle")) then
+function CastBarTemplate:UNIT_SPELLCAST_FAILED(event, unit, castGUID, spellID)
+	if unit ~= self.unit and not (self.unit == "player" and unit == "vehicle") then
 		return
 	end
+	if not self.castGUID or not castGUID then
+		return
+	end
+	if canaccessvalue(castGUID) and canaccessvalue(self.castGUID) then
+		if castGUID ~= self.castGUID then return end
+	elseif not (self.channeling or self.casting) then
+		return
+	end
+
+	CancelTimerAnimation(self)
+
+	self.casting, self.channeling, self.chargeSpell = nil, nil, nil
+	self.castGUID = nil
 	self.fadeOut = true
 	if not self.stopTime then
 		self.stopTime = GetTime()
@@ -324,8 +502,7 @@ function CastBarTemplate:UNIT_SPELLCAST_FAILED(event, unit)
 	self.Bar:SetValue(1.0)
 	self.Bar:SetStatusBarColor(unpack(Quartz3.db.profile.failcolor))
 
-	self.TimeText:SetText("")
-
+	CleanupCastEnd(self)
 	call(self, "UNIT_SPELLCAST_FAILED", unit)
 end
 
@@ -338,11 +515,13 @@ function CastBarTemplate:UNIT_SPELLCAST_INTERRUPTED(event, unit)
 	if not self.stopTime then
 		self.stopTime = GetTime()
 	end
+	
+	CancelTimerAnimation(self)
+	
 	self.Bar:SetValue(1.0)
 	self.Bar:SetStatusBarColor(unpack(Quartz3.db.profile.failcolor))
 
-	self.TimeText:SetText("")
-
+	CleanupCastEnd(self)
 	call(self, "UNIT_SPELLCAST_INTERRUPTED", unit)
 end
 
@@ -350,6 +529,12 @@ function CastBarTemplate:UNIT_SPELLCAST_DELAYED(event, unit)
 	if unit ~= self.unit and not (self.unit == "player" and unit == "vehicle") or call(self, "PreShowCondition", unit) then
 		return
 	end
+	
+	-- If we have secret timing, we can't calculate delays
+	if self.hasSecretTiming then
+		return
+	end
+	
 	local oldStart = self.startTime
 	local _, startTime, endTime
 	if self.casting and not self.chargeSpell then
@@ -360,6 +545,12 @@ function CastBarTemplate:UNIT_SPELLCAST_DELAYED(event, unit)
 
 	if not startTime or not endTime then
 		return self:Hide()
+	end
+
+	-- Check for secret values before arithmetic
+	if issecretvalue(startTime) or issecretvalue(endTime) then
+		self.hasSecretTiming = true
+		return
 	end
 
 	startTime = startTime / 1000
@@ -394,6 +585,7 @@ function CastBarTemplate:UNIT_SPELLCAST_NOT_INTERRUPTIBLE(event, unit)
 end
 
 function CastBarTemplate:UpdateUnit()
+	self.castGUID = nil
 	if UnitCastingInfo(self.unit) then
 		self:UNIT_SPELLCAST_START("UNIT_SPELLCAST_START", self.unit)
 	elseif UnitChannelInfo(self.unit) then
@@ -424,8 +616,6 @@ function CastBarTemplate:ApplySettings()
 
 	self:SetFrameStrata(db.strata)
 
-	ToggleCastNotInterruptible(self, self.lastNotInterruptible, true)
-
 	local iconwidth = db.h + db.icongap
 	local iconoffset = db.hideicon and 0 or (iconwidth/2 * (db.iconposition == "left" and 1 or -1))
 	local castbarwidth = db.hideicon and db.w or db.w-iconwidth
@@ -435,6 +625,8 @@ function CastBarTemplate:ApplySettings()
 	self.Bar:SetHeight(db.h)
 	self.Bar:SetStatusBarTexture(media:Fetch("statusbar", db.texture))
 	self.Bar:SetMinMaxValues(0, 1)
+
+	ToggleCastNotInterruptible(self, self.lastNotInterruptible, true)
 
 	if db.hidetimetext then
 		self.TimeText:Hide()
@@ -457,9 +649,7 @@ function CastBarTemplate:ApplySettings()
 			self.TimeText:SetJustifyH("RIGHT")
 		end -- L["Cast Start Side"], L["Cast End Side"] -- handled at runtime
 	end
-	self.TimeText:SetFont(media:Fetch("font", db.font), db.timefontsize)
-	self.TimeText:SetShadowColor( 0, 0, 0, 1)
-	self.TimeText:SetShadowOffset( 0.8, -0.8 )
+	ApplyFontStyle(self.TimeText, media:Fetch("font", db.font), db.timefontsize, db.fontOutline, db.fontShadowColor, db.fontShadowOffsetX, db.fontShadowOffsetY)
 	self.TimeText:SetTextColor(unpack(Quartz3.db.profile.timetextcolor))
 	self.TimeText:SetNonSpaceWrap(false)
 	self.TimeText:SetHeight(db.h)
@@ -472,6 +662,13 @@ function CastBarTemplate:ApplySettings()
 	end
 	local normaltimewidth = self.TimeText:GetStringWidth()
 	self.TimeText:SetText(temptext)
+
+	-- GetStringWidth() returns a secret value when the FontString has secret anchoring
+	-- (from StatusBar using SetTimerDuration during an active cast).
+	-- Fall back to a font-size-based heuristic (same pattern as EnemyCasts.lua).
+	if issecretvalue(normaltimewidth) then
+		normaltimewidth = db.timefontsize * (db.hidecasttime and 3 or 6)
+	end
 
 	if db.hidenametext then
 		self.Text:Hide()
@@ -503,9 +700,7 @@ function CastBarTemplate:ApplySettings()
 			end
 		end
 	end
-	self.Text:SetFont(media:Fetch("font", db.font), db.fontsize)
-	self.Text:SetShadowColor( 0, 0, 0, 1)
-	self.Text:SetShadowOffset( 0.8, -0.8 )
+	ApplyFontStyle(self.Text, media:Fetch("font", db.font), db.fontsize, db.fontOutline, db.fontShadowColor, db.fontShadowOffsetX, db.fontShadowOffsetY)
 	self.Text:SetTextColor(unpack(Quartz3.db.profile.spelltextcolor))
 	self.Text:SetNonSpaceWrap(false)
 	self.Text:SetHeight(db.h)
@@ -567,7 +762,7 @@ function CastBarTemplate:RegisterEvents()
 		self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
 		self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
 		self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
-		if self.unit ~= "player" and WoWRetail then
+		if WoWRetail then
 			self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
 			self:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
 		end
@@ -614,6 +809,51 @@ do
 		self:SetAlpha(self.config.alpha or 1.0)
 	end
 
+	-- Unlock demo: a fake cast cycle illustrating the configured colors, driven by a separate frame because the bars' own OnUpdate is permanent.
+	local demoBars = {}
+	local demoDriver = CreateFrame("Frame")
+	demoDriver:Hide()
+	demoDriver:SetScript("OnUpdate", function()
+		local gdb = Quartz3.db.profile
+		local now = GetTime()
+		for bar in pairs(demoBars) do
+			if not (bar.casting or bar.channeling) then
+				local db = bar.config
+				local hasNoInterrupt = db.noInterruptChangeColor or db.noInterruptChangeBorder or db.noInterruptShield
+				local t = (now - bar.demoStart) % (hasNoInterrupt and 6.6 or 4.6)
+				local value, color, timeText, text
+				if t < 2.0 then
+					value, color = t / 2.0, gdb.castingcolor
+					timeText = ("%.1f"):format(2.0 - t)
+				elseif t < 2.6 then
+					value, color, timeText = 1, gdb.completecolor, "0.0"
+				elseif t < 3.8 then
+					value, color = (t - 2.6) / 2.0, gdb.castingcolor
+					timeText = ("%.1f"):format(2.0 - (t - 2.6))
+				elseif t < 4.6 then
+					value, color, timeText = 0.6, gdb.failcolor, ""
+					text = L["INTERRUPTED (%s)"]:format(bar.unit)
+				else
+					value = (t - 4.6) / 2.0
+					color = db.noInterruptChangeColor and db.noInterruptColor or gdb.castingcolor
+					timeText = ("%.1f"):format(2.0 - (t - 4.6))
+				end
+
+				local inNoInterrupt = (hasNoInterrupt and t >= 4.6) and true or false
+				if inNoInterrupt ~= bar.demoNoInterrupt then
+					bar.demoNoInterrupt = inNoInterrupt
+					ToggleCastNotInterruptible(bar, inNoInterrupt)
+				end
+
+				bar.Bar:SetMinMaxValues(0, 1)
+				bar.Bar:SetValue(value)
+				bar.Bar:SetStatusBarColor(unpack(color))
+				bar.TimeText:SetText(timeText)
+				bar.Text:SetText(text or bar.unit)
+			end
+		end
+	end)
+
 	function CastBarTemplate:Unlock()
 		self:Show()
 		self:EnableMouse(true)
@@ -623,6 +863,9 @@ do
 		self.Hide = nothing
 		self.Icon:SetTexture("Interface\\Icons\\Temp")
 		self.Text:SetText(self.unit)
+		self.demoStart = GetTime()
+		demoBars[self] = true
+		demoDriver:Show()
 	end
 
 	function CastBarTemplate:Lock()
@@ -630,6 +873,15 @@ do
 		self:EnableMouse(false)
 		self:SetScript("OnDragStart", nil)
 		self:SetScript("OnDragStop", nil)
+		demoBars[self] = nil
+		if not next(demoBars) then
+			demoDriver:Hide()
+		end
+		if self.demoNoInterrupt then
+			self.demoNoInterrupt = nil
+			ToggleCastNotInterruptible(self, false)
+		end
+		self.Bar:SetStatusBarColor(unpack(Quartz3.db.profile.castingcolor))
 		if not (self.channeling or self.casting) then
 			self:Hide()
 		end
@@ -880,16 +1132,56 @@ do
 					values = lsmlist.font,
 					order = 399,
 				},
+				fontOutline = {
+					type = "select",
+					name = L["Font Outline"],
+					desc = L["Font Outline"],
+					values = {["SHADOW"] = L["Shadow"], [""] = L["None"], ["OUTLINE"] = L["Outline"], ["THICKOUTLINE"] = L["Thick Outline"]},
+					order = 400,
+				},
+				fontShadowColor = {
+					type = "color",
+					name = L["Shadow Color"],
+					desc = L["Shadow Color"],
+					hasAlpha = true,
+					get = function(info)
+						local bar = getBar(info)
+						return unpack(bar.config.fontShadowColor)
+					end,
+					set = function(info, r, g, b, a)
+						local bar = getBar(info)
+						bar.config.fontShadowColor = {r, g, b, a}
+						bar:ApplySettings()
+					end,
+					disabled = function(info) return getBar(info).config.fontOutline ~= "SHADOW" end,
+					order = 401,
+				},
+				fontShadowOffsetX = {
+					type = "range",
+					name = L["Shadow X Offset"],
+					desc = L["Shadow X Offset"],
+					min = -5, max = 5, step = 0.1,
+					disabled = function(info) return getBar(info).config.fontOutline ~= "SHADOW" end,
+					order = 402,
+				},
+				fontShadowOffsetY = {
+					type = "range",
+					name = L["Shadow Y Offset"],
+					desc = L["Shadow Y Offset"],
+					min = -5, max = 5, step = 0.1,
+					disabled = function(info) return getBar(info).config.fontOutline ~= "SHADOW" end,
+					order = 403,
+				},
 				nlfont = {
 					type = "description",
 					name = "",
-					order = 400,
+					order = 404,
 				},
 				hidenametext = {
 					type = "toggle",
 					name = L["Hide Spell Name"],
 					desc = L["Disable the text that displays the spell name"],
-					order = 401,
+					order = 405,
 				},
 				nametextposition = {
 					type = "select",
@@ -897,14 +1189,14 @@ do
 					desc = L["Set the alignment of the spell name text"],
 					values = {["left"] = L["Left"], ["right"] = L["Right"], ["center"] = L["Center (CastBar)"], ["centerback"] = L["Center (Backdrop)"]},
 					disabled = hidenametextoptions,
-					order = 404,
+					order = 406,
 				},
 				fontsize = {
 					type = "range",
 					name = L["Spell Name Font Size"],
 					desc = L["Set the size of the spell name text"],
 					min = 7, max = 20, step = 1,
-					order = 405,
+					order = 407,
 					disabled = hidenametextoptions,
 				},
 				nametextx = {
@@ -913,7 +1205,7 @@ do
 					desc = L["Adjust the X position of the spell name text"],
 					min = -35, max = 35, step = 1,
 					disabled = hidenametextoptions,
-					order = 406,
+					order = 408,
 				},
 				nametexty = {
 					type = "range",
@@ -921,7 +1213,7 @@ do
 					desc = L["Adjust the Y position of the name text"],
 					min = -35, max = 35, step = 1,
 					disabled = hidenametextoptions,
-					order = 407,
+					order = 409,
 				},
 				nltimetext = {
 					type = "description",
@@ -963,7 +1255,7 @@ do
 					desc = L["Adjust the X position of the time text"],
 					min = -35, max = 35, step = 1,
 					disabled = hidetimetextoptions,
-					order = 416,
+					order = 415,
 				},
 				timetexty = {
 					type = "range",
@@ -971,7 +1263,7 @@ do
 					desc = L["Adjust the Y position of the time text"],
 					min = -35, max = 35, step = 1,
 					disabled = hidetimetextoptions,
-					order = 417,
+					order = 416,
 				},
 				casttimecountup = {
 					type = "toggle",
@@ -1115,6 +1407,10 @@ Quartz3.CastBarTemplate.defaults = {
 	hidetimetext = false,
 	hidecasttime = false,
 	timefontsize = 12,
+	fontOutline = "SHADOW",
+	fontShadowColor = {0, 0, 0, 1},
+	fontShadowOffsetX = 0.8,
+	fontShadowOffsetY = -0.8,
 	targetname = false,
 	border = "Blizzard Tooltip",
 	nametextx = 3,
@@ -1122,11 +1418,11 @@ Quartz3.CastBarTemplate.defaults = {
 	timetextx = 3,
 	timetexty = 0,
 
-	noInterruptBorderChange = false,
+	noInterruptChangeBorder = false,
 	noInterruptBorder = "Tooltip enlarged",
-	noInterruptBorderColor = {0.71, 0.73, 0.71}, -- Default color chosen by playing around with settings, rounded to 2 significant digits
+	noInterruptBorderColor = {0.71, 0.73, 0.71},
 	noInterruptBorderAlpha = 1,
-	noInterruptColorChange = false,
+	noInterruptChangeColor = false,
 	noInterruptColor = {1.0, 0.49, 0},
 	noInterruptShield = true,
 }
@@ -1154,18 +1450,41 @@ function Quartz3.CastBarTemplate:new(parent, unit, name, localizedName, config)
 	bar:SetClampedToScreen(true)
 
 	bar.Bar      = Quartz3:CreateStatusBar(nil, bar) --CreateFrame("StatusBar", nil, bar)
-	bar.Text     = bar.Bar:CreateFontString(nil, "OVERLAY")
-	bar.TimeText = bar.Bar:CreateFontString(nil, "OVERLAY")
+	
+	-- TextFrame ensures text is always above bars and overlays
+	bar.TextFrame = CreateFrame("Frame", nil, bar)
+	bar.TextFrame:SetAllPoints(bar.Bar)
+	bar.TextFrame:SetFrameLevel(bar.Bar:GetFrameLevel() + 4)
+	
+	bar.Text     = bar.TextFrame:CreateFontString(nil, "OVERLAY")
+	bar.TimeText = bar.TextFrame:CreateFontString(nil, "OVERLAY")
 	bar.Icon     = bar.Bar:CreateTexture(nil, "ARTWORK")
 	bar.Spark    = bar.Bar:CreateTexture(nil, "OVERLAY")
-	if unit ~= "player" then
-		bar.Shield = bar.Bar:CreateTexture(nil, "ARTWORK")
-		bar.Shield:SetTexture("Interface\\CastingBar\\UI-CastingBar-Small-Shield")
-		bar.Shield:SetTexCoord(0, 36/256, 0, 1)
+	do
+		bar.Shield = CreateFrame("Frame", nil, bar.Bar)
+		bar.Shield:SetFrameLevel(bar.Bar:GetFrameLevel() + 2)
+		
+		local shieldTexture = bar.Shield:CreateTexture(nil, "ARTWORK")
+		shieldTexture:SetAllPoints(bar.Shield)
+		shieldTexture:SetTexture("Interface\\CastingBar\\UI-CastingBar-Small-Shield")
+		shieldTexture:SetTexCoord(0, 36/256, 0, 1)
+		
+		bar.Shield.Texture = shieldTexture
+		
 		bar.Shield:SetWidth(36)
 		bar.Shield:SetHeight(64)
 		bar.Shield:SetPoint("CENTER", bar.Icon, "CENTER", -2, -1)
 		bar.Shield:Hide()
+		
+		-- NoInterruptBorderOverlay: border-only frame, uses SetAlphaFromBoolean with notInterruptible
+		bar.NoInterruptBorderOverlay = CreateFrame("Frame", nil, bar, "BackdropTemplate")
+		bar.NoInterruptBorderOverlay:SetAllPoints(bar)
+		bar.NoInterruptBorderOverlay:SetFrameLevel(bar:GetFrameLevel() + 1)
+		bar.NoInterruptBorderOverlay.backdrop = {
+			edgeSize = 16,
+			insets = {left = 4, right = 4, top = 4, bottom = 4},
+		}
+		bar.NoInterruptBorderOverlay:Hide()
 	end
 
 	bar.lastNotInterruptible = false

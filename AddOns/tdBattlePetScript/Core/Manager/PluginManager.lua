@@ -18,6 +18,7 @@ function PluginManager:OnInitialize()
     self.moduleWatings = {}
     self.moduleEnableQueue = {}
     self.pluginsOrdered = {}
+    self.pluginsNotInstalled = {}
     self.db = Addon.db
 end
 
@@ -26,6 +27,7 @@ function PluginManager:OnEnable()
     self:InitOrders()
     self:UpdatePlugins()
     self:RebuildPluginOrders()
+    self:InitPluginsNotInstalled()
 
     C_Timer.After(0, function()
         self:LoadPlugins()
@@ -100,15 +102,41 @@ function PluginManager:UpdatePlugins()
 
     if found then
         C_Timer.After(1, function()
-            GUI:Notify({
-                text = L.DATABASE_UPDATE_BASE_TO_FIRSTENEMY_NOTIFICATION,
+            GUI:Notify{
+                text = L.PLUGINFIRSTENEMY_NOTIFY,
                 icon = ns.ICON,
                 OnAccept = function()
-                    Addon:OpenOptionsFrame()
+                    Addon:OpenOptionFrame('plugins')
                 end
-            })
+            }
         end)
     end
+end
+
+function PluginManager:InitPluginsNotInstalled()
+    local thirdPlugins = {
+        {
+            addon = 'Rematch',
+            plugin = 'tdBattlePetScript_Rematch',
+            url = 'https://www.curseforge.com/wow/addons/tdbattlepetscript-rematch'
+        }
+    }
+
+    local addons = {} do
+        for i = 1, GetNumAddOns() do
+            addons[GetAddOnInfo(i)] = true
+        end
+    end
+
+    for _, v in ipairs(thirdPlugins) do
+        if addons[v.pluginName or v.addon] and not addons[v.plugin] then
+            table.insert(self.pluginsNotInstalled, v)
+        end
+    end
+end
+
+function PluginManager:GetNotInstalledPlugins()
+    return self.pluginsNotInstalled
 end
 
 function PluginManager:RebuildPluginOrders()
@@ -183,9 +211,7 @@ end
 function PluginManager:EnableModuleWithAddonLoaded(module, addon)
     module:Disable()
 
-    module.requiredAddon = addon
-
-    if not C_AddOns.IsAddOnLoaded(addon) then
+    if not IsAddOnLoaded(addon) then
         self.moduleWatings[addon] = self.moduleWatings[addon] or {}
         tinsert(self.moduleWatings[addon], module)
 
@@ -204,7 +230,7 @@ function PluginManager:SetPluginAllowed(name, flag)
 
     C_Timer.After(0, function()
         local module = Addon:GetPlugin(name)
-        if flag and C_AddOns.IsAddOnLoaded(module.requiredAddon) then
+        if flag then
             module:Enable()
         else
             module:Disable()

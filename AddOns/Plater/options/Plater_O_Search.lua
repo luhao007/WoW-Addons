@@ -173,7 +173,7 @@ function platerInternal.CreateSearchOptions()
 
 		options.always_boxfirst = true
 		options.language_addonId = addonId
-		options.Name = "Plater Search Options"
+		options.Name = "Plater搜索选项"
 		DF:BuildMenuVolatile(searchFrame, options, startX, startY-30, heightSize+40, false, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template, platerInternal.OptionsGlobalCallback)
 	end)
 

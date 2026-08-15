@@ -1,12 +1,11 @@
 ## Interface: 120001, 120005, 120007, 120100
 ## Author: RagingAltoholic
-## Version: 3.0.1
+## Version: 2.0.6
 
 ## Title: Preydator
 ## Notes: Tracks Prey Hunt progress with customizable visuals and sounds.
 ## Title-zhCN: |cFFFFE00A<|r|cFF33937F特色|r|cFFFFE00A>|r|cFFFFFFFF狩猎助手|r |cFFFFE00APreydator|r
-
-## IconTexture: Interface\AddOns\Preydator\media\Preydator_64.png
+## Notes-zhCN: 通过可自定义的视觉效果与音效，追踪猎物狩猎的进度。
 
 ## Category-zhCN: |cFFFFE00A<|r|cFF33937F特色|r|cFFFFE00A>|r
 
@@ -32,18 +31,9 @@ Locales\zhCN.lua
 Locales\zhTW.lua
 
 Preydator.lua
-Core\SettingsRuntime.lua
-Core\SoundsRuntime.lua
-Core\PreyContextRuntime.lua
-Core\BarRuntime.lua
-Core\EventRuntime.lua
-Core\DebugRuntime.lua
 Modules\ProfileManager.lua
-Modules\SlashCommands.lua
-Modules\ReportWindow.lua
-Core\Alerts.lua
 Modules\Settings.lua
 Modules\EditMode.lua
 Modules\DebugInspect.lua
-Modules\PreyQuestData.lua
+Modules\CurrencyTracker.lua
 Modules\HuntScanner.lua

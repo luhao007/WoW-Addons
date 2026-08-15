@@ -20,7 +20,7 @@ local lineHeight = 19
 local createDebugOptionsFrame = function()
     --create a panel
     --parent, width, height, title, frameName, panelOptions
-    local debugOptionsPanel = DetailsFramework:CreateSimplePanel(UIParent, windowWidth/2, windowHeight, "Details! Debug Options", "DetailsDebugOptionsPanel", {})
+    local debugOptionsPanel = DetailsFramework:CreateSimplePanel(UIParent, windowWidth/2, windowHeight, "Details! 调试选项", "DetailsDebugOptionsPanel", {})
 
     detailsFramework:ApplyStandardBackdrop(debugOptionsPanel)
 
@@ -44,7 +44,7 @@ local createDebugOptionsFrame = function()
     local statusBar = DetailsFramework:CreateStatusBar(debugOptionsPanel)
     statusBar.text = statusBar:CreateFontString(nil, "overlay", "GameFontNormal")
     statusBar.text:SetPoint("left", statusBar, "left", 5, 0)
-    statusBar.text:SetText("By Terciob | Part of Details! Damage Meter")
+    statusBar.text:SetText("By Terciob | 部分Details! Damage Meter")
     DetailsFramework:SetFontSize(statusBar.text, 11)
     DetailsFramework:SetFontColor(statusBar.text, "gray")
 
@@ -57,13 +57,13 @@ local createDebugOptionsFrame = function()
             set = function(self, fixedparam, value)
                 Details.debug = value
                 if (not value) then
-                    Details:Msg("diagnostic mode has been turned off.")
+                    Details:Msg("诊断模式已关闭.")
                 else
-                    Details:Msg("diagnostic mode has been turned on.")
+                    Details:Msg("诊断模式已开启.")
                 end
             end,
-            name = "General Details! Debug",
-            desc = "General Details! Debug",
+            name = "通用Details! 测试",
+            desc = "通用Details! 测试",
         },
 
         {type = "blank"},
@@ -76,13 +76,13 @@ local createDebugOptionsFrame = function()
             set = function(self, fixedparam, value)
                 Details.debugnet = value
                 if (not value) then
-                    Details:Msg("net diagnostic mode has been turned off.")
+                    Details:Msg("网络诊断模式已关闭.")
                 else
-                    Details:Msg("net diagnostic mode has been turned on.")
+                    Details:Msg("网络诊断模式已开启.")
                 end
             end,
-            name = "Net Diagnostic Debug",
-            desc = "Net Diagnostic Debug",
+            name = "网络诊断调试",
+            desc = "网络诊断调试",
         },
 
         {type = "blank"},
@@ -96,8 +96,8 @@ local createDebugOptionsFrame = function()
             set = function(self, fixedparam, value)
                 Details222.Debug.SetMythicPlusDebugState()
             end,
-            name = "End of Mythic+ Panel Debug",
-            desc = "Panel shown at the end of a Mythic+ dungeon",
+            name = "结束大秘境面板调试",
+            desc = "大秘境结束时显示的面板",
         },
 
         {--mythic+ loot debug
@@ -109,8 +109,8 @@ local createDebugOptionsFrame = function()
             set = function(self, fixedparam, value)
                 Details222.Debug.SetMythicPlusLootDebugState()
             end,
-            name = "Loot Shown in the End of Mythic+ Panel Debug",
-            desc = "Loot shown in the Panel shown at the end of a Mythic+ dungeon",
+            name = "大秘境面板调试结束时显示的战利品",
+            desc = "大秘境结束时面板上显示的战利品",
         },
 
         {--mythic+ chart debug
@@ -121,8 +121,8 @@ local createDebugOptionsFrame = function()
             set = function(self, fixedparam, value)
                 Details222.Debug.MythicPlusChartWindowDebug = value
             end,
-            name = "Mythic+ Chart Save and Use The Same Chart Data",
-            desc = "When enabled, Details! will save the chart data from the next m+ run and use it when showing the chart panel. This save persist on saved variables and I don't think it is deleted, never.",
+            name = "大秘境图表保存和使用相同的图表数据",
+            desc = "启用后, Details! 将保存下一次大秘境完成时的图表数据并在显示图表面板时使用这些数据. 这个保存会在已保存的变量上持续存在, 我认为它不会被删除永远不会.",
             --/run Details.mythic_plus.last_mythicrun_chart = {}
         },
 
@@ -136,13 +136,13 @@ local createDebugOptionsFrame = function()
             set = function(self, fixedparam, value)
                 Details222.storage.IsDebug = value
                 if (Details222.storage.IsDebug) then
-                    Details:Msg("Storage Debug is ON.")
+                    Details:Msg("存储调试已开启.")
                 else
-                    Details:Msg("Storage Debug is OFF.")
+                    Details:Msg("存储调试已关闭.")
                 end
             end,
-            name = "Encounter Storage Debug",
-            desc = "Internal tests of the storage feature.",
+            name = "战斗存储调试",
+            desc = "存储功能内部测试.",
         },
 
         {type = "blank"},
@@ -155,18 +155,18 @@ local createDebugOptionsFrame = function()
             set = function(self, fixedparam, value)
                 Details222.Debug.DebugPets = value
                 if (Details222.Debug.DebugPets) then
-                    Details:Msg("Pet Debug is ON.")
+                    Details:Msg("宠物调试已开启.")
                     Details:ShowCleuDebugWindow(function(token, who_serial, who_name, who_flags, target_serial, target_name, target_flags, A1, A2, A3)
                         if (token == "SPELL_SUMMON") then
                             return true
                         end
                     end)
                 else
-                    Details:Msg("Pet Debug is OFF.")
+                    Details:Msg("宠物调试已关闭.")
                 end
             end,
-            name = "General Pet Debug",
-            desc = "General Pet Debug",
+            name = "通用宠物调试",
+            desc = "通用宠物调试",
         },
 
         {--pet debug
@@ -177,7 +177,7 @@ local createDebugOptionsFrame = function()
             set = function(self, fixedparam, value)
                 Details222.Debug.DebugPlayerPets = value
                 if (Details222.Debug.DebugPlayerPets) then
-                    Details:Msg("Player Pet Debug is ON.")
+                    Details:Msg("玩家宠物调试已开启.")
                     Details:ShowCleuDebugWindow(function(token, who_serial, sourceName, who_flags, target_serial, target_name, target_flags, A1, A2, A3)
                         if (token == "SPELL_SUMMON") then
                             if (sourceName == Details.playername) then
@@ -186,18 +186,18 @@ local createDebugOptionsFrame = function()
                         end
                     end)
                 else
-                    Details:Msg("Player Pet Debug is OFF.")
+                    Details:Msg("玩家宠物调试已关闭.")
                 end
             end,
-            name = "Player Pets Debug",
-            desc = "Player Pets Debug",
+            name = "玩家宠物调试",
+            desc = "玩家宠物调试",
         },
     }
 
     --/run Details:GetWindow(1):GetActorInfoFromLineIndex(3)
 
     --create a label with the text "actor info from window and line index"
-    local actorInfoLabel = detailsFramework:CreateLabel(debugOptionsPanel, "Get Actor Info From Window 'X' and Line Index 'X'", 12)
+    local actorInfoLabel = detailsFramework:CreateLabel(debugOptionsPanel, "从窗口 'X' 和行索引 'X' 获取角色信息", 12)
     actorInfoLabel:SetPoint("bottomleft", debugOptionsPanel, "bottomleft", 5, 50)
 
     local instanceIdEntry = detailsFramework:CreateTextEntry(debugOptionsPanel, function()end, 20, 20, _, _, _, detailsFramework:GetTemplate("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
@@ -289,13 +289,13 @@ function Details:ShowCleuDebugWindow(filterFunction)
         ---@type df_headercolumndata[]
         local headerTable = {
 			{text = "", width = 20},
-			{text = "Source Name", width = 150},
-			{text = "Spell Name", width = 150},
-			{text = "Pet Name", width = 150},
-			{text = "Spell ID", width = 50},
-			{text = "Data 1", width = 150},
-			{text = "Data 2", width = 150},
-			{text = "Data 3", width = 150},
+			{text = "来源名称", width = 150},
+			{text = "法术名称", width = 150},
+			{text = "宠物名称", width = 150},
+			{text = "法术 ID", width = 50},
+			{text = "数据 1", width = 150},
+			{text = "数据 2", width = 150},
+			{text = "数据 3", width = 150},
         }
 
 		local headerOptions = {
@@ -331,7 +331,7 @@ function Details:ShowCleuDebugWindow(filterFunction)
                                 line.data2Text:SetText(petData.petName)
                                 line.data3Text:SetText(petData.petFlags)
                             else
-                                line.data1Text:SetText("Pet not found")
+                                line.data1Text:SetText("未找到宠物")
                                 line.data2Text:SetText("")
                                 line.data3Text:SetText("")
                             end

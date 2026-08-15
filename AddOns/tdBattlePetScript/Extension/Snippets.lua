@@ -76,12 +76,7 @@ do
             end
 
             local opts = Condition.opts[v]
-
-            local requiresOwner = opts.owner == 'required'
-            local forbidsOwner = opts.owner == 'not-allowed'
-            local hasOwner = not not owner
-
-            if (requiresOwner and not hasOwner) or (forbidsOwner and hasOwner) then
+            if not opts.owner ~= not owner and v ~= 'round' then
                 return false
             end
             if opts.pet and not pet then
@@ -232,7 +227,7 @@ local function fillPet(list, owner)
 end
 
 Snippets.Action.use = function(list)
-    return fillAbility(list, Enum.BattlePetOwner.Ally, C_PetBattles.GetActivePet(Enum.BattlePetOwner.Ally))
+    return fillAbility(list, LE_BATTLE_PET_ALLY, C_PetBattles.GetActivePet(LE_BATTLE_PET_ALLY))
 end
 
 Snippets.Action.ability = Snippets.Action.use
@@ -248,15 +243,15 @@ local function fillNext(list, column)
 end
 
 Snippets.Action.change = function(list)
-    return fillNext(list, fillPet(list, Enum.BattlePetOwner.Ally))
+    return fillNext(list, fillPet(list, LE_BATTLE_PET_ALLY))
 end
 
 Snippets.Condition.enemy = function(list)
-    return fillPet(list, Enum.BattlePetOwner.Enemy)
+    return fillPet(list, LE_BATTLE_PET_ENEMY)
 end
 
 Snippets.Condition.ally = function(list)
-    return fillPet(list, Enum.BattlePetOwner.Ally)
+    return fillPet(list, LE_BATTLE_PET_ALLY)
 end
 
 Snippets.Condition.self = Snippets.Condition.ally

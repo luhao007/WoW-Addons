@@ -202,35 +202,35 @@ local spellContainerColumnData = {
 	{name = "target", width = 22, label = "", align = "left", enabled = true, offset = columnOffset},
 	{name = "rank", label = "#", width = 16, align = "center", enabled = true, offset = 6, dataType = "number"},
 	{name = "expand", label = "^", width = 16, align = "left", enabled = true, offset = -4}, --maybe -3
-	{name = "name", label = "spell name", width = 231, align = "left", enabled = true, offset = columnOffset},
-	{name = "amount", label = "total", key = "total", selected = true, width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset},
-	{name = "persecond", label = "ps", key = "total", width = 50, align = "left", enabled = false, canSort = true, sortKey = "ps", offset = columnOffset, order = "DESC", dataType = "number"},
+	{name = "name", label = "法术名字", width = 231, align = "left", enabled = true, offset = columnOffset},
+	{name = "amount", label = "总计", key = "total", selected = true, width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset},
+	{name = "persecond", label = "每秒", key = "total", width = 50, align = "left", enabled = false, canSort = true, sortKey = "ps", offset = columnOffset, order = "DESC", dataType = "number"},
 	{name = "percent", label = "%", key = "total", width = 50, align = "left", enabled = true, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
-	{name = "casts", label = "casts", key = "casts", width = 40, align = "left", enabled = false, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
-	{name = "critpercent", label = "crit %", key = "critpercent", width = 40, align = "left", enabled = true, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
-	{name = "hits", label = "hits", key = "counter", width = 40, align = "left", enabled = true, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
-	{name = "castavg", label = "cast avg", key = "castavg", width = 50, align = "left", enabled = false, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
-	{name = "uptime", label = "uptime", key = "uptime", width = 45, align = "left", enabled = true, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
-	{name = "overheal", label = "overheal", key = "overheal", width = 70, align = "left", enabled = true, canSort = true, order = "DESC", dataType = "number", attribute = DETAILS_ATTRIBUTE_HEAL, offset = columnOffset},
-	{name = "absorbed", label = "absorbed", key = "healabsorbed", width = 55, align = "left", enabled = false, canSort = true, order = "DESC", dataType = "number", attribute = DETAILS_ATTRIBUTE_HEAL, offset = columnOffset},
+	{name = "casts", label = "施法", key = "casts", width = 40, align = "left", enabled = false, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
+	{name = "critpercent", label = "爆击 %", key = "critpercent", width = 40, align = "left", enabled = true, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
+	{name = "hits", label = "命中", key = "counter", width = 40, align = "left", enabled = true, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
+	{name = "castavg", label = "平均施法", key = "castavg", width = 50, align = "left", enabled = false, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
+	{name = "uptime", label = "运行时间", key = "uptime", width = 45, align = "left", enabled = true, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
+	{name = "overheal", label = "过量治疗", key = "overheal", width = 70, align = "left", enabled = true, canSort = true, order = "DESC", dataType = "number", attribute = DETAILS_ATTRIBUTE_HEAL, offset = columnOffset},
+	{name = "absorbed", label = "吸收", key = "healabsorbed", width = 55, align = "left", enabled = false, canSort = true, order = "DESC", dataType = "number", attribute = DETAILS_ATTRIBUTE_HEAL, offset = columnOffset},
 }
 
 local targetContainerColumnData = {
 	{name = "icon", width = 22, label = "", align = "left", enabled = true, offset = columnOffset},
 	{name = "rank", label = "#", width = 20, align = "left", enabled = true, offset = columnOffset},
-	{name = "name", label = "name", width = 185, align = "left", enabled = true, offset = columnOffset},
-	{name = "amount", label = "total", key = "total", selected = true, width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset},
-	{name = "overheal", label = "overheal", key = "overheal", width = 70, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset, attribute = DETAILS_ATTRIBUTE_HEAL},
+	{name = "name", label = "名字", width = 185, align = "left", enabled = true, offset = columnOffset},
+	{name = "amount", label = "总计", key = "total", selected = true, width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset},
+	{name = "overheal", label = "过量治疗", key = "overheal", width = 70, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset, attribute = DETAILS_ATTRIBUTE_HEAL},
 	{name = "percent", label = "%", key = "total", width = 50, align = "left", enabled = true, canSort = true, offset = columnOffset, order = "DESC", dataType = "number"},
 }
 spellsTab.targetContainerColumnData = targetContainerColumnData
 
 local phaseContainerColumnData = {
 	{name = "icon", width = 22, label = "", align = "left", enabled = true, offset = columnOffset},
-	{name = "name", label = "name", width = 90, align = "left", enabled = true, offset = columnOffset},
+	{name = "name", label = "名字", width = 90, align = "left", enabled = true, offset = columnOffset},
 	{name = "rank", label = "#", width = 30, align = "left", enabled = true, offset = columnOffset},
-	{name = "amount", label = "total", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset, selected = true},
-	{name = "persecond", label = "ps", key = "total", width = 44, align = "left", enabled = true, canSort = true, sortKey = "ps", dataType = "number", order = "DESC", offset = columnOffset},
+	{name = "amount", label = "总计", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset, selected = true},
+	{name = "persecond", label = "每秒", key = "total", width = 44, align = "left", enabled = true, canSort = true, sortKey = "ps", dataType = "number", order = "DESC", offset = columnOffset},
 	{name = "percent", label = "%", key = "total", width = 44, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset},
 }
 spellsTab.phaseContainerColumnData = phaseContainerColumnData
@@ -239,9 +239,9 @@ spellsTab.phaseContainerColumnData = phaseContainerColumnData
 local genericContainerLeftColumnData = {
 	{name = "icon", width = 22, label = "", align = "left", enabled = true, offset = columnOffset},
 	{name = "rank", label = "#", width = 30, align = "left", enabled = true, offset = columnOffset},
-	{name = "name", label = "name", width = 200, align = "left", enabled = true, offset = columnOffset},
-	{name = "amount", label = "total", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset, selected = true},
-	{name = "persecond", label = "ps", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "ps", dataType = "number", order = "DESC", offset = columnOffset},
+	{name = "name", label = "名字", width = 200, align = "left", enabled = true, offset = columnOffset},
+	{name = "amount", label = "总计", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset, selected = true},
+	{name = "persecond", label = "每秒", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "ps", dataType = "number", order = "DESC", offset = columnOffset},
 	{name = "percent", label = "%", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset},
 }
 spellsTab.genericContainerLeftColumnData = genericContainerLeftColumnData
@@ -250,9 +250,9 @@ spellsTab.genericContainerLeftColumnData = genericContainerLeftColumnData
 local genericContainerRightColumnData = {
 	{name = "icon", width = 22, label = "", align = "left", enabled = true, offset = columnOffset},
 	{name = "rank", label = "#", width = 30, align = "left", enabled = true, offset = columnOffset},
-	{name = "name", label = "name", width = 190, align = "left", enabled = true, offset = columnOffset},
-	{name = "amount", label = "total", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset, selected = true},
-	{name = "persecond", label = "ps", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset},
+	{name = "name", label = "名字", width = 190, align = "left", enabled = true, offset = columnOffset},
+	{name = "amount", label = "总计", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset, selected = true},
+	{name = "persecond", label = "每秒", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "ps", dataType = "number", order = "DESC", offset = columnOffset},
 	{name = "percent", label = "%", key = "total", width = 50, align = "left", enabled = true, canSort = true, sortKey = "total", dataType = "number", order = "DESC", offset = columnOffset},
 }
 spellsTab.genericContainerRightColumnData = genericContainerRightColumnData
@@ -639,7 +639,7 @@ function spellsTab.OnCreateTabCallback(tabButton, tabFrame) --~init
 	createReportOverlay(spellsTab.GetPhaseScrollFrame())
 	createReportOverlay(spellsTab.GetGenericScrollFrame())
 
-	local reportButton = DF:CreateButton(tabFrame, onClickReportButton, 130, 18, "Report", 1, 2) --will have a text?
+	local reportButton = DF:CreateButton(tabFrame, onClickReportButton, 130, 18, "报告", 1, 2) --will have a text?
 	reportButton:SetPoint("right", optionsButton, "left", -5, 0)
 	reportButton.textsize = 12
 	reportButton.textcolor = "DETAILS_STATISTICS_ICON"
@@ -828,7 +828,7 @@ function spellsTab.monta_relatorio(botao) --deprecated?
     local tabFrame = spellsTab.TabFrame
 
 	if (not player) then
-		Details:Msg("Player not found.")
+		Details:Msg("玩家未找到.")
 		return
 	end
 

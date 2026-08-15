@@ -139,7 +139,7 @@ function itemLevelCore:CalcItemLevel(unitid, guid, shout)
 		--register
 		if (average > 0) then
 			if (shout) then
-				Details:Msg(UnitName(unitid) .. " item level: " .. average)
+				Details:Msg(UnitName(unitid) .. " 物品等级: " .. average)
 			end
 
 			if (average > CONST_MIN_ILEVEL_TO_STORE) then
@@ -186,7 +186,7 @@ function itemLevelCore:CalcItemLevel(unitid, guid, shout)
 			if (type(itemLevelCore.forced_inspects [guid].callback) == "function") then
 				local okey, errortext = pcall(itemLevelCore.forced_inspects[guid].callback, guid, unitid, itemLevelCore.forced_inspects[guid].param1, itemLevelCore.forced_inspects[guid].param2)
 				if (not okey) then
-					Details:Msg("Error on QueryInspect callback: " .. errortext)
+					Details:Msg("QueryInspect回调错误: " .. errortext)
 				end
 			end
 			itemLevelCore.forced_inspects [guid] = nil

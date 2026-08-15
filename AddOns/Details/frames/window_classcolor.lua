@@ -143,8 +143,8 @@ function Details:OpenClassColorsConfig()
                 values = function()
                     return buildColorList("damage")
                 end,
-                name = "Damage",
-                desc = "Damage",
+                name = "伤害",
+                desc = "伤害",
             },
             {--heal
                 type = "select",
@@ -152,8 +152,8 @@ function Details:OpenClassColorsConfig()
                 values = function()
                     return buildColorList("heal")
                 end,
-                name = "Heal",
-                desc = "Heal",
+                name = "治疗",
+                desc = "治疗",
             },
             {--friendlyfire
                 type = "select",
@@ -161,8 +161,8 @@ function Details:OpenClassColorsConfig()
                 values = function()
                     return buildColorList("friendlyfire")
                 end,
-                name = "Friendly Fire",
-                desc = "Friendly Fire",
+                name = "队友误伤",
+                desc = "队友误伤",
             },
             {--cooldown
                 type = "select",
@@ -170,8 +170,8 @@ function Details:OpenClassColorsConfig()
                 values = function()
                     return buildColorList("cooldown")
                 end,
-                name = "Cooldown",
-                desc = "Cooldown",
+                name = "CD",
+                desc = "CD",
             },
             {--debuff
                 type = "select",
@@ -202,7 +202,7 @@ function Details:OpenClassColorsConfig()
 
         DetailsFramework:BuildMenu(panel, deathLogOptions, 5, -315, 700, true, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template)
 
-        local deathLogColorsLabel = DF:CreateLabel(panel, "Colors on Death Log:", 12, "yellow")
+        local deathLogColorsLabel = DF:CreateLabel(panel, "死亡日志上的颜色:", 12, "yellow")
         deathLogColorsLabel:SetPoint("topleft", panel, "topleft", 5, -295)
     end
 

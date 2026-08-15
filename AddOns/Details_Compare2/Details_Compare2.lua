@@ -4,7 +4,7 @@ do
 	local Details = Details
 
 	if (not Details) then
-		print("Details! Not Found.")
+		print ("Details! 未找到.")
 		return
 	end
 
@@ -156,7 +156,7 @@ do
 	local compareTwo = Details:NewPluginObject("Details_Compare2", _G.DETAILSPLUGIN_ALWAYSENABLED)
 
 	--> set the description
-	compareTwo:SetPluginDescription("Replaces the default comparison window on the player breakdown.")
+	compareTwo:SetPluginDescription("替换玩家默认比较窗口.")
 
 	local sortByTotalKey = function(t1, t2)
 		return t1.total > t2.total
@@ -401,7 +401,7 @@ do
 			--cast line
 			tooltip.casts_label = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.casts_label:SetPoint("topleft", tooltip, "topleft", x_start, -2 +(y*0))
-			tooltip.casts_label:SetText("Casts:")
+			tooltip.casts_label:SetText ("施法:")
 			tooltip.casts_label:SetJustifyH("left")
 			tooltip.casts_label2 = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.casts_label2:SetPoint("topright", tooltip, "topright", -x_start, -2 +(y*0))
@@ -415,7 +415,7 @@ do
 			--hits
 			tooltip.hits_label = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.hits_label:SetPoint("topleft", tooltip, "topleft", x_start, -14 +(y*1))
-			tooltip.hits_label:SetText("Hits:")
+			tooltip.hits_label:SetText ("命中:")
 			tooltip.hits_label:SetJustifyH("left")
 			tooltip.hits_label2 = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.hits_label2:SetPoint("topright", tooltip, "topright", -x_start, -14 +(y*1))
@@ -429,7 +429,7 @@ do
 			--average
 			tooltip.average_label = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.average_label:SetPoint("topleft", tooltip, "topleft", x_start, -26 +(y*2))
-			tooltip.average_label:SetText("Average:")
+			tooltip.average_label:SetText ("平均:")
 			tooltip.average_label:SetJustifyH("left")
 			tooltip.average_label2 = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.average_label2:SetPoint("topright", tooltip, "topright", -x_start, -26 +(y*2))
@@ -443,7 +443,7 @@ do
 			--critical
 			tooltip.crit_label = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.crit_label:SetPoint("topleft", tooltip, "topleft", x_start, -38 +(y*3))
-			tooltip.crit_label:SetText("Critical:")
+			tooltip.crit_label:SetText ("爆击:")
 			tooltip.crit_label:SetJustifyH("left")
 			tooltip.crit_label2 = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.crit_label2:SetPoint("topright", tooltip, "topright", -x_start, -38 +(y*3))
@@ -457,7 +457,7 @@ do
 			--uptime
 			tooltip.uptime_label = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.uptime_label:SetPoint("topleft", tooltip, "topleft", x_start, -50 +(y*4))
-			tooltip.uptime_label:SetText("Uptime:")
+			tooltip.uptime_label:SetText ("运行时间:")
 			tooltip.uptime_label:SetJustifyH("left")
 			tooltip.uptime_label2 = tooltip:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 			tooltip.uptime_label2:SetPoint("topright", tooltip, "topright", -x_start, -50 +(y*4))
@@ -535,7 +535,7 @@ do
 					local minutos, segundos = floor(spell.uptime / 60), floor(spell.uptime % 60)
 					uptime = spell.uptime
 					tooltip.uptime_label2:SetText(fullPercent)
-					tooltip.uptime_label3:SetText(minutos .. "m " .. segundos .. "s")
+					tooltip.uptime_label3:SetText(minutos .. "分 " .. segundos .. "秒")
 
 					detailsFramework:SetFontColor(tooltip.uptime_label2, "gray")
 					detailsFramework:SetFontColor(tooltip.uptime_label3, "white")
@@ -656,7 +656,7 @@ do
 					local minutos, segundos = floor(spell.uptime / 60), floor(spell.uptime % 60)
 					uptime = spell.uptime
 					tooltip.uptime_label2:SetText(getPercentComparison(mainAuraUptime, uptime))
-					tooltip.uptime_label3:SetText(minutos .. "m " .. segundos .. "s")
+					tooltip.uptime_label3:SetText(minutos .. "分 " .. segundos .. "秒")
 
 					detailsFramework:SetFontColor(tooltip.uptime_label2, "white")
 					detailsFramework:SetFontColor(tooltip.uptime_label3, "white")
@@ -1423,7 +1423,7 @@ do
 			---@type df_radiooptions[]
 			local mainTabSelectorRadioOptions = {
 				{
-					name = "Compare Same Spec", --localize-me
+					name = "相同专精比较", --localize-me
 					set = function()end,
 					param = "player",
 					get = function() return compareTwo.db.compare_type == CONST_COMPARETYPE_SPEC end,
@@ -1436,7 +1436,7 @@ do
 					mask = [[Interface\COMMON\common-iconmask]],
 				},
 				{
-					name = "Compare Segments", --localize-me
+					name = "分段比较", --localize-me
 					set = function()end,
 					param = "segment",
 					get = function() return compareTwo.db.compare_type == CONST_COMPARETYPE_SEGMENT end,

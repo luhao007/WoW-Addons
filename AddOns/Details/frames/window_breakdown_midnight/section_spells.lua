@@ -539,7 +539,7 @@ function breakdownMidnight.SpellScrollInit(sectionFrame, windowFrame)
     noDataPanel:SetAllPoints()
     local noDataText = noDataPanel:CreateFontString("$parentNoDataText", "overlay", "GameFontNormal")
     noDataText:SetPoint("center", noDataPanel, "center", 0, 0)
-    noDataText:SetText("No data available or data is secret value.")
+    noDataText:SetText("无可用数据或数据为隐藏值.")
     detailsFramework:SetFontSize(noDataText, 14)
     spellScroll.NoDataPanel = noDataPanel
     spellScroll.NoDataText = noDataText

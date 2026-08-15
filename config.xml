@@ -697,6 +697,10 @@
 				<Title>户外</Title>
 				<TitleExtra>卡兹阿加</TitleExtra>
 			</SubAddon>
+			<SubAddon name="DBM-Lairs-Midnight">
+				<Title>巢穴</Title>
+				<TitleExtra>至暗之夜</TitleExtra>
+			</SubAddon>
 			<SubAddon name="DBM-Midnight">
 				<Title>至暗之夜</Title>
 			</SubAddon>
@@ -1323,6 +1327,10 @@
 		<Title>黑手检测</Title>
 		<Category>功能</Category>
 	</Addon>
+	<Addon name="LoonBestInSlot">
+		<Title>BIS装备提示</Title>
+		<Category>收藏</Category>
+	</Addon>
 	<Addon name="MailLogger">
 		<Title>邮件交易记录</Title>
 		<Category>功能</Category>
@@ -1844,6 +1852,11 @@
 		<Category>界面</Category>
 	</Addon>
 	<Addon name="TinyTooltip-Reforged">
+		<Title>鼠标提示增强</Title>
+		<Notes>在鼠标提示中显示更多信息，并可选择鼠标提示窗口的位置</Notes>
+		<Category>界面</Category>
+	</Addon>
+	<Addon name="TinyTooltip-Remake">
 		<Title>鼠标提示增强</Title>
 		<Notes>在鼠标提示中显示更多信息，并可选择鼠标提示窗口的位置</Notes>
 		<Category>界面</Category>

@@ -305,7 +305,7 @@ function private.GetStackInfo(msg, thread)
 	local stackFrames = private.GetStackFrames(thread)
 	local startIndex = nil
 	for i, frame in ipairs(stackFrames) do
-		local prevFrame = stackFrames[i - 1]
+		local prevFrame = stackFrames[i-1]
 		if prevFrame and strfind(frame.file, "LibTSMClass%.lua") then
 			-- TODO: Ignore stack frames from the class code's wrapper function
 			if frame.func ~= "?" and prevFrame.func and not strmatch(frame.func, "^.+:[0-9]+$") and strmatch(prevFrame.func, "^.+:[0-9]+$") then
@@ -382,7 +382,7 @@ function private.GetStackFrame(level, thread)
 	end
 	stackLine = gsub(stackLine, "^%[string \"@([^%.]+%.lua)\"%]", "%1")
 	stackLine = gsub(stackLine, "^%[(Interface[^%.]+%.lua)%]", "%1")
-	local locals = nil
+	local locals = not thread and Debug.GetLocals(level) or nil
 	stackLine = gsub(stackLine, "%.%.%.T?r?a?d?e?S?k?i?l?l?M?a?ster([_A-Za-z]*[\\/])", "TradeSkillMaster%1")
 	stackLine = gsub(stackLine, "%.%.%.", "")
 	stackLine = gsub(stackLine, "in function '([^']+)'", "in function <%1>")

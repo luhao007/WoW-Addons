@@ -72,10 +72,10 @@ end
 function MinArch:DblClick(button, down)
     -- Check if casting is enabled at all
     if button == buttonName[MinArch.db.profile.dblClick.button] then
-        Common:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('右键按下', MINARCH_MSG_DEBUG)
 
         if not MinArch.db.profile.surveyOnDoubleClick then
-            Common:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
+            Common:DisplayStatusMessage('不能施法: 在设置中禁用', MINARCH_MSG_DEBUG)
             return false
         end
         if prevTime then
@@ -84,14 +84,14 @@ function MinArch:DblClick(button, down)
 
             -- print(prevTime, clickTime, diff, diff2, threshold);
             if diff <= threshold and diff2 > threshold then
-                Common:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
+                Common:DisplayStatusMessage('预支范围内的双击', MINARCH_MSG_DEBUG)
                 clickTime = GetTime();
                 if (Common:CanCast()) then
                     if ( IsMouselooking() ) then
                         MouselookStop();
                     end
 
-                    Common:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage('应处于施放状态', MINARCH_MSG_DEBUG)
                     SetOverrideBindingClick(MinArch.hiddenButton, true, buttonId[MinArch.db.profile.dblClick.button], "MinArchHiddenSurveyButton");
                 end
             end

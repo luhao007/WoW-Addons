@@ -38,7 +38,7 @@ local habilidade_misc 	=	_detalhes.habilidade_misc
 			return habilidade_misc.NovaTabela
 		end
 
-		error("GetSpellTableFuncCreator: containerType is invalid: " .. tostring(containerType))
+		error("GetSpellTableFuncCreator: containerType无效: " .. tostring(containerType))
 	end
 
 	---create a new spellcontainer

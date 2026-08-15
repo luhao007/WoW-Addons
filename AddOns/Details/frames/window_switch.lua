@@ -107,7 +107,7 @@ function Details222.CreateAllDisplaysFrame()
 				elseif (Details.SoloTables.NameTable [self.pluginName]) then
 					Details.SoloTables:EnableSoloMode(instance, self.pluginName)
 				else
-					Details:Msg("Plugin not found.")
+					Details:Msg("未找到插件.")
 				end
 
 				allDisplaysFrame:Hide()
@@ -289,7 +289,7 @@ function Details222.CreateAllDisplaysFrame()
 				title_icon:SetSize(16, 16)
 				local title_str = allDisplaysFrame:CreateFontString(nil, "overlay", "GameFontNormal")
 				title_str:SetPoint("left", title_icon, "right", 2, 0)
-				title_str:SetText("Scripts")
+				title_str:SetText("脚本")
 
 				title_icon:SetPoint("topleft", allDisplaysFrame.x, allDisplaysFrame.y)
 				allDisplaysFrame.y = allDisplaysFrame.y - 20
@@ -991,13 +991,13 @@ function Details:FastSwitch(button, bookmark, bookmarkNumber, selectNew)
 			if (isAvailable) then
 				Details.RaidTables:EnableRaidMode(Details.switch.current_instancia, bookmark.sub_atributo)
 			else
-				Details:Msg("plugin already in use in another window. If you are wondering where, check the Orange Gear > Window Control.") --localize-me
+				Details:Msg("在另一个窗口中已经在使用的插件. 如果你想知道在哪里，请查看橙色齿轮>窗口控制.") --localize-me
 			end
 
 		elseif (Details.SoloTables.NameTable [bookmark.sub_atributo]) then
 			Details.SoloTables:EnableSoloMode(Details.switch.current_instancia, bookmark.sub_atributo)
 		else
-			Details:Msg("Plugin not found.")
+			Details:Msg("未找到插件.")
 		end
 	else
 		Details.switch.current_instancia:TrocaTabela(Details.switch.current_instancia, true, bookmark.atributo, bookmark.sub_atributo)
@@ -1330,7 +1330,7 @@ local bookmarkButtonIconOnEnter = function(self)
 	gameCooltip:Reset()
 	gameCooltip:SetOwner(self)
 
-	gameCooltip:AddLine("select bookmark")
+	gameCooltip:AddLine("选择书签")
 	gameCooltip:AddIcon([[Interface\TUTORIALFRAME\UI-TUTORIAL-FRAME]], 1, 1, 12, 14, 0.0019531, 0.1484375, 0.6269531, 0.8222656)
 
 	gameCooltip:SetOption("TextSize", 10)

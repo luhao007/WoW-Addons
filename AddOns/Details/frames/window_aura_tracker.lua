@@ -125,11 +125,11 @@ function Details.AuraTracker.CreatePanel()
     --header
     local headerTable = {
         {text = "", width = 20},
-        {text = "Aura Name", width = 162},
-        {text = "Spell Id", width = 100},
-        {text = "Lua Table", width = 200},
-        {text = "Payload (Points)", width = 296},
-        {text = "Last Cast", width = 100},
+        {text = "光环名称", width = 162},
+        {text = "法术Id", width = 100},
+        {text = "Lua表", width = 200},
+        {text = "有效负载(点)", width = 296},
+        {text = "最近施法", width = 100},
     }
     local headerOptions = {
         padding = 2,

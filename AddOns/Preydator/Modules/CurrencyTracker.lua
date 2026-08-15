@@ -17,12 +17,10 @@ local _, addonTable = ...
 local Preydator = _G.Preydator or addonTable
 local L = _G.PreydatorL or setmetatable({}, { __index = function(_, k) return k end })
 
-local C_DateAndTime  = _G.C_DateAndTime
 local C_CurrencyInfo   = _G.C_CurrencyInfo
 local C_Timer          = _G.C_Timer
 local CreateFrame      = _G.CreateFrame
 local GameTooltip      = _G.GameTooltip
-local GetServerTime    = _G.GetServerTime
 local GetTime          = _G.GetTime
 local InCombatLockdown = _G.InCombatLockdown
 local IsShiftKeyDown   = _G.IsShiftKeyDown
@@ -41,8 +39,9 @@ local ipairs           = _G.ipairs
 local tostring         = _G.tostring
 local tonumber         = _G.tonumber
 local type             = _G.type
-local date             = _G.date
-local GetPreyWeeklyCompleted
+
+local LibDataBroker = LibStub and LibStub:GetLibrary("LibDataBroker-1.1", true)
+local LibDBIcon = LibStub and LibStub:GetLibrary("LibDBIcon-1.0", true)
 
 local function IsModuleEnabled(moduleKey)
     local customization = Preydator and Preydator.GetModule and Preydator:GetModule("CustomizationStateV2")
@@ -50,6 +49,39 @@ local function IsModuleEnabled(moduleKey)
         return customization:IsModuleEnabled(moduleKey) == true
     end
     return true
+end
+
+local function Atan2(y, x)
+    if math.atan2 then
+        return math.atan2(y, x)
+    end
+    if x > 0 then
+        return math.atan(y / x)
+    end
+    if x < 0 then
+        if y >= 0 then
+            return math.atan(y / x) + math.pi
+        end
+        return math.atan(y / x) - math.pi
+    end
+    if y > 0 then
+        return math.pi / 2
+    end
+    if y < 0 then
+        return -math.pi / 2
+    end
+    return 0
+end
+
+local function NormalizeAngleDegrees(angle)
+    if type(angle) ~= "number" then
+        return 225
+    end
+    angle = angle % 360
+    if angle < 0 then
+        angle = angle + 360
+    end
+    return angle
 end
 
 --------------------------------------------------------------------------------
@@ -134,7 +166,9 @@ local WARBAND_MAX_FONT = 24
 local WARBAND_DEFAULT_SCALE = 1.00
 local WARBAND_MIN_SCALE = 0.70
 local WARBAND_MAX_SCALE = 1.40
-local CURRENCY_WHATS_NEW_VERSION = "2.1.1"
+local CURRENCY_WHATS_NEW_VERSION = "2.0.0"
+local MINIMAP_ICON_PATH = "Interface\\AddOns\\Preydator\\media\\Preydator_64.png"
+local LDB_LAUNCHER_NAME = "PreydatorCurrencyTracker"
 
 -- Colors
 local COLOR_SECTION_BG  = { 0.08, 0.06, 0.03, 0.92 }
@@ -238,15 +272,15 @@ local nextLightRefreshAt = 0
 local db                -- reference to PreydatorDB.currency sub-table
 local sessionStart      = {}   -- [currencyID] = quantity at login/reload
 local sessionBaselineReady = false
-local weeklyProgressCanonicalizedSession = false
 local currencyPanelPage = nil  -- the Tab content frame, built lazily
 local lastKnownQuantity = {}   -- [currencyID] = quantity
+local ldbLauncher
+local ldbIconRegistered = false
 local warbandSortKey = "character"
 local warbandSortAsc = true
 local currencyWhatsNewFrame
 local EnsureCurrencyWindow
 local EnsureWarbandWindow
-local warbandTextMeasure
 
 --------------------------------------------------------------------------------
 -- Helpers
@@ -375,55 +409,26 @@ function preyTrackerUtil.GetBestScopedAvailabilityForCharacter(charKey, level)
     return bestCounts
 end
 
-local function SafeToNumberLike(value)
-    local okString, asString = pcall(tostring, value)
-    if not okString or type(asString) ~= "string" then
-        return nil
+local function GetCurrencyQuantity(currencyID)
+    if not C_CurrencyInfo or not C_CurrencyInfo.GetCurrencyInfo then
+        return 0
     end
-
-    local numericToken = string.match(asString, "^%s*([%+%-]?%d+%.?%d*)%s*$")
-        or string.match(asString, "^%s*([%+%-]?%d*%.%d+)%s*$")
-    if not numericToken then
-        return nil
+    local okInfo, info = pcall(C_CurrencyInfo.GetCurrencyInfo, currencyID)
+    if not okInfo or type(info) ~= "table" then
+        return 0
     end
-
-    local okNumber, result = pcall(tonumber, numericToken)
-    if okNumber and type(result) == "number" then
-        return result
-    end
-
-    return nil
+    return select(2, pcall(tonumber, info.quantity)) or 0
 end
 
-local function GetCurrencyInfoSafe(currencyID)
+local function GetCurrencyIcon(currencyID)
     if not C_CurrencyInfo or not C_CurrencyInfo.GetCurrencyInfo then
         return nil
     end
-
     local okInfo, info = pcall(C_CurrencyInfo.GetCurrencyInfo, currencyID)
     if not okInfo or type(info) ~= "table" then
         return nil
     end
-
-    local name = type(info.name) == "string" and info.name or nil
-    local quantity = SafeToNumberLike(info.quantity) or 0
-    local iconFileID = SafeToNumberLike(info.iconFileID)
-
-    return {
-        name = name,
-        quantity = quantity,
-        iconFileID = iconFileID,
-    }
-end
-
-local function GetCurrencyQuantity(currencyID)
-    local info = GetCurrencyInfoSafe(currencyID)
-    return (info and info.quantity) or 0
-end
-
-local function GetCurrencyIcon(currencyID)
-    local info = GetCurrencyInfoSafe(currencyID)
-    return info and info.iconFileID or nil
+    return info.iconFileID
 end
 
 local function EnsureDB()
@@ -452,9 +457,7 @@ local function EnsureDB()
         end
     end
 
-    -- One-time migration: canonicalize/merge weekly keys once, then skip on
-    -- hot refresh paths to avoid long synchronous sweeps.
-    if not weeklyProgressCanonicalizedSession and c.weeklyProgressCanonicalized ~= true and type(c.preyWeeklyProgress) == "table" then
+    if type(c.preyWeeklyProgress) == "table" then
         for charKey, weeks in pairs(c.preyWeeklyProgress) do
             if type(weeks) == "table" then
                 local merged = {}
@@ -465,9 +468,7 @@ local function EnsureDB()
                 c.preyWeeklyProgress[charKey] = merged
             end
         end
-        c.weeklyProgressCanonicalized = true
     end
-    weeklyProgressCanonicalizedSession = true
 
     c.preyAccountState.available = nil
 
@@ -533,19 +534,9 @@ end
 local function GetWeeklyResetKey()
     local weeklyCaps = GetWeeklyCapsModule()
     if weeklyCaps and type(weeklyCaps.GetWeeklyResetKey) == "function" then
-        return preyTrackerUtil.CanonicalizeWeeklyKey(weeklyCaps:GetWeeklyResetKey()) or ("week-" .. date("%Y-%U"))
+        return preyTrackerUtil.CanonicalizeWeeklyKey(weeklyCaps:GetWeeklyResetKey()) or ("week-" .. _G.date("%Y-%U"))
     end
-
-    if C_DateAndTime and type(C_DateAndTime.GetSecondsUntilWeeklyReset) == "function" and type(GetServerTime) == "function" then
-        local okRemaining, remainingRaw = pcall(C_DateAndTime.GetSecondsUntilWeeklyReset)
-        local remaining = okRemaining and tonumber(remainingRaw) or nil
-        local serverNow = tonumber(GetServerTime()) or nil
-        if remaining and remaining >= 0 and serverNow and serverNow > 0 then
-            return "server-week-" .. tostring(math.floor(serverNow + remaining + 0.5))
-        end
-    end
-
-    return "week-" .. date("%Y-%U")
+    return "week-" .. _G.date("%Y-%U")
 end
 
 -- Derives weekly caps from a character snapshot.
@@ -610,10 +601,6 @@ local function CheckAndProcessWeeklyReset()
     if previousWeekKey ~= currentWeekKey then
         db.lastWeeklyResetKey = currentWeekKey
         ApplyWeeklyResetToSnapshots()
-        local scanner = Preydator and Preydator.GetModule and Preydator:GetModule("HuntScanner")
-        if scanner and type(scanner.ClearAvailabilityCache) == "function" then
-            scanner:ClearAvailabilityCache()
-        end
     else
         db.lastWeeklyResetKey = currentWeekKey
     end
@@ -630,7 +617,7 @@ local function NormalizePreyDifficultyKey(diff)
     return "normal"
 end
 
-GetPreyWeeklyCompleted = function(charKey, weekKey)
+local function GetPreyWeeklyCompleted(charKey, weekKey)
     local preyData = GetPreyDataModule()
     if preyData and type(preyData.GetOrCreateWeeklyProgress) == "function" then
         return preyData:GetOrCreateWeeklyProgress(charKey, weekKey)
@@ -922,7 +909,7 @@ local function LogCurrencyDebug(message)
         return
     end
 
-    print("Preydator CurrencyDebug: " .. tostring(message))
+    print(L["Preydator CurrencyDebug: "] .. tostring(message))
 end
 
 local function SnapshotCurrentCharacter()
@@ -1091,42 +1078,6 @@ local function GetKnownWarbandCharacters()
     return rows
 end
 
-local function EnsureWarbandTextMeasure()
-    if warbandTextMeasure then
-        return warbandTextMeasure
-    end
-
-    local owner = UIParent or CreateFrame("Frame", nil)
-    warbandTextMeasure = owner:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    warbandTextMeasure:Hide()
-    return warbandTextMeasure
-end
-
-local function MeasureWarbandTextWidth(text, fontSize, fontPath)
-    local measure = EnsureWarbandTextMeasure()
-    if measure.SetFont then
-        measure:SetFont(fontPath, fontSize, "")
-    end
-    measure:SetText(text or "")
-    return math.ceil((measure.GetStringWidth and measure:GetStringWidth() or 0) + 8)
-end
-
-local function GetWarbandCharacterColumnWidth(showRealm, fontSize, fontPath)
-    local minWidth = showRealm and 76 or 124
-    local textFontSize = math.max(10, fontSize - 1)
-    local headerFontSize = math.max(10, fontSize - 2)
-    local width = minWidth
-
-    width = math.max(width, MeasureWarbandTextWidth(L["Character"], headerFontSize, fontPath))
-    width = math.max(width, MeasureWarbandTextWidth(L["Totals"], headerFontSize, fontPath))
-
-    for _, entry in ipairs(GetKnownWarbandCharacters()) do
-        width = math.max(width, MeasureWarbandTextWidth(entry.charName, textFontSize, fontPath))
-    end
-
-    return width
-end
-
 -- UI helpers and tracker settings
 --------------------------------------------------------------------------------
 
@@ -1238,13 +1189,7 @@ end
 
 local function GetThemeFontPath(theme)
     local fontKey = theme and theme.fontKey
-    local path = FONT_PATHS[fontKey] or FONT_PATHS.frizqt
-    if _G.GetLocale and (_G.GetLocale() == "ruRU" or _G.GetLocale() == "koKR" or _G.GetLocale() == "zhCN" or _G.GetLocale() == "zhTW")
-        and type(_G.STANDARD_TEXT_FONT) == "string" and _G.STANDARD_TEXT_FONT ~= ""
-    then
-        return _G.STANDARD_TEXT_FONT
-    end
-    return path
+    return FONT_PATHS[fontKey] or FONT_PATHS.frizqt
 end
 
 local function GetThemePreset()
@@ -1495,6 +1440,7 @@ local currencyWindow
 local currencyWindowRows = {}
 local currencyWindowSummary
 local currencyPanelPage
+local minimapButton
 local warbandWindow
 local warbandWindowSummary
 local warbandWindowRows = {}
@@ -1660,7 +1606,7 @@ local function GetWarbandCurrencyHeaderLabel(columnKey, fallbackLabel)
     if columnKey == 3028 then
         return L["Keys"]
     end
-    return fallbackLabel
+    return L[fallbackLabel] or fallbackLabel
 end
 
 local function OpenOptionsPanel()
@@ -1702,7 +1648,7 @@ local function EnsureCurrencyWhatsNewFrame()
 
     local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -18)
-    title:SetText(L["Preydator Updates: New in 2.1.1"])
+    title:SetText(L["Preydator Updates: New in 2.0.0"])
     SetTextColor(title, COLOR_GOLD)
 
     local body = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -1746,23 +1692,28 @@ end
 
 local function ShowCurrencyWhatsNewIfNeeded()
     local settings = GetSettings()
-    if settings then
-        -- Splash disabled by request: keep version marked as seen and never show popup.
-        settings.currencyWhatsNewSeenVersion = CURRENCY_WHATS_NEW_VERSION
+    if not settings then
+        return
     end
-    if currencyWhatsNewFrame and currencyWhatsNewFrame.Hide then
-        currencyWhatsNewFrame:Hide()
+
+    if settings.currencyWhatsNewSeenVersion == CURRENCY_WHATS_NEW_VERSION then
+        return
     end
+
+    EnsureCurrencyWhatsNewFrame():Show()
 end
 
 function CurrencyTrackerModule:ShowCurrencyWhatsNew(force)
     local settings = GetSettings()
-    if settings then
-        settings.currencyWhatsNewSeenVersion = CURRENCY_WHATS_NEW_VERSION
+    if not settings then
+        return
     end
-    if currencyWhatsNewFrame and currencyWhatsNewFrame.Hide then
-        currencyWhatsNewFrame:Hide()
+
+    if force == true then
+        settings.currencyWhatsNewSeenVersion = nil
     end
+
+    ShowCurrencyWhatsNewIfNeeded()
 end
 
 local function ToggleCurrencyWindow()
@@ -1941,6 +1892,46 @@ function CurrencyTrackerModule:PurgeHiddenWarbandCharacters()
     return removedCount
 end
 
+local function HandleMinimapClick(mouseButton)
+    if mouseButton == "LeftButton" then
+        ToggleCurrencyWindow()
+        return
+    end
+
+    if mouseButton == "RightButton" and IsShiftKeyDown and IsShiftKeyDown() then
+        OpenOptionsPanel()
+        return
+    end
+
+    if mouseButton == "RightButton" then
+        ToggleWarbandWindow()
+    end
+end
+
+function _G.Preydator_OnAddonCompartmentClick(_, buttonName)
+    HandleMinimapClick(buttonName or "LeftButton")
+end
+
+function _G.Preydator_OnAddonCompartmentEnter()
+    if not GameTooltip or type(GameTooltip.SetOwner) ~= "function" then
+        return
+    end
+
+    GameTooltip:SetOwner(_G.AddonCompartmentFrame or UIParent, "ANCHOR_LEFT")
+    GameTooltip:ClearLines()
+    GameTooltip:AddLine("Preydator")
+    GameTooltip:AddLine(L["Left Click: Toggle Currency Window"], 1, 1, 1)
+    GameTooltip:AddLine(L["Right Click: Toggle Warband Window"], 1, 1, 1)
+    GameTooltip:AddLine(L["Shift + Right Click: Open Options"], 1, 1, 1)
+    GameTooltip:Show()
+end
+
+function _G.Preydator_OnAddonCompartmentLeave()
+    if GameTooltip and type(GameTooltip.Hide) == "function" then
+        GameTooltip:Hide()
+    end
+end
+
 local function UpdateWindowPosition()
     if not currencyWindow then
         return
@@ -1969,6 +1960,34 @@ local function SaveWindowPosition(frame)
         x = math.floor((x or 0) + 0.5),
         y = math.floor((y or 0) + 0.5),
     }
+end
+
+local function UpdateMinimapButtonPosition()
+    if not minimapButton then
+        return
+    end
+
+    local settings = GetSettings()
+    local angle = 225
+    if settings and type(settings.currencyMinimap) == "table" and type(settings.currencyMinimap.minimapPos) == "number" then
+        angle = settings.currencyMinimap.minimapPos
+    elseif settings and type(settings.currencyMinimapAngle) == "number" then
+        angle = settings.currencyMinimapAngle
+    end
+    angle = NormalizeAngleDegrees(angle)
+    local minimap = _G.Minimap
+    if not minimap then
+        return
+    end
+
+    local radians = math.rad(angle)
+    local minimapRadius = (math.min(minimap:GetWidth(), minimap:GetHeight()) / 2)
+    local radius = minimapRadius + 8
+    local x = math.cos(radians) * radius
+    local y = math.sin(radians) * radius
+
+    minimapButton:ClearAllPoints()
+    minimapButton:SetPoint("CENTER", minimap, "CENTER", x, y)
 end
 
 local function IsCurrentlyInInstance()
@@ -2013,6 +2032,27 @@ local function UpdateVisibilityFromSettings()
         warbandWindow:SetShown(shouldShow)
     end
 
+    if not (currencyModuleEnabled or warbandModuleEnabled) then
+        if minimapButton then
+            minimapButton:Hide()
+        end
+        if LibDBIcon and type(LibDBIcon.Hide) == "function" then
+            LibDBIcon:Hide(LDB_LAUNCHER_NAME)
+        end
+    end
+
+    if LibDBIcon and ldbIconRegistered then
+        settings.currencyMinimap.hide = settings.currencyMinimapButton == false
+        if settings.currencyMinimap.hide then
+            LibDBIcon:Hide(LDB_LAUNCHER_NAME)
+        else
+            LibDBIcon:Show(LDB_LAUNCHER_NAME)
+        end
+    end
+
+    if minimapButton then
+        minimapButton:SetShown((settings.currencyMinimapButton ~= false) and not (LibDBIcon and ldbIconRegistered))
+    end
 end
 
 local function UpdateWarbandWindowPosition()
@@ -2119,7 +2159,6 @@ EnsureCurrencyWindow = function()
     })
     frame:SetBackdropColor(0.03, 0.03, 0.04, 0.98)
     frame:SetBackdropBorderColor(COLOR_BORDER[1], COLOR_BORDER[2], COLOR_BORDER[3], 1)
-    frame:SetClipsChildren(true)
     frame:SetClampedToScreen(true)
     frame:SetMovable(true)
     frame:EnableMouse(true)
@@ -2133,13 +2172,12 @@ EnsureCurrencyWindow = function()
     end)
 
     local bg = frame:CreateTexture(nil, "BACKGROUND")
-    bg:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -4)
-    bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -4, 4)
+    bg:SetAllPoints()
     bg:SetColorTexture(0.02, 0.02, 0.03, 0.94)
 
     local topBar = frame:CreateTexture(nil, "BORDER")
-    topBar:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, 0)
-    topBar:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -4, 0)
+    topBar:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
+    topBar:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
     topBar:SetHeight(26)
     topBar:SetColorTexture(0.20, 0.14, 0.06, 0.95)
 
@@ -2237,7 +2275,6 @@ EnsureWarbandWindow = function()
     })
     frame:SetBackdropColor(0.03, 0.03, 0.04, 0.98)
     frame:SetBackdropBorderColor(0.44, 0.56, 0.80, 1)
-    frame:SetClipsChildren(true)
     frame:SetClampedToScreen(true)
     frame:SetMovable(true)
     frame:EnableMouse(true)
@@ -2251,13 +2288,12 @@ EnsureWarbandWindow = function()
     end)
 
     local bg = frame:CreateTexture(nil, "BACKGROUND")
-    bg:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -4)
-    bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -4, 4)
+    bg:SetAllPoints()
     bg:SetColorTexture(0.02, 0.03, 0.05, 0.94)
 
     local topBar = frame:CreateTexture(nil, "BORDER")
-    topBar:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, 0)
-    topBar:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -4, 0)
+    topBar:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
+    topBar:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
     topBar:SetHeight(26)
     topBar:SetColorTexture(0.16, 0.20, 0.30, 0.97)
 
@@ -2354,8 +2390,8 @@ EnsureWarbandWindow = function()
                 return
             end
 
-            local info = GetCurrencyInfoSafe(headerData.key)
-            local currencyName = (info and info.name) or headerData.label or ("Currency " .. tostring(headerData.key))
+            local info = C_CurrencyInfo and C_CurrencyInfo.GetCurrencyInfo and C_CurrencyInfo.GetCurrencyInfo(headerData.key)
+            local currencyName = (info and info.name) or L[headerData.label] or headerData.label or ("Currency " .. tostring(headerData.key))
             GameTooltip:SetOwner(self, "ANCHOR_TOP")
             GameTooltip:SetText(currencyName, 1.0, 0.82, 0)
             GameTooltip:Show()
@@ -2404,15 +2440,6 @@ local function EnsureWarbandRows(minCount)
         for _, headerData in ipairs(warbandColumns) do
             local cell = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
             cell:SetJustifyH((headerData.key == "character" or headerData.key == "realm") and "LEFT" or "RIGHT")
-            if cell.SetWordWrap then
-                cell:SetWordWrap(false)
-            end
-            if cell.SetNonSpaceWrap then
-                cell:SetNonSpaceWrap(false)
-            end
-            if cell.SetMaxLines then
-                cell:SetMaxLines(1)
-            end
             cells[headerData.key] = cell
         end
 
@@ -2444,9 +2471,9 @@ local function ApplyWarbandColumnLayout(showRealm, displayRowCount)
 
     local rowCount = math.max(1, tonumber(displayRowCount) or 0)
 
-    local realmWidth = showRealm and 128 or 0
-    local charWidth = GetWarbandCharacterColumnWidth(showRealm, fontSize, themeFont)
-    local maxRealmWidth = showRealm and 188 or 0
+    local realmWidth = showRealm and 96 or 0
+    local charWidth = showRealm and 108 or 124
+    local maxCharWidth = showRealm and 132 or 148
     local currencyDefaults = {}
     for _, entry in ipairs(CURRENCY_ALLOW_LIST) do
         currencyDefaults[entry.id] = 52
@@ -2483,16 +2510,9 @@ local function ApplyWarbandColumnLayout(showRealm, displayRowCount)
         currencyWidth = currencyWidth + (currencyDefaults[currencyID] or 48)
     end
 
-    local widthSlack = tableWidth - realmWidth - preyWidth - currencyWidth - charWidth
-    if widthSlack > 0 then
-        local realmGrow = math.min(maxRealmWidth - realmWidth, widthSlack)
-        if realmGrow > 0 then
-            realmWidth = realmWidth + realmGrow
-            widthSlack = widthSlack - realmGrow
-        end
-        if widthSlack > 0 then
-            charWidth = charWidth + widthSlack
-        end
+    local charSlack = tableWidth - realmWidth - preyWidth - currencyWidth - charWidth
+    if charSlack > 0 then
+        charWidth = math.min(maxCharWidth, charWidth + charSlack)
     end
 
     local currencyWidths = {}
@@ -2604,6 +2624,160 @@ local function ApplyWarbandColumnLayout(showRealm, displayRowCount)
     end
 end
 
+local function EnsureLDBLauncher()
+    if ldbLauncher or not LibDataBroker then
+        return ldbLauncher
+    end
+
+    ldbLauncher = LibDataBroker:NewDataObject(LDB_LAUNCHER_NAME, {
+        type = "launcher",
+        text = "Preydator Currency",
+        icon = MINIMAP_ICON_PATH,
+        OnClick = function(_, mouseButton)
+            HandleMinimapClick(mouseButton)
+        end,
+        OnTooltipShow = function(tooltip)
+            if not tooltip then
+                return
+            end
+            tooltip:AddLine("Preydator")
+            tooltip:AddLine(L["Left Click: Toggle Currency Window"], 1, 1, 1)
+            tooltip:AddLine(L["Right Click: Toggle Warband Window"], 1, 1, 1)
+            tooltip:AddLine(L["Shift + Right Click: Open Options"], 1, 1, 1)
+        end,
+    })
+
+    return ldbLauncher
+end
+
+local function EnsureMinimapButton()
+    local settings = GetSettings()
+
+    -- Always create the LDB launcher when LibDataBroker is available so that any
+    -- broker display addon (ButtonBin, Bazooka, Titan Panel, etc.) can collect it,
+    -- regardless of whether LibDBIcon is installed.
+    if LibDataBroker and settings and type(settings.currencyMinimap) == "table" then
+        EnsureLDBLauncher()
+    end
+
+    -- Let LibDBIcon manage the physical minimap icon when it is present.
+    if LibDBIcon and ldbLauncher and settings and type(settings.currencyMinimap) == "table" then
+        if not ldbIconRegistered then
+            LibDBIcon:Register(LDB_LAUNCHER_NAME, ldbLauncher, settings.currencyMinimap)
+            ldbIconRegistered = true
+        end
+        return nil
+    end
+
+    -- If we have an LDB launcher but no LibDBIcon, no custom button is needed —
+    -- the broker display addon handles showing the icon.
+    if ldbLauncher then
+        return nil
+    end
+
+    if minimapButton or not _G.Minimap then
+        return minimapButton
+    end
+
+    local button = CreateFrame("Button", "PreydatorCurrencyMiniMapButton", _G.Minimap)
+    button:SetSize(32, 32)
+    button:SetFrameStrata("MEDIUM")
+    button:SetFrameLevel(8)
+    button:EnableMouse(true)
+    button:SetMovable(true)
+    button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+    button:RegisterForDrag("LeftButton")
+
+    local background = button:CreateTexture(nil, "BACKGROUND")
+    background:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
+    background:SetSize(20, 20)
+    background:SetPoint("CENTER", button, "CENTER", 0, 0)
+
+    local icon = button:CreateTexture(nil, "ARTWORK")
+    icon:SetTexture(MINIMAP_ICON_PATH)
+    icon:SetSize(20, 20)
+    icon:SetPoint("CENTER", button, "CENTER", 0, 0)
+    icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+
+    local border = button:CreateTexture(nil, "OVERLAY")
+    border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
+    border:SetSize(53, 53)
+    border:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
+
+    button:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
+
+    button:SetScript("OnClick", function(self, mouseButton)
+        if self.wasDragged then
+            return
+        end
+        HandleMinimapClick(mouseButton)
+    end)
+
+    button:SetScript("OnDragStart", function(self)
+        self.dragging = true
+        self.wasDragged = false
+        self:SetScript("OnUpdate", function(s)
+            local minimap = _G.Minimap
+            if not minimap then
+                return
+            end
+            local mx, my = GetCursorPosition()
+            local scale = _G.UIParent:GetEffectiveScale()
+            mx, my = mx / scale, my / scale
+            local cx, cy = minimap:GetCenter()
+            if not cx or not cy then
+                return
+            end
+            local angle = NormalizeAngleDegrees(math.deg(Atan2(my - cy, mx - cx)))
+            local settings = GetSettings()
+            if settings then
+                if type(settings.currencyMinimap) ~= "table" then
+                    settings.currencyMinimap = {}
+                end
+                settings.currencyMinimap.minimapPos = angle
+                settings.currencyMinimapAngle = angle
+            end
+            s.wasDragged = true
+            UpdateMinimapButtonPosition()
+        end)
+    end)
+
+    button:SetScript("OnDragStop", function(self)
+        self.dragging = nil
+        self:SetScript("OnUpdate", nil)
+        C_Timer.After(0.05, function()
+            if minimapButton then
+                minimapButton.wasDragged = nil
+            end
+        end)
+    end)
+
+    minimapButton = button
+    UpdateMinimapButtonPosition()
+    return button
+end
+
+function CurrencyTrackerModule:SetMinimapButtonEnabled(enabled)
+    local settings = GetSettings()
+    if not settings then
+        return
+    end
+
+    EnsureTrackerSettings()
+    settings.currencyMinimapButton = enabled == true
+    if type(settings.currencyMinimap) ~= "table" then
+        settings.currencyMinimap = {}
+    end
+    settings.currencyMinimap.hide = not settings.currencyMinimapButton
+
+    if settings.currencyMinimapButton then
+        EnsureMinimapButton()
+        UpdateMinimapButtonPosition()
+    end
+
+    UpdateVisibilityFromSettings()
+end
+
 local function RefreshWarbandWindowDisplay()
     if not warbandWindow then
         return
@@ -2613,9 +2787,6 @@ local function RefreshWarbandWindowDisplay()
     local theme = GetWarbandThemePreset()
     local useClassColors = not settings or settings.themeUseClassColors ~= false
     local showRealm = settings and settings.currencyShowRealmInWarband == true
-    if warbandWindow.SetBackdropColor then
-        warbandWindow:SetBackdropColor(theme.section[1], theme.section[2], theme.section[3], theme.section[4] or 1)
-    end
     if warbandWindow.PreydatorBg then
         warbandWindow.PreydatorBg:SetColorTexture(theme.section[1], theme.section[2], theme.section[3], 0.88)
     end
@@ -2809,7 +2980,7 @@ local function RefreshWarbandWindowDisplay()
                 local collapsed = data.collapsed == true
                 local prefix = collapsed and "+ " or "- "
                 rowData.cells.realm:SetText(prefix .. data.realm)
-                rowData.cells.character:SetText("")
+                rowData.cells.character:SetText(L["Subtotal"])
                 rowData.cells.prey:SetText("")
                 for _, e in ipairs(CURRENCY_ALLOW_LIST) do
                     if rowData.cells[e.id] then
@@ -2916,9 +3087,6 @@ local function RefreshCurrencyWindowDisplay()
     currencyWindow:SetSize(configuredWidth, finalHeight)
     currencyWindow:SetScale(configuredScale)
 
-    if currencyWindow.SetBackdropColor then
-        currencyWindow:SetBackdropColor(theme.section[1], theme.section[2], theme.section[3], theme.section[4] or 1)
-    end
     if currencyWindow.PreydatorBg then
         currencyWindow.PreydatorBg:SetColorTexture(theme.section[1], theme.section[2], theme.section[3], 0.88)
     end
@@ -2951,7 +3119,7 @@ local function RefreshCurrencyWindowDisplay()
                 local rowColor = (index % 2 == 0) and theme.rowAlt or theme.row
                 row.bg:SetColorTexture(rowColor[1], rowColor[2], rowColor[3], rowColor[4] or 0.92)
             end
-            row.nameText:SetText(entry.label)
+            row.nameText:SetText(L[entry.label] or entry.label)
             SetTextColor(row.nameText, entry.season and seasonColor or theme.text)
             SetFontSize(row.nameText, configuredFontSize, themeFont)
 
@@ -3184,7 +3352,7 @@ local function BuildCurrencyConfigPage(parent)
 
         local name = category.row:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         name:SetPoint("TOPLEFT", category.row, "TOPLEFT", 26, -6)
-        name:SetText(spec.label)
+        name:SetText(L[spec.label] or spec.label)
         SetTextColor(name, COLOR_GOLD)
 
         CreateMatrixCheckbox(category.row, X_CURRENCY - X_CATEGORY, 0, function()
@@ -3219,8 +3387,8 @@ local function BuildCurrencyConfigPage(parent)
             label:SetPoint("TOPLEFT", child, "TOPLEFT", 26, -6)
             label:SetWidth(LABEL_WIDTH)
             label:SetJustifyH("LEFT")
-            local info = GetCurrencyInfoSafe(entry.id)
-            label:SetText((info and info.name) or entry.name)
+            local info = C_CurrencyInfo and C_CurrencyInfo.GetCurrencyInfo and C_CurrencyInfo.GetCurrencyInfo(entry.id)
+            label:SetText((info and info.name) or L[entry.label] or entry.label)
 
             CreateMatrixCheckbox(child, X_CURRENCY - X_CATEGORY, 0, function()
                 return IsEntryEnabled(entry, "currency")
@@ -3331,8 +3499,6 @@ function CurrencyTrackerModule:BuildCurrencyPage(owner, parent)
 end
 
 function CurrencyTrackerModule:RefreshCurrencyPage()
-    CheckAndProcessWeeklyReset()
-
     local currencyModuleEnabled = IsModuleEnabled("currency")
     local warbandModuleEnabled = IsModuleEnabled("warband")
 
@@ -3348,6 +3514,9 @@ function CurrencyTrackerModule:RefreshCurrencyPage()
         if warbandWindow then
             warbandWindow:Hide()
         end
+        if minimapButton then
+            minimapButton:Hide()
+        end
         return
     end
 
@@ -3355,16 +3524,12 @@ function CurrencyTrackerModule:RefreshCurrencyPage()
     SnapshotCurrentPreyCharacter()
     UpdateLastKnownQuantities()
     if currencyModuleEnabled then
-        if currencyWindow and currencyWindow:IsShown() then
-            RefreshCurrencyWindowDisplay()
-        end
+        RefreshCurrencyWindowDisplay()
     elseif currencyWindow then
         currencyWindow:Hide()
     end
     if warbandModuleEnabled then
-        if warbandWindow and warbandWindow:IsShown() then
-            RefreshWarbandWindowDisplay()
-        end
+        RefreshWarbandWindowDisplay()
     elseif warbandWindow then
         warbandWindow:Hide()
     end
@@ -3402,48 +3567,26 @@ function CurrencyTrackerModule:RefreshIfChanged(force, source)
     end
 end
 
-local pendingCurrencyRefreshChecks = {}
-
-local function ScheduleRefreshIfChanged(delaySeconds, source)
-    if not C_Timer or type(C_Timer.After) ~= "function" then
-        CurrencyTrackerModule:RefreshIfChanged(false, source)
-        return
-    end
-
-    local delayKey = tostring(delaySeconds)
-    if pendingCurrencyRefreshChecks[delayKey] then
-        return
-    end
-
-    pendingCurrencyRefreshChecks[delayKey] = true
-    C_Timer.After(delaySeconds, function()
-        pendingCurrencyRefreshChecks[delayKey] = nil
-        CurrencyTrackerModule:RefreshIfChanged(false, source)
-    end)
-end
-
-function CurrencyTrackerModule:QueueRefreshSweep(source, immediate)
+function CurrencyTrackerModule:QueueRefreshSweep(source)
     if not (IsModuleEnabled("currency") or IsModuleEnabled("warband")) then
         return
     end
 
-    if immediate == true then
-        self:RefreshCurrencyPage()
-        LogCurrencyDebug(tostring(source or "unknown") .. " | immediate sweep")
-    else
-        LogCurrencyDebug(tostring(source or "unknown") .. " | deferred change-check")
-    end
+    -- Immediate pass for fast event paths.
+    self:RefreshCurrencyPage()
+    LogCurrencyDebug(tostring(source or "unknown") .. " | immediate sweep")
 
     if not C_Timer or type(C_Timer.After) ~= "function" then
-        if immediate ~= true then
-            self:RefreshIfChanged(false, tostring(source or "unknown") .. "+fallback")
-        end
         return
     end
 
     -- Delayed passes catch server-delayed currency updates that land after the event tick.
-    ScheduleRefreshIfChanged(0.2, tostring(source or "unknown") .. "+200ms")
-    ScheduleRefreshIfChanged(1.0, tostring(source or "unknown") .. "+1000ms")
+    C_Timer.After(0.2, function()
+        CurrencyTrackerModule:RefreshIfChanged(false, tostring(source or "unknown") .. "+200ms")
+    end)
+    C_Timer.After(1.0, function()
+        CurrencyTrackerModule:RefreshIfChanged(false, tostring(source or "unknown") .. "+1000ms")
+    end)
 end
 
 -- Live refresh via CURRENCY_DISPLAY_UPDATE
@@ -3461,10 +3604,10 @@ eventFrame:SetScript("OnEvent", function(_, event, ...)
     if event == "CURRENCY_DISPLAY_UPDATE" then
         local currencyID = ...
         if type(currencyID) == "number" and ALLOW_LIST_IDS[currencyID] then
-            CurrencyTrackerModule:QueueRefreshSweep("CURRENCY_DISPLAY_UPDATE(" .. tostring(currencyID) .. ")", true)
+            CurrencyTrackerModule:QueueRefreshSweep("CURRENCY_DISPLAY_UPDATE(" .. tostring(currencyID) .. ")")
             return
         end
-        CurrencyTrackerModule:QueueRefreshSweep("CURRENCY_DISPLAY_UPDATE", false)
+        CurrencyTrackerModule:QueueRefreshSweep("CURRENCY_DISPLAY_UPDATE")
         return
     end
 
@@ -3473,14 +3616,8 @@ eventFrame:SetScript("OnEvent", function(_, event, ...)
         RecordPreyTurnIn(questID)
     end
 
-    if event == "CHAT_MSG_LOOT" or event == "CHAT_MSG_CURRENCY" then
-        -- Loot/currency chat should feel immediate in the tracker UI.
-        CurrencyTrackerModule:QueueRefreshSweep(event, true)
-        return
-    end
-
-    if event == "QUEST_TURNED_IN" or event == "BAG_UPDATE_DELAYED" then
-        CurrencyTrackerModule:QueueRefreshSweep(event, false)
+    if event == "CHAT_MSG_CURRENCY" or event == "CHAT_MSG_LOOT" or event == "QUEST_TURNED_IN" or event == "BAG_UPDATE_DELAYED" then
+        CurrencyTrackerModule:QueueRefreshSweep(event)
     elseif event == "PLAYER_ENTERING_WORLD" then
         -- Re-apply instance-hide state every time the player crosses a loading screen.
         UpdateVisibilityFromSettings()
@@ -3488,7 +3625,7 @@ eventFrame:SetScript("OnEvent", function(_, event, ...)
         local now = GetTime and (tonumber(GetTime()) or 0) or 0
         if now >= (nextLightRefreshAt or 0) then
             nextLightRefreshAt = now + 2.0
-            CurrencyTrackerModule:QueueRefreshSweep(event, true)
+            CurrencyTrackerModule:QueueRefreshSweep(event)
         end
     end
 end)
@@ -3503,13 +3640,15 @@ function CurrencyTrackerModule:OnAddonLoaded()
     EnsureDB()
     EnsureTrackerSettings()
     CheckAndProcessWeeklyReset()
-    eventFrame:RegisterEvent("CHAT_MSG_LOOT")
-    eventFrame:RegisterEvent("CHAT_MSG_CURRENCY")
     eventFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
+    eventFrame:RegisterEvent("CHAT_MSG_CURRENCY")
+    eventFrame:RegisterEvent("CHAT_MSG_LOOT")
     eventFrame:RegisterEvent("QUEST_TURNED_IN")
     eventFrame:RegisterEvent("BAG_UPDATE_DELAYED")
-    -- Keep refresh event-driven (no polling), but include direct currency signals
-    -- so gains/losses are reflected immediately.
+    eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+    eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+    eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+    -- Currency refresh is event-driven; no QUEST_LOG_UPDATE polling needed.
     sessionStart = {}
     sessionBaselineReady = false
     UpdateLastKnownQuantities()
@@ -3532,9 +3671,13 @@ function CurrencyTrackerModule:OnEvent(event, ...)
         if IsModuleEnabled("warband") then
             EnsureWarbandWindow()
         end
+        if IsModuleEnabled("currency") or IsModuleEnabled("warband") then
+            EnsureMinimapButton()
+        end
         UpdateVisibilityFromSettings()
         UpdateWindowPosition()
         UpdateWarbandWindowPosition()
+        UpdateMinimapButtonPosition()
         self:RefreshCurrencyPage()
         -- Arm the gate so the PLAYER_ENTERING_WORLD that fires right after login
         -- doesn't immediately trigger a redundant full QueueRefreshSweep.

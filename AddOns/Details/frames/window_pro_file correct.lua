@@ -49,27 +49,27 @@ function proFile:CreateProFile()
     --the following widgets are shown in the right side of the portrait texture
         local playerNameFontString = mainFrame:CreateFontString(nil, "overlay", "GameFontNormal")
         playerNameFontString:SetPoint("topleft", portraitTexture, "topright", 10, 0)
-        playerNameFontString:SetText("Player Name")
+        playerNameFontString:SetText("玩家名称")
         mainFrame.PlayerNameText = playerNameFontString
 
         local playerTitleFontString = mainFrame:CreateFontString(nil, "overlay", "GameFontNormal")
         playerTitleFontString:SetPoint("topleft", playerNameFontString, "bottomleft", 0, -5)
-        playerTitleFontString:SetText("Player Title")
+        playerTitleFontString:SetText("玩家标题")
         mainFrame.PlayerTitleText = playerTitleFontString
 
         local playerMPlusRatingFontString = mainFrame:CreateFontString(nil, "overlay", "GameFontNormal")
         playerMPlusRatingFontString:SetPoint("topleft", playerTitleFontString, "bottomleft", 0, -5)
-        playerMPlusRatingFontString:SetText("M+ 2451")
+        playerMPlusRatingFontString:SetText("大秘境 2451")
         mainFrame.PlayerMPlusRatingText = playerMPlusRatingFontString
 
         local playerHeroicProgressionFontString = mainFrame:CreateFontString(nil, "overlay", "GameFontNormal")
         playerHeroicProgressionFontString:SetPoint("topleft", playerMPlusRatingFontString, "bottomleft", 0, -5)
-        playerHeroicProgressionFontString:SetText("Heroic 10/10")
+        playerHeroicProgressionFontString:SetText("英雄 10/10")
         mainFrame.PlayerHeroicProgressionText = playerHeroicProgressionFontString
 
         local playerMythicProgressionFontString = mainFrame:CreateFontString(nil, "overlay", "GameFontNormal")
         playerMythicProgressionFontString:SetPoint("topleft", playerHeroicProgressionFontString, "bottomleft", 0, -5)
-        playerMythicProgressionFontString:SetText("Mythic 10/10")
+        playerMythicProgressionFontString:SetText("史诗 10/10")
         mainFrame.PlayerMythicProgressionText = playerMythicProgressionFontString
 
         --create a texture 10 pixels below the latest text, size is 24,24, texture is a question mark
@@ -93,7 +93,7 @@ function proFile:CreateProFile()
 
             local achievNameFontString = mainFrame:CreateFontString(nil, "overlay", "GameFontNormal")
             achievNameFontString:SetPoint("left", achievTexture, "right", 10, 0)
-            achievNameFontString:SetText("Achievement Name")
+            achievNameFontString:SetText("成就名称")
 
             local achievTable = {Texture = achievTexture, Name = achievNameFontString}
             mainFrame.AchievementLines[i] = achievTable
@@ -105,27 +105,27 @@ function proFile:CreateProFile()
     --the following widgets are shown below the portrait
         local timePlayedText = mainFrame:CreateFontString(nil, "overlay", "GameFontNormal")
         timePlayedText:SetPoint("topleft", portraitTexture, "bottomleft", 0, -10)
-        timePlayedText:SetText("Time Played: 1d 2h 3m")
+        timePlayedText:SetText("游戏时间: 1d 2h 3m")
         mainFrame.TimePlayedText = timePlayedText
 
         local timePlayedTogether = mainFrame:CreateFontString(nil, "overlay", "GameFontNormal")
         timePlayedTogether:SetPoint("topleft", timePlayedText, "bottomleft", 0, -5)
-        timePlayedTogether:SetText("Time Played Together: 1d 2h 3m")
+        timePlayedTogether:SetText("共同游戏的时间: 1d 2h 3m")
         mainFrame.TimePlayedTogetherText = timePlayedTogether
 
         --create a button using the details framework, this button uses a standard template, the text is "Add Friend", it is attached below the timePlayerTogether, its function is called addFriendPlayer
         local addFriendPlayer = function()
-            print("Add Friend")
+            print("添加朋友")
         end
-        local addFriendButton = detailsFramework:CreateButton(mainFrame, addFriendPlayer, 100, 20, "Add Friend", nil, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPAQUE_DARK"))
+        local addFriendButton = detailsFramework:CreateButton(mainFrame, addFriendPlayer, 100, 20, "添加朋友", nil, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPAQUE_DARK"))
         addFriendButton:SetPoint("topleft", timePlayedTogether, "bottomleft", 0, -5)
         mainFrame.AddFriendButton = addFriendButton
 
         --create a button similar to the addFriendButton, but with the text "Add Guild", its function is called inviteToGuild
         local inviteToGuild = function()
-            print("Invite to Guild")
+            print("邀请工会")
         end
-        local inviteToGuildButton = detailsFramework:CreateButton(mainFrame, inviteToGuild, 100, 20, "Add Guild", nil, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPAQUE_DARK"))
+        local inviteToGuildButton = detailsFramework:CreateButton(mainFrame, inviteToGuild, 100, 20, "添加工会", nil, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPAQUE_DARK"))
         inviteToGuildButton:SetPoint("topleft", addFriendButton, "bottomleft", 0, -5)
         mainFrame.InviteToGuildButton = inviteToGuildButton
 

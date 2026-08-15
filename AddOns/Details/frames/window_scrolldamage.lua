@@ -59,10 +59,10 @@ function Details:ScrollDamage()
 		--header
 		local headerTable = {
 			{text = "", width = 20},
-			{text = "Spell Name", width = 104},
-			{text = "Amount", width = 60},
-			{text = "Time", width = 45},
-			{text = "Spell ID", width = 80},
+			{text = "法术名称", width = 104},
+			{text = "数字", width = 60},
+			{text = "时间", width = 45},
+			{text = "法术ID", width = 80},
 		}
 		local headerOptions = {
 			padding = 2,
@@ -280,7 +280,7 @@ function Details:ScrollDamage()
 		autoOpenCheckbox:SetAsCheckBox()
 		autoOpenCheckbox:SetPoint("left", statusBar, "left", 5, 0)
 
-		local autoOpenText = DF:CreateLabel(statusBar, "Auto Open on Training Dummy", 10)
+		local autoOpenText = DF:CreateLabel(statusBar, "训练用假人自动打开", 10)
 		autoOpenText:SetPoint("left", autoOpenCheckbox, "right", 2, 0)
 
 		--search bar

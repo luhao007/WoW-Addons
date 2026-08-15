@@ -180,8 +180,8 @@ function TooltipBuilder:AddSubItemValueLine(itemString, value, multiplier, matRa
 	if not name or not color then
 		return
 	end
-	local craftedQuality, useMidnightIcon = ItemInfo.GetCraftedQuality(itemString)
-	local craftedQualityIcon = craftedQuality and TradeSkill.GetCraftedQualityChatIcon(craftedQuality, useMidnightIcon)
+	local craftedQuality = ItemInfo.GetCraftedQuality(itemString)
+	local craftedQualityIcon = craftedQuality and TradeSkill.GetCraftedQualityChatIcon(craftedQuality)
 	if craftedQualityIcon then
 		name = name..craftedQualityIcon
 	end

@@ -13,6 +13,7 @@ local _
 
 local debug = false
 local L = {}
+local Loc = _G.LibStub("AceLocale-3.0"):GetLocale("Details")
 
 local debugMode = false
 local debugTime = GetTime()
@@ -982,7 +983,7 @@ local getBlizzardSegmentData = function(ID) --~harvest
         for i = 1, combatSourcesAmount do
             local thisActor = combatSources[i]
             if issecretvalue(thisActor.name) then
-                thisActor.name = "Secret Pet " .. math.random(0000, 999999)
+                thisActor.name = Loc["STRING_SECRET_PET"] .. math.random(0000, 999999)
             end
             local bFoundSecrets = findSecrets(thisActor)
             if not bFoundSecrets then
@@ -1682,7 +1683,7 @@ local addOverallAsSegment2_original = function()
             local actorName = thisActor.name
 
             if issecretvalue(actorName) then
-                print("actorName is secret:", actorName)
+                print("actorName为秘密:", actorName)
             end
 
             local actorSerial = thisActor.sourceGUID
@@ -1874,7 +1875,7 @@ local addOverallAsSegment2_original = function()
             local thisActor = actorList[i]
 
             if issecretvalue(thisActor.name) then
-                thisActor.name = "Secret Pet " .. math.random(0000, 9999)
+                thisActor.name = "选择宠物" .. math.random(0000, 9999)
             end
 
             ---@type actorutility
@@ -2161,7 +2162,7 @@ local addSegment = function(parameterType, session, bIsUpdate, detailsId)
             local thisActor = actorList[i]
 
             if issecretvalue(thisActor.name) then
-                thisActor.name = "Secret Pet " .. math.random(0000, 9999)
+                thisActor.name = "选择宠物" .. math.random(0000, 9999)
             end
 
             ---@type actorutility
@@ -2205,7 +2206,7 @@ local addSegment = function(parameterType, session, bIsUpdate, detailsId)
             local thisActor = actorList[i]
 
             if issecretvalue(thisActor.name) then
-                thisActor.name = "Secret Pet " .. math.random(0000, 9999)
+                thisActor.name = "选择宠物" .. math.random(0000, 9999)
             end
 
             ---@type actorutility

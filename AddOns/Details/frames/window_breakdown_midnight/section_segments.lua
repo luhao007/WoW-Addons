@@ -24,7 +24,7 @@ local onClickSegmentLine = function(line, button)
     local attributeId = windowFrame:GetCurrentAttributeId()
     local actorObject = windowFrame:GetPlayerObject()
 
-    assert(type(segmentId) == "number", "segmentData.sessionID must be a number")
+    assert(type(segmentId) == "number", "segmentData.sessionID必须为数字")
     Details.OpenApocalypseBreakdown(windowIndex, instance, segmentType, segmentId, attributeId, actorObject)
 end
 

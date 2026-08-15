@@ -1,6 +1,6 @@
 ## Interface: 120001, 120005, 120007, 120100
 ## Author: Breen
-## Version: v1.19
+## Version: v1.20
 
 ## Title: BtWQuests: Dragonflight Prologue
 ## Notes: Dragonflight prologue quest data for BtWQuests

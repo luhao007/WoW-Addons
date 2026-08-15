@@ -148,7 +148,7 @@ function Profession.GetResultInfo(craftString)
 		if type(itemString) == "table" then
 			itemString = itemString[CraftString.GetQuality(craftString) or 1]
 		end
-		if itemString and not LibTSMService.IsVanillaClassic() and not LibTSMService.IsBCClassic() then
+		if itemString and not LibTSMService.IsVanillaClassic() then
 			return itemString, ItemInfo.GetTexture(itemString), ItemInfo.GetName(itemString)
 		elseif EngineeringData.Tinkers[spellId] then
 			local name, icon = TradeSkill.GetBasicInfo(spellId)
@@ -435,20 +435,39 @@ end
 ---@param itemString string The base result item string
 ---@return string
 function Profession.GenerateResultItemString(recipeString, itemString)
+	local level = RecipeString.GetLevel(recipeString) or 0
 	local absItemLevel = nil
 	for _, _, itemId in RecipeString.OptionalMatIterator(recipeString) do
 		local matItemString = ItemString.Get(itemId)
 		local matInfo = OptionalMat.Info[matItemString]
 		if matInfo then
 			absItemLevel = absItemLevel or matInfo.absItemLevel
+			level = level + (matInfo.relCraftLevel or 0)
 		end
 	end
 	if absItemLevel then
+		assert(level == 0)
 		local baseItemString = ItemString.GetBase(itemString)
 		return baseItemString.."::i"..absItemLevel
+	elseif level > 0 then
+		local relLevel = OptionalMat.ItemLevelByRank[level]
+		local baseItemString = ItemString.GetBase(itemString)
+		return baseItemString..(relLevel < 0 and "::-" or "::+")..abs(relLevel)
 	else
 		return itemString
 	end
+end
+
+---Gets the level increase from a set of optional mats.
+---@param optionalMats string[] The optional mat item strings
+---@return number
+function Profession.GetOptionalMatLevelIncrease(optionalMats)
+	local level = 0
+	for _, itemString in ipairs(optionalMats) do
+		local info = OptionalMat.Info[itemString]
+		level = level + (info and info.relCraftLevel or 0)
+	end
+	return level
 end
 
 ---Check if an optional mat is valid for a given craft and slot.
@@ -461,6 +480,10 @@ function Profession.IsValidOptionalMat(craftString, slotId, itemId)
 	if not matString then
 		return false
 	elseif not MatString.ContainsItem(matString, itemId) then
+		return false
+	end
+	local info = OptionalMat.Info["i:"..itemId]
+	if info and info.reqCraftLevels and not info.reqCraftLevels[CraftString.GetLevel(craftString)] then
 		return false
 	end
 	return true

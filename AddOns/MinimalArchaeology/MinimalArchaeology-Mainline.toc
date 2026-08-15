@@ -2,7 +2,7 @@
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
 ## Version: 12.1.0
 
-## Title: Minimal Archaeology
+## Title: Minimal Archaeology【萌】
 ## Notes: Archaeology UI replacement, Archaeology History and more... - Mainline version
 ## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r|cFFFFFFFF考古助手|r |cFFFFE00AMinimalArchaeology|r
 ## Notes-zhCN: 独立考古窗口

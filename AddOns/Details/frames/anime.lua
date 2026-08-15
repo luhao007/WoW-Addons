@@ -291,7 +291,7 @@ function _detalhes.PlayBestDamageOnGuild (damage)
 
 	local NewDamageRecord  = DetailsNewDamageRecord:CreateFontString("NewDamageRecordFontString", "OVERLAY")
 	NewDamageRecord:SetFont([=[Fonts\FRIZQT__.TTF]=], 12, "OUTLINE")
-	NewDamageRecord:SetText("Damage Record!")
+	NewDamageRecord:SetText("伤害记录!")
 	NewDamageRecord:SetDrawLayer("OVERLAY", 0)
 	NewDamageRecord:SetPoint("center", DetailsNewDamageRecord, "center", 18, 7)
 	NewDamageRecord:SetSize(181, 20)

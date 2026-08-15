@@ -75,7 +75,7 @@ addonTable.commonDefaults = {
     fontSize = 12,
     fontOutline = "OUTLINE",
     textAlign = "CENTER",
-    maskAndBorderStyle = "Thin",
+    maskAndBorderStyle = "细",
     borderColor = {r = 0, g = 0, b = 0, a = 1},
     backgroundStyle = "SCRB Semi-transparent",
     backgroundColor = {r = 1, g = 1, b = 1, a = 1},
@@ -282,33 +282,33 @@ addonTable.availableTextAlignmentStyles = {
 }
 
 addonTable.maskAndBorderStyles = {
-    ["1 Pixel"] = {
+    ["1像素"] = {
         type = "fixed",
         thickness = 1,
     },
-    ["Thin"] = {
+    ["细"] = {
         type = "fixed",
         thickness = 2,
     },
-    ["Slight"] = {
+    ["适中"] = {
         type = "fixed",
         thickness = 3,
     },
-    ["Bold"] = {
+    ["粗"] = {
         type = "fixed",
         thickness = 5,
     },
-    ["Blizzard Classic"] = {
+    ["暴雪经典样式"] = {
         type = "texture",
         mask = [[Interface\AddOns\SenseiClassResourceBar\Textures\BarBorders\blizzard-classic-mask.png]],
         border = LSM:Fetch(LSM.MediaType.BORDER, "SCRB Border Blizzard Classic"),
     },
-    ["Blizzard Classic Thin"] = {
+    ["暴雪经典样式(细)"] = {
         type = "texture",
         mask = [[Interface\AddOns\SenseiClassResourceBar\Textures\BarBorders\blizzard-classic-thin-mask.png]],
         border = LSM:Fetch(LSM.MediaType.BORDER, "SCRB Border Blizzard Classic Thin"),
     },
-    ["None"] = {},
+    ["无"] = {},
     -- Add more styles here as needed
     -- ["style-name"] = {
     --     type = "", -- texture or fixed. Other value will not be displayed (i.e hidden)

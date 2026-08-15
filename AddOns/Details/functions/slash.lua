@@ -86,11 +86,11 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (command == "classtime" or command == "playedclass") then
 		Details.played_class_time = not Details.played_class_time
-		Details:Msg("played class:", Details.played_class_time and "enabled" or "disabled")
+		Details:Msg("玩家职业:", Details.played_class_time and "enabled" or "disabled")
 
 	elseif (command == "stopperfcheck") then
 		Details.check_stuttering = not Details.check_stuttering
-		Details:Msg("stuttering/freeze checker:", Details.check_stuttering and "enabled" or "disabled")
+		Details:Msg("缓慢/停滞检查:", Details.check_stuttering and "enabled" or "disabled")
 		if (Details.check_stuttering) then
 			_G["UpdateAddOnMemoryUsage"] = Details.UpdateAddOnMemoryUsage_Custom
 		else
@@ -104,17 +104,17 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		local returnTable = {}
 
-		returnTable[#returnTable+1] = "Stuttering Information:"
-		returnTable[#returnTable+1] = "An addon feature, script is using: " .. performanceData.culpritFunc .. ""
+		returnTable[#returnTable+1] = "缓慢信息:"
+		returnTable[#returnTable+1] = "插件功能, 脚本使用的是: " .. performanceData.culpritFunc .. ""
 
 		returnTable[#returnTable+1] = ""
 
-		returnTable[#returnTable+1] = "Description: " .. performanceData.culpritDesc
+		returnTable[#returnTable+1] = "描述: " .. performanceData.culpritDesc
 
 		returnTable[#returnTable+1] = ""
 
-		returnTable[#returnTable+1] = "You may first: disable the addon feature that uses the functionality."
-		returnTable[#returnTable+1] = "Second: disable a script which are using the function call: " .. performanceData.culpritFunc .. "."
+		returnTable[#returnTable+1] = "你可以首先: 停用使用该功能的插件."
+		returnTable[#returnTable+1] = "然后: 禁用正在使用函数调用的脚本: " .. performanceData.culpritFunc .. "."
 
 		returnTable[#returnTable+1] = ""
 
@@ -139,7 +139,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (command == "mergepetspells") then --deprecated
 		Details.merge_pet_abilities = not Details.merge_pet_abilities
-		Details:Msg("Merging pet spells:", Details.merge_pet_abilities or "false")
+		Details:Msg("合并宠物法术:", Details.merge_pet_abilities or "false")
 
 	elseif (command == "softhide") then
 		for instanceID, instance in Details:ListInstances() do
@@ -256,7 +256,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		Details:OpenNewsWindow()
 
 	elseif (command == "discord") then
-		Details:CopyPaste ("https://discord.gg/AGSzAZX")
+		Details:CopyPaste ("https://kook.top/ZfIZFC")
 
 
 	elseif (command == "m+log") then
@@ -294,13 +294,13 @@ function SlashCmdList.DETAILS (msg, editbox)
 			if (combatObject) then
 				Details:DestroyCombat(combatObject)
 				Details:SendEvent("DETAILS_DATA_SEGMENTREMOVED")
-				Details:Msg("segment removed.")
+				Details:Msg("片段删除.")
 				collectgarbage()
 			else
-				Details:Msg("segment not found.")
+				Details:Msg("片段未找到.")
 			end
 		else
-			Details:Msg("segment ID invalid.")
+			Details:Msg("片段ID无效.")
 		end
 		return
 
@@ -325,7 +325,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 			local profile = Details:GetProfile(profileName)
 			if (not profile) then
-				return Details:Msg("Profile Not Found.")
+				return Details:Msg("未找到配置文件.")
 			end
 
 			if (not Details:ApplyProfile(profileName)) then
@@ -406,7 +406,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 	elseif (msg == "blizzard" or msg == "bdsm") then
 		if detailsFramework.IsAddonApocalypseWow() then
 			if msg == "bdsm" then
-				print("This command changed to /details blizzard")
+				print("此命令已改为/details blizzard")
 				return
 			end
 			local isDamageMeterEnabled = C_CVar.GetCVarBool("damageMeterEnabled")
@@ -436,10 +436,10 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (msg == "captures") then
 		for k, v in pairs(Details.capture_real) do
-			print("real -",k,":",v)
+			print("实时 -",k,":",v)
 		end
 		for k, v in pairs(Details.capture_current) do
-			print("current -",k,":",v)
+			print("当前 -",k,":",v)
 		end
 
 	elseif (msg == "keys") then
@@ -489,7 +489,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		--_detalhes.ResetButton:SetHighlightTexture(t)
 		Details.ResetButton:SetNormalTexture(t)
 
-		print("backdrop", Details.ResetButton:GetBackdrop())
+		print("背景", Details.ResetButton:GetBackdrop())
 
 		Details.ResetButton:SetBackdropColor(0, 0, 1, 1)
 
@@ -573,15 +573,15 @@ function SlashCmdList.DETAILS (msg, editbox)
 			if (segment and segment ~= 0) then
 				local c = Details:GetCombat(segment)
 				playerActor = c (4, playername)
-				print("using segment", segment, c, "player actor:", playerActor)
+				print("使用分段", segment, c, "玩家:", playerActor)
 			else
 				playerActor = c (4, playername)
 			end
 
-			print("actor table: ", playerActor)
+			print("玩家列表: ", playerActor)
 
 			if (not playerActor) then
-				print("actor table not found")
+				print("玩家列表没有找到")
 				return
 			end
 
@@ -602,8 +602,8 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		local callback = function(width, height, overlayColor, alpha, texCoords)
 			print(width, height, alpha)
-			print("overlay: ", unpack(overlayColor))
-			print("crop: ", unpack(texCoords))
+			print("覆盖: ", unpack (overlayColor))
+			print("剪切: ", unpack (texCoords))
 		end
 
 		Details.gump:ImageEditor (callback, "Interface\\TALENTFRAME\\bg-paladin-holy", nil, {1, 1, 1, 1}) -- {0.25, 0.25, 0.25, 0.25}
@@ -630,7 +630,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		}
 		Details.capture_current = Details.capture_real
 		Details:CaptureRefresh()
-		print(Loc ["STRING_DETAILS1"] .. "capture has been reseted.")
+		print(Loc ["STRING_DETAILS1"] .. "捕获已被重置.")
 
 	--debug
 	elseif (command == "barra") then
@@ -646,7 +646,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 	elseif (msg == "opened") then
-		print("Instances opened: " .. Details.opened_windows)
+		print("副本战斗已开始: " .. Details.opened_windows)
 
 	--debug, get a guid of something
 	elseif (command == "backdrop") then --localize-me
@@ -656,8 +656,8 @@ function SlashCmdList.DETAILS (msg, editbox)
 		Details.VarDump (backdrop)
 		Details.VarDump (backdrop.insets)
 
-		print("bgcolor:",f:GetBackdropColor())
-		print("bordercolor",f:GetBackdropBorderColor())
+		print("背景颜色:",f:GetBackdropColor())
+		print("边框颜色",f:GetBackdropBorderColor())
 
 	elseif (command == "myguid") then --localize-me
 
@@ -838,7 +838,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		local profile = rest:match("^(%S*)%s*(.-)$")
 
-		print("Force apply profile: ", profile)
+		print("强制应用配置: ", profile)
 
 		Details:ApplyProfile (profile, false)
 
@@ -883,7 +883,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		t = tonumber(t)
 		if (not t) then
-			return print("not T found.")
+			return print("没有找到T.")
 		end
 
 		local f = Details.ListPanel
@@ -899,7 +899,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 			f:add (name, i)
 		end
 
-		print(i, "names found.")
+		print(i, "个名称被找到.")
 
 		f:Show()
 
@@ -909,7 +909,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		t = tonumber(t)
 		if (not t) then
-			return print("not T found.")
+			return print("没有找到T.")
 		end
 
 		local f = Details.ListPanel
@@ -929,7 +929,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		local one, two = rest:match("^(%S*)%s*(.-)$")
 
 		if (not one or one == "") then
-			print("Use: /details bossspells [boss name]. Example: '/details bossspells Dimen' or '/details bossspells the soul' -> Dimensius and The Soul Hunters.")
+			print("用法: 输入/details bossspells [首领名称]. 例如: '/details bossspells Dimen' 或 '/details bossspells the soul' -> 分别对应迪门修斯和灵魂猎手.")
 			return
 		end
 
@@ -974,7 +974,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 		if (not foundBoss) then
-			print("No boss found. Use: /details bossspells [boss name]. Example: '/details bossspells Dimen' > return Dimensius, the all-devouring spells.")
+			print("未找到相关首领. 用法: /details bossspells [首领名称]. 例如: '/details bossspells Dimen' > 将返回吞噬者迪门修斯的技能信息.")
 		end
 
 	elseif (command == "bsl") then
@@ -984,7 +984,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		local one, two = rest:match("^(%S*)%s*(.-)$")
 
 		if (not one or one == "") then
-			print("Use: /details bosslore [boss name]. Example: '/details bosslore Dimen' or '/details bosslore the soul' -> Dimensius and The Soul Hunters.")
+			print("用法: /details bosslore [首领名称]. 例如: '/details bosslore Dimen' 或 '/details bosslore the soul' -> 分别对应迪门修斯和灵魂猎手的背景故事.")
 			return
 		end
 
@@ -1109,11 +1109,11 @@ function SlashCmdList.DETAILS (msg, editbox)
 	elseif (command == "debugnet") then
 		if (Details.debugnet) then
 			Details.debugnet = false
-			print(Loc["STRING_DETAILS1"] .. "net diagnostic mode has been turned off.")
+			print(Loc["STRING_DETAILS1"] .. "网路诊断模式已被关闭.")
 			return
 		else
 			Details.debugnet = true
-			print(Loc["STRING_DETAILS1"] .. "net diagnostic mode has been turned on.")
+			print(Loc["STRING_DETAILS1"] .. "网路诊断模式已被开启.")
 		end
 
 	elseif (command == "m+debug") then
@@ -1129,11 +1129,11 @@ function SlashCmdList.DETAILS (msg, editbox)
 	elseif (msg == "combatlog") then
 		if (Details.isLoggingCombat) then
 			LoggingCombat (false)
-			print("Wow combatlog record turned OFF.")
+			print("Wow战斗记录关闭了.")
 			Details.isLoggingCombat = nil
 		else
 			LoggingCombat (true)
-			print("Wow combatlog record turned ON.")
+			print("Wow战斗记录开启了.")
 			Details.isLoggingCombat = true
 		end
 
@@ -1159,7 +1159,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		BigWigs.RegisterMessage(addon, "BigWigs_Message")
 		function addon:BigWigs_Message(event, module, key, text)
 		  if module.journalId  == 1197 and text:match("^Phase %d$") then -- 1197 = Margok
-		   print("Phase Changed!", event, module, key, text)
+		   print("片段改变!", event, module, key, text)
 		  end
 		end
 
@@ -1216,7 +1216,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 					local itemName, itemLink, itemRarity, itemLevel, _, itemType, itemSubType = GetItemInfo (itemLink)
 					if (itemType == "Armor" or itemType == "Weapon") then --a weapon or armor
 						if (itemLevel < 460) then
-							print("Selling", itemName, itemType)
+							print("出售", itemName, itemType)
 							UseContainerItem (b, s)
 						end
 					end
@@ -1261,7 +1261,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 			["INVTYPE_RANGEDRIGHT"] = true,
 		}
 
-		Details:Msg("======== Item Level Debug ========")
+		Details:Msg("======== 装备等级调试 ========")
 
 		for equip_id = 1, 17 do
 			if (equip_id ~= 4) then --shirt slot
@@ -1288,7 +1288,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 		local average = item_level / item_amount
-		Details:Msg("gear score: " .. item_level, "| item amount:", item_amount, "| ilvl:", average)
+		Details:Msg("装备得分: " .. item_level, "| 装备数量:", item_amount, "| 等级:", average)
 
 		Details.ilevel:CalcItemLevel ("player", UnitGUID("player"), true)
 
@@ -1396,7 +1396,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 			local instance = Details:GetInstance(lower_instance)
 			if (instance) then
 				local func = {Details.OpenRaidHistoryWindow, Details, "Hellfire Citadel", 1800, 15, "DAMAGER", "Rock Lobster", 2, "Keyspell"}
-				instance:InstanceAlert ("Boss Defeated, Open History! ", {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}, 40, func, true)
+				instance:InstanceAlert ("BOSS击败, 打开历史! ", {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}, 40, func, true)
 			end
 		end
 
@@ -1414,7 +1414,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		local lower_instance = Details:GetLowerInstanceNumber()
 		local instance = Details:GetInstance(lower_instance)
 
-		instance:InstanceAlert ("Boss Defeated! Show Ranking", icon, 10, func, true)
+		instance:InstanceAlert ("Boss击败!显示排名", icon, 10, func, true)
 
 	elseif (msg == "scroll" or msg == "scrolldamage" or msg == "scrolling") then
 		Details:ScrollDamage()
@@ -1435,13 +1435,13 @@ function SlashCmdList.DETAILS (msg, editbox)
 	if (spec) then
 		local specID = detailsFramework.GetSpecializationInfo(spec)
 		if (specID and specID ~= 0) then
-			print("Current SpecID: ", specID)
+			print("当前的SpecID: ", specID)
 		end
 	end
 
 	elseif (msg == "senditemlevel") then
 		Details:SendCharacterData()
-		print("Item level dispatched.")
+		print("发送物品等级.")
 
 	elseif (msg == "talents") then
 		local talents = {}
@@ -1464,7 +1464,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		--at this point, details! should not be in combat
 		if (Details.in_combat) then
-			Details:Msg("already in combat, closing current segment.")
+			Details:Msg("已经在战斗中, 关闭当前部分.")
 			Details:SairDoCombate()
 		end
 
@@ -1499,7 +1499,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 		newCombat.is_trash = false
-		Details:Msg("done merging, segments: " .. segmentsAdded .. ", total time: " .. detailsFramework:IntegerToTimer(totalTime))
+		Details:Msg("合并完成, 片段: " .. segmentsAdded .. ", 总计用时: " .. detailsFramework:IntegerToTimer (totalTime))
 
 		--set some data
 		newCombat:SetStartTime(GetTime() - totalTime)
@@ -1679,16 +1679,16 @@ function SlashCmdList.DETAILS (msg, editbox)
 		if (not Details.coach.enabled) then
 			Details.Coach.WelcomePanel()
 		else
-			Details:Msg("coach disabled.")
+			Details:Msg("禁用教练.")
 			Details.Coach.Disable()
 		end
 
 	elseif (msg == "9") then
-		print("skin:", Details.skin)
-		print("current profile:", Details:GetCurrentProfileName())
-		print("always use profile:", Details.always_use_profile)
-		print("profile name:", Details.always_use_profile_name)
-		print("version:", Details.build_counter >= Details.alpha_build_counter and Details.build_counter or Details.alpha_build_counter)
+		print("皮肤:", Details.skin)
+		print("当前配置:", Details:GetCurrentProfileName())
+		print("常用配置:", Details.always_use_profile)
+		print("配置名称:", Details.always_use_profile_name)
+		print("版本:", Details.build_counter >= Details.alpha_build_counter and Details.build_counter or Details.alpha_build_counter)
 
 	elseif (msg == "recordtest") then
 
@@ -1725,14 +1725,14 @@ function SlashCmdList.DETAILS (msg, editbox)
 		Details.GenerateRacialSpellList()
 
 	elseif (msg == "bug") then
-		dumpt(DETAILS_FAILED_ACTOR or {"No bug to report here."})
+		dumpt(DETAILS_FAILED_ACTOR or {"这里没有要报告的错误."})
 
 	elseif (msg == "spellcat") then
 		Details.Survey.OpenSurveyPanel()
 
 	elseif (msg == "pstate") then
 		local sEngineState = Details222.Parser.GetState()
-		Details:Msg("Parser State:", sEngineState)
+		Details:Msg("解析器状态:", sEngineState)
 	else
 
 		--if (_detalhes.opened_windows < 1) then
@@ -1750,31 +1750,31 @@ function SlashCmdList.DETAILS (msg, editbox)
 						rest = tonumber(rest)
 						if (rest) then
 							Details [command] = rest
-							print(Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' set to " .. rest)
+							print(Loc ["STRING_DETAILS1"] .. "配置 '" .. command .. "' 设置为 " .. rest)
 						else
-							print(Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' expects a number")
+							print(Loc ["STRING_DETAILS1"] .. "配置 '" .. command .. "' 需要数字")
 						end
 
 					elseif (whichType == "string") then
 						rest = tostring(rest)
 						if (rest) then
 							Details [command] = rest
-							print(Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' set to " .. rest)
+							print(Loc ["STRING_DETAILS1"] .. "配置 '" .. command .. "' 设置为 " .. rest)
 						else
-							print(Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' expects a string")
+							print(Loc ["STRING_DETAILS1"] .. "配置 '" .. command .. "' 需要字符串")
 						end
 
 					elseif (whichType == "boolean") then
 						if (rest == "true") then
 							Details [command] = true
-							print(Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' set to true")
+							print(Loc ["STRING_DETAILS1"] .. "配置 '" .. command .. "' 设置为true")
 
 						elseif (rest == "false") then
 							Details [command] = false
-							print(Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' set to false")
+							print(Loc ["STRING_DETAILS1"] .. "配置 '" .. command .. "' 设置为false")
 
 						else
-							print(Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' expects true or false")
+							print(Loc ["STRING_DETAILS1"] .. "配置 '" .. command .. "' 需要true或false")
 						end
 					end
 
@@ -1783,7 +1783,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 					if (type(value) == "boolean") then
 						value = value and "true" or "false"
 					end
-					print(Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' current value is: " .. value)
+					print(Loc ["STRING_DETAILS1"] .. "配置 '" .. command .. "' 当前值为: " .. value)
 				end
 
 				return
@@ -1795,11 +1795,11 @@ function SlashCmdList.DETAILS (msg, editbox)
 		print("|cffffaeae/details|r |cffffff33" .. Loc ["STRING_SLASH_RESET"] .. "|r: " .. Loc ["STRING_SLASH_RESET_DESC"])
 		print("|cffffaeae/details|r |cffffff33" .. Loc ["STRING_SLASH_OPTIONS"] .. "|r|cfffcffb0 <" .. Loc ["STRING_WINDOW_NUMBER"] .. ">|r: " .. Loc ["STRING_SLASH_OPTIONS_DESC"])
 		print("|cffffaeae/details|r |cffffff33" .. "API" .. "|r: " .. Loc ["STRING_SLASH_API_DESC"])
-		print("|cffffaeae/details|r |cffffff33" .. "me" .. "|r: open the player breakdown for you.") --localize-me
-		print("|cffffaeae/details|r |cffffff33" .. "spells" .. "|r: list of spells already saw.") --localize-me
+		print("|cffffaeae/details|r |cffffff33" .. "我" .. "|r: open the player breakdown for you.") --localize-me
+		print("|cffffaeae/details|r |cffffff33" .. "法术" .. "|r: list of spells already saw.") --localize-me
 
 		print("|cFFFFFF00DETAILS! VERSION|r:|cFFFFAA00" .. " " .. Details.GetVersionString())
-		print("|cffffaeae/details|r |cffffff33" .. "version" .. "|r: copy version.")
+		print("|cffffaeae/details|r |cffffff33" .. "version" .. "|r: 复制版本.")
 
 	end
 end
@@ -1843,7 +1843,7 @@ function Details:UpdateUserPanel(usersTable)
 		local frameWidth, frameHeight = 470, 605
 		DetailsUserPanel = detailsFramework:CreateSimplePanel(UIParent)
 		DetailsUserPanel:SetSize(frameWidth, frameHeight)
-		DetailsUserPanel:SetTitle("Details! Version Check")
+		DetailsUserPanel:SetTitle("Details! 版本检查")
 		DetailsUserPanel.Data = {}
 		DetailsUserPanel:ClearAllPoints()
 		DetailsUserPanel:SetPoint("left", UIParent, "left", 5, 100)
@@ -1869,9 +1869,9 @@ function Details:UpdateUserPanel(usersTable)
 
 		--header
 		local headerTable = {
-			{text = "User Name", width = 160},
-			{text = "Realm", width = 130},
-			{text = "Version", width = 140},
+			{text = "用户姓名", width = 160},
+			{text = "范围", width = 130},
+			{text = "版本", width = 140},
 		}
 
 		local headerOptions = {
@@ -2072,13 +2072,13 @@ local keystoneCallbacks = {}
 function Details:ReplaceKeystoneCommand(addonObject, memberName, ...)
 	--check if the parameters passed are valid types
 	if (type(addonObject) ~= "table") then
-		error("Details:ReplaceKeystoneCommand: addonObject must be a table")
+		error("Details:ReplaceKeystoneCommand: addonObject必须是一个表")
 
 	elseif (type(memberName) ~= "string") then
-		error("Details:ReplaceKeystoneCommand: memberName must be a string")
+		error("Details:ReplaceKeystoneCommand: memberName必须是字符串")
 
 	elseif (type(addonObject[memberName]) ~= "function") then
-		error("Details:ReplaceKeystoneCommand: t[memberName] doesn't point to a function.")
+		error("Details:ReplaceKeystoneCommand: t[memberName]不指向函数.")
 	end
 
 	--check if the addonObject is already registered and remove it
@@ -2236,8 +2236,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 				set = function(self, fixedparam, value)
 					config.enabled = value
 				end,
-				name = "Enabled",
-				desc = "Enabled",
+				name = "启用",
+				desc = "启用",
 			},
 
 			{
@@ -2248,8 +2248,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 				set = function(self, fixedparam, value)
 					config.printtochat = value
 				end,
-				name = "No Window, just print to chat",
-				desc = "Print to Chat",
+				name = "无需窗口, 只需打印到聊天框",
+				desc = "打印到聊天框",
 			},
 
 			{type = "blank"},
@@ -2265,8 +2265,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Don't move with LEFT mouse click",
-				desc = "Window cannot interact with LEFT clicks",
+				name = "不要通过左键单击移动",
+				desc = "窗口无法通过左键单击进行交互",
 			},
 
 			{
@@ -2280,8 +2280,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Don't close with RIGHT mouse click",
-				desc = "Window cannot interact with RIGHT clicks",
+				name = "不要通过右键单击关闭",
+				desc = "窗口无法通过右键单击进行交互",
 			},
 
 			{type = "blank"},
@@ -2291,8 +2291,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 				func = function()
 					config.notes = {}
 				end,
-				name = "Clear Notes",
-				desc = "Clear all notes",
+				name = "清除备注",
+				desc = "清除所有备注",
 				icontexture = [[Interface\BUTTONS\UI-StopButton]],
 			},
 
@@ -2301,8 +2301,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 				func = function()
 					config.banlist = {}
 				end,
-				name = "Clear Banlist",
-				desc = "Clear all banlist",
+				name = "清除黑名单",
+				desc = "清除所有黑名单",
 				icontexture = [[Interface\BUTTONS\UI-StopButton]],
 			},
 
@@ -2321,8 +2321,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Reset Positions",
-				desc = "Reset all positions",
+				name = "重置位置",
+				desc = "重置所有位置",
 				icontexture = "UI-RefreshButton", --atlasname
 			},
 
@@ -2340,8 +2340,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 				min = 8,
 				max = 16,
 				step = 1,
-				name = "Text Size",
-				desc = "Text Size",
+				name = "文本大小",
+				desc = "文本大小",
 			},
 
 			{type = "blank"},
@@ -2359,8 +2359,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
                 end,
-                name = "Background color",
-                desc = "Background color",
+                name = "背景颜色",
+                desc = "背景颜色",
             },
 
 			{
@@ -2376,8 +2376,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 				max = 1,
 				step = 0.1,
 				usedecimals = true,
-				name = "Transparency",
-				desc = "Transparency",
+				name = "透明度",
+				desc = "透明度",
 			},
 
 			{
@@ -2393,8 +2393,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 					end
 				end,
 				icontexture = "UI-RefreshButton", --atlasname
-				name = "Reset Color",
-				desc = "Reset Color",
+				name = "重置颜色",
+				desc = "重置颜色",
 			},
 
 			{type = "breakline"},
@@ -2410,8 +2410,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Show header where it says 'Notes (/note)'",
-				desc = "Show header where it says 'Notes (/note)'",
+				name = "显示标题内容为'备注(/note)'",
+				desc = "显示标题内容为'备注(/note)'",
 			},
 
 			{
@@ -2425,8 +2425,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Show 'Right click to close'",
-				desc = "Show 'Right click to close'",
+				name = "显示'右键单击关闭'",
+				desc = "显示'右键单击关闭'",
 			},
 
 			{
@@ -2440,8 +2440,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Show close button",
-				desc = "Show close button",
+				name = "显示关闭按钮",
+				desc = "显示关闭按钮",
 			},
 
 			{
@@ -2455,8 +2455,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Show ban sender button",
-				desc = "Show ban sender button",
+				name = "显示禁止发送者按钮",
+				desc = "显示禁止发送者按钮",
 			},
 
 			{
@@ -2470,8 +2470,8 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Show options button (/note to open options then)",
-				desc = "There is a button on the note window to open the options",
+				name = "显示选项按钮(/note打开选项)",
+				desc = "在备注窗口中有一个按钮可以打开选项",
 			},
 
 			{
@@ -2485,14 +2485,14 @@ noteEditor.OpenNoteOptionsPanel = function()
 						DetailsNoteScreenFrame.RefreshFrameSettings()
 					end
 				end,
-				name = "Show resize button",
-				desc = "Show resize button",
+				name = "显示调整大小按钮",
+				desc = "显示调整大小按钮",
 			},
 		}
 
 		--create a details framework label using with the text: options for the window where the note is shown
 		---@type df_label
-		local label = detailsFramework:CreateLabel(mainFrame, "Options for the window where the note is shown", "GameFontNormal")
+		local label = detailsFramework:CreateLabel(mainFrame, "显示备注窗口的选项", "GameFontNormal")
 		label:SetPoint("topleft", mainFrame, "topleft", 3, -30)
 
 		local options_text_template = detailsFramework:GetTemplate("font", "OPTIONS_FONT_TEMPLATE")
@@ -2509,7 +2509,7 @@ noteEditor.OpenNoteOptionsPanel = function()
 
 	local screenFrame = DetailsNoteScreenFrame
 	if (not screenFrame or not screenFrame:IsShown()) then
-		local testText = "This currently text shown here is just a test text because you have opened the options panel for this feature. It is intended to changes made in the options panel to be immediately applied here."
+		local testText = "当前显示的文本只是测试文本, 因为你已打开此功能的选项面板. 目的是在选项面板中所做的更改会立即应用于此处."
 		local invalidCommId = ""
 		local bIsSimulateOnClient = true
 		noteEditor.OpenNoteScreenPanel(UnitName("player"), testText, invalidCommId, bIsSimulateOnClient)
@@ -2528,7 +2528,7 @@ local openAPIFrame = function()
 	local CONST_WINDOW_HEIGHT = 720
 	local editorAlpha = 0.1
 
-	local mainFrame = detailsFramework:CreateSimplePanel(UIParent, CONST_WINDOW_WIDTH, CONST_WINDOW_HEIGHT, "Notes (/note) API", "DetailsNoteAPIFrame")
+	local mainFrame = detailsFramework:CreateSimplePanel(UIParent, CONST_WINDOW_WIDTH, CONST_WINDOW_HEIGHT, "备注(/note)API", "DetailsNoteAPIFrame")
 	mainFrame:SetPoint("left", UIParent, "left", 50, 0)
 	mainFrame:SetToplevel(true)
 
@@ -2602,7 +2602,7 @@ end
 --send a note to other player in the group:
 local openRaidLib = LibStub:GetLibrary("LibOpenRaid-1.0", true)
 if (openRaidLib) then
-    local noteText = "Hello, I'm sending a note to the group!, how are you?"
+    local noteText = "你好, 我正在向团队发送备注! 你好吗?"
     --tell OpenRaid that the note of this player is noteText
     openRaidLib.SetPlayerNote(noteText)
     --tell OpenRaid to send the note set by the player to all other players in the group
@@ -2745,7 +2745,7 @@ end
 noteEditor.OpenNoteEditor = function()
 	--check if the client is running retail version
 	if (not detailsFramework.IsDragonflightAndBeyond()) then
-		Details:Msg("This feature is only available on retail version.")
+		Details:Msg("此功能仅在正式服中可用.")
 		return
 	end
 
@@ -2764,7 +2764,7 @@ noteEditor.OpenNoteEditor = function()
 
 			local editorAlpha = 0.1
 
-			local mainFrame = detailsFramework:CreateSimplePanel(UIParent, CONST_WINDOW_WIDTH, CONST_WINDOW_HEIGHT, "Notes (/note)", "DetailsNoteFrame")
+			local mainFrame = detailsFramework:CreateSimplePanel(UIParent, CONST_WINDOW_WIDTH, CONST_WINDOW_HEIGHT, "备注(/note)", "DetailsNoteFrame")
 			mainFrame:SetPoint("center", UIParent, "center", -200, 0)
 			mainFrame:SetScript("OnMouseDown", nil) --disable framework native moving scripts
 			mainFrame:SetScript("OnMouseUp", nil) --disable framework native moving scripts
@@ -2931,7 +2931,7 @@ noteEditor.OpenNoteEditor = function()
 				--create a string with the text "Type your note here" and it attach center to center of the editbox
 				local typeYourNote = editboxNotes:CreateFontString(nil, "overlay", "GameFontNormal")
 				typeYourNote:SetPoint("center", editboxNotes, "center", 0, 0)
-				typeYourNote:SetText("CLICK TO START YOUR NOTE")
+				typeYourNote:SetText("点击开始你的备注")
 				detailsFramework:SetFontColor(typeYourNote, "gray")
 				detailsFramework:SetFontSize(typeYourNote, 14)
 
@@ -3150,7 +3150,7 @@ noteEditor.OpenNoteEditor = function()
 
 				local onEnterLine = function(self)
 					GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
-					GameTooltip:SetText("double click to rename")
+					GameTooltip:SetText("双击重命名")
 					GameTooltip:Show()
 				end
 
@@ -3269,7 +3269,7 @@ noteEditor.OpenNoteEditor = function()
 				local sendButton = detailsFramework:CreateButton(bottomFrame, function()
 					local noteText = mainFrame.EditboxNotes.editbox:GetText()
 					if (noteText:len() < CONST_NOTE_MIN_CHARACTERS) then
-						local msg = "Note is too short, must have at least " .. CONST_NOTE_MIN_CHARACTERS .. " characters."
+						local msg = "备注太短, 必须至少包含" .. CONST_NOTE_MIN_CHARACTERS .. "个字符."
 						Details:Msg(msg)
 						mainFrame.ShowErrorMsg(msg)
 						return
@@ -3295,7 +3295,7 @@ noteEditor.OpenNoteEditor = function()
 					--open raid do not send the note to the local player, need to trigger the screen panel manually
 					local zoneName, instanceType, difficultyID, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapID, instanceGroupSize = GetInstanceInfo()
 					if (not canAcceptNoteOn[difficultyID] and not Details.debug) then --at the moment, players can only receive notes if inside a mythic dungeon
-						local msg = "At the moment, you can only send and receive notes inside a mythic dungeon."
+						local msg = "目前, 你只能在史诗地下城内发送和接收备注."
 						Details:Msg(msg)
 						mainFrame.ShowErrorMsg(msg)
 						return
@@ -3306,7 +3306,7 @@ noteEditor.OpenNoteEditor = function()
 					local bIsSimulateOnClient = true
 					noteEditor.OpenNoteScreenPanel(UnitName("player"), noteText, "", bIsSimulateOnClient)
 
-				end, buttonWidth, buttonHeight, "Send Note")
+				end, buttonWidth, buttonHeight, "发送备注")
 				sendButton:SetPoint("topleft", bottomFrame, "topleft", 0, -2)
 				sendButton:SetTemplate(detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
 				sendButton:SetIcon("Interface\\BUTTONS\\JumpUpArrow", 18, 18, "overlay", {0, 1, 0, 1})
@@ -3315,7 +3315,7 @@ noteEditor.OpenNoteEditor = function()
 				local saveNoteButton = detailsFramework:CreateButton(bottomFrame, function()
 					--print("mainFrame.currentNoteIndex", mainFrame.currentNoteIndex) --nil when no note is selected
 					mainFrame.SaveNote(mainFrame.currentNoteIndex)
-				end, buttonWidth, buttonHeight, "Save Note")
+				end, buttonWidth, buttonHeight, "保存备注")
 				saveNoteButton:SetPoint("bottomleft", sendButton, "bottomright", 4, 0)
 				saveNoteButton:SetTemplate(detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
 				saveNoteButton:SetIcon([[Interface\BUTTONS\UI-GuildButton-PublicNote-Up]], 16, 16, "overlay")
@@ -3324,7 +3324,7 @@ noteEditor.OpenNoteEditor = function()
 
 				local newNoteButton = detailsFramework:CreateButton(bottomFrame, function()
 					mainFrame.CreateEmptyNote()
-				end, buttonWidth, buttonHeight, "New Empty Note")
+				end, buttonWidth, buttonHeight, "新建空白备注")
 				newNoteButton:SetPoint("bottomleft", saveNoteButton, "bottomright", 4, 0)
 				newNoteButton:SetTemplate(detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
 				newNoteButton:SetIcon([[Interface\BUTTONS\UI-GuildButton-PublicNote-Up]], 16, 16, "overlay")
@@ -3396,7 +3396,7 @@ noteEditor.OpenNoteEditor = function()
 				--make a fontstring with the text: "This panel allows you to create a note and share it with your group. Can contain route info, interrupt order, bloodlust timers, boss order, skips, rogue shroud, etc."
 				local whatsThisText = bottomFrame:CreateFontString(nil, "overlay", "GameFontNormal")
 				whatsThisText:SetPoint("left", whatsThisIcon, "right", 5, 0)
-				whatsThisText:SetText("This panel allows you to create a note and share it with your group. Can contain route info, interrupt order, bloodlust timers, boss order, skips, rogue shroud, etc.")
+				whatsThisText:SetText("此面板允许你创建备注并与你的团队共享. 可以包含路线信息, 打断顺序, 嗜血计时器, 首领顺序, 跳过, 潜行者帷幕等.")
 				whatsThisText:SetWidth(bottomFrame:GetWidth() - 10)
 				whatsThisText:SetJustifyH("left")
 				detailsFramework:SetFontSize(whatsThisText, 12)
@@ -3411,7 +3411,7 @@ noteEditor.OpenNoteEditor = function()
 
 				local warningText = bottomFrame:CreateFontString(nil, "overlay", "GameFontNormal")
 				warningText:SetPoint("left", warningTextIcon, "right", 5, 0)
-				warningText:SetText("You may report any offensive notes you receive. The text is logged on the server.")
+				warningText:SetText("你可以举报任何收到的冒犯性备注. 相关文本已在服务器上记录.")
 				warningText:SetAlpha(0.7)
 
 				local versionText = bottomFrame:CreateFontString(nil, "overlay", "GameFontNormal")
@@ -3429,7 +3429,7 @@ noteEditor.OpenNoteEditor = function()
 
 				local reuseText = belowScrollFrame:CreateFontString(nil, "overlay", "GameFontNormal")
 				reuseText:SetPoint("topleft", belowScrollFrame, "topleft", 4, -5)
-				reuseText:SetText("Use dps1 dps2 dps3 healer1 tank1 in order to reuse the note without typing player names.")
+				reuseText:SetText("使用dps1 dps2 dps3 healer1 tank1以便在不输入玩家名称的情况下重用备注.")
 				detailsFramework:SetFontSize(reuseText, 11)
 				detailsFramework:SetFontColor(reuseText, "silver")
 				reuseText:SetWidth(belowScrollFrame:GetWidth() - 6)
@@ -3525,7 +3525,7 @@ noteEditor.OpenNoteScreenPanel = function(senderName, noteText, commId, bIsSimul
 
 		local titleFrameText = titleRoundedFrame:CreateFontString(nil, "overlay", "GameFontNormal")
 		titleFrameText:SetPoint("center", titleRoundedFrame, "center", 0, 8)
-		titleFrameText:SetText("Notes (/note)")
+		titleFrameText:SetText("备注(/note)")
 
 		local LibWindow = LibStub("LibWindow-1.1")
 		LibWindow.RegisterConfig(screenFrame, config.screenpos.position)
@@ -3548,7 +3548,7 @@ noteEditor.OpenNoteScreenPanel = function(senderName, noteText, commId, bIsSimul
 		rightClickToCloseText:SetPoint("center", screenFrame, "center", 0, 0)
 		rightClickToCloseText:SetPoint("bottom", screenFrame, "bottom", 0, 27)
 		rightClickToCloseText:SetAlpha(0.934)
-		rightClickToCloseText:SetText("Right Click to Close")
+		rightClickToCloseText:SetText("右键单击关闭")
 		detailsFramework:SetFontSize(rightClickToCloseText, 14)
 
 		--create close button in the top right corner, can use the framework
@@ -3622,7 +3622,7 @@ noteEditor.OpenNoteScreenPanel = function(senderName, noteText, commId, bIsSimul
 				sender = detailsFramework:AddRoleIconToText(sender, unitRole, size)
 			end
 
-			screenFrame.TitleText:SetText("From: " .. sender)
+			screenFrame.TitleText:SetText("从: " .. sender)
 
 			--find all unit names in the text and color them
 			text = noteEditor.FindAndColorUnitNames(text)
@@ -3720,7 +3720,7 @@ noteEditor.OpenNoteScreenPanel = function(senderName, noteText, commId, bIsSimul
 
 	if (not config["tutorial1"]) then --~helptip
 		local helpTipInfo = {
-			text = "You received a note from another player.\n\nThis note contains instructions for the content you are about to engage in.\n\nIf the note is offensive, you may report the player to Blizzard using the 'Report Player' button.",
+			text = "你收到了来自其他玩家的备注.\n\n该备注包含你即将进行的内容的指示.\n\n如果备注内容冒犯, 您可以使用'举报玩家'按钮向暴雪举报该玩家.",
 			buttonStyle = HelpTip.ButtonStyle.Close,
 			targetPoint = HelpTip.Point.RightEdgeCenter,
 			offsetX = 8,
@@ -3812,7 +3812,7 @@ function Details222.Notes.RegisterForOpenRaidNotes()
 				end
 
 				if (config.printtochat) then
-					print("|cFFFFAA00 Note Sent by:", unitName, "|r")
+					print("|cFFFFAA00备注发送者:", unitName, "|r")
 					print(unitNote.note)
 				else
 					noteEditor.OpenNoteScreenPanel(unitName, unitNote.note, unitNote.commId, false)

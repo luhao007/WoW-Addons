@@ -871,8 +871,7 @@ function private.GetRestockHelpMessage(itemString)
 	end
 
 	-- check that this item is craftable
-	local levelItemString = ItemString.ToLevel(itemString)
-	if not TSM.Crafting.CanCraftItem(levelItemString) then
+	if not TSM.Crafting.CanCraftItem(itemString) then
 		return L["You don't know how to craft this item."]
 	end
 

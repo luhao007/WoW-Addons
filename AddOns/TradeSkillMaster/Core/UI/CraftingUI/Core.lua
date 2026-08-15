@@ -158,8 +158,8 @@ end
 
 function private.SwitchBtnOnClick(button)
 	private.settings.showDefault = button ~= private.defaultUISwitchBtn
-	if not private.settings.showDefault then
-		TradeSkill.SetDefaultFilters()
+	if ClientInfo.IsRetail() and private.settings.showDefault then
+		Professions.SetDefaultFilters()
 	end
 	Profession.SetScannerDisabled(private.settings.showDefault)
 	private.fsm:ProcessEvent("EV_SWITCH_BTN_CLICKED")
@@ -229,20 +229,6 @@ function private.FSMCreate()
 			CraftCreateButton:EnableDrawLayer("ARTWORK")
 		end
 	end
-	local function HideDefaultPanel()
-		local defaultFrame = ClientInfo.IsRetail() and ProfessionsFrame or TradeSkillFrame
-		if private.craftOpen then
-			if CraftFrame then
-				ScriptWrapper.Clear(CraftFrame, "OnHide")
-				HideUIPanel(CraftFrame)
-			end
-		else
-			if defaultFrame then
-				ScriptWrapper.Clear(defaultFrame, "OnHide")
-				HideUIPanel(defaultFrame)
-			end
-		end
-	end
 	local function DefaultFrameOnHide()
 		private.fsm:ProcessEvent("EV_FRAME_HIDE")
 	end
@@ -269,18 +255,10 @@ function private.FSMCreate()
 		:AddState(FSM.NewState("ST_DEFAULT_OPEN")
 			:SetOnEnter(function(context, isIgnored)
 				if private.craftOpen then
-					if ClientInfo.IsRetail() then
-						GameEvent.HandleCraftShow()
-					else
-						UIParent_OnEvent(UIParent, "CRAFT_SHOW")
-					end
+					UIParent_OnEvent(UIParent, "CRAFT_SHOW")
 					UpdateDefaultCraftButton()
 				else
-					if ClientInfo.IsRetail() then
-						GameEvent.HandleTradeSkillShow()
-					else
-						UIParent_OnEvent(UIParent, "TRADE_SKILL_SHOW")
-					end
+					UIParent_OnEvent(UIParent, "TRADE_SKILL_SHOW")
 				end
 				local defaultFrame = ClientInfo.IsRetail() and ProfessionsFrame or TradeSkillFrame
 				if not private.defaultUISwitchBtn then
@@ -311,7 +289,18 @@ function private.FSMCreate()
 				end
 			end)
 			:SetOnExit(function(context)
-				HideDefaultPanel()
+				local defaultFrame = ClientInfo.IsRetail() and ProfessionsFrame or TradeSkillFrame
+				if private.craftOpen then
+					if CraftFrame then
+						ScriptWrapper.Clear(CraftFrame, "OnHide")
+						HideUIPanel(CraftFrame)
+					end
+				else
+					if defaultFrame then
+						ScriptWrapper.Clear(defaultFrame, "OnHide")
+						HideUIPanel(defaultFrame)
+					end
+				end
 			end)
 			:AddTransition("ST_CLOSED")
 			:AddTransition("ST_FRAME_OPEN")
@@ -338,7 +327,6 @@ function private.FSMCreate()
 		:AddState(FSM.NewState("ST_FRAME_OPEN")
 			:SetOnEnter(function(context)
 				assert(not context.frame)
-				HideDefaultPanel()
 				context.frame = private.CreateMainFrame()
 				context.frame:Show()
 				if TradeSkill.GetName() then
@@ -378,7 +366,6 @@ function private.FSMCreate()
 				if CraftingUI.IsProfessionIgnored(TradeSkill.GetName()) then
 					return "ST_DEFAULT_OPEN", true
 				end
-				HideDefaultPanel()
 				context.frame:GetElement("titleFrame.switchBtn"):Show()
 				context.frame:GetElement("titleFrame"):Draw()
 			end)

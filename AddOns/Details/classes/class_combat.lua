@@ -644,7 +644,7 @@ local segmentTypeToString = {
 			end
 
 		elseif (combatType == DETAILS_SEGMENTTYPE_DUNGEON_OVERALL) then
-			return self.zoneName .. " (overall)" --localize-me
+			return self.zoneName .. " (总体)" --localize-me
 
 		elseif (combatType == DETAILS_SEGMENTTYPE_RAID_BOSS) then
 			local bossInfo = self:GetBossInfo()

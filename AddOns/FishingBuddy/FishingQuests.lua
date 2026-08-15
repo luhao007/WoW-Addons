@@ -62,15 +62,63 @@ QuestFish[200084] = {
 }
 
 local function GetNPCID()
-	return tonumber(string.match(UnitGUID('npc') or UnitGUID('target') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
+	-- Keep all GUID handling inside pcall to avoid touching restricted strings
+	local success, npcID = pcall(function()
+		local guid = UnitGUID('npc')
+		if not guid then
+			guid = UnitGUID('target')
+		end
+		if not guid then
+			return nil
+		end
+		return tonumber(string.match(guid, 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
+	end)
+	if success then
+		return npcID
+	end
+	return nil
 end
 
-local function procLunkerQuests(index, title, level, isTrivial, frequency, isRepeatable, isLegendary, ...)
-	local isDaily = frequency == LE_QUEST_FREQUENCY_DAILY
-	local isWeekly = frequency == LE_QUEST_FREQUENCY_WEEKLY
+local QuestItemsByQuestID = {};
+for itemID, fishData in pairs(PagleFish) do
+	if fishData.quest then
+		QuestItemsByQuestID[tonumber(fishData.quest)] = itemID;
+	end
+end
+for itemID, fishData in pairs(QuestFish) do
+	if fishData.quests then
+		for questID, _ in pairs(fishData.quests) do
+			questID = tonumber(questID)
+			if questID then
+				QuestItemsByQuestID[questID] = itemID;
+			end
+		end
+	end
+end
 
-	local n = GetItemCount(title)
-	if (n > 0) then
+local function HasRequiredQuestItem(questID)
+	questID = tonumber(questID)
+	if not questID then
+		return false
+	end
+	local itemID = QuestItemsByQuestID[questID]
+	if not itemID then
+		return false
+	end
+	return GetItemCount(itemID) > 0
+end
+
+local function procLunkerQuests(index, title, level, isTrivial, frequency, isRepeatable, isLegendary, questID, ...)
+	if (type(title) == "table") then
+		for idx, questInfo in ipairs(title) do
+			if HasRequiredQuestItem(questInfo.questID) then
+				C_GossipInfo.SelectAvailableQuest(idx)
+			end
+		end
+		return
+	end
+
+	if HasRequiredQuestItem(questID) then
 		C_GossipInfo.SelectAvailableQuest(index)
 	end
 
@@ -116,9 +164,7 @@ _fqframe:Register('QUEST_PROGRESS', function(_, ...)
 		local npcID = GetNPCID()
 
 		if (npcID == 85984) then
-			local title = GetTitleText()
-			local n = GetItemCount(title)
-			if (n > 0) then
+			if IsQuestCompletable() then
 				return CompleteQuest()
 			end
 		end
@@ -130,9 +176,7 @@ _fqframe:Register('QUEST_COMPLETE', function(_, ...)
 		local npcID = GetNPCID()
 
 		if (npcID == 85984) then
-			local title = GetTitleText()
-			local n = GetItemCount(title)
-			if (n > 0) then
+			if IsQuestCompletable() then
 				return GetQuestReward(1)
 			end
 		end

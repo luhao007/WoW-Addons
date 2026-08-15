@@ -669,18 +669,18 @@
 		end
 		Details.LastPullMsg = time()
 
-		local hitLine = self.HitBy or "|cFFFFBB00First Hit|r: *?*"
+		local hitLine = self.HitBy or "|cFFFFBB00开怪|r: *?*"
 		local targetLine = ""
 
 		if (Details.bossTargetAtPull) then
-			targetLine = " |cFFFFBB00Boss First Target|r: " .. Details.bossTargetAtPull
+			targetLine = " |cFFFFBB00Boss第一个目标|r: " .. Details.bossTargetAtPull
 		else
 			for i = 1, 5 do
 				local boss = UnitExists("boss" .. i)
 				if (boss) then
 					local target = UnitName ("boss" .. i .. "target")
 					if (target and type(target) == "string") then
-						targetLine = " |cFFFFBB00Boss First Target|r: " .. target
+						targetLine = " |cFFFFBB00Boss第一个目标|r: " .. target
 						break
 					end
 				end
@@ -742,11 +742,11 @@
 			end
 
 			if (value and combatTime and value > 0 and combatTime > 0) then
-				Details:Msg("|cFFFFBB00Your Best Score|r:", Details:ToK2 ((value) / combatTime) .. " [|cFFFFFF00Guild Rank: " .. rank .. "|r]") --localize-me
+				Details:Msg("|cFFFFBB00你的最好成绩|r:", Details:ToK2 ((value) / combatTime) .. " [|cFFFFFF00公会等级: " .. rank .. "|r]") --localize-me
 			end
 
 			if ((not combatTime or combatTime == 0) and not Details.SyncWarning) then
-				Details:Msg("|cFFFF3300you may need sync the rank within the guild, type '|cFFFFFF00/details rank|r'|r") --localize-me
+				Details:Msg("|cFFFF3300你可能需要在公会中同步等级，输入 '|cFFFFFF00/details rank|r'|r") --localize-me
 				Details.SyncWarning = true
 			end
 		end
@@ -956,7 +956,7 @@
 					end
 
 					Details.WhoAggroTimer = C_Timer.NewTimer(0.1, whoAggro)
-					Details.WhoAggroTimer.HitBy = "|cFFFFFF00First Hit|r: " .. (link or "") .. " from " .. (sourceName or "Unknown")
+					Details.WhoAggroTimer.HitBy = "|cFFFFFF00开怪|r: " .. (link or "") .. " 从 " .. (sourceName or "未知")
 
 					if (Details.announce_firsthit.enabled) then
 						Details:Msg("", Details.WhoAggroTimer.HitBy)
@@ -1821,7 +1821,7 @@
 		local this_event = t[i]
 
 		if (not this_event) then
-			return Details:Msg("Parser Event Error -> Set to 16 DeathLogs and /reload", i, _amount_of_last_events)
+			return Details:Msg("解析器事件错误 -> 设置为16个死亡日志并/reload", i, _amount_of_last_events)
 		end
 
 		this_event [1] = true --true if this is a damage || false for healing
@@ -1916,7 +1916,7 @@
 		local this_event = t [i]
 
 		if (not this_event) then
-			return Details:Msg("Parser Event Error -> Set to 16 DeathLogs and /reload", i, _amount_of_last_events)
+			return Details:Msg("解析器事件错误 -> 设置为16个死亡日志并/reload", i, _amount_of_last_events)
 		end
 
 		this_event [1] = true --true if this is a damage || false for healing
@@ -2036,7 +2036,7 @@
 		local this_event = t [i]
 
 		if (not this_event) then
-			return Details:Msg("Parser Event Error -> Set to 16 DeathLogs and /reload", i, _amount_of_last_events)
+			return Details:Msg("解析器事件错误 -> 设置为16个死亡日志并/reload", i, _amount_of_last_events)
 		end
 
 		this_event [1] = true --true if this is a damage || false for healing
@@ -2403,7 +2403,7 @@
 
 		--no name, use spellname
 		if (not sourceName) then
-			sourceName = "[*] " .. (spellNameHeal or "--unknown spell--")
+			sourceName = "[*] " .. (spellNameHeal or "--未知法术--")
 		end
 
 		--no target, just ignore
@@ -2972,7 +2972,7 @@
 				local thisEvent = deathLog[i]
 
 				if (not thisEvent) then
-					return Details:Msg("Parser Event Error -> Set to 16 DeathLogs and /reload", i, _amount_of_last_events)
+					return Details:Msg("解析器事件错误 -> 设置为16个死亡日志并/reload", i, _amount_of_last_events)
 				end
 
 				thisEvent[1] = 5 --5 = buff aplication
@@ -3486,7 +3486,7 @@
 					local thisEvent = t[i]
 
 					if (not thisEvent) then
-						return Details:Msg("Parser Event Error -> Set to 16 DeathLogs and /reload", i, _amount_of_last_events)
+						return Details:Msg("解析器事件错误 -> 设置为16个死亡日志并/reload", i, _amount_of_last_events)
 					end
 
 					thisEvent[1] = 4 --4 = debuff aplication
@@ -3546,7 +3546,7 @@
 						local thisEvent = t[i]
 
 						if (not thisEvent) then
-							return Details:Msg("Parser Event Error -> Set to 16 DeathLogs and /reload", i, _amount_of_last_events)
+							return Details:Msg("解析器事件错误 -> 设置为16个死亡日志并/reload", i, _amount_of_last_events)
 						end
 
 						thisEvent[1] = 4 --4 = debuff aplication
@@ -4063,7 +4063,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 			for i = 1, #_hook_cooldowns_container do
 				local successful, errorText = pcall(_hook_cooldowns_container[i], nil, token, time, sourceSerial, sourceName, sourceFlags, targetSerial, targetName, targetFlags, spellId, spellName)
 				if (not successful) then
-					Details:Msg("error occurred on a cooldown hook function:", errorText)
+					Details:Msg("在冷却钩子函数上发生错误:", errorText)
 				end
 			end
 		end
@@ -4983,7 +4983,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 					for _, func in ipairs(_hook_deaths_container) do
 						local successful, errortext = pcall(func, nil, token, time, sourceSerial, sourceName, sourceFlags, targetSerial, targetName, targetFlags, playerDeathTable, thisPlayer.last_cooldown, combatElapsedTime, maxHealth, playerDeathTable["mythic_plus_dead_at"] or 0)
 						if (not successful) then
-							Details:Msg("error occurred on a death hook function:", errortext)
+							Details:Msg("死亡钩子函数发生错误:", errortext)
 						end
 					end
 				end
@@ -5336,7 +5336,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 	end
 
 	function Details:CallWipe (from_slash)
-		Details:Msg("Wipe has been called by your raid leader.")
+		Details:Msg("你的团长已经要求进行清除.")
 
 		if (Details.wipe_called) then
 			if (from_slash) then
@@ -6125,7 +6125,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 			if (not Details.logoff_saving_data) then
 				local successful, errortext = pcall(Details.Database.StoreEncounter)
 				if (not successful) then
-					Details:Msg("error occurred on Details.Database.StoreEncounter():", errortext)
+					Details:Msg("Details.Database.StoreEncounter()发生错误:", errortext)
 				end
 			end
 			Details.schedule_store_boss_encounter = nil
@@ -6135,7 +6135,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 			if (not Details.logoff_saving_data) then
 				local successful, errortext = pcall(Details.Database.StoreWipe)
 				if (not successful) then
-					Details:Msg("error occurred on Details.Database.StoreWipe():", errortext)
+					Details:Msg("Details.Database.StoreWipe()发生错误:", errortext)
 				end
 			end
 			Details.schedule_store_boss_encounter_wipe = nil
@@ -6355,7 +6355,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 
         	Details222.MythicPlus.time = math.floor(completionTime / 1000)
 			Details.LastMythicPlusData.TimeWithoutDeaths = Details222.MythicPlus.time
-			Details:Msg("run elapsed time:", DetailsFramework:IntegerToTimer(completionTime / 1000))
+			Details:Msg("运行时间:", DetailsFramework:IntegerToTimer(completionTime / 1000))
 		else
 			Details222.MythicPlus.time = 0.1
 		end
@@ -6376,7 +6376,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 
 		Details:InstanceCallMethod("DoAutomation", "COMBAT_MYTHICDUNGEON_END")
 
-		Details222.MythicPlus.LogStep("===== Mythic+ Finished =====")
+		Details222.MythicPlus.LogStep("===== 大秘境完成 =====")
 	end
 
 	---@param self frame
@@ -6681,7 +6681,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 			if (not Details.instance_load_failed) then
 				Details:CreatePanicWarning()
 			end
-			Details.instance_load_failed.text:SetText("Framework for Details! isn't loaded.\nIf you just updated the addon, please reboot the game client.\nWe apologize for the inconvenience and thank you for your comprehension.")
+			Details.instance_load_failed.text:SetText("Details!框架没有加载.\n如果刚刚更新了插件，请重新启动游戏客户端.\n对于给你带来的不便，我们深表歉意，并感谢你的理解.")
 			return
 		end
 
@@ -6871,7 +6871,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		local savePlayTimeClass, savePlayTimeErrorText = pcall(function() Details.SavePlayTimeOnClass() end)
 
 		if (not savePlayTimeClass) then
-			addToExitErrors("Saving Play Time: " .. savePlayTimeErrorText)
+			addToExitErrors("保存玩家时间:" .. savePlayTimeErrorText)
 		end
 
 		---@type table record a log of events that happened during the logout process
@@ -6880,12 +6880,12 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		---@type table record errors that happened during the logout process
 		_detalhes_global.exit_errors = _detalhes_global.exit_errors or {}
 
-		currentStep = "Checking the framework integrity"
+		currentStep = "检查框体完整性"
 
 		if (not Details.gump) then
 			--failed to load the framework
-			tinsert(_detalhes_global.exit_log, "The framework wasn't in Details member 'gump'.")
-			tinsert(_detalhes_global.exit_errors, 1, currentStep .. " | " .. Details222.Date.GetDateForLogs() .. " | " .. Details.GetVersionString() .. " | Framework wasn't loaded |")
+			tinsert(_detalhes_global.exit_log, "框体不在Details成员'gump'中.")
+			tinsert(_detalhes_global.exit_errors, 1, currentStep .. "|" .. Details222.Date.GetDateForLogs() .. "|" .. Details.GetVersionString() .. "|框体没有被加载|")
 			return
 		end
 
@@ -6904,19 +6904,19 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 
 		--close breakdown window
 		if (Details.CloseBreakdownWindow) then
-			tinsert(_detalhes_global.exit_log, "1 - Closing Breakdown Window.")
-			currentStep = "Closing Breakdown Window"
+			tinsert(_detalhes_global.exit_log, "1 - 关闭窗口信息.")
+			currentStep = "关闭窗口信息"
 			xpcall(Details.CloseBreakdownWindow, logSaverError)
 		end
 
 		--do not save window pos
 		if (Details.tabela_instancias) then
 			local clearInstances = function()
-				currentStep = "Dealing With Instances"
-				tinsert(_detalhes_global.exit_log, "2 - Clearing user placed position from instance windows.")
+				currentStep = "处理战斗"
+				tinsert(_detalhes_global.exit_log, "2 - 从战斗中清除用户位置.")
 				for id, instance in Details:ListInstances() do
 					if (id) then
-						tinsert(_detalhes_global.exit_log, "  - " .. id .. " has baseFrame: " .. (instance.baseframe and "yes" or "no") .. ".")
+						tinsert(_detalhes_global.exit_log, "  - " .. id .. "有基础框架: " .. (instance.baseframe and "是" or "否") .. ".")
 						if (instance.baseframe) then
 							instance.baseframe:SetUserPlaced(false)
 							instance.baseframe:SetDontSavePosition(true)
@@ -6933,22 +6933,22 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 
 		--if is in combat during the logout, stop the combat
 		if (Details.in_combat and Details.tabela_vigente) then
-			tinsert(_detalhes_global.exit_log, "3 - Leaving current combat.")
-			currentStep = "Leaving Current Combat"
+			tinsert(_detalhes_global.exit_log, "3 - 离开当前战斗.")
+			currentStep = "离开当前战斗"
 			xpcall(Details.SairDoCombate, logSaverError)
 			Details.can_panic_mode = true
 		end
 
 		--switch back to default, settings changed by automation
 		if (Details.CheckSwitchOnLogon and Details.tabela_instancias and Details.tabela_instancias[1] and getmetatable(Details.tabela_instancias[1])) then
-			tinsert(_detalhes_global.exit_log, "4 - Reversing switches.")
-			currentStep = "Check Switch on Logon"
+			tinsert(_detalhes_global.exit_log, "4 - 翻转开关.")
+			currentStep = "登录时检查"
 			xpcall(Details.CheckSwitchOnLogon, logSaverError)
 		end
 
 		--user requested a wipe of the full configuration
 		if (Details.wipe_full_config) then
-			tinsert(_detalhes_global.exit_log, "5 - Is a full config wipe.")
+			tinsert(_detalhes_global.exit_log, "5 - 是完全配置删除.")
 			addToExitErrors("true: _detalhes.wipe_full_config | " .. Details.GetVersionString())
 			_detalhes_global = nil
 			_detalhes_database = nil
@@ -6956,17 +6956,17 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		end
 
 		--save the config
-		tinsert(_detalhes_global.exit_log, "6 - Saving Config.")
-		currentStep = "Saving Config"
+		tinsert(_detalhes_global.exit_log, "6 - 保存配置.")
+		currentStep = "保存配置"
 		--xpcall(Details.SaveConfig, logSaverError)
 		xpcall(Details222.SaveVariables.SaveConfig, logSaverError)
 
-		tinsert(_detalhes_global.exit_log, "7 - Saving Profiles.")
-		currentStep = "Saving Profile"
+		tinsert(_detalhes_global.exit_log, "7 - 保存配置文件.")
+		currentStep = "保存配置文件"
 		xpcall(Details.SaveProfile, logSaverError)
 
 		--save the nicktag cache
-		tinsert(_detalhes_global.exit_log, "8 - Saving nicktag cache.")
+		tinsert(_detalhes_global.exit_log, "8 - 保存nicktag缓存.")
 
 		local saveNicktabCache = function()
 			_detalhes_database.nick_tag_cache = Details.CopyTable(_detalhes_database.nick_tag_cache)
@@ -6974,7 +6974,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		xpcall(saveNicktabCache, logSaverError)
 
 		--save auto run code data
-		tinsert(_detalhes_global.exit_log, "9 - Saving Auto Run Code.")
+		tinsert(_detalhes_global.exit_log, "9 - 保存自动运行代码.")
 		local saveAutoRunCode = function()
 			Details222.AutoRunCode.OnLogout()
 		end
@@ -7123,39 +7123,39 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		for n, nn in pairs(damage_cache) do
 			amount = amount + 1
 		end
-		Details:Msg("parser damage_cache", amount)
+		Details:Msg("解析器 damage_cache", amount)
 
 		amount = 0
 		for n, nn in pairs(damage_cache_pets) do
 			amount = amount + 1
 		end
-		Details:Msg("parser damage_cache_pets", amount)
+		Details:Msg("解析器 damage_cache_pets", amount)
 
 		amount = 0
 		for n, nn in pairs(damage_cache_petsOwners) do
 			amount = amount + 1
 		end
-		Details:Msg("parser damage_cache_petsOwners", amount)
+		Details:Msg("解析器 damage_cache_petsOwners", amount)
 
 		amount = 0
 		for n, nn in pairs(healing_cache) do
 			amount = amount + 1
 		end
-		Details:Msg("parser healing_cache", amount)
+		Details:Msg("解析器 healing_cache", amount)
 
 		amount = 0
 		for n, nn in pairs(energy_cache) do
 			amount = amount + 1
 		end
-		Details:Msg("parser energy_cache", amount)
+		Details:Msg("解析器 energy_cache", amount)
 
 		amount = 0
 		for n, nn in pairs(misc_cache) do
 			amount = amount + 1
 		end
-		Details:Msg("parser misc_cache", amount)
-		Details:Msg("group damage", #Details.cache_damage_group)
-		Details:Msg("group damage", #Details.cache_healing_group)
+		Details:Msg("解析器 misc_cache", amount)
+		Details:Msg("团体伤害", #Details.cache_damage_group)
+		Details:Msg("团体伤害", #Details.cache_healing_group)
 	end
 
 	function Details:GetActorsOnDamageCache()

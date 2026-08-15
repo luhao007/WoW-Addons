@@ -786,7 +786,7 @@
 		local firstEvent = deathRecap[1] or {timestamp = time()}
 		local timeOfDeath = firstEvent.timestamp
 		local minutes, seconds = floor(timeOfDeath/60), floor(timeOfDeath%60)
-		local deathTimeString = minutes .. "m " .. seconds .. "s"
+		local deathTimeString = minutes .. "分" .. seconds .. "秒"
 		local deathEvents = {}
 		local deathLog = {
 			deathEvents, --1
@@ -1395,7 +1395,7 @@
 			language = "auto"
 		end
 		Details.numerical_system_symbols = language
-		Details:Msg("NumSystem override is now:", language)
+		Details:Msg("现在是NumSystem重写:", language)
 
 		Details:SelectNumericalSystem()
 	end
@@ -1447,7 +1447,7 @@
 		if (not func) then
 			func = loadstring (str)
 			if (not func) then
-				Details:Msg("|cFFFF9900error compiling script on custom text|r: ", errortext)
+				Details:Msg("|cFFFF9900自定义文本上编译脚本时出错|r: ", errortext)
 				return 0
 			end
 			DetailsFramework:SetEnvironment(func)
@@ -1456,7 +1456,7 @@
 
 		local okey, value = _pcall (func, parameters_cache [1], parameters_cache [2], parameters_cache [3], parameters_cache [4], arguments_cache[1], arguments_cache[2], arguments_cache[3])
 		if (not okey) then
-			Details:Msg("|cFFFF9900error on custom text|r:", value)
+			Details:Msg("|cFFFF9900自定义文本出错|r:", value)
 			return 0
 		end
 		return value or 0
@@ -2023,7 +2023,7 @@ end
 						if (ThisGradient.Func) then
 							local okey, errortext = _pcall (ThisGradient.Func, ThisGradient.FuncParam)
 							if (not okey) then
-								Details:Msg("GradientEffect() end function error:", errortext)
+								Details:Msg("GradientEffect()结束函数错误:", errortext)
 							end
 						end
 
@@ -2451,8 +2451,8 @@ end
     Details222.BarIconSetList = {
         {value = [[]], label = Loc ["STRING_OPTIONS_BAR_ICONFILE1"], icon = defaultIconTexture, texcoord = defaultClassIconCoords, iconsize = defaultIconSize, iconcolor = {1, 1, 1, .3}},
         {value = [[Interface\AddOns\Details\images\classes_small]], label = Loc ["STRING_OPTIONS_BAR_ICONFILE2"], icon = defaultIconTexture, texcoord = defaultClassIconCoords, iconsize = defaultIconSize},
-        {value = [[Interface\AddOns\Details\images\spec_icons_normal]], label = "Specialization", isSpec = true, icon = [[Interface\AddOns\Details\images\icons]], texcoord = defaultSpecIconCoords, iconsize = defaultIconSize},
-        {value = [[Interface\AddOns\Details\images\spec_icons_normal_alpha]], label = "Specialization Alpha", isSpec = true, icon = [[Interface\AddOns\Details\images\icons]], texcoord = defaultSpecIconCoords, iconsize = defaultIconSize},
+        {value = [[Interface\AddOns\Details\images\spec_icons_normal]], label = "专精", isSpec = true, icon = [[Interface\AddOns\Details\images\icons]], texcoord = defaultSpecIconCoords, iconsize = defaultIconSize},
+        {value = [[Interface\AddOns\Details\images\spec_icons_normal_alpha]], label = "专精透明度", isSpec = true, icon = [[Interface\AddOns\Details\images\icons]], texcoord = defaultSpecIconCoords, iconsize = defaultIconSize},
         {value = [[Interface\AddOns\Details\images\classes_small_bw]], label = Loc ["STRING_OPTIONS_BAR_ICONFILE3"], icon = defaultIconTexture, texcoord = defaultClassIconCoords, iconsize = defaultIconSize},
         {value = [[Interface\AddOns\Details\images\classes_small_alpha]], label = Loc ["STRING_OPTIONS_BAR_ICONFILE4"], icon = defaultIconTexture, texcoord = defaultClassIconCoords, iconsize = defaultIconSize},
         {value = [[Interface\AddOns\Details\images\classes_small_alpha_bw]], label = Loc ["STRING_OPTIONS_BAR_ICONFILE6"], icon = defaultIconTexture, texcoord = defaultClassIconCoords, iconsize = defaultIconSize},
@@ -2461,14 +2461,14 @@ end
 
     function Details:AddCustomIconSet(path, dropdownLabel, isSpecIcons, dropdownIcon, dropdownIconTexCoords, dropdownIconSize, dropdownIconColor)
 		--checking the parameters to improve debug for the icon set author
-		assert(self == Details, "Details:AddCustomIconSet() did you used Details.AddCustomIconSet instead of Details:AddCustomIconSet?")
-		assert(type(path) == "string", "Details:AddCustomIconSet() 'path' must be a string.")
-		assert(string.len(path) > 16, "Details:AddCustomIconSet() invalid path.")
+		assert(self == Details, "Details:AddCustomIconSet()您是否使用了Details.AddCustomIconSet而不是Details:AddCustomIconSet?")
+		assert(type(path) == "string", "Details:AddCustomIconSet()中的'path'必须是一个字符串.")
+		assert(string.len(path) > 16, "Details:AddCustomIconSet()路径无效.")
 
         table.insert(Details222.BarIconSetList,
             {
                 value = path,
-                label = dropdownLabel or "Missing Label",
+                label = dropdownLabel or "缺少标签",
                 isSpec = isSpecIcons,
                 icon = dropdownIcon or defaultIconTexture,
                 texcoord = dropdownIconTexCoords or (isSpecIcons and defaultSpecIconCoords or defaultClassIconCoords),

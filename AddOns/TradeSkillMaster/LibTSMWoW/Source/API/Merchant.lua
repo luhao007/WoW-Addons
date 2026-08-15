@@ -39,15 +39,8 @@ end
 ---@return number stackSize
 ---@return number numAvailable
 function Merchant.GetItemInfo(index)
-	if ClientInfo.HasFeature(ClientInfo.FEATURES.C_MERCHANTFRAME) then
-		local info = C_MerchantFrame.GetItemInfo(index)
-		if info then
-			return info.price, info.stackCount, info.numAvailable
-		end
-	else
-		local _, _, price, stackSize, numAvailable = GetMerchantItemInfo(index)
-		return price, stackSize, numAvailable
-	end
+	local _, _, price, stackSize, numAvailable = GetMerchantItemInfo(index)
+	return price, stackSize, numAvailable
 end
 
 ---Gets the max stack size that can be bought of an item.

@@ -63,10 +63,10 @@ do
 		local pluginObject = platerInternal.Plugins.GetPluginObjectByPluginUniqueName(pluginUniqueName)
 		if (pluginObject) then
 			if (pluginObject.OnEnable) then
-				xpcall(pluginObject.OnEnable, GetErrorHandler("Plater plugin enabled error for '" .. (pluginUniqueName or "ERROR: NO NAME").. "':"), pluginUniqueName)
+				xpcall(pluginObject.OnEnable, GetErrorHandler("启用Plater插件的错误为 '" .. (pluginUniqueName or "错误: 没有名字").. "':"), pluginUniqueName)
 			end
 		else
-			error("Plater Plugins OnEnabled(): couldn't find plugin object for: " .. (pluginUniqueName or "-plugin name is nil"))
+			error("Plater插件OnEnabled(): 无法找到插件对象: " .. (pluginUniqueName or "-插件名称为nil"))
 		end
 	end
 
@@ -75,22 +75,22 @@ do
 		local pluginObject = platerInternal.Plugins.GetPluginObjectByPluginUniqueName(pluginUniqueName)
 		if (pluginObject) then
 			if (pluginObject.OnDisable) then
-				xpcall(pluginObject.OnDisable, GetErrorHandler("Plater plugin disabled error for '" .. (pluginUniqueName or "ERROR: NO NAME").. "':"), pluginUniqueName)
+				xpcall(pluginObject.OnDisable, GetErrorHandler("启用Plater插件的错误为 '" .. (pluginUniqueName or "错误: 没有名字").. "':"), pluginUniqueName)
 			end
 		else
-			error("Plater Plugins OnDisable(): couldn't find plugin object for: " .. (pluginUniqueName or "-plugin name is nil"))
+			error("Plater插件OnDisable(): 无法找到插件对象: " .. (pluginUniqueName or "-插件名称为nil"))
 		end
 	end
 end
 
 --install plugin on main plater object
 function Plater.InstallPlugin(pluginObject, silent)
-	assert(type(pluginObject) == "table", "Use: Plater.InstallPlugin(pluginObject)")
-	assert(type(pluginObject.OnEnable) == "function", "pluginObject require a function on pluginObject['OnEnable'], this function is call when the plugin is enabled from the plugins menu (or after installed).")
-	assert(type(pluginObject.OnDisable) == "function", "pluginObject require a function on pluginObject['OnDisable'], this function is call when the plugin is disabled from the plugins menu.")
-	assert(type(pluginObject.Frame) == "table" and pluginObject.Frame:GetObjectType() == "Frame", "pluginObject require pluginObject['Frame'], this frame attaches into the plugins tab on Plater to show the plugin options.")
-	assert(type(pluginObject.Name) == "string" and pluginObject.Name:len() >= 4, "pluginObject require pluginObject['Name'], this is a localized name which is shown in the plugin tab on Plater.")
-	assert(type(pluginObject.UniqueName) == "string" and pluginObject.Name:len() >= 8, "pluginObject require pluginObject['UniqueName'], this is the internal name to compare if the plugin is already installed and to save enable/disabled state.")
+	assert(type(pluginObject) == "table", "使用: Plater.InstallPlugin(pluginObject)")
+	assert(type(pluginObject.OnEnable) == "function", "pluginObject需要一个关于pluginObject['OnEnable']的函数, 当该插件从插件菜单中被启用时(或安装后)这个函数将被调用.")
+	assert(type(pluginObject.OnDisable) == "function", "pluginObject需要一个关于pluginObject['OnDisable']的函数, 当该插件从插件菜单中被禁用时会调用这个函数.")
+	assert(type(pluginObject.Frame) == "table" and pluginObject.Frame:GetObjectType() == "Frame", "pluginObject需要pluginObject['Frame'], 这个框架附着在Plater的插件标签中以显示插件选项.")
+	assert(type(pluginObject.Name) == "string" and pluginObject.Name:len() >= 4, "pluginObject需要pluginObject['Name'], 这是一个本地化的名称会在Plater的插件标签中显示.")
+	assert(type(pluginObject.UniqueName) == "string" and pluginObject.Name:len() >= 8, "pluginObject需要pluginObject['UniqueName'], 这是一个内部名称用于比较插件是否已经安装并保存启用/禁用状态.")
 
 	if (platerInternal.Plugins.Installed[pluginObject.UniqueName]) then
 		if (not silent) then
@@ -313,17 +313,17 @@ end
 C_Timer.After(1, function()
 	local plugin1 = {
 		Frame = CreateFrame("frame", "FrameName1"),
-		Name = "Test Plugin 1",
+		Name = "测试插件1",
 		UniqueName = "TESTPLUGIN1",
 		Icon = [[Interface\ICONS\6BF_Explosive_Shard]],
-		OnEnable = function() print("plugin enabled")end,
-		OnDisable = function() print("plugin disabled")end,
+		OnEnable = function() print("启用插件")end,
+		OnDisable = function() print("禁用插件")end,
 	}
 	Plater.InstallPlugin(plugin1, false)
 
 	local plugin2 = {
 		Frame = CreateFrame("frame", "MyPluginFrame", UIParent),
-		Name = "My Test Plugin",
+		Name = "我的测试插件",
 		UniqueName = "testplifdf 2",
 		Icon = [[Interface\ICONS\70_inscription_deck_dominion_3]],
 		OnEnable = function()end,

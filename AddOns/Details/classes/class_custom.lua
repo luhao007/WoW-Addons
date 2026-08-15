@@ -153,7 +153,7 @@
 					DetailsFramework:SetEnvironment(func)
 					Details.custom_function_cache [instanceObject.customName] = func
 				else
-					Details:Msg("|cFFFF9900error compiling code for custom display " .. (instanceObject.customName or "") ..  " |r:", errortext)
+					Details:Msg("|cFFFF9900错误编译自定义显示的代码 " .. (instanceObject.customName or "") ..  " |r:", errortext)
 				end
 
 				if (customObject.tooltip and type(customObject.tooltip) == "string") then
@@ -162,7 +162,7 @@
 						DetailsFramework:SetEnvironment(tooltip_script)
 						Details.custom_function_cache [instanceObject.customName .. "Tooltip"] = tooltip_script
 					else
-						Details:Msg("|cFFFF9900error compiling tooltip code for custom display " .. (instanceObject.customName or "") ..  " |r:", errortext)
+						Details:Msg("|cFFFF9900错误编译自定义显示的工具提示代码 " .. (instanceObject.customName or "") ..  " |r:", errortext)
 					end
 					scriptTypeName = "tooltip"
 				end
@@ -173,7 +173,7 @@
 						DetailsFramework:SetEnvironment(total_script)
 						Details.custom_function_cache [instanceObject.customName .. "Total"] = total_script
 					else
-						Details:Msg("|cFFFF9900error compiling total code for custom display " .. (instanceObject.customName or "") ..  " |r:", errortext)
+						Details:Msg("|cFFFF9900错误编译自定义显示的总代码 " .. (instanceObject.customName or "") ..  " |r:", errortext)
 					end
 					scriptTypeName = "total"
 				end
@@ -184,7 +184,7 @@
 						DetailsFramework:SetEnvironment(percent_script)
 						Details.custom_function_cache [instanceObject.customName .. "Percent"] = percent_script
 					else
-						Details:Msg("|cFFFF9900error compiling percent code for custom display " .. (instanceObject.customName or "") ..  " |r:", errortext)
+						Details:Msg("|cFFFF9900错误编译自定义显示的百分比代码 " .. (instanceObject.customName or "") ..  " |r:", errortext)
 					end
 					scriptTypeName = "percent"
 				end
@@ -198,7 +198,7 @@
 			local okey, _total, _top, _amount = xpcall (func, geterrorhandler(), combatObject, instance_container, instanceObject)
 			if (not okey) then
 				local errorText = _total
-				Details:Msg("|cFFFF9900error on display " .. customObject:GetName() .. " (" .. scriptTypeName .. ")|r:", errorText)
+				Details:Msg("|cFFFF9900显示错误 " .. customObject:GetName() .. " (" .. scriptTypeName .. ")|r:", errorText)
 				return Details:EndRefresh(instanceObject, 0, combatObject, combatObject[1])
 			end
 
@@ -264,7 +264,7 @@
 					if (percent_script) then
 						okey, percent = xpcall (percent_script, geterrorhandler(), floor(actor.value), top, total, combatObject, instanceObject, actor)
 						if (not okey) then
-							Details:Msg("|cFFFF9900percent script error|r:", percent)
+							Details:Msg("|cFFFF9900百分比脚本错误|r:", percent)
 							return Details:EndRefresh (instanceObject, 0, combatObject, combatObject [1])
 						end
 					else
@@ -274,7 +274,7 @@
 					if (total_script) then
 						local okey, value = xpcall (total_script, geterrorhandler(), floor(actor.value), top, total, combatObject, instanceObject, actor)
 						if (not okey) then
-							Details:Msg("|cFFFF9900total script error|r:", value)
+							Details:Msg("|cFFFF9900总脚本错误|r:", value)
 							return Details:EndRefresh (instanceObject, 0, combatObject, combatObject [1])
 						end
 
@@ -554,7 +554,7 @@
 				--local value, top, total, combat, instance = ...
 				okey, percent = xpcall (percent_script, geterrorhandler(), self.value, top, total, combat, instance, self)
 				if (not okey) then
-					Details:Msg("|cFFFF9900error on custom display function|r:", percent)
+					Details:Msg("|cFFFF9900自定义显示功能错误|r:", percent)
 					return Details:EndRefresh (instance, 0, combat, combat [1])
 				end
 			else
@@ -573,7 +573,7 @@
 			if (total_script) then
 				local okey, value = xpcall (total_script, geterrorhandler(), self.value, top, total, combat, instance, self)
 				if (not okey) then
-					Details:Msg("|cFFFF9900error on custom display function|r:", value)
+					Details:Msg("|cFFFF9900自定义显示功能错误|r:", value)
 					return Details:EndRefresh (instance, 0, combat, combat [1])
 				end
 
@@ -965,9 +965,9 @@
 
 	function classCustom:CreateCustomDisplayObject()
 		return setmetatable({
-			name = "new custom",
+			name = "新自定义",
 			icon = [[Interface\ICONS\TEMP]],
-			author = "unknown",
+			author = "未知",
 			attribute = "damagedone",
 			source = "[all]",
 			target = "[all]",
@@ -1016,7 +1016,7 @@
 				local func = Details.custom_function_cache [instanceObject.customName .. "Tooltip"]
 				local okey, errortext = xpcall(func, geterrorhandler(), actorObject, instanceObject.showing, instanceObject, keydown)
 				if (not okey) then
-					Details:Msg("|cFFFF9900error on custom display tooltip function|r:", errortext)
+					Details:Msg("|cFFFF9900自定义显示工具提示功能出错|r:", errortext)
 					return false
 				end
 			end
@@ -1589,7 +1589,7 @@
 				attribute = false,
 				spellid = false,
 				author = "Terciob",
-				desc = "Show the crowd control amount for each player.",
+				desc = "显示每个玩家的群控量.",
 				source = false,
 				target = false,
 				script_version = 12,
@@ -1693,7 +1693,7 @@
 				attribute = false,
 				spellid = false,
 				author = "Terciob",
-				desc = "Show the amount of crowd control received for each player.",
+				desc = "显示每个玩家所受到的控制效果数量.",
 				source = false,
 				target = false,
 				script_version = 4,
@@ -1938,22 +1938,22 @@
 						
 						
 						--Cooltip code
-						GC:AddLine("Casts:", cast_string or "?")
+						GC:AddLine("施法:", cast_string or "?")
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
 						if (debuff_uptime_total ~= "") then
-							GC:AddLine("Uptime:", (debuff_uptime_total or "?") .. "%")
+							GC:AddLine("持续时间:", (debuff_uptime_total or "?") .. "%")
 							GC:AddStatusBar (100, 1, R, G, B, A)
 							GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						end
 						
-						GC:AddLine("Hits:", spell.counter)
+						GC:AddLine("击中:", spell.counter)
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
 						local average = spell.total / total_hits
-						GC:AddLine("Average:", _detalhes:ToK (average))
+						GC:AddLine("平均:", _detalhes:ToK (average))
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
@@ -1961,11 +1961,11 @@
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
-						GC:AddLine("School:", schooltext)
+						GC:AddLine("类型:", schooltext)
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
-						GC:AddLine("Normal Hits: ", spell.n_amt .. " (" ..floor( spell.n_amt/total_hits*100) .. "%)")
+						GC:AddLine("普通击中: ", spell.n_amt .. " (" ..floor( spell.n_amt/total_hits*100) .. "%)")
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
@@ -1975,12 +1975,12 @@
 							local P = average/n_average*100
 							T = P*T/100
 							
-							GC:AddLine("Average / E-Dps: ",  _detalhes:ToK (n_average) .. " / " .. format("%.1f",spell.n_total / T ))
+							GC:AddLine("平均 / E-Dps: ",  _detalhes:ToK (n_average) .. " / " .. format("%.1f",spell.n_total / T ))
 							GC:AddStatusBar (100, 1, R, G, B, A)
 							GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						end
 						
-						GC:AddLine("Critical Hits: ", spell.c_amt .. " (" ..floor( spell.c_amt/total_hits*100) .. "%)")
+						GC:AddLine("爆击击中: ", spell.c_amt .. " (" ..floor( spell.c_amt/total_hits*100) .. "%)")
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
@@ -1991,9 +1991,9 @@
 							T = P*T/100
 							local crit_dps = spell.c_total / T
 							
-							GC:AddLine("Average / E-Dps: ",  _detalhes:ToK (c_average) .. " / " .. _detalhes:comma_value (crit_dps))
+							GC:AddLine("平均 / E-Dps: ",  _detalhes:ToK (c_average) .. " / " .. _detalhes:comma_value (crit_dps))
 						else
-							GC:AddLine("Average / E-Dps: ",  "0 / 0")
+							GC:AddLine("平均 / E-Dps: ",  "0 / 0")
 						end
 						
 						GC:AddStatusBar (100, 1, R, G, B, A)
@@ -2013,12 +2013,12 @@
 						local combat_time = instance.showing:GetCombatTime()
 						
 						--Cooltip code
-						GC:AddLine("Hits:", spell.counter)
+						GC:AddLine("击中:", spell.counter)
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
 						local average = spell.total / total_hits
-						GC:AddLine("Average:", _detalhes:ToK (average))
+						GC:AddLine("平均:", _detalhes:ToK (average))
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)    
 						
@@ -2026,13 +2026,13 @@
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
-						GC:AddLine("School:", schooltext)
+						GC:AddLine("类型:", schooltext)
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
 						--GC:AddLine(" ")
 						
-						GC:AddLine("Normal Hits: ", spell.n_amt .. " (" ..floor( spell.n_amt/total_hits*100) .. "%)")
+						GC:AddLine("普通击中: ", spell.n_amt .. " (" ..floor( spell.n_amt/total_hits*100) .. "%)")
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
@@ -2041,11 +2041,11 @@
 						local P = average/n_average*100
 						T = P*T/100
 						
-						GC:AddLine("Average / E-Dps: ",  _detalhes:ToK (n_average) .. " / " .. format("%.1f",spell.n_total / T ))
+						GC:AddLine("平均 / E-Dps: ",  _detalhes:ToK (n_average) .. " / " .. format("%.1f",spell.n_total / T ))
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
-						GC:AddLine("Critical Hits: ", spell.c_amt .. " (" ..floor( spell.c_amt/total_hits*100) .. "%)")
+						GC:AddLine("爆击击中: ", spell.c_amt .. " (" ..floor( spell.c_amt/total_hits*100) .. "%)")
 						GC:AddStatusBar (100, 1, R, G, B, A)
 						GC:AddIcon(iconTexture, 1, 1, iconSize, iconSize)
 						
@@ -2056,9 +2056,9 @@
 							T = P*T/100
 							local crit_dps = spell.c_total / T
 							
-							GC:AddLine("Average / E-Hps: ",  _detalhes:ToK (c_average) .. " / " .. _detalhes:comma_value (crit_dps))
+							GC:AddLine("平均 / E-Hps: ",  _detalhes:ToK (c_average) .. " / " .. _detalhes:comma_value (crit_dps))
 						else
-							GC:AddLine("Average / E-Hps: ",  "0 / 0")
+							GC:AddLine("平均 / E-Hps: ",  "0 / 0")
 						end
 						
 						GC:AddStatusBar (100, 1, R, G, B, A)
@@ -2332,7 +2332,7 @@
 				attribute = false,
 				spellid = false,
 				author = "Terciob",
-				desc = "Show overall damage done on the fly.",
+				desc = "显示动态整体伤害.",
 				source = false,
 				target = false,
 				script_version = 8,
@@ -2504,7 +2504,7 @@
 				attribute = false,
 				spellid = false,
 				author = "Terciob",
-				desc = "Damage done to shields",
+				desc = "对护盾造成的伤害s",
 				source = false,
 				target = false,
 				script_version = 1,

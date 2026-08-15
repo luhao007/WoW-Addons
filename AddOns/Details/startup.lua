@@ -31,7 +31,7 @@ function Details222.StartUp.StartMeUp()
 					"UIPanelButtonTemplate")
 				detailsButton:SetPoint("topright", self, "topright", -16, -16)
 				detailsButton:SetSize(200, 30)
-				detailsButton:SetText("Open Details Breakdown")
+				detailsButton:SetText("打开Details解析")
 				detailsButton:SetScript("OnClick", function()
 					Details:OpenArenaSummaryWindow()
 					Details:OpenArenaSummaryWindow()
@@ -40,7 +40,7 @@ function Details222.StartUp.StartMeUp()
 				--a label below the button with the text "under development"
 				local label = detailsButton:CreateFontString(nil, "overlay", "GameFontNormalSmall")
 				label:SetPoint("top", detailsButton, "bottom", 0, -2)
-				label:SetText("Under Development")
+				label:SetText("开发中")
 				label:SetTextColor(1, 0.5, 0.5, 1)
 				label:SetAlpha(0.5)
 			end
@@ -107,10 +107,10 @@ function Details222.StartUp.StartMeUp()
 
 	function Details:ReplaceRowSingleClickFunction(attribute, subAttribute, func)
 		assert(type(attribute) == "number" and attribute >= 1 and attribute <= 4,
-			"ReplaceRowSingleClickFunction expects a attribute index on #1 argument.")
+			"ReplaceRowSingleClickFunction期望#1参数为属性索引.")
 		assert(type(subAttribute) == "number" and subAttribute >= 1 and subAttribute <= 10,
-			"ReplaceRowSingleClickFunction expects a sub attribute index on #2 argument.")
-		assert(type(func) == "function", "ReplaceRowSingleClickFunction expects a function on #3 argument.")
+			"ReplaceRowSingleClickFunction期望#2参数为子属性索引.")
+		assert(type(func) == "function", "ReplaceRowSingleClickFunction期望#3参数为一个函数.")
 
 		Details.row_singleclick_overwrite[attribute][subAttribute] = func
 		return true
@@ -143,7 +143,7 @@ function Details222.StartUp.StartMeUp()
 			local time = time()
 			local limitTime = 1747072462 --10 days ahead of May 02
 			if (time < limitTime) then
-				Details:Msg("Help support Details! author on Patreon: https://www.patreon.com/terciob")
+				Details:Msg("请帮助支持Details!的作者, Patreon链接: https://www.patreon.com/terciob")
 			end
 		end
 	end
@@ -507,7 +507,7 @@ function Details222.StartUp.StartMeUp()
 			if (lowerInstanceId) then
 				if Details.build_counter >= 14356 then
 					if not Details.righttext_simple_formatting.first_run then
-						Details:Msg("The right text has been converted to a new formatting system. You can customize it in the options window -> Bar Texts.")
+						Details:Msg("侧文本已转换为新的格式系统. 您可以在选项窗口 -> 条形文本中自定义它.")
 						if lowerInstanceId.use_multi_fontstrings then
 							Details.righttext_simple_formatting.enabled = false
 							Details.righttext_simple_formatting.use_alignment = true
@@ -545,7 +545,7 @@ function Details222.StartUp.StartMeUp()
 								lowerInstanceId:InstanceAlert(Loc["STRING_VERSION_UPDATE"],
 									{ [[Interface\GossipFrame\AvailableQuestIcon]], 16, 16, false }, 60,
 									{ Details.OpenNewsWindow }, true)
-								Details:Msg("A new version has been installed: /details news") --localize-me
+								Details:Msg("安装了一个新的版本: /details news") --localize-me
 							end
 						end)
 					end
@@ -771,7 +771,7 @@ function Details222.StartUp.StartMeUp()
 				---@type trinketdata
 				local thisTrinketData = {
 					itemName = C_Item.GetItemNameByID(trinketTable.itemId),
-					spellName = Details222.GetSpellInfo(spellId) or "spell not found",
+					spellName = Details222.GetSpellInfo(spellId) or "法术未找到",
 					lastActivation = 0,
 					lastPlayerName = "",
 					totalCooldownTime = 0,
@@ -847,7 +847,7 @@ function Details222.StartUp.StartMeUp()
 	if (not DetailsFramework.IsClassicWow()) then
 		--i'm not in classc wow
 	else
-		--print("|CFFFFFF00[Details!]: you're using Details! for RETAIL on Classic WOW, please get the classic version (Details! Damage Meter Classic WoW), if you need help see our Discord (/details discord).")
+		--print("|CFFFFFF00[Details!]: 你正在怀旧服中使用正式服Details!, 请获取怀旧服版本 (Details! Damage Meter Classic WoW), 如果你需要帮助请来Discord (/details discord).")
 	end
 
 	Details:InstallHook("HOOK_DEATH", Details.Coach.Client.SendMyDeath)
@@ -872,7 +872,7 @@ function Details222.StartUp.StartMeUp()
 				{["atributo"] = 2, ["sub_atributo"] = 3}, --overhealing
 			}
 
-			Details:Msg("Bookmarks has been reset.")
+			Details:Msg("书签已重置.")
 		end
 	end
 

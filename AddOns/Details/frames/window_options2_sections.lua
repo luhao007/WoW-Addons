@@ -209,9 +209,9 @@ do
 
             local timetypeOptions = {
                 --localize-me
-                {value = 1, label = "Activity Time", onclick = onSelectTimeType, icon = "Interface\\Icons\\Achievement_Quests_Completed_Daily_08", iconcolor = {1, .9, .9}, texcoord = {0.078125, 0.921875, 0.078125, 0.921875}},
-                {value = 2, label = "Effective Time", onclick = onSelectTimeType, icon = "Interface\\Icons\\Achievement_Quests_Completed_08"},
-                --{value = 3, label = "Real Time", onclick = onSelectTimeType, icon = "Interface\\Icons\\Ability_Evoker_TipTheScales"},
+                {value = 1, label = "活跃时间", onclick = onSelectTimeType, icon = "Interface\\Icons\\Achievement_Quests_Completed_Daily_08", iconcolor = {1, .9, .9}, texcoord = {0.078125, 0.921875, 0.078125, 0.921875}},
+                {value = 2, label = "有效时间", onclick = onSelectTimeType, icon = "Interface\\Icons\\Achievement_Quests_Completed_08"},
+                --{value = 3, label = "实时", onclick = onSelectTimeType, icon = "Interface\\Icons\\Ability_Evoker_TipTheScales"},
             }
             local buildTimeTypeMenu = function()
                 return timetypeOptions
@@ -317,8 +317,8 @@ do
                 set = function(self, fixedparam, value)
                     Details.use_realtimedps = value
                 end,
-                name = "Show 'Real Time' DPS",
-                desc = "If Enabled and while in combat, show the damage done of the latest 5 seconds divided by 5.",
+                name = "显示'实时'DPS",
+                desc = "如果启用且在战斗中, 会显示最近5秒内造成的伤害除以5.",
                 boxfirst = true,
             },
 
@@ -328,8 +328,8 @@ do
                 set = function(self, fixedparam, value)
                     Details.realtimedps_order_bars = value
                 end,
-                name = "Order Bars By Real Time DPS",
-                desc = "If Enabled, players dealing more real time DPS are place above other players in the window.",
+                name = "按实时DPS排序条形图",
+                desc = "如果启用, 实时DPS较高的玩家会被置于窗口中其他玩家的上方.",
                 boxfirst = true,
             },
 
@@ -339,13 +339,13 @@ do
                 set = function(self, fixedparam, value)
                     Details.realtimedps_always_arena = value
                 end,
-                name = "Always Use Real Time in Arenas",
-                desc = "If Enabled, real time DPS is always used in arenas, even if the option above is disabled.",
+                name = "在竞技场中始终使用实时",
+                desc = "如果启用, 即使禁用了上述选项, 在竞技场中也会始终使用实时DPS。.",
                 boxfirst = true,
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Segments:" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "片段:" end, text_template = subSectionTitleTextTemplate},
 
             {--segments locked
                 type = "toggle",
@@ -417,8 +417,8 @@ do
                 min = 1,
                 max = 40,
                 step = 1,
-                name = "Segments Boss Wipe",
-                desc = "Amount of segments to keep for wipes on the same boss.",
+                name = "分段 BOSS 清除",
+                desc = "为清除同一 BOSS 而保留的段数.",
             },
             {--wipe segments keep the best segments and delete the worst ones
                 type = "toggle",
@@ -426,8 +426,8 @@ do
                 set = function(self, fixedparam, value)
                     Details.segments_boss_wipes_keep_best_performance = value
                 end,
-                name = "Keep Best Performance (boss wipes)",
-                desc = "Keep the segments with more progress in the boss health and delete the ones with less progress.",
+                name = "保持最佳性能 (boss 清除)",
+                desc = "保留血量状况较好的段数删除健康状况血量的段数.",
                 boxfirst = true,
             },
 
@@ -463,8 +463,8 @@ do
                     Details:SetOverallResetOptions(nil, nil, nil, value)
                     afterUpdate()
                 end,
-                name = "Clear On Start PVP", --localize-me
-                desc = "When enabled, overall data is automatically wiped when a new arena or battleground starts.", --localize-me
+                name = "PVP开始时清空", --localize-me
+                desc = "启用后当一个新的竞技场或战场开始时整体数据会自动清空.", --localize-me
                 boxfirst = true,
             },
             {--erase overall data on logout
@@ -485,15 +485,15 @@ do
                     Details.auto_swap_to_dynamic_overall = value
                     afterUpdate()
                 end,
-                name = "Use Dynamic Overall Damage",
-                desc = "When showing Damage Done Overall, swap to Dynamic Overall Damage on entering combat.",
+                name = "使用动态整体伤害",
+                desc = "当显示整体伤害时, 进入战斗时换成动态整体伤害.",
                 boxfirst = true,
                 hidden = detailsFramework:IsAddonApocalypseWow(),
             },
 
             {type = "blank"},
 
-            {type = "label", get = function() return "Window Control:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")}, --localize-me
+            {type = "label", get = function() return "窗口控制:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")}, --localize-me
             {--lock instance
                 type = "execute",
                 func = function(self)
@@ -569,8 +569,8 @@ do
                     Details.immersion_pets_on_solo_play = value
                     afterUpdate()
                 end,
-                name = "Show pets when solo", --localize-me
-                desc = "Show pets when solo",
+                name = "单刷时显示宠物", --localize-me
+                desc = "单刷时显示宠物",
                 boxfirst = true,
             },
 
@@ -611,8 +611,8 @@ do
                 end,
                 icontexture = [[Interface\GLUES\LOGIN\Glues-CheckBox-Check]],
                 --icontexcoords = {160/512, 179/512, 142/512, 162/512},
-                name = "Reset Nickname",
-                desc = "Reset Nickname",
+                name = "重置昵称",
+                desc = "重置昵称",
             },
             {--ignore nicknames
                 type = "toggle",
@@ -639,7 +639,7 @@ do
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Your Self" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "你自己" end, text_template = subSectionTitleTextTemplate},
 
             {--player bar color toggle
                 type = "toggle",
@@ -648,8 +648,8 @@ do
                     Details.use_self_color = value
                     afterUpdate()
                 end,
-                name = "Use Different Color for You",
-                desc = "Use a different color on your own bar",
+                name = "为你使用不同的颜色",
+                desc = "为你自己的条使用不同的颜色",
                 boxfirst = true,
             },
 
@@ -665,13 +665,13 @@ do
                     Details.class_colors.SELF[3] = b
                     afterUpdate()
 				end,
-				name = "Your Bar Color",
-				desc = "Your Bar Color",
+				name = "你的条颜色",
+				desc = "你的条颜色",
                 boxfirst = true,
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Auto Erase:" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "自动清除:" end, text_template = subSectionTitleTextTemplate},
 
             {--auto erase settings | erase data
                 type = "select",
@@ -753,7 +753,7 @@ do
                 local skinOptions = {}
                 for skin_name, skin_table in pairs(Details.skins) do
                     local file = skin_table.file:gsub([[Interface\AddOns\Details\images\skins\]], "")
-                    local desc = "Author: |cFFFFFFFF" .. skin_table.author .. "|r\nVersion: |cFFFFFFFF" .. skin_table.version .. "|r\nSite: |cFFFFFFFF" .. skin_table.site .. "|r\n\nDesc: |cFFFFFFFF" .. skin_table.desc .. "|r\n\nFile: |cFFFFFFFF" .. file .. ".tga|r"
+                    local desc = "作者: |cFFFFFFFF" .. skin_table.author .. "|r\n版本: |cFFFFFFFF" .. skin_table.version .. "|r\n网站: |cFFFFFFFF" .. skin_table.site .. "|r\n\n描述: |cFFFFFFFF" .. skin_table.desc .. "|r\n\n文件: |cFFFFFFFF" .. file .. ".tga|r"
                     skinOptions [#skinOptions+1] = {value = skin_name, label = skin_name, onclick = onSelectSkin, icon = "Interface\\GossipFrame\\TabardGossipIcon", desc = desc}
                 end
                 return skinOptions
@@ -878,8 +878,8 @@ do
                 end,
                 icontexture = [[Interface\GLUES\LOGIN\Glues-CheckBox-Check]],
                 --icontexcoords = {160/512, 179/512, 142/512, 162/512},
-                name = "Reset Custom Skin",
-                desc = "Reset Custom Skin",
+                name = "重置自定义皮肤",
+                desc = "重置自定义皮肤",
             },
 
             {--save as skin
@@ -978,7 +978,7 @@ do
                             if (compressedData) then
                                 Details:ShowImportWindow(compressedData, nil, "Details! Export Skin")
                             else
-                                Details:Msg("failed to export skin.") --localize-me
+                                Details:Msg("未能导出皮肤.") --localize-me
                             end
                             Details222.OptionsPanel.SetCurrentInstanceAndRefresh(currentInstance)
                             afterUpdate()
@@ -1052,8 +1052,8 @@ do
                 min = -100,
                 max = 100,
                 step = 1,
-                name = "Width Offset", --localize-me
-                desc = "Fine tune the size of the window while embeded in the chat.", --localize-me
+                name = "宽度偏移", --localize-me
+                desc = "微调窗口的大小同时嵌入聊天中.", --localize-me
             },
 
             {--chat tab height offset
@@ -1069,8 +1069,8 @@ do
                 min = -100,
                 max = 100,
                 step = 1,
-                name = "Height Offset", --localize-me
-                desc = "Fine tune the size of the window while embeded in the chat.", --localize-me
+                name = "高度偏移", --localize-me
+                desc = "微调窗口的大小同时嵌入聊天中.", --localize-me
             },
         }
 
@@ -1332,8 +1332,8 @@ do
                 end,
                 icontexture = [[Interface\Buttons\UI-GroupLoot-Pass-Down]],
                 --icontexcoords = {160/512, 179/512, 142/512, 162/512},
-                name = "Remove Custom Texture", --localize-me
-                desc = "Remove Custom Texture",
+                name = "移除自定义纹理", --localize-me
+                desc = "移除自定义纹理",
             },
 
 			{--bar color
@@ -1372,7 +1372,7 @@ do
                     return buildTextureOverlayMenu()
                 end,
                 name = Loc ["STRING_TEXTURE"],
-                desc = "Texture which sits above the bar",
+                desc = "条上的纹理",
             },
 
 			{--overlay color
@@ -1498,8 +1498,8 @@ do
                 max = 20,
                 usedecimals = true,
                 step = 0.5,
-                name = "Icon Size Offset", --localize-me
-                desc = "Icon Size Offset",
+                name = "图标大小偏移", --localize-me
+                desc = "图标大小偏移",
                 thumbscale = 2.2,
             },
 
@@ -1512,8 +1512,8 @@ do
                     editInstanceSetting(currentInstance, "SetBarFactionIconSettings", value)
                     afterUpdate()
                 end,
-                name = "Show Faction Icon", --localize-me
-                desc = "When showing a player from the opposite faction, show the faction icon.",
+                name = "显示阵营图标", --localize-me
+                desc = "当显示一个来自敌对阵营的玩家时显示阵营图标.",
             },
 
             {--faction icon size offset
@@ -1527,8 +1527,8 @@ do
                 max = 20,
                 usedecimals = true,
                 step = 0.5,
-                name = "Faction Icon Size Offset", --localize-me
-                desc = "Faction Icon Size Offset",
+                name = "阵营图标大小偏移", --localize-me
+                desc = "阵营图标大小偏移",
                 thumbscale = 2.2,
             },
 
@@ -1541,8 +1541,8 @@ do
                     editInstanceSetting(currentInstance, "SetBarArenaRoleIconSettings", value)
                     afterUpdate()
                 end,
-                name = "Show Arena Role Icon", --localize-me
-                desc = "When showing a player from arena, show the role icon.",
+                name = "显示竞技场角色图标", --localize-me
+                desc = "当在竞技场显示一个玩家时显示角色图标.",
             },
 
             {--role icon size offset
@@ -1556,8 +1556,8 @@ do
                 max = 20,
                 usedecimals = true,
                 step = 0.5,
-                name = "Arena Role Icon Size Offset", --localize-me
-                desc = "Arena Role Icon Size Offset",
+                name = "竞技场角色图标大小偏移", --localize-me
+                desc = "竞技场角色图标大小偏移",
                 thumbscale = 2.2,
             },
 
@@ -1605,7 +1605,7 @@ do
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Arena Team Color" end, text_template = subSectionTitleTextTemplate}, --localize-me
+            {type = "label", get = function() return "竞技场队伍颜色" end, text_template = subSectionTitleTextTemplate}, --localize-me
 			{--team 1 color
                 type = "color",
                 get = function()
@@ -1619,7 +1619,7 @@ do
                     afterUpdate()
                 end,
                 name = Loc ["STRING_COLOR"],
-                desc = "Arena team color", --localize-me
+                desc = "竞技场队伍颜色", --localize-me
             },
 			{--team 2 color
                 type = "color",
@@ -1634,7 +1634,7 @@ do
                     afterUpdate()
                 end,
                 name = Loc ["STRING_COLOR"],
-                desc = "Arena team color", --localize-me
+                desc = "竞技场队伍颜色", --localize-me
             },
 
             {type = "blank"},
@@ -1731,8 +1731,8 @@ do
 
         local buildPercentMenu = function()
             local percentTable = {
-                {value = 1, label = "Relative to Total", onclick = onSelectPercent, icon = [[Interface\GROUPFRAME\UI-GROUP-MAINTANKICON]]},
-                {value = 2, label = "Relative to Top Player", onclick = onSelectPercent, icon = [[Interface\GROUPFRAME\UI-Group-LeaderIcon]]}
+                {value = 1, label = "相对于总数", onclick = onSelectPercent, icon = [[Interface\GROUPFRAME\UI-GROUP-MAINTANKICON]]},
+                {value = 2, label = "相对于顶级玩家", onclick = onSelectPercent, icon = [[Interface\GROUPFRAME\UI-Group-LeaderIcon]]}
             }
             return percentTable
         end
@@ -1841,8 +1841,8 @@ do
                 min = -10,
                 max = 10,
                 step = 1,
-                name = "Text Y Offset", -- Loc ["STRING_OPTIONS_TEXT_YOFFSET"]
-                desc = "Change the vertical offset for both left and right texts.", -- Loc ["STRING_OPTIONS_TEXT_YOFFSET_DESC"]
+                name = "文本Y偏移", -- Loc ["STRING_OPTIONS_TEXT_YOFFSET"]
+                desc = "改变左边和右边文本的垂直偏移.", -- Loc ["STRING_OPTIONS_TEXT_YOFFSET_DESC"]
             },
             {--text font 3
                 type = "select",
@@ -1911,8 +1911,8 @@ do
                 min = -10,
                 max = 50,
                 step = 1,
-                name = "Offset", -- Loc ["STRING_OPTIONS_TEXT_LOFFSET"]
-                desc = "Change the horizontal offset.", -- Loc ["STRING_OPTIONS_TEXT_LOFFSET_DESC"]
+                name = "偏移量", -- Loc ["STRING_OPTIONS_TEXT_LOFFSET"]
+                desc = "调整水平偏移量.", -- Loc ["STRING_OPTIONS_TEXT_LOFFSET_DESC"]
             },
 
             {type = "blank"},
@@ -1989,8 +1989,8 @@ do
                     editInstanceSetting(currentInstance, "SetBarTextSettings", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, value)
                     afterUpdate()
                 end,
-                name = "Outline", --localize-me
-                desc = "Text Outline",
+                name = "轮廓", --localize-me
+                desc = "文本轮廓",
                 hidden = true,
             },
 			{--outline small color 10
@@ -2003,8 +2003,8 @@ do
                     editInstanceSetting(currentInstance, "SetBarTextSettings", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, {r, g, b, a})
                     afterUpdate()
                 end,
-                name = "Outline Color",
-                desc = "Outline Color",
+                name = "轮廓颜色",
+                desc = "轮廓颜色",
                 hidden = true,
             },
 
@@ -2129,8 +2129,8 @@ do
                     editInstanceSetting(currentInstance, "SetBarTextSettings", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, value)
                     afterUpdate()
                 end,
-                name = "Outline", --localize-me
-                desc = "Text Outline",
+                name = "轮廓", --localize-me
+                desc = "文本轮廓",
                 hidden = true,
             },
 			{--outline small color 21
@@ -2143,8 +2143,8 @@ do
                     editInstanceSetting(currentInstance, "SetBarTextSettings", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, {r, g, b, a})
                     afterUpdate()
                 end,
-                name = "Outline Color",
-                desc = "Outline Color",
+                name = "轮廓颜色",
+                desc = "轮廓颜色",
                 hidden = true,
             },
 
@@ -2173,8 +2173,8 @@ do
                     afterUpdate()
                     Details:RefreshMainWindow(-1, true)
                 end,
-                name = "Auto Alignment", --L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Auto Alignment"
-                desc = "Disable this only if you experience player name alignment issues.", --L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Disable this only if you experience player name alignment issues."
+                name = "自动对齐", --L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Auto Alignment"
+                desc = "仅在遇到玩家姓名对齐问题时禁用此选项.", --L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Disable this only if you experience player name alignment issues."
                 hidden = not detailsFramework.IsAddonApocalypseWow(),
             },
 
@@ -2333,8 +2333,8 @@ do
                 min = -30,
                 max = 30,
                 step = 1,
-                name = "Unit Name Size Offset",
-                desc = "Unit Name Size Offset",
+                name = "单位名称尺寸偏移",
+                desc = "单位名称尺寸偏移",
                 hidden = detailsFramework.IsAddonApocalypseWow(),
             },
 
@@ -2707,10 +2707,10 @@ do
 
         local buildIconStyleMenu = function()
             local iconMenu = {
-                {value = "Interface\\AddOns\\Details\\images\\toolbar_icons", label = "Set 1", icon = "Interface\\AddOns\\Details\\images\\toolbar_icons", texcoord = {0, 0.125, 0, 1}, onclick = on_select_icon_set},
-                {value = "Interface\\AddOns\\Details\\images\\toolbar_icons_shadow", label = "Set 2", icon = "Interface\\AddOns\\Details\\images\\toolbar_icons_shadow", texcoord = {0, 0.125, 0, 1}, onclick = on_select_icon_set},
-                {value = "Interface\\AddOns\\Details\\images\\toolbar_icons_2", label = "Set 3", icon = "Interface\\AddOns\\Details\\images\\toolbar_icons_2", texcoord = {0, 0.125, 0, 1}, onclick = on_select_icon_set},
-                {value = "Interface\\AddOns\\Details\\images\\toolbar_icons_2_shadow", label = "Set 4", icon = "Interface\\AddOns\\Details\\images\\toolbar_icons_2_shadow", texcoord = {0, 0.125, 0, 1}, onclick = on_select_icon_set},
+                {value = "Interface\\AddOns\\Details\\images\\toolbar_icons", label = "设置 1", icon = "Interface\\AddOns\\Details\\images\\toolbar_icons", texcoord = {0, 0.125, 0, 1}, onclick = on_select_icon_set},
+                {value = "Interface\\AddOns\\Details\\images\\toolbar_icons_shadow", label = "设置 2", icon = "Interface\\AddOns\\Details\\images\\toolbar_icons_shadow", texcoord = {0, 0.125, 0, 1}, onclick = on_select_icon_set},
+                {value = "Interface\\AddOns\\Details\\images\\toolbar_icons_2", label = "设置 3", icon = "Interface\\AddOns\\Details\\images\\toolbar_icons_2", texcoord = {0, 0.125, 0, 1}, onclick = on_select_icon_set},
+                {value = "Interface\\AddOns\\Details\\images\\toolbar_icons_2_shadow", label = "设置 4", icon = "Interface\\AddOns\\Details\\images\\toolbar_icons_2_shadow", texcoord = {0, 0.125, 0, 1}, onclick = on_select_icon_set},
             }
             return iconMenu
         end
@@ -2730,8 +2730,8 @@ do
                     editInstanceSetting(currentInstance, "RefreshTitleBar")
                     afterUpdate()
                 end,
-                name = "Enable Custom Title Bar",
-                desc = "Use an alternative title bar instead of the title bar builtin in the Skin file.\n\n|cFFFFFF00Important|r: To disable the title bar from the Skin file, go to 'Window Body' and make the 'skin color' fully transparent.",
+                name = "启用自定义标题栏",
+                desc = "使用一个替代的标题栏而不是皮肤文件中内置的标题栏.\n\n|cFFFFFF00重要|r: 要从皮肤文件中禁用标题栏，进入'窗口主体'使'皮肤颜色'完全透明.",
             },
 
             {--custom title bar height
@@ -2745,8 +2745,8 @@ do
                 min = 0,
                 max = 32,
                 step = 1,
-                name = "Height",
-                desc = "Height",
+                name = "高度",
+                desc = "高度",
             },
 
             {--custom title bar texture
@@ -2770,8 +2770,8 @@ do
                     editInstanceSetting(currentInstance, "RefreshTitleBar")
                     afterUpdate()
                 end,
-                name = "Color",
-                desc = "Color",
+                name = "颜色",
+                desc = "颜色",
             },
 
 
@@ -2891,8 +2891,8 @@ do
                 values = function()
                     return buildIconStyleMenu()
                 end,
-                name = "Icon Set",
-                desc = "Icon Set",
+                name = "图标设置",
+                desc = "图标设置",
             },
 
             {--title bar icons size
@@ -3198,11 +3198,11 @@ do
         end
 
         local strataTable = {
-            {value = "BACKGROUND", label = "Background", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Green]], iconcolor = {0, .5, 0, .8}, texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
-            {value = "LOW", label = "Low", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Green]] , texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
-            {value = "MEDIUM", label = "Medium", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Yellow]] , texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
-            {value = "HIGH", label = "High", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Yellow]] , iconcolor = {1, .7, 0, 1}, texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
-            {value = "DIALOG", label = "Dialog", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Red]] , iconcolor = {1, 0, 0, 1},  texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
+            {value = "BACKGROUND", label = "背景", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Green]], iconcolor = {0, .5, 0, .8}, texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
+            {value = "LOW", label = "低", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Green]] , texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
+            {value = "MEDIUM", label = "中", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Yellow]] , texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
+            {value = "HIGH", label = "高", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Yellow]] , iconcolor = {1, .7, 0, 1}, texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
+            {value = "DIALOG", label = "窗口", onclick = onStrataSelect, icon = [[Interface\Buttons\UI-MicroStream-Red]] , iconcolor = {1, 0, 0, 1},  texcoord = nil}, --Interface\Buttons\UI-MicroStream-Green UI-MicroStream-Red UI-MicroStream-Yellow
         }
         local buildStrataMenu = function() return strataTable end
 
@@ -3381,8 +3381,8 @@ do
                     Details:InstanceGroupCall(currentInstance, "UpdateClickThroughSettings", nil, value, value, value)
                     afterUpdate()
                 end,
-                name = "Click Through",
-                desc = "Click Through",
+                name = "点击穿透",
+                desc = "点击穿透",
                 boxfirst = true,
             },
             {--click only in combat
@@ -3392,8 +3392,8 @@ do
                     Details:InstanceGroupCall(currentInstance, "UpdateClickThroughSettings", value)
                     afterUpdate()
                 end,
-                name = "Click Through Only in Combat",
-                desc = "Click Through Only in Combat",
+                name = "只在战斗中点击穿透",
+                desc = "只在战斗中点击穿透",
                 boxfirst = true,
             },
             {type = "blank"},
@@ -3514,7 +3514,7 @@ do
             },
 
             {type = "breakline"},
-            {type = "label", get = function() return "Window Area Border" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "窗口区域边框" end, text_template = subSectionTitleTextTemplate},
 
             {--show full border ~border
                 type = "toggle",
@@ -3523,8 +3523,8 @@ do
                     editInstanceSetting(currentInstance, "UpdateFullBorder", value)
                     afterUpdate()
                 end,
-                name = "Show Border",
-                desc = "Show Border",
+                name = "显示边框",
+                desc = "显示边框",
             },
 
 			{--full border color
@@ -3536,8 +3536,8 @@ do
                     editInstanceSetting(currentInstance, "UpdateFullBorder", nil, {r, g, b, a})
                     afterUpdate()
                 end,
-                name = "Border Color",
-                desc = "Border Color",
+                name = "边框颜色",
+                desc = "边框颜色",
             },
 
             {--border size
@@ -3551,12 +3551,12 @@ do
                 max = 5,
                 step = 0.5,
                 usedecimals = true,
-                name = "Border Thickness",
-                desc = "Border Thickness",
+                name = "边框厚度",
+                desc = "边框厚度",
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Row's Area Border" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "行的区域边框" end, text_template = subSectionTitleTextTemplate},
 
             {--show full border ~border
                 type = "toggle",
@@ -3565,8 +3565,8 @@ do
                     editInstanceSetting(currentInstance, "UpdateRowAreaBorder", value)
                     afterUpdate()
                 end,
-                name = "Show Border",
-                desc = "Show Border",
+                name = "显示边框",
+                desc = "显示边框",
             },
 
 			{--full border color
@@ -3578,8 +3578,8 @@ do
                     editInstanceSetting(currentInstance, "UpdateRowAreaBorder", nil, {r, g, b, a})
                     afterUpdate()
                 end,
-                name = "Border Color",
-                desc = "Border Color",
+                name = "边框颜色",
+                desc = "边框颜色",
             },
 
             {--border size
@@ -3593,8 +3593,8 @@ do
                 max = 5,
                 step = 0.5,
                 usedecimals = true,
-                name = "Border Thickness",
-                desc = "Border Thickness",
+                name = "边框厚度",
+                desc = "边框厚度",
             },
 
         }
@@ -4003,18 +4003,18 @@ do
         --then add a 'ghost' plugin so the player can download
 
         local allExistentToolbarPlugins = {
-            {"DETAILS_PLUGIN_CHART_VIEWER", "Details_ChartViewer", "Chart Viewer", "View combat data in handsome charts.", "https://www.curseforge.com/wow/addons/details-chart-viewer-plugin"},
-            {"DETAILS_PLUGIN_DEATH_GRAPHICS", "Details_DeathGraphs", "Advanced Death Logs", "Encounter endurance per player (who's dying more), deaths timeline by enemy spells and regular death logs.", "https://www.curseforge.com/wow/addons/details-advanced-death-logs-plug"},
+            {"DETAILS_PLUGIN_CHART_VIEWER", "Details_ChartViewer", "图表查看器", "在精美的图表中查看战斗数据.", "https://kook.top/ZfIZFC"},
+            {"DETAILS_PLUGIN_DEATH_GRAPHICS", "Details_DeathGraphs", "高级死亡日志", "每个玩家的战斗时长(谁死得多),敌方法术和常规死亡日志的死亡时间线.", "https://kook.top/ZfIZFC"},
             --{"Details_RaidPowerBars", "Raid Power Bars", "Alternate power bar in a details! window", "https://www.curseforge.com/wow/addons/details_raidpowerbars/"},
             --{"Details_TargetCaller", "Target Caller", "Show raid damage done to an entity since you targetted it.", "https://www.curseforge.com/wow/addons/details-target-caller-plugin"},
-            {"DETAILS_PLUGIN_TIME_LINE", "Details_TimeLine", "Time Line", "View raid cooldowns usage, debuff gain, boss casts in a fancy time line.", "https://www.curseforge.com/wow/addons/details_timeline"},
+            {"DETAILS_PLUGIN_TIME_LINE", "Details_TimeLine", "时间线", "一个奇特的时间线查看团队冷却时间的使用, debuff, BOSS施法.", "https://kook.top/ZfIZFC"},
         }
 
         local allExistentRaidPlugins = {
             --{"DETAILS_PLUGIN_CHART_VIEWER", "Details_ChartViewer", "Chart Viewer", "View combat data in handsome charts.", "https://www.curseforge.com/wow/addons/details-chart-viewer-plugin"},
             --{"DETAILS_PLUGIN_DEATH_GRAPHICS", "Details_DeathGraphs", "Advanced Death Logs", "Encounter endurance per player (who's dying more), deaths timeline by enemy spells and regular death logs.", "https://www.curseforge.com/wow/addons/details-advanced-death-logs-plug"},
-            {"DETAILS_PLUGIN_RAID_POWER_BARS", "Details_RaidPowerBars", "Raid Power Bars", "Alternate power bar in a details! window", "https://www.curseforge.com/wow/addons/details_raidpowerbars/"},
-            {"DETAILS_PLUGIN_TARGET_CALLER", "Details_TargetCaller", "Target Caller", "Show raid damage done to an entity since you targetted it.", "https://www.curseforge.com/wow/addons/details-target-caller-plugin"},
+            {"DETAILS_PLUGIN_RAID_POWER_BARS", "Details_RaidPowerBars", "团本能量条", "在details!窗口显示间隔能量条", "https://kook.top/ZfIZFC"},
+            {"DETAILS_PLUGIN_TARGET_CALLER", "Details_TargetCaller", "目标调用者", "显示你选中一个实体后对它造成的伤害.", "https://kook.top/ZfIZFC"},
             --{"DETAILS_PLUGIN_TIME_LINE", "Details_TimeLine", "Time Line", "View raid cooldowns usage, debuff gain, boss casts in a fancy time line.", "https://www.curseforge.com/wow/addons/details_timeline"},
         }
 
@@ -4520,7 +4520,7 @@ do
                 func = function(self)
                     local str = Details:ExportCurrentProfile()
                     if (str) then
-                        Details:ShowImportWindow (str, nil, "Details! Export Profile")
+                        Details:ShowImportWindow (str, nil, "Details! 导出配置")
                     end
                 end,
                 name = Loc["STRING_OPTIONS_EXPORT_PROFILE"],
@@ -4604,7 +4604,7 @@ do
                 type = "select",
                 get = function() return Details.always_use_profile_name end,
                 values = function() return buildProfileMenuForAlwaysUse() end,
-                name = "Select Profile",
+                name = "选择配置",
                 desc = Loc ["STRING_OPTIONS_PROFILE_GLOBAL"],
             },
 
@@ -4646,7 +4646,7 @@ do
                 local fonts = {}
                 for name, fontPath in pairs(SharedMedia:HashTable ("font")) do
 
-                    fonts [#fonts+1] = {value = name, icon = font_select_icon, texcoord = font_select_texcoord, label = name, onclick = on_select_tooltip_font, font = fontPath, descfont = name, desc = "Our thoughts strayed constantly\nAnd without boundary\nThe ringing of the division bell had began."}
+                    fonts [#fonts+1] = {value = name, icon = font_select_icon, texcoord = font_select_texcoord, label = name, onclick = on_select_tooltip_font, font = fontPath, descfont = name, desc = "我们的思绪不断地游离\n无边无际\n分离的钟声已经响起."}
                 end
                 table.sort (fonts, function(t1, t2) return t1.label < t2.label end)
                 return fonts
@@ -4670,14 +4670,14 @@ do
             end
 
             local abbreviationOptions = {
-                {value = 1, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_NONE"], desc = "Example: 305.500 -> 305500", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
-                {value = 2, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK"], desc = "Example: 305.500 -> 305.5K", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
-                {value = 3, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK2"], desc = "Example: 305.500 -> 305K", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
-                {value = 4, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK0"], desc = "Example: 25.305.500 -> 25M", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
-                {value = 5, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOKMIN"], desc = "Example: 305.500 -> 305.5k", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
-                {value = 6, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK2MIN"], desc = "Example: 305.500 -> 305k", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
-                {value = 7, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK0MIN"], desc = "Example: 25.305.500 -> 25m", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
-                {value = 8, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_COMMA"], desc = "Example: 25305500 -> 25.305.500", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize} --, desc = ""
+                {value = 1, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_NONE"], desc = "例如: 305.500 -> 305500", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
+                {value = 2, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK"], desc = "例如: 305.500 -> 305.5K", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
+                {value = 3, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK2"], desc = "例如: 305.500 -> 305K", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
+                {value = 4, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK0"], desc = "例如: 25.305.500 -> 25M", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
+                {value = 5, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOKMIN"], desc = "例如: 305.500 -> 305.5k", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
+                {value = 6, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK2MIN"], desc = "例如: 305.500 -> 305k", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
+                {value = 7, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_TOK0MIN"], desc = "例如: 25.305.500 -> 25m", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize}, --, desc = ""
+                {value = 8, label = Loc ["STRING_OPTIONS_PS_ABBREVIATE_COMMA"], desc = "例如: 25305500 -> 25.305.500", onclick = onSelectTimeAbbreviation, icon = icon, iconcolor = iconcolor, iconsize = iconsize} --, desc = ""
             }
             local buildAbbreviationMenu = function()
                 return abbreviationOptions
@@ -4795,8 +4795,8 @@ do
                     color[4] = a
                     afterUpdate()
                 end,
-                name = "Shadow Color",
-                desc = "Color of the text shadow",
+                name = "暗影颜色",
+                desc = "文本阴影的颜色",
                 hidden = true,
             },
 
@@ -4899,8 +4899,8 @@ do
                     color[4] = a
                     afterUpdate()
                 end,
-                name = "Bar Color",
-                desc = "Bar Color",
+                name = "条颜色",
+                desc = "条颜色",
             },
 
 			{--background color
@@ -4935,8 +4935,8 @@ do
                     color[4] = a
                     afterUpdate()
                 end,
-                name = "Divisor Color",
-                desc = "Divisor Color",
+                name = "分数颜色",
+                desc = "分数颜色",
             },
 
             {--rounded corner
@@ -4946,8 +4946,8 @@ do
                     Details.tooltip.rounded_corner = value
                     afterUpdate()
                 end,
-                name = "Show Rounded Border",
-                desc = "Show Rounded Border",
+                name = "显示圆形边框",
+                desc = "显示圆形边框",
             },
 
             {type = "blank"},
@@ -5058,7 +5058,7 @@ do
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Midnight Tooltip Settings" end, text_template = subSectionTitleTextTemplate, hidden = not detailsFramework:IsAddonApocalypseWow()},
+            {type = "label", get = function() return "至暗之夜提示信息设置" end, text_template = subSectionTitleTextTemplate, hidden = not detailsFramework:IsAddonApocalypseWow()},
 
             {--show header
                 type = "toggle",
@@ -5067,8 +5067,8 @@ do
                     Details.tooltip.show_header = value
                     afterUpdate()
                 end,
-                name = "Show Header",
-                desc = "Show header line in the tooltip",
+                name = "显示标题行",
+                desc = "在提示信息中显示标题行",
                 hidden = not detailsFramework:IsAddonApocalypseWow(),
             },
 
@@ -5079,8 +5079,8 @@ do
                     Details.tooltip.show_dps_column = value
                     afterUpdate()
                 end,
-                name = "Show DPS Column",
-                desc = "Show DPS/HPS column in the tooltip",
+                name = "显示DPS列",
+                desc = "在提示信息中显示DPS/HPS列",
                 hidden = not detailsFramework:IsAddonApocalypseWow(),
             },
 
@@ -5091,8 +5091,8 @@ do
                     Details.tooltip.show_percent_column = value
                     afterUpdate()
                 end,
-                name = "Show Percent Column",
-                desc = "Show percentage column in the tooltip",
+                name = "显示百分比列",
+                desc = "在提示信息中显示百分比列",
                 hidden = not detailsFramework:IsAddonApocalypseWow(),
             },
 
@@ -5106,8 +5106,8 @@ do
                     end
                     afterUpdate()
                 end,
-                name = "Show Help Text",
-                desc = "Show help text at the bottom of the tooltip",
+                name = "显示帮助文本",
+                desc = "在提示信息底部显示帮助文本",
                 hidden = not detailsFramework:IsAddonApocalypseWow(),
             },
 
@@ -5118,8 +5118,8 @@ do
                     Details.tooltip.apocalypse_width_useline = value
                     afterUpdate()
                 end,
-                name = "Match Line Width",
-                desc = "Make the tooltip width match the instance line width",
+                name = "匹配行宽",
+                desc = "使提示信息宽度与实例行宽匹配",
                 hidden = not detailsFramework:IsAddonApocalypseWow(),
             },
 
@@ -5133,8 +5133,8 @@ do
                 min = 230,
                 max = 550,
                 step = 1,
-                name = "Tooltip Width",
-                desc = "Set the width of the midnight tooltip",
+                name = "提示信息宽度",
+                desc = "设置至暗之夜提示信息的宽度",
                 hidden = not detailsFramework:IsAddonApocalypseWow(),
                 disableif = function() return Details.tooltip.apocalypse_width_useline and true end,
             },
@@ -5381,46 +5381,46 @@ do
             end
 
             sectionFrame.wallpaperOptions = {
-                {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-HorizontalShadow]], label = "Horizontal Gradient", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-HorizontalShadow]], texcoord = nil},
-                {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Parchment-Highlight]], label = "Golden Highlight", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Parchment-Highlight]], texcoord = {0.35, 0.655, 0.0390625, 0.859375}},
-                {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Stat-Buttons]], label = "Gray Gradient", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Stat-Buttons]], texcoord = {0, 1, 97/128, 1}},
-                {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Borders]], label = "Orange Gradient", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Borders]], texcoord = {160/512, 345/512, 80/256, 130/256}},
-                {value = [[Interface\ARCHEOLOGY\Arch-BookCompletedLeft]], label = "Book Wallpaper", onclick = onSelectSecTexture, icon = [[Interface\ARCHEOLOGY\Arch-BookCompletedLeft]], texcoord = nil},
-                {value = [[Interface\ARCHEOLOGY\Arch-BookItemLeft]], label = "Book Wallpaper 2", onclick = onSelectSecTexture, icon = [[Interface\ARCHEOLOGY\Arch-BookItemLeft]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-deathknight-blood]], label = "Blood", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_BloodPresence]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-deathknight-frost]], label = "Frost", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_FrostPresence]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-deathknight-unholy]], label = "Unholy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_UnholyPresence]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-druid-bear]], label = "Guardian", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_racial_bearform]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-druid-restoration]], label = "Restoration", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_healingtouch]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-druid-cat]], label = "Feral", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_vampiricaura]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-druid-balance]], label = "Balance", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_starfall]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-hunter-beastmaster]], label = "Beast Mastery", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_bestialdiscipline]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-hunter-marksman]], label = "Marksmanship", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_focusedaim]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-hunter-survival]], label = "Survival", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_camouflage]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-mage-arcane]], label = "Arcane", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_magicalsentry]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-mage-fire]], label = "Fire", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_fire_firebolt02]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-mage-frost]], label = "Frost", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_frost_frostbolt02]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-monk-brewmaster]], label = "Brewmaster", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_drunkenox]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-monk-mistweaver]], label = "Mistweaver", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_wiseserpent]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-monk-battledancer]], label = "Windwalker", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_whitetiger]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-paladin-holy]], label = "Holy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_holybolt]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-paladin-protection]], label = "Protection", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_paladin_shieldofthetemplar]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-paladin-retribution]], label = "Retribution", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_auraoflight]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-priest-discipline]], label = "Discipline", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_powerwordshield]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-priest-holy]], label = "Holy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_guardianspirit]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-priest-shadow]], label = "Shadow", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_shadowwordpain]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-rogue-assassination]], label = "Assassination", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_rogue_eviscerate]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-rogue-combat]], label = "Combat", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_backstab]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-rogue-subtlety]], label = "Subtlety", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_stealth]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-shaman-elemental]], label = "Elemental", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_lightning]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-shaman-enhancement]], label = "Enhancement", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_lightningshield]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-shaman-restoration]], label = "Restoration", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_magicimmunity]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warlock-affliction]], label = "Affliction", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_deathcoil]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warlock-demonology]], label = "Demonology", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_metamorphosis]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warlock-destruction]], label = "Destruction", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_rainoffire]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warrior-arms]], label = "Arms", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_savageblow]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warrior-fury]], label = "Fury", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_innerrage]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warrior-protection]], label = "Protection", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_defensivestance]], texcoord = nil},
+                {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-HorizontalShadow]], label = "水平渐变", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-HorizontalShadow]], texcoord = nil},
+                {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Parchment-Highlight]], label = "金色高光", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Parchment-Highlight]], texcoord = {0.35, 0.655, 0.0390625, 0.859375}},
+                {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Stat-Buttons]], label = "灰色渐变", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Stat-Buttons]], texcoord = {0, 1, 97/128, 1}},
+                {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Borders]], label = "橙色渐变", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Borders]], texcoord = {160/512, 345/512, 80/256, 130/256}},
+                {value = [[Interface\ARCHEOLOGY\Arch-BookCompletedLeft]], label = "书籍壁纸", onclick = onSelectSecTexture, icon = [[Interface\ARCHEOLOGY\Arch-BookCompletedLeft]], texcoord = nil},
+                {value = [[Interface\ARCHEOLOGY\Arch-BookItemLeft]], label = "书籍壁纸2", onclick = onSelectSecTexture, icon = [[Interface\ARCHEOLOGY\Arch-BookItemLeft]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-deathknight-blood]], label = "鲜血", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_BloodPresence]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-deathknight-frost]], label = "冰霜", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_FrostPresence]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-deathknight-unholy]], label = "邪恶", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_UnholyPresence]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-druid-bear]], label = "守护", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_racial_bearform]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-druid-restoration]], label = "恢复", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_healingtouch]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-druid-cat]], label = "野性", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_vampiricaura]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-druid-balance]], label = "平衡", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_starfall]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-hunter-beastmaster]], label = "兽王", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_bestialdiscipline]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-hunter-marksman]], label = "射击", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_focusedaim]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-hunter-survival]], label = "生存", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_camouflage]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-mage-arcane]], label = "奥术", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_magicalsentry]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-mage-fire]], label = "火焰", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_fire_firebolt02]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-mage-frost]], label = "冰霜", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_frost_frostbolt02]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-monk-brewmaster]], label = "酒仙", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_drunkenox]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-monk-mistweaver]], label = "迷雾", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_wiseserpent]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-monk-battledancer]], label = "踏风", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_whitetiger]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-paladin-holy]], label = "神圣", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_holybolt]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-paladin-protection]], label = "防护", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_paladin_shieldofthetemplar]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-paladin-retribution]], label = "惩戒", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_auraoflight]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-priest-discipline]], label = "戒律", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_powerwordshield]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-priest-holy]], label = "神圣", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_guardianspirit]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-priest-shadow]], label = "暗影", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_shadowwordpain]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-rogue-assassination]], label = "奇袭", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_rogue_eviscerate]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-rogue-combat]], label = "狂徒", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_backstab]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-rogue-subtlety]], label = "敏锐", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_stealth]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-shaman-elemental]], label = "元素", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_lightning]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-shaman-enhancement]], label = "增强", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_lightningshield]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-shaman-restoration]], label = "恢复", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_magicimmunity]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-warlock-affliction]], label = "痛苦", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_deathcoil]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-warlock-demonology]], label = "恶魔", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_metamorphosis]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-warlock-destruction]], label = "毁灭", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_rainoffire]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-warrior-arms]], label = "武器", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_savageblow]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-warrior-fury]], label = "狂暴", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_innerrage]], texcoord = nil},
+                {value = [[Interface\TALENTFRAME\bg-warrior-protection]], label = "防护", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_defensivestance]], texcoord = nil},
             }
 
         --create preview
@@ -5521,15 +5521,15 @@ do
             end
 
             local anchorMenu = {
-                {value = "all", label = "Fill", onclick = onSelectAnchor},
-                {value = "titlebar", label = "Full Body", onclick = onSelectAnchor},
-                {value = "center", label = "Center", onclick = onSelectAnchor},
-                {value = "stretchLR", label = "Stretch Left-Right", onclick = onSelectAnchor},
-                {value = "stretchTB", label = "Stretch Top-Bottom", onclick = onSelectAnchor},
-                {value = "topleft", label = "Top Left", onclick = onSelectAnchor},
-                {value = "bottomleft", label = "Bottom Left", onclick = onSelectAnchor},
-                {value = "topright", label = "Top Right", onclick = onSelectAnchor},
-                {value = "bottomright", label = "Bottom Right", onclick = onSelectAnchor},
+                {value = "all", label = "平铺", onclick = onSelectAnchor},
+                {value = "titlebar", label = "全身", onclick = onSelectAnchor},
+                {value = "center", label = "中心", onclick = onSelectAnchor},
+                {value = "stretchLR", label = "左右拉伸", onclick = onSelectAnchor},
+                {value = "stretchTB", label = "上下拉伸", onclick = onSelectAnchor},
+                {value = "topleft", label = "左上", onclick = onSelectAnchor},
+                {value = "bottomleft", label = "左下", onclick = onSelectAnchor},
+                {value = "topright", label = "右上", onclick = onSelectAnchor},
+                {value = "bottomright", label = "右下", onclick = onSelectAnchor},
             }
             local buildWallpaperAnchorMenu = function()
                 return anchorMenu
@@ -5698,8 +5698,8 @@ do
                 min = 0,
                 max = 3,
                 step = 1,
-                name = "Level",
-                desc = "Change where the wallpaper is placed.", --localize-me
+                name = "等级",
+                desc = "改变墙纸的摆放位置.", --localize-me
             },
 
             {--edit wallpaper
@@ -5755,7 +5755,7 @@ do
         local buildSwitchMenu = function()
             sectionFrame.lastSwitchList = {}
             local t = {
-                {value = 0, label = "do not switch", color = {.7, .7, .7, 1}, onclick = Current_Switch_Func, icon = [[Interface\Glues\LOGIN\Glues-CheckBox-Check]]}
+                {value = 0, label = "不换", color = {.7, .7, .7, 1}, onclick = Current_Switch_Func, icon = [[Interface\Glues\LOGIN\Glues-CheckBox-Check]]}
             }
 
             local attributes = Details.sub_atributos
@@ -5888,7 +5888,7 @@ do
 
         local sectionOptions = {
 
-            {type = "label", get = function() return "Switch by Role Out of Combat" end, text_template = subSectionTitleTextTemplate}, --localize-me
+            {type = "label", get = function() return "脱离战斗后按角色切换" end, text_template = subSectionTitleTextTemplate}, --localize-me
 
             {--DAMAGER role out of combat
                 type = "select",
@@ -5927,7 +5927,7 @@ do
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Switch by Role In Combat" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "在战斗中按角色切换" end, text_template = subSectionTitleTextTemplate},
 
             {--DAMAGER role in combat
                 type = "select",
@@ -6061,7 +6061,7 @@ do
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Mythic Plus" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "史诗钥石" end, text_template = subSectionTitleTextTemplate},
 
             {--auto swap to overall after mythic plus
                 type = "toggle",
@@ -6070,8 +6070,8 @@ do
                     currentInstance.automation.overall_mythic_plus = value
                     afterUpdate()
                 end,
-                name = "Overall After Mythic+",
-                desc = "Change to overall data when the mythic plus dungeon is completed.", --localize-me
+                name = "史诗钥石后自动切换总计",
+                desc = "当史诗钥石地下城完成后, 自动切换到总计数据.", --localize-me
                 hidden = not detailsFramework.IsAddonApocalypseWow(),
             },
         }
@@ -6458,8 +6458,8 @@ do --raid tools
                     Details.announce_interrupts.channel = channel
                 end,
                 icontexture = [[Interface\CHATFRAME\ChatFrameExpandArrow]],
-                name = "Test",
-                desc = "Click to test!", --localize-me
+                name = "测试",
+                desc = "点击测试!", --localize-me
             },
 
             {type = "blank"},
@@ -6513,8 +6513,8 @@ do --raid tools
                     Details.announce_cooldowns.channel = channel
                 end,
                 icontexture = [[Interface\CHATFRAME\ChatFrameExpandArrow]],
-                name = "Test",
-                desc = "Click to test!", --localize-me
+                name = "测试",
+                desc = "点击测试!", --localize-me
             },
 
             {--ignored cooldowns
@@ -6585,7 +6585,7 @@ do --raid tools
             },
 
             {type = "breakline"},
-            {type = "label", get = function() return "Death Recap:" end, text_template = subSectionTitleTextTemplate}, --localize-me
+            {type = "label", get = function() return "死亡回顾:" end, text_template = subSectionTitleTextTemplate}, --localize-me
 
             {--enable death recap
                 type = "toggle",
@@ -6595,7 +6595,7 @@ do --raid tools
                     afterUpdate()
                 end,
                 name = Loc ["STRING_ENABLED"],
-                desc = "Modify the Blizzard's Death Recap screen.", --localize-me
+                desc = "修改暴雪的死亡回顾画面.", --localize-me
             },
 
             {--relevance time
@@ -6608,8 +6608,8 @@ do --raid tools
                 min = 1,
                 max = 12,
                 step = 1,
-                name = "Relevance Time", --localize-me
-                desc = "Attempt to fill the Death Recap with high damage (discart low hits) in the relevant time before death.", --localize-me
+                name = "关联时间", --localize-me
+                desc = "试图在死亡前的相关时间内用高伤害(低伤害击中死亡)填充死亡回顾.", --localize-me
             },
 
             {--show life percent
@@ -6619,8 +6619,8 @@ do --raid tools
                     Details.death_recap.show_life_percent = value
                     afterUpdate()
                 end,
-                name = "Life Percent", --localize-me
-                desc = "Show the percent of life the player had when received the hit.", --localize-me
+                name = "生命百分比", --localize-me
+                desc = "显示玩家在受到攻击时的生命百分比.", --localize-me
             },
 
             {--show segment list
@@ -6630,8 +6630,8 @@ do --raid tools
                     Details.death_recap.show_segments = value
                     afterUpdate()
                 end,
-                name = "Segment List", --localize-me
-                desc = "Show a list of the latest segments in case you want to see recaps from previous fights.", --localize-me
+                name = "分段列表", --localize-me
+                desc = "显示最新的片段列表以防你想看以前的战斗回顾.", --localize-me
             },
 
             {type = "blank"},
@@ -6655,8 +6655,8 @@ do --raid tools
                     Details.on_death_menu = value
                     afterUpdate()
                 end,
-                name = "Show Death Menu", --localize-me
-                desc = "Show a panel below the Release / Death Recap panel with some shortcuts for Raid Leaders.", --localize-me
+                name = "显示死亡名单", --localize-me
+                desc = "在发布/死亡回顾面板的下方显示一个面板，上面有一些团长的快捷方式.", --localize-me
             },
         }
 
@@ -6680,7 +6680,7 @@ do
             DF:NewLabel(sectionFrame, _, "$parentStreamerPluginAnchor", "streamerPluginAnchor", "Action Tracker", "GameFontNormal")
             sectionFrame.streamerPluginAnchor:SetPoint("topleft", sectionFrame, "topleft", startX, startY - 20)
 
-			local streamerTitleDesc = DF:NewLabel(sectionFrame, _, "$parentStreamerTitleDescText", "StreamerTitleDescTextLabel", "Show the spells you are casting, allowing the viewer to follow your decision making and learn your rotation.", "GameFontNormal", 10, "white")
+			local streamerTitleDesc = DF:NewLabel (sectionFrame, _, "$parentStreamerTitleDescText", "StreamerTitleDescTextLabel", "展示你正在施放的法术，让观众跟随你的决策，学习你的循环.", "GameFontNormal", 10, "white")
 			streamerTitleDesc:SetSize(270, 40)
 			streamerTitleDesc:SetJustifyV ("top")
 			streamerTitleDesc:SetPoint("topleft", sectionFrame.streamerPluginAnchor, "bottomleft", 0, -4)
@@ -6699,10 +6699,10 @@ do
                         StreamerPlugin.__enabled = tPluginSettings.enabled
 
                         if (not tPluginSettings.enabled) then
-                            sectionFrame.enableActionTrackerButtton:SetText("Enable")
+                            sectionFrame.enableActionTrackerButtton:SetText("启用")
                             Details:SendEvent("PLUGIN_DISABLED", StreamerPlugin)
                         else
-                            sectionFrame.enableActionTrackerButtton:SetText("Disable") --enableButton is nil value
+                            sectionFrame.enableActionTrackerButtton:SetText("禁用") --enableButton is nil value
 							Details:SendEvent("PLUGIN_ENABLED", StreamerPlugin)
                         end
                     end
@@ -6728,9 +6728,9 @@ do
 
 					--plugin already enabled
 					if (bIsPluginEnabled) then
-                        enableActionTrackerButtton:SetText("Disable")
+                        enableActionTrackerButtton:SetText("禁用")
 					else
-                        enableActionTrackerButtton:SetText("Enable")
+                        enableActionTrackerButtton:SetText("启用")
 					end
 				end
 			else
@@ -6746,22 +6746,22 @@ do
 
                 if (pluginObject) then
                     if (pluginStable.enabled) then
-                        sectionFrame.enableActionTrackerButtton:SetText("Disable")
+                        sectionFrame.enableActionTrackerButtton:SetText("禁用")
                     else
-                        sectionFrame.enableActionTrackerButtton:SetText("Enable")
+                        sectionFrame.enableActionTrackerButtton:SetText("启用")
                     end
                 end
 
                 if (Details.event_tracker.enabled) then
-                    sectionFrame.enableEventTrackerButtton:SetText("Disable")
+                    sectionFrame.enableEventTrackerButtton:SetText("禁用")
                 else
-                    sectionFrame.enableEventTrackerButtton:SetText("Enable")
+                    sectionFrame.enableEventTrackerButtton:SetText("启用")
                 end
 
                 if (Details.realtime_dps_meter.enabled) then
-                    sectionFrame.enableArenaDPSTrackerButtton:SetText("Disable")
+                    sectionFrame.enableArenaDPSTrackerButtton:SetText("禁用")
                 else
-                    sectionFrame.enableArenaDPSTrackerButtton:SetText("Enable")
+                    sectionFrame.enableArenaDPSTrackerButtton:SetText("启用")
                 end
             end)
 
@@ -6770,7 +6770,7 @@ do
             DF:NewLabel(sectionFrame, _, "$parentEventTrackerAnchor", "eventTrackerAnchor", "Event Tracker", "GameFontNormal")
             sectionFrame.eventTrackerAnchor:SetPoint("topleft", sectionFrame, "topleft", startX, startY - 180)
 
-			local eventTrackerTitleDesc = DF:NewLabel(sectionFrame, _, "$parentEventTrackerTitleDescText", "EventTrackerTitleDescTextLabel", "Show what's happening near you so the viewer can follow what's going on. Show cooldowns, CC, spell interruption. Useful on any group content.", "GameFontNormal", 10, "white")
+			local eventTrackerTitleDesc = DF:NewLabel (sectionFrame, _, "$parentEventTrackerTitleDescText", "EventTrackerTitleDescTextLabel", "显示你附近发生的事情, 让观众可以追踪发生的事情. 显示冷却时间、群控、法术打断. 在任何小队内容上都很有用.", "GameFontNormal", 10, "white")
 			eventTrackerTitleDesc:SetJustifyV ("top")
 			eventTrackerTitleDesc:SetSize(270, 40)
 			eventTrackerTitleDesc:SetPoint("topleft", sectionFrame.eventTrackerAnchor, "bottomleft", 0, -4)
@@ -6784,9 +6784,9 @@ do
                 afterUpdate()
 
                 if (Details.event_tracker.enabled) then
-                    sectionFrame.enableEventTrackerButtton:SetText("Disable")
+                    sectionFrame.enableEventTrackerButtton:SetText("禁用")
                 else
-                    sectionFrame.enableEventTrackerButtton:SetText("Enable")
+                    sectionFrame.enableEventTrackerButtton:SetText("启用")
                 end
             end
 
@@ -6809,10 +6809,10 @@ do
 
 
 		--arena kamehameha bar
-            DF:NewLabel(sectionFrame, _, "$parentCurrentDPSAnchor", "currentDPSAnchor", "Arena DPS Bar", "GameFontNormal")
+            DF:NewLabel (sectionFrame, _, "$parentCurrentDPSAnchor", "currentDPSAnchor", "竞技场DPS栏", "GameFontNormal")
             sectionFrame.currentDPSAnchor:SetPoint("topleft", sectionFrame, "topleft", startX, startY - 340)
 
-			local currentDPSTitleDesc = DF:NewLabel(sectionFrame, _, "$parentCurrentDPSTitleDescText", "CurrentDPSTitleDescTextLabel", "Show a bar which grows to the side of the team doing most damage in the last 5 seconds.", "GameFontNormal", 10, "white")
+			local currentDPSTitleDesc = DF:NewLabel(sectionFrame, _, "$parentCurrentDPSTitleDescText", "CurrentDPSTitleDescTextLabel", "显示框架中最后5秒内完成的DPS. 适用于竞技场比赛和史诗地下城.", "GameFontNormal", 10, "white")
 			currentDPSTitleDesc:SetJustifyV ("top")
 			currentDPSTitleDesc:SetSize(270, 40)
 			currentDPSTitleDesc:SetPoint("topleft", sectionFrame.currentDPSAnchor, "bottomleft", 0, -4)
@@ -6826,9 +6826,9 @@ do
                 afterUpdate()
 
                 if (Details.realtime_dps_meter.enabled) then
-                    sectionFrame.enableArenaDPSTrackerButtton:SetText("Disable")
+                    sectionFrame.enableArenaDPSTrackerButtton:SetText("禁用")
                 else
-                    sectionFrame.enableArenaDPSTrackerButtton:SetText("Enable")
+                    sectionFrame.enableArenaDPSTrackerButtton:SetText("启用")
                 end
             end
 
@@ -6840,10 +6840,10 @@ do
             end
 
             --create the enable, disable and options button
-            local enableArenaDPSTrackerButtton = DF:CreateButton(sectionFrame, enableArenaDPS, 100, 20, "Enable", false, false, "", false, false, false, DF:GetTemplate("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
+            local enableArenaDPSTrackerButtton = DF:CreateButton(sectionFrame, enableArenaDPS, 100, 20, "启用", false, false, "", false, false, false, DF:GetTemplate("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
             enableArenaDPSTrackerButtton:SetPoint("topleft", currentDPSTitleImage, "bottomleft", 0, -7)
 
-            local arenaDPSTrackerOptionsButtton = DF:CreateButton(sectionFrame, openArenaDPSOptions, 100, 20, "Options", false, false, "", false, false, false, DF:GetTemplate("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
+            local arenaDPSTrackerOptionsButtton = DF:CreateButton(sectionFrame, openArenaDPSOptions, 100, 20, "选项", false, false, "", false, false, false, DF:GetTemplate("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
             arenaDPSTrackerOptionsButtton:SetPoint("left", enableArenaDPSTrackerButtton, "right", 5, 0)
 
             sectionFrame.enableArenaDPSTrackerButtton = enableArenaDPSTrackerButtton
@@ -6878,8 +6878,8 @@ do
                     Details.streamer_config.no_alerts = value
                     afterUpdate()
                 end,
-                name = "Suppress Alerts", --localize-me
-                desc = "Suppress Alerts",
+                name = "抑制警报", --localize-me
+                desc = "抑制警报",
             },
 
             {--60hz updates
@@ -6890,8 +6890,8 @@ do
                     Details:RefreshUpdater()
                     afterUpdate()
                 end,
-                name = "60 Updates per Second", --localize-me
-                desc = "60 Updates per Second",
+                name = "每秒更新60次", --localize-me
+                desc = "每秒更新60次",
             },
 
             {--quick player info
@@ -6901,8 +6901,8 @@ do
                     Details.streamer_config.quick_detection = value
                     afterUpdate()
                 end,
-                name = "Quick Player Info Detection", --localize-me
-                desc = "Quick Player Info Detection",
+                name = "快速检测玩家信息", --localize-me
+                desc = "快速检测玩家信息",
             },
 
             {--disable M+ shenanigans
@@ -6912,8 +6912,8 @@ do
                     Details.streamer_config.disable_mythic_dungeon = value
                     afterUpdate()
                 end,
-                name = "Disable Mythic+ Stuff", --localize-me
-                desc = "Disable Mythic+ Stuff",
+                name = "禁用大秘境事物", --localize-me
+                desc = "禁用大秘境事物",
             },
 
             {--disable M+ charts
@@ -6923,8 +6923,8 @@ do
                     Details.mythic_plus.show_damage_graphic = value
                     afterUpdate()
                 end,
-                name = "Disable Mythic+ Chart", --localize-me
-                desc = "Disable Mythic+ Chart",
+                name = "禁用大秘境图表", --localize-me
+                desc = "禁用大秘境图表",
             },
 
             {--clear cache regurlary
@@ -6934,8 +6934,8 @@ do
                     Details.mythic_plus.show_damage_graphic = value
                     afterUpdate()
                 end,
-                name = "Clear Cache Regularly", --localize-me
-                desc = "Clear Cache Regularly",
+                name = "定期清除缓存", --localize-me
+                desc = "定期清除缓存",
             },
 
             {--hide helptips
@@ -6945,8 +6945,8 @@ do
                     Details.streamer_config.no_helptips = value
                     afterUpdate()
                 end,
-                name = "Hide Yellow Helptips", --localize-me
-                desc = "Those yellow boxes with an arrow and a text showing a text with tips.",
+                name = "隐藏黄色帮助提示", --localize-me
+                desc = "这些带箭头的黄色框和显示提示文本的文本框.",
             },
 
 
@@ -7253,7 +7253,7 @@ do
                 big_code_editor2.editbox:HighlightText()
                 big_code_editor2.editbox:SetFocus(true)
             else
-                Details:Msg("error exporting the time capture.") --localize-me
+                Details:Msg("导出采集错误时间.") --localize-me
             end
         end
     end
@@ -7656,9 +7656,9 @@ do
             Details:SetDeathLogLimit(limitAmount)
         end
         local DeathLogLimitOptions = {
-            {value = 16, label = "16 Records", onclick = onSelectDeathLogLimit, icon = [[Interface\WorldStateFrame\ColumnIcon-GraveyardDefend0]]},
-            {value = 32, label = "32 Records", onclick = onSelectDeathLogLimit, icon = [[Interface\WorldStateFrame\ColumnIcon-GraveyardDefend0]]},
-            {value = 45, label = "45 Records", onclick = onSelectDeathLogLimit, icon = [[Interface\WorldStateFrame\ColumnIcon-GraveyardDefend0]]},
+            {value = 16, label = "16个记录", onclick = onSelectDeathLogLimit, icon = [[Interface\WorldStateFrame\ColumnIcon-GraveyardDefend0]]},
+            {value = 32, label = "32个记录", onclick = onSelectDeathLogLimit, icon = [[Interface\WorldStateFrame\ColumnIcon-GraveyardDefend0]]},
+            {value = 45, label = "45个记录", onclick = onSelectDeathLogLimit, icon = [[Interface\WorldStateFrame\ColumnIcon-GraveyardDefend0]]},
         }
         local buildDeathLogLimitMenu = function()
             return DeathLogLimitOptions
@@ -7678,15 +7678,15 @@ do
             },
             {type = "blank"},
 
-            {type = "label", get = function() return "Death Log Options:" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "死亡日志选项:" end, text_template = subSectionTitleTextTemplate},
             {--reverse death logs
                 type = "toggle",
                 get = function() return Details.combat_log.inverse_deathlog_raid end,
                 set = function(self, fixedparam, value)
                     Details.combat_log.inverse_deathlog_raid = value
                 end,
-                name = "Invert Death Log (Raid)",
-                desc = "Invert Death Log (Raid)",
+                name = "倒置死亡记录(团队)",
+                desc = "倒置死亡记录(团队)",
             },
 
             {--reverse death logs
@@ -7695,8 +7695,8 @@ do
                 set = function(self, fixedparam, value)
                     Details.combat_log.inverse_deathlog_mplus = value
                 end,
-                name = "Invert Death Log (M+)",
-                desc = "Invert Death Log (M+)",
+                name = "倒置死亡记录(大秘境)",
+                desc = "倒置死亡记录(大秘境)",
             },
 
             {--reverse death logs
@@ -7705,8 +7705,8 @@ do
                 set = function(self, fixedparam, value)
                     Details.combat_log.inverse_deathlog_overalldata = value
                 end,
-                name = "Invert Death Log (Overall Data)",
-                desc = "Invert Death Log (Overall Data)",
+                name = "倒置死亡记录(总体数据)",
+                desc = "倒置死亡记录(总体数据)",
             },
 
             {--pvp frags
@@ -7746,7 +7746,7 @@ do
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Damage Options:" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "伤害选项:" end, text_template = subSectionTitleTextTemplate},
             {--damage taken everything
                 type = "toggle",
                 get = function() return Details.damage_taken_everything end,
@@ -7767,13 +7767,13 @@ do
                     afterUpdate()
                     Details:ClearParserCache()
                 end,
-                name = "Merge Ring Gems 11.0.7",
-                desc = "Merge Ring Gems 11.0.7",
+                name = "合并戒指宝石11.0.7",
+                desc = "合并戒指宝石11.0.7",
                 boxfirst = true,
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Class Options:" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "职业选项:" end, text_template = subSectionTitleTextTemplate},
 
             {--hunter track pet frenzy
                 type = "toggle",
@@ -7783,8 +7783,8 @@ do
                     afterUpdate()
                     Details:ClearParserCache()
                 end,
-                name = DF:AddClassIconToText("Hunter Track Pet Frenzy", false, "HUNTER"),
-                desc = "Hunter Track Pet Frenzy",
+                name = DF:AddClassIconToText("猎人追踪宠物的狂乱", false, "HUNTER"),
+                desc = "猎人追踪宠物的狂乱",
                 boxfirst = true,
             },
 
@@ -7797,8 +7797,8 @@ do
                     Details:ClearParserCache()
                     currentInstance:InstanceReset()
                 end,
-                name = DF:AddClassIconToText("Show Augmentation Extra Bar", false, "EVOKER"),
-                desc = "Calculate how much the Augmentation Evoker are buffing other players",
+                name = DF:AddClassIconToText("显示增辉额外栏", false, "EVOKER"),
+                desc = "计算增辉buff对其他玩家的加成程度",
                 boxfirst = true,
             },
 
@@ -7810,13 +7810,13 @@ do
                     afterUpdate()
                     Details:ClearParserCache()
                 end,
-                name = DF:AddClassIconToText("Use Real Time Dps for Aug. Evoker", false, "EVOKER"),
-                desc = "Use Real Time Dps for Augmentation Evoker",
+                name = DF:AddClassIconToText("使用增辉实时Dps", false, "EVOKER"),
+                desc = "使用增辉实时Dps",
                 boxfirst = true,
             },
 
             {type = "breakline"},
-            {type = "label", get = function() return "Parser Options:" end, text_template = subSectionTitleTextTemplate},
+            {type = "label", get = function() return "分析器选项:" end, text_template = subSectionTitleTextTemplate},
 
             {--overheal shields
                 type = "toggle",
@@ -7827,8 +7827,8 @@ do
                     Details:ClearParserCache()
                     Details:UpdateParserGears()
                 end,
-                name = "Calculate Shield Wasted Amount",
-                desc = "This is the 'overheal' of shields, it is calculated when a shield get replaced or removed.",
+                name = "计算护盾浪费数量",
+                desc = "这是护盾的'过量治疗', 它是在护盾被替换或移除时计算的.",
                 boxfirst = true,
             },
 
@@ -7854,8 +7854,8 @@ do
                     afterUpdate()
                     Details:ClearParserCache()
                 end,
-                name = "Merge Critical Heals",
-                desc = "Merges spells like Atonement and Awakened Faeline with their critical damage component.",
+                name = "合并爆击治疗",
+                desc = "将救赎和妖魂踏等法术与它们的爆击伤害合并在一起.",
                 boxfirst = true,
             },
 
@@ -7868,8 +7868,8 @@ do
                     Details:ClearParserCache()
                     Details:UpdateParserGears()
                 end,
-                name = "Record Tank Avoidance",
-                desc = "Record tank avoidance, this information is used in the Avoidance tank for tanks.",
+                name = "坦克闪避记录",
+                desc = "记录坦克的闪避数据, 该信息专用于为坦克职业设计的闪避型坦克配置体系.",
                 boxfirst = true,
             },
 
@@ -7887,8 +7887,8 @@ do
                     Details:ClearParserCache()
                     Details:UpdateParserGears()
                 end,
-                name = "Record Energy Resources",
-                desc = "Energy resources are mana, rage, energy, runic power, and others.",
+                name = "能量资源记录",
+                desc = "能量资源包含法力、怒气、能量、符文能量等职业核心战斗资源.",
                 boxfirst = true,
             },
 

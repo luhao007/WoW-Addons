@@ -1,1 +1,0 @@
-- Fix boss kill tracking in Seat of the Triumvirate

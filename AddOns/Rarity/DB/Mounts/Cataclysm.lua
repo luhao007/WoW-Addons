@@ -12,10 +12,7 @@ local cataclysmMounts = {
 	["Armored Razzashi Raptor"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.CATA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1179, -- Bloodlord Mandokir
-		},
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
 		name = L["Armored Razzashi Raptor"],
 		spellId = 96491,
 		itemId = 68823,
@@ -188,10 +185,7 @@ local cataclysmMounts = {
 	["Reins of the Drake of the North Wind"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.CATA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1041, -- Altairus
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Reins of the Drake of the North Wind"],
 		spellId = 88742,
 		itemId = 63040,
@@ -231,14 +225,11 @@ local cataclysmMounts = {
 	["Reins of the Vitreous Stone Drake"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.CATA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1059, -- Slabhide
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Reins of the Vitreous Stone Drake"],
 		spellId = 88746,
 		itemId = 63043,
-		tooltipNpcs = { 43214 },
+		npcs = { 43214 },
 		chance = 100,
 		sourceText = L["Any difficulty"],
 		blackMarket = true,
@@ -280,10 +271,7 @@ local cataclysmMounts = {
 	["Swift Zulian Panther"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.CATA,
 		type = CONSTANTS.ITEM_TYPES.MOUNT,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1180, -- High Priestess Kilnara
-		},
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
 		name = L["Swift Zulian Panther"],
 		spellId = 96499,
 		itemId = 68824,

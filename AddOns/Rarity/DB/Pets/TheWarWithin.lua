@@ -12,10 +12,7 @@ local twwPets = {
 	["Bop"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2930, -- Goldie Baronbottom
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Bop"],
 		npcs = { 218523, 214661 },
 		itemId = 223155,
@@ -66,10 +63,7 @@ local twwPets = {
 	["Craboom"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounter = {
-			3053, -- Swampface
-		},
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
 		name = L["Craboom"],
 		chance = 5,
 		creatureId = 238393,
@@ -106,10 +100,7 @@ local twwPets = {
 	["Eye of Chaos"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			3084, -- Mathias Shaw
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		chance = 12,
 		creatureId = 237850,
 		name = L["Eye of Chaos"],
@@ -120,10 +111,7 @@ local twwPets = {
 	["Void Scarred Scorpid"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			3087, -- Inquistor Gnshal (TBD Garona?)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		chance = 12,
 		creatureId = 237855,
 		name = L["Void Scarred Scorpid"],
@@ -134,10 +122,7 @@ local twwPets = {
 	["Void-Scarred Egg"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			3089, -- Vezokk
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		chance = 12,
 		creatureId = 237856,
 		name = L["Void-Scarred Egg"],

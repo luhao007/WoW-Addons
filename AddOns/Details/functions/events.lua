@@ -251,7 +251,7 @@ local common_events = {
 --internal functions
 
 	local dispatch_error = function(name, errortext)
-		Details:Msg((name or "<no context>"), " |cFFFF9900error|r: ", errortext)
+		Details:Msg((name or "<没有上下文>"), " |cFFFF9900错误|r: ", errortext)
 	end
 
 	--safe call an external func with payload and without telling who is calling

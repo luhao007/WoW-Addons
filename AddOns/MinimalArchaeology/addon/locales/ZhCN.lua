@@ -203,7 +203,7 @@ L["OPTIONS_RACE_CAP_CONFIRM_TITLE"] = "解密碎片上限前显示确认"
 L["OPTIONS_RACE_CAP_DESC"] = "如果为种族启用割草模式, 主窗口将显示种族的碎片上限而不是当前解密所需的碎片. 有助于为暗月马戏团收集化石碎片."
 L["OPTIONS_RACE_CAP_KEYSTONE_DESC"] = "自动为已检查的种族应用密文(不常见的碎片)."
 --[[Translation missing --]]
-L["OPTIONS_RACE_CAP_KEYSTONE_FOSSIL_NOTE"] = "Note: There are no keystones for Fossil."
+L["OPTIONS_RACE_CAP_KEYSTONE_FOSSIL_NOTE"] = "注: 化石类别无钥石记录."
 L["OPTIONS_RACE_CAP_KEYSTONE_TITLE"] = "自动密文"
 L["OPTIONS_RACE_CAP_PRIORITY_DESC"] = "优先目前只适用于航线生成顺序. 自动路径点将优先指向优先级较高的种族然后才指向其他(尽管更近的)挖掘地点. 数字越小优先级越高."
 L["OPTIONS_RACE_CAP_PRIORITY_RESETALL"] = "全部重置"
@@ -258,29 +258,29 @@ L["OPTIONS_START_HIDDEN_TITLE"] = "开始隐藏"
 L["OPTIONS_STARTUP_NOTE"] = "说明: 这些设置不会影响伴侣框."
 L["OPTIONS_STARTUP_SETTINGS_TITLE"] = "启动设置"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BORDER_COLOR_OPACITY"] = "Border opacity"
+L["OPTIONS_STYLING_BORDER_COLOR_OPACITY"] = "边框透明度"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BORDER_COLOR_TITLE"] = "Border color"
+L["OPTIONS_STYLING_BORDER_COLOR_TITLE"] = "边框颜色"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BORDER_THICKNESS"] = "Border thickness"
+L["OPTIONS_STYLING_BORDER_THICKNESS"] = "边框粗细"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BORDERSTYLE_1"] = "Default"
+L["OPTIONS_STYLING_BORDERSTYLE_1"] = "默认"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BORDERSTYLE_2"] = "Modern"
+L["OPTIONS_STYLING_BORDERSTYLE_2"] = "现代"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BORDERSTYLE_DESC"] = "Change border style of the Main, History and Digsites window"
+L["OPTIONS_STYLING_BORDERSTYLE_DESC"] = "更改主窗口, 历史记录和挖掘点窗口的边框样式"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BORDERSTYLE_TITLE"] = "Border Style"
+L["OPTIONS_STYLING_BORDERSTYLE_TITLE"] = "边框样式"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BUTTONPOSITION_1"] = "Window border"
+L["OPTIONS_STYLING_BUTTONPOSITION_1"] = "窗口边框"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BUTTONPOSITION_2"] = "Inside window"
+L["OPTIONS_STYLING_BUTTONPOSITION_2"] = "窗口内部"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_BUTTONPOSITION_TITLE"] = "Button positions"
+L["OPTIONS_STYLING_BUTTONPOSITION_TITLE"] = "按钮位置"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_MODERN_OPTIONS"] = "Modern border customization"
+L["OPTIONS_STYLING_MODERN_OPTIONS"] = "现代边框自定义"
 --[[Translation missing --]]
-L["OPTIONS_STYLING_TITLE"] = "Styling"
+L["OPTIONS_STYLING_TITLE"] = "样式"
 L["OPTIONS_SURVEY_DONT_FLYING_DESC"] = "勾选此选项防止你在飞行时施放勘测."
 L["OPTIONS_SURVEY_DONT_FLYING_TITLE"] = "不在飞行时施放"
 L["OPTIONS_SURVEY_DONT_MOUNTED_DESC"] = "勾选此选项防止你在骑坐骑时施放勘测."

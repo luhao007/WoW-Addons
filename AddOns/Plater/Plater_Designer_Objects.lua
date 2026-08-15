@@ -265,7 +265,7 @@ function designer.CreateSettings(parentFrame)
         HealthBar = {
             {
                 key = "health_statusbar_texture",
-                label = "Texture",
+                label = "材质",
                 widget = "selectstatusbartexture",
                 default = Plater.db.profile.health_statusbar_texture,
                 setter = function(healthBar, value) healthBar:SetTexture(LSM:Fetch("statusbar", value)); designer.UpdateAllNameplates() end,
@@ -273,7 +273,7 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "health_statusbar_bgcolor",
-                label = "Background Color",
+                label = "背景颜色",
                 widget = "color",
                 default = Plater.db.profile.health_statusbar_bgcolor,
                 setter = function(healthBar, color)
@@ -286,7 +286,7 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "border_color",
-                label = "Border Color",
+                label = "边框颜色",
                 widget = "color",
                 default = Plater.db.profile.border_color,
                 setter = function(healthBar, color)
@@ -297,7 +297,7 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "border_thickness",
-                label = "Border Thickness",
+                label = "边框粗细",
                 widget = "slider",
                 minvalue = 0,
                 maxvalue = 10,
@@ -313,7 +313,7 @@ function designer.CreateSettings(parentFrame)
             --hover over hightlight
             {
                 key = "hover_highlight",
-                label = "Mouse Hover Highlight",
+                label = "鼠标悬停高亮",
                 widget = "toggle",
                 default = Plater.db.profile.hover_highlight,
                 setter = function(healthBar, value)
@@ -328,7 +328,7 @@ function designer.CreateSettings(parentFrame)
             --hover_highlight_alpha
             {
                 key = "hover_highlight_alpha",
-                label = "Mouse Hover Highlight Alpha",
+                label = "鼠标悬停高亮透明度",
                 widget = "slider",
                 minvalue = 0,
                 maxvalue = 1,
@@ -363,7 +363,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "health_cutoff_extra_glow",
-                label = "Add Extra Glow to Execute Range",
+                label = "在斩杀阶段添加额外发光效果",
                 widget = "toggle",
                 default = Plater.db.profile.health_cutoff_extra_glow,
                 setter = function(healthBar, value) designer.UpdateAllNameplates() end,
@@ -440,7 +440,7 @@ function designer.CreateSettings(parentFrame)
                 an object for range check and transparency control, those that are  in the main settings tab 
 
                 key = "../../../health_statusbar_texture", --the name of the option in the profile table
-                label = "Texture",
+                label = "材质",
                 widget = "selectstatusbartexture",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
                 tableName = "health_statusbar_texture",
@@ -454,7 +454,7 @@ function designer.CreateSettings(parentFrame)
         CastBar = {
             {
                 key = "castbar_offset_x", --the name of the option in the profile table
-                label = "Offset X",
+                label = "水平偏移量",
                 widget = "slider",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
                 minvalue = -16,
@@ -464,7 +464,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "castbar_offset", --without Y
-                label = "Offset Y",
+                label = "垂直偏移量",
                 widget = "slider",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
                 minvalue = -16,
@@ -479,7 +479,7 @@ function designer.CreateSettings(parentFrame)
             --since Cast Bar's registration is bound to plate_config.<actorType>.
             {
                 key = "cast_statusbar_texture",
-                label = "Texture",
+                label = "材质",
                 widget = "selectstatusbartexture",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_texture,
@@ -490,7 +490,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_bgtexture",
-                label = "Background Texture",
+                label = "背景材质",
                 widget = "selectstatusbartexture",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_bgtexture,
@@ -504,7 +504,7 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "cast_statusbar_use_fade_effects",
-                label = "Enable fade animation",
+                label = "启用淡入淡出动画",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_use_fade_effects,
@@ -512,7 +512,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_fadein_time",
-                label = "On start",
+                label = "开始时",
                 widget = "slider",
                 minvalue = 0.01,
                 maxvalue = 1,
@@ -524,7 +524,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_fadeout_time",
-                label = "On stop",
+                label = "结束时",
                 widget = "slider",
                 minvalue = 0.01,
                 maxvalue = 2,
@@ -539,7 +539,7 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "show_interrupt_author",
-                label = "Show Interrupt Author",
+                label = "显示打断者",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.show_interrupt_author,
@@ -547,7 +547,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_interrupt_anim",
-                label = "Play Interrupt Animation",
+                label = "播放打断动画",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_interrupt_anim,
@@ -555,7 +555,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_spark_filloninterrupt",
-                label = "Fill Cast Bar On Interrupt",
+                label = "打断时填充施法条",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_spark_filloninterrupt,
@@ -563,7 +563,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_quickhide",
-                label = "Quick Hide Cast Bar",
+                label = "快速隐藏施法条",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_quickhide,
@@ -571,7 +571,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "hide_friendly_castbars",
-                label = "Hide Friendly Cast Bar",
+                label = "隐藏友方施法条",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.hide_friendly_castbars,
@@ -579,7 +579,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "hide_enemy_castbars",
-                label = "Hide Enemy Cast Bar",
+                label = "隐藏敌方施法条",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.hide_enemy_castbars,
@@ -591,7 +591,7 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "cast_statusbar_color",
-                label = "Regular",
+                label = "常规",
                 widget = "color",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_color,
@@ -599,7 +599,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_color_channeling",
-                label = "Channelled",
+                label = "引导",
                 widget = "color",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_color_channeling,
@@ -607,7 +607,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_color_empowered",
-                label = "Empowered",
+                label = "蓄力",
                 widget = "color",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_color_empowered,
@@ -615,7 +615,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_color_important",
-                label = "Important",
+                label = "重要",
                 widget = "color",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_color_important,
@@ -623,7 +623,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_color_nointerrupt",
-                label = "Uninterruptible",
+                label = "不可打断",
                 widget = "color",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_color_nointerrupt,
@@ -631,7 +631,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_color_interrupted",
-                label = "Interrupted",
+                label = "已打断",
                 widget = "color",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_color_interrupted,
@@ -639,7 +639,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_color_finished",
-                label = "Success",
+                label = "成功",
                 widget = "color",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_color_finished,
@@ -647,7 +647,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "cast_statusbar_bgcolor",
-                label = "Background Color",
+                label = "背景颜色",
                 widget = "color",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.cast_statusbar_bgcolor,
@@ -659,7 +659,7 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "castbar_icon_customization_enabled",
-                label = "Enable Custom Icon",
+                label = "启用自定义图标",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.castbar_icon_customization_enabled,
@@ -667,7 +667,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "castbar_icon_show",
-                label = "Show Icon",
+                label = "显示图标",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.castbar_icon_show,
@@ -675,35 +675,35 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "castbar_icon_attach_to_side",
-                label = "Icon Side",
+                label = "图标位置",
                 widget = "dropdown",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.castbar_icon_attach_to_side,
                 dropdownFunc = function()
                     return {
-                        {value = "left", label = "Left"},
-                        {value = "right", label = "Right"},
+                        {value = "left", label = "左侧"},
+                        {value = "right", label = "右侧"},
                     }
                 end,
                 setter = function(castBar, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "castbar_icon_size",
-                label = "Icon Size",
+                label = "图标大小",
                 widget = "dropdown",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.castbar_icon_size,
                 dropdownFunc = function()
                     return {
-                        {value = "same as castbar", label = "Castbar Size"},
-                        {value = "same as castbar plus healthbar", label = "Castbar + Healthbar Size"},
+                        {value = "same as castbar", label = "施法条大小"},
+                        {value = "same as castbar plus healthbar", label = "施法条+生命条大小"},
                     }
                 end,
                 setter = function(castBar, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "castbar_icon_x_offset",
-                label = "X Offset",
+                label = "水平偏移",
                 widget = "slider",
                 minvalue = -20,
                 maxvalue = 20,
@@ -714,7 +714,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "castbar_icon_showshield",
-                label = "Show Shield",
+                label = "显示护盾",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.castbar_icon_showshield,
@@ -726,7 +726,7 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "hide_blizzard_castbar",
-                label = "Hide Blizzard Cast Bar",
+                label = "隐藏暴雪施法条",
                 widget = "toggle",
                 profileTable = Plater.db.profile,
                 default = Plater.db.profile.hide_blizzard_castbar,
@@ -737,19 +737,19 @@ function designer.CreateSettings(parentFrame)
         CastBarSpark = {
             {
                 key = "cast_statusbar_spark_hideoninterrupt", --the name of the option in the profile table
-                label = "Hide Spark On Interrupt",
+                label = "打断时隐藏火花",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "cast_statusbar_spark_half", --the name of the option in the profile table
-                label = "Half Spark",
+                label = "半长火花",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "cast_statusbar_spark_offset", --the name of the option in the profile table
-                label = "Offset",
+                label = "偏移量",
                 widget = "slider",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
                 minvalue = -16,
@@ -761,25 +761,25 @@ function designer.CreateSettings(parentFrame)
         QuestOptions = {
             {
                 key = "quest_enabled", --the name of the option in the profile table
-                label = "Enabled",
+                label = "启用",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "quest_color_enabled", --the name of the option in the profile table
-                label = "Change Color",
+                label = "更改颜色",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "quest_color_enemy", --the name of the option in the profile table
-                label = "Enemy Quest Color",
+                label = "敌对任务目标颜色",
                 widget = "color",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "quest_color_neutral", --the name of the option in the profile table
-                label = "Neutral Quest Color",
+                label = "中立任务目标颜色",
                 widget = "color",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
@@ -790,14 +790,14 @@ function designer.CreateSettings(parentFrame)
         CastBarTargetName = {
             {
                 key = "castbar_target_show", --the name of the option in the profile table
-                label = "Enabled",
+                label = "启用",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
 
             {
                 key = "castbar_target_notank", --the name of the option in the profile table
-                label = "No Tank",
+                label = "不显示坦克",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
@@ -809,7 +809,7 @@ function designer.CreateSettings(parentFrame)
         UnitLevel = {
             {
                 key = "level_text_enabled", --the name of the option in the profile table
-                label = "Enabled",
+                label = "启用",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
@@ -818,7 +818,7 @@ function designer.CreateSettings(parentFrame)
         SpellCastTime = {
             {
                 key = "spellpercent_text_enabled", --the name of the option in the profile table
-                label = "Enabled",
+                label = "启用",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
@@ -829,113 +829,113 @@ function designer.CreateSettings(parentFrame)
         --all options copied from the options panel "colors / threat" section (Plater_OptionsPanel.lua
         --thread_options table). settings are global, so they read and write at profile root.
         Colors = {
-            {type = "label", get = function() return "Threat Modifies" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "威胁修改" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
             {
                 key = "aggro_modifies.health_bar_color",
-                label = "Health Bar Color",
+                label = "血条颜色",
                 widget = "toggle",
                 default = Plater.db.profile.aggro_modifies.health_bar_color,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "aggro_modifies.border_color",
-                label = "Border Color",
+                label = "边框颜色",
                 widget = "toggle",
                 default = Plater.db.profile.aggro_modifies.border_color,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "aggro_modifies.actor_name_color",
-                label = "Name Color",
+                label = "名字颜色",
                 widget = "toggle",
                 default = Plater.db.profile.aggro_modifies.actor_name_color,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Color When Playing as TANK" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "坦克角色时的颜色" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
             addColorPreview({
                 key = "tank.colors.aggro",
-                label = "Aggro on You",
-                desc = "The unit is attacking you and you have solid aggro.",
+                label = "你获得仇恨",
+                desc = "该单位正在攻击你, 并且你有稳定的仇恨.",
                 widget = "color",
                 default = Plater.db.profile.tank.colors.aggro,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
             addColorPreview({
                 key = "tank.colors.anothertank",
-                label = "Aggro on Another Tank",
-                desc = "The unit is being tanked by another tank in your group.",
+                label = "另一坦克获得仇恨",
+                desc = "该单位正被你队伍中的另一坦克拉住.",
                 widget = "color",
                 default = Plater.db.profile.tank.colors.anothertank,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
             addColorPreview({
                 key = "tank.colors.pulling",
-                label = "Aggro on You But is Low",
-                desc = "The unit is attacking you but others are about to pull the aggro.",
+                label = "你获得仇恨但即将丢失",
+                desc = "该单位正在攻击你, 但其他人即将拉走仇恨.",
                 widget = "color",
                 default = Plater.db.profile.tank.colors.pulling,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
             addColorPreview({
                 key = "tank.colors.noaggro",
-                label = "No Aggro",
-                desc = "The unit does not have aggro on you.",
+                label = "无仇恨",
+                desc = "该单位没有对你产生仇恨.",
                 widget = "color",
                 default = Plater.db.profile.tank.colors.noaggro,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
             addColorPreview({
                 key = "tank.colors.pulling_from_tank",
-                label = "Pulling From Another Tank",
-                desc = "The unit has aggro on another tank and you're about to pull it.",
+                label = "从另一坦克处拉取",
+                desc = "该单位对另一坦克有仇恨, 而你即将拉走它.",
                 widget = "color",
                 default = Plater.db.profile.tank.colors.pulling_from_tank,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
 
             {type = "blank"},
-            {type = "label", get = function() return "Color When Playing as DPS or HEALER" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "DPS或治疗角色时的颜色" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
             addColorPreview({
                 key = "dps.colors.aggro",
-                label = "Aggro on You",
-                desc = "The unit is attacking you.",
+                label = "你获得仇恨",
+                desc = "该单位正在攻击你.",
                 widget = "color",
                 default = Plater.db.profile.dps.colors.aggro,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
             addColorPreview({
                 key = "dps.colors.pulling",
-                label = "High Threat",
-                desc = "The unit is about to start attacking you.",
+                label = "高威胁",
+                desc = "该单位即将开始攻击你.",
                 widget = "color",
                 default = Plater.db.profile.dps.colors.pulling,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
             addColorPreview({
                 key = "dps.colors.noaggro",
-                label = "No Aggro",
-                desc = "The unit isn't attacking you.",
+                label = "无仇恨",
+                desc = "该单位没有攻击你.",
                 widget = "color",
                 default = Plater.db.profile.dps.colors.noaggro,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
             {
                 key = "dps.use_aggro_solo",
-                label = "Use 'Solo' color",
-                desc = "Use the 'Solo' color when not in a group.",
+                label = "使用'单人'颜色",
+                desc = "不在队伍时使用'单人'颜色.",
                 widget = "toggle",
                 default = Plater.db.profile.dps.use_aggro_solo,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             },
             addColorPreview({
                 key = "dps.colors.solo",
-                label = "Solo Color",
-                desc = "Use the 'Solo' color when not in a group.",
+                label = "单人颜色",
+                desc = "不在队伍时使用的颜色.",
                 widget = "color",
                 default = Plater.db.profile.dps.colors.solo,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
@@ -945,16 +945,16 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "aggro_can_check_notank",
-                label = "Check for No Tank Aggro",
-                desc = "When you don't have aggro as healer or dps, check if the enemy is attacking another unit that isn't a tank.",
+                label = "检测非坦克仇恨",
+                desc = "当你作为治疗或DPS没有仇恨时, 检查敌人是否在攻击一个非坦克单位.",
                 widget = "toggle",
                 default = Plater.db.profile.aggro_can_check_notank,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             },
             addColorPreview({
                 key = "dps.colors.notontank",
-                label = "No Tank Aggro",
-                desc = "The unit isn't attacking you or a tank and most likely is attacking another healer or dps from your group.",
+                label = "非坦克仇恨",
+                desc = "该单位没有攻击你或坦克, 很可能正在攻击你队伍中的另一治疗或DPS.",
                 widget = "color",
                 default = Plater.db.profile.dps.colors.notontank,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
@@ -964,29 +964,29 @@ function designer.CreateSettings(parentFrame)
 
             addColorPreview({
                 key = "tank.colors.nocombat",
-                label = "Unit Not in Combat",
-                desc = "The unit isn't in combat.",
+                label = "未进入战斗",
+                desc = "该单位未进入战斗.",
                 widget = "color",
                 default = Plater.db.profile.tank.colors.nocombat,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
             addColorPreview({
                 key = "tap_denied_color",
-                label = "Unit Tapped",
-                desc = "When someone else has claimed the unit (when you don't receive experience or loot for killing it).",
+                label = "单位已被标记",
+                desc = "当其他人已经获得了该单位(你击杀它将无法获得经验或战利品).",
                 widget = "color",
                 default = Plater.db.profile.tap_denied_color,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             }),
 
             {type = "blank"},
-            {type = "label", get = function() return "Tank or DPS Colors:" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "坦克或DPS颜色:" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
             --this toggle is hidden on retail in the options panel (classic only setting). kept here
             --so all options are reachable from the editor.
             {
                 key = "tank_threat_colors",
-                label = "Use Tank Threat Colors",
+                label = "使用坦克威胁颜色",
                 widget = "toggle",
                 default = Plater.db.profile.tank_threat_colors,
                 setter = function(colors, value)
@@ -996,12 +996,12 @@ function designer.CreateSettings(parentFrame)
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Override Default Colors" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "覆盖默认颜色" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
             {
                 key = "color_override",
-                label = "Enabled",
-                desc = "Modify the default colors set by the game for neutral, hostile and friendly units. During combat, these colors will be override as well if threat colors are allowed to change health bar color.",
+                label = "启用",
+                desc = "修改游戏为中立, 敌对和友好单位设置的默认颜色. 战斗中, 如果允许威胁颜色改变血条颜色, 这些颜色也会被覆盖.",
                 widget = "toggle",
                 default = Plater.db.profile.color_override,
                 setter = function(colors, value)
@@ -1011,8 +1011,8 @@ function designer.CreateSettings(parentFrame)
             },
             addColorPreview({
                 key = "color_override_colors[3]",
-                label = "Hostile",
-                desc = "Hostile",
+                label = "敌对",
+                desc = "敌对",
                 widget = "color",
                 default = Plater.db.profile.color_override_colors[3],
                 setter = function(colors, value)
@@ -1022,8 +1022,8 @@ function designer.CreateSettings(parentFrame)
             }),
             addColorPreview({
                 key = "color_override_colors[4]",
-                label = "Neutral",
-                desc = "Neutral",
+                label = "中立",
+                desc = "中立",
                 widget = "color",
                 default = Plater.db.profile.color_override_colors[4],
                 setter = function(colors, value)
@@ -1033,8 +1033,8 @@ function designer.CreateSettings(parentFrame)
             }),
             addColorPreview({
                 key = "color_override_colors[5]",
-                label = "Friendly",
-                desc = "Friendly",
+                label = "友好",
+                desc = "友好",
                 widget = "color",
                 default = Plater.db.profile.color_override_colors[5],
                 setter = function(colors, value)
@@ -1044,20 +1044,20 @@ function designer.CreateSettings(parentFrame)
             }),
 
             {type = "blank"},
-            {type = "label", get = function() return "Misc:" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "杂项:" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
             {
                 key = "show_aggro_flash",
-                label = "Enable aggro flash",
-                desc = "Enables the -AGGRO- flash animation on the nameplates when gaining aggro as dps.",
+                label = "启用仇恨闪烁",
+                desc = "启用DPS获得仇恨时姓名板上的 -仇恨- 闪烁动画.",
                 widget = "toggle",
                 default = Plater.db.profile.show_aggro_flash,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "show_aggro_glow",
-                label = "Enable health bar aggro glow",
-                desc = "Enables the healthbar glow on the nameplates when gaining aggro as dps or losing aggro as tank.",
+                label = "启用血条仇恨发光",
+                desc = "启用DPS获得仇恨或坦克失去仇恨时血条的发光效果.",
                 widget = "toggle",
                 default = Plater.db.profile.show_aggro_glow,
                 setter = function(colors, value) designer.UpdateAllNameplates() end,
@@ -1070,8 +1070,8 @@ function designer.CreateSettings(parentFrame)
         MidnightMobColors = {
             {
                 key = "unit_type_coloring_enabled",
-                label = "Enabled",
-                desc = "Enable unit type coloring with the colors below. Only active in dungeons and raids. Bad threat states will override this color.",
+                label = "启用",
+                desc = "使用下方的颜色启用单位类型着色. 仅在地下城和团队副本中生效. 不良的威胁状态会覆盖此颜色.",
                 widget = "toggle",
                 default = Plater.db.profile.unit_type_coloring_enabled,
                 setter = function(colors, value)
@@ -1081,8 +1081,8 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "unit_type_coloring_no_override_threat",
-                label = "Threat overrides unit type",
-                desc = "Threat coloring will have priority over unit type colors.",
+                label = "威胁覆盖单位类型",
+                desc = "威胁着色将优先于单位类型颜色.",
                 widget = "toggle",
                 default = Plater.db.profile.unit_type_coloring_no_override_threat,
                 setter = function(colors, value)
@@ -1095,8 +1095,8 @@ function designer.CreateSettings(parentFrame)
 
             addColorPreview({
                 key = "unit_type_coloring_boss",
-                label = "Boss",
-                desc = "Color for raid or dungeon bosses.",
+                label = "首领",
+                desc = "团队或地下城首领的颜色.",
                 widget = "color",
                 default = Plater.db.profile.unit_type_coloring_boss,
                 setter = function(colors, value)
@@ -1106,8 +1106,8 @@ function designer.CreateSettings(parentFrame)
             }),
             addColorPreview({
                 key = "unit_type_coloring_miniboss",
-                label = "Miniboss",
-                desc = "Color for minibosses.",
+                label = "小首领",
+                desc = "小首领的颜色.",
                 widget = "color",
                 default = Plater.db.profile.unit_type_coloring_miniboss,
                 setter = function(colors, value)
@@ -1117,8 +1117,8 @@ function designer.CreateSettings(parentFrame)
             }),
             addColorPreview({
                 key = "unit_type_coloring_caster",
-                label = "Caster",
-                desc = "Color for caster units.",
+                label = "施法者",
+                desc = "施法者单位的颜色.",
                 widget = "color",
                 default = Plater.db.profile.unit_type_coloring_caster,
                 setter = function(colors, value)
@@ -1131,8 +1131,8 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "unit_type_coloring_enable_elite",
-                label = "Enable elite",
-                desc = "Will override non-elite colors as 'elite'.",
+                label = "启用精英",
+                desc = "将非精英颜色覆盖为'精英'.",
                 widget = "toggle",
                 default = Plater.db.profile.unit_type_coloring_enable_elite,
                 setter = function(colors, value)
@@ -1142,8 +1142,8 @@ function designer.CreateSettings(parentFrame)
             },
             addColorPreview({
                 key = "unit_type_coloring_elite",
-                label = "Elite",
-                desc = "Color for elite units.",
+                label = "精英",
+                desc = "精英单位的颜色.",
                 widget = "color",
                 default = Plater.db.profile.unit_type_coloring_elite,
                 setter = function(colors, value)
@@ -1156,8 +1156,8 @@ function designer.CreateSettings(parentFrame)
 
             {
                 key = "unit_type_coloring_enable_trivial",
-                label = "Enable trivial",
-                desc = "Will override non-elite colors as 'trivial'.",
+                label = "启用普通",
+                desc = "将非精英颜色覆盖为'普通'.",
                 widget = "toggle",
                 default = Plater.db.profile.unit_type_coloring_enable_trivial,
                 setter = function(colors, value)
@@ -1167,8 +1167,8 @@ function designer.CreateSettings(parentFrame)
             },
             addColorPreview({
                 key = "unit_type_coloring_trivial",
-                label = "Trivial",
-                desc = "Color for non-elite/trivial units.",
+                label = "普通",
+                desc = "非精英/普通单位的颜色.",
                 widget = "color",
                 default = Plater.db.profile.unit_type_coloring_trivial,
                 setter = function(colors, value)
@@ -1209,25 +1209,25 @@ function designer.CreateSettings(parentFrame)
             --/ build_grow_direction_options in Plater_OptionsPanel.lua).
             local anchorSideOptions = function()
                 return {
-                    {value = 1, label = "Top Left"},
-                    {value = 2, label = "Left"},
-                    {value = 3, label = "Bottom Left"},
-                    {value = 4, label = "Bottom"},
-                    {value = 5, label = "Bottom Right"},
-                    {value = 6, label = "Right"},
-                    {value = 7, label = "Top Right"},
-                    {value = 8, label = "Top"},
-                    {value = 9, label = "Center"},
+                    {value = 1, label = "左上"},
+                    {value = 2, label = "左"},
+                    {value = 3, label = "左下"},
+                    {value = 4, label = "下"},
+                    {value = 5, label = "右下"},
+                    {value = 6, label = "右"},
+                    {value = 7, label = "右上"},
+                    {value = 8, label = "上"},
+                    {value = 9, label = "居中"},
                 }
             end
             local outlineOptions = function()
                 return {
-                    {value = "NONE", label = "None"},
-                    {value = "MONOCHROME", label = "Monochrome"},
-                    {value = "OUTLINE", label = "Outline"},
-                    {value = "THICKOUTLINE", label = "Thick Outline"},
-                    {value = "MONOCHROME, OUTLINE", label = "Monochrome + Outline"},
-                    {value = "MONOCHROME, THICKOUTLINE", label = "Monochrome + Thick Outline"},
+                    {value = "NONE", label = "无"},
+                    {value = "MONOCHROME", label = "单色"},
+                    {value = "OUTLINE", label = "描边"},
+                    {value = "THICKOUTLINE", label = "粗描边"},
+                    {value = "MONOCHROME, OUTLINE", label = "单色+描边"},
+                    {value = "MONOCHROME, THICKOUTLINE", label = "单色+粗描边"},
                 }
             end
             --grow direction values are numeric (Plater stores 1/2/3, see grow_direction_names
@@ -1235,9 +1235,9 @@ function designer.CreateSettings(parentFrame)
             --dropdown showing "no option selected" since the profile value never matches.
             local growDirectionOptions = function()
                 return {
-                    {value = 1, label = "Left"},
-                    {value = 2, label = "Center"},
-                    {value = 3, label = "Right"},
+                    {value = 1, label = "左"},
+                    {value = 2, label = "居中"},
+                    {value = 3, label = "右"},
                 }
             end
             local fontOptions = function()
@@ -1249,28 +1249,28 @@ function designer.CreateSettings(parentFrame)
             end
 
             return {
-                {type = "label", get = function() return "General Settings" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "通用设置" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
                 {
                     key = "aura_enabled",
-                    label = "Enabled",
-                    desc = "Master switch for the aura system.",
+                    label = "启用",
+                    desc = "光环系统的总开关.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_enabled,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_tooltip",
-                    label = "Show Tooltip",
-                    desc = "Show tooltip when hovering over the aura icon.",
+                    label = "显示提示信息",
+                    desc = "悬停在光环图标上时显示提示信息.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_tooltip,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_alpha",
-                    label = "Alpha",
-                    desc = "Overall opacity of the aura icons.",
+                    label = "透明度",
+                    desc = "光环图标的整体透明度.",
                     widget = "slider",
                     minvalue = 0, maxvalue = 1, step = 0.01, usedecimals = true,
                     default = Plater.db.profile.aura_alpha,
@@ -1278,8 +1278,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_padding",
-                    label = "Icon Spacing",
-                    desc = "Horizontal space between aura icons.",
+                    label = "图标间距",
+                    desc = "光环图标之间的水平间距.",
                     widget = "slider",
                     minvalue = 0, maxvalue = 10, step = 0.01, usedecimals = true,
                     default = Plater.db.profile.aura_padding,
@@ -1287,8 +1287,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_breakline_space",
-                    label = "Icon Row Spacing",
-                    desc = "Vertical space between rows of aura icons.",
+                    label = "图标行间距",
+                    desc = "光环图标行之间的垂直间距.",
                     widget = "slider",
                     minvalue = 0, maxvalue = 15, step = 0.01, usedecimals = true,
                     default = Plater.db.profile.aura_breakline_space,
@@ -1296,32 +1296,32 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_consolidate",
-                    label = "Stack Similar Auras",
-                    desc = "Auras with the same name (e.g. warlock's unstable affliction debuff) get stacked together.",
+                    label = "堆叠相似光环",
+                    desc = "相同名称的光环(例如术士的痛苦无常减益效果)会被堆叠在一起.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_consolidate,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_consolidate_timeleft_lower",
-                    label = "Show shortest time of stacked auras",
-                    desc = "Show shortest time of stacked auras (or longest when disabled).",
+                    label = "显示堆叠光环的最短时间",
+                    desc = "显示堆叠光环中最短的剩余时间(禁用时显示最长时间).",
                     widget = "toggle",
                     default = Plater.db.profile.aura_consolidate_timeleft_lower,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_sort",
-                    label = "Sort Auras",
-                    desc = "Auras are sorted by time remaining (default).",
+                    label = "排序光环",
+                    desc = "光环按剩余时间排序(默认).",
                     widget = "toggle",
                     default = Plater.db.profile.aura_sort,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_max_shown_limit",
-                    label = "Max auras shown",
-                    desc = "Limit the amount of auras shown. Negative: filter shortest. Positive: filter longest. 0 = no filtering.",
+                    label = "最大显示数量",
+                    desc = "限制显示的光环数量. 负数: 过滤最短的. 正数: 过滤最长的. 0 = 不过滤.",
                     widget = "slider",
                     minvalue = -8, maxvalue = 8, step = 1,
                     default = Plater.db.profile.aura_max_shown_limit,
@@ -1329,12 +1329,12 @@ function designer.CreateSettings(parentFrame)
                 },
 
                 {type = "blank"},
-                {type = "label", get = function() return "Aura Frame 1" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "光环框架 1" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
                 {
                     key = "aura_width",
-                    label = "Width",
-                    desc = "Debuff's icon width.",
+                    label = "宽度",
+                    desc = "减益效果图标的宽度.",
                     widget = "slider",
                     minvalue = 4, maxvalue = 80, step = 1,
                     default = Plater.db.profile.aura_width,
@@ -1342,8 +1342,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_height",
-                    label = "Height",
-                    desc = "Debuff's icon height.",
+                    label = "高度",
+                    desc = "减益效果图标的高度.",
                     widget = "slider",
                     minvalue = 4, maxvalue = 80, step = 1,
                     default = Plater.db.profile.aura_height,
@@ -1351,8 +1351,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_border_thickness",
-                    label = "Border Thickness",
-                    desc = "Border thickness around each aura icon.",
+                    label = "边框厚度",
+                    desc = "每个光环图标周围的边框厚度.",
                     widget = "slider",
                     minvalue = 1, maxvalue = 5, step = 1,
                     default = Plater.db.profile.aura_border_thickness,
@@ -1360,8 +1360,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_grow_direction",
-                    label = "Grow Direction",
-                    desc = "To which side aura icons should grow. Debuffs are added first, buffs after.",
+                    label = "增长方向",
+                    desc = "光环图标应该向哪一侧增长. 减益效果先添加, 然后是增益效果.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_grow_direction,
                     dropdownFunc = growDirectionOptions,
@@ -1369,8 +1369,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_frame1_anchor.side",
-                    label = "Anchor",
-                    desc = "Which side of the nameplate this aura frame is attached to.",
+                    label = "锚点",
+                    desc = "此光环框架附着在姓名板的哪一侧.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_frame1_anchor.side,
                     dropdownFunc = anchorSideOptions,
@@ -1378,8 +1378,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_frame1_anchor.x",
-                    label = "X Offset",
-                    desc = "Horizontal offset from the anchor point.",
+                    label = "水平偏移",
+                    desc = "距离锚点的水平偏移.",
                     widget = "slider",
                     minvalue = -200, maxvalue = 200, step = 1, usedecimals = true,
                     default = Plater.db.profile.aura_frame1_anchor.x,
@@ -1391,8 +1391,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_frame1_anchor.y",
-                    label = "Y Offset",
-                    desc = "Vertical offset from the anchor point.",
+                    label = "垂直偏移",
+                    desc = "距离锚点的垂直偏移.",
                     widget = "slider",
                     minvalue = -200, maxvalue = 200, step = 1, usedecimals = true,
                     default = Plater.db.profile.aura_frame1_anchor.y,
@@ -1403,12 +1403,12 @@ function designer.CreateSettings(parentFrame)
                 },
 
                 {type = "blank"},
-                {type = "label", get = function() return "Aura Frame 2" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "光环框架 2" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
                 {
                     key = "aura_width2",
-                    label = "Width",
-                    desc = "Icon width for the second aura frame.",
+                    label = "宽度",
+                    desc = "第二个光环框架的图标宽度.",
                     widget = "slider",
                     minvalue = 4, maxvalue = 80, step = 1,
                     default = Plater.db.profile.aura_width2,
@@ -1416,8 +1416,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_height2",
-                    label = "Height",
-                    desc = "Icon height for the second aura frame.",
+                    label = "高度",
+                    desc = "第二个光环框架的图标高度.",
                     widget = "slider",
                     minvalue = 4, maxvalue = 80, step = 1,
                     default = Plater.db.profile.aura_height2,
@@ -1425,8 +1425,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_border_thickness2",
-                    label = "Border Thickness",
-                    desc = "Border thickness for the second aura frame.",
+                    label = "边框厚度",
+                    desc = "第二个光环框架的边框厚度.",
                     widget = "slider",
                     minvalue = 1, maxvalue = 5, step = 1,
                     default = Plater.db.profile.aura_border_thickness2,
@@ -1434,16 +1434,16 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "buffs_on_aura2",
-                    label = "Enabled",
-                    desc = "When enabled buffs are placed on this second frame and debuffs on the first.",
+                    label = "启用",
+                    desc = "启用后, 增益效果将放置在第二个框架上, 减益效果放在第一个框架上.",
                     widget = "toggle",
                     default = Plater.db.profile.buffs_on_aura2,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura2_grow_direction",
-                    label = "Grow Direction",
-                    desc = "To which side aura icons should grow.",
+                    label = "增长方向",
+                    desc = "光环图标应该向哪一侧增长.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura2_grow_direction,
                     dropdownFunc = growDirectionOptions,
@@ -1451,8 +1451,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_frame2_anchor.side",
-                    label = "Anchor",
-                    desc = "Which side of the nameplate this aura frame is attached to.",
+                    label = "锚点",
+                    desc = "此光环框架附着在姓名板的哪一侧.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_frame2_anchor.side,
                     dropdownFunc = anchorSideOptions,
@@ -1460,8 +1460,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_frame2_anchor.x",
-                    label = "X Offset",
-                    desc = "Horizontal offset from the anchor point.",
+                    label = "水平偏移",
+                    desc = "距离锚点的水平偏移.",
                     widget = "slider",
                     minvalue = -200, maxvalue = 200, step = 1, usedecimals = true,
                     default = Plater.db.profile.aura_frame2_anchor.x,
@@ -1472,8 +1472,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_frame2_anchor.y",
-                    label = "Y Offset",
-                    desc = "Vertical offset from the anchor point.",
+                    label = "垂直偏移",
+                    desc = "距离锚点的垂直偏移.",
                     widget = "slider",
                     minvalue = -200, maxvalue = 200, step = 1, usedecimals = true,
                     default = Plater.db.profile.aura_frame2_anchor.y,
@@ -1484,20 +1484,20 @@ function designer.CreateSettings(parentFrame)
                 },
 
                 {type = "blank"},
-                {type = "label", get = function() return "Auras per Row" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "每行光环数" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
                 {
                     key = "auras_per_row_auto",
-                    label = "Automatic",
-                    desc = "Split auras into rows automatically based on health bar width.",
+                    label = "自动",
+                    desc = "根据血条宽度自动将光环拆分为多行.",
                     widget = "toggle",
                     default = Plater.db.profile.auras_per_row_auto,
                     setter = function(auras, value) refreshAuraDBAndIcons() end,
                 },
                 {
                     key = "auras_per_row_amount",
-                    label = "Auras per Row 1",
-                    desc = "Auras per row when auto-mode is disabled for Aura Frame 1.",
+                    label = "每行光环数 1",
+                    desc = "光环框架 1在自动模式禁用时每行的光环数.",
                     widget = "slider",
                     minvalue = 1, maxvalue = 10, step = 1,
                     default = Plater.db.profile.auras_per_row_amount,
@@ -1505,8 +1505,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "auras_per_row_amount2",
-                    label = "Auras per Row 2",
-                    desc = "Auras per row when auto-mode is disabled for Aura Frame 2.",
+                    label = "每行光环数 2",
+                    desc = "光环框架 2在自动模式禁用时每行的光环数.",
                     widget = "slider",
                     minvalue = 1, maxvalue = 10, step = 1,
                     default = Plater.db.profile.auras_per_row_amount2,
@@ -1514,12 +1514,12 @@ function designer.CreateSettings(parentFrame)
                 },
 
                 {type = "blank"},
-                {type = "label", get = function() return "Swipe Animation" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "扫光动画" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
                 {
                     key = "aura_cooldown_show_swipe",
-                    label = "Show Swipe Closure Texture",
-                    desc = "Show a layer with a dark texture above the icon. This layer is applied or removed as the swipe moves.",
+                    label = "显示扫光闭合材质",
+                    desc = "在图标上方显示一层深色材质. 该图层会随着扫光移动而应用或移除.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_cooldown_show_swipe,
                     setter = function(auras, value)
@@ -1529,8 +1529,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_cooldown_reverse",
-                    label = "Swipe Closure Inverted",
-                    desc = "If enabled the swipe closure texture is applied as the swipe moves instead.",
+                    label = "扫光闭合反转",
+                    desc = "启用后, 扫光闭合材质会在扫光移动时反向应用.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_cooldown_reverse,
                     setter = function(auras, value)
@@ -1553,160 +1553,160 @@ function designer.CreateSettings(parentFrame)
             return {
                 {
                     key = "aura_show_aura_by_the_player",
-                    label = "Show Auras Casted by You",
-                    desc = "Show Auras Casted by You and your pets.",
+                    label = "显示你施放的光环",
+                    desc = "显示你和你的宠物施放的光环.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_aura_by_the_player,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_debuff_as_blizzard_does",
-                    label = "Show Debuffs Blizzard Nameplates show",
-                    desc = "Show Debuffs as they would be shown on blizzard nameplates.",
+                    label = "显示暴雪姓名板显示的减益效果",
+                    desc = "按照暴雪姓名板显示的方式显示减益效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_debuff_as_blizzard_does,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_debuff_by_the_player",
-                    label = "Show ALL Debuffs Casted by You",
-                    desc = "Show ALL Debuffs Casted by You and your pets.",
+                    label = "显示你施放的所有减益效果",
+                    desc = "显示你和你的宠物施放的所有减益效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_debuff_by_the_player,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_buff_by_the_player",
-                    label = "Show Buffs Casted by You",
-                    desc = "Show Buffs Casted by You and your pets.",
+                    label = "显示你施放的增益效果",
+                    desc = "显示你和你的宠物施放的增益效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_buff_by_the_player,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_aura_by_other_players",
-                    label = "Show Auras Casted by other Players",
-                    desc = "Show Auras Casted by other Players. May cause a lot of auras to show.",
+                    label = "显示其他玩家施放的光环",
+                    desc = "显示其他玩家施放的光环. 可能会导致显示大量光环.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_aura_by_other_players,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_important",
-                    label = "Show Important Auras",
-                    desc = "Show buffs and debuffs which the game tag as important.",
+                    label = "显示重要光环",
+                    desc = "显示游戏标记为重要的增益和减益效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_important,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_dispellable",
-                    label = "Show Dispellable Buffs",
-                    desc = "Show auras which can be dispelled or stolen.",
+                    label = "显示可驱散的增益效果",
+                    desc = "显示可以被驱散或偷取的光环.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_dispellable,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_raid",
-                    label = "Show Raid Buffs/Debuffs",
-                    desc = "Show auras which are flagged as 'RAID'.",
+                    label = "显示团队增益/减益效果",
+                    desc = "显示标记为'团队'的光环.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_raid,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_only_short_dispellable_on_players",
-                    label = "Only short Dispellable Buffs on Players",
-                    desc = "Show dispellable or stealable auras on players only if they are below 120 sec.",
+                    label = "O仅显示玩家身上的短时可驱散增益",
+                    desc = "仅在持续时间低于120秒时显示玩家身上可驱散或可偷取的光环.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_only_short_dispellable_on_players,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_enrage",
-                    label = "Show Enrage Buffs",
-                    desc = "Show auras which are in the enrage category.",
+                    label = "显示激怒增益",
+                    desc = "显示属于激怒类别的光环.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_enrage,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_magic",
-                    label = "Show Magic Buffs",
-                    desc = "Show auras which are in the magic type category.",
+                    label = "显示魔法增益",
+                    desc = "显示属于魔法类型类别的光环.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_magic,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_crowdcontrol",
-                    label = "Show Crowd Control",
-                    desc = "Show crowd control effects.",
+                    label = "显示群体控制",
+                    desc = "显示群体控制效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_crowdcontrol,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_buff_by_the_unit",
-                    label = "Show Buffs Casted by the NPC",
-                    desc = "Show Buffs Casted by the NPC itself.",
+                    label = "显示NPC施放的增益效果",
+                    desc = "显示NPC自身施放的增益效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_buff_by_the_unit,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_buff_as_blizzard_does",
-                    label = "Show Buffs Blizzard Nameplates show",
-                    desc = "Show Buffs as they would be shown on blizzard nameplates.",
+                    label = "显示暴雪姓名板显示的增益效果",
+                    desc = "按照暴雪姓名板显示的方式显示增益效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_buff_as_blizzard_does,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_buff_on_enemy_npc",
-                    label = "Show all Buffs on enemy NPCs",
-                    desc = "Show all Buffs on enemy NPCs.",
+                    label = "显示敌方NPC上的所有增益效果",
+                    desc = "显示敌方NPC上的所有增益效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_buff_on_enemy_npc,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_debuff_by_the_unit",
-                    label = "Show Debuffs Casted by the NPC",
-                    desc = "Show Debuffs Casted by the NPC itself.",
+                    label = "显示NPC施放的减益效果",
+                    desc = "显示NPC自身施放的减益效果.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_debuff_by_the_unit,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_aura_by_other_npcs",
-                    label = "Show Auras Casted by other NPCs",
-                    desc = "Show Auras Casted not from players and not from the unit itself.",
+                    label = "显示其他NPC施放的光环",
+                    desc = "显示既不是玩家也不是单位自身施放的光环.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_aura_by_other_npcs,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_offensive_cd",
-                    label = "Show offensive player CDs",
-                    desc = "Show offensive CDs on enemy/friendly players.",
+                    label = "显示进攻性玩家技能冷却",
+                    desc = "显示敌方/友方玩家身上的进攻性技能冷却.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_offensive_cd,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "aura_show_defensive_cd",
-                    label = "Show defensive player CDs",
-                    desc = "Show defensive CDs on enemy/friendly players.",
+                    label = "显示防御性玩家技能冷却",
+                    desc = "显示敌方/友方玩家身上的防御性技能冷却.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_show_defensive_cd,
                     setter = function(auras, value) refreshAuraDB() end,
                 },
                 {
                     key = "debuff_hide_permanent",
-                    label = "Hide permanent auras",
-                    desc = "Hide auras with no duration.",
+                    label = "隐藏永久光环",
+                    desc = "隐藏没有持续时间的光环.",
                     widget = "toggle",
                     default = Plater.db.profile.debuff_hide_permanent,
                     setter = function(auras, value) refreshAuraDB() end,
@@ -1731,80 +1731,80 @@ function designer.CreateSettings(parentFrame)
             return {
                 {
                     key = "aura_border_colors.is_show_all",
-                    label = "Important Auras Border Color",
-                    desc = "Border color for important auras.",
+                    label = "重要光环边框颜色",
+                    desc = "重要光环的边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.is_show_all,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors.steal_or_purge",
-                    label = "Dispellable Buffs Border Color",
-                    desc = "Border color for dispellable or stealable buffs.",
+                    label = "可驱散增益边框颜色",
+                    desc = "可驱散或可偷取增益的边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.steal_or_purge,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors.enrage",
-                    label = "Enrage Buffs Border Color",
-                    desc = "Border color for enrage buffs.",
+                    label = "激怒增益边框颜色",
+                    desc = "激怒增益的边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.enrage,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors.is_buff",
-                    label = "Buffs Border Color",
-                    desc = "Border color for buffs.",
+                    label = "增益边框颜色",
+                    desc = "增益效果的边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.is_buff,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors.is_debuff",
-                    label = "Debuffs Border Color",
-                    desc = "Border color for debuffs.",
+                    label = "减益边框颜色",
+                    desc = "减益效果的边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.is_debuff,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors.crowdcontrol",
-                    label = "Crowd Control Border Color",
-                    desc = "Border color for crowd control effects.",
+                    label = "群体控制边框颜色",
+                    desc = "群体控制效果的边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.crowdcontrol,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors.offensive",
-                    label = "Offensive CD Border Color",
-                    desc = "Border color for offensive cooldowns.",
+                    label = "进攻性技能冷却边框颜色",
+                    desc = "进攻性技能冷却的边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.offensive,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors.defensive",
-                    label = "Defensive CD Border Color",
-                    desc = "Border color for defensive cooldowns.",
+                    label = "防御性技能冷却边框颜色",
+                    desc = "防御性技能冷却的边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.defensive,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors.default",
-                    label = "Default Border Color",
-                    desc = "Default border color when no specific category matches.",
+                    label = "默认边框颜色",
+                    desc = "没有特定类别匹配时的默认边框颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_border_colors.default,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_border_colors_by_type",
-                    label = "Use type based aura border colors",
-                    desc = "Use the Blizzard debuff type colors for borders.",
+                    label = "用基于类型的边框颜色",
+                    desc = "使用暴雪减益效果类型颜色作为边框.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_border_colors_by_type,
                     setter = function(auras, value) refreshAuraDBAndIcons() end,
@@ -1821,25 +1821,25 @@ function designer.CreateSettings(parentFrame)
             end
             local anchorSideOptions = function()
                 return {
-                    {value = 1, label = "Top Left"},
-                    {value = 2, label = "Left"},
-                    {value = 3, label = "Bottom Left"},
-                    {value = 4, label = "Bottom"},
-                    {value = 5, label = "Bottom Right"},
-                    {value = 6, label = "Right"},
-                    {value = 7, label = "Top Right"},
-                    {value = 8, label = "Top"},
-                    {value = 9, label = "Center"},
+                    {value = 1, label = "左上"},
+                    {value = 2, label = "左"},
+                    {value = 3, label = "左下"},
+                    {value = 4, label = "下"},
+                    {value = 5, label = "右下"},
+                    {value = 6, label = "右"},
+                    {value = 7, label = "右上"},
+                    {value = 8, label = "上"},
+                    {value = 9, label = "居中"},
                 }
             end
             local outlineOptions = function()
                 return {
-                    {value = "NONE", label = "None"},
-                    {value = "MONOCHROME", label = "Monochrome"},
-                    {value = "OUTLINE", label = "Outline"},
-                    {value = "THICKOUTLINE", label = "Thick Outline"},
-                    {value = "MONOCHROME, OUTLINE", label = "Monochrome + Outline"},
-                    {value = "MONOCHROME, THICKOUTLINE", label = "Monochrome + Thick Outline"},
+                    {value = "NONE", label = "无"},
+                    {value = "MONOCHROME", label = "单色"},
+                    {value = "OUTLINE", label = "描边"},
+                    {value = "THICKOUTLINE", label = "粗描边"},
+                    {value = "MONOCHROME, OUTLINE", label = "单色+描边"},
+                    {value = "MONOCHROME, THICKOUTLINE", label = "单色+粗描边"},
                 }
             end
             local fontOptions = function()
@@ -1853,8 +1853,8 @@ function designer.CreateSettings(parentFrame)
             return {
                 {
                     key = "aura_stack_font",
-                    label = "Font",
-                    desc = "Font used for the stack count text.",
+                    label = "字体",
+                    desc = "层数计数文本使用的字体.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_stack_font,
                     dropdownFunc = fontOptions,
@@ -1862,8 +1862,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_stack_size",
-                    label = "Size",
-                    desc = "Stack count text size.",
+                    label = "大小",
+                    desc = "层数计数文本的大小.",
                     widget = "slider",
                     minvalue = 6, maxvalue = 24, step = 1,
                     default = Plater.db.profile.aura_stack_size,
@@ -1871,8 +1871,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_stack_outline",
-                    label = "Outline",
-                    desc = "Outline style for the stack count text.",
+                    label = "描边",
+                    desc = "层数计数文本的描边样式.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_stack_outline,
                     dropdownFunc = outlineOptions,
@@ -1880,24 +1880,24 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_stack_shadow_color",
-                    label = "Shadow Color",
-                    desc = "Drop shadow color behind the stack count.",
+                    label = "阴影颜色",
+                    desc = "层数计数背后的投影颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_stack_shadow_color,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_stack_color",
-                    label = "Color",
-                    desc = "Stack count text color.",
+                    label = "颜色",
+                    desc = "层数计数文本的颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_stack_color,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_stack_anchor.side",
-                    label = "Anchor",
-                    desc = "Which side of the buff icon the stack counter attaches to.",
+                    label = "锚点",
+                    desc = "层数计数器附着在增益图标的哪一侧.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_stack_anchor.side,
                     dropdownFunc = anchorSideOptions,
@@ -1905,8 +1905,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_stack_anchor.x",
-                    label = "X Offset",
-                    desc = "Horizontal offset of the stack counter.",
+                    label = "水平偏移",
+                    desc = "层数计数器的水平偏移.",
                     widget = "slider",
                     minvalue = -20, maxvalue = 20, step = 1, usedecimals = true,
                     default = Plater.db.profile.aura_stack_anchor.x,
@@ -1914,8 +1914,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_stack_anchor.y",
-                    label = "Y Offset",
-                    desc = "Vertical offset of the stack counter.",
+                    label = "垂直偏移",
+                    desc = "层数计数器的垂直偏移.",
                     widget = "slider",
                     minvalue = -20, maxvalue = 20, step = 1, usedecimals = true,
                     default = Plater.db.profile.aura_stack_anchor.y,
@@ -1938,25 +1938,25 @@ function designer.CreateSettings(parentFrame)
             end
             local anchorSideOptions = function()
                 return {
-                    {value = 1, label = "Top Left"},
-                    {value = 2, label = "Left"},
-                    {value = 3, label = "Bottom Left"},
-                    {value = 4, label = "Bottom"},
-                    {value = 5, label = "Bottom Right"},
-                    {value = 6, label = "Right"},
-                    {value = 7, label = "Top Right"},
-                    {value = 8, label = "Top"},
-                    {value = 9, label = "Center"},
+                    {value = 1, label = "左上"},
+                    {value = 2, label = "左"},
+                    {value = 3, label = "左下"},
+                    {value = 4, label = "下"},
+                    {value = 5, label = "右下"},
+                    {value = 6, label = "右"},
+                    {value = 7, label = "右上"},
+                    {value = 8, label = "上"},
+                    {value = 9, label = "居中"},
                 }
             end
             local outlineOptions = function()
                 return {
-                    {value = "NONE", label = "None"},
-                    {value = "MONOCHROME", label = "Monochrome"},
-                    {value = "OUTLINE", label = "Outline"},
-                    {value = "THICKOUTLINE", label = "Thick Outline"},
-                    {value = "MONOCHROME, OUTLINE", label = "Monochrome + Outline"},
-                    {value = "MONOCHROME, THICKOUTLINE", label = "Monochrome + Thick Outline"},
+                    {value = "NONE", label = "无"},
+                    {value = "MONOCHROME", label = "单色"},
+                    {value = "OUTLINE", label = "描边"},
+                    {value = "THICKOUTLINE", label = "粗描边"},
+                    {value = "MONOCHROME, OUTLINE", label = "单色+描边"},
+                    {value = "MONOCHROME, THICKOUTLINE", label = "单色+粗描边"},
                 }
             end
             local fontOptions = function()
@@ -1970,40 +1970,40 @@ function designer.CreateSettings(parentFrame)
             return {
                 {
                     key = "aura_timer",
-                    label = "Enabled",
-                    desc = "Time left on buff or debuff.",
+                    label = "启用",
+                    desc = "增益或减益的剩余时间.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_timer,
                     setter = function(auras, value) refreshAndUpdateAuras() end,
                 },
                 {
                     key = "aura_timer_pandemic_color",
-                    label = "Pandemic coloring",
-                    desc = "Color the timer based on duration left. Above 25%: default, below 25%: orange, below 15%: red.",
+                    label = "疫病颜色",
+                    desc = "根据剩余时间对计时器着色. 高于25%: 默认, 低于25%: 橙色, 低于15%: 红色.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_timer_pandemic_color,
                     setter = function(auras, value) refreshAndUpdateAuras() end,
                 },
                 {
                     key = "aura_timer_decimals",
-                    label = "Show Decimals",
-                    desc = "Show decimals below 10 seconds remaining.",
+                    label = "显示小数",
+                    desc = "剩余时间低于10秒时显示小数.",
                     widget = "toggle",
                     default = Plater.db.profile.aura_timer_decimals,
                     setter = function(auras, value) refreshAndUpdateAuras() end,
                 },
                 {
                     key = "disable_omnicc_on_auras",
-                    label = "Hide OmniCC/TullaCC Timer",
-                    desc = "OmniCC/TullaCC timers will not show in the aura. Requires /reload after toggling.",
+                    label = "隐藏OmniCC/TullaCC计时器",
+                    desc = "OmniCC/TullaCC计时器将不会在光环中显示. 切换后需要/reload.",
                     widget = "toggle",
                     default = Plater.db.profile.disable_omnicc_on_auras,
                     setter = function(auras, value) Plater.RefreshOmniCCGroup() end,
                 },
                 {
                     key = "aura_timer_text_font",
-                    label = "Font",
-                    desc = "Font used for the timer text.",
+                    label = "字体",
+                    desc = "计时器文本使用的字体.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_timer_text_font,
                     dropdownFunc = fontOptions,
@@ -2011,8 +2011,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_timer_text_size",
-                    label = "Size",
-                    desc = "Timer text size.",
+                    label = "大小",
+                    desc = "计时器文本大小.",
                     widget = "slider",
                     minvalue = 7, maxvalue = 40, step = 1,
                     default = Plater.db.profile.aura_timer_text_size,
@@ -2020,8 +2020,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_timer_text_outline",
-                    label = "Outline",
-                    desc = "Outline style for the timer text.",
+                    label = "描边",
+                    desc = "计时器文本的描边样式.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_timer_text_outline,
                     dropdownFunc = outlineOptions,
@@ -2029,24 +2029,24 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_timer_text_shadow_color",
-                    label = "Shadow Color",
-                    desc = "Drop shadow color behind the timer text.",
+                    label = "阴影颜色",
+                    desc = "计时器文本背后的投影颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_timer_text_shadow_color,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_timer_text_color",
-                    label = "Color",
-                    desc = "Timer text color.",
+                    label = "颜色",
+                    desc = "计时器文本颜色.",
                     widget = "color",
                     default = Plater.db.profile.aura_timer_text_color,
                     setter = function(auras, value) updateAllPlatesOnly() end,
                 },
                 {
                     key = "aura_timer_text_anchor.side",
-                    label = "Anchor",
-                    desc = "Which side of the buff icon the timer attaches to.",
+                    label = "锚点",
+                    desc = "计时器附着在增益图标的哪一侧.",
                     widget = "dropdown",
                     default = Plater.db.profile.aura_timer_text_anchor.side,
                     dropdownFunc = anchorSideOptions,
@@ -2054,8 +2054,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_timer_text_anchor.x",
-                    label = "X Offset",
-                    desc = "Horizontal offset of the timer text.",
+                    label = "水平偏移",
+                    desc = "计时器文本的水平偏移.",
                     widget = "slider",
                     minvalue = -20, maxvalue = 20, step = 1, usedecimals = true,
                     default = Plater.db.profile.aura_timer_text_anchor.x,
@@ -2063,8 +2063,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "aura_timer_text_anchor.y",
-                    label = "Y Offset",
-                    desc = "Vertical offset of the timer text.",
+                    label = "垂直偏移",
+                    desc = "计时器文本的垂直偏移.",
                     widget = "slider",
                     minvalue = -20, maxvalue = 20, step = 1, usedecimals = true,
                     default = Plater.db.profile.aura_timer_text_anchor.y,
@@ -2089,19 +2089,19 @@ function designer.CreateSettings(parentFrame)
             end
             local anchorSideOptions = function()
                 return {
-                    {value = 1, label = "Top Left"},
-                    {value = 2, label = "Left"},
-                    {value = 3, label = "Bottom Left"},
-                    {value = 4, label = "Bottom"},
-                    {value = 5, label = "Bottom Right"},
-                    {value = 6, label = "Right"},
-                    {value = 7, label = "Top Right"},
-                    {value = 8, label = "Top"},
-                    {value = 9, label = "Center"},
-                    {value = 10, label = "Inner Left"},
-                    {value = 11, label = "Inner Right"},
-                    {value = 12, label = "Inner Top"},
-                    {value = 13, label = "Inner Bottom"},
+                    {value = 1, label = "左上"},
+                    {value = 2, label = "左"},
+                    {value = 3, label = "左下"},
+                    {value = 4, label = "下"},
+                    {value = 5, label = "右下"},
+                    {value = 6, label = "右"},
+                    {value = 7, label = "右上"},
+                    {value = 8, label = "上"},
+                    {value = 9, label = "居中"},
+                    {value = 10, label = "内部左侧"},
+                    {value = 11, label = "内部右侧"},
+                    {value = 12, label = "内部顶部"},
+                    {value = 13, label = "内部底部"},
                 }
             end
 
@@ -2133,8 +2133,8 @@ function designer.CreateSettings(parentFrame)
             return {
                 {
                     key = "indicator_pet",
-                    label = "Pet Icon",
-                    desc = "Pet Icon",
+                    label = "宠物图标",
+                    desc = "宠物图标",
                     onenter = showIndicatorOnEnter("pet"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2143,40 +2143,40 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_shield",
-                    label = "Shield Bar",
-                    desc = "Shield Bar",
+                    label = "护盾条",
+                    desc = "护盾条",
                     widget = "toggle",
                     default = Plater.db.profile.indicator_shield,
                     setter = function(indicators, value) updatePlates() end,
                 },
                 {
                     key = "health_cutoff",
-                    label = "Execute Range",
-                    desc = "Show an indicator when the target unit is in 'execute' range.",
+                    label = "斩杀范围",
+                    desc = "当目标单位处于'斩杀'范围内时显示指示器.",
                     widget = "toggle",
                     default = Plater.db.profile.health_cutoff,
                     setter = function(indicators, value) updateExecuteRange() end,
                 },
                 {
                     key = "health_cutoff_upper",
-                    label = "Execute Range (high heal)",
-                    desc = "Show the execute indicator for the high portion of the health.",
+                    label = "斩杀范围(高治疗)",
+                    desc = "为高血量部分显示斩杀指示器.",
                     widget = "toggle",
                     default = Plater.db.profile.health_cutoff_upper,
                     setter = function(indicators, value) updateExecuteRange() end,
                 },
                 {
                     key = "health_cutoff_extra_glow",
-                    label = "Add Extra Glow to Execute Range",
-                    desc = "Add Extra Glow to Execute Range",
+                    label = "为斩杀范围添加额外发光",
+                    desc = "为斩杀范围添加额外发光",
                     widget = "toggle",
                     default = Plater.db.profile.health_cutoff_extra_glow,
                     setter = function(indicators, value) updatePlates() end,
                 },
                 {
                     key = "indicator_worldboss",
-                    label = "World Boss Icon",
-                    desc = "World Boss Icon",
+                    label = "世界首领图标",
+                    desc = "世界首领图标",
                     onenter = showIndicatorOnEnter("worldboss"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2185,8 +2185,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_elite",
-                    label = "Elite Icon",
-                    desc = "Elite Icon",
+                    label = "精英图标",
+                    desc = "精英图标",
                     onenter = showIndicatorOnEnter("elite"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2195,8 +2195,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_rare",
-                    label = "Rare Icon",
-                    desc = "Rare Icon",
+                    label = "稀有图标",
+                    desc = "稀有图标",
                     onenter = showIndicatorOnEnter("rare"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2205,8 +2205,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_quest",
-                    label = "Quest Icon",
-                    desc = "Quest Icon",
+                    label = "任务图标",
+                    desc = "任务图标",
                     onenter = showIndicatorOnEnter("quest"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2215,8 +2215,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_faction",
-                    label = "Enemy Faction Icon",
-                    desc = "Enemy Faction Icon",
+                    label = "敌对阵营图标",
+                    desc = "敌对阵营图标",
                     onenter = showIndicatorOnEnter("Horde"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2225,8 +2225,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_enemyclass",
-                    label = "Enemy Class Icon",
-                    desc = "Enemy Class Icon",
+                    label = "敌对职业图标",
+                    desc = "敌对职业图标",
                     onenter = showIndicatorOnEnter("classicon"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2235,8 +2235,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_spec",
-                    label = "Enemy Spec Icon",
-                    desc = "Enemy Spec Icon",
+                    label = "敌对专精图标",
+                    desc = "敌对专精图标",
                     onenter = showIndicatorOnEnter("specicon"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2245,8 +2245,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_friendlyfaction",
-                    label = "Friendly Faction Icon",
-                    desc = "Friendly Faction Icon",
+                    label = "友方阵营图标",
+                    desc = "友方阵营图标",
                     onenter = showIndicatorOnEnter("Alliance"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2255,8 +2255,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_friendlyclass",
-                    label = "Friendly Class",
-                    desc = "Friendly Class",
+                    label = "友方职业",
+                    desc = "友方职业",
                     onenter = showIndicatorOnEnter("classicon"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2265,8 +2265,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_friendlyspec",
-                    label = "Friendly Spec Icon",
-                    desc = "Friendly Spec Icon",
+                    label = "友方专精图标",
+                    desc = "友方专精图标",
                     onenter = showIndicatorOnEnter("specicon"),
                     onleave = revertIndicatorOnLeave,
                     widget = "toggle",
@@ -2278,8 +2278,8 @@ function designer.CreateSettings(parentFrame)
 
                 {
                     key = "indicator_scale",
-                    label = "Scale",
-                    desc = "Scale",
+                    label = "缩放",
+                    desc = "缩放",
                     widget = "slider",
                     minvalue = 0.2, maxvalue = 3, step = 0.01, usedecimals = true,
                     default = Plater.db.profile.indicator_scale,
@@ -2287,8 +2287,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_anchor.side",
-                    label = "Anchor",
-                    desc = "Which side this widget is attach to.",
+                    label = "锚点",
+                    desc = "此控件附着在哪一侧.",
                     widget = "dropdown",
                     default = Plater.db.profile.indicator_anchor.side,
                     dropdownFunc = anchorSideOptions,
@@ -2296,8 +2296,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_anchor.x",
-                    label = "X Offset",
-                    desc = "Move horizontally.",
+                    label = "水平偏移",
+                    desc = "水平移动.",
                     widget = "slider",
                     minvalue = -100, maxvalue = 100, step = 1, usedecimals = true,
                     default = Plater.db.profile.indicator_anchor.x,
@@ -2305,8 +2305,8 @@ function designer.CreateSettings(parentFrame)
                 },
                 {
                     key = "indicator_anchor.y",
-                    label = "Y Offset",
-                    desc = "Move vertically.",
+                    label = "垂直偏移",
+                    desc = "垂直移动.",
                     widget = "slider",
                     minvalue = -100, maxvalue = 100, step = 1, usedecimals = true,
                     default = Plater.db.profile.indicator_anchor.y,
@@ -2317,8 +2317,8 @@ function designer.CreateSettings(parentFrame)
 
                 {
                     key = "health_cutoff_alpha",
-                    label = "Execute Alpha",
-                    desc = "Execute Alpha",
+                    label = "斩杀透明度",
+                    desc = "斩杀透明度",
                     widget = "slider",
                     minvalue = 0, maxvalue = 1, step = 0.01, usedecimals = true,
                     default = Plater.db.profile.health_cutoff_alpha,
@@ -2335,14 +2335,14 @@ function designer.CreateSettings(parentFrame)
             --target overlay (acts on the same texture HealthBar's "Target Overlay" exposes; included here per parity with the Plater options panel)
             {
                 key = "health_selection_overlay",
-                label = "Target Overlay",
+                label = "目标覆盖",
                 widget = "selectstatusbartexture",
                 default = Plater.db.profile.health_selection_overlay,
                 setter = function(target, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "health_selection_overlay_alpha",
-                label = "Target Overlay Alpha",
+                label = "目标覆盖透明度",
                 widget = "slider",
                 minvalue = 0, maxvalue = 1, step = 0.1, usedecimals = true,
                 default = Plater.db.profile.health_selection_overlay_alpha,
@@ -2350,7 +2350,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "health_selection_overlay_color",
-                label = "Target Overlay Color",
+                label = "目标覆盖颜色",
                 widget = "color",
                 default = Plater.db.profile.health_selection_overlay_color,
                 setter = function(target, value) designer.UpdateAllNameplates() end,
@@ -2361,20 +2361,20 @@ function designer.CreateSettings(parentFrame)
             --target highlight (rectangle that appears around the current target)
             {
                 key = "target_highlight",
-                label = "Target Highlight",
+                label = "目标高亮",
                 widget = "toggle",
                 default = Plater.db.profile.target_highlight,
                 setter = function(target, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "target_highlight_texture",
-                label = "Highlight Texture",
+                label = "高亮材质",
                 widget = "dropdown",
                 default = Plater.db.profile.target_highlight_texture,
                 dropdownFunc = function()
                     local opts = {}
                     for index, texturePath in ipairs(Plater.TargetHighlights) do
-                        opts[#opts + 1] = {value = texturePath, label = "Highlight " .. index, centerTexture = texturePath}
+                        opts[#opts + 1] = {value = texturePath, label = "高亮" .. index, centerTexture = texturePath}
                     end
                     return opts
                 end,
@@ -2386,7 +2386,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "target_highlight_alpha",
-                label = "Highlight Alpha",
+                label = "高亮透明度",
                 widget = "slider",
                 minvalue = 0, maxvalue = 1, step = 0.1, usedecimals = true,
                 default = Plater.db.profile.target_highlight_alpha,
@@ -2398,7 +2398,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "target_highlight_height",
-                label = "Highlight Size",
+                label = "高亮尺寸",
                 widget = "slider",
                 minvalue = 2, maxvalue = 60, step = 1,
                 default = Plater.db.profile.target_highlight_height,
@@ -2410,7 +2410,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "target_highlight_color",
-                label = "Highlight Color",
+                label = "高亮颜色",
                 widget = "color",
                 default = Plater.db.profile.target_highlight_color,
                 setter = function(target, color)
@@ -2426,7 +2426,7 @@ function designer.CreateSettings(parentFrame)
             --bracket indicator on the sides of the target's health bar
             {
                 key = "target_indicator",
-                label = "Target Bracket Indicator",
+                label = "目标边框指示器",
                 widget = "dropdown",
                 default = Plater.db.profile.target_indicator,
                 dropdownFunc = function()
@@ -2455,21 +2455,21 @@ function designer.CreateSettings(parentFrame)
             --target shading (dims non-target plates)
             {
                 key = "target_shady_enabled",
-                label = "Target Shading",
+                label = "目标着色",
                 widget = "toggle",
                 default = Plater.db.profile.target_shady_enabled,
                 setter = function(target, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "target_shady_combat_only",
-                label = "Target Shading In Combat Only",
+                label = "仅战斗中目标着色",
                 widget = "toggle",
                 default = Plater.db.profile.target_shady_combat_only,
                 setter = function(target, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "target_shady_alpha",
-                label = "Target Shading Amount",
+                label = "目标着色程度",
                 widget = "slider",
                 minvalue = 0, maxvalue = 1, step = 0.1, usedecimals = true,
                 default = Plater.db.profile.target_shady_alpha,
@@ -2477,21 +2477,21 @@ function designer.CreateSettings(parentFrame)
             },
 
             {type = "blank"},
-            {type = "label", get = function() return "Mouse Hover:" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "鼠标悬停:" end, text_template = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
 
             --the preview's hover highlight texture lives on healthBar (target.HoverHighlight where
             --target is the dummyTarget bar). its visibility is driven by the moveUpFrame OnUpdate
             --in Plater_Designer.lua; this setter only updates the alpha so a slider drag is live.
             {
                 key = "hover_highlight",
-                label = "Hover Highlight",
+                label = "悬停高亮",
                 widget = "toggle",
                 default = Plater.db.profile.hover_highlight,
                 setter = function(target, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "hover_highlight_alpha",
-                label = "Hover Highlight Alpha",
+                label = "悬停高亮透明度",
                 widget = "slider",
                 minvalue = 0, maxvalue = 1, step = 0.1, usedecimals = true,
                 default = Plater.db.profile.hover_highlight_alpha,
@@ -2509,7 +2509,7 @@ function designer.CreateSettings(parentFrame)
             --setters call SetCVar and mirror the value back. nocombat behavior is handled inline.
             {
                 key = "nameplateTargetRadialPosition",
-                label = "Always on Screen",
+                label = "始终显示在屏幕上",
                 widget = "toggle",
                 profileTable = cvarMirror,
                 default = cvarMirror.nameplateTargetRadialPosition,
@@ -2524,7 +2524,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "nameplateTargetBehindMaxDistance",
-                label = "Target Behind You Distance",
+                label = "身后目标最大距离",
                 widget = "slider",
                 minvalue = 5, maxvalue = 50, step = 1,
                 profileTable = cvarMirror,
@@ -2539,7 +2539,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "nameplateSelectedScale",
-                label = "Target Scale",
+                label = "目标缩放",
                 widget = "slider",
                 minvalue = 0.75, maxvalue = 1.75, step = 0.1, usedecimals = true,
                 profileTable = cvarMirror,
@@ -2557,7 +2557,7 @@ function designer.CreateSettings(parentFrame)
         Focus = {
             {
                 key = "focus_indicator_enabled",
-                label = "Show Focus Overlay",
+                label = "显示焦点叠加层",
                 widget = "toggle",
                 default = Plater.db.profile.focus_indicator_enabled,
                 setter = function(target, value)
@@ -2571,14 +2571,14 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "focus_color",
-                label = "Focus Color",
+                label = "焦点颜色",
                 widget = "color",
                 default = Plater.db.profile.focus_color,
                 setter = function(target, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "focus_texture",
-                label = "Focus Texture",
+                label = "焦点材质",
                 widget = "selectstatusbartexture",
                 default = Plater.db.profile.focus_texture,
                 setter = function(target, value) designer.UpdateAllNameplates() end,
@@ -2590,7 +2590,7 @@ function designer.CreateSettings(parentFrame)
         RaidMark = {
             {
                 key = "indicator_raidmark_scale",
-                label = "Scale",
+                label = "缩放",
                 widget = "slider",
                 minvalue = 0.2, maxvalue = 2, step = 0.1, usedecimals = true,
                 default = Plater.db.profile.indicator_raidmark_scale,
@@ -2601,7 +2601,7 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "indicator_extra_raidmark",
-                label = "Extra Raid Mark",
+                label = "额外团队标记",
                 widget = "toggle",
                 default = Plater.db.profile.indicator_extra_raidmark,
                 setter = function(raidMark, value) designer.UpdateAllNameplates() end,
@@ -2611,31 +2611,31 @@ function designer.CreateSettings(parentFrame)
         LifePercent = {
             { --enabled
                 key = "percent_text_enabled", --the name of the option in the profile table
-                label = "Enabled",
+                label = "启用",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {--out oc combat
                 key = "percent_text_ooc", --the name of the option in the profile table
-                label = "Show Out Of Combat",
+                label = "显示脱离战斗状态",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {--show percent
                 key = "percent_show_percent", --the name of the option in the profile table
-                label = "Show Percent",
+                label = "显示百分比",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {--show decimals
                 key = "percent_text_show_decimals", --the name of the option in the profile table
-                label = "Show Decimals",
+                label = "显示小数位",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {--show health value
                 key = "percent_show_health", --the name of the option in the profile table
-                label = "Show Health Value",
+                label = "显示生命值",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
@@ -2646,7 +2646,7 @@ function designer.CreateSettings(parentFrame)
         UnitName = {
             {
                 key = "layer",
-                label = "Layer",
+                label = "层",
                 widget = "slider",
                 setter = function(widget, value) value = math.floor(value); designer.UpdateAllNameplates() end,
                 minvalue = 1,
@@ -2654,13 +2654,13 @@ function designer.CreateSettings(parentFrame)
             },
             {
                 key = "classcolor", --the name of the option in the profile table
-                label = "Use Class Color",
+                label = "使用职业颜色",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },
             {
                 key = "name_attach_to_role_icon",
-                label = "Snap To Role Icon",
+                label = "吸附至职责图标",
                 widget = "toggle",
                 setter = function(widget, value) designer.UpdateAllNameplates() end,
             },

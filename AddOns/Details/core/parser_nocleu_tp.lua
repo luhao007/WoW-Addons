@@ -239,7 +239,7 @@ local getTooltipFrame = function() --~tooltip
             --show an extra line with the text "/details tooltip for options"
             local line = self:GetLine(nextLine)
             ---@cast line detailstooltipline
-            line.SpellName:SetText("/details tooltip for options")
+            line.SpellName:SetText("/details选项提示")
 
             --clear font strings so only the help text shows
             for j = 1, 6 do
@@ -562,7 +562,7 @@ function bParser.ShowTooltip_Hook(instanceLine)
                 Details:ToolTipDead(instance, adapter.deathLog, instanceLine)
             else
                 Details.ShowDeathTooltip2(instance, instanceLine) do return end
-                GameCooltip:AddLine("The tooltip for this player is a secret and can't be displayed while in combat.", "", 1, "orange", "white", 14)
+                GameCooltip:AddLine("该玩家的提示信息为秘密内容, 战斗中无法显示.", "", 1, "orange", "white", 14)
                 GameCooltip:AddIcon([[Interface\ENCOUNTERJOURNAL\UI-EJ-WarningTextIcon]], 1, 1, 40, 40, 0, 1, 0, 1)
                 GameCooltip:SetOption("FixedWidth", 300)
                 GameCooltip:ShowCooltip(instanceLine)
@@ -594,7 +594,7 @@ function bParser.ShowTooltip_Hook(instanceLine)
         end
 
         GameCooltip:Preset(2)
-        GameCooltip:AddLine("The tooltip for this player is a secret and can't be displayed while in combat.", "", 1, "orange", "white", 14)
+        GameCooltip:AddLine("该玩家的提示信息为秘密内容, 战斗中无法显示.", "", 1, "orange", "white", 14)
         GameCooltip:AddIcon([[Interface\ENCOUNTERJOURNAL\UI-EJ-WarningTextIcon]], 1, 1, 40, 40, 0, 1, 0, 1)
         GameCooltip:SetOption("FixedWidth", 300)
         GameCooltip:ShowCooltip(instanceLine)
@@ -602,7 +602,7 @@ function bParser.ShowTooltip_Hook(instanceLine)
 
         ---@type addonapoc_tooltipdata
         local data = {
-            name = "The World of Warcraft client\ndoes not give the tooltip data\nfor this player.",
+            name = "魔兽世界客户端\n未提供此玩家的提示信息.",
             icon = "",
             texts = {""},
             amount = 0,
@@ -621,7 +621,7 @@ function bParser.ShowTooltip_Hook(instanceLine)
     if not sourceSpells then
         ---@type addonapoc_tooltipdata
         local data = {
-            name = "No Spells Found",
+            name = "未找到法术",
             icon = "",
             texts = {""},
             amount = 0,
@@ -678,7 +678,7 @@ function bParser.ShowTooltip_Hook(instanceLine)
         if not spellInfo then
             ---@diagnostic disable-next-line: missing-fields
             spellInfo = {
-                name = unitName or "Unknown Spell",
+                name = unitName or "未知法术",
                 iconID = specIconID or 136243, --question mark?
             }
         end

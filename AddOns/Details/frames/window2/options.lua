@@ -102,7 +102,7 @@ function AllInOneWindow:CreateOptionsPanel()
     detailsFramework:ApplyStandardBackdrop(optionsPanel)
     detailsFramework:MakeDraggable(optionsPanel)
 
-    detailsFramework:CreateTitleBar(optionsPanel, "Details! All-in-One Window Options")
+    detailsFramework:CreateTitleBar(optionsPanel, "Details!一体化窗口设置")
     detailsFramework:CreateRightClickToClose(optionsPanel)
 
     optionsPanel:SetScript("OnMouseUp", function(self, button)
@@ -117,7 +117,7 @@ function AllInOneWindow:CreateOptionsPanel()
     --detailsFramework:ApplyStandardBackdrop(headerOptionsFrame)
     optionsPanel.HeaderOptionsFrame = headerOptionsFrame
 
-    local headerOptionsLabel = detailsFramework:CreateLabel(headerOptionsFrame, "Which Information To Show", 12, "orange")
+    local headerOptionsLabel = detailsFramework:CreateLabel(headerOptionsFrame, "显示内容设置", 12, "orange")
     headerOptionsLabel:SetPoint("topleft", headerOptionsFrame, "topleft", 2, -2)
 
     ---@type details_allinonewindow_headercolumndata[]
@@ -165,7 +165,7 @@ function AllInOneWindow:CreateOptionsPanel()
                 end
 
                 if (not foundNewSelectedColumn) then
-                    print("No other column available to be selected, the window will brick.")
+                    print("当前无可选列配置, 窗口将进入锁定状态.")
                 end
             end
 
@@ -256,7 +256,7 @@ function AllInOneWindow:CreateOptionsPanel()
             min = 1,
             max = 40,
             step = 1,
-            name = "Line Amount",
+            name = "行数上限",
         },
 
         --line height
@@ -270,7 +270,7 @@ function AllInOneWindow:CreateOptionsPanel()
             min = 10,
             max = 100,
             step = 1,
-            name = "Line Height",
+            name = "行高",
         },
 
         --text size
@@ -284,7 +284,7 @@ function AllInOneWindow:CreateOptionsPanel()
             min = 6,
             max = 30,
             step = 1,
-            name = "Text Size",
+            name = "文本大小",
         },
 
 

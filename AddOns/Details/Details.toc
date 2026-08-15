@@ -1,7 +1,7 @@
 ## Interface: 120001, 120005, 120007, 120100
 ## Version: #Details.20260811.15270.172
 
-## Title: Details! Damage Meter
+## Title: Details! Damage Meter【萌】
 ## Notes: Essential tool to impress that chick in your raid.
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF伤害统计|r |cFFFFE00ADetails! Damage Meter|r
 ## Notes-zhCN: 功能强大的伤害统计插件

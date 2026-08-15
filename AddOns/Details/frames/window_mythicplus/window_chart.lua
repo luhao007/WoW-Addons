@@ -59,7 +59,7 @@ function mythicDungeonCharts.ShowChart()
 			titlebar:SetBackdropBorderColor(0, 0, 0, 1)
 
 			--title
-			local titleLabel = detailsFramework:NewLabel(titlebar, titlebar, nil, "titulo", "Plugins", "GameFontHighlightLeft", 12, {227/255, 186/255, 4/255})
+			local titleLabel = detailsFramework:NewLabel(titlebar, titlebar, nil, "titulo", "插件", "GameFontHighlightLeft", 12, {227/255, 186/255, 4/255})
 			titleLabel:SetPoint("center", titlebar , "center")
 			titleLabel:SetPoint("top", titlebar , "top", 0, -5)
 			dungeonChartFrame.TitleText = titleLabel
@@ -74,7 +74,7 @@ function mythicDungeonCharts.ShowChart()
 			titlebarMinimized:SetBackdropBorderColor(0, 0, 0, 1)
 
 			--title
-			local titleLabelMinimized = detailsFramework:NewLabel(titlebarMinimized, titlebarMinimized, nil, "titulo", "Dungeon Run Chart", "GameFontHighlightLeft", 10, {227/255, 186/255, 4/255})
+			local titleLabelMinimized = detailsFramework:NewLabel(titlebarMinimized, titlebarMinimized, nil, "titulo", "地下城运行图", "GameFontHighlightLeft", 10, {227/255, 186/255, 4/255})
 			titleLabelMinimized:SetPoint("left", titlebarMinimized , "left", 4, 0)
 			--titleLabelMinimized:SetPoint("top", titlebarMinimized , "top", 0, -5)
 			dungeonChartFrame.TitleTextMinimized = titleLabelMinimized
@@ -213,7 +213,7 @@ function mythicDungeonCharts.ShowChart()
 	--chartFrame:AddOverlay(bossTimeTable, {1, 1, 1, 0.05}, "Show Boss", "")
 
 	--local phrase = " Average Dps (under development)\npress Escape to hide, Details! Alpha Build." .. _detalhes.build_counter .. "." .. _detalhes.realversion
-	local phrase = "Details!: Average Dps for "
+	local phrase = "Details!: 平均Dps"
 
 	--chartFrame:SetTitle("")
 	--detailsFramework:SetFontSize(chartFrame.chart_title, 14)

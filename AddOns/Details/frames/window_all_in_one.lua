@@ -447,15 +447,15 @@
         CreateHeader = function(titleBar)
             local defaultHeaderTable = {
                 {text = "", width = 20}, --spec icon
-                {text = "Actor Name", width = 60, attribute = {name = true}},
+                {text = "玩家姓名", width = 60, attribute = {name = true}},
 
-                {text = "Damage Done", width = 60, attribute = {1, 1}},
+                {text = "造成伤害", width = 60, attribute = {1, 1}},
                 {text = "DPS", width = 50, attribute = {1, 2}},
-                {text = "Damage %", width = 50, attribute = {percent = true}},
+                {text = "伤害%", width = 50, attribute = {percent = true}},
 
-                {text = "Healing Done", width = 60, attribute = {1, 1}},
+                {text = "造成治疗", width = 60, attribute = {1, 1}},
                 {text = "HPS", width = 50, attribute = {1, 2}},
-                {text = "Healing %", width = 50, attribute = {percent = true}},
+                {text = "治疗%", width = 50, attribute = {percent = true}},
             }
 
             local defaultHeaderOptions = {
@@ -508,7 +508,7 @@
                 window.id = newSettingId
                 window.settings = settings
             else
-                error("window.SetSettingID could not find a settings for ID " .. newSettingId)
+                error("window.SetSettingID无法找到ID的设置 " .. newSettingId)
             end
         end,
 

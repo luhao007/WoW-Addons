@@ -35,6 +35,7 @@ DefaultUI:OnModuleLoad(function()
 		private.callbackFilter[frame] = {}
 	end
 	Event.Register("PLAYER_INTERACTION_MANAGER_FRAME_SHOW", private.PlayerInteractionShowHandler)
+	hooksecurefunc(PlayerInteractionFrameManager, "ShowFrame", private.PlayerInteractionShowHandler)
 	Event.Register("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(_, frameType)
 		if frameType == Enum.PlayerInteractionType.MailInfo then
 			private.HandleEvent(FRAMES.MAIL, false)

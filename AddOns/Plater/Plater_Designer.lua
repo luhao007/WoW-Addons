@@ -14,16 +14,16 @@ local IS_WOW_PROJECT_MIDNIGHT = detailsFramework.IsAddonApocalypseWow()
 --expects (name, texture, count, duration, spellID, type). ApplyTime is mutated per-tick by
 --the driver so each aura cycles its visible time.
 local AURA_TEST_DEBUFFS = {
-    {SpellName = "Shadow Word: Pain", SpellTexture = 136207, Count = 1, Duration = 7, SpellID = 589, Type = "Magic"},
-    {SpellName = "Vampiric Touch", SpellTexture = 135978, Count = 1, Duration = 5, SpellID = 34914, Type = "Magic"},
+    {SpellName = "暗言术：痛", SpellTexture = 136207, Count = 1, Duration = 7, SpellID = 589, Type = "Magic"},
+    {SpellName = "吸血鬼之触", SpellTexture = 135978, Count = 1, Duration = 5, SpellID = 34914, Type = "Magic"},
     --Count 0 on these two so their stack number does not overlap the "stacks" preview button
     --sitting directly above them (they are the 3rd and 4th icons under that label).
-    {SpellName = "Mind Flay", SpellTexture = 136208, Count = 0, Duration = 5, SpellID = 15407, Type = "Magic"},
-    {SpellName = "Enrage", SpellTexture = 132345, Count = 0, Duration = 0, SpellID = 228318, Type = ""},
+    {SpellName = "精神鞭笞", SpellTexture = 136208, Count = 0, Duration = 5, SpellID = 15407, Type = "Magic"},
+    {SpellName = "激怒", SpellTexture = 132345, Count = 0, Duration = 0, SpellID = 228318, Type = ""},
 }
 local AURA_TEST_BUFFS = {
-    {SpellName = "Twist of Fate", SpellTexture = 237566, Count = 1, Duration = 9, SpellID = 123254},
-    {SpellName = "Empty Mind", SpellTexture = 136206, Count = 4, Duration = 7, SpellID = 247226},
+    {SpellName = "命运多舛", SpellTexture = 237566, Count = 1, Duration = 9, SpellID = 123254},
+    {SpellName = "空虚心灵", SpellTexture = 136206, Count = 4, Duration = 7, SpellID = 247226},
 }
 
 ---@class plater_designer : table
@@ -642,10 +642,10 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
 
     ---@type dropdownoption[]
     local plateConfigOptions = {
-        {label = "Enemy NPC", value = "enemynpc", onclick = onClickSelectPlateConfigOption},
-        {label = "Friendly NPC", value = "friendlynpc", onclick = onClickSelectPlateConfigOption},
-        {label = "Enemy Player", value = "enemyplayer", onclick = onClickSelectPlateConfigOption},
-        {label = "Friendly Player", value = "friendlyplayer", onclick = onClickSelectPlateConfigOption},
+        {label = "敌方NPC", value = "enemynpc", onclick = onClickSelectPlateConfigOption},
+        {label = "友方NPC", value = "friendlynpc", onclick = onClickSelectPlateConfigOption},
+        {label = "敌方玩家", value = "enemyplayer", onclick = onClickSelectPlateConfigOption},
+        {label = "友方玩家", value = "friendlyplayer", onclick = onClickSelectPlateConfigOption},
     }
 
     --create df dropdown to select which plate config to edit
@@ -696,7 +696,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local selectFontDropdown = detailsFramework:CreateFontDropDown(previewNameplateFrame, onSelectChangeAllFonts, 0, 160, 20)
     selectFontDropdown:SetPoint("topright", previewNameplateFrame, "topright", -2, -13)
     selectFontDropdown:SetTemplate(detailsFramework:GetTemplate("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
-    selectFontDropdown.label:SetText("change all fonts")
+    selectFontDropdown.label:SetText("改变所有字体")
     selectFontDropdown.icon:SetTexture([[Interface\AnimCreate\AnimCreateIcons]])
     selectFontDropdown.icon:SetTexCoord(0, 32/128, 64/128, 96/128)
 
@@ -764,13 +764,13 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     raidTargetIcon:Show()
     SetRaidTargetIconTexture(raidTargetIcon, 5)
 
-    spellName:SetText("Blizzard")
-    unitName:SetText("Unit Name")
+    spellName:SetText("暴风雪")
+    unitName:SetText("单位名称")
     levelText:SetText("60")
     lifePercent:SetText("80%")
     castPercentText:SetText("3.2s")
-    actorNameSpecial:SetText("Unit Name When No Health Bar")
-    actorTitleSpecial:SetText("Unit Title When No Health Bar")
+    actorNameSpecial:SetText("无生命条时的单位名称")
+    actorTitleSpecial:SetText("无生命条时的单位头衔")
 
     detailsFramework:SetFontSize(actorNameSpecial, Plater.db.profile.plate_config.enemynpc.big_actorname_text_size)
     detailsFramework:SetFontSize(actorTitleSpecial, Plater.db.profile.plate_config.enemynpc.big_actortitle_text_size)
@@ -877,7 +877,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local questOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     questOptions.icon = "QuestNormal" --atlas name
     questOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(questOptionsFontString, "Quest Options", "QUESTOPTIONS", plateConfig, subTablePath, options.WidgetSettingsMapTables.QuestOptions, options.WidgetSettingsExtraOptions.QuestOptions, onSettingChanged, questOptions, unitFrame)
+    objectInfo = layoutEditor:RegisterObject(questOptionsFontString, "任务选项", "QUESTOPTIONS", plateConfig, subTablePath, options.WidgetSettingsMapTables.QuestOptions, options.WidgetSettingsExtraOptions.QuestOptions, onSettingChanged, questOptions, unitFrame)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
 
     --nameplate bar size
@@ -885,7 +885,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local nameplateSizeOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     nameplateSizeOptions.can_move = false
     nameplateSizeOptions.can_click = false --healthBar.dummy fully overlaps the health bar; let those clicks reach Health Bar / Life Percent
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummy, "Nameplate Size", "NAMEPLATE_SIZE", plateConfig, subTablePath, options.WidgetSettingsMapTables.NameplateSize, options.WidgetSettingsExtraOptions.NameplateSize, onSettingChanged, nameplateSizeOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummy, "姓名板大小", "NAMEPLATE_SIZE", plateConfig, subTablePath, options.WidgetSettingsMapTables.NameplateSize, options.WidgetSettingsExtraOptions.NameplateSize, onSettingChanged, nameplateSizeOptions, healthBar)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
 
 
@@ -894,45 +894,45 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local healthBarOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     healthBarOptions.can_move = false
     healthBarOptions.icon = [[Interface\AddOns\Plater\images\healbar_icon.png]]
-    objectInfo = layoutEditor:RegisterObject(healthBar, "Health Bar", "HEALTHBAR", profileRoot, rootKey, options.WidgetSettingsMapTables.HealthBar, options.WidgetSettingsExtraOptions.HealthBar, onSettingChanged, healthBarOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar, "血条", "HEALTHBAR", profileRoot, rootKey, options.WidgetSettingsMapTables.HealthBar, options.WidgetSettingsExtraOptions.HealthBar, onSettingChanged, healthBarOptions, healthBar)
 
     --target highlight, overlay, indicator
     ---@type df_editobjectoptions
     local targetOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     targetOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyTarget, "Target", "TARGET", profileRoot, rootKey, options.WidgetSettingsMapTables.Target, options.WidgetSettingsExtraOptions.Target, onSettingChanged, targetOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyTarget, "目标", "TARGET", profileRoot, rootKey, options.WidgetSettingsMapTables.Target, options.WidgetSettingsExtraOptions.Target, onSettingChanged, targetOptions, healthBar)
 
     --focus widget uses its own dummy bar above the target bar
     ---@type df_editobjectoptions
     local focusOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     focusOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyFocus, "Focus", "FOCUS", profileRoot, rootKey, options.WidgetSettingsMapTables.Focus, options.WidgetSettingsExtraOptions.Focus, onSettingChanged, focusOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyFocus, "焦点", "FOCUS", profileRoot, rootKey, options.WidgetSettingsMapTables.Focus, options.WidgetSettingsExtraOptions.Focus, onSettingChanged, focusOptions, healthBar)
 
     --raid mark (the icon on the right of the health bar)
     ---@type df_editobjectoptions
     local raidMarkOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     --raidMarkOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(unitFrame.PlaterRaidTargetFrame, "Raid Mark", "RAIDMARK", profileRoot, rootKey, options.WidgetSettingsMapTables.RaidMark, options.WidgetSettingsExtraOptions.RaidMark, onSettingChanged, raidMarkOptions, unitFrame)
+    objectInfo = layoutEditor:RegisterObject(unitFrame.PlaterRaidTargetFrame, "团队标记", "RAIDMARK", profileRoot, rootKey, options.WidgetSettingsMapTables.RaidMark, options.WidgetSettingsExtraOptions.RaidMark, onSettingChanged, raidMarkOptions, unitFrame)
 
     --aggro colors (threat, override) global settings, top-level entry
     ---@type df_editobjectoptions
     local colorsOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     colorsOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyColors, "Aggro Colors", "COLORS", profileRoot, rootKey, options.WidgetSettingsMapTables.Colors, options.WidgetSettingsExtraOptions.Colors, onSettingChanged, colorsOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyColors, "仇恨颜色", "COLORS", profileRoot, rootKey, options.WidgetSettingsMapTables.Colors, options.WidgetSettingsExtraOptions.Colors, onSettingChanged, colorsOptions, healthBar)
 
     --midnight mob colors (unit-type coloring) global settings, no canvas anchor, top-level entry
     ---@type df_editobjectoptions
     local midnightMobColorsOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     midnightMobColorsOptions.can_move = false
     midnightMobColorsOptions.can_click = false
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyMidnightMobColors, "Midnight Mob Colors", "MIDNIGHTMOBCOLORS", profileRoot, rootKey, options.WidgetSettingsMapTables.MidnightMobColors, options.WidgetSettingsExtraOptions.MidnightMobColors, onSettingChanged, midnightMobColorsOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyMidnightMobColors, "至暗之夜怪物颜色", "MIDNIGHTMOBCOLORS", profileRoot, rootKey, options.WidgetSettingsMapTables.MidnightMobColors, options.WidgetSettingsExtraOptions.MidnightMobColors, onSettingChanged, midnightMobColorsOptions, healthBar)
 
     --auras (buffs and debuffs above the health bar). buffFrame is the registration target so
     --the user can also click the aura cluster in the preview to select this widget.
     ---@type df_editobjectoptions
     local aurasOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     aurasOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(unitFrame.BuffFrame, "Auras Layout", "AURAS", profileRoot, rootKey, options.WidgetSettingsMapTables.Auras, options.WidgetSettingsExtraOptions.Auras, onSettingChanged, aurasOptions, unitFrame)
+    objectInfo = layoutEditor:RegisterObject(unitFrame.BuffFrame, "光环布局", "AURAS", profileRoot, rootKey, options.WidgetSettingsMapTables.Auras, options.WidgetSettingsExtraOptions.Auras, onSettingChanged, aurasOptions, unitFrame)
 
     --aura automatic tracking (which buffs/debuffs Plater picks up). visible auto-tracking
     --button above the target bar gives the user an on-canvas way to select this widget.
@@ -941,7 +941,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local auraTrackingOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     auraTrackingOptions.can_move = false
     auraTrackingOptions.parentId = "AURAS"
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyAuraTracking, "Aura Automatic Tracking", "AURATRACKING", profileRoot, rootKey, options.WidgetSettingsMapTables.AuraTracking, options.WidgetSettingsExtraOptions.AuraTracking, onSettingChanged, auraTrackingOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyAuraTracking, "光环自动追踪", "AURATRACKING", profileRoot, rootKey, options.WidgetSettingsMapTables.AuraTracking, options.WidgetSettingsExtraOptions.AuraTracking, onSettingChanged, auraTrackingOptions, healthBar)
 
     --aura border colors. visible "border colors" button above the auto-tracking button
     --gives the user an on-canvas way to select this widget. nested under Auras Layout.
@@ -949,7 +949,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local auraBorderColorsOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     auraBorderColorsOptions.can_move = false
     auraBorderColorsOptions.parentId = "AURAS"
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyAuraBorderColors, "Aura Border Colors", "AURABORDERCOLORS", profileRoot, rootKey, options.WidgetSettingsMapTables.AuraBorderColors, options.WidgetSettingsExtraOptions.AuraBorderColors, onSettingChanged, auraBorderColorsOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyAuraBorderColors, "光环边框颜色", "AURABORDERCOLORS", profileRoot, rootKey, options.WidgetSettingsMapTables.AuraBorderColors, options.WidgetSettingsExtraOptions.AuraBorderColors, onSettingChanged, auraBorderColorsOptions, healthBar)
 
     --stack counter. visible "stacks" button sits above the buff icons for on-canvas selection.
     --nested under Auras Layout.
@@ -957,7 +957,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local stackCounterOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     stackCounterOptions.can_move = false
     stackCounterOptions.parentId = "AURAS"
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyStackCounter, "Stack Counter", "STACKCOUNTER", profileRoot, rootKey, options.WidgetSettingsMapTables.StackCounter, options.WidgetSettingsExtraOptions.StackCounter, onSettingChanged, stackCounterOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyStackCounter, "层数计数器", "STACKCOUNTER", profileRoot, rootKey, options.WidgetSettingsMapTables.StackCounter, options.WidgetSettingsExtraOptions.StackCounter, onSettingChanged, stackCounterOptions, healthBar)
 
     --aura timer. the clickable overlay sits over the 3rd and 4th buff icons (positioned each
     --tick by the driver) so clicking those icons selects this widget. nested under Auras Layout.
@@ -965,14 +965,14 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local auraTimerOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     auraTimerOptions.can_move = false
     auraTimerOptions.parentId = "AURAS"
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyAuraTimer, "Aura Timer", "AURATIMER", profileRoot, rootKey, options.WidgetSettingsMapTables.AuraTimer, options.WidgetSettingsExtraOptions.AuraTimer, onSettingChanged, auraTimerOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyAuraTimer, "光环计时器", "AURATIMER", profileRoot, rootKey, options.WidgetSettingsMapTables.AuraTimer, options.WidgetSettingsExtraOptions.AuraTimer, onSettingChanged, auraTimerOptions, healthBar)
 
     --indicators (pet/execute/boss/class icons, etc.). the indicator selector frame sits on the
     --left of the health bar (via indicator_anchor) and is clickable to select this widget.
     ---@type df_editobjectoptions
     local indicatorsOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     indicatorsOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(healthBar.dummyIndicators, "Indicators", "INDICATORS", profileRoot, rootKey, options.WidgetSettingsMapTables.Indicators, options.WidgetSettingsExtraOptions.Indicators, onSettingChanged, indicatorsOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummyIndicators, "指示器", "INDICATORS", profileRoot, rootKey, options.WidgetSettingsMapTables.Indicators, options.WidgetSettingsExtraOptions.Indicators, onSettingChanged, indicatorsOptions, healthBar)
 
     --shared options for the text widgets that live inside the Health Bar group
     --(copies the defaults so the parentId does not leak onto every other registration).
@@ -980,23 +980,23 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local inHealthBarGroupOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     inHealthBarGroupOptions.parentId = "HEALTHBAR"
 
-    objectInfo = layoutEditor:RegisterObject(unitName, "Unit Name", "UNITNAME", plateConfig, subTablePath, options.WidgetSettingsMapTables.UnitName, options.WidgetSettingsExtraOptions.UnitName, onSettingChanged, inHealthBarGroupOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(unitName, "单位名称", "UNITNAME", plateConfig, subTablePath, options.WidgetSettingsMapTables.UnitName, options.WidgetSettingsExtraOptions.UnitName, onSettingChanged, inHealthBarGroupOptions, healthBar)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
 
-    objectInfo = layoutEditor:RegisterObject(levelText, "Unit Level", "UNITLEVEL", plateConfig, subTablePath, options.WidgetSettingsMapTables.UnitLevel, options.WidgetSettingsExtraOptions.UnitLevel, onSettingChanged, inHealthBarGroupOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(levelText, "单位等级", "UNITLEVEL", plateConfig, subTablePath, options.WidgetSettingsMapTables.UnitLevel, options.WidgetSettingsExtraOptions.UnitLevel, onSettingChanged, inHealthBarGroupOptions, healthBar)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
-    objectInfo = layoutEditor:RegisterObject(lifePercent, "Life Percent", "LIFEPERCENT", plateConfig, subTablePath, options.WidgetSettingsMapTables.LifePercent, options.WidgetSettingsExtraOptions.LifePercent, onSettingChanged, inHealthBarGroupOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(lifePercent, "生命百分比", "LIFEPERCENT", plateConfig, subTablePath, options.WidgetSettingsMapTables.LifePercent, options.WidgetSettingsExtraOptions.LifePercent, onSettingChanged, inHealthBarGroupOptions, healthBar)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
     platerInternal.UpdatePercentTextLayout(lifePercent, plateConfig[subTablePath])
 
     --execute range (profileRoot-bound; intentionally NOT in plateConfigObjectsInfo - the
     --plate-config dropdown only repoints registrations whose values live under plate_config.*)
-    objectInfo = layoutEditor:RegisterObject(healthBar.healthCutOff, "Execute Range", "EXECUTERANGE", profileRoot, rootKey, options.WidgetSettingsMapTables.ExecuteRange, options.WidgetSettingsExtraOptions.ExecuteRange, onSettingChanged, editObjectNoMoveOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar.healthCutOff, "斩杀阶段", "EXECUTERANGE", profileRoot, rootKey, options.WidgetSettingsMapTables.ExecuteRange, options.WidgetSettingsExtraOptions.ExecuteRange, onSettingChanged, editObjectNoMoveOptions, healthBar)
 
     --actor title and name special
-    objectInfo = layoutEditor:RegisterObject(actorNameSpecial, "Big Unit Name", "BIGUNITNAME", plateConfig, subTablePath, options.WidgetSettingsMapTables.BigUnitName, options.WidgetSettingsExtraOptions.BigUnitName, onSettingChanged, editObjectNoMoveOptions, plateFrame)
+    objectInfo = layoutEditor:RegisterObject(actorNameSpecial, "大单位名称", "BIGUNITNAME", plateConfig, subTablePath, options.WidgetSettingsMapTables.BigUnitName, options.WidgetSettingsExtraOptions.BigUnitName, onSettingChanged, editObjectNoMoveOptions, plateFrame)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
-    objectInfo = layoutEditor:RegisterObject(actorTitleSpecial, "Big Unit Title", "BIGUNITTITLE", plateConfig, subTablePath, options.WidgetSettingsMapTables.BigActorTitle, options.WidgetSettingsExtraOptions.BigActorTitle, onSettingChanged, editObjectNoMoveOptions, plateFrame)
+    objectInfo = layoutEditor:RegisterObject(actorTitleSpecial, "大单位头衔", "BIGUNITTITLE", plateConfig, subTablePath, options.WidgetSettingsMapTables.BigActorTitle, options.WidgetSettingsExtraOptions.BigActorTitle, onSettingChanged, editObjectNoMoveOptions, plateFrame)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
 
     --cast bar [no plate config]
@@ -1004,7 +1004,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     ---@type df_editobjectoptions
     local castBarOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     castBarOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(castBar, "Cast Bar", "CASTBAR", plateConfig, subTablePath, options.WidgetSettingsMapTables.CastBar, options.WidgetSettingsExtraOptions.CastBar, onSettingChanged, castBarOptions, castBar)
+    objectInfo = layoutEditor:RegisterObject(castBar, "施法条", "CASTBAR", plateConfig, subTablePath, options.WidgetSettingsMapTables.CastBar, options.WidgetSettingsExtraOptions.CastBar, onSettingChanged, castBarOptions, castBar)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
 
     --shared options for the text widgets that live inside the Cast Bar group
@@ -1013,9 +1013,9 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local inCastBarGroupOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     inCastBarGroupOptions.parentId = "CASTBAR"
 
-    objectInfo = layoutEditor:RegisterObject(spellName, "Cast Spell Name", "CASTSPELLNAME", plateConfig, subTablePath, options.WidgetSettingsMapTables.SpellName, options.WidgetSettingsExtraOptions.SpellName, onSettingChanged, inCastBarGroupOptions, castBar)
+    objectInfo = layoutEditor:RegisterObject(spellName, "施法法术名称", "CASTSPELLNAME", plateConfig, subTablePath, options.WidgetSettingsMapTables.SpellName, options.WidgetSettingsExtraOptions.SpellName, onSettingChanged, inCastBarGroupOptions, castBar)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
-    objectInfo = layoutEditor:RegisterObject(castPercentText, "Cast Time", "CASTSPELLTIME", plateConfig, subTablePath, options.WidgetSettingsMapTables.SpellCastTime, options.WidgetSettingsExtraOptions.SpellCastTime, onSettingChanged, inCastBarGroupOptions, castBar)
+    objectInfo = layoutEditor:RegisterObject(castPercentText, "施法时间", "CASTSPELLTIME", plateConfig, subTablePath, options.WidgetSettingsMapTables.SpellCastTime, options.WidgetSettingsExtraOptions.SpellCastTime, onSettingChanged, inCastBarGroupOptions, castBar)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
 
     --[no plate config]
@@ -1023,9 +1023,9 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     local sparkOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     sparkOptions.can_move = false
     sparkOptions.parentId = "CASTBAR"
-    objectInfo = layoutEditor:RegisterObject(newcastBarTargetName, "Cast Target Name", "CASTTARGETNAME", profileRoot, rootKey, options.WidgetSettingsMapTables.CastBarTargetName, options.WidgetSettingsExtraOptions.CastBarTargetName, onSettingChanged, sparkOptions, castBar.FrameOverlay)
+    objectInfo = layoutEditor:RegisterObject(newcastBarTargetName, "施法目标名称", "CASTTARGETNAME", profileRoot, rootKey, options.WidgetSettingsMapTables.CastBarTargetName, options.WidgetSettingsExtraOptions.CastBarTargetName, onSettingChanged, sparkOptions, castBar.FrameOverlay)
     --[no plate config]
-    objectInfo = layoutEditor:RegisterObject(castBarSpark, "Cast Spark", "CASTSPARK", profileRoot, rootKey, options.WidgetSettingsMapTables.CastBarSpark, options.WidgetSettingsExtraOptions.CastBarSpark, onSettingChanged, sparkOptions, castBar.FrameOverlay)
+    objectInfo = layoutEditor:RegisterObject(castBarSpark, "施法火花", "CASTSPARK", profileRoot, rootKey, options.WidgetSettingsMapTables.CastBarSpark, options.WidgetSettingsExtraOptions.CastBarSpark, onSettingChanged, sparkOptions, castBar.FrameOverlay)
 
     --designer.RefreshLayout()
 
@@ -1159,7 +1159,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
         actorNameSpecial:Show()
         healthBar:Show()
         plateFrame.unitFrame:SetUnit("player")
-        unitName:SetText("Unit Name")
+        unitName:SetText("单位名称")
         unitName:Show()
         unitFrame.BuffFrame:Show()
         unitFrame.BuffFrame2:Show()
@@ -1387,7 +1387,7 @@ function designer.UpdatePreview()
 
     colorsButton.text = colorsButton:CreateFontString(nil, "overlay", "GameFontNormal")
     colorsButton.text:SetPoint("right", textureRed, "left", -7, 0)
-    colorsButton.text:SetText("colors")
+    colorsButton.text:SetText("颜色")
     detailsFramework:SetFontSize(colorsButton.text, 9)
     detailsFramework:SetFontColor(colorsButton.text, "silver")
 
@@ -1430,7 +1430,7 @@ function designer.UpdatePreview()
     autoTrackingButton:SetBackdropBorderColor(.2, .2, .2, 0.5)
     autoTrackingButton.text = autoTrackingButton:CreateFontString(nil, "overlay", "GameFontNormal")
     autoTrackingButton.text:SetPoint("left", autoTrackingButton, "left", 4, 0)
-    autoTrackingButton.text:SetText("aura tracking")
+    autoTrackingButton.text:SetText("光环追踪")
     detailsFramework:SetFontSize(autoTrackingButton.text, 9)
     detailsFramework:SetFontColor(autoTrackingButton.text, "silver")
 
@@ -1449,7 +1449,7 @@ function designer.UpdatePreview()
     borderColorsButton:SetBackdropBorderColor(.2, .2, .2, 0.5)
     borderColorsButton.text = borderColorsButton:CreateFontString(nil, "overlay", "GameFontNormal")
     borderColorsButton.text:SetPoint("right", borderColorsButton, "right", -2, 0)
-    borderColorsButton.text:SetText("aura borders")
+    borderColorsButton.text:SetText("光环边框")
     detailsFramework:SetFontSize(borderColorsButton.text, 9)
     detailsFramework:SetFontColor(borderColorsButton.text, "silver")
 
@@ -1466,7 +1466,7 @@ function designer.UpdatePreview()
     stacksButton:SetBackdropBorderColor(.2, .2, .2, 0.5)
     stacksButton.text = stacksButton:CreateFontString(nil, "overlay", "GameFontNormal")
     stacksButton.text:SetPoint("center", stacksButton, "center", 0, 0)
-    stacksButton.text:SetText("stacks")
+    stacksButton.text:SetText("层数")
     detailsFramework:SetFontSize(stacksButton.text, 9)
     detailsFramework:SetFontColor(stacksButton.text, "silver")
 
@@ -1509,7 +1509,7 @@ function designer.UpdatePreview()
     healthBar.dummyTarget = dummyTargetBar
     dummyTargetBar.text = dummyTargetBar:CreateFontString(nil, "overlay", "GameFontNormal")
     dummyTargetBar.text:SetPoint("left", dummyTargetBar, "left", 2, 0)
-    dummyTargetBar.text:SetText("target")
+    dummyTargetBar.text:SetText("目标")
 
     --dummy focus bar (sits above the target bar, narrower so they do not overlap)
     local dummyFocusBar = CreateFrame("frame", nil, healthBar, "BackdropTemplate")
@@ -1525,7 +1525,7 @@ function designer.UpdatePreview()
     healthBar.dummyFocus = dummyFocusBar
     dummyFocusBar.text = dummyFocusBar:CreateFontString(nil, "overlay", "GameFontNormal")
     dummyFocusBar.text:SetPoint("left", dummyFocusBar, "left", 2, 0)
-    dummyFocusBar.text:SetText("focus")
+    dummyFocusBar.text:SetText("焦点")
     detailsFramework:SetFontSize(dummyFocusBar.text, 9)
     detailsFramework:SetFontColor(dummyFocusBar.text, "silver")
     detailsFramework:SetFontSize(dummyTargetBar.text, 9)
@@ -1598,7 +1598,7 @@ function designer.UpdatePreview()
     unitFrame.BuffFrame2.unit = unitID
     unitFrame.ExtraIconFrame.unit = unitID
 
-    plateFrame.playerGuildName = "Guild Name"
+    plateFrame.playerGuildName = "公会名"
 
     local no = false
     local yes = true

@@ -139,7 +139,7 @@ end
 		local successfulDeserialize = dataDeserialized[1]
 
 		if (not successfulDeserialize) then
-			Plater:Msg("failed to deserialize a comm received.")
+			Plater:Msg("未能对收到的通信进行反序列化.")
 			return
 		end
 
@@ -152,16 +152,16 @@ end
 		if (Plater.debugcomm) then
 			local stringDecompressed = decompressReceivedData(encodedData)
 			local data = {strsplit(",", stringDecompressed)}
-			Plater:Msg("Comm Received:", prefix, source, unpack(data))
+			Plater:Msg("收到的通信:", prefix, source, unpack(data))
 			--dumpt(data)
 			local func = platerInternal.Comms.CommHandler[prefix]
-			print("prefix", prefix, "func", func)
+			print("前缀", prefix, "函数", func)
 		end
 
 		local func = platerInternal.Comms.CommHandler[prefix]
 
 		if (func) then
-			local runOkay, errorMsg = xpcall(func, GetErrorHandler("Plater COMM error: "), prefix, unitName, realmName, unitGUID, encodedData, channel)
+			local runOkay, errorMsg = xpcall(func, GetErrorHandler("Plater通信错误: "), prefix, unitName, realmName, unitGUID, encodedData, channel)
 			if (not runOkay) then
 				--Plater:Msg("error on something")
 			end
@@ -276,19 +276,19 @@ function Plater.DecompressData (data, dataType, silent)
 		elseif (dataType == "comm") then
 			dataCompressed = LibDeflate:DecodeForWoWAddonChannel (string.gsub(data, CONST_PLATER_DATA_TYPE_V2, ''))
 			if (not dataCompressed) then
-				if not silent then Plater:Msg ("couldn't decode the data.") end
+				if not silent then Plater:Msg ("无法对数据进行解码.") end
 				return false
 			end
 		end
 		local ok, dataSerialized = xpcall (C_EncodingUtil.DecompressString, platerInternal.GetErrorHandler(), dataCompressed)
 		--local dataSerialized = C_EncodingUtil.DecompressString(dataCompressed)
 		if (not ok or not dataSerialized) then
-			if not silent then Plater:Msg ("couldn't uncompress the data.") end
+			if not silent then Plater:Msg ("无法解压数据.") end
 			return false
 		end
 		local dataDecompressed = C_EncodingUtil.DeserializeCBOR(dataSerialized)
 		if (not dataDecompressed) then
-			if not silent then Plater:Msg ("couldn't unserialize the data.") end
+			if not silent then Plater:Msg ("无法解压数据.") end
 			return false
 		end
 		
@@ -307,14 +307,14 @@ function Plater.DecompressData (data, dataType, silent)
 			
 			dataCompressed = LibDeflate:DecodeForPrint (data)
 			if (not dataCompressed) then
-				if not silent then Plater:Msg ("couldn't decode the data.") end
+				if not silent then Plater:Msg ("无法对数据进行解码.") end
 				return false
 			end
 
 		elseif (dataType == "comm") then
 			dataCompressed = LibDeflate:DecodeForWoWAddonChannel (data)
 			if (not dataCompressed) then
-				if not silent then Plater:Msg ("couldn't decode the data.") end
+				if not silent then Plater:Msg ("无法对数据进行解码.") end
 				return false
 			end
 		end
@@ -327,13 +327,13 @@ function Plater.DecompressData (data, dataType, silent)
 			dataSerialized = LibDeflate:DecompressDeflate (dataCompressed)
 		end
 		if (not dataSerialized) then
-			if not silent then Plater:Msg ("couldn't uncompress the data.") end
+			if not silent then Plater:Msg ("无法解压数据.") end
 			return false
 		end
 
 		local okay, dataDecompressed = LibAceSerializer:Deserialize (dataSerialized)
 		if (not okay) then
-			if not silent then Plater:Msg ("couldn't unserialize the data.") end
+			if not silent then Plater:Msg ("无法解压数据.") end
 			return false
 		end
 
@@ -351,23 +351,23 @@ end
 function Plater.SendScriptTypeErrorMsg(data)
 	if (data and type(data) == "table") then
 		if (data.type == "script") then
-			Plater:Msg ("this import look like Script, try importing in the Scripting tab.")
+			Plater:Msg ("这个导入看起来像脚本, 试着在脚本标签中导入.")
 
 		elseif (data.type == "hook") then
-			Plater:Msg ("this import look like a Mod, try importing in the Modding tab.")
+			Plater:Msg ("这个导入看起来像一个模组, 试着在模组标签中导入.")
 
 		elseif (data[Plater.Export_CastColors]) then
-			Plater:Msg ("this import look like a Cast Colors, try importing in the Cast Colors tab.")
+			Plater:Msg ("这个导入看起来像施法颜色, 试着在施法颜色标签中导入.")
 
 		elseif (data.NpcColor) then
-			Plater:Msg ("this import looks to be a Npc Colors import, try importing in the Npc Colors tab.")
+			Plater:Msg ("这个导入看起来像NPC颜色, 试着在NPC颜色标签中导入.")
 
 		elseif (data.plate_config) then
-			Plater:Msg ("this import looks like a profile, import profiles at the Profiles tab.")
+			Plater:Msg ("这个导入看起来像配置, 试着在配置标签中导入.")
 		end
 	end
 
-	Plater:Msg ("failed to import the data provided.")
+    Plater:Msg ("未能导入所提供的数据.")
 end
 
 
@@ -443,18 +443,18 @@ end
 	end
 
 	local createImportNpcCastConfirmFrame = function()
-		local frame = DF:CreateSimplePanel(UIParent, 380, 130, "Plater Nameplates: Npc or Cast Importer", "PlaterImportNpcOrCastConfirmation")
+		local frame = DF:CreateSimplePanel(UIParent, 380, 130, "Plater姓名版: NPC或施法导入", "PlaterImportNpcOrCastConfirmation")
 		platerInternal.Frames.ImportNpcCastConfirm = frame
 		frame:Hide()
 		frame:SetPoint("center", UIParent, "center", 0, 150)
 		DF:ApplyStandardBackdrop(frame)
 
 		--create the font strings to show the npc name or the cast name, npcID or spellID, Sender name, and another to show the color
-		local text1 = DF:CreateLabel(frame, "Npc Name:", 12, "white", "GameFontNormal", "white")
-		local text2 = DF:CreateLabel(frame, "Npc ID:", 12, "white", "GameFontNormal", "white")
-		local text3 = DF:CreateLabel(frame, "Npc Zone:", 12, "white", "GameFontNormal", "white")
-		local text4 = DF:CreateLabel(frame, "Sender:", 12, "white", "GameFontNormal", "white")
-		local text5 = DF:CreateLabel(frame, "Color:", 12, "white", "GameFontNormal", "white")
+		local text1 = DF:CreateLabel(frame, "NPC名称:", 12, "white", "GameFontNormal", "white")
+		local text2 = DF:CreateLabel(frame, "NPC ID:", 12, "white", "GameFontNormal", "white")
+		local text3 = DF:CreateLabel(frame, "NPC区域:", 12, "white", "GameFontNormal", "white")
+		local text4 = DF:CreateLabel(frame, "发送者:", 12, "white", "GameFontNormal", "white")
+		local text5 = DF:CreateLabel(frame, "颜色:", 12, "white", "GameFontNormal", "white")
 
 		text1:SetPoint("topleft", frame, "topleft", 10, -30)
 		text2:SetPoint("topleft", frame, "topleft", 10, -50)
@@ -473,8 +473,8 @@ end
 			platerInternal.Frames.ShowImportConfirmationForNpcAndCasts()
 		end
 
-		frame.AcceptButton = Plater:CreateButton(frame, function()end, 125, 20, "Accept", -1, nil, nil, nil, nil, nil, Plater:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
-		frame.DeclineButton = Plater:CreateButton(frame, declineData, 125, 20, "Decline", -1, nil, nil, nil, nil, nil, Plater:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
+		frame.AcceptButton = Plater:CreateButton(frame, function()end, 125, 20, "接受", -1, nil, nil, nil, nil, nil, Plater:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
+		frame.DeclineButton = Plater:CreateButton(frame, declineData, 125, 20, "降序", -1, nil, nil, nil, nil, nil, Plater:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
 
 		frame.DeclineButton:SetPoint("bottomleft", frame, "bottomleft", 5, 5)
 		frame.AcceptButton:SetPoint("bottomright", frame, "bottomright", -5, 5)
@@ -496,10 +496,10 @@ end
 
 		local frame = platerInternal.Frames.ImportNpcCastConfirm
 		if (frame:IsShown()) then
-			frame.Title:SetText("Plater Nameplates: Npc/Cast Data Import (" .. #queueToAcceptDataOfNpcsOrCasts + 1 .. ")")
+			frame.Title:SetText("Plater姓名版: NPC/施法数据导入 (" .. #queueToAcceptDataOfNpcsOrCasts + 1 .. ")")
 			return
 		else
-			frame.Title:SetText("Plater Nameplates: Npc/Cast Data Import (" .. #queueToAcceptDataOfNpcsOrCasts .. ")")
+			frame.Title:SetText("Plater姓名版: NPC/施法数据导入 (" .. #queueToAcceptDataOfNpcsOrCasts .. ")")
 		end
 
 		frame.Text1:SetText("")
@@ -521,11 +521,11 @@ end
 				npcName = string.gsub(npcName, "@C@", ",")
 				npcZone = string.gsub(npcZone, "@C@", ",")
 
-				frame.Text1:SetText("From: " .. senderName)
+				frame.Text1:SetText("从: " .. senderName)
 
 				if (whichInfo == "npccolor") then
 					local color = nextDataToApprove[5]
-					frame.Text2:SetText("Set Npc: |cFFFFDD00" .. npcName .. "|r Color to: " .. DF:AddColorToText(color, color))
+					frame.Text2:SetText("设置Npc: |cFFFFDD00" .. npcName .. "|r 颜色到: " .. DF:AddColorToText(color, color))
 
 					frame.AcceptButton:SetClickFunction(function()
 						--accept the data sent and add to the database
@@ -538,7 +538,7 @@ end
 					local newName = nextDataToApprove[5]
 					newName = string.gsub(newName, "@C@", ",")
 					
-					frame.Text2:SetText("Rename: |cFFFFDD00" .. npcName .. "|r to: |cFFFFDD00" .. newName)
+					frame.Text2:SetText("重命名: |cFFFFDD00" .. npcName .. "|r 到: |cFFFFDD00" .. newName)
 
 					frame.AcceptButton:SetClickFunction(function()
 						--accept the data sent and add to the database
@@ -548,7 +548,7 @@ end
 					end)
 
 				elseif (whichInfo == "resetnpc") then
-					frame.Text2:SetText("Remove Npc Name and Color Customizations")
+					frame.Text2:SetText("移除NNPC名称和颜色定制")
 
 					frame.AcceptButton:SetClickFunction(function()
 						platerInternal.Comms.AcceptNpcReset(npcId)
@@ -578,10 +578,10 @@ end
 					return
 				end
 
-				frame.Text1:SetText("From: " .. senderName)
+				frame.Text1:SetText("从: " .. senderName)
 
 				if (whichInfo == "castcolor") then
-					frame.Text2:SetText("Set Spell '|cFFFFDD00" .. spellName .. "|r' color to: " .. DF:AddColorToText(value, value))
+					frame.Text2:SetText("设置法术 '|cFFFFDD00" .. spellName .. "|r' 颜色到: " .. DF:AddColorToText(value, value))
 
 					frame.AcceptButton:SetClickFunction(function()
 						platerInternal.Comms.AcceptCastDataFromComm(whichInfo, spellId, npcName, npcId, value)
@@ -590,7 +590,7 @@ end
 					end)
 
 				elseif (whichInfo == "castrename") then
-					frame.Text2:SetText("Set Spell '|cFFFFDD00" .. spellName .. "|r' name to: " .. value)
+					frame.Text2:SetText("设置法术 '|cFFFFDD00" .. spellName .. "|r' 名称到: " .. value)
 
 					frame.AcceptButton:SetClickFunction(function()
 						platerInternal.Comms.AcceptCastDataFromComm(whichInfo, spellId, npcName, npcId, value)
@@ -599,7 +599,7 @@ end
 					end)
 
 				elseif (whichInfo == "castscript") then
-					frame.Text2:SetText("Set Spell '|cFFFFDD00" .. spellName .. "|r' to use script: " .. value)
+					frame.Text2:SetText("设置法术 '|cFFFFDD00" .. spellName .. "|r' 使用脚本: " .. value)
 
 					frame.AcceptButton:SetClickFunction(function()
 						platerInternal.Comms.AcceptCastDataFromComm(whichInfo, spellId, npcName, npcId, value)
@@ -608,7 +608,7 @@ end
 					end)
 
 				elseif (whichInfo == "resetcast") then
-					frame.Text2:SetText("Remove Spell Name, Color and Scripts Customizations")
+					frame.Text2:SetText("移除法术名称、颜色和脚本定制")
 
 					frame.AcceptButton:SetClickFunction(function()
 						platerInternal.Comms.AcceptCastDataFromComm(whichInfo, spellId, npcName, npcId, value)
@@ -893,36 +893,36 @@ end
 
 	local routineCheckToSendDataToGroup = function(npcId, autoAccept, whichInfo)
 		if (not IsInGroup()) then
-			Plater:Msg("not in group.")
+			Plater:Msg("没在小队.")
 			return
 		end
 
 		if (not IsInGuild()) then
-			Plater:Msg("not in a guild.")
+			Plater:Msg("没在工会.")
 			return
 		end
 
 		if (not checkIfHasAssistanceOrIsLeader()) then
-			Plater:Msg("does not have assist or leader.")
+			Plater:Msg("没有助理或团长.")
 			return
 		end
 
 		if (whichInfo:find("npc")) then
 			if (not checkNpcIdIsValid(npcId)) then
-				Plater:Msg("npcId invalid.")
+				Plater:Msg("npcId无效.")
 				return
 			end
 		end
 
 		if (whichInfo:find("cast")) then
 			if (not checkSpellIdIsValid(npcId)) then
-				Plater:Msg("spellId invalid.")
+				Plater:Msg("spellId无效.")
 				return
 			end
 		end
 
 		if (type(autoAccept) ~= "boolean") then
-			Plater:Msg("autoAccept must be a boolean.")
+			Plater:Msg("autoAccept必须是一个布尔值.")
 			return
 		end
 
@@ -956,7 +956,7 @@ end
 
 		local npcName, npcZone = getNpcNameAndZone(npcId)
 		if (not npcName) then
-			Plater:Msg("npcInfo not found.")
+			Plater:Msg("npcInfo未找到.")
 			return
 		end
 		
@@ -970,7 +970,7 @@ end
 			local npcColorName = npcColorTable and npcColorTable[3]
 
 			if (not npcColorName or type(npcColorName) ~= "string") then
-				Plater:Msg("npc does not have a color.")
+				Plater:Msg("npc没有颜色.")
 				return
 			end
 
@@ -979,7 +979,7 @@ end
 		elseif (whichInfo == "npcrename") then
 			local npcNameRenamed = Plater.db.profile.npcs_renamed[npcId]
 			if (not npcNameRenamed or type(npcNameRenamed) ~= "string") then
-				Plater:Msg("npc does not have a custom name.")
+				Plater:Msg("npc没有一个自定义的名字.")
 				return
 			end
 			
@@ -1013,7 +1013,7 @@ end
 
 		local spellName, _, spellIcon = GetSpellInfo(spellId)
 		if (not spellName) then
-			Plater:Msg("spellId invalid.")
+			Plater:Msg("spellId无效.")
 			return
 		end
 
@@ -1028,7 +1028,7 @@ end
 			if (castColorTable and type(castColorTable) == "table" and type(castColorTable[2]) == "string" and castColorTable[2] ~= "white") then
 				dataToSend = whichInfo .. "," .. spellId .. "," .. (thisCastInfo.source or "") .. "," .. (thisCastInfo.npcID or "") .. "," .. (autoAccept and "1" or "0") .. "," .. castColorTable[2]
 			else
-				Plater:Msg("cast does not have a color.")
+				Plater:Msg("施法没有颜色.")
 				return
 			end
 
@@ -1038,7 +1038,7 @@ end
 			if (castColorTable and type(castColorTable) == "table" and type(castColorTable[3]) == "string" and castColorTable[3] ~= "") then
 				dataToSend = whichInfo .. "," .. spellId .. "," .. (thisCastInfo.source or "") .. "," .. (thisCastInfo.npcID or "") .. "," .. (autoAccept and "1" or "0") .. "," .. castColorTable[3]
 			else
-				Plater:Msg("cast does not have a custom name.")
+				Plater:Msg("施法没有一个自定义的名字.")
 				return
 			end
 

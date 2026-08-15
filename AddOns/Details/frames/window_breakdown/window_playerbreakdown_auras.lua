@@ -180,9 +180,9 @@ local createAuraTabOnBreakdownWindow = function(tab, frame)
         return newTitleDescFrame
     end
 
-    local buffLabel = detailsFramework:CreateLabel(frame, "Buff Name")
+    local buffLabel = detailsFramework:CreateLabel(frame, "Buff名称")
     buffLabel:SetPoint(headerOffsetsBuffs[1], -10)
-    local uptimeLabel = detailsFramework:CreateLabel(frame, "Uptime")
+    local uptimeLabel = detailsFramework:CreateLabel(frame, "正常工作时间")
     uptimeLabel:SetPoint(headerOffsetsBuffs[2], -10)
 
     local appliedLabel = detailsFramework:CreateLabel(frame, "A")
@@ -202,10 +202,10 @@ local createAuraTabOnBreakdownWindow = function(tab, frame)
     detailsFramework:ReskinSlider(buffScroll)
     tab.BuffScroll = buffScroll
 
-    local debuffLabel = detailsFramework:CreateLabel(frame, "Debuff Name")
+    local debuffLabel = detailsFramework:CreateLabel(frame, "Debuff名称")
     debuffLabel:SetPoint(headerOffsetsDebuffs[1], -10)
 
-    local uptimeLabel2 = detailsFramework:CreateLabel(frame, "Uptime")
+    local uptimeLabel2 = detailsFramework:CreateLabel(frame, "正常工作时间")
     uptimeLabel2:SetPoint(headerOffsetsDebuffs[2], -10)
 
     local appliedLabel2 = detailsFramework:CreateLabel(frame, "A")

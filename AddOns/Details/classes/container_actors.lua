@@ -1154,7 +1154,7 @@ unitNameTitles[#unitNameTitles+1] = unitNameTitles[1]:gsub(PET_TYPE_PET, PET_TYP
 			if (playerName) then
 				namingMap[playerName] = i
 			else
-				Details:Msg("actorContainer:Remap() found an actor without a name, playerName:", playerName, "__destroyed:", actorList[i].__destroyed)
+				Details:Msg("actorContainer:Remap()发现一个没有名字的玩家, playerName:", playerName, "__destroyed:", actorList[i].__destroyed)
 			end
 		end
 

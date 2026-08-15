@@ -82,7 +82,8 @@ function ItemButton:Acquire()
 	-- Set the quality state
 	self._state:PublisherForKeyChange("itemString")
 		:IgnoreNil()
-		:MapWithFunction(private.ItemStringToCraftedQualityTexture)
+		:MapWithFunction(ItemInfo.GetCraftedQuality)
+		:MapWithFunction(private.CraftedQualityToTexture)
 		:CallMethod(self._quality, "SetText")
 
 	-- Set the quantity state
@@ -129,13 +130,11 @@ end
 -- Private Helper Functions
 -- ============================================================================
 
-function private.ItemStringToCraftedQualityTexture(itemString)
-	local craftedQuality, useMidnightIcon = ItemInfo.GetCraftedQuality(itemString)
+function private.CraftedQualityToTexture(craftedQuality)
 	if not craftedQuality or craftedQuality <= 0 then
 		return ""
 	end
-	local large = useMidnightIcon and true or false
-	return TradeSkill.GetCraftedQualityChatIcon(craftedQuality, useMidnightIcon, large)
+	return TradeSkill.GetCraftedQualityChatIcon(craftedQuality)
 end
 
 function private.GetAvailableMatQuantity(itemString)

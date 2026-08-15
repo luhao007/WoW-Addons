@@ -16,10 +16,9 @@ local STATUS_NONE = 0
 local STATUS_ADD  = 1
 local STATUS_EDIT = 2
 
-
 local STATUS_LABELS = {
-    [STATUS_ADD]   = L.EDITOR_CREATE_SCRIPT,
-    [STATUS_EDIT]  = L.EDITOR_EDIT_SCRIPT,
+    [STATUS_ADD]   = L['Create script'],
+    [STATUS_EDIT]  = L['Edit script'],
 }
 
 local Module = Addon:NewModule('UI.MainPanel', 'AceEvent-3.0')
@@ -28,7 +27,7 @@ function Module:OnInitialize()
     local function UpdateSaveButton() self:UpdateSaveButton() end
 
     local MainPanel = GUI:GetClass('BasicPanel'):New(UIParent) do
-        MainPanel.SetTitle = function(p, t) return p:SetText(L.ADDON_NAME .. ' - ' .. t) end
+        MainPanel.SetTitle = function(p, t) return p:SetText('tdBattlePetScript - ' .. t) end
 
         MainPanel:Hide()
         MainPanel:SetSize(550, 450)
@@ -38,7 +37,7 @@ function Module:OnInitialize()
         MainPanel:SetResizeBounds(550, 350, 900, 700)
         MainPanel:ShowPortrait()
         MainPanel:SetFrameStrata('DIALOG')
-        MainPanel:SetTitle(L.SCRIPT_EDITOR_TITLE)
+        MainPanel:SetTitle(L['Script editor'])
         MainPanel:SetPortrait(ns.ICON)
 
         MainPanel:RegisterConfig(Addon.db.profile.position)
@@ -48,9 +47,6 @@ function Module:OnInitialize()
         MainPanel:SetAttribute('UIPanelLayout-area', 'left')
         MainPanel:SetAttribute('UIPanelLayout-pushable', 1)
     end
-
-    _G["PetBattleScripts_MainPanel"] = MainPanel
-    tinsert(UISpecialFrames, "PetBattleScripts_MainPanel")
 
     local Inset = CreateFrame('Frame', nil, MainPanel, 'InsetFrameTemplate') do
         Inset:SetPoint('TOPLEFT', 4, -60)
@@ -203,19 +199,10 @@ function Module:OnInitialize()
         end)
     end
 
-    local TestButton = CreateFrame('Button', nil, Content, 'UIPanelButtonTemplate') do
-        TestButton:SetPoint('RIGHT', SaveButton, 'LEFT')
-        TestButton:SetSize(80, 22)
-        TestButton:SetText("Test")
-        TestButton:SetScript('OnClick', function()
-            self:Test()
-        end)
-    end
-
     local DebugButton = CreateFrame('Button', nil, Content, 'UIPanelButtonTemplate') do
-        DebugButton:SetPoint('RIGHT', TestButton, 'LEFT')
+        DebugButton:SetPoint('RIGHT', SaveButton, 'LEFT')
         DebugButton:SetSize(80, 22)
-        DebugButton:SetText(L.SCRIPT_EDITOR_RUN_BUTTON)
+        DebugButton:SetText(L['Run'])
         DebugButton:SetScript('OnClick', function()
             self:Run()
         end)
@@ -251,7 +238,7 @@ function Module:OnInitialize()
         return box
     end
 
-    local NameBox = MakeBox('InputBox', ExtraFrame, L.SCRIPT_EDITOR_NAME_TITLE) do
+    local NameBox = MakeBox('InputBox', ExtraFrame, L['Script name']) do
         NameBox:SetPoint('TOPLEFT', 10, -25)
         NameBox:SetPoint('TOPRIGHT', -10, -25)
         NameBox:SetHeight(22)
@@ -263,7 +250,7 @@ function Module:OnInitialize()
         ScriptEditor:SetPoint('BOTTOMRIGHT')
     end
 
-    local ScriptBox = MakeBox(Addon:GetClass('ScriptEditor'), ScriptEditor, L.SCRIPT_EDITOR_TEXTAREA_TITLE) do
+    local ScriptBox = MakeBox(Addon:GetClass('ScriptEditor'), ScriptEditor, L['Script']) do
         ScriptBox:SetPoint('TOPLEFT', 10, -25)
         ScriptBox:SetPoint('BOTTOMRIGHT', -10, 10)
         ScriptBox:SetCallback('OnTextChanged', function(ScriptBox, userInput)
@@ -339,7 +326,6 @@ function Module:OnInitialize()
     self.CollapseButton = CollapseButton
     self.Content        = Content
     self.Content        = Content
-    self.TestButton     = TestButton
     self.DebugButton    = DebugButton
     self.DeleteButton   = DeleteButton
     self.EditBoxGroup   = EditBoxGroup
@@ -363,9 +349,9 @@ function Module:OnEnable()
     self:OnFontChanged()
 
     self:RegisterEvent('PET_BATTLE_ACTION_SELECTED')
-    self:RegisterEvent('PET_BATTLE_OPENING_START', 'UpdateButtons')
-    self:RegisterEvent('PET_BATTLE_CLOSE', 'UpdateButtons')
-    self:RegisterEvent('PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE', 'UpdateButtons')
+    self:RegisterEvent('PET_BATTLE_OPENING_START', 'UpdateDebugButton')
+    self:RegisterEvent('PET_BATTLE_CLOSE', 'UpdateDebugButton')
+    self:RegisterEvent('PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE', 'UpdateDebugButton')
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', 'UpdateScriptList')
 
     self:RegisterMessage('PET_BATTLE_SCRIPT_RESET_FRAMES')
@@ -378,7 +364,6 @@ function Module:OnFontChanged()
 end
 
 function Module:PET_BATTLE_ACTION_SELECTED()
-    self.TestButton:Disable()
     self.DebugButton:Disable()
 end
 
@@ -393,7 +378,7 @@ function Module:UpdateScriptList()
     end
 
     local list = {} do
-        for _, plugin in Addon:IterateEnabledPlugins() do
+        for _, plugin in Addon:IteratePlugins() do
             tinsert(list, {
                 type = 'plugin',
                 value = plugin
@@ -473,7 +458,7 @@ function Module:ShowDialog()
     self.MainPanel:SetMovable(true)
     self.MainPanel:SetResizable(true)
     self.MainPanel:SetFrameStrata('DIALOG')
-    self.MainPanel:SetTitle(L.SCRIPT_EDITOR_TITLE)
+    self.MainPanel:SetTitle(L['Script editor'])
 
     if self.MainPanel:IsShown() then
         self:HidePanel()
@@ -490,7 +475,7 @@ function Module:ShowPanel()
     self.MainPanel:SetMovable(false)
     self.MainPanel:SetResizable(false)
     self.MainPanel:SetFrameStrata('MEDIUM')
-    self.MainPanel:SetTitle(L.SCRIPT_MANAGER_TITLE)
+    self.MainPanel:SetTitle(L['Script manager'])
 
     if self.MainPanel:IsShown() then
         self:HidePanel()
@@ -548,9 +533,7 @@ function Module:UpdateScript()
     self.ScriptBox:SetText(self.script:GetCode() or '')
 end
 
-function Module:UpdateButtons()
-    self.TestButton:SetShown(C_PetBattles.IsInBattle())
-    self.TestButton:SetEnabled(C_PetBattles.IsSkipAvailable() or C_PetBattles.ShouldShowPetSelect())
+function Module:UpdateDebugButton()
     self.DebugButton:SetShown(C_PetBattles.IsInBattle())
     self.DebugButton:SetEnabled(C_PetBattles.IsSkipAvailable() or C_PetBattles.ShouldShowPetSelect())
 end
@@ -563,7 +546,6 @@ function Module:UpdateStatus()
     self.Name:SetFormattedText('%s: |cff00ff00%s|r-|cffffffff%s|r', STATUS_LABELS[self.status], self.plugin:GetPluginTitle(), self.defaultName)
 
     self.DeleteButton:SetShown(self.status == STATUS_EDIT)
-    self.TestButton:SetShown(C_PetBattles.IsInBattle())
     self.DebugButton:SetShown(C_PetBattles.IsInBattle())
 end
 
@@ -587,7 +569,7 @@ function Module:OnSaveButtonClick()
         self.plugin:AddScript(self.key, self.script)
     end
 
-    self:Message(ok, ok and L.SCRIPT_EDITOR_SAVE_SUCCESS or L.SCRIPT_EDITOR_FOUND_ERROR, err)
+    self:Message(ok, ok and L['Save success'] or L['Found error'], err)
 
     if not ok then
         return
@@ -612,7 +594,7 @@ end
 function Module:OnDeleteButtonClick()
     self.EditBoxGroup:ClearFocus()
     self.BlockDialog:Open{
-        text     = format(L.SCRIPT_EDITOR_DELETE_SCRIPT_CONFIRMATION, self.plugin:GetPluginTitle(), self.script:GetName()),
+        text     = format(L.SCRIPT_EDITOR_DELETE_SCRIPT, self.plugin:GetPluginTitle(), self.script:GetName()),
         delay    = Addon:GetSetting('noWaitDeleteScript') and 0 or 3,
         ctx      = self.script,
         OnAccept = function(script)
@@ -626,19 +608,10 @@ function Module:OnDeleteButtonClick()
     }
 end
 
-function Module:Test()
-    local script, err = Director:BuildScript(self:GetEditBoxText(self.ScriptBox))
-    if not script then
-        self:Message(false, L.SCRIPT_EDITOR_FOUND_ERROR, err)
-    else
-        Director:Test(script)
-    end
-end
-
 function Module:Run()
     local script, err = Director:BuildScript(self:GetEditBoxText(self.ScriptBox))
     if not script then
-        self:Message(false, L.SCRIPT_EDITOR_FOUND_ERROR, err)
+        self:Message(false, L['Found error'], err)
     else
         Director:Debug(script)
     end
@@ -647,25 +620,25 @@ end
 function Module:OnShareButtonClick()
     GUI:ToggleMenu(self.ShareButton, {
         {
-            text     = L.SCRIPT_EDITOR_AUTOFORMAT_SCRIPT,
+            text     = L['Beauty script'],
             disabled = not self.script or not self.script:GetCode() or self:IsCanSave(),
             func     = function()
                 self:OnBeautyButtonClick()
             end
         },
         {
-            text = L.SHARE_IMPORT_SCRIPT,
+            text = L['Import'],
             func = function()
                 UI.Import.Frame:Show()
                 self:HidePanel()
             end
         },
         {
-            text     = L.SHARE_EXPORT_SCRIPT,
+            text     = L['Export'],
             disabled = self.status ~= STATUS_EDIT,
             func     = function()
                 self.BlockDialog:Open{
-                    text             = L.SHARE_EXPORT_SCRIPT,
+                    text             = L['Export'],
                     cancelHidden     = true,
                     acceptText       = OKAY,
                     editBox          = true,
@@ -677,9 +650,9 @@ function Module:OnShareButtonClick()
             end
         },
         {
-            text = SETTINGS_TITLE,
+            text = L['Options'],
             func = function()
-                Addon:OpenOptionsFrame()
+                Addon:OpenOptionFrame()
             end
         }
     })

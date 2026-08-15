@@ -1440,7 +1440,7 @@ function _detalhes:CreateWeakAura (aura_type, spellid, use_spellid, spellname, n
 --]=]
 
     if (true) then
-        return Details:Msg("feature disabled due to 9.0 changes.")
+        return Details:Msg("由于9.0的变化该功能被禁用.")
     end
 
     --create the icon table
@@ -2041,7 +2041,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         --title
         f.Title = f.TitleBar:CreateFontString("$parentTitle", "overlay", "GameFontNormal")
         f.Title:SetPoint("center", f.TitleBar, "center")
-        f.Title:SetText("Details! Create Aura")
+        f.Title:SetText("Details! 创建光环")
 
         local fw = _detalhes:GetFramework()
         
@@ -2052,7 +2052,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         local button_template = fw:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE")
         
         --aura name
-        local name_label = fw:CreateLabel(f, "Aura Name: ", nil, nil, "GameFontNormal")
+        local name_label = fw:CreateLabel(f, "光环名称: ", nil, nil, "GameFontNormal")
         local name_textentry = fw:CreateTextEntry(f, _detalhes.empty_function, 150, 20, "AuraName", "$parentAuraName")
         name_textentry:SetTemplate(slider_template)
         name_textentry:SetPoint("left", name_label, "right", 2, 0)
@@ -2065,15 +2065,15 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
             end
         end
         local aura_type_table = {
-            {label = "Icon", value = "icon", onclick = on_select_aura_type}, --, icon = aura_on_icon
-            {label = "Text", value = "text", onclick = on_select_aura_type},
-            {label = "Progress Bar", value = "aurabar", onclick = on_select_aura_type},
+            {label = "图标", value = "icon", onclick = on_select_aura_type}, --, icon = aura_on_icon
+            {label = "文字", value = "text", onclick = on_select_aura_type},
+            {label = "进度条", value = "aurabar", onclick = on_select_aura_type},
         }
         local aura_type_options = function()
             return aura_type_table
         end
         local aura_type = fw:CreateDropDown (f, aura_type_options, 1, 150, 20, "AuraTypeDropdown", "$parentAuraTypeDropdown")
-        local aura_type_label = fw:CreateLabel(f, "Aura Type: ", nil, nil, "GameFontNormal")
+        local aura_type_label = fw:CreateLabel(f, "光环类型: ", nil, nil, "GameFontNormal")
         aura_type:SetPoint("left", aura_type_label, "right", 2, 0)
         aura_type:Hide()
         
@@ -2164,44 +2164,44 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         
         local aura_on_icon = [[Interface\Buttons\UI-GroupLoot-DE-Down]]
         local aura_on_table = {
-            {label = "Debuff on You", value = 1, icon = aura_on_icon, onclick = on_select_aura_trigger},
-            {label = "Debuff on Target", value = 2, icon = aura_on_icon, onclick = on_select_aura_trigger},
-            {label = "Debuff on Focus", value = 3, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "你的Debuff", value = 1, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "目标的Debuff", value = 2, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "焦点的Debuff", value = 3, icon = aura_on_icon, onclick = on_select_aura_trigger},
             
-            {label = "Buff on You", value = 11, icon = aura_on_icon, onclick = on_select_aura_trigger},
-            {label = "Buff on Target", value = 12, icon = aura_on_icon, onclick = on_select_aura_trigger},
-            {label = "Buff on Focus", value = 13, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "你的Buff", value = 11, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "目标的Buff", value = 12, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "焦点的Buff", value = 13, icon = aura_on_icon, onclick = on_select_aura_trigger},
             
-            {label = "Spell Cast Started", value = 21, icon = aura_on_icon, onclick = on_select_aura_trigger},
-            {label = "Spell Cast Successful", value = 22, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "开始施法", value = 21, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "施法成功", value = 22, icon = aura_on_icon, onclick = on_select_aura_trigger},
             
-            {label = "DBM Time Bar", value = 31, icon = aura_on_icon, onclick = on_select_aura_trigger},
-            {label = "BigWigs Time Bar", value = 32, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "DBM计时条", value = 31, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "BigWigs计时条", value = 32, icon = aura_on_icon, onclick = on_select_aura_trigger},
             
-            {label = "Spell Interrupt", value = 41, icon = aura_on_icon, onclick = on_select_aura_trigger},
-            {label = "Spell Dispell", value = 42, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "法术打断", value = 41, icon = aura_on_icon, onclick = on_select_aura_trigger},
+            {label = "法术驱散", value = 42, icon = aura_on_icon, onclick = on_select_aura_trigger},
         }
         local aura_on_options = function()
             return aura_on_table
         end
         local aura_on = fw:CreateDropDown (f, aura_on_options, 1, 150, 20, "AuraOnDropdown", "$parentAuraOnDropdown")
-        local aura_on_label = fw:CreateLabel(f, "Trigger On: ", nil, nil, "GameFontNormal")
+        local aura_on_label = fw:CreateLabel(f, "触发: ", nil, nil, "GameFontNormal")
         aura_on:SetPoint("left", aura_on_label, "right", 2, 0)
         aura_on:Hide()
         
         local triggerList = {
-            {name = "Debuff on You", value = 1},
-            {name = "Debuff on Target", value = 2}, --2
-            {name = "Debuff on Focus", value = 3},
-            {name = "Buff on You", value = 11}, --4
-            {name = "Buff on Target", value = 12},
-            {name = "Buff on Focus", value = 13},
-            {name = "Spell Cast Started", value = 21}, --7
-            {name = "Spell Cast Successful", value = 22},
-            {name = "DBM Time Bar", value = 31},
-            {name = "BigWigs Time Bar", value = 32},
-            {name = "Spell Interrupt", value = 41},
-            {name = "Spell Dispell", value = 42},
+            {name = "你的Debuff", value = 1},
+            {name = "目标的Debuff", value = 2}, --2
+            {name = "焦点的Debuff", value = 3},
+            {name = "你的Buff", value = 11}, --4
+            {name = "目标的Buff", value = 12},
+            {name = "焦点的Buff", value = 13},
+            {name = "开始施法", value = 21}, --7
+            {name = "施法成功", value = 22},
+            {name = "DBM计时条", value = 31},
+            {name = "BigWigs计时条", value = 32},
+            {name = "法术打断", value = 41},
+            {name = "法术驱散", value = 42},
         }
         
         local SetTriggerState = function(triggerID)
@@ -2243,39 +2243,39 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         
         
         --spellname
-        local spellname_label = fw:CreateLabel(f, "Spell Name: ", nil, nil, "GameFontNormal")
+        local spellname_label = fw:CreateLabel(f, "法术名称: ", nil, nil, "GameFontNormal")
         local spellname_textentry = fw:CreateTextEntry(f, _detalhes.empty_function, 150, 20, "SpellName", "$parentSpellName")
         spellname_textentry:SetTemplate(slider_template)
         spellname_textentry:SetPoint("left", spellname_label, "right", 2, 0)
         f.spellname = spellname_textentry
-        spellname_textentry.tooltip = "Spell/Debuff/Buff to be tracked."
+        spellname_textentry.tooltip = "追踪的法术/Debuff/Buff."
         
         --spellid
-        local auraid_label = fw:CreateLabel(f, "Spell Id: ", nil, nil, "GameFontNormal")
+        local auraid_label = fw:CreateLabel(f, "法术Id: ", nil, nil, "GameFontNormal")
         local auraid_textentry = fw:CreateTextEntry(f, _detalhes.empty_function, 150, 20, "AuraSpellId", "$parentAuraSpellId")
         auraid_textentry:SetTemplate(slider_template)
         auraid_textentry:Disable()
         auraid_textentry:SetPoint("left", auraid_label, "right", 2, 0)
         
         --use spellid
-        local usespellid_label = fw:CreateLabel(f, "Use SpellId: ", nil, nil, "GameFontNormal")
+        local usespellid_label = fw:CreateLabel(f, "使用法术Id: ", nil, nil, "GameFontNormal")
         local aura_use_spellid = fw:CreateSwitch(f, function(_, _, state) if (state) then auraid_textentry:Enable() else auraid_textentry:Disable() end end, false, nil, nil, nil, nil, "UseSpellId")
         aura_use_spellid:SetTemplate(fw:GetTemplate("switch", "OPTIONS_CHECKBOX_TEMPLATE"))
         aura_use_spellid:SetAsCheckBox()			
         
         aura_use_spellid:SetPoint("left", usespellid_label, "right", 2, 0)
-        aura_use_spellid.tooltip = "Use the spell id instead of the spell name, for advanced users."
+        aura_use_spellid.tooltip = "对于高级用户来说使用法术ID代替法术名称."
         
         --in combat only
-        local incombat_label = fw:CreateLabel(f, "Only in Combat: ", nil, nil, "GameFontNormal")
+        local incombat_label = fw:CreateLabel(f, "仅在战斗中: ", nil, nil, "GameFontNormal")
         local aura_incombat = fw:CreateSwitch(f, function(_, _, state) end, true, nil, nil, nil, nil, "UseInCombat")
         aura_incombat:SetTemplate(fw:GetTemplate("switch", "OPTIONS_CHECKBOX_TEMPLATE"))
         aura_incombat:SetAsCheckBox()			
         aura_incombat:SetPoint("left", incombat_label, "right", 2, 0)
-        aura_incombat.tooltip = "Only active when in combat."
+        aura_incombat.tooltip = "只有在战斗中才有效."
 
         --aura icon
-        local icon_label = fw:CreateLabel(f, "Icon: ", nil, nil, "GameFontNormal")
+        local icon_label = fw:CreateLabel(f, "图标: ", nil, nil, "GameFontNormal")
         local icon_button_func = function(texture)
             f.IconButton.icon.texture = texture
         end
@@ -2289,12 +2289,12 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         f.icon = icon_button_icon
         
         --is cooldown
-        local iscooldown_label = fw:CreateLabel(f, "Cooldown Animation: ", nil, nil, "GameFontNormal")
+        local iscooldown_label = fw:CreateLabel(f, "冷却时间动画: ", nil, nil, "GameFontNormal")
         local aura_iscooldown = fw:CreateSwitch(f, function(_, _, state) end, true, nil, nil, nil, nil, "IsCooldown")
         aura_iscooldown:SetTemplate(fw:GetTemplate("switch", "OPTIONS_CHECKBOX_TEMPLATE"))
         aura_iscooldown:SetAsCheckBox()			
         aura_iscooldown:SetPoint("left", iscooldown_label, "right", 2, 0)
-        aura_iscooldown.tooltip = "Only active when in combat."
+        aura_iscooldown.tooltip = "只有在战斗中才有效."
         
         --stack
         local stack_slider = fw:NewSlider (f, f, "$parentStackSlider", "StackSlider", 150, 20, 0, 30, 1, 0, true)
@@ -2302,7 +2302,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         stack_slider:SetTemplate(slider_template)
         local stack_label = fw:CreateLabel(f, "Trigger Stack Size: ", nil, nil, "GameFontNormal")
         stack_slider:SetPoint("left", stack_label, "right", 2, 0)
-        stack_slider.tooltip = "Minimum amount of stacks to trigger the aura."
+        stack_slider.tooltip = "触发光环的最低层数."
         
         --sound effect
         local play_sound = function(self, fixedParam, file)
@@ -2353,7 +2353,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         }
         
         local sound_options = function()
-            local t = {{label = "No Sound", value = "", icon = [[Interface\Buttons\UI-GuildButton-MOTD-Disabled]], iconsize = iconsize}}
+            local t = {{label = "无音效", value = "", icon = [[Interface\Buttons\UI-GuildButton-MOTD-Disabled]], iconsize = iconsize}}
             
             local sounds = {}
             local already_added = {}
@@ -2398,26 +2398,26 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         end
         local sound_effect = fw:CreateDropDown (f, sound_options, 1, 150, 20, "SoundEffectDropdown", "$parentSoundEffectDropdown")
         sound_effect:SetTemplate(slider_template)
-        local sound_effect_label = fw:CreateLabel(f, "Play Sound: ", nil, nil, "GameFontNormal")
+        local sound_effect_label = fw:CreateLabel(f, "播放声音: ", nil, nil, "GameFontNormal")
         sound_effect:SetPoint("left", sound_effect_label, "right", 2, 0)
-        sound_effect.tooltip = "Sound played when the aura triggers."
+        sound_effect.tooltip = "触发光环时发出的声音."
         
         --say something
-        local say_something_label = fw:CreateLabel(f, "/Say on Trigger: ", nil, nil, "GameFontNormal")
+        local say_something_label = fw:CreateLabel(f, "触发/Say: ", nil, nil, "GameFontNormal")
         local say_something = fw:CreateTextEntry(f, _detalhes.empty_function, 150, 20, "SaySomething", "$parentSaySomething")
         say_something:SetTemplate(slider_template)
         say_something:SetPoint("left", say_something_label, "right", 2, 0)
-        say_something.tooltip = "Your character /say this phrase when the aura triggers."
+        say_something.tooltip = "你的角色在光环出发时/say."
         
         --aura text
-        local aura_text_label = fw:CreateLabel(f, "Aura Text: ", nil, nil, "GameFontNormal")
+        local aura_text_label = fw:CreateLabel(f, "光环文字: ", nil, nil, "GameFontNormal")
         local aura_text = fw:CreateTextEntry(f, _detalhes.empty_function, 150, 20, "AuraText", "$parentAuraText")
         aura_text:SetTemplate(slider_template)
         aura_text:SetPoint("left", aura_text_label, "right", 2, 0)
-        aura_text.tooltip = "Text shown at aura's icon right side."
+        aura_text.tooltip = "文字显示在光环图标的右侧."
         
         --apply glow
-        local useglow_label = fw:CreateLabel(f, "Glow Effect: ", nil, nil, "GameFontNormal")
+        local useglow_label = fw:CreateLabel(f, "萤光效果: ", nil, nil, "GameFontNormal")
         local useglow = fw:CreateSwitch(f, function(self, _, state) 
             if (state and self.glow_test) then  
                 self.glow_test:Show()
@@ -2433,7 +2433,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         useglow:SetAsCheckBox()			
         
         useglow:SetPoint("left", useglow_label, "right", 2, 0)
-        useglow.tooltip = "Do not rename the aura on WeakAuras options panel or the glow effect may not work."
+        useglow.tooltip = "不要在WA选项面板上重命名光环否则光环效果可能无法使用."
         
         useglow.glow_test = CreateFrame("frame", "DetailsAuraTextGlowTest", useglow.widget, "ActionBarButtonSpellActivationAlert")
         useglow.glow_test:SetPoint("topleft", useglow.widget, "topleft", -20, 2)
@@ -2441,18 +2441,18 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         useglow.glow_test:Hide()
 
         --encounter id
-        local encounterid_label = fw:CreateLabel(f, "Encounter ID: ", nil, nil, "GameFontNormal")
+        local encounterid_label = fw:CreateLabel(f, "BOSS战ID: ", nil, nil, "GameFontNormal")
         local encounterid = fw:CreateTextEntry(f, _detalhes.empty_function, 150, 20, "EncounterIdText", "$parentEncounterIdText")
         encounterid:SetTemplate(slider_template)
         encounterid:SetPoint("left", encounterid_label, "right", 2, 0)
-        encounterid.tooltip = "Only load this aura for this raid encounter."
+        encounterid.tooltip = "只为这次BOSS战加载此光环."
         
         --size
         local icon_size_slider = fw:NewSlider (f, f, "$parentIconSizeSlider", "IconSizeSlider", 150, 20, 8, 256, 1, 64)
         local icon_size_label = fw:CreateLabel(f, "Size: ", nil, nil, "GameFontNormal")
         icon_size_slider:SetTemplate(slider_template)
         icon_size_slider:SetPoint("left", icon_size_label, "right", 2, 0)
-        icon_size_slider.tooltip = "Icon size, width and height."
+        icon_size_slider.tooltip = "图标大小、宽度和高度."
         
         --aura addon
         local addon_options = function()
@@ -2464,7 +2464,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
         end
         local aura_addon = fw:CreateDropDown (f, addon_options, 1, 150, 20, "AuraAddonDropdown", "$parentAuraAddonDropdown")
         aura_addon:SetTemplate(slider_template)
-        local aura_addon_label = fw:CreateLabel(f, "Addon: ", nil, nil, "GameFontNormal")
+        local aura_addon_label = fw:CreateLabel(f, "插件: ", nil, nil, "GameFontNormal")
         aura_addon:SetPoint("left", aura_addon_label, "right", 2, 0)
         
         --weakauras - group
@@ -2485,11 +2485,11 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
                 end
             end
             table.sort (t, sort_func)
-            table.insert(t, 1, {label = "No Group", value = false, icon = folder_icon, texcoord = folder_texcoord, iconcolor = {0.8, 0.2, 0.2}, iconsize = folder_iconsize})
+            table.tinsert(t, 1, {label = "没有组", value = false, icon = folder_icon, texcoord = folder_texcoord, iconcolor = {0.8, 0.2, 0.2}, iconsize = folder_iconsize})
             return t
         end
         
-        local weakauras_folder_label = fw:CreateLabel(f, "WeakAuras Group: ", nil, nil, "GameFontNormal")
+        local weakauras_folder_label = fw:CreateLabel(f, "WeakAuras组: ", nil, nil, "GameFontNormal")
         local weakauras_folder = fw:CreateDropDown (f, weakauras_folder_options, 1, 150, 20, "WeakaurasFolderDropdown", "$parentWeakaurasFolder")
         weakauras_folder:SetTemplate(slider_template)
         weakauras_folder:SetPoint("left", weakauras_folder_label, "right", 2, 0)
@@ -2500,19 +2500,19 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
             local weakauras_newgroup_textentry = f.NewWeakaurasGroupTextEntry
         
             if (not WeakAurasSaved or not WeakAurasSaved.displays) then
-                print("nop, weakauras not found")
+                print("不, 没有找到weakauras")
                 return
             end
         
             local groupName = weakauras_newgroup_textentry.text
             
             if (string.len(groupName) == 0) then
-                print("nop, group name is too small")
+                print("不, 组名太小")
                 return
             end
             
             if (WeakAurasSaved.displays [groupName]) then
-                print("nop, group already exists")
+                print("不, 小组已经存在")
                 return
             end
             
@@ -2536,12 +2536,12 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
             weakauras_folder:Select(groupName)
         end			
         
-        local weakauras_newgroup_label = fw:CreateLabel(f, "New WeakAuras Group: ", nil, nil, "GameFontNormal")
+        local weakauras_newgroup_label = fw:CreateLabel(f, "新的WeakAuras组: ", nil, nil, "GameFontNormal")
         local weakauras_newgroup_textentry = fw:CreateTextEntry(f, create_wa_group, 150, 20, "NewWeakaurasGroupTextEntry", "$parentNewWeakaurasGroup")
         weakauras_newgroup_textentry:SetTemplate(slider_template)
         weakauras_newgroup_textentry:SetPoint("left", weakauras_newgroup_label, "right", 2, 0)
         f.weakauras_newgroup = weakauras_newgroup_textentry
-        weakauras_newgroup_textentry.tooltip = "Enter the name of the new group"
+        weakauras_newgroup_textentry.tooltip = "输入新组名称"
         
         local weakauras_newgroup_button = fw:CreateButton(f, create_wa_group, 106, 20, "Create Group")
         weakauras_newgroup_button:SetTemplate(slider_template)
@@ -2580,7 +2580,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
             if (addon == "WA") then
                 _detalhes:CreateWeakAura (aura_type_value, spellid, use_spellId, spellname, name, icon, target, stacksize, sound, chat, icon_text, icon_glow, eid, folder, iconsize, f.other_values, incombat, iscooldown)
             else
-                _detalhes:Msg("No Aura Addon selected. Addons currently supported: WeakAuras 2.")
+                _detalhes:Msg("没有选择光环插件. 目前支持的插件: WeakAuras 2.")
             end
             
             f:Hide()
@@ -2641,7 +2641,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
             local trigger = f.AuraOnDropdown.value
             
             f.StackSlider:Enable()
-            f.StackSlider.tooltip = "Minimum amount of stacks to trigger the aura."
+            f.StackSlider.tooltip = "触发光环的最低层数."
             f.StackSlider:SetValue(0)
             f.SpellName:Enable()
             f.UseSpellId:Enable()
@@ -2655,39 +2655,39 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
             f.AuraOnDropdown:Enable()
             f.AuraText:Enable()
             f.AuraText:SetText("")
-            aura_text_label.text = "Aura Text: "
+            aura_text_label.text = "光环文字: "
             f.UseGlow:Enable()
             f.IsCooldown:Enable()
             
             if (aura_type == "icon") then
-                aura_text_label:SetText("Icon Text: ")
-                icon_size_label:SetText("Width/Height: ")
+                aura_text_label:SetText("图标文字: ")
+                icon_size_label:SetText("宽度/高度: ")
                 f.IconSizeSlider:SetValue(64)
                 
             elseif (aura_type == "text") then
-                aura_text_label:SetText("Text: ")
-                icon_size_label:SetText("Font Size: ")
+                aura_text_label:SetText("文字: ")
+                icon_size_label:SetText("字体大小: ")
                 f.IconSizeSlider:SetValue(12)
                 f.IsCooldown:Disable()
                 
             elseif (aura_type == "aurabar") then
-                aura_text_label:SetText("Left Text: ")
-                icon_size_label:SetText("Bar Width: ")
+                aura_text_label:SetText("左文字: ")
+                icon_size_label:SetText("条宽度: ")
                 f.IconSizeSlider:SetValue(250)
                 f.IsCooldown:Disable()
             end
 
             if (trigger >= 1 and trigger <= 19) then --buff and debuff
-                stack_label:SetText("Trigger Stack Size: ")
+                stack_label:SetText("触发层数尺寸: ")
             
             elseif (trigger >= 20 and trigger <= 29) then --cast end cast start
-                stack_label:SetText("Cast Duration: ")
+                stack_label:SetText("施法时间: ")
                 f.StackSlider:SetValue(2)
             
             elseif (trigger >= 30 and trigger <= 39) then --boss mods
-                stack_label:SetText("Trigger Remaining Time:")
+                stack_label:SetText("触发剩余时间:")
                 f.StackSlider:SetValue(4)
-                f.StackSlider.tooltip = "Will trigger when the bar remaining time reach this value."
+                f.StackSlider.tooltip = "当条的剩余时间达到该值时将触发."
                 f.IconSizeSlider:SetValue(64)
                 f.SpellName:Disable()
                 f.UseSpellId:Disable()
@@ -2704,14 +2704,14 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
                 f.SaySomething:Disable()
                 f.IconButton:Disable()
                 f.UseGlow:Disable()
-                icon_size_label:SetText("Text Size: ")
+                icon_size_label:SetText("文字大小: ")
                 f.IconSizeSlider:SetValue(11)
                 if (trigger == 41) then
-                    f.AuraText:SetText("=Not Interrupted!=")
+                    f.AuraText:SetText("=未被打断!=")
                     aura_text_label.text = "Not Interrupted: "
                 elseif (trigger == 42) then
-                    f.AuraText:SetText(DetailsAuraPanel.name.text:gsub("%(d!%)", "") .. "Dispels")
-                    aura_text_label.text = "Title Text: "
+                    f.AuraText:SetText(DetailsAuraPanel.name.text:gsub("%(d!%)", "") .. "驱散")
+                    aura_text_label.text = "标题文字: "
                 end
             end
             
@@ -2731,7 +2731,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
     
     DetailsAuraPanel.WeakaurasFolderDropdown:Refresh()
     if (encounterid) then
-        DetailsAuraPanel.WeakaurasFolderDropdown:Select("Details! Aura Group")
+        DetailsAuraPanel.WeakaurasFolderDropdown:Select("Details! 光环组")
         DetailsAuraPanel.IconSizeSlider:SetValue(128)
     else
         DetailsAuraPanel.WeakaurasFolderDropdown:Select(1, true)
@@ -2739,7 +2739,7 @@ function _detalhes:OpenAuraPanel (spellid, spellname, spellicon, encounterid, tr
     end
     
     if (DetailsAuraPanel.other_values.dbm_timer_id or DetailsAuraPanel.other_values.bw_timer_id) then
-        DetailsAuraPanel.WeakaurasFolderDropdown:Select("Details! Boss Mods Group")
+        DetailsAuraPanel.WeakaurasFolderDropdown:Select("Details! BOSS模组")
     end
     
     if (DetailsAuraPanel.other_values.text_size) then

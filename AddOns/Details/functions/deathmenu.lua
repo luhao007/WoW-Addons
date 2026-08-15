@@ -16,7 +16,7 @@ DetailsFramework:ApplyStandardBackdrop(detailsOnDeathMenu)
 detailsOnDeathMenu:SetAlpha(0.75)
 
 --disable text
-detailsOnDeathMenu.disableLabel = Details.gump:CreateLabel(detailsOnDeathMenu, "you can disable this at /details > Raid Tools", 9)
+detailsOnDeathMenu.disableLabel = Details.gump:CreateLabel(detailsOnDeathMenu, "可以通过以下方式禁用该功能 /details > 团队工具", 9)
 
 detailsOnDeathMenu.warningLabel = Details.gump:CreateLabel(detailsOnDeathMenu, "", 11)
 detailsOnDeathMenu.warningLabel.textcolor = "red"
@@ -31,7 +31,7 @@ end)
 
 function detailsOnDeathMenu.OpenEncounterBreakdown()
 	if (not Details:GetPlugin ("DETAILS_PLUGIN_ENCOUNTER_DETAILS")) then
-		detailsOnDeathMenu.warningLabel.text = "Encounter Breakdown plugin is disabled! Please enable it in the Addon Control Panel."
+		detailsOnDeathMenu.warningLabel.text = "BOSS战明细插件被禁用! 请在插件控制面板中启用它."
 		detailsOnDeathMenu.warningLabel:Show()
 		C_Timer.After(5, function()
 			detailsOnDeathMenu.warningLabel:Hide()
@@ -44,7 +44,7 @@ end
 
 function detailsOnDeathMenu.OpenPlayerEndurance()
 	if (not Details:GetPlugin ("DETAILS_PLUGIN_DEATH_GRAPHICS")) then
-		detailsOnDeathMenu.warningLabel.text = "Advanced Death Logs plugin is disabled! Please enable it (or download) in the Addon Control Panel."
+		detailsOnDeathMenu.warningLabel.text = "高级死亡日志插件被禁用! 请在插件控制面板中启用(或下载)."
 		detailsOnDeathMenu.warningLabel:Show()
 		C_Timer.After(5, function()
 			detailsOnDeathMenu.warningLabel:Hide()
@@ -106,7 +106,7 @@ function detailsOnDeathMenu.OpenPlayerSpells()
 end
 
 --encounter breakdown button
-detailsOnDeathMenu.breakdownButton = Details.gump:CreateButton(detailsOnDeathMenu, detailsOnDeathMenu.OpenEncounterBreakdown, 120, 20, "Encounter Breakdown", "breakdownButton")
+detailsOnDeathMenu.breakdownButton = Details.gump:CreateButton(detailsOnDeathMenu, detailsOnDeathMenu.OpenEncounterBreakdown, 120, 20, "BOSS战明细", "breakdownButton")
 detailsOnDeathMenu.breakdownButton:SetTemplate(Details.gump:GetTemplate("button", "DETAILS_PLUGINPANEL_BUTTON_TEMPLATE"))
 detailsOnDeathMenu.breakdownButton:SetPoint("topleft", detailsOnDeathMenu, "topleft", 5, -5)
 detailsOnDeathMenu.breakdownButton:Hide()
@@ -115,18 +115,19 @@ detailsOnDeathMenu.breakdownButton.CoolTip = {
 	Type = "tooltip",
 	BuildFunc = function()
 		GameCooltip2:Preset(2)
-		GameCooltip2:AddLine("Show a panel with:")
-		GameCooltip2:AddLine("- Player Damage Taken")
-		GameCooltip2:AddLine("- Damage Taken by Spell")
-		GameCooltip2:AddLine("- Enemy Damage Taken")
-		GameCooltip2:AddLine("- Player Deaths")
-		GameCooltip2:AddLine("- Interrupts and Dispels")
-		GameCooltip2:AddLine("- Damage Done Chart")
-		GameCooltip2:AddLine("- Damage Per Phase")
-		GameCooltip2:AddLine("- Weakauras Tool")
+		GameCooltip2:AddLine("显示一个面板:")
+		GameCooltip2:AddLine("- 玩家受到的伤害")
+		GameCooltip2:AddLine("- 法术伤害")
+		GameCooltip2:AddLine("- 敌人受到的伤害")
+		GameCooltip2:AddLine("- 玩家死亡")
+		GameCooltip2:AddLine("- 打断和驱散")
+		GameCooltip2:AddLine("- 打断和驱散")
+		GameCooltip2:AddLine("- 伤害表格")
+		GameCooltip2:AddLine("- 每阶段伤害")
+		GameCooltip2:AddLine("- Weakauras工具")
 		
 		if (not Details:GetPlugin ("DETAILS_PLUGIN_ENCOUNTER_DETAILS")) then
-			GameCooltip2:AddLine("Encounter Breakdown plugin is disabled in the Addon Control Panel.", "", 1, "red")
+			GameCooltip2:AddLine("BOSS战明细插件在插件控制面板中被禁用.", "", 1, "red")
 		end
 		
 	end, --called when user mouse over the frame
@@ -150,7 +151,7 @@ detailsOnDeathMenu.breakdownButton.CoolTip = {
 GameCooltip2:CoolTipInject (detailsOnDeathMenu.breakdownButton)
 
 --player endurance button
-detailsOnDeathMenu.enduranceButton = Details.gump:CreateButton(detailsOnDeathMenu, detailsOnDeathMenu.OpenPlayerEndurance, 120, 20, "Player Endurance", "enduranceButton")
+detailsOnDeathMenu.enduranceButton = Details.gump:CreateButton(detailsOnDeathMenu, detailsOnDeathMenu.OpenPlayerEndurance, 120, 20, "玩家耐久度", "enduranceButton")
 detailsOnDeathMenu.enduranceButton:SetTemplate(Details.gump:GetTemplate("button", "DETAILS_PLUGINPANEL_BUTTON_TEMPLATE"))
 detailsOnDeathMenu.enduranceButton:SetPoint("topleft", detailsOnDeathMenu.breakdownButton, "topright", 2, 0)
 detailsOnDeathMenu.enduranceButton:Hide()
@@ -159,15 +160,15 @@ detailsOnDeathMenu.enduranceButton.CoolTip = {
 	Type = "tooltip",
 	BuildFunc = function()
 		GameCooltip2:Preset(2)
-		GameCooltip2:AddLine("Open Player Endurance Breakdown")
+		GameCooltip2:AddLine("打开玩家耐久度明细")
 		GameCooltip2:AddLine("")
-		GameCooltip2:AddLine("Player endurance is calculated using the amount of player deaths.")
-		GameCooltip2:AddLine("By default the plugin register the three first player deaths on each encounter to calculate who is under performing.")
+		GameCooltip2:AddLine("玩家的耐久度是用玩家的死亡数量来计算的.")
+		GameCooltip2:AddLine("默认情况下插件会在每次战斗时登记前三个玩家的死亡情况以计算谁的表现不佳.")
 		
 		--GameCooltip2:AddLine(" ")
 		
 		if (not Details:GetPlugin ("DETAILS_PLUGIN_DEATH_GRAPHICS")) then
-			GameCooltip2:AddLine("Advanced Death Logs plugin is disabled or not installed, check the Addon Control Panel or download it from the Curseforge APP.", "", 1, "red")
+			GameCooltip2:AddLine("高级死亡日志插件被禁用或未安装请检查插件控制面板或从Curseforge APP下载.", "", 1, "red")
 		end
 
 	end, --called when user mouse over the frame
@@ -191,7 +192,7 @@ detailsOnDeathMenu.enduranceButton.CoolTip = {
 GameCooltip2:CoolTipInject (detailsOnDeathMenu.enduranceButton)
 
 --spells
-detailsOnDeathMenu.spellsButton = Details.gump:CreateButton(detailsOnDeathMenu, detailsOnDeathMenu.OpenPlayerSpells, 48, 20, "Spells", "SpellsButton")
+detailsOnDeathMenu.spellsButton = Details.gump:CreateButton(detailsOnDeathMenu, detailsOnDeathMenu.OpenPlayerSpells, 48, 20, "法术", "SpellsButton")
 detailsOnDeathMenu.spellsButton:SetTemplate(Details.gump:GetTemplate("button", "DETAILS_PLUGINPANEL_BUTTON_TEMPLATE"))
 detailsOnDeathMenu.spellsButton:SetPoint("topleft", detailsOnDeathMenu.enduranceButton, "topright", 2, 0)
 detailsOnDeathMenu.spellsButton:Hide()
@@ -200,7 +201,7 @@ detailsOnDeathMenu.spellsButton.CoolTip = {
 	Type = "tooltip",
 	BuildFunc = function()
 		GameCooltip2:Preset(2)
-		GameCooltip2:AddLine("Open your player Details! breakdown.")
+		GameCooltip2:AddLine("打开你的玩家Details! 明细.")
 		
 	end, --called when user mouse over the frame
 	OnEnterFunc = function(self) 

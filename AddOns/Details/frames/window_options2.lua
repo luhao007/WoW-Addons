@@ -55,7 +55,7 @@ function Details222.OptionsPanel.InitializeOptionsWindow(instance)
     
 
 	optionsFrame.Frame = optionsFrame
-	optionsFrame.__name = "Options"
+	optionsFrame.__name = "选项"
 	optionsFrame.real_name = "DETAILS_OPTIONS"
 	optionsFrame.__icon = [[Interface\Scenarios\ScenarioIcon-Interact]]
     _G.DetailsPluginContainerWindow.EmbedPlugin(optionsFrame, optionsFrame, true)
@@ -331,12 +331,12 @@ function Details222.OptionsPanel.InitializeOptionsWindow(instance)
         [11] = Loc ["STRING_OPTIONSMENU_DATAFEED"],
 
         [14] = Loc ["STRING_OPTIONSMENU_RAIDTOOLS"],
-        [15] = "Broadcaster Tools",
+        [15] = "广播工具",
         [16] = Loc ["STRING_OPTIONSMENU_SPELLS"],
         [17] = Loc ["STRING_OPTIONSMENU_DATACHART"],
-        [18] = "Mythic Dungeon",
-        [19] = "Search Results",
-        [20] = "Combat Log",
+        [18] = "史诗地下城",
+        [19] = "搜索结果",
+        [20] = "战斗日志",
     }
 
     local optionsSectionsOrder = {

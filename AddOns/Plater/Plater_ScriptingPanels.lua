@@ -483,12 +483,12 @@ end
 				end
 				
 				if promptToOverwrite then
-					DF:ShowPromptPanel ("This Mod/Script already exists. Do you want to overwrite it?\nClicking 'No' will create a copy instead.\nTo cancel close this window with the 'x'.", function() do_script_or_hook_import (text, scriptType, false) end, function() do_script_or_hook_import (text, scriptType, true) end, true, 550)
+					DF:ShowPromptPanel ("该模组/脚本已经存在. 你想覆盖它吗?\n点击 '否' 将创建一个副本.\n取消请用'x'关闭这个窗口.", function() do_script_or_hook_import (text, scriptType, false) end, function() do_script_or_hook_import (text, scriptType, true) end, true, 550)
 				else
 					do_script_or_hook_import (text, scriptType, true)
 				end
 			else
-				Plater:Msg ("Cannot import: data imported is invalid")
+				Plater:Msg ("无法导入: 导入数据无效")
 			end
 		end
 	end
@@ -688,7 +688,7 @@ end
 					
 					--check if the user in importing a profile
 					if (decompressedTable.plate_config) then
-						--DF:ShowErrorMessage ("Profiles are currently not supported.") --TODO! :D
+						--DF:ShowErrorMessage ("目前不支持配置文件.") --TODO! :D
 						
 						local profile = decompressedTable
 						local profileName = update.Name
@@ -736,12 +736,12 @@ end
 					end
 					
 					if promptToOverwrite then
-						DF:ShowPromptPanel ("This Mod/Script already exists. Do you want to overwrite it?\nClicking 'No' will create a copy instead.\nTo cancel close this window with the 'x'.", function() do_script_or_hook_import (encoded, scriptType, false) end, function() do_script_or_hook_import (encoded, scriptType, true) end, true, 550)
+						DF:ShowPromptPanel ("该模组/脚本已经存在. 你想覆盖它吗?\n点击 '否' 将创建一个副本.\n取消请用'x'关闭这个窗口.", function() do_script_or_hook_import (encoded, scriptType, false) end, function() do_script_or_hook_import (encoded, scriptType, true) end, true, 550)
 					else
 						do_script_or_hook_import (encoded, scriptType, true)
 					end
 				else
-					Plater:Msg ("Cannot import: data imported is invalid")
+					Plater:Msg ("无法导入: 导入数据无效")
 				end
 			end
 			
@@ -761,7 +761,7 @@ end
 			
 			local newScriptObject = { -- Dummy data --~prototype ~new ~create ñew
 				Enabled = true,
-				Name = "New Mod",
+				Name = "新模组",
 				Icon = "",
 				Desc = "",
 				Author = "",
@@ -812,7 +812,7 @@ end
 			if not isAlreadyImported then
 				local newScriptObject = { -- Dummy data --~prototype ~new ~create ñew
 					Enabled = true,
-					Name = "New Mod",
+					Name = "新模组",
 					Icon = "",
 					Desc = "",
 					Author = "",
@@ -865,14 +865,14 @@ end
 		end
 		
 		if not silent and (countMods > 0 or countScripts > 0) then
-			Plater:Msg ("There are " .. countMods .. " new mod and " .. countScripts .. " new script updates available from wago.io.")
+			Plater:Msg ("有" .. countMods .. "个新模组和" .. countScripts .. "新脚本可以从wago.io提供更新.")
 		end
 		
 		local hasProfileUpdate = false
 		if has_wago_update(Plater.db.profile) then
 			hasProfileUpdate = true
 			if not silent then
-				Plater:Msg ("Your current profile has an update available from wago.io.")
+				Plater:Msg ("你当前的配置在wago.io上有一个更新可用.")
 			end
 		end
 		
@@ -898,7 +898,7 @@ end
 		
 		elseif (option == "sendtogroup") then
 			if (not IsInGroup()) then
-				Plater:Msg ("You need to be in a group to use this export option.")
+				Plater:Msg ("你需要在一个组中才能使用此导出选项.")
 				return
 			end
 			Plater.ExportScriptToGroup (scriptId, mainFrame.ScriptType)
@@ -1035,57 +1035,57 @@ end
 				--GameCooltip:AddMenu (1, onclick_menu_scroll_line, "remove", mainFrame)
 				--GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\icons]], 1, 1, 16, 16, 3/512, 21/512, 235/512, 257/512)
 				
-				GameCooltip:AddLine ("Import")
+				GameCooltip:AddLine ("导入")
 				GameCooltip:AddMenu (1, onclick_menu_scroll_line, mainFrame.ScriptType, mainFrame)
 				GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\wagologo.tga]], 1, 1, 16, 10)
 				
-				GameCooltip:AddLine ("Copy Wago.io URL")
+				GameCooltip:AddLine ("复制 Wago.io URL")
 				GameCooltip:AddMenu (1, onclick_menu_scroll_line, "url", scriptObject.url)
 				GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\wagologo.tga]], 1, 1, 16, 10)
 			
 			else
 				-- script/mod tab
-				GameCooltip:AddLine ("Edit Script")
+				GameCooltip:AddLine ("编辑脚本")
 				GameCooltip:AddMenu (1, onclick_menu_scroll_line, "editscript", mainFrame)
 				GameCooltip:AddIcon ([[Interface\BUTTONS\UI-GuildButton-PublicNote-Up]], 1, 1, 16, 16)
 				
-				GameCooltip:AddLine ("Duplicate")
+				GameCooltip:AddLine ("重复")
 				GameCooltip:AddMenu (1, onclick_menu_scroll_line, "duplicate", mainFrame)
 				GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\icons]], 1, 1, 16, 16, 3/512, 21/512, 215/512, 233/512)
 
-				GameCooltip:AddLine ("Export")
+				GameCooltip:AddLine ("导出")
 				GameCooltip:AddIcon ([[Interface\BUTTONS\UI-GuildButton-MOTD-Up]], 1, 1, 16, 16, 1, 0, 0, 1)
 				
-				GameCooltip:AddLine ("As a Text String", "", 2)
+				GameCooltip:AddLine ("作为一个字符串文本", "", 2)
 				GameCooltip:AddIcon ([[Interface\BUTTONS\UI-GuildButton-MOTD-Up]], 2, 1, 16, 16, 1, 0, 0, 1)
 				GameCooltip:AddMenu (2, onclick_menu_scroll_line, "export", mainFrame)
 
-				GameCooltip:AddLine ("Send to Your Party/Raid", "", 2)
+				GameCooltip:AddLine ("发送到你的 队伍/团队", "", 2)
 				GameCooltip:AddIcon ([[Interface\BUTTONS\UI-GuildButton-MOTD-Up]], 2, 1, 16, 16, 1, 0, 0, 1)
 				GameCooltip:AddMenu (2, onclick_menu_scroll_line, "sendtogroup", mainFrame)
 
 				if (mainFrame:GetName():find("Scripting")) then
 					GameCooltip:AddLine("$div", "$div", 2)
-					GameCooltip:AddLine("Export Triggers as Array", "", 2)
+					GameCooltip:AddLine("将触发器导出为数组", "", 2)
 					GameCooltip:AddIcon([[Interface\BUTTONS\UI-GuildButton-MOTD-Up]], 2, 1, 16, 16, 1, 0, 0, 1)
 					GameCooltip:AddMenu(2, onclick_menu_scroll_line, "exporttriggers", mainFrame)
 				end
 
 				if (mainFrame:GetName():find("Scripting")) then
 					GameCooltip:AddLine("$div", "$div", 2)
-					GameCooltip:AddLine("Export Table (debug)", "", 2)
+					GameCooltip:AddLine("导出表 (debug)", "", 2)
 					GameCooltip:AddIcon([[Interface\BUTTONS\UI-GuildButton-MOTD-Up]], 2, 1, 16, 16, 1, 0, 0, 1)
 					GameCooltip:AddMenu(2, onclick_menu_scroll_line, "exportastable", mainFrame)
 				end
 				
-				GameCooltip:AddLine ("Remove")
+				GameCooltip:AddLine ("移除")
 				GameCooltip:AddMenu (1, onclick_menu_scroll_line, "remove", mainFrame)
 				GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\icons]], 1, 1, 16, 16, 3/512, 21/512, 235/512, 257/512)
 
 				if (scriptObject.url) then
 					GameCooltip:AddLine ("$div")
 				
-					GameCooltip:AddLine ("Copy Wago.io URL")
+					GameCooltip:AddLine ("复制 Wago.io URL")
 					GameCooltip:AddMenu (1, onclick_menu_scroll_line, "url", scriptObject.url)
 					GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\wagologo.tga]], 1, 1, 16, 10)
 				
@@ -1094,33 +1094,33 @@ end
 					local companionVersion = wago_update and tonumber(wago_update.wagoVersion) or nil
 					
 					if (has_update) then
-						GameCooltip:AddLine ("Update from Wago.io")
+						GameCooltip:AddLine ("来自Wago.io的更新")
 						GameCooltip:AddMenu (1, onclick_menu_scroll_line, "wago_update", mainFrame)
 						GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\wagologo.tga]], 1, 1, 16, 10)
 					end
 					
 					if (scriptObject.skipWagoUpdate and wago_update) or has_update then
 						if scriptObject.skipWagoUpdate or companionVersion and scriptObject.skipWagoUpdate == companionVersion then
-							GameCooltip:AddLine ("Don't skip this version")
+							GameCooltip:AddLine ("不要跳过此版本")
 							GameCooltip:AddMenu (1, onclick_menu_scroll_line, "dont_skip_wago_update", mainFrame)
 						else
-							GameCooltip:AddLine ("Skip this version")
+							GameCooltip:AddLine ("跳过此版本")
 							GameCooltip:AddMenu (1, onclick_menu_scroll_line, "skip_wago_update", mainFrame)
 						end
 						GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\wagologo.tga]], 1, 1, 16, 10)
 					end
 					
 					if scriptObject.ignoreWagoUpdate then
-						GameCooltip:AddLine ("Don't ignore Wago Updates")
+						GameCooltip:AddLine ("不要忽略 Wago 更新")
 						GameCooltip:AddMenu (1, onclick_menu_scroll_line, "dont_ignore_wago_update", mainFrame)
 					else
-						GameCooltip:AddLine ("Ignore Wago Updates")
+						GameCooltip:AddLine ("忽略 Wago 更新")
 						GameCooltip:AddMenu (1, onclick_menu_scroll_line, "ignore_wago_update", mainFrame)
 					end
 					GameCooltip:AddIcon ([[Interface\AddOns\Plater\images\wagologo.tga]], 1, 1, 16, 10)
 					
 				else
-					GameCooltip:AddLine ("no wago.io url found", "", 1, "gray")
+					GameCooltip:AddLine ("没有找到wago.io的网址", "", 1, "gray")
 				end
 			end
 			
@@ -1179,24 +1179,24 @@ end
 		end
 
 		if lastEdited then
-			GameCooltip:AddLine ("Last Edited:", lastEdited)
+			GameCooltip:AddLine ("最后修改:", lastEdited)
 		end
 		
 		local scriptTypeName = mainFrame.GetScriptTriggerTypeName (scriptObject.ScriptType)
-		GameCooltip:AddLine ("Trigger Type:", scriptTypeName)
+		GameCooltip:AddLine ("触发类型:", scriptTypeName)
 		
-		GameCooltip:AddLine ("Author:", scriptObject.Author or "--x--x--")
+		GameCooltip:AddLine ("作者:", scriptObject.Author or "--x--x--")
 
 		if (scriptObject.url and scriptObject.url ~= "") then
 			GameCooltip:AddLine (scriptObject.url, "", 1, "gold")
 			if (scriptObject.semver and scriptObject.semver ~= "") then
-				GameCooltip:AddLine ("Wago-Version", scriptObject.semver, 1, "gold")
+				GameCooltip:AddLine ("Wago-版本", scriptObject.semver, 1, "gold")
 			end
 			if (scriptObject.version and scriptObject.version > 0) then
-				GameCooltip:AddLine ("Wago-Revision", scriptObject.version, 1, "gold")
+				GameCooltip:AddLine ("Wago-修订版", scriptObject.version, 1, "gold")
 			end
 		else
-			GameCooltip:AddLine ("no wago.io url found", "", 1, "gray")
+			GameCooltip:AddLine ("没有找到wago.io地址", "", 1, "gray")
 		end
 		
 		if (scriptObject.Desc and scriptObject.Desc ~= "") then
@@ -1393,12 +1393,12 @@ end
 		local importTooltipText = "" --text when hover over the import button
 		
 		if (scriptDB == "script") then
-			buttonText = "New Script"
-			importTooltipText = "Import Script"
+			buttonText = "新脚本"
+			importTooltipText = "导入脚本"
 			
 		elseif (scriptDB == "hook") then
-			buttonText = "New Mod"
-			importTooltipText = "Import Mod"
+			buttonText = "新模组"
+			importTooltipText = "导入模组"
 		end
 		
 		--create new script script button, it does use the width of the scrollbox to select a created script	
@@ -1439,14 +1439,14 @@ end
 			
 			if (#data == 0) then
 				GameCooltip:SetType ("tooltip")
-				GameCooltip:AddLine ("Recycle Bin", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
-				GameCooltip:AddLine ("All deleted scripts are moved to here for 30 days where they can be restored during this period")
+				GameCooltip:AddLine ("回收站", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+				GameCooltip:AddLine ("所有已删除的脚本将被移动到此处, 30天内你可以恢复它")
 			else
 				for i = 1, #data do
 					local scriptObject = data [i]
 					local age = timeToday - scriptObject.__TrashAt
 
-					GameCooltip:AddLine (scriptObject.Name, floor (age/60/60/24) .. " days")
+					GameCooltip:AddLine (scriptObject.Name, floor (age/60/60/24) .. " 天")
 					GameCooltip:AddIcon (scriptObject.Icon  ~= "" and scriptObject.Icon or [[Interface\ICONS\INV_Misc_QuestionMark]], 1, 1, 20, 20)
 					GameCooltip:AddMenu (1, restore_from_trashcan, i)
 				end
@@ -1474,7 +1474,7 @@ end
 			GameCooltip:SetOwner  (import_script_button.widget)
 			
 			GameCooltip:AddLine (importTooltipText, "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
-			GameCooltip:AddLine ("Visit http://wago.io for more scripts, mods and profiles.")
+			GameCooltip:AddLine ("访问 http://wago.io 获取更多脚本, 模组和配置.")
 			
 			GameCooltip:Show()
 		end)	
@@ -1491,8 +1491,8 @@ end
 	
 	local create_script_scroll = function (mainFrame)
 		--scroll panel to select which script to edit
-		local script_scrollbox_label = DF:CreateLabel (mainFrame, "Scripts", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
-		local enabled_scrollbox_label = DF:CreateLabel (mainFrame, "Enabled", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local script_scrollbox_label = DF:CreateLabel (mainFrame, "脚本", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local enabled_scrollbox_label = DF:CreateLabel (mainFrame, "启用", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		
 		mainFrame.ScriptScrollLabel = script_scrollbox_label
 		mainFrame.ScriptEnabledLabel = enabled_scrollbox_label
@@ -1533,14 +1533,14 @@ end
 		end
 		script_search_textentry:SetHook ("OnChar", mainFrame.OnSearchBoxTextChanged)
 		script_search_textentry:SetHook ("OnTextChanged", mainFrame.OnSearchBoxTextChanged)
-		local script_search_label = DF:CreateLabel (mainFrame, "Search:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local script_search_label = DF:CreateLabel (mainFrame, "搜索:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		script_search_label:SetPoint ("bottomleft", script_search_textentry, "topleft", 0, 2)	
 	
 	end
 	
 	local create_script_namedesc = function (mainFrame, parent)
 		--textentry to insert the name of the script
-		local script_name_label = DF:CreateLabel (parent, "Script Name:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local script_name_label = DF:CreateLabel (parent, "脚本名:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		local script_name_textentry = DF:CreateTextEntry (parent, function()end, 156, 20, "ScriptNameTextEntry", _, _, options_dropdown_template)
 		script_name_textentry:SetPoint ("topleft", script_name_label, "bottomleft", 0, -2)
 		mainFrame.ScriptNameTextEntry = script_name_textentry
@@ -1550,29 +1550,29 @@ end
 			mainFrame.ScriptIconButtonTexture = texture
 			mainFrame.ScriptIconButton:SetIcon (texture)
 		end
-		local script_icon_label = DF:CreateLabel (parent, "Icon:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local script_icon_label = DF:CreateLabel (parent, "图标:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		local script_icon_button = DF:CreateButton (parent, function() DF:IconPick (script_icon_callback, true) end, 20, 20, "", 0, nil, nil, nil, nil, nil, options_button_template)
 		script_icon_button:SetPoint ("topleft", script_icon_label, "bottomleft", 0, -2)
 		mainFrame.ScriptIconButton = script_icon_button
 	
 		--description
-		local script_desc_label = DF:CreateLabel (parent, "Description:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local script_desc_label = DF:CreateLabel (parent, "描述:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		local script_desc_textentry = DF:CreateTextEntry (parent, function()end, 191, 20, "ScriptDescriptionTextEntry", _, _, options_dropdown_template)
 		script_desc_textentry:SetPoint ("topleft", script_desc_label, "bottomleft", 0, -2)
 		mainFrame.ScriptDescTextEntry = script_desc_textentry
 		
 		--priority
-		local script_prio_label = DF:CreateLabel (parent, "Priority:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local script_prio_label = DF:CreateLabel (parent, "优先级:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		local script_prio_entry = DF:CreateSlider (parent, 191, 20, 1, 99, 1, 99, false, "ScriptPrioritySlider", _, _, options_slider_template, _)
 		script_prio_entry:SetPoint ("topleft", script_prio_label, "bottomleft", 0, -2)
-		script_prio_entry.tooltip = "Lower number -> higher priority.\nHigher priority runs before lower priority.\nRight Click to Type the Value"
+		script_prio_entry.tooltip = "数值越小 -> 优先级越高.\n高优先级模块优先于低优先级执行.\n右键点击可输入数值"
 		mainFrame.ScriptPrioSlideEntry = script_prio_entry
 
 		--options button
-		local scriptOptionButton = DF:CreateButton (parent, function() Plater.RefreshUserScriptOptions(mainFrame) end, 170, 20, "Options", 0, nil, nil, nil, nil, nil, options_button_template)
+		local scriptOptionButton = DF:CreateButton (parent, function() Plater.RefreshUserScriptOptions(mainFrame) end, 170, 20, "选项", 0, nil, nil, nil, nil, nil, options_button_template)
 		local scriptOptionButtonAdmin = DF:CreateButton (parent, function() Plater.RefreshAdminScriptOptions(mainFrame) end, 20, 20, "", 0, nil, nil, nil, nil, nil, options_button_template)
-		scriptOptionButton.tooltip = "Show options for this script or mod"
-		scriptOptionButtonAdmin.tooltip = "Build or edit the options panel for this script or mod"
+		scriptOptionButton.tooltip = "显示该脚本或模组的选项"
+		scriptOptionButtonAdmin.tooltip = "为这个脚本或模组建立或编辑选项面板"
 		scriptOptionButtonAdmin:SetIcon ([[Interface\BUTTONS\UI-OptionsButton]], 18, 18, "overlay", false, false, 0, -3, 0, false)
 		scriptOptionButton:SetPoint("topleft", script_prio_entry, "bottomleft", 0, -5) --position
 		scriptOptionButtonAdmin:SetPoint("left", scriptOptionButton, "right", 1, 0)
@@ -1606,16 +1606,16 @@ end
 		mainFrame.ImportTextEditor = import_text_editor
 		
 		--import info
-		local info_import_label = DF:CreateLabel (import_text_editor, "IMPORT INFO:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local info_import_label = DF:CreateLabel (import_text_editor, "导入信息:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		info_import_label:SetPoint ("bottomleft", import_text_editor, "topleft", 0, 2)
 		mainFrame.ImportTextEditor.TextInfo = info_import_label
 		
 		--import button
-		local okay_import_button = DF:CreateButton (import_text_editor, mainFrame.ImportScript, buttons_size[1], buttons_size[2], "Okay", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		local okay_import_button = DF:CreateButton (import_text_editor, mainFrame.ImportScript, buttons_size[1], buttons_size[2], "确定", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 		okay_import_button:SetIcon ([[Interface\BUTTONS\UI-Panel-BiggerButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
 	
 		--cancel button
-		local cancel_import_button = DF:CreateButton (import_text_editor, function() mainFrame.ImportTextEditor:Hide() end, buttons_size[1], buttons_size[2], "Cancel", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		local cancel_import_button = DF:CreateButton (import_text_editor, function() mainFrame.ImportTextEditor:Hide() end, buttons_size[1], buttons_size[2], "取消", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 		cancel_import_button:SetIcon ([[Interface\BUTTONS\UI-Panel-MinimizeButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
 		
 		import_text_editor.OkayButton = okay_import_button
@@ -1660,7 +1660,7 @@ end
 			local t = {}
 			for i = 1, #Plater.APIList do 
 				local api = Plater.APIList [i]
-				t [#t + 1] = {label = api.Name, value = i, onclick = on_select_FW_option, desc = "Signature:\n|cFFFFFF00" .. api.Signature .. "|r\n\n" .. api.Desc, tooltipwidth = 300}
+				t [#t + 1] = {label = api.Name, value = i, onclick = on_select_FW_option, desc = "签名:\n|cFFFFFF00" .. api.Signature .. "|r\n\n" .. api.Desc, tooltipwidth = 300}
 			end
 			return t
 		end
@@ -1703,7 +1703,7 @@ end
 				code_editor.editbox:SetCursorPosition (cursorPosition + argumentStart)
 				
 			else
-				Plater:Msg ("Invalid variable name.")
+				Plater:Msg ("变量名称无效.")
 			end
 		end
 		
@@ -1712,7 +1712,7 @@ end
 			
 			if (framework.AddVar) then
 				frameworkSelected = framework
-				DF:ShowTextPromptPanel ("Name the variable using letters, numbers and no spaces (e.g. myFlash, overlayTexture, animation1)", memberNameCallback)
+				DF:ShowTextPromptPanel ("用字母、数字和无空格来命名变量 (e.g. myFlash, overlayTexture, animation1)", memberNameCallback)
 			else
 				code_editor.editbox:Insert (framework.Signature)
 			end
@@ -1722,12 +1722,12 @@ end
 			local t = {}
 			for i = 1, #Plater.FrameworkList do 
 				local api = Plater.FrameworkList [i]
-				t [#t + 1] = {label = api.Name, value = i, onclick = on_select_FW_option, desc = "Signature:\n|cFFFFFF00" .. api.Signature .. "|r\n\n" .. api.Desc, tooltipwidth = 300}
+				t [#t + 1] = {label = api.Name, value = i, onclick = on_select_FW_option, desc = "签名:\n|cFFFFFF00" .. api.Signature .. "|r\n\n" .. api.Desc, tooltipwidth = 300}
 			end
 			return t
 		end
 		
-		local add_FW_label = DF:CreateLabel (parent, "Framework:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local add_FW_label = DF:CreateLabel (parent, "框架:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		local add_FW_dropdown = DF:CreateDropDown (parent, build_FW_dropdown_options, 1, 130, 20, "AddFWDropdown", _, options_dropdown_template)
 		mainFrame.AddFWDropdown = add_FW_dropdown
 		add_FW_dropdown:SetFrameStrata (code_editor:GetFrameStrata())
@@ -1797,23 +1797,23 @@ end
 		end)
 		
 		--apply button
-		local apply_script_button = DF:CreateButton (code_editor, mainFrame.ApplyScript, buttons_size[1], buttons_size[2], "Apply", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		local apply_script_button = DF:CreateButton (code_editor, mainFrame.ApplyScript, buttons_size[1], buttons_size[2], "申请", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 		apply_script_button:SetIcon ([[Interface\BUTTONS\UI-Panel-BiggerButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
 		apply_script_button:SetFrameLevel(code_editor:GetFrameLevel()+11)
 		
 		--save button
-		local save_script_button = DF:CreateButton (code_editor, mainFrame.SaveScript, buttons_size[1], buttons_size[2], "Save", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		local save_script_button = DF:CreateButton (code_editor, mainFrame.SaveScript, buttons_size[1], buttons_size[2], "保存", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 		save_script_button:SetIcon ([[Interface\BUTTONS\UI-Panel-ExpandButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
 		save_script_button.tooltip = "While editing, you may use:\n\n|cFFFFFF00SHIFT + Enter|r: save the script, apply the changes and don't lose the focus on the editor.\n\n|cFFFFFF00CTRL + Enter|r: save the script and apply the changes."
 		save_script_button:SetFrameLevel(code_editor:GetFrameLevel()+11)
 		
 		--cancel button
-		local cancel_script_button = DF:CreateButton (code_editor, mainFrame.CancelEditing, buttons_size[1], buttons_size[2], "Cancel", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		local cancel_script_button = DF:CreateButton (code_editor, mainFrame.CancelEditing, buttons_size[1], buttons_size[2], "取消", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 		cancel_script_button:SetIcon ([[Interface\BUTTONS\UI-Panel-MinimizeButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
 		cancel_script_button:SetFrameLevel(code_editor:GetFrameLevel()+11)
 
 		--documentation icon
-		local docs_button = DF:CreateButton (code_editor, mainFrame.OpenDocs, buttons_size[1], buttons_size[2], "Docs", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		local docs_button = DF:CreateButton (code_editor, mainFrame.OpenDocs, buttons_size[1], buttons_size[2], "文档", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 		docs_button:SetIcon ([[Interface\BUTTONS\UI-GuildButton-PublicNote-Up]], 16, 16, "overlay", {0, 1, 0, 1})		
 		docs_button:SetFrameLevel(code_editor:GetFrameLevel()+11)
 
@@ -1920,13 +1920,13 @@ function Plater.CreateWagoPanel()
 	create_script_scroll (wagoStashFrame)
 	
 	
-	wagoSlugFrame.ScriptScrollLabel.text = "Updates/Imports"
+	wagoSlugFrame.ScriptScrollLabel.text = "更新/导入"
 	wagoSlugFrame.ScriptSearchTextEntry.widget:SetPoint ("topleft", wagoFrame, "topleft", 10, start_y - 10)
 	wagoSlugFrame.ScriptSelectionScrollBox:SetPoint ("topleft", wagoSlugFrame.ScriptSearchTextEntry.widget, "bottomleft", 0, -20)
 	wagoSlugFrame.ScriptScrollLabel:SetPoint ("bottomleft", wagoSlugFrame.ScriptSelectionScrollBox, "topleft", 0, 2)
 	wagoSlugFrame.ScriptEnabledLabel:Hide()
 	
-	wagoStashFrame.ScriptScrollLabel.text = "Stash"
+	wagoStashFrame.ScriptScrollLabel.text = "存储"
 	wagoStashFrame.ScriptSearchTextEntry.widget:SetPoint ("topleft", wagoSlugFrame.ScriptSearchTextEntry.widget, "topright", 20, 0)
 	wagoStashFrame.ScriptSelectionScrollBox:SetPoint ("topleft", wagoStashFrame.ScriptSearchTextEntry.widget, "bottomleft", 0, -20)
 	wagoStashFrame.ScriptScrollLabel:SetPoint ("bottomleft", wagoStashFrame.ScriptSelectionScrollBox, "topleft", 0, 2)
@@ -1935,10 +1935,10 @@ function Plater.CreateWagoPanel()
 	
 	
 	
-	local helpText = "The 'Updates/Imports' list contains all scripts, mods and profiles that are made available as update by the WeakAuras-Companion app or other wago.io updater tools." .. "\n\n"
-	helpText = helpText .. "The 'Stash' list contains content sent from wago.io to the client directly via 'Send to Desktop App'.".."\n\n"
-	helpText = helpText .. "The lists are sorted by 'updates' first." .. "\n\n"
-	helpText = helpText .. "Use the wago-icons for updates or the right-click menu to import." --localize me
+	local helpText = "'更新/导入'列表包含所有由WeakAuras-Companion应用程序或其他wago.io更新工具提供的脚本、模组和配置文件的更新." .. "\n\n"
+	helpText = helpText .. "'存储'列表包含从wago.io通过'发送到桌面应用程序'直接发送到客户端的内容.".."\n\n"
+	helpText = helpText .. "列表先按'更新'排序." .. "\n\n"
+	helpText = helpText .. "使用wago-icons进行更新或右键菜单进行导入." --localize me
 	local wagoTabInfoLabel = DF:CreateLabel (wagoStashFrame, helpText, DF:GetTemplate ("font", "PLATER_BUTTON"))
 	wagoTabInfoLabel.width = 200
 	--wagoTabInfoLabel.height = 80
@@ -1951,9 +1951,9 @@ function Plater.CreateWagoPanel()
 	importInfoLabel:SetPoint ("topleft", wagoStashFrame.ScriptSelectionScrollBox, "topright", 40, 40)
 	
 	local importInfoText = ""
-	importInfoText = importInfoText .. "Name: \n\n"
-	importInfoText = importInfoText .. "Import-Revision: \n"
-	importInfoText = importInfoText .. "Import-Version: \n\n"
+	importInfoText = importInfoText .. "名称: \n\n"
+	importInfoText = importInfoText .. "导入-修改: \n"
+	importInfoText = importInfoText .. "导入-版本: \n\n"
 	
 	local importInfo = DF:CreateLabel(wagoFrame, importInfoText, 10, "orange")
 	importInfo.width = 200
@@ -1986,7 +1986,7 @@ function Plater.CreateWagoPanel()
 		if (script) then
 			return script
 		else
-			Plater:Msg ("GetScriptObject could find the script id")
+			Plater:Msg ("GetScriptObject可以找到脚本的ID")
 			return
 		end
 	end
@@ -1995,7 +1995,7 @@ function Plater.CreateWagoPanel()
 		if (script) then
 			return script
 		else
-			Plater:Msg ("GetScriptObject could find the script id")
+			Plater:Msg ("GetScriptObject可以找到脚本的ID")
 			return
 		end
 	end
@@ -2006,14 +2006,14 @@ function Plater.CreateWagoPanel()
 		
 		local importInfoText = ""
 		if scriptObject then
-			importInfoText = importInfoText .. "Name: \n" .. scriptObject.FullName .. "\n\n"
-			importInfoText = importInfoText .. "Import-Revision: " .. scriptObject.version .. "\n"
-			importInfoText = importInfoText .. "Import-Version: " .. scriptObject.semver .. "\n"
+			importInfoText = importInfoText .. "名称: \n" .. scriptObject.FullName .. "\n\n"
+			importInfoText = importInfoText .. "导入-修改: " .. scriptObject.version .. "\n"
+			importInfoText = importInfoText .. "导入-版本: " .. scriptObject.semver .. "\n"
 			importInfoText = importInfoText .. (scriptObject.url or "")
 		else
-			importInfoText = importInfoText .. "Name: \n\n"
-			importInfoText = importInfoText .. "Import-Revision: \n"
-			importInfoText = importInfoText .. "Import-Version: \n\n"
+			importInfoText = importInfoText .. "名称: \n\n"
+			importInfoText = importInfoText .. "导入-修改: \n"
+			importInfoText = importInfoText .. "导入-版本: \n\n"
 		end
 		
 		wagoFrame.importInfoText:SetText(importInfoText)
@@ -2124,7 +2124,7 @@ function Plater.CreateHookingPanel()
 		if (script) then
 			return script
 		else
-			Plater:Msg ("GetScriptObject could find the script id")
+			Plater:Msg ("GetScriptObject可以找到脚本的ID")
 			return
 		end
 	end
@@ -2248,7 +2248,7 @@ function Plater.CreateHookingPanel()
 		hookFrame.ScriptSelectionScrollBox:Refresh()
 		
 		GameCooltip:Hide()
-		Plater:Msg ("Script moved to trash.")
+		Plater:Msg ("脚本被移至回收站.")
 		
 		--reload all scripts
 		Plater.WipeAndRecompileAllScripts (hookFrame.ScriptType)
@@ -2270,7 +2270,7 @@ function Plater.CreateHookingPanel()
 		tinsert (Plater.db.profile.hook_data, newScript)
 		hookFrame.ScriptSelectionScrollBox:Refresh()
 		
-		Plater:Msg ("Script duplicated!.")
+		Plater:Msg ("脚本重复!.")
 	end	
 	
 	--called from the context menu when right click an option in the script menu
@@ -2291,7 +2291,7 @@ function Plater.CreateHookingPanel()
 		hookFrame.ScriptOptionsPanelUser:Hide()
 
 		hookFrame.ImportTextEditor:SetText (encodedString)
-		hookFrame.ImportTextEditor.TextInfo.text = "Exporting '" .. scriptToBeExported.Name .. "'"
+		hookFrame.ImportTextEditor.TextInfo.text = "正在导出 '" .. scriptToBeExported.Name .. "'"
 		
 		--if there's anything being edited, start editing the script which is being exported
 		if (not hookFrame.GetCurrentScriptObject()) then
@@ -2325,7 +2325,7 @@ function Plater.CreateHookingPanel()
 		hookFrame.ImportTextEditor.IsImporting = true
 		hookFrame.ImportTextEditor.IsExporting = false
 		hookFrame.ImportTextEditor:SetFocus (true)
-		hookFrame.ImportTextEditor.TextInfo.text = "Paste the string:"
+		hookFrame.ImportTextEditor.TextInfo.text = "粘贴字符串:"
 	end
 	
 	--this is only called from the 'okay' button in the import text editor
@@ -2493,7 +2493,7 @@ function Plater.CreateHookingPanel()
 		--build the table of the new script
 		local newScriptObject = { --~prototype ~new ~create ñew
 			Enabled = true,
-			Name = "New Mod",
+			Name = "新模组",
 			Icon = "",
 			Desc = "",
 			Author = UnitName ("Player") .. "-" .. GetRealmName(),
@@ -2772,7 +2772,7 @@ function Plater.CreateHookingPanel()
 
 		--does this scriptObject has this hook?
 		if (scriptObject.Hooks [hookName]) then
-			self.AddedLabel:SetText ("ADDED")
+			self.AddedLabel:SetText ("增加")
 			self.RemoveButton:Show()
 			self:SetBackdropBorderColor (1, .6, 0, 0.5)
 			self.CanRemoveHook = true
@@ -2930,7 +2930,7 @@ function Plater.CreateHookingPanel()
 	end
 	
 	--scroll showing all hooks of the mod
-	local hookLabel = DF:CreateLabel (edit_script_frame, "Add Hooks:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+	local hookLabel = DF:CreateLabel (edit_script_frame, "增加钩子:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 	local hookScrollbox = DF:CreateScrollBox (edit_script_frame, "$parentHookScrollBox", refreshHookScrollBox, Plater.HookScripts, hookbox_size[1], hookbox_size[2], hook_scrollbox_lines, triggerbox_line_height)
 	hookScrollbox:SetPoint ("topleft", hookLabel.widget, "bottomleft", 0, -4)
 	hookScrollbox:SetBackdrop ({edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
@@ -2960,7 +2960,7 @@ function Plater.CreateHookingPanel()
 			DF:OpenLoadConditionsPanel (scriptObject.LoadConditions, onLoadConditionsChange, {title = "Hook Load Conditions", name = scriptObject.Name})
 		end
 	end
-	local loadConditionsButton = DF:CreateButton (edit_script_frame, openConditionsPanel, triggerbox_size[1], 20, "Load Conditions", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+	local loadConditionsButton = DF:CreateButton (edit_script_frame, openConditionsPanel, triggerbox_size[1], 20, "加载条件", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 	--add_trigger_button:SetIcon ([[Interface\BUTTONS\UI-PlusButton-Up]], 20, 20, "overlay", {0, 1, 0, 1})
 	loadConditionsButton:SetPoint ("top", hookScrollbox, "bottom", 0, -4)
 	hookFrame.LoadConditionsButton = loadConditionsButton
@@ -2971,7 +2971,7 @@ function Plater.CreateHookingPanel()
 	
 	--create the components button and cooltip
 		--api help small frame
-		local componentsButton = DF:CreateButton (hookFrame.CodeEditorLuaEntry, function() end, 100, 20, "Components", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		local componentsButton = DF:CreateButton (hookFrame.CodeEditorLuaEntry, function() end, 100, 20, "元件", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 		componentsButton:SetIcon ([[Interface\FriendsFrame\UI-FriendsList-Large-Up]], 16, 16, "overlay", {.2, .74, .27, .75}, nil, 4)
 		hookFrame.ComponentsButton = componentsButton
 
@@ -3002,7 +3002,7 @@ function Plater.CreateHookingPanel()
 			f:Show()
 		end
 		
-		local moreModsButton = DF:CreateButton (hookFrame.CodeEditorLuaEntry, getMoreModsFunc, 120, 20, "Get More Mods", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+		local moreModsButton = DF:CreateButton (hookFrame.CodeEditorLuaEntry, getMoreModsFunc, 120, 20, "获得更多模组", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 		moreModsButton:SetIcon ([[Interface\FriendsFrame\UI-FriendsList-Large-Up]], 16, 16, "overlay", {.2, .74, .27, .75}, nil, 4)
 		hookFrame.MoreModsButton = moreModsButton
 		hookFrame.MoreModsButton:SetPoint ("left", componentsButton, "right", 2, 0)
@@ -3017,7 +3017,7 @@ function Plater.CreateHookingPanel()
 			GameCooltip:SetOption ("TextSize", 11)
 			GameCooltip:SetOption ("FixedWidth", 300)
 			
-			GameCooltip:AddLine ("Nameplate Components", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+			GameCooltip:AddLine ("姓名板组件", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
 			
 			local backgroundAlpha = 0.2
 			
@@ -3036,8 +3036,8 @@ function Plater.CreateHookingPanel()
 			end
 			
 			GameCooltip:AddLine ("$div")
-			GameCooltip:AddLine ("Help")
-			GameCooltip:AddLine ("|cFFFFFF22unitFrame|r is where things are connected.\n\n|cFFFFFF22Members|r just store information, they are read-only.\n|cFFFFFF22Frames|r are widgets that can be textures, fontstrings, etc.\n\nTo access a widget from the unitFrame:\n|cFFFFFF22castBar|r: unitFrame.castBar\n|cFFFFFF22healthBar|r: unitFrame.healthBar\n\nExamples:\n|cFFFFFF22- |rTo know if a cast can be interrupted use 'unitFrame.castBar.CanInterrupt'\n|cFFFFFF22- |rTo get the fontString for the health amount use 'unitFrame.healthBar.lifePercent'.", "", 2)			
+			GameCooltip:AddLine ("帮助")
+			GameCooltip:AddLine ("|cFFFFFF22unitFrame|r是连接的地方.\n\n|cFFFFFF22Members|r只是存储信息, 它们是只读的.\n|cFFFFFF22Frames|r是可以成为材质、字体字符串等的部件.\n\n要从unitFrame访问一个部件:\n|cFFFFFF22施法条|r: unitFrame.castBar\n|cFFFFFF22血条|r: unitFrame.healthBar\n\n例如:\n|cFFFFFF22- |r要知道是否可以打断施法请使用 'unitFrame.castBar.CanInterrupt'\n|cFFFFFF22- |r要得到血量的字体字符串请使用'unitFrame.healthBar.lifePercent'.", "", 2)			
 		end
 
 		componentsButton.CoolTip = {
@@ -3082,7 +3082,7 @@ function Plater.CreateHookingPanel()
 	--create the options script box for hooks
 	Plater.CreateScriptingOptionsPanel(edit_script_frame, hookFrame)
 	
-	local hookTypeLabel = DF:CreateLabel (hookFrame.CodeEditorLuaEntry, "Edit Hook:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+	local hookTypeLabel = DF:CreateLabel (hookFrame.CodeEditorLuaEntry, "编辑钩子:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 	local hookTypeDropdown = DF:CreateDropDown (hookFrame.CodeEditorLuaEntry, buildHookDropdownList, 1, 160, 20, "HookTypeDropdown", _, options_dropdown_template)
 	hookTypeDropdown:SetPoint ("left", hookTypeLabel, "right", 2, 0)
 	hookTypeDropdown.CodeType = 1
@@ -3241,7 +3241,7 @@ function Plater.CreateScriptingPanel()
 		local newScriptObject = { --~prototype ~new ~create ñew
 			Enabled = true,
 			ScriptType = 0x1,
-			Name = "New Script",
+			Name = "新脚本",
 			SpellIds = {},
 			NpcNames = {},
 			Icon = "",
@@ -3290,7 +3290,7 @@ function Plater.CreateScriptingPanel()
 		if (script) then
 			return script
 		else
-			Plater:Msg ("GetScriptObject could find the script id")
+			Plater:Msg ("GetScriptObject可以找到脚本的ID")
 			return
 		end
 	end
@@ -3494,7 +3494,7 @@ function Plater.CreateScriptingPanel()
 		scriptingFrame.ScriptSelectionScrollBox:Refresh()
 		
 		GameCooltip:Hide()
-		Plater:Msg ("Script moved to trash.")
+		Plater:Msg ("脚本被移至回收站.")
 		
 		--reload all scripts
 		Plater.WipeAndRecompileAllScripts (scriptingFrame.ScriptType)
@@ -3519,7 +3519,7 @@ function Plater.CreateScriptingPanel()
 		tinsert (Plater.db.profile.script_data, newScript)
 		scriptingFrame.ScriptSelectionScrollBox:Refresh()
 		
-		Plater:Msg ("Script duplicated. Make sure to use different triggers.")
+		Plater:Msg ("脚本重复. 确保使用不同的触发器.")
 		
 		--update overlap button
 		scriptingFrame.UpdateOverlapButton()
@@ -3540,7 +3540,7 @@ function Plater.CreateScriptingPanel()
 		scriptingFrame.ScriptOptionsPanelUser:Hide()
 
 		scriptingFrame.ImportTextEditor:SetText(stringToExport)
-		scriptingFrame.ImportTextEditor.TextInfo.text = "Exporting '" .. scriptObject.Name .. "' as Table"
+		scriptingFrame.ImportTextEditor.TextInfo.text = "正在导出 '" .. scriptObject.Name .. "' 成为表格"
 		
 		--if there's anything being edited, start editing the script which is being exported
 		if (not scriptingFrame.GetCurrentScriptObject()) then
@@ -3579,7 +3579,7 @@ function Plater.CreateScriptingPanel()
 		scriptingFrame.ScriptOptionsPanelUser:Hide()
 
 		scriptingFrame.ImportTextEditor:SetText(resultString)
-		scriptingFrame.ImportTextEditor.TextInfo.text = "Exporting '" .. scriptObject.Name .. "'"
+		scriptingFrame.ImportTextEditor.TextInfo.text = "正在导出 '" .. scriptObject.Name .. "'"
 		
 		--if there's anything being edited, start editing the script which is being exported
 		if (not scriptingFrame.GetCurrentScriptObject()) then
@@ -3612,7 +3612,7 @@ function Plater.CreateScriptingPanel()
 		scriptingFrame.ScriptOptionsPanelUser:Hide()
 
 		scriptingFrame.ImportTextEditor:SetText (encodedString)
-		scriptingFrame.ImportTextEditor.TextInfo.text = "Exporting '" .. scriptToBeExported.Name .. "'"
+		scriptingFrame.ImportTextEditor.TextInfo.text = "正在导出 '" .. scriptToBeExported.Name .. "'"
 		
 		--if there's anything being edited, start editing the script which is being exported
 		if (not scriptingFrame.GetCurrentScriptObject()) then
@@ -3646,7 +3646,7 @@ function Plater.CreateScriptingPanel()
 		scriptingFrame.ImportTextEditor.IsImporting = true
 		scriptingFrame.ImportTextEditor.IsExporting = false
 		scriptingFrame.ImportTextEditor:SetFocus (true)
-		scriptingFrame.ImportTextEditor.TextInfo.text = "Paste the string:"
+		scriptingFrame.ImportTextEditor.TextInfo.text = "粘贴字符串:"
 	end
 	
 	--this is only called from the 'okay' button in the import text editor
@@ -3775,7 +3775,7 @@ function Plater.CreateScriptingPanel()
 		--check the text if is valid
 		text = DF:trim (text)
 		if (text == "" or string.len (text) < 2) then
-			Plater:Msg ("Invalid trigger")
+			Plater:Msg ("无效的触发器")
 			return
 		end
 
@@ -3789,7 +3789,7 @@ function Plater.CreateScriptingPanel()
 				spellId = Plater.SpellHashTable [string.lower (text)]
 				--if still fail, stop here
 				if (not spellId) then
-					Plater:Msg ("Trigger requires a valid spell name or an ID of a spell")
+					Plater:Msg ("触发需要一个有效的法术名称或一个法术的ID")
 					return
 				end
 			end
@@ -3843,7 +3843,7 @@ function Plater.CreateScriptingPanel()
 		
 		scriptingFrame.HelpFrame = help_popup
 	
-		local scripting_help_label = DF:CreateLabel (help_popup, "Script Name:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+		local scripting_help_label = DF:CreateLabel (help_popup, "脚本名:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 		
 		local frontpageText_Welcome = "Scripting allows you to apply a more depth customization into the nameplate.\n"
 		local frontpageText_Lua = "A basic knowledge of Lua programming may be required.\n\n"
@@ -3974,17 +3974,17 @@ function Plater.CreateScriptingPanel()
 				return t
 			end
 			
-			local script_type_label = DF:CreateLabel (edit_script_frame, "Trigger Type:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+			local script_type_label = DF:CreateLabel (edit_script_frame, "触发器类型:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 			local script_type_dropdown = DF:CreateDropDown (edit_script_frame, build_script_type_dropdown_options, 1, 160, 20, "ScriptTypeDropdown", _, options_dropdown_template)
 			script_type_dropdown:SetPoint ("topleft", script_type_label, "bottomleft", 0, -2)
-			script_type_dropdown.tooltip = "The type of event when the script check for trigger matches, only the selected option is used.\n\n|cFFFFFF00Buffs & Debuffs|r: an aura shown in the nameplate.\n\n|cFFFFFF00Spell Casting|r: the spell the unit is casting.\n\n|cFFFFFF00Unit Name|r: the unit name shown in the nameplate."
+			script_type_dropdown.tooltip = "脚本检查触发器匹配时的事件类型, 只使用选定的选项.\n\n|cFFFFFF00Buffs & Debuffs|r: 姓名版上的光环.\n\n|cFFFFFF00法术施放|r: 该单位正在施展的法术.\n\n|cFFFFFF00单位名字|r: 姓名版上显示的单位名称."
 			scriptingFrame.ScriptTypeDropdown = script_type_dropdown
 		
 		--button to add a spellId or npc name trigger
-			local add_trigger_label = DF:CreateLabel (edit_script_frame, "Add Trigger (Spell Id or Spell Name)", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+			local add_trigger_label = DF:CreateLabel (edit_script_frame, "添加触发器 (法术Id或法术名称)", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 			local add_trigger_textentry = DF:CreateTextEntry (edit_script_frame, function()end, 140, 20, "ScriptTriggerTextEntry", _, _, options_dropdown_template)
 			add_trigger_textentry:SetPoint ("topleft", add_trigger_label, "bottomleft", 0, -2)
-			add_trigger_textentry.tooltip = "Enter data based on the trigger selected:\n\n|cFFFFFF00Buff and Spell Cast|r: Enter the spell name using lower case letters.\n\n|cFFFFFF00Unit Name|r: Enter the unit name or the npcID."
+			add_trigger_textentry.tooltip = "基于选定的触发器输入数据:\n\n|cFFFFFF00BUFF和施法条|r: 使用小写字母输入法术名称.\n\n|cFFFFFF00单位名称|r: 输入单位名称或npcID."
 			scriptingFrame.TriggerTextEntry = add_trigger_textentry
 			scriptingFrame.TriggerLabel = add_trigger_label
 			
@@ -3998,7 +3998,7 @@ function Plater.CreateScriptingPanel()
 				end
 			end)
 
-			local add_trigger_button = DF:CreateButton (edit_script_frame, scriptingFrame.AddTrigger, 50, 20, "Add", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+			local add_trigger_button = DF:CreateButton (edit_script_frame, scriptingFrame.AddTrigger, 50, 20, "添加", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 			add_trigger_button:SetIcon ([[Interface\BUTTONS\UI-PlusButton-Up]], 20, 20, "overlay", {0, 1, 0, 1})
 			add_trigger_button:SetPoint ("left", add_trigger_textentry, "right", 2, 0)
 			--add_trigger_button.tooltip = 
@@ -4011,9 +4011,9 @@ function Plater.CreateScriptingPanel()
 				local scriptObject = scriptingFrame.GetCurrentScriptObject()
 				
 				if ((scriptObject.ScriptType == 1 or scriptObject.ScriptType == 2)) then
-					GameCooltip:AddLine ("|cFFFFFF00Important|r: it's normal for the Icon and Description of the spell you added to be different, The name of the spell is used to active the script.\n\nYou can enter the SpellID as well.")
+					GameCooltip:AddLine ("|cFFFFFF00重要|r: 正常来说你添加的法术名称和描述是不一样的，法术名称用于激活脚本.\n\n你也可以输入法术ID.")
 				else
-					GameCooltip:AddLine ("|cFFFFFF00Important|r: npc name isn't case-sensitive.\n\n|cFFFFFF00Important|r: you can use the npcId as well for the multi-language support of your script.")
+					GameCooltip:AddLine ("|cFFFFFF00重要|r: NPC名称不区分大小写.\n\n|cFFFFFF00重要|r: 你也可以使用NPC的ID来实现脚本的多语言支持.")
 				end
 				
 				GameCooltip:SetOwner (add_trigger_button.widget)
@@ -4210,7 +4210,7 @@ function Plater.CreateScriptingPanel()
 				end
 			
 			--scroll showing all triggers of the script
-				local trigger_scrollbox_label = DF:CreateLabel (edit_script_frame, "Triggers:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+				local trigger_scrollbox_label = DF:CreateLabel (edit_script_frame, "触发器:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 				local trigger_scrollbox = DF:CreateScrollBox (edit_script_frame, "$parentTriggerScrollBox", refresh_trigger_scrollbox, {}, triggerbox_size[1], triggerbox_size[2], triggerbox_lines, triggerbox_line_height)
 				trigger_scrollbox:SetPoint ("topleft", trigger_scrollbox_label.widget, "bottomleft", 0, -4)
 				trigger_scrollbox:SetBackdrop ({edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
@@ -4219,7 +4219,7 @@ function Plater.CreateScriptingPanel()
 				scriptingFrame.TriggerScrollBox = trigger_scrollbox
 				DF:ReskinSlider (trigger_scrollbox)
 				
-				local overlapFrame = DF:CreateSimplePanel (UIParent, 600, 400, "Trigger Overlap", "PlaterScriptTriggerOverlap")
+				local overlapFrame = DF:CreateSimplePanel (UIParent, 600, 400, "触发器重叠", "PlaterScriptTriggerOverlap")
 				overlapFrame:SetFrameStrata ("DIALOG")
 				overlapFrame:SetPoint ("center")
 				DF:ApplyStandardBackdrop (overlapFrame, false, 1.2)
@@ -4361,9 +4361,9 @@ function Plater.CreateScriptingPanel()
 							ff.OriginalBackdropColor = {ff:GetBackdropColor()}
 							
 							local scriptName = DF:CreateLabel (ff)
-							local enableScript = DF:CreateButton (ff, enableScriptFromOverlapPanel, 120, 20, "Enable Script", nil, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
-							local disableScript = DF:CreateButton (ff, disableScriptFromOverlapPanel, 120, 20, "Disable Script", nil, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
-							local removeTrigger = DF:CreateButton (ff, removeTriggerFromOverlapPanel, 120, 20, "Remove Trigger", nil, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+							local enableScript = DF:CreateButton (ff, enableScriptFromOverlapPanel, 120, 20, "启用脚本", nil, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+							local disableScript = DF:CreateButton (ff, disableScriptFromOverlapPanel, 120, 20, "禁用脚本", nil, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+							local removeTrigger = DF:CreateButton (ff, removeTriggerFromOverlapPanel, 120, 20, "移除触发器", nil, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 							
 							--> create a background below the script name to make an impression it's a button
 							local nameBackdrop = CreateFrame ("frame", nil, ff, BackdropTemplateMixin and "BackdropTemplate")
@@ -4469,7 +4469,7 @@ function Plater.CreateScriptingPanel()
 				end)
 				
 				--add script overlap button / frame
-				local overlapButton = Plater:CreateButton (scriptingFrame, function() overlapFrame:Show() end, 160, 20, "Trigger Overlaps: 0", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+				local overlapButton = Plater:CreateButton (scriptingFrame, function() overlapFrame:Show() end, 160, 20, "触发器重叠: 0", -1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 				overlapButton:SetPoint ("topleft", trigger_scrollbox, "bottomleft", 0, -2)
 				overlapButton:SetPoint ("topright", trigger_scrollbox, "bottomright", 0, -2)
 				scriptingFrame.OverlapButton = overlapButton
@@ -4479,11 +4479,11 @@ function Plater.CreateScriptingPanel()
 					GameCooltip:SetOption ("TextSize", 11)
 					GameCooltip:SetOption ("FixedWidth", 300)
 					
-					GameCooltip:AddLine ("Trigger Overlaps", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
-					GameCooltip:AddLine ("A SpellID, NpcName or NpcID cannot be used in more than 1 script with the same Trigger Type.")
+					GameCooltip:AddLine ("触发器重叠", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+					GameCooltip:AddLine ("法术ID、NPC名称和NPC ID不能在具有相同触发类型的多个脚本中使用.")
 					
 					GameCooltip:AddLine (" ")
-					GameCooltip:AddLine ("Trigger Name", "Trigger ID", 1, "yellow", "yellow", 12)
+					GameCooltip:AddLine ("触发器名称", "Trigger ID", 1, "yellow", "yellow", 12)
 					
 					if (overlapButton.OverlapAmount and overlapButton.OverlapAmount > 0) then
 						for triggerId, scriptsTable in pairs (overlapButton.OverlapTable.Auras) do
@@ -4500,7 +4500,7 @@ function Plater.CreateScriptingPanel()
 						end
 						
 						GameCooltip:AddLine (" ")
-						GameCooltip:AddLine ("click for more information", "", 1, "green")
+						GameCooltip:AddLine ("点击查看更多信息", "", 1, "green")
 					end
 
 					GameCooltip:SetOwner (self)
@@ -4512,7 +4512,7 @@ function Plater.CreateScriptingPanel()
 				
 				function scriptingFrame.UpdateOverlapButton()
 					local overlappedTriggers, amoutOfOverlaps = Plater.CheckScriptTriggerOverlap()
-					overlapButton:SetText ("Trigger Overlaps: " .. amoutOfOverlaps)
+					overlapButton:SetText ("触发器重叠: " .. amoutOfOverlaps)
 					
 					if (amoutOfOverlaps > 0) then
 						overlapButton:SetTemplate (options_button_template)
@@ -4551,7 +4551,7 @@ function Plater.CreateScriptingPanel()
 					GameCooltip:SetOption ("TextSize", 11)
 					GameCooltip:SetOption ("FixedWidth", 300)
 					
-					GameCooltip:AddLine ("Nameplate Components", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+					GameCooltip:AddLine ("姓名板组件", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
 					
 					local backgroundAlpha = 0.2
 					
@@ -4587,8 +4587,8 @@ function Plater.CreateScriptingPanel()
 						GameCooltip:Preset (2)
 						GameCooltip:SetOption ("TextSize", 11)
 						GameCooltip:SetOption ("FixedWidth", 400)
-						GameCooltip:AddLine ("*No script loaded", "", 1, "red")
-						GameCooltip:AddLine ("Use this menu to quick add to your code a member from envTable")
+						GameCooltip:AddLine ("*没有脚本被加载", "", 1, "red")
+						GameCooltip:AddLine ("使用此菜单可以快速将代码添加到envTable中")
 						return
 					end
 				
@@ -4599,7 +4599,7 @@ function Plater.CreateScriptingPanel()
 					local backgroundAlpha = 0.2
 					--if (scriptObject.ScriptType == 0x1) then
 					if (not scriptObject or scriptObject.ScriptType == 0x1) then
-						GameCooltip:AddLine ("envTable Members for Trigger Buffs and Debuffs", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+						GameCooltip:AddLine ("触发BUFF和DEBUFF的envTable成员", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
 						
 						for index, member in ipairs (Plater.TriggerDefaultMembers [1]) do
 							GameCooltip:AddLine (member, "", 1, "orange", "white"); GameCooltip:AddStatusBar (100, 1, 0, 0, 0, backgroundAlpha)
@@ -4613,7 +4613,7 @@ function Plater.CreateScriptingPanel()
 					end
 					
 					if (not scriptObject or scriptObject.ScriptType == 0x2) then
-						GameCooltip:AddLine ("envTable Members for Trigger Spell Casting", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+						GameCooltip:AddLine ("触发施法的envTable成员", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
 						
 						for index, member in ipairs (Plater.TriggerDefaultMembers [2]) do
 							GameCooltip:AddLine (member, "", 1, "orange", "white"); GameCooltip:AddStatusBar (100, 1, 0, 0, 0, backgroundAlpha)
@@ -4627,7 +4627,7 @@ function Plater.CreateScriptingPanel()
 					end
 					
 					if (not scriptObject or scriptObject.ScriptType == 0x3) then
-						GameCooltip:AddLine ("envTable Members for Trigger Unit Name", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+						GameCooltip:AddLine ("触发单元名称的envTable成员", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
 					
 						for index, member in ipairs (Plater.TriggerDefaultMembers [3]) do
 							GameCooltip:AddLine (member, "", 1, "orange", "white"); GameCooltip:AddStatusBar (100, 1, 0, 0, 0, backgroundAlpha)
@@ -4636,7 +4636,7 @@ function Plater.CreateScriptingPanel()
 					end
 					
 					GameCooltip:AddLine (" ")
-					GameCooltip:AddLine ("envTable Members From Constructor Code:", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+					GameCooltip:AddLine ("构造函数代码中的envTable成员:", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
 					
 					--> get the constructor code from the editor if the current editing is the constructor or get the temporarily saved script from the script object
 					local code = scriptingFrame.currentScriptType == 2 and scriptingFrame.CodeEditorLuaEntry:GetText() or scriptObject ["Temp_" .. Plater.CodeTypeNames [2]]
@@ -4706,7 +4706,7 @@ function Plater.CreateScriptingPanel()
 				return t
 			end
 			
-			local code_type_label = DF:CreateLabel (scriptingFrame, "Edit Script For:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+			local code_type_label = DF:CreateLabel (scriptingFrame, "编辑脚本:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 			local code_type_dropdown = DF:CreateDropDown (scriptingFrame, build_script_code_dropdown_options, 1, 160, 20, "CodeTypeDropdown", _, options_dropdown_template)
 			--code_type_dropdown:SetPoint ("left", code_type_label, "right", 2, 0)
 			code_type_dropdown.CodeType = 1
@@ -4723,19 +4723,19 @@ function Plater.CreateScriptingPanel()
 				local codeButtonSize = {100, 20}
 				scriptingFrame.scriptButtons = {}
 
-				local code_oninit_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "Initialization", 5, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+				local code_oninit_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "初始化", 5, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 				code_oninit_button:SetPoint("topleft", scriptingFrame.CodeEditorLuaEntry, "bottomleft", 0, -15)
 
-				local code_constructor_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "Constructor", 2, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+				local code_constructor_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "函数", 2, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 				code_constructor_button:SetPoint("left", code_oninit_button, "right", 2, 0)
 
-				local code_onshow_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "On Show", 4, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+				local code_onshow_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "显示", 4, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 				code_onshow_button:SetPoint("left", code_constructor_button, "right", 2, 0)
 
-				local code_onupdate_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "On Update", 1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+				local code_onupdate_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "更新", 1, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 				code_onupdate_button:SetPoint("left", code_onshow_button, "right", 2, 0)
 
-				local code_hide_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "On Hide", 3, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
+				local code_hide_button = DF:CreateButton(scriptingFrame, on_select_code_type, codeButtonSize[1], codeButtonSize[2], "隐藏", 3, nil, nil, nil, nil, nil, options_button_template, DF:GetTemplate ("font", "PLATER_BUTTON"))
 				code_hide_button:SetPoint("left", code_onupdate_button, "right", 2, 0)
 
 				tinsert(scriptingFrame.scriptButtons, code_onupdate_button)

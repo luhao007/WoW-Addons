@@ -76,7 +76,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
         width = WINDOW_WIDTH,
         height = WINDOW_HEIGHT,
         use_titlebar = false,
-        title = "M+ Keys",
+        title = "大秘境钥石",
         roundness = 10,
         color = {.09, .09, .09, 1.0},
         border_color = {.15, .15, .15, 0.9},
@@ -336,7 +336,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
     local tabList = {
         {
             name = "Keys",
-            text = "Keys",
+            text = "钥石",
             createOnDemandFunc = function(tabFrame, tabContainer, parent)
                 tabFrame:EnableMouse(false)
 
@@ -353,11 +353,11 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                 --unitName, level, mapID, challengeMapID, classID, rating, mythicPlusMapID,
                 --classIconTex, iconTexCoords, mapName, isInMyParty, isOnline, isGuildMember, specId
                 local DUMMY_DATA = {
-                    { "Tankmaster-Silvermoon",  18, 0, 375, 1,  3450, 375, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "Ara-Kara, City of Echoes",  1, true, false, 73  }, --prot Warrior
-                    { "Healbot-Stormrage",      15, 0, 376, 2,  3100, 376, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "City of Threads",           1, true, false, 65  }, --holy Paladin
-                    { "Frostmage-Area52",       12, 0, 377, 8,  2800, 377, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "The Stonevault",            1, true, false, 64  }, --frost Mage
-                    { "Moonkin-Moonguard",      10, 0, 379, 11, 2300, 379, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "Grim Batol",               1, true, false, 102 }, --balance Druid
-                    { "Havocblade-Argent",       8, 0, 380, 12, 1950, 380, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "The Dawnbreaker",          1, true, false, 577 }, --havoc DH
+                    { "Tankmaster-Silvermoon",  18, 0, 375, 1,  3450, 375, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "艾拉-卡拉，回响之城",  1, true, false, 73  }, --prot Warrior
+                    { "Healbot-Stormrage",      15, 0, 376, 2,  3100, 376, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "千丝之城",           1, true, false, 65  }, --holy Paladin
+                    { "Frostmage-Area52",       12, 0, 377, 8,  2800, 377, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "矶石宝库",            1, true, false, 64  }, --frost Mage
+                    { "Moonkin-Moonguard",      10, 0, 379, 11, 2300, 379, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "格瑞姆巴托",               1, true, false, 102 }, --balance Druid
+                    { "Havocblade-Argent",       8, 0, 380, 12, 1950, 380, [[Interface\GLUES\CHARACTERCREATE\UI-CharacterCreate-Classes]], nil, "破晨号",          1, true, false, 577 }, --havoc DH
                 }
 
                 --x positions of each column within the line frame (line width = SCROLL_WIDTH-2 = 340)
@@ -377,10 +377,10 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                 --the labels over their data (Map text lands on the dungeon name, not the icon;
                 --Rating text sits over the right-aligned numbers instead of far to their left).
                 local keysHeaderTable = {
-                    {text = "Name", width = 120, canSort = true, key = "name", align = "left"},
-                    {text = "Level", width = 50, canSort = true, key = "level", selected = true, align = "left"},
-                    {text = "Map", width = 105, canSort = true, key = "map", align = "left"},
-                    {text = "Rating", width = 60, canSort = true, key = "rating", align = "left"},
+                    {text = "名字", width = 120, canSort = true, key = "name", align = "left"},
+                    {text = "等级", width = 50, canSort = true, key = "level", selected = true, align = "left"},
+                    {text = "地图", width = 105, canSort = true, key = "map", align = "left"},
+                    {text = "分数", width = 60, canSort = true, key = "rating", align = "left"},
                 }
 
                 --called by the scrollbox to render each visible line
@@ -1025,7 +1025,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
         },
         {
             name = "Teleports",
-            text = "Teleports",
+            text = "传送",
             createOnDemandFunc = function(tabFrame, tabContainer, parent)
                 tabFrame:EnableMouse(false)
                 tabFrame.titleText:Hide()
@@ -1343,7 +1343,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
         },
         {
             name = "History",
-            text = "History",
+            text = "历史",
             createOnDemandFunc = function(tabFrame, tabContainer, parent)
                 --build History tab content here
                 --disable mouse on the tab frame so it doesn't swallow the title-bar drag

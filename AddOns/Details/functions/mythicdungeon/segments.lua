@@ -39,7 +39,7 @@ function Details222.MythicPlus.OnBossDefeated(encounterID, encounterName)
         Level = Details.MythicPlus.Level,
         EJID = Details.MythicPlus.ejID,
         SegmentType = DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSS,
-        SegmentName = (encounterName or Loc["STRING_UNKNOW"]) .. " (" .. string.lower(_G["BOSS"]) .. ")"
+        SegmentName = (encounterName or Loc["STRING_UNKNOW"]) .. " (" .. string.lower(Loc["STRING_GUILDDAMAGERANK_BOSS"]) .. ")"
     }
 
     local mythicLevel = C_ChallengeMode.GetActiveKeystoneInfo and C_ChallengeMode.GetActiveKeystoneInfo()
@@ -367,7 +367,7 @@ function DetailsMythicPlusFrame.MergeSegmentsOnEnd() --~merge
             local instance = Details:GetInstance(lower_instance)
             if (instance) then
                 local func = {function() end}
-                instance:InstanceAlert ("Showing Mythic+ Run Segment", {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}, 6, func, true)
+                instance:InstanceAlert (Loc["STRING_SHOWING_MYTHICPLUS_RUN_SEGMENT"], {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}, 6, func, true)
             end
         end
 

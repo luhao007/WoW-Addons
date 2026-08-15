@@ -85,7 +85,7 @@ end
 local refreshFunc = function(self, data, offset, totalLines)
     local sectionId = self.sectionId
     local sectionRefreshFunc = sections.refreshFunctions[sectionId]
-    assert(type(sectionRefreshFunc) == "function", "missing refresh function for sectionId: " .. tostring(sectionId))
+    assert(type(sectionRefreshFunc) == "function", "缺少sectionId对应的刷新函数: " .. tostring(sectionId))
     sectionRefreshFunc(self, data, offset, totalLines)
 end
 
@@ -421,7 +421,7 @@ function breakdownMidnight.BuildSectionLayout(windowFrame, windowPadding, conten
     mainContainer:RegisterChild(playerContainer)
     mainContainer:SetChildResizerSides(playerContainer, {left = false, right = false, top = false, bottom = true})
     windowFrame.PlayerContainer = playerContainer
-    windowFrame.PlayerScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Players, playerContainer, "$parentPlayerScroll", defaultSettings.players.width, defaultSettings.players.height, "Players", windowFrame.playerData)
+    windowFrame.PlayerScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Players, playerContainer, "$parentPlayerScroll", defaultSettings.players.width, defaultSettings.players.height, "玩家", windowFrame.playerData)
     breakdownMidnight.PlayerSectionInit(playerContainer, windowFrame)
 
     --bottom left, show the segments available
@@ -429,7 +429,7 @@ function breakdownMidnight.BuildSectionLayout(windowFrame, windowPadding, conten
     mainContainer:RegisterChild(segmentContainer)
     mainContainer:SetChildResizerSides(segmentContainer, {left = false, right = false, top = false, bottom = false})
     windowFrame.SegmentContainer = segmentContainer
-    windowFrame.SegmentScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Segments, segmentContainer, "$parentSegmentScroll", defaultSettings.segments.width, defaultSettings.segments.height, "Segments", windowFrame.segmentData)
+    windowFrame.SegmentScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Segments, segmentContainer, "$parentSegmentScroll", defaultSettings.segments.width, defaultSettings.segments.height, "分段", windowFrame.segmentData)
     breakdownMidnight.SegmentScrollInit(segmentContainer, windowFrame)
 
     --playerContainer:HookScript("OnSizeChanged", onSizeChanged)
@@ -494,21 +494,21 @@ function breakdownMidnight.BuildSectionLayout(windowFrame, windowPadding, conten
     mainContainer:RegisterChild(sectionSpellsFrame)
     mainContainer:SetChildResizerSides(sectionSpellsFrame, {left = true, right = true, top = false, bottom = false})
     windowFrame.SpellContainer = sectionSpellsFrame
-    windowFrame.SpellScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Spells, sectionSpellsFrame, "$parentSpellScroll", defaultSettings.spells.width, defaultSettings.spells.height, "Spell Damage", windowFrame.spellData)
+    windowFrame.SpellScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Spells, sectionSpellsFrame, "$parentSpellScroll", defaultSettings.spells.width, defaultSettings.spells.height, "技能伤害", windowFrame.spellData)
     breakdownMidnight.SpellScrollInit(sectionSpellsFrame, windowFrame)
 
     local targetsContainer = breakdownMidnight.CreateSectionFrame(mainContainer, "$parentTargetsContainer", "targets", defaultSettings.targets)
     mainContainer:RegisterChild(targetsContainer)
     mainContainer:SetChildResizerSides(targetsContainer, {left = true, right = false, top = false, bottom = false})
     windowFrame.TargetsContainer = targetsContainer
-    windowFrame.TargetsScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Targets, targetsContainer, "$parentTargetsScroll", defaultSettings.targets.width, defaultSettings.targets.height, "Targets", windowFrame.targetsData)
+    windowFrame.TargetsScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Targets, targetsContainer, "$parentTargetsScroll", defaultSettings.targets.width, defaultSettings.targets.height, "目标", windowFrame.targetsData)
     breakdownMidnight.TargetsScrollInit(targetsContainer, windowFrame)
 
     local comparisonContainer = breakdownMidnight.CreateSectionFrame(mainContainer, "$parentComparisonContainer", "compare", defaultSettings.compare)
     mainContainer:RegisterChild(comparisonContainer)
     mainContainer:SetChildResizerSides(comparisonContainer, {left = false, right = false, top = false, bottom = false})
     windowFrame.ComparisonContainer = comparisonContainer
-    windowFrame.ComparisonScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Compare, comparisonContainer, "$parentComparisonScroll", defaultSettings.compare.width, defaultSettings.compare.height, "Comparison", windowFrame.comparisonData)
+    windowFrame.ComparisonScroll = breakdownMidnight.CreateSectionScroll(windowFrame, sectionIds.Compare, comparisonContainer, "$parentComparisonScroll", defaultSettings.compare.width, defaultSettings.compare.height, "比较", windowFrame.comparisonData)
     breakdownMidnight.CompareScrollInit(comparisonContainer, windowFrame)
 
     breakdownMidnight.RefreshSectionPoints(windowFrame)

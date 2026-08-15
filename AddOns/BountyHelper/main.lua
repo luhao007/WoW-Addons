@@ -75,17 +75,17 @@ local function sharedDifficulty(difficultyID, instanceID, encounterID)
 end
 
 local difficultyInfo = {
-    [1] = {name = "Normal Dungeon", expanded = false},
-    [2] = { name = "Heroic Dungeon", expanded = false},
-    [3] = {name = "Normal (10) Raid", expanded = false},
-    [4] = {name = "Normal (25) Raid", expanded = false},
-    [5] = {name = "Heroic (10) Raid", expanded = false},
-    [6] = {name = "Heroic (25) Raid", expanded = false},
-    [14] = {name = "Normal Raid", expanded = false},
-    [15] = {name = "Heroic Raid", expanded = false},
-    [16] = {name = "Mythic Raid", expanded = false},
-    [17] = {name = "LFR Raid", expanded = false},
-    [23] = {name = "Mythic Dungeon", expanded = false},
+    [1] = {name = "普通地下城", expanded = false},
+    [2] = {name = "英雄地下城", expanded = false},
+    [3] = {name = "普通10人团队", expanded = false},
+    [4] = {name = "普通25人团队", expanded = false},
+    [5] = {name = "英雄10人团队", expanded = false},
+    [6] = {name = "英雄25人团队", expanded = false},
+    [14] = {name = "普通团队", expanded = false},
+    [15] = {name = "英雄团队", expanded = false},
+    [16] = {name = "史诗团队", expanded = false},
+    [17] = {name = "随机团队", expanded = false},
+    [23] = {name = "史诗地下城", expanded = false},
     order = {17, 3, 4, 14, 5, 6, 15, 16, 1, 2, 23},
     dungeons = {[1] = true, [2] = true, [23] = true}
 }
@@ -108,7 +108,7 @@ local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("BountyHelper",{
   OnClick = function(self,button) if button == "LeftButton" then bountyHelper:Toggle() end end,
   OnTooltipShow = function(tooltip)
     tooltip:AddLine("|cffffffffBounty Helper")
-    tooltip:AddLine(colors.green .. "<Left Click to toggle>")
+    tooltip:AddLine(colors.green .. "<点击打开选项菜单>")
     tooltip:SetScale(GameTooltip:GetScale())
   end
 })
@@ -160,7 +160,7 @@ local function createText(parent, template, point, size, font)
     if size then f:SetSize(unpack(size)) end
     f:SetPoint(unpack(point))
     if font then f:SetFont(unpack(font)) end
-
+	
     function f:onEnter(func) f:SetScript("OnEnter", func) end
     function f:onLeave(func) f:SetScript("OnLeave", func) end
     function f:onClick(func)
@@ -170,7 +170,7 @@ local function createText(parent, template, point, size, font)
     end
 
     function f:setColor(newColor) f:SetTextColor(unpack(newColor)) end
-
+    
     return f
 end
 
@@ -241,20 +241,20 @@ function bountyHelper:createUI()
     clearSearchButton:SetFrameLevel(5)
     self.frames.ClearSearchButton = clearSearchButton
     clearSearchButton:Hide()
-
+	
     local toMountViewButton = CreateFrame("Button", "bountyHelperToMountViewButton", f, "UIPanelButtonTemplate")
     toMountViewButton:SetPoint("TOPRIGHT", -60, -6)
-    toMountViewButton:SetText("Sort by Mount")
+    toMountViewButton:SetText("按坐骑排序")
     toMountViewButton:SetSize(120, 22)
     toMountViewButton:SetScale(1.2)
     toMountViewButton:SetScript("OnClick", function() bountyHelper:ShowMountView() end)
     bountyHelper.frames.ToMountViewButton = toMountViewButton
     local toDifficultyViewButton = CreateFrame("Button", "bountyHelperToDifficultyViewButton", f, "UIPanelButtonTemplate")
-    toDifficultyViewButton:SetPoint("TOPRIGHT", -248, -6)
-    toDifficultyViewButton:SetText("Diff")
-    toDifficultyViewButton:SetSize(44, 22)
+    toDifficultyViewButton:SetPoint("TOPRIGHT", -220, -6)
+    toDifficultyViewButton:SetText("按副本排序")
+    toDifficultyViewButton:SetSize(100, 22)
     toDifficultyViewButton:SetScale(1.2)
-
+	
     toDifficultyViewButton:SetScript("OnClick", function() bountyHelper:ShowDifficultyView() end)
     bountyHelper.frames.ToDifficultyViewButton = toDifficultyViewButton
     local diffScrollFrame = CreateFrame("ScrollFrame", "bountyHelperScrollFrame", f, "UIPanelScrollFrameTemplate")
@@ -269,13 +269,13 @@ function bountyHelper:createUI()
     local titleText = createText(f, "GameFontNormalHuge", {"TOPLEFT", 12, 0}, {0, 40})
     titleText:SetText(colors.gold .. "Bounty Helper")
     local sortingText = createText(f, "GameFontNormal", {"LEFT", titleText, "RIGHT", 12, 0}, nil, {STANDARD_TEXT_FONT, 16})
-    sortingText:SetText(colors.gold .. "Sort By:")
+    sortingText:SetText(colors.gold .. "排序:")
     createButton(f, {"LEFT", sortingText, "RIGHT"}, "expansion", colors.goldRGB, function()
         self:sortContent("default")
-    end, nil, "Expansion")
+    end, nil, "资料片")
     createButton(f, {"LEFT", sortingText, "RIGHT", 32, 0}, "chance", colors.goldRGB, function()
         self:sortContent("chance")
-    end, nil, "Chance")
+    end, nil, "掉率")
     createButton(f, {"TOPRIGHT", -36, -4}, "settings", colors.goldRGB, function()
         if settingsTimer then
             settingsTimer:Cancel(); settingsTimer = nil
@@ -336,7 +336,7 @@ function bountyHelper:createUI()
 
     scaleSlider:SetScript("OnValueChanged", function(_, value)
         local roundedValue = tonumber(string.format("%.2f", value))
-        self.frames.ScaleValueText:SetText(string.format("UI Scale: %.2f", roundedValue))
+        self.frames.ScaleValueText:SetText(string.format("界面缩放: %.2f", roundedValue))
     end)
 
     scaleSlider:SetScript("OnMouseUp", function(self)
@@ -352,7 +352,7 @@ function bountyHelper:createUI()
     hideButtonCheckbox.text = hideButtonCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     hideButtonCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     hideButtonCheckbox.text:SetPoint("LEFT", hideButtonCheckbox, "RIGHT", 0, 1)
-    hideButtonCheckbox.text:SetText("Hide Button")
+    hideButtonCheckbox.text:SetText("隐藏小地图图标")
     hideButtonCheckbox:SetScript("OnClick", function(self)
         hideButton = self:GetChecked()
         buttonBH:SetShown(not hideButton)
@@ -362,11 +362,11 @@ function bountyHelper:createUI()
     
     local hideOwnedCheckbox = CreateFrame("CheckButton", "bountyHelperHideOwnedCheckbox", settingsPanel, "UICheckButtonTemplate")
     hideOwnedCheckbox:SetPropagateMouseMotion(true)
-    hideOwnedCheckbox:SetPoint("LEFT", scaleSlider, "RIGHT", 238, 0)
+    hideOwnedCheckbox:SetPoint("LEFT", scaleSlider, "RIGHT", 260, 0)
     hideOwnedCheckbox.text = hideOwnedCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     hideOwnedCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     hideOwnedCheckbox.text:SetPoint("LEFT", hideOwnedCheckbox, "RIGHT", 0, 1)
-    hideOwnedCheckbox.text:SetText("Hide Owned")
+    hideOwnedCheckbox.text:SetText("隐藏已拥有")
     hideOwnedCheckbox:SetScript("OnClick", function(self)
         hideOwned = self:GetChecked()
         bountyHelper:UpdateVisibleFrame()
@@ -374,12 +374,12 @@ function bountyHelper:createUI()
     self.frames.HideOwnedCheckbox = hideOwnedCheckbox
 
     local hideKilledCheckbox = CreateFrame("CheckButton", "bountyHelperHideKilledCheckbox", settingsPanel, "UICheckButtonTemplate")
-    hideKilledCheckbox:SetPoint("LEFT", scaleSlider, "RIGHT", 365, 0)
+    hideKilledCheckbox:SetPoint("LEFT", scaleSlider, "RIGHT", 368, 0)
     hideKilledCheckbox:SetPropagateMouseMotion(true)
     hideKilledCheckbox.text = hideKilledCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     hideKilledCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     hideKilledCheckbox.text:SetPoint("LEFT", hideKilledCheckbox, "RIGHT", 0, 1)
-    hideKilledCheckbox.text:SetText("Hide Killed")
+    hideKilledCheckbox.text:SetText("隐藏已击杀")
     hideKilledCheckbox:SetScript("OnClick", function(self)
         hideKilled = self:GetChecked()
         bountyHelper:UpdateVisibleFrame()
@@ -392,7 +392,7 @@ function bountyHelper:createUI()
     lockCheckbox.text = lockCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     lockCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     lockCheckbox.text:SetPoint("LEFT", lockCheckbox, "RIGHT", 0, 1)
-    lockCheckbox.text:SetText("Disable Esc to Close")
+    lockCheckbox.text:SetText("屏蔽ESC关闭窗口功能")
     lockCheckbox:SetScript("OnClick", function(self)
         lockEsc = self:GetChecked()
     end)
@@ -404,20 +404,20 @@ function bountyHelper:createUI()
     hideIgnoredCheckbox.text = hideIgnoredCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     hideIgnoredCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     hideIgnoredCheckbox.text:SetPoint("LEFT", hideIgnoredCheckbox, "RIGHT", 0, 1)
-    hideIgnoredCheckbox.text:SetText("Hide Ignored")
+    hideIgnoredCheckbox.text:SetText("隐藏已忽略")
     hideIgnoredCheckbox:SetScript("OnClick", function(self)
         hideIgnored = self:GetChecked()
         bountyHelper:UpdateVisibleFrame()
     end)
     self.frames.HideIgnoredCheckbox = hideIgnoredCheckbox
-
+	
     local hideDungeonsCheckbox = CreateFrame("CheckButton", "bountyHelperHideDungeonsCheckbox", settingsPanel, "UICheckButtonTemplate")
     hideDungeonsCheckbox:SetPropagateMouseMotion(true)
     hideDungeonsCheckbox:SetPoint("LEFT", hideIgnoredCheckbox, "RIGHT", 104, 0)
     hideDungeonsCheckbox.text = hideDungeonsCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     hideDungeonsCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     hideDungeonsCheckbox.text:SetPoint("LEFT", hideDungeonsCheckbox, "RIGHT", 0, 1)
-    hideDungeonsCheckbox.text:SetText("Hide Dungeons")
+    hideDungeonsCheckbox.text:SetText("隐藏地下城")
     hideDungeonsCheckbox:SetScript("OnClick", function(self)
         hideDungeons = self:GetChecked()
         bountyHelper:UpdateVisibleFrame()
@@ -430,7 +430,7 @@ function bountyHelper:createUI()
     hideRaidsCheckbox.text = hideRaidsCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     hideRaidsCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     hideRaidsCheckbox.text:SetPoint("LEFT", hideRaidsCheckbox, "RIGHT", 0, 1)
-    hideRaidsCheckbox.text:SetText("Hide Raids")
+    hideRaidsCheckbox.text:SetText("隐藏团队副本")
     hideRaidsCheckbox:SetScript("OnClick", function(self)
         hideRaids = self:GetChecked()
         bountyHelper:UpdateVisibleFrame()
@@ -443,17 +443,17 @@ function bountyHelper:createUI()
     tomTomCheckbox.text = tomTomCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     tomTomCheckbox.text:SetFont(STANDARD_TEXT_FONT, 14)
     tomTomCheckbox.text:SetPoint("LEFT", tomTomCheckbox, "RIGHT", 0, 1)
-    
+
     tomTomCheckbox:SetChecked(useTomTom)
-    
+
     if TomTom then
-        tomTomCheckbox.text:SetText("Use TomTom Waypoints")
+        tomTomCheckbox.text:SetText("使用TomTom路径点")
         tomTomCheckbox:SetScript("OnClick", function(self)
             useTomTom = self:GetChecked()
         end)
     else
         tomTomCheckbox:Disable()
-        tomTomCheckbox.text:SetText("TomTom not installed")
+        tomTomCheckbox.text:SetText("TomTom插件未安装")
         tomTomCheckbox.text:SetTextColor(0.5, 0.5, 0.5)
     end
     self.frames.TomTomCheckbox = tomTomCheckbox
@@ -508,9 +508,14 @@ function bountyHelper:createUI()
     whCloseButton:SetSize(80, 22)
     whCloseButton:SetScale(1.2)
     whCloseButton:SetPoint("BOTTOM", 0, 12)
-    whCloseButton:SetText("Close")
+    whCloseButton:SetText("关闭")
     whCloseButton:SetScript("OnClick", function() wowheadPopup:Hide() end)
     self.frames.wowheadCloseButton = whCloseButton
+
+    -- 添加汉化信息文本
+    local localizationCredit = hideIgnoredCheckbox:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+    localizationCredit:SetPoint("CENTER", hideIgnoredCheckbox:GetParent(), "CENTER", 0, -55)
+    localizationCredit:SetText("Bounty Helper \124cff00ffff汉化\124r by \124cffff00ffM.O.S.S\124r")	
 end
 
 function bountyHelper:ShowWowheadPopup(itemID, itemName)
@@ -519,7 +524,7 @@ function bountyHelper:ShowWowheadPopup(itemID, itemName)
     local titleText = self.frames.wowheadPopupText
     if not popup or not editBox or not titleText then return end
 
-    titleText:SetText(string.format("%s%s|r\nPress Ctrl + C to copy Wowhead link:", colors.gold, itemName or "Wowhead Link"))
+    titleText:SetText(string.format("%s%s|r\n按下 Ctrl + C 复制 Wowhead 链接：", colors.gold, itemName or "Wowhead 链接"))
     local url = string.format("https://www.wowhead.com/item=%d", itemID)
     editBox:SetText(url)
     popup:Show()
@@ -611,7 +616,7 @@ function bountyHelper:CreateBossRow(parent, bossData, header, instanceID)
     mapNameText:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
         local waypoint = db.waypoints[instanceID]
-        GameTooltip:SetText(mapName .. (waypoint and ("\nZone: " .. waypoint.name) or ""))
+        GameTooltip:SetText(mapName .. (waypoint and ("\n区域: " .. waypoint.name) or ""))
         GameTooltip:Show()
     end)
     mapNameText:SetScript("OnLeave", GameTooltip_Hide)
@@ -626,8 +631,8 @@ function bountyHelper:CreateBossRow(parent, bossData, header, instanceID)
     chanceText:SetPoint("RIGHT", -15, 0)
     chanceText:SetFont(STANDARD_TEXT_FONT, 14)
     chanceText:SetJustifyH("RIGHT")
-    local chanceColor = getChanceColor(data.chance)
-    chanceText:SetFormattedText("Chance: %s%s", chanceColor, string.format("%.1f%%", data.chance))
+    local chanceColor = getChanceColor(data.chance)	
+    chanceText:SetFormattedText("掉率：%s%s", chanceColor, string.format("%.1f%%", data.chance))
     
     return row
 end
@@ -724,7 +729,7 @@ function bountyHelper:UpdateDiffLayout()
                 isVisible = false
             elseif hideRaids and not difficultyInfo.dungeons[frame.difficultyID] then
                 isVisible = false
-            end
+            end			
         else
             local data = frame.bossData 
             local header = frame.headerFrame
@@ -733,7 +738,7 @@ function bountyHelper:UpdateDiffLayout()
             
             local journalMountID = data.journalMountID
             local isOwned = journalMountID and select(11, C_MountJournal.GetMountInfoByID(data.journalMountID)) or PlayerHasToy(data.mountID)
-            
+
             if isVisible and hideOwned and isOwned then
                 isVisible = false
             end
@@ -745,18 +750,18 @@ function bountyHelper:UpdateDiffLayout()
             end
             if isVisible and hideRaids and not difficultyInfo.dungeons[header.difficultyID] then
                 isVisible = false
-            end
+            end			
 
             if not ((hideKilled and data.killed and not isOwned and not data.repeatable) or (hideOwned and isOwned)) then
                  header.childCount = header.childCount + 1
             end
 
             if isOwned then
-                frame.statusText:SetText(colors.gold .. "Owned")
+                frame.statusText:SetText(colors.gold .. "[已拥有] ✓")
             elseif data.repeatable then
-                frame.statusText:SetText(colors.gold .. "Repeatable")
+                frame.statusText:SetText(colors.gold .. "可重复")
             else
-                frame.statusText:SetText(data.killed and (colors.green .. "Killed") or (colors.red .. "Not Killed"))
+                frame.statusText:SetText(data.killed and (colors.green .. "已击杀") or (colors.red .. "未击杀"))
             end
         end
         frame:SetShown(isVisible)
@@ -828,7 +833,7 @@ function bountyHelper:GetUnsortedMountCentricData()
 end
 
 function bountyHelper:loadMountData(callback)
-    local pending = 62
+    local pending = 63
 
     for mountID, data in pairs(db.mountData) do
         local item = Item:CreateFromItemID(mountID)
@@ -855,8 +860,8 @@ function bountyHelper:createContent()
             self:SetAlpha(1)
             headerRow.arrow:Show()
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-            local leftAction = (useTomTom and TomTom) and "<Left Click to add TomTom Waypoint>" or "<Left Click to add Map Pin>"
-            GameTooltip:SetText(colors.green .. leftAction .. "\n" .. colors.gold .. "<Right Click to copy Wowhead Link>")
+            local leftAction = (useTomTom and TomTom) and "<左键点击添加 TomTom 路径点>" or "<左键点击添加地图标记>"
+            GameTooltip:SetText(colors.green .. leftAction .. "\n" .. colors.gold .. "<右键点击复制 Wowhead 链接>")
             GameTooltip:Show()
         end)
         headerRow.border:SetScript("OnLeave", function(self)
@@ -870,7 +875,7 @@ function bountyHelper:createContent()
             headerRow.border:SetAlpha(0)
             self:Hide()
         end)
-        
+		
         headerRow.border:SetScript("OnMouseDown", function(_, button)
             if button == "RightButton" then
                 bountyHelper:ShowWowheadPopup(mountID, db.mountData[mountID].name)
@@ -882,31 +887,31 @@ function bountyHelper:createContent()
                         end
                     end
                 elseif IsControlKeyDown() then
-                    if not InCombatLockdown() then DressUpMount(data.journalMountID) end
-                elseif db.waypoints[instanceID] then
-                    if not InCombatLockdown() then
-                        local targetMapID = db.waypoints[instanceID].point[4] or db.waypoints[instanceID].point[1]
-                        
-                        if useTomTom and TomTom then
-                            local mapID, x, y = unpack(db.waypoints[instanceID].point)
-                            TomTom:AddWaypoint(mapID, x, y, {
-                                title = instanceToMap[instanceID].name or "Bounty Helper",
-                                persistent = false,
-                                minimap = true,
-                                world = true
-                            })
-                            print(string.format("%sBounty Helper:|r TomTom waypoint set for %s", colors.gold, mountLink))
-                        else
-                            local waypoint = UiMapPoint.CreateFromCoordinates(unpack(db.waypoints[instanceID].point))
-                            C_Map.SetUserWaypoint(waypoint)
-                            C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-                            print(string.format("%sBounty Helper:|r Waypoint set for %s", colors.gold, mountLink))
-                        end
-                        
-                        C_Map.OpenWorldMap(targetMapID)
-                    end
+					if not InCombatLockdown() then DressUpMount(data.journalMountID) end
+				elseif db.waypoints[instanceID] then
+					if not InCombatLockdown() then
+						local targetMapID = db.waypoints[instanceID].point[4] or db.waypoints[instanceID].point[1]
+
+						if useTomTom and TomTom then
+							local mapID, x, y = unpack(db.waypoints[instanceID].point)
+							TomTom:AddWaypoint(mapID, x, y, {
+								title = instanceToMap[instanceID].name or "Bounty Helper",
+								persistent = false,
+								minimap = true,
+								world = true
+							})
+							print(string.format("%sBounty Helper:|r TomTom路径点设置为 %s", colors.gold, mountLink))
+						else
+							local waypoint = UiMapPoint.CreateFromCoordinates(unpack(db.waypoints[instanceID].point))
+							C_Map.SetUserWaypoint(waypoint)
+							C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+							print(string.format("%sBounty Helper:|r %s 的路线已标记", colors.gold, mountLink))
+						end
+
+						C_Map.OpenWorldMap(targetMapID)
+					end
                 else
-                    print(string.format("%sBounty Helper:|r No waypoint data available for %s", colors.gold, mountLink))
+					print(string.format("%sBounty Helper:|r 没有 %s 的路线", colors.gold, mountLink))
                 end
             end
         end)
@@ -963,9 +968,9 @@ function bountyHelper:createHeaderRow(mountID, journalMountID, name, chance)
     createText(panel, "GameFontNormalLarge", {"TOPLEFT", 48, -10}):SetText(name)
     local chanceText = createText(panel, "GameFontNormal", {"TOPRIGHT", -12, -10}, nil, {STANDARD_TEXT_FONT, 14})
     chanceText:SetJustifyH("RIGHT")
-    local chanceColor = getChanceColor(chance)
-    chanceText:SetFormattedText("Chance: %s%s", chanceColor, string.format("%.1f%%", chance))
-    
+    local chanceColor = getChanceColor(chance)	
+    chanceText:SetFormattedText("掉率：%s%s", chanceColor, string.format("%.1f%%", chance))
+	
     local ignore = createButton(panel, {"TOPLEFT", 2, -38}, "ignore", colors.redRGB, function()
         ignoreList[mountID] = not ignoreList[mountID]
         local newColor = ignoreList[mountID] and colors.redRGB or colors.goldRGB
@@ -982,7 +987,7 @@ function bountyHelper:createHeaderRow(mountID, journalMountID, name, chance)
             local button2 = self.frames.ignorePopupButton2
 
             if not hideIgnored then
-                text:SetText("Do you want to hide ignored items?\nYou can change this in the settings later.")
+                text:SetText("你想隐藏被忽略的项目吗？\n稍后可以在设置中更改此选项。")
                 button1:SetText("Yes")
                 button1:ClearAllPoints()
                 button1:SetPoint("BOTTOMLEFT", 75, 15)
@@ -1001,7 +1006,7 @@ function bountyHelper:createHeaderRow(mountID, journalMountID, name, chance)
                 end)
                 button2:Show()
             else
-                text:SetText("You can show ignored items again in the settings.")
+                text:SetText("你可以在设置中再次显示被忽略的项目。")
                 button1:SetText("OK")
                 button1:ClearAllPoints()
                 button1:SetPoint("BOTTOM", 0, 15)
@@ -1011,8 +1016,8 @@ function bountyHelper:createHeaderRow(mountID, journalMountID, name, chance)
                 button2:Hide()
             end
             popup:Show()
-        end
-    end, nil, "Ignore")
+        end		
+    end, nil, "忽略")
     ignore:Hide()
     row.ignore = ignore
 
@@ -1035,7 +1040,7 @@ end
 function bountyHelper:createSourceRow(source)
     local row = CreateFrame("Frame", nil, self.frames.scrollContent)
     row:SetSize(606, 30)
-    row:SetClipsChildren(true)
+    row:SetClipsChildren(true)	
     row.source = source
 
     local nameText = createText(row, "GameFontNormal", {"LEFT", 12, 0}, nil, {STANDARD_TEXT_FONT, 16})
@@ -1056,7 +1061,7 @@ function bountyHelper:createSourceRow(source)
     mapNameText:SetScript("OnEnter", function(self)
         local waypoint = db.waypoints[source.instanceID]
         GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-        GameTooltip:SetText(instanceToMap[source.instanceID].name .. (waypoint and ("\nZone: " .. waypoint.name) or ""))
+        GameTooltip:SetText(instanceToMap[source.instanceID].name .. (waypoint and ("\n区域: " .. waypoint.name) or ""))
         GameTooltip:Show()
     end)
     mapNameText:SetScript("OnLeave", GameTooltip_Hide)
@@ -1081,11 +1086,11 @@ function bountyHelper:createSourceRow(source)
         end
         if #tooltip > 0 then
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-            GameTooltip:SetText(string.format("%sKilled on:%s", colors.green, tooltip))
+            GameTooltip:SetText(string.format("%s已击杀角色:%s", colors.green, tooltip))
             GameTooltip:Show()
         end
     end)
-    statusText:onLeave(GameTooltip_Hide)
+    statusText:onLeave(GameTooltip_Hide)	
     row.statusText = statusText
 
     if source.lfr then
@@ -1095,7 +1100,7 @@ function bountyHelper:createSourceRow(source)
         if type(source.wing) == "table" then
             source.wing = source.wing[faction]
         end
-        local tooltipText = colors.green .. "<Left Click to add Map Pin>|r\nWing: " .. GetLFGDungeonInfo(source.wing)
+        local tooltipText = colors.green .. "<点击添加路径点>|r\n飞往: " .. GetLFGDungeonInfo(source.wing)
         createButton(row, {"LEFT", diffText, "RIGHT"}, "pin", colors.goldRGB, function()
             if not InCombatLockdown() then
                 local targetMapID = source.lfr[4] or source.lfr[1]
@@ -1107,13 +1112,13 @@ function bountyHelper:createSourceRow(source)
                         minimap = true,
                         world = true
                     })
-                    print(string.format("%sBounty Helper:|r TomTom waypoint set", colors.gold))
+                    print(string.format("%sBounty Helper:|r TomTom路径点设置", colors.gold))
                 else
-                    C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(unpack(source.lfr)))
-                    C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-                    print(string.format("%sBounty Helper:|r Waypoint set", colors.gold))
-                end
-                
+                C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(unpack(source.lfr)))
+                C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+                print(string.format("%sBounty Helper:|r 路线设置", colors.gold))
+            end
+
                 C_Map.OpenWorldMap(targetMapID)
             end
         end, nil, tooltipText)
@@ -1126,7 +1131,7 @@ function bountyHelper:createSourceRow(source)
             ((difficultyInfo.dungeons[source.diff] and SetDungeonDifficultyID) or (IsLegacyDifficulty(source.diff) and SetLegacyRaidDifficultyID) or SetRaidDifficultyID)(source.diff)
         end)
     end
-
+    
     return row
 end
 
@@ -1147,7 +1152,7 @@ function bountyHelper:sortContent(sorting)
         142236, 143643, 152789, 152816, 159842, 159921, 160829, 166518,
         166705, 168826, 174872, 181819, 186638, 186656, 186642, 190768,
         210061, 209035, 225548, 224147, 224151, 236960, 235626, 236687,
-        246445, 243061, 246565, 262914, 260231, 246590
+        246445, 243061, 246565, 262914, 260231, 246590, 275658
     }
     local orderMap = {}
     for i, id in ipairs(defaultOrder) do orderMap[id] = i end
@@ -1197,11 +1202,11 @@ function bountyHelper:updateContent()
                 local killed = boss.killedAtDiff[source.diff]
 
                 if isOwned then
-                    sourceRow.statusText:SetText(colors.gold .. "Owned")
+                    sourceRow.statusText:SetText(colors.gold .. "已拥有")
                 elseif source.repeatable then
-                    sourceRow.statusText:SetText(colors.gold .. "Repeatable")
+                    sourceRow.statusText:SetText(colors.gold .. "可重复")
                 else
-                    sourceRow.statusText:SetText(killed and (colors.green .. "Killed") or (colors.red .. "Not Killed"))
+                    sourceRow.statusText:SetText(killed and (colors.green .. "已击杀") or (colors.red .. "未击杀"))
                 end
 
                 local hide = (hideIgnored and ignoreList[frame.mountID]) or (hideOwned and isOwned) or (hideKilled and killed and not isOwned and not source.repeatable)
@@ -1213,7 +1218,7 @@ function bountyHelper:updateContent()
                 end
                 if not hide and hideRaids and not difficultyInfo.dungeons[source.diff] then
                     hide = true
-                end
+                end				
                 if not hide then sourceCount = sourceCount + 1 end
                 sourceRow:SetShown(not hide)
             end
@@ -1250,7 +1255,7 @@ function bountyHelper:ShowDifficultyView()
     
     bountyHelper.frames.scrollFrame:Hide()
     bountyHelper.frames.ToDifficultyViewButton:Hide()
-    
+
     bountyHelper.frames.SearchBar:Hide()
     bountyHelper.frames.ClearSearchButton:Hide()
     
@@ -1264,7 +1269,7 @@ function bountyHelper:ShowMountView()
 
     bountyHelper.frames.scrollFrame:Show()
     bountyHelper.frames.ToDifficultyViewButton:Show()
-    
+
     bountyHelper.frames.SearchBar:Show()
     bountyHelper.frames.ClearSearchButton:Show()
     
@@ -1285,7 +1290,7 @@ function bountyHelper:Toggle()
         bountyHelper.frames.HideButtonCheckbox:SetChecked(hideButton)
         bountyHelper.frames.LockCheckbox:SetChecked(lockEsc)
         bountyHelper.frames.HideDungeonsCheckbox:SetChecked(hideDungeons)
-        bountyHelper.frames.HideRaidsCheckbox:SetChecked(hideRaids)
+        bountyHelper.frames.HideRaidsCheckbox:SetChecked(hideRaids)		
         bountyHelper.frames.TomTomCheckbox:SetChecked(useTomTom)
         bountyHelper.frames.SearchBar:SetText(searchText)
         bountyHelper:ShowMountView()
@@ -1320,7 +1325,7 @@ local function checkSaved()
                                     end
                                 end
                             end
-                            
+							
                             boss.killedAtDiff[difficultyID] = true
                             if bountyHelper.difficultyViewData[difficultyID] and bountyHelper.difficultyViewData[difficultyID][instanceID] then
                                 for _, cachedBoss in ipairs(bountyHelper.difficultyViewData[difficultyID][instanceID]) do
@@ -1360,14 +1365,14 @@ eventHandlerFrame:SetScript("OnEvent", function(self, event, ...)
             hideButton = BountyHelperDB.hideButton or false
             lockEsc = BountyHelperDB.lockEsc or false
             hideDungeons = BountyHelperDB.hideDungeons or false
-            hideRaids = BountyHelperDB.hideRaids or false
+            hideRaids = BountyHelperDB.hideRaids or false			
             useTomTom = BountyHelperDB.useTomTom or true
 
             currentScale = BountyHelperDB.scale or 1.0
             searchText = BountyHelperDB.searchText or ""
             BountyHelperDB.point = BountyHelperDB.point or {"CENTER", 0, 0}
             BountyHelperDB.altData = BountyHelperDB.altData or {}
-
+			
             local LibDBIcon = LibStub("LibDBIcon-1.0")
             LibDBIcon:Register("BountyHelper", LDB, dbBH.minimap)
             buttonBH = LibDBIcon:GetMinimapButton("BountyHelper")
@@ -1375,7 +1380,7 @@ eventHandlerFrame:SetScript("OnEvent", function(self, event, ...)
     
     elseif event == "FIRST_FRAME_RENDERED" then
         serverTime = GetServerTime()
-        charName = string.format("%s-%s", GetUnitName("player"), GetRealmName())
+        charName = string.format("%s-%s", GetUnitName("player"), GetRealmName())	
         faction = (UnitFactionGroup("player") == "Alliance") and 1 or 2
 
         for i, wp in pairs(db.waypoints) do
@@ -1407,7 +1412,7 @@ eventHandlerFrame:SetScript("OnEvent", function(self, event, ...)
         bountyHelper:initialize()
         bountyHelper.frames.main:SetScale(currentScale)
         bountyHelper.frames.ScaleSlider:SetValue(currentScale)
-        bountyHelper.frames.ScaleValueText:SetText(string.format("UI Scale: %.2f", currentScale))
+        bountyHelper.frames.ScaleValueText:SetText(string.format("界面缩放: %.2f", currentScale))
 
         checkSaved()
 
@@ -1427,14 +1432,14 @@ eventHandlerFrame:SetScript("OnEvent", function(self, event, ...)
         BountyHelperDB.hideButton = hideButton
         BountyHelperDB.lockEsc = lockEsc
         BountyHelperDB.hideDungeons = hideDungeons
-        BountyHelperDB.hideRaids = hideRaids
+        BountyHelperDB.hideRaids = hideRaids		
         BountyHelperDB.useTomTom = useTomTom
         BountyHelperDB.scale = currentScale
         BountyHelperDB.searchText = searchText
         local point, relativeTo, relativePoint, xOfs, yOfs = bountyHelper.frames.main:GetPoint()
         BountyHelperDB.point = { relativePoint, xOfs, yOfs }
         checkSaved()
-
+		
     elseif event == "ENCOUNTER_END" then
         local encounterID, _, difficultyID, _, success = ...
         if success == 1 then

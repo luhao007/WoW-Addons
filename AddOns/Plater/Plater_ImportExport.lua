@@ -31,9 +31,9 @@ function Plater.ImportScriptsFromLibrary()
                     local success, scriptAdded, wasEnabled = Plater.ImportScriptString(encodedString, true, autoImportScript.OverrideTriggers, false, false)
                     if (success) then
                         if (autoImportScript.Revision == 1) then
-                            Plater:Msg("New Script Installed: " .. name)
+                            Plater:Msg("新脚本已安装: " .. name)
                         else
-                            Plater:Msg("Applied Update to Script: " .. name)
+                            Plater:Msg("应用更新脚本: " .. name)
                         end
 
                         --all scripts imported are enabled by default, if the import object has a enabled member, probably its value is false
@@ -129,7 +129,7 @@ function Plater.ImportScriptString(text, ignoreRevision, overrideTriggers, showD
                             if (not ignoreRevision) then
                                 if (scriptObject.Revision >= newScript.Revision) then
                                     if (showDebug) then
-                                        Plater:Msg("Your version of this script is newer or is the same version.")
+                                        Plater:Msg("脚本版本较新或与版本相同.")
                                         return false
                                     end
                                 end
@@ -189,7 +189,7 @@ function Plater.ImportScriptString(text, ignoreRevision, overrideTriggers, showD
                             objectAdded = newScript
 
                             if (showDebug) then
-                                Plater:Msg("Script replaced by a newer version.")
+                                Plater:Msg("脚本被新版本取代.")
                             end
 
                             alreadyExists = true
@@ -202,7 +202,7 @@ function Plater.ImportScriptString(text, ignoreRevision, overrideTriggers, showD
                     table.insert(scriptDB, newScript)
                     objectAdded = newScript
                     if (showDebug) then
-                        Plater:Msg("Script added.")
+                        Plater:Msg("添加脚本.")
                     end
                 end
 
@@ -219,7 +219,7 @@ function Plater.ImportScriptString(text, ignoreRevision, overrideTriggers, showD
                             if (not ignoreRevision) then
                                 if (scriptObject.Revision >= newScript.Revision) then
                                     if (showDebug) then
-                                        Plater:Msg("Your version of this script is newer or is the same version.")
+                                        Plater:Msg("脚本版本较新或与版本相同.")
                                         return false
                                     end
                                 end
@@ -245,7 +245,7 @@ function Plater.ImportScriptString(text, ignoreRevision, overrideTriggers, showD
                             objectAdded = newScript
 
                             if (showDebug) then
-                                Plater:Msg("Mod replaced by a newer version.")
+                                Plater:Msg("被新版本替换的模组.")
                             end
 
                             alreadyExists = true
@@ -258,21 +258,21 @@ function Plater.ImportScriptString(text, ignoreRevision, overrideTriggers, showD
                     table.insert(scriptDB, newScript)
                     objectAdded = newScript
                     if (showDebug) then
-                        Plater:Msg("Script added.")
+                        Plater:Msg("添加脚本.")
                     end
                 end
             end
         else
             --check if the user in importing a profile in the scripting tab
             if (indexScriptTable.plate_config) then
-                DF:ShowErrorMessage("Invalid Script or Mod.\n\nImport profiles at the Profiles tab.")
+                DF:ShowErrorMessage("无效脚本或模组.\n\n在配置文件选项卡上导入配置文件.")
             elseif (indexScriptTable.NpcColor) then
-                DF:ShowErrorMessage("Invalid Script or Mod.\n\nImport NpcColors at the Npc Colors tab.")
+                DF:ShowErrorMessage("无效脚本或模组.\n\n在Npc颜色选项卡中导入Npc颜色.")
             end
-            errortext = "Cannot import: data imported is invalid"
+            errortext = "无法导入: 导入的数据无效"
         end
     else
-        errortext = "Cannot import: data imported is invalid"
+        errortext = "无法导入: 导入的数据无效"
     end
 
     if (errortext and showDebug) then
@@ -533,7 +533,7 @@ function Plater.ExportScriptToGroup(scriptId, scriptType)
     local scriptToSend = Plater.GetScriptObject(scriptId, scriptType)
 
     if (not scriptToSend) then
-        Plater:Msg("script not found", scriptId)
+        Plater:Msg("未找到脚本", scriptId)
         return
     end
 
@@ -550,17 +550,17 @@ function Plater.ExportScriptToGroup(scriptId, scriptType)
             Plater:SendCommMessage(Plater.COMM_PLATER_PREFIX, LibAceSerializer:Serialize(Plater.COMM_SCRIPT_GROUP_EXPORTED, UnitName("player"), GetRealmName(), UnitGUID("player"), encodedString), "PARTY")
 
         else
-            Plater:Msg("Failed to send the script: your group isn't home group.")
+            Plater:Msg("发送脚本失败: 所在的组不是家庭组.")
         end
     else
-        Plater:Msg("Fail to encode scriptId", scriptId)
+        Plater:Msg("未对 scriptId 进行编码", scriptId)
     end
 end
 
 function Plater.ShowImportScriptConfirmation()
 
     if (not Plater.ImportConfirm) then
-        Plater.ImportConfirm = DF:CreateSimplePanel(UIParent, 380, 130, "Plater Nameplates: Script Importer", "PlaterImportScriptConfirmation")
+        Plater.ImportConfirm = DF:CreateSimplePanel(UIParent, 380, 130, "Plater Nameplates: 脚本导入器", "PlaterImportScriptConfirmation")
         Plater.ImportConfirm:Hide()
         DF:ApplyStandardBackdrop(Plater.ImportConfirm)
 
@@ -582,21 +582,21 @@ function Plater.ShowImportScriptConfirmation()
         local decline_aura = function(self, button, scriptObject, senderGUID)
             if (Plater.ImportConfirm.AlwaysIgnoreCheckBox.value) then
                 Plater.db.profile.script_banned_user [senderGUID] = true
-                Plater:Msg("the user won't send more scripts to you.")
+                Plater:Msg("用户不会向你发送更多脚本.")
             end
             Plater.ImportConfirm:Hide()
             Plater.ShowImportScriptConfirmation()
         end
 
-        Plater.ImportConfirm.AcceptButton = Plater:CreateButton(Plater.ImportConfirm, accept_aura, 125, 20, "Accept", -1, nil, nil, nil, nil, nil, Plater:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
-        Plater.ImportConfirm.DeclineButton = Plater:CreateButton(Plater.ImportConfirm, decline_aura, 125, 20, "Decline", -1, nil, nil, nil, nil, nil, Plater:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
+        Plater.ImportConfirm.AcceptButton = Plater:CreateButton(Plater.ImportConfirm, accept_aura, 125, 20, "接受", -1, nil, nil, nil, nil, nil, Plater:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
+        Plater.ImportConfirm.DeclineButton = Plater:CreateButton(Plater.ImportConfirm, decline_aura, 125, 20, "拒绝", -1, nil, nil, nil, nil, nil, Plater:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
 
         Plater.ImportConfirm.AcceptButton:SetPoint("bottomright", Plater.ImportConfirm, "bottomright", -14, 31)
         Plater.ImportConfirm.DeclineButton:SetPoint("bottomleft", Plater.ImportConfirm, "bottomleft", 14, 31)
 
         Plater.ImportConfirm.AlwaysIgnoreCheckBox = DF:CreateSwitch(Plater.ImportConfirm, function()end, false, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, DF:GetTemplate("switch", "OPTIONS_CHECKBOX_BRIGHT_TEMPLATE"))
         Plater.ImportConfirm.AlwaysIgnoreCheckBox:SetAsCheckBox()
-        Plater.ImportConfirm.AlwaysIgnoreLabel = Plater:CreateLabel(Plater.ImportConfirm, "Always decline this user", Plater:GetTemplate("font", "OPTIONS_FONT_TEMPLATE"))
+        Plater.ImportConfirm.AlwaysIgnoreLabel = Plater:CreateLabel(Plater.ImportConfirm, "总是拒绝该用户", Plater:GetTemplate("font", "OPTIONS_FONT_TEMPLATE"))
         Plater.ImportConfirm.AlwaysIgnoreCheckBox:SetPoint("topleft", Plater.ImportConfirm.DeclineButton, "bottomleft", 0, -4)
         Plater.ImportConfirm.AlwaysIgnoreLabel:SetPoint("left", Plater.ImportConfirm.AlwaysIgnoreCheckBox, "right", 2, 0)
 
@@ -604,10 +604,10 @@ function Plater.ShowImportScriptConfirmation()
     end
 
     if (Plater.ImportConfirm:IsShown()) then
-        Plater.ImportConfirm.Title:SetText("Plater Nameplates: Script Importer(" .. #Plater.ScriptsWaitingApproval + 1 .. ")")
+        Plater.ImportConfirm.Title:SetText("Plater Nameplates: 脚本导入器(" .. #Plater.ScriptsWaitingApproval + 1 .. ")")
         return
     else
-        Plater.ImportConfirm.Title:SetText("Plater Nameplates: Script Importer(" .. #Plater.ScriptsWaitingApproval .. ")")
+        Plater.ImportConfirm.Title:SetText("Plater Nameplates: 脚本导入器(" .. #Plater.ScriptsWaitingApproval .. ")")
     end
 
     local nextScriptToApprove = table.remove(Plater.ScriptsWaitingApproval)
@@ -621,9 +621,9 @@ function Plater.ShowImportScriptConfirmation()
         rawset(Plater.ImportConfirm.DeclineButton, "param1", scriptObject)
         rawset(Plater.ImportConfirm.DeclineButton, "param2", senderGUID)
 
-        Plater.ImportConfirm.AcceptText.text = "The user |cFFFFAA00" .. nextScriptToApprove [2] .. "|r sent the script: |cFFFFAA00" .. scriptObject.Name .. "|r"
-        Plater.ImportConfirm.ScriptName.text = "Script Version: |cFFFFAA00" .. scriptObject.Revision .. "|r"
-        Plater.ImportConfirm.ScriptVersion.text = nextScriptToApprove [5] and "|cFFFFAA33You already have this script on version:|r " .. nextScriptToApprove [6] or "|cFF33DD33You don't have this script yet!"
+        Plater.ImportConfirm.AcceptText.text = "用户 |cFFFFAA00" .. nextScriptToApprove [2] .. "|r 发送脚本: |cFFFFAA00" .. scriptObject.Name .. "|r"
+        Plater.ImportConfirm.ScriptName.text = "脚本版本: |cFFFFAA00" .. scriptObject.Revision .. "|r"
+        Plater.ImportConfirm.ScriptVersion.text = nextScriptToApprove [5] and "|cFFFFAA33你已经有这个脚本的这个版本:|r " .. nextScriptToApprove [6] or "|cFF33DD33你还没有这个脚本!"
 
         Plater.ImportConfirm:SetPoint("center", UIParent, "center", 0, 150)
         Plater.ImportConfirm.AlwaysIgnoreCheckBox:SetValue(false)

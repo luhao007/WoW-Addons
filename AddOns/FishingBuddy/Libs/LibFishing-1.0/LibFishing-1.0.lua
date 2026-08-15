@@ -239,6 +239,7 @@ FishLib.continent_fishing = {
     { ["max"] = 175, ["skillid"] = 2585, ["cat"] = 1114, ["rank"] = 0 },	-- Zandalar Fishing
     { ["max"] = 200, ["skillid"] = 2754, ["cat"] = 1391, ["rank"] = 0 },	-- Shadowlands Fishing
 	{ ["max"] = 100, ["skillid"] = 2826, ["cat"] = 1805, ["rank"] = 0 },	-- Dragonflight Fishing
+	{ ["max"] = 300, ["skillid"] = 2877, ["cat"] = 2100, ["rank"] = 0 },	-- The War Within Fishing (Khaz Algar)
 }
 local DEFAULT_SKILL = FishLib.continent_fishing[1];
 
@@ -257,6 +258,7 @@ local FISHING_LEVELS = {
     175,        -- BfA
     200,        -- Shadowlands
 	100,        -- Dragonflight
+	300,        -- The War Within
 }
 
 local CHECKINTERVAL = 0.5
@@ -371,7 +373,10 @@ function FishLib:UpdateFishingSkill()
         if (info) then
             local _, _, skill, _, _, _, _, _ = GetProfessionInfo(fishing);
             skill = skill or 0
-            if (info.rank < skill) then
+            -- Initialize rank if not set
+            if (not info.rank or info.rank == 0) then
+                info.rank = skill
+            elseif (info.rank < skill) then
                 info.rank = skill
             end
             if skill then
@@ -916,17 +921,35 @@ fishlibframe:SetScript("OnEvent", function(self, event, ...)
     elseif ( event == "CHAT_MSG_SKILL" ) then
         self.fl.caughtSoFar = 0;
     elseif ( event == "LOOT_OPENED" ) then
-        if (IsFishingLoot()) then
+        -- Count only if the fishing channel just ran; on Retail a pole in the
+        -- tool slot no longer implies we're actually fishing
+        if (self.fl:IsFishingPole() and self.fl.lastCastTime and (GetTime() - self.fl.lastCastTime) < 3.0) then
             self.fl.caughtSoFar = self.fl.caughtSoFar + 1;
         end
     elseif ( event == "UNIT_SPELLCAST_CHANNEL_START" or event == "UNIT_SPELLCAST_CHANNEL_STOP" ) then
         if (arg1 == "player" ) then
+            local spellid = select(3, ...);
+            if ( not self.fl.fishingSpellId ) then
+                local fid = self.fl:GetFishingSpellInfo();
+                if ( fid and fid > 9 ) then
+                    -- don't cache the placeholder id returned before profession data loads
+                    self.fl.fishingSpellId = fid;
+                end
+            end
+            -- 131474 is the castable Fishing spell the channel events report on Retail
+            if ( spellid and (spellid == self.fl.fishingSpellId or spellid == 131474) ) then
+                self.fl.lastCastTime = GetTime();
+            end
             self.fl:UpdateLureInventory();
         end
     elseif ( event == "PLAYER_ENTERING_WORLD" ) then
         self:RegisterEvent("ITEM_LOCK_CHANGED")
         self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
         self:RegisterEvent("SPELLS_CHANGED")
+        -- Update fishing skill when entering world
+        self.fl:UpdateFishingSkill()
+        -- Load trade skill data for continent-specific skills
+        self.fl:GetTradeSkillData()
     elseif ( event == "PLAYER_LEAVING_WORLD" ) then
         self:UnregisterEvent("ITEM_LOCK_CHANGED")
         self:UnregisterEvent("PLAYER_EQUIPMENT_CHANGED")
@@ -939,6 +962,9 @@ fishlibframe:SetScript("OnEvent", function(self, event, ...)
         self.fl:SetCombat(true)
     elseif (event == "PLAYER_REGEN_ENABLED") then
         self.fl:SetCombat(false)
+        if (self.fl.pendingMouseEvent) then
+            self.fl:SetSAMouseEvent(self.fl.pendingMouseEvent)
+        end
     end
 end);
 fishlibframe:Show();
@@ -1487,6 +1513,14 @@ end
 
 function FishLib:IsFishingPole(itemLink)
     if (not itemLink) then
+        -- Modern WoW (10.0.2+): fishing poles are profession tools that equip into
+        -- the dedicated fishing tool slot, not the main hand. Anything worn in that
+        -- slot is a fishing tool, so treat it as a pole. Fall back to the classic
+        -- main-hand weapon check for Classic clients where the slot does not exist.
+        local toolLink = self:GetFishingToolItem();
+        if ( toolLink ) then
+            return true;
+        end
         -- Get the main hand item texture
         itemLink = self:GetMainHandItem();
     end
@@ -1622,12 +1656,34 @@ function FishLib:ClearLastTooltipText()
 end
 
 function FishLib:OnFishingBobber()
-   if ( GameTooltip:IsVisible() and GameTooltip:GetAlpha() == 1 ) then
-        local text = GameTooltipTextLeft1:GetText() or self:GetLastTooltipText();
-        -- let a partial match work (for translations)
-        return ( text and string.find(text, self:GetBobberName() ) );
+    -- Tooltip access during combat can return restricted strings
+    if InCombatLockdown() then
+        return false
+    end
+
+    -- Retail can mark tooltip alpha as a restricted number in mouse handlers.
+    -- Visibility plus a guarded text match is sufficient here.
+    if GameTooltip:IsVisible() then
+        local text = GameTooltipTextLeft1 and GameTooltipTextLeft1:GetText()
+
+        -- Only operate on real Lua strings
+        if type(text) ~= "string" then
+            return false
+        end
+
+        local bobberName = self:GetBobberName()
+        if type(bobberName) ~= "string" then
+            return false
+        end
+
+        local ok, found = pcall(string.find, text, bobberName, 1, true)
+        if not ok then
+            return false
+        end
+        return found ~= nil
     end
 end
+
 
 local ACTIONDOUBLEWAIT = 0.4;
 local MINACTIONDOUBLECLICK = 0.05;
@@ -1700,6 +1756,7 @@ FishLib.KUL_TIRAS = 9
 FishLib.ZANDALAR = 10
 FishLib.SHADOWLANDS = 11
 FishLib.DRAGONFLIGHT = 12
+FishLib.THE_WAR_WITHIN = 13
 
 -- Darkmoon Island is it's own continent?
 local continent_map = {
@@ -1717,6 +1774,7 @@ local continent_map = {
     [407] = FishLib.THE_MAELSTROM,      -- Darkmoon Island
     [1550] = FishLib.SHADOWLANDS,       -- Shadowlands
     [1978] = FishLib.DRAGONFLIGHT,      -- Dragon Isles
+    [2274] = FishLib.THE_WAR_WITHIN,    -- Khaz Algar (continent)
 }
 
 local special_maps = {
@@ -1730,6 +1788,13 @@ local special_maps = {
     [338] = FishLib.THE_MAELSTROM,		-- Molten Front
     [51] = FishLib.THE_MAELSTROM,		-- Swamp of Sorrows
     [122] = FishLib.OUTLAND,		    -- Isle of Quel'Danas
+    [542] = FishLib.THE_WAR_WITHIN,		-- Isle of Dorn
+    [535] = FishLib.THE_WAR_WITHIN,		-- Ringing Deeps
+    [534] = FishLib.THE_WAR_WITHIN,		-- Hallowfall
+    [536] = FishLib.THE_WAR_WITHIN,		-- Azj-Kahet
+    [627] = FishLib.THE_WAR_WITHIN,		-- Dornogal (city)
+    [2248] = FishLib.THE_WAR_WITHIN,	-- TWW zone
+    [2274] = FishLib.THE_WAR_WITHIN,	-- Khaz Algar (continent)
 }
 
 -- Continents
@@ -2241,8 +2306,13 @@ function FishLib:SetSAMouseEvent(buttonevent)
         self.buttonevent = buttonevent;
         local btn = _G[SABUTTONNAME];
         if ( btn ) then
-            btn:RegisterForClicks();
-            btn:RegisterForClicks(self.buttonevent);
+            if InCombatLockdown() then
+                self.pendingMouseEvent = self.buttonevent;
+            else
+                btn:RegisterForClicks();
+                btn:RegisterForClicks(self.buttonevent);
+                self.pendingMouseEvent = nil;
+            end
         end
         return true;
     end
@@ -2414,8 +2484,11 @@ end
 -- and the bonus from a lure, if any, separately
 function FishLib:GetPoleBonus()
     if (self:IsFishingPole()) then
+        -- Modern WoW (10.0.2+): the pole equips into the fishing tool slot, not the
+        -- main hand, so read the pole's bonus from the correct slot on retail.
+        local poleslot = IsRetail() and INVSLOT_FISHING_TOOL or INVSLOT_MAINHAND;
         -- get the total bonus for the pole
-        local total = self:FishingBonusPoints(INVSLOT_MAINHAND, true);
+        local total = self:FishingBonusPoints(poleslot, true);
         local hmhe,_,_,_,_,_ = GetWeaponEnchantInfo();
         if ( hmhe ) then
             local id;

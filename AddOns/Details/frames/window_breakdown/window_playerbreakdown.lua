@@ -699,7 +699,7 @@ function breakdownWindowFrame:CreateRightSideBar() --not enabled
 	mergePlayerSpellsCheckbox:SetPoint("bottom", breakdownWindowFrame.RightSideBar, "bottom", 0, 2)
 
 	local mergePlayerSpellsLabel = breakdownWindowFrame.RightSideBar:CreateFontString(nil, "overlay", "GameFontNormal")
-	mergePlayerSpellsLabel:SetText("Merge Player Spells")
+	mergePlayerSpellsLabel:SetText("合并玩家法术")
 	detailsFramework:SetFontRotation(mergePlayerSpellsLabel, 90)
 	mergePlayerSpellsLabel:SetPoint("center", mergePlayerSpellsCheckbox.widget, "center", -6, mergePlayerSpellsCheckbox:GetHeight()/2 + mergePlayerSpellsLabel:GetStringWidth() / 2)
 
@@ -717,7 +717,7 @@ function breakdownWindowFrame:CreateRightSideBar() --not enabled
 	mergePetSpellsCheckbox:SetPoint("bottom", breakdownWindowFrame.RightSideBar, "bottom", 0, 160)
 
 	local mergePetSpellsLabel = breakdownWindowFrame.RightSideBar:CreateFontString(nil, "overlay", "GameFontNormal")
-	mergePetSpellsLabel:SetText("Merge Pet Spells")
+	mergePetSpellsLabel:SetText("合并宠物法术")
 	detailsFramework:SetFontRotation(mergePetSpellsLabel, 90)
 	mergePetSpellsLabel:SetPoint("center", mergePetSpellsCheckbox.widget, "center", -6, mergePetSpellsCheckbox:GetHeight()/2 + mergePetSpellsLabel:GetStringWidth() / 2)
 
@@ -927,7 +927,7 @@ function Details:CreateBreakdownWindow()
 
 	function breakdownWindowFrame:SetStatusbarText(text, fontSize, fontColor)
 		if (not text) then
-			breakdownWindowFrame:SetStatusbarText("An AddOn by Terciob | Part of Details! Damage Meter | Click 'Options' button for settings.", 10, "gray")
+			breakdownWindowFrame:SetStatusbarText("由Terciob制作的插件 | 作为Details! Damage Meter的一部分 | 点击'选项'按钮进行设置.", 10, "gray")
 			return
 		end
 		statusBar.Text.text = text

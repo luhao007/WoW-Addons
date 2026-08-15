@@ -43,7 +43,7 @@ local ALPHABET_LOOKUP = {
 local DEFAULT_FONT_PATH = {
 	[ALPHABET.ROMAN] = "Fonts\\FRIZQT__.ttf",
 	[ALPHABET.KOREAN] = "Fonts\\2002.ttf",
-	[ALPHABET.CHINESE] = "Fonts\\ARKai_C.ttf",
+	[ALPHABET.CHINESE] = "Interface\\AddOns\\TradeSkillMaster\\Fonts\\AliPH.ttf",
 	[ALPHABET.CYRILLIC] = "Fonts\\FRIZQT___CYR.ttf",
 }
 
@@ -117,7 +117,7 @@ end
 ---@return number
 ---@return 'OUTLINE'|'THICK'|'MONOCHROME'|nil
 function FontObject:GetWowFont()
-	if self._path == "Fonts\\ARKai_C.ttf" then
+	if self._path == "Interface\\AddOns\\TradeSkillMaster\\Fonts\\AliPH.ttf" then
 		-- This font is a bit smaller than it should be, so increase it by 1
 		return self._path, self._size + 1, self._flags
 	else

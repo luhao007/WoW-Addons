@@ -16,13 +16,10 @@ local private = {
 		qualityMatStrings = {},
 	},
 }
+local NUM_QUALITY_MAT_QUALITIES = 3
 local DF_MAX_QUALITY_MAT_DIFFICULTY_RATIO = 0.25
-local MIDNGIHT_TWW_MAX_QUALITY_MAT_DIFFICULTY_RATIO = 0.4
+local TWW_MAX_QUALITY_MAT_DIFFICULTY_RATIO = 0.4
 local SKILL_PER_TARGET_QUALITY = {
-	[2] = {
-		0,
-		1.0,
-	},
 	[3] = {
 		0,
 		0.5,
@@ -50,8 +47,8 @@ function Quality.GetMaxMatContribution(rootCategoryId)
 	if not rootCategoryId then
 		return 0
 	end
-	local dragonFlightRecipe = rootCategoryId <= 1897
-	return dragonFlightRecipe and DF_MAX_QUALITY_MAT_DIFFICULTY_RATIO or MIDNGIHT_TWW_MAX_QUALITY_MAT_DIFFICULTY_RATIO
+	local warWithinRecipe = rootCategoryId > 1897 and rootCategoryId < 2000
+	return warWithinRecipe and TWW_MAX_QUALITY_MAT_DIFFICULTY_RATIO or DF_MAX_QUALITY_MAT_DIFFICULTY_RATIO
 end
 
 ---Returns the material contribution value for a given recipe based on the quality and expansion.
@@ -156,7 +153,7 @@ function private.MatCombationIterator(context)
 		for i = #context.qualityMatStrings, 1, -1 do
 			local matString = context.qualityMatStrings[i]
 			context.qualityMatStrings[matString] = context.qualityMatStrings[matString] + 1
-			if context.qualityMatStrings[matString] > MatString.GetNumQualities(matString) then
+			if context.qualityMatStrings[matString] > NUM_QUALITY_MAT_QUALITIES then
 				context.qualityMatStrings[matString] = 1
 			else
 				carry = false
@@ -190,7 +187,7 @@ function private.MatQualityItemIterator(tbl, matString)
 	if quality == 1 then
 		matWeight = 0
 	else
-		matWeight = OptionalMatData.QualityWeight[matItemString] * (quality - 1) / (MatString.GetNumQualities(matString) - 1)
+		matWeight = OptionalMatData.QualityWeight[matItemString] * (quality - 1) / (NUM_QUALITY_MAT_QUALITIES - 1)
 	end
 	return matString, quality, matWeight
 end

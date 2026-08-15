@@ -299,6 +299,11 @@ local questType = _G.GetItemClassInfo(Enum.ItemClass.Questitem);
 local CurLoc = GetLocale();
 function FBI:AddFishie(color, id, name, mapId, subzone, texture, quantity, quality, level, it, st, poolhint)
 	local GSB = function(...) return FBI:GetSettingBool(...); end;
+	
+	if not id then
+		return
+	end
+	
 	if ( id and not FishingBuddy_Info["Fishies"][id] ) then
 		if ( not color ) then
 			local _,_,_,hex = GetItemQualityColor(quality);
@@ -433,8 +438,33 @@ local function ProcessFishLoot()
 	while (table.getn(lootcache) > 0) do
 		local info = table.remove(lootcache)
 		local texture, fishie, quantity, quality = info.texture, info.fishie, info.quantity, info.quality;
+		
+		-- Extract item ID directly from the link string first
+		local itemID = nil
+		if info.link then
+			itemID = tonumber(string.match(info.link, "item:(%d+)"))
+		end
+		
+		-- Try to get item info
 		local nm,link,it,st,el,il = FL:GetItemInfoFields(info.link, FL.ITEM_NAME, FL.ITEM_LINK, FL.ITEM_TYPE, FL.ITEM_SUBTYPE, FL.ITEM_EQUIPLOC, FL.ITEM_LEVEL);
+		
+		-- If GetItemInfoFields failed, try using the cached link directly
+		if not link then
+			link = info.link
+		end
+		
+		-- Try SplitLink but we already have the ID from direct extraction
 		local color, id, name = FL:SplitLink(link, true);
+		
+		-- Use directly extracted ID if SplitLink failed
+		if not id and itemID then
+			id = itemID
+		end
+		
+		-- Use cached name if we don't have one
+		if not name then
+			name = fishie or nm
+		end
 
 		-- handle things we can't actually count that might be in our fish (e.g. Garrison Resources)
 		if (id) then

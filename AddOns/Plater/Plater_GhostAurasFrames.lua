@@ -40,9 +40,9 @@ function Plater.Auras.GhostAuras.SetSpec()
 
     if (specIndex) then
         if (specId and specName) then
-            ghostAuraFrame.auraScrollLabel.text = "Auras for specialization: " .. specName
+            ghostAuraFrame.auraScrollLabel.text = "专精光环: " .. specName
         else
-            ghostAuraFrame.auraScrollLabel.text = "no specialization to show"
+            ghostAuraFrame.auraScrollLabel.text = "没有专精显示"
         end
 
         local auraList = Plater.Auras.GhostAuras.GetAuraListForCurrentSpec()
@@ -100,20 +100,20 @@ function Plater.Auras.BuildGhostAurasOptionsTab(frame)
     
     if IS_WOW_PROJECT_MIDNIGHT then
         local optionsTable = {
-            {type = "label", get = function() return "Not available in Midnight and onwards due to API limitations." end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+            {type = "label", get = function() return "因API限制, 至暗之夜及后续版本中不可用." end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         }
         DF:BuildMenu(ghostAuraFrame, optionsTable, 325, -157, 800, true, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template)
         return
     end
 
     --text above the scroll frame
-    ghostAuraFrame.auraScrollLabel = DF:CreateLabel(ghostAuraFrame, "Auras for specialization") --localize-me
+    ghostAuraFrame.auraScrollLabel = DF:CreateLabel(ghostAuraFrame, "专精光环") --localize-me
     ghostAuraFrame.auraScrollLabel.fontcolor = "orange"
     ghostAuraFrame.auraScrollLabel.fontsize = 11
     ghostAuraFrame.auraScrollLabel:SetPoint("topleft", ghostAuraFrame, "topleft", 5, y+16)
 
     --create the description
-    ghostAuraFrame.TitleDescText = Plater:CreateLabel (ghostAuraFrame, "Add an icon as a reminder that a debuff you can cast directly is missing on the enemy.", 10, "silver") --localize-me
+    ghostAuraFrame.TitleDescText = Plater:CreateLabel (ghostAuraFrame, "增加一个图标提醒你可以直接在敌人身上施放的debuff缺失", 10, "silver") --localize-me
     ghostAuraFrame.TitleDescText:SetPoint ("bottomleft", ghostAuraFrame.auraScrollLabel, "topleft", 0, 10)
 
     --scroll frame
@@ -263,7 +263,7 @@ function Plater.Auras.BuildGhostAurasOptionsTab(frame)
     newAuraButton.tooltip = "Add the aura to be tracked."
 
     --image showing ghost aura example
-    ghostAuraFrame.ExampleImageDesc = DF:CreateLabel (ghostAuraFrame, "Ghost auras look like this:", 14)
+    ghostAuraFrame.ExampleImageDesc = DF:CreateLabel (ghostAuraFrame, "灵魂光环看起来像这样:", 14)
     ghostAuraFrame.ExampleImageDesc:SetPoint (325, -240)
     ghostAuraFrame.ExampleImage = DF:CreateImage (ghostAuraFrame, [[Interface\AddOns\Plater\images\ghostauras_example]], 256*0.8, 128*0.8)
     ghostAuraFrame.ExampleImage:SetPoint (325, -254)
@@ -282,7 +282,7 @@ function Plater.Auras.BuildGhostAurasOptionsTab(frame)
         {type = "blank"},
         {type = "blank"},
 
-        {type = "label", get = function() return "General Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")}, --localize-me
+        {type = "label", get = function() return "常规设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")}, --localize-me
 
 		{
 			type = "toggle",
@@ -293,8 +293,8 @@ function Plater.Auras.BuildGhostAurasOptionsTab(frame)
                 Plater.UpdateAuraCache()
 				--call an update on auras to remove the ghost auras currently shown
 			end,
-			name = "Enabled",
-			desc = "Enabled",
+			name = "启用",
+			desc = "启用",
 		},
 
         {type = "blank"},
@@ -308,8 +308,8 @@ function Plater.Auras.BuildGhostAurasOptionsTab(frame)
 			min = 0,
 			max = 32,
 			step = 1,
-			name = "Width",
-			desc = "Use zero to match the size of other auras",
+			name = "宽",
+			desc = "用0来匹配其他光环的大小",
 		},
 
 		{
@@ -321,8 +321,8 @@ function Plater.Auras.BuildGhostAurasOptionsTab(frame)
 			min = 0,
 			max = 32,
 			step = 1,
-			name = "Height",
-			desc = "Use zero to match the size of other auras",
+			name = "高",
+			desc = "用0来匹配其他光环的大小",
 		},
 
 		{
@@ -335,8 +335,8 @@ function Plater.Auras.BuildGhostAurasOptionsTab(frame)
 			max = 1,
 			step = 0.1,
             usedecimals = true,
-			name = "Alpha",
-			desc = "Alpha",
+			name = "透明度",
+			desc = "透明度",
 		},
 
 		{
@@ -346,8 +346,8 @@ function Plater.Auras.BuildGhostAurasOptionsTab(frame)
 				Plater.db.profile.ghost_auras.desaturated = value
 				--call an update on auras to remove the ghost auras currently shown
 			end,
-			name = "Desaturated",
-			desc = "Desaturated",
+			name = "饱和度",
+			desc = "饱和度",
 		},
 
 

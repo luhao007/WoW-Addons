@@ -35,8 +35,6 @@ end
 function CharacterInfo.GetMaxLevel()
 	if ClientInfo.IsPandaClassic() then
 		return 90
-	elseif ClientInfo.IsBCClassic() then
-		return 70
 	elseif ClientInfo.IsVanillaClassic() then
 		return 60
 	elseif ClientInfo.IsRetail() then

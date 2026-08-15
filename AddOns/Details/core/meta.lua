@@ -79,7 +79,7 @@ local classTypeUtility = Details.atributos.misc
 				if (thisActor.ownerName) then
 					thisActor.owner = combatObjectOverall(classType, thisActor.ownerName)
 					if (not thisActor.owner) then
-						Details:Msg("found orphan pet (overall), owner not found: ", thisActor.ownerName, " - ", thisActor.nome)
+						Details:Msg("发现孤儿宠物(总体), 未找到主人: ", thisActor.ownerName, " - ", thisActor.nome)
 					end
 				end
 			end
@@ -924,8 +924,8 @@ local classTypeUtility = Details.atributos.misc
 		end
 
 		if (combatObject.__destroyed) then
-			Details:Msg("a deleted combat object was found on g2.collector, please report this bug on discord:")
-			Details:Msg("combat destroyed by:", combatObject.__destroyedBy)
+			Details:Msg("在g2.collector上发现了一个被删除的战斗对象, 请在discord上报告这个错误:")
+			Details:Msg("战斗被删除:", combatObject.__destroyedBy)
 			return 0
 		end
 
@@ -1048,8 +1048,8 @@ local classTypeUtility = Details.atributos.misc
 		--collect the garbage
 		for i, combatObject in ipairs(segmentsList) do
 			if (combatObject.__destroyed) then
-				Details:Msg("a deleted combat object was found by the g.collector, please report this bug on discord:")
-				Details:Msg("combat destroyed by:", combatObject.__destroyedBy)
+				Details:Msg("g.collector发现了一个被删除的战斗对象, 请在discord上报告这个错误:")
+				Details:Msg("战斗被删除:", combatObject.__destroyedBy)
 			end
 
 			local removedActors = collectGarbage(combatObject, overriteLastEvent)

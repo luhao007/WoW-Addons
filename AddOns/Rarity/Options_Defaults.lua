@@ -16,7 +16,7 @@ R.string_types = {
 
 R.string_methods = {
 	[CONSTANTS.DETECTION_METHODS.NPC] = L["Drops from NPC(s)"],
-	[CONSTANTS.DETECTION_METHODS.ENCOUNTER] = L["Obtained from a raid or dungeon encounter"],
+	[CONSTANTS.DETECTION_METHODS.BOSS] = L["Drops from a boss requiring a group"],
 	[CONSTANTS.DETECTION_METHODS.ZONE] = L["Drops from any mob in a zone"],
 	[CONSTANTS.DETECTION_METHODS.USE] = L["Obtained by using an item or opening a container"],
 	[CONSTANTS.DETECTION_METHODS.FISHING] = L["Obtained by fishing"],
@@ -64,7 +64,6 @@ R.catIcons = {
 	[CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS] = "shadowlands",
 	[CONSTANTS.ITEM_CATEGORIES.DRAGONFLIGHT] = "dragonflight",
 	[CONSTANTS.ITEM_CATEGORIES.TWW] = "tww",
-	[CONSTANTS.ITEM_CATEGORIES.MIDNIGHT] = "midnight",
 }
 
 function R:PrepareDefaults()
@@ -141,7 +140,6 @@ function R:PrepareDefaults()
 				[CONSTANTS.ITEM_CATEGORIES.SHADOWLANDS] = true,
 				[CONSTANTS.ITEM_CATEGORIES.DRAGONFLIGHT] = true,
 				[CONSTANTS.ITEM_CATEGORIES.TWW] = true,
-				[CONSTANTS.ITEM_CATEGORIES.MIDNIGHT] = true,
 			},
 			collectionType = {
 				[CONSTANTS.ITEM_TYPES.MOUNT] = true,

@@ -1,5 +1,4 @@
 local TWW = LibStub('AceAddon-3.0'):NewAddon('Details_TWW', 'AceConsole-3.0')
-local LocDetails = _G.LibStub("AceLocale-3.0"):GetLocale("Details")
 local LSM = LibStub('LibSharedMedia-3.0')
 
 local skinName = '|cff8080ffThe War Within|r'
@@ -9,7 +8,7 @@ local debugMode = (name == 'Zimtdev') or (name == 'Zimtdevtwo') or (name == 'Bot
 
 local retail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 
-local version = C_AddOns.GetAddOnMetadata('Details_TWW', 'Version')
+local version = (C_AddOns and C_AddOns.GetAddOnMetadata and C_AddOns.GetAddOnMetadata('Details_TWW', 'Version')) or 'unknown'
 
 function TWW:OnInitialize()
     -- Called when the addon is loaded
@@ -60,9 +59,9 @@ frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 function TWW:RegisterTextures()
     TWW:Debug('TWW:RegisterTextures()')
 
-    LSM:Register('statusbar', 'TheWarWithinHeader', [[Interface\AddOns\Details_TWW\Textures\header.tga]])
-    LSM:Register('statusbar', 'TheWarWithinBar', [[Interface\AddOns\Details_TWW\Textures\bar.tga]])
-    LSM:Register('statusbar', 'TheWarWithinBackground', [[Interface\AddOns\Details_TWW\Textures\background.tga]])
+    LSM:Register('statusbar', 'TheWarWithinHeader', [[Interface\AddOns\Details_TWW\Textures\header.blp]])
+    LSM:Register('statusbar', 'TheWarWithinBar', [[Interface\AddOns\Details_TWW\Textures\bar.blp]])
+    LSM:Register('statusbar', 'TheWarWithinBackground', [[Interface\AddOns\Details_TWW\Textures\background.blp]])
 end
 TWW:RegisterTextures()
 
@@ -356,6 +355,9 @@ function TWW:ChangeAugmentationBar()
     TWW:Debug('TWW:ChangeAugmentationBar()')
 
     local evokerColor = Details.class_colors["EVOKER"]
+    if not evokerColor then
+        return
+    end
 
     for instanceId = 1, Details:GetNumInstances() do
         --      
@@ -366,25 +368,45 @@ function TWW:ChangeAugmentationBar()
             for lineIndex, line in ipairs(instance:GetAllLines()) do
                 -- TWW:Debug('line', lineIndex, line)
                 local extraStatusbar = line.extraStatusbar
-                extraStatusbar:SetStatusBarTexture([[Interface\AddOns\Details_TWW\Textures\augment]])
-                extraStatusbar:GetStatusBarTexture():SetVertexColor(unpack(evokerColor))
-                extraStatusbar.texture:SetVertexColor(unpack(evokerColor))
+                if extraStatusbar and extraStatusbar.SetStatusBarTexture then
+                    extraStatusbar:SetStatusBarTexture([[Interface\AddOns\Details_TWW\Textures\augment]])
+                    local barTexture = extraStatusbar:GetStatusBarTexture()
+                    if barTexture and barTexture.SetVertexColor then
+                        barTexture:SetVertexColor(unpack(evokerColor))
+                    end
+                    if extraStatusbar.texture and extraStatusbar.texture.SetVertexColor then
+                        extraStatusbar.texture:SetVertexColor(unpack(evokerColor))
+                    end
+                end
             end
         end
     end
 
     local gump = Details.gump
+    if not gump then
+        return
+    end
 
     hooksecurefunc(gump, 'CreateNewLine', function(self, instance, index)
         --
         -- TWW:Debug('CreateNewLine', instance, index)
 
         local newLine = _G['DetailsBarra_' .. instance.meu_id .. '_' .. index]
+        if not newLine then
+            return
+        end
 
         local extraStatusbar = newLine.extraStatusbar
-        extraStatusbar:SetStatusBarTexture([[Interface\AddOns\Details_TWW\Textures\augment]])
-        extraStatusbar:GetStatusBarTexture():SetVertexColor(unpack(evokerColor))
-        extraStatusbar.texture:SetVertexColor(unpack(evokerColor))
+        if extraStatusbar and extraStatusbar.SetStatusBarTexture then
+            extraStatusbar:SetStatusBarTexture([[Interface\AddOns\Details_TWW\Textures\augment]])
+            local barTexture = extraStatusbar:GetStatusBarTexture()
+            if barTexture and barTexture.SetVertexColor then
+                barTexture:SetVertexColor(unpack(evokerColor))
+            end
+            if extraStatusbar.texture and extraStatusbar.texture.SetVertexColor then
+                extraStatusbar.texture:SetVertexColor(unpack(evokerColor))
+            end
+        end
     end)
 end
 
@@ -410,7 +432,6 @@ function TWW:ShowImportProfile()
     local askForNewProfileName = function(newProfileName, importAutoRunCode)
         Details:ImportProfile(TWW.DefaultProfileImport, newProfileName, importAutoRunCode, true)
     end
-    Details.ShowImportProfileConfirmation(LocDetails["STRING_OPTIONS_IMPORT_PROFILE_NAME"] ..
-                                              " [Skin: |cff8080ffDetails_TWW|r]" .. ":", askForNewProfileName)
+    Details.ShowImportProfileConfirmation("Import Profile Name [Skin: |cff8080ffDetails_TWW|r]:", askForNewProfileName)
 end
 

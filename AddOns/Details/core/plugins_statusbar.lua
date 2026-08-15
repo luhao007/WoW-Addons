@@ -1009,14 +1009,14 @@ do
 							if (combatTime and combatTime > 0) then
 								if (timeType == 1) then
 									local minutes, seconds = math.floor(combatTime/60), math.floor(combatTime%60)
-									displayText = minutes .. "m " .. seconds .. "s"
+									displayText = minutes .. "分" .. seconds .. "秒"
 								elseif (timeType == 2) then
 									-- Seconds only
-									displayText = math.floor(combatTime) .. "s"
+									displayText = math.floor(combatTime) .. "秒"
 								else
 									-- Default to minutes and seconds
 									local minutes, seconds = math.floor(combatTime/60), math.floor(combatTime%60)
-									displayText = minutes .. "m " .. seconds .. "s"
+									displayText = minutes .. "分" .. seconds .. "秒"
 								end
 							end
 						end

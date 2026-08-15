@@ -258,12 +258,12 @@ function Details.Survey.InitializeSpellCategoryFeedback()
 end
 
 function Details.Survey.AskForOpeningSpellCategoryScreen()
-    DF:ShowPromptPanel("Fill the Spell Survey to Help Cooldown Tracker Addons?", function() Details.Survey.OpenSpellCategoryScreen() end, function() Details:Msg("FINE! won't ask again for another week...") end)
+    DF:ShowPromptPanel("填写法术观测以帮助CD跟踪插件?", function() Details.Survey.OpenSpellCategoryScreen() end, function() Details:Msg("行!再过一周就不问了...") end)
 end
 
 function Details.Survey.OpenSpellCategoryScreen()
     if (not Details.Survey.GetTargetCharacterForRealm()) then
-        Details:Msg("No survey at the moment.")
+        Details:Msg("目前没有观测.")
         return
     end
 
@@ -271,7 +271,7 @@ function Details.Survey.OpenSpellCategoryScreen()
 		DetailsSpellCategoryFrame = DetailsFramework:CreateSimplePanel(UIParent)
         local detailsSpellCategoryFrame = DetailsSpellCategoryFrame
 		detailsSpellCategoryFrame:SetSize(scroll_width, windowHeight+26)
-		detailsSpellCategoryFrame:SetTitle("Details! Damage Meter: Spell Category Selection")
+		detailsSpellCategoryFrame:SetTitle("识别和归类冷却法术")
 		detailsSpellCategoryFrame.Data = {}
         detailsSpellCategoryFrame.Title:ClearAllPoints()
         detailsSpellCategoryFrame.Title:SetPoint("left", detailsSpellCategoryFrame.TitleBar, "left", 5, 0)
@@ -292,28 +292,28 @@ function Details.Survey.OpenSpellCategoryScreen()
 		statusBar2:SetAlpha(0.99)
 		DF:ApplyStandardBackdrop(statusBar2)
         DF:ApplyStandardBackdrop(statusBar2)
-        local dataInfoLabel = DF:CreateLabel(statusBar2, "An AddOn By Terciob", 12, "white")
+        local dataInfoLabel = DF:CreateLabel(statusBar2, "由Terciob开发的插件", 12, "white")
         dataInfoLabel:SetPoint("left", 5, 0)
         dataInfoLabel.justifyH = "center"
 
 		--create the header
         local defaultWidth = 70
 		local headerTable = {
-			{text = "Icon", width = 24},
-			{text = "Spell Name", width = 150},
-            {text = "NONE", width = defaultWidth},
-			{text = "Offensive CD", width = defaultWidth},
-			{text = "Personal CD", width = defaultWidth},
-			{text = "Targeted CD", width = defaultWidth},
-			{text = "Raid CD", width = defaultWidth},
-			{text = "Utility CD", width = defaultWidth},
-			{text = "Interrupt", width = defaultWidth},
-			{text = "Dispel", width = defaultWidth},
-			{text = "CC", width = defaultWidth},
-			{text = "Racial", width = defaultWidth},
-			{text = "Cooldown", width = defaultWidth},
-			{text = "Duration", width = defaultWidth},
-			{text = "Export", width = defaultWidth},
+			{text = "图标", width = 24},
+			{text = "法术名字", width = 150},
+            {text = "无", width = defaultWidth},
+			{text = "进攻CD", width = defaultWidth},
+			{text = "个人CD", width = defaultWidth},
+			{text = "目标CD", width = defaultWidth},
+			{text = "团队CD", width = defaultWidth},
+			{text = "使用CD", width = defaultWidth},
+			{text = "打断", width = defaultWidth},
+			{text = "驱散", width = defaultWidth},
+			{text = "控制", width = defaultWidth},
+			{text = "种族", width = defaultWidth},
+			{text = "CD", width = defaultWidth},
+			{text = "持续时间", width = defaultWidth},
+			{text = "导出", width = defaultWidth},
 		}
 		local headerOptions = {
 			padding = 2,
@@ -335,11 +335,11 @@ function Details.Survey.OpenSpellCategoryScreen()
         detailsSpellCategoryFrame.Header:SetPoint("topleft", detailsSpellCategoryFrame, "topleft", startX, headerY)
 
         local tooltipDesc = {}
-        tooltipDesc[2] = "|cffffff00" .. headerTable[4].text .. "|r|n" .. "Examples:\nPower Infusion, Ice Veins, Combustion, Adrenaline Rush" --ofensive cooldowns
-        tooltipDesc[3] = "|cffffff00" .. headerTable[5].text .. "|r|n" .. "Examples:\nIce Block, Dispersion, Cloak of Shadows, Shield Wall " --personal cooldowns
-        tooltipDesc[4] = "|cffffff00" .. headerTable[6].text .. "|r|n" .. "Examples:\nBlessing of Sacrifice, Ironbark, Life Cocoon, Pain Suppression" --targeted devense cooldowns
-        tooltipDesc[5] = "|cffffff00" .. headerTable[7].text .. "|r|n" .. "Examples:\nPower Word: Barrier, Spirit Link Totem, Tranquility, Anti-Magic Zone" --raid wide cooldowns
-        tooltipDesc[6] = "|cffffff00" .. headerTable[8].text .. "|r|n" .. "Examples:\nStampeding Roar, Leap of Faith"
+        tooltipDesc[2] = "|cffffff00" .. headerTable[4].text .. "|r|n" .. "比如:\n能量灌注, 冰脉, 燃烧, 冲动" --ofensive cooldowns
+        tooltipDesc[3] = "|cffffff00" .. headerTable[5].text .. "|r|n" .. "比如:\n寒冰屏障, 消散, 暗影斗篷, 盾墙" --personal cooldowns
+        tooltipDesc[4] = "|cffffff00" .. headerTable[6].text .. "|r|n" .. "比如:\n牺牲祝福, 铁木树皮, 作茧缚命, 痛苦压制" --targetted devense cooldowns
+        tooltipDesc[5] = "|cffffff00" .. headerTable[7].text .. "|r|n" .. "比如:\n真言术: 障, 灵魂链接图腾, 宁静, 反魔法领域" --raid wide cooldowns
+        tooltipDesc[6] = "|cffffff00" .. headerTable[8].text .. "|r|n" .. "比如:\n狂奔怒吼, 信仰飞跃"
         tooltipDesc[7] = ""
         tooltipDesc[8] = ""
         tooltipDesc[9] = ""

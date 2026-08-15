@@ -654,7 +654,7 @@ local function DisplayFishingWorldQuests()
     local prof1, prof2, arch, fish, cook, firstAid = GetProfessions();
 
     for mapId,_ in pairs (legionmaps) do
-        local taskInfo = GetQuestsForPlayerByMapID (mapId);
+        local taskInfo = C_TaskQuest.GetQuestsOnMap (mapId);
         if (taskInfo and #taskInfo > 0) then
             for _,info in ipairs (taskInfo) do
                 local questID = info.questId;

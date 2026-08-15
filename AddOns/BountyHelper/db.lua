@@ -3,7 +3,7 @@ db.instanceOrderList = {
     249, 329, 532, 550, 556, 575, 585, 603, 616, 624, 631, 657, 720, 725,
     754, 859, 967, 1008, 1098, 1136, 1205, 1448, 1530, 1651, 1676, 1712,
     1754, 1762, 1841, 2070, 2097, 2217, 2286, 2441, 2450, 2481, 2549, 2651,
-    2657, 2769, 2810, 2805, 2811, 2913
+    2657, 2769, 2810, 2805, 2811, 2913, 3004
 }
 db.waypoints = {
     [249] = {point = {70, 0.5217, 0.7595}},
@@ -50,6 +50,7 @@ db.waypoints = {
     [2805] = {point = {2395, 0.3544, 0.7882}},
     [2811] = {point = {2424, 0.6348, 0.1535}},
     [2913] = {point = {2424, 0.5262, 0.8534}},
+    [3004] = {point = {2509, 0.4720, 0.2310}},
 }
 
 db.bossData = {
@@ -197,6 +198,9 @@ db.bossData = {
     },
     [2913] = { -- March on Quel'Danas
         { name = "Midnight Falls", encounterID = 2740, killedAtDiff = { [16] = false } }
+    },
+    [3004] = { -- The Venomous Abyss
+        { name = "Ula'tek", encounterID = 2895, killedAtDiff = { [16] = false } }
     }
 }
 
@@ -430,5 +434,8 @@ db.mountData = {
     }},
     [246590] = { journalMountID = 2607, dropsBy = {
         { instanceID = 2913, diff = 16, index = 1, chance = 100.0 }
+    }},
+    [275658] = { journalMountID = 3030, dropsBy = {
+        { instanceID = 3004, diff = 16, index = 1, chance = 100.0 }
     }}
 }

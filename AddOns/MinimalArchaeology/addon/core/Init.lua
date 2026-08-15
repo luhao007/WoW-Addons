@@ -110,7 +110,7 @@ end
 
 
 function MinArch:RefreshConfig()
-	Common:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
+	Common:DisplayStatusMessage("调用RefreshConfig", MINARCH_MSG_DEBUG);
 
 	MinArchLDB:RefreshMinimapButton();
 	Digsites:ShowRaceIconsOnMap();
@@ -122,7 +122,7 @@ function MinArch:RefreshConfig()
 end
 
 function MinArch:Shutdown()
-	Common:DisplayStatusMessage("ShutDown called", MINARCH_MSG_DEBUG);
+	Common:DisplayStatusMessage("调用ShutDown", MINARCH_MSG_DEBUG);
 end
 
 function MinArch:UpgradeSettings()

@@ -38,14 +38,14 @@ local MEMBER_NAME = "namePlateUnitName"
 
 --header
 local headerTable = {
-    {text = "Enabled", width = 50},
+    {text = "启用", width = 50},
     {text = "Npc ID", width = 64},
-    {text = "Npc Name", width = 162},
-    {text = "Rename To", width = 140},
-    {text = "Zone Name", width = 142},
-    {text = "Select Color", width = 110},
-    {text = "Send to Raid", width = 100},
-    {text = "Casts", width = 30},
+    {text = "Npc名字", width = 162},
+    {text = "重命名为", width = 140},
+    {text = "地区名字", width = 142},
+    {text = "选择颜色", width = 110},
+    {text = "发送至团队", width = 100},
+    {text = "施法", width = 30},
     {text = "", width = 266}, --filler
 }
 
@@ -242,15 +242,15 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
 
         --send npc color to raid with accept button
         --parameters: npcId, auto accept
-        GameCooltip:AddMenu(1, platerInternal.Comms.SendNpcInfoToGroup, bAutoAccept, "npccolor", "", "Send Color", nil, true)
+        GameCooltip:AddMenu(1, platerInternal.Comms.SendNpcInfoToGroup, bAutoAccept, "npccolor", "", "发送颜色", nil, true)
         GameCooltip:AddIcon([[Interface\BUTTONS\JumpUpArrow]], 1, 1, 14, 14)
 
         --send npc name to raid with accept button
-        GameCooltip:AddMenu(1, platerInternal.Comms.SendNpcInfoToGroup, bAutoAccept, "npcrename", "", "Send Rename", nil, true)
+        GameCooltip:AddMenu(1, platerInternal.Comms.SendNpcInfoToGroup, bAutoAccept, "npcrename", "", "发送重命名", nil, true)
         GameCooltip:AddIcon([[Interface\BUTTONS\JumpUpArrow]], 1, 1, 14, 14)
 
         --send a signal to set the color and rename to default
-        GameCooltip:AddMenu(1, platerInternal.Comms.SendNpcInfoToGroup, bAutoAccept, "resetnpc", "", "Send Reset", nil, true)
+        GameCooltip:AddMenu(1, platerInternal.Comms.SendNpcInfoToGroup, bAutoAccept, "resetnpc", "", "发送重置", nil, true)
         GameCooltip:AddIcon([[Interface\BUTTONS\UI-GROUPLOOT-PASS-DOWN]], 1, 1, 14, 14)
 
         GameCooltip:AddLine("$div")
@@ -321,7 +321,7 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
         colorDropdown:SetFrameLevel(line:GetFrameLevel()+2)
 
         --send to raid button
-        local sendToRaidButton = DF:CreateButton(line, onSendToRaidButtonClicked, headerTable[7].width, 20, "Click to Select", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+        local sendToRaidButton = DF:CreateButton(line, onSendToRaidButtonClicked, headerTable[7].width, 20, "点击选择", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
         line.sendToRaidButton = sendToRaidButton
 
         --this button select the casts colors tab and search for the npc name there
@@ -613,7 +613,7 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
         auraSearchTextEntry:SetHook("OnChar",		colorsFrame.OnSearchBoxTextChanged)
         auraSearchTextEntry:SetHook("OnTextChanged", 	colorsFrame.OnSearchBoxTextChanged)
         auraSearchTextEntry:SetAsSearchBox()
-        auraSearchTextEntry.tooltip = "|cFFFFFF00Npc Name|r or |cFFFFFF00Zone Name|r"
+        auraSearchTextEntry.tooltip = "|cFFFFFF00Npc名字|r或|cFFFFFF00地区名字|r"
         auraSearchTextEntry:SetFrameLevel(colorsFrame.Header:GetFrameLevel() + 20)
         auraSearchTextEntry:SetBackdropColor(0.1, 0.1, 0.1, 0.9)
 
@@ -623,16 +623,16 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
         end
 
     --help button
-        local help_button = DF:CreateButton(colorsFrame, function()end, 90, 20, "Help", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+        local help_button = DF:CreateButton(colorsFrame, function()end, 90, 20, "帮助", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
         help_button:SetPoint("right", auraSearchTextEntry, "left", -2, 0)
-        help_button.tooltip = "|cFFFFFF00Help:|r\n\n- Run dungeons and raids to fill the npc list.\n\n- |cFFFFEE00Scripts Only|r aren't automatically applied, scripts can import the color set here using |cFFFFEE00local colorTable = Plater.GetNpcColor(unitFrame)|r.\n\n- Colors set here override threat colors.\n\n- Colors set in scripts override colors set here.\n\n- |TInterface\\AddOns\\Plater\\media\\star_empty_64:16:16|t icon indicates the color is favorite, so you can use it across dungeons to keep color consistency."
+        help_button.tooltip = "|cFFFFFF00帮助:|r\n\n- 进入地下城和团本任务以填充NPC列表.\n\n- |cFFFFEE00仅限脚本|r不会自动应用, 脚本可以使用|cFFFFEE00local colorTable = Plater.GetNpcColor(unitFrame)|r在此导入颜色设置.\n\n- 此处设置的颜色覆盖仇恨颜色.\n\n- 脚本中设置的颜色覆盖此处设置的颜色.\n\n- |TInterface\\AddOns\\Plater\\media\\star_empty_64:16:16|t图标表示该颜色是最喜欢的颜色, 因此你可以在不同的地下城中使用它以保持颜色的一致性."
         help_button:SetFrameLevel(colorsFrame.Header:GetFrameLevel() + 20)
         help_button:SetIcon([[Interface\AddOns\Plater\images\circle_icon_help]], 16, 16, "overlay", {0, 1, 0, 1}, nil, nil, nil, nil, nil, "TRILINEAR")
 
     --refresh button
-        local refresh_button = DF:CreateButton(colorsFrame, function() colorsFrame.RefreshScroll() end, 90, 20, "Refresh", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+        local refresh_button = DF:CreateButton(colorsFrame, function() colorsFrame.RefreshScroll() end, 90, 20, "刷新", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
         refresh_button:SetPoint("right", help_button, "left", -2, 0)
-        refresh_button.tooltip = "refresh the list the npcs"
+        refresh_button.tooltip = "刷新npc列表"
         refresh_button:SetFrameLevel(colorsFrame.Header:GetFrameLevel() + 20)
         refresh_button:SetIcon([[Interface\AddOns\Plater\images\circle_icon_refresh]], 16,    16,     "overlay", {0, 1, 0, 1}, nil,     nil,          nil,         nil,        nil,         "TRILINEAR")
                               --texture,                                                   width, height, layout,    texcoord,     overlay, textDistance, leftPadding, textHeight, shortMethod, filterMode
@@ -684,12 +684,12 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
             mainFrame.ImportTextEditor.TextInfo = info_import_label
 
             --import button
-            local okay_import_button = DF:CreateButton(import_text_editor, mainFrame.ImportColors, buttons_size[1], buttons_size[2], "Okay", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+            local okay_import_button = DF:CreateButton(import_text_editor, mainFrame.ImportColors, buttons_size[1], buttons_size[2], "确认", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
             okay_import_button:SetIcon([[Interface\BUTTONS\UI-Panel-BiggerButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
             okay_import_button:SetPoint("topright", import_text_editor, "bottomright", 0, 1)
 
             --cancel button
-            local cancel_import_button = DF:CreateButton(import_text_editor, function() mainFrame.ImportTextEditor:Hide() end, buttons_size[1], buttons_size[2], "Cancel", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+            local cancel_import_button = DF:CreateButton(import_text_editor, function() mainFrame.ImportTextEditor:Hide() end, buttons_size[1], buttons_size[2], "取消", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
             cancel_import_button:SetIcon([[Interface\BUTTONS\UI-Panel-MinimizeButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
             cancel_import_button:SetPoint("right", okay_import_button, "left", -2, 0)
 
@@ -751,7 +751,7 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
                     end
 
                     colorsFrame.RefreshScroll()
-                    Plater:Msg("npc colors imported.")
+                    Plater:Msg("已导入npc颜色.")
 
                 else
                     Plater.SendScriptTypeErrorMsg(importedColorData)
@@ -860,7 +860,7 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
 
             --compress data and show it in the text editor
             local data = Plater.CompressData(exportedTable, "print")
-            colorsFrame.ImportEditor:SetText(data or "failed to export color table")
+            colorsFrame.ImportEditor:SetText(data or "导出颜色表失败")
 
             C_Timer.After(.1, function()
                 colorsFrame.ImportEditor.editbox:HighlightText()
@@ -886,20 +886,20 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
             function()end, true, 400, "PLATER_DISABLE_ALL_COLORS")
         end
 
-        local disableall_button = DF:CreateButton(colorsFrame, disableAllColors, 140, 20, "Disable All Colors", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+        local disableall_button = DF:CreateButton(colorsFrame, disableAllColors, 140, 20, "禁用所有颜色", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
         disableall_button:SetPoint("bottomleft", spells_scroll, "bottomleft", 1, 0)
         disableall_button:SetFrameLevel(colorsFrame.Header:GetFrameLevel() + 20)
 
     --remove all renames button
         local removeAllRenames = function()
-            DF:ShowPromptPanel("Confirm remove all renames?", function()
+            DF:ShowPromptPanel("确认移除全部重命名?", function()
                 Plater.db.profile.npcs_renamed = {}
                 colorsFrame.RefreshScroll()
             end,
             function()end, true, 400, "PLATER_REMOVE_ALL_RENAMES")
         end
 
-        local removeAllRenamesButton = DF:CreateButton(colorsFrame, removeAllRenames, 140, 20, "Remove All Renames", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+        local removeAllRenamesButton = DF:CreateButton(colorsFrame, removeAllRenames, 140, 20, "移除全部重命名", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
         removeAllRenamesButton:SetPoint("left", disableall_button, "right", -2, 0)
         removeAllRenamesButton:SetFrameLevel(colorsFrame.Header:GetFrameLevel() + 20)
 
@@ -913,12 +913,12 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
             colorsFrame.RefreshScroll()
         end
 
-        --[[deprecated]] local scriptsall_button = DF:CreateButton(colorsFrame, setAllAsScriptOnly, 200, 20, "Set All Enabled as 'Scripts Only'", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+        --[[deprecated]] local scriptsall_button = DF:CreateButton(colorsFrame, setAllAsScriptOnly, 200, 20, "将全部启用设置为'仅限脚本'", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
         scriptsall_button:SetPoint("left", disableall_button, "right", 0, 0)
         scriptsall_button:SetFrameLevel(colorsFrame.Header:GetFrameLevel() + 20)
         scriptsall_button:Hide()
 
-        local addnpc_text = DF:CreateLabel(scriptsall_button, "Use '/plater addnpc' to add a npc in open world.")
+        local addnpc_text = DF:CreateLabel(scriptsall_button, "使用'/plater addnpc'添加开放世界中的角色.")
         addnpc_text.fontsize = 12
         addnpc_text.fontcolor = "gray"
         addnpc_text:SetPoint("left", scriptsall_button, "right", 10, 0)
@@ -935,14 +935,14 @@ function Plater.CreateNpcColorOptionsFrame(colorsFrame)
         spells_scroll.ScrollFooter = backdropFoot
 
     --empty label
-        local empty_text = DF:CreateLabel(colorsFrame, "this list is automatically filled when\nyou see enemies inside a dungeon or raid\n\nthen you may select colors here or directly\nin the dropdown below the nameplate")
+        local empty_text = DF:CreateLabel(colorsFrame, "当你在地下城或副本中\n看到敌人时此列表会自动填满\n\n然后你可以在此处或\n直接在姓名版下方的下拉菜单中选择颜色")
         empty_text.fontsize = 24
         empty_text.align = "|"
         empty_text:SetPoint("center", spells_scroll, "center", -colorsFrame.ModelFrame:GetWidth() / 2, 0)
         colorsFrame.EmptyText = empty_text
 
     --create the description
-    colorsFrame.TitleDescText = Plater:CreateLabel(colorsFrame, "For raid and dungeon npcs, they are added into the list after you see them for the first time", 10, "silver")
+    colorsFrame.TitleDescText = Plater:CreateLabel(colorsFrame, "对于副本和地下城中的NPC, 它们会在你第一次看到它们后被添加到列表中", 10, "silver")
     colorsFrame.TitleDescText:SetPoint("bottomleft", spells_scroll, "topleft", 0, 26)
 
     function colorsFrame.RefreshDropdowns()

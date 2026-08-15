@@ -9,91 +9,69 @@ local Addon = ns.Addon
 local Util  = ns.Util
 
 
-Addon:RegisterAction('test', function(arg,run)
-    if run then
-        print(arg)
-    end
+Addon:RegisterAction('test', function(arg)
+    print(arg)
     return Addon:GetSetting('testBreak')
 end)
 
 
-Addon:RegisterAction('change', function(index,run)
-    local active = C_PetBattles.GetActivePet(Enum.BattlePetOwner.Ally)
+Addon:RegisterAction('change', function(index)
+    local active = C_PetBattles.GetActivePet(LE_BATTLE_PET_ALLY)
     if index == 'next' then
-        local function nextAfter(index)
-            return index % C_PetBattles.GetNumPets(Enum.BattlePetOwner.Ally) + 1
-        end
-        local function canUse(index)
-            return C_PetBattles.GetHealth(Enum.BattlePetOwner.Ally, index) ~= 0 and
-                   C_PetBattles.CanPetSwapIn(index)
-        end
-
-        index = nextAfter(active)
-        while not canUse(index) and index ~= active do
-            index = nextAfter(index)
-        end
+        index = active % C_PetBattles.GetNumPets(LE_BATTLE_PET_ALLY) + 1
     else
-        index = Util.ParsePetIndex(Enum.BattlePetOwner.Ally, index)
+        index = Util.ParsePetIndex(LE_BATTLE_PET_ALLY, index)
     end
-    -- if not index or active == index or C_PetBattles.GetHealth(Enum.BattlePetOwner.Ally, index) == 0 then
+    -- if not index or active == index or C_PetBattles.GetHealth(LE_BATTLE_PET_ALLY, index) == 0 then
     --     return false
     -- end
 
     if not index or active == index or not (C_PetBattles.CanActivePetSwapOut() or C_PetBattles.ShouldShowPetSelect()) or not C_PetBattles.CanPetSwapIn(index) then
         return false
     end
-    if run then
-        C_PetBattles.ChangePet(index)
-    end
+
+    C_PetBattles.ChangePet(index)
     return true
 end)
 
 
-Addon:RegisterAction('ability', 'use', function(ability,run)
-    local index = C_PetBattles.GetActivePet(Enum.BattlePetOwner.Ally)
-    local ability= Util.ParseAbility(Enum.BattlePetOwner.Ally, index, ability)
+Addon:RegisterAction('ability', 'use', function(ability)
+    local index = C_PetBattles.GetActivePet(LE_BATTLE_PET_ALLY)
+    local ability= Util.ParseAbility(LE_BATTLE_PET_ALLY, index, ability)
     if not ability then
         return false
     end
-    if not C_PetBattles.GetAbilityState(Enum.BattlePetOwner.Ally, index, ability) then
+    if not C_PetBattles.GetAbilityState(LE_BATTLE_PET_ALLY, index, ability) then
         return false
     end
-    if run then
-        C_PetBattles.UseAbility(ability)
-    end
+    C_PetBattles.UseAbility(ability)
     return true
 end)
 
 
-Addon:RegisterAction('quit', function(run)
-    if run then
-        C_PetBattles.ForfeitGame()
-    end
+Addon:RegisterAction('quit', function()
+    C_PetBattles.ForfeitGame()
     return true
 end)
 
 
-Addon:RegisterAction('standby', function(run)
+Addon:RegisterAction('standby', function()
     if not C_PetBattles.IsSkipAvailable() then
         return false
     end
-    if run then
-        C_PetBattles.SkipTurn()
-    end
+    C_PetBattles.SkipTurn()
     return true
 end)
 
 
-Addon:RegisterAction('catch', function(run)
+Addon:RegisterAction('catch', function()
     if not C_PetBattles.IsTrapAvailable() then
         return false
     end
-    if run then
-        C_PetBattles.UseTrap()
-    end
+    C_PetBattles.UseTrap()
     return true
 end)
 
-Addon:RegisterAction('--', function(run)
+Addon:RegisterAction('--', function()
     return false
 end)

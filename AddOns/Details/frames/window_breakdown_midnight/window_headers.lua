@@ -47,7 +47,7 @@ end
 local getHeadersWidthTable = function()
     local profile = breakdownMidnight.GetProfile()
     local headersWidth = profile.headers_width
-    assert(type(headersWidth) == "table", "breakdown profile.headers_width must be initialized in profiles.lua")
+    assert(type(headersWidth) == "table", "细分配置的headers_width必须在profiles.lua中初始化")
     return headersWidth
 end
 
@@ -107,7 +107,7 @@ local buildHeaderTableFromData = function(sectionId, headerData)
         local columnData = headerData[i]
         if (columnData.usable ~= false) then
             local key = columnData.key
-            assert(type(key) == "string" and key ~= "", "headerData column must have a valid key")
+            assert(type(key) == "string" and key ~= "", "headerData列必须有一个有效的键")
             local isAmountColumn = key == "amount"
             local isNameColumn = key == "name"
             local savedWidth = getSavedHeaderWidth(sectionId, key)
@@ -148,7 +148,7 @@ end
 ---@param headerData table
 ---@return table
 local buildHeaderTable = function(sectionId, headerData)
-    assert(type(headerData) == "table" and type(headerData[1]) == "table", "headerData must be an array of column tables")
+    assert(type(headerData) == "table" and type(headerData[1]) == "table", "headerData必须是一个由列表组成的数组")
     return buildHeaderTableFromData(sectionId, headerData)
 end
 

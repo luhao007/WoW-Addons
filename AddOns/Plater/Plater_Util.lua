@@ -101,7 +101,7 @@ function platerInternal.RefreshColorDropdown(frame, dropdown, dbColors, onSelect
         end
 
         table.insert(dropdownOptions, 1, {
-            label = "no color",
+            label = "没有颜色",
             value = platerInternal.RemoveColor,
             color = colorNoValue,
             statusbar = dropdownStatusBarTexture,
@@ -124,7 +124,7 @@ function platerInternal.RefreshColorDropdown(frame, dropdown, dbColors, onSelect
             for i = 1, #optionsTableToReturn do
                 local option = optionsTableToReturn[i]
                 if (option.value ~= platerInternal.NoColor) then
-                    option.desc = "Hold Shift to change the color of all npcs with the color " .. detailsFramework:AddColorToText(colorNameInUse, colorNameInUse) .. " to " .. detailsFramework:AddColorToText(option.value, option.value) .. "."
+                    option.desc = "按住Shift键将所有NPC颜色从" .. detailsFramework:AddColorToText(colorNameInUse, colorNameInUse) .. "到" .. detailsFramework:AddColorToText(option.value, option.value) .. "."
                 end
             end
         else

@@ -1087,7 +1087,7 @@ function AllInOneWindow:CreateWindowFrame() --~create
     local titleFontString = windowFrame:CreateFontString("$parentTitle", "overlay", "GameFontNormal")
     titleFontString:SetPoint("bottomleft", windowFrame, "topleft", 2, 2)
     titleFontString:SetJustifyH("left")
-    titleFontString:SetText("Details! for Midnight (under development)")
+    titleFontString:SetText("至暗之夜Details!(开发中)")
     --font color
     titleFontString:SetTextColor(1, 1, 1, 0.5)
 

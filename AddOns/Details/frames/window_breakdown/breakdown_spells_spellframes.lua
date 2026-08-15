@@ -242,7 +242,7 @@ local onEnterSpellBar = function(spellBar, motion) --parei aqui: precisa por nom
 				end
 			end
 
-			GameCooltip:AddLine("spell id: " .. thisSpellTable.id)
+			GameCooltip:AddLine("法术id: " .. thisSpellTable.id)
 			GameCooltip:Show() --add the icon for the bar bar with nested spells (place the icon of the npc or pet)
 
 			local textToEditor = ""

@@ -1,7 +1,7 @@
 ## Interface: 120001, 120005, 120007, 120100
 ## Version: Plater-v649-Mists
 
-## Title: Plater
+## Title: Plater【萌】
 ## Notes: Nameplate addon designed for advanced users.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF血条增强|r |cFFFFE00APlater|r
 ## Notes-zhCN: 自定义血条显示

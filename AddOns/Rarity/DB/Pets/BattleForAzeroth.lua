@@ -842,7 +842,7 @@ local bfaPets = {
 		lockBossName = "Conclave of the Chosen",
 		chance = 20,
 		statisticId = { 13366 },
-		coords = { { m = CONSTANTS.UIMAPIDS.BATTLE_FOR_DAZARALOR_RAID, i = true } },
+		coords = { { m = 1364, i = true } },
 	},
 	["Thundering Scale of Akunda"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
@@ -857,7 +857,7 @@ local bfaPets = {
 		lockBossName = "Conclave of the Chosen",
 		chance = 20,
 		statisticId = { 13364, 13365, 13366 },
-		coords = { { m = CONSTANTS.UIMAPIDS.BATTLE_FOR_DAZARALOR_RAID, i = true } },
+		coords = { { m = 1364, i = true } },
 	},
 	["Enchanted Talon of Pa'ku"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
@@ -872,7 +872,7 @@ local bfaPets = {
 		lockBossName = "Conclave of the Chosen",
 		chance = 50,
 		statisticId = { 13364, 13365, 13366 },
-		coords = { { m = CONSTANTS.UIMAPIDS.BATTLE_FOR_DAZARALOR_RAID, i = true } },
+		coords = { { m = 1364, i = true } },
 	},
 	["Baby Stonehide"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
@@ -1049,10 +1049,7 @@ local bfaPets = {
 	["Stoneclaw"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1395, -- The Stone Guard
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Stoneclaw"],
 		itemId = 167047,
 		spellId = 291513,
@@ -1080,10 +1077,7 @@ local bfaPets = {
 	["Wayward Spirit"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1434, -- Gara'jal the Spiritbinder
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Wayward Spirit"],
 		itemId = 167048,
 		spellId = 291515,
@@ -1111,10 +1105,7 @@ local bfaPets = {
 	["Celestial Gift"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1500, -- Elegon
-		},
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
 		name = L["Celestial Gift"],
 		itemId = 167049,
 		spellId = 291517,
@@ -1143,10 +1134,7 @@ local bfaPets = {
 	["Mogu Statue"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1407, -- Will of the Emperor
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Mogu Statue"],
 		itemId = 167050,
 		spellId = 291533,
@@ -1174,10 +1162,7 @@ local bfaPets = {
 	["Kor'thik Swarmling"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1507, -- Imperial Vizier Zor'lok
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Kor'thik Swarmling"],
 		itemId = 167058,
 		spellId = 291548,
@@ -1205,10 +1190,7 @@ local bfaPets = {
 	["Tiny Amber Wings"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1504, -- Blade Lord Ta'yak
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Tiny Amber Wings"],
 		itemId = 167053,
 		spellId = 291549,
@@ -1236,10 +1218,7 @@ local bfaPets = {
 	["Spawn of Garalon"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1463, -- Garalon
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Spawn of Garalon"],
 		itemId = 167054,
 		spellId = 291553,
@@ -1267,10 +1246,7 @@ local bfaPets = {
 	["Amber Goo Puddle"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1499, -- Amber-Shaper Un'sok
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Amber Goo Puddle"],
 		itemId = 167055,
 		spellId = 291556,
@@ -1298,10 +1274,7 @@ local bfaPets = {
 	["Essence of Pride"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1501, -- Grand Empress Shek'zeer
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Essence of Pride"],
 		itemId = 167056,
 		spellId = 291560,
@@ -1329,10 +1302,7 @@ local bfaPets = {
 	["Azure Cloud Serpent Egg"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1505, -- Tsulong
-		},
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
 		name = L["Azure Cloud Serpent Egg"],
 		itemId = 167051,
 		spellId = 291537,
@@ -1361,10 +1331,7 @@ local bfaPets = {
 	["Spirit of the Spring"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1506, -- Lei Shi
-		},
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
 		name = L["Spirit of the Spring"],
 		itemId = 167052,
 		spellId = 291547,
@@ -1914,10 +1881,7 @@ local bfaPets = {
 	["Microbot 8D"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2291, -- HK-8 Aerial Oppression Unit
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		npcs = { 150190 },
 		name = L["Microbot 8D"],
 		spellId = 301056,
@@ -1960,11 +1924,7 @@ local bfaPets = {
 	['Box Labeled "Danger: Void Rat Inside"'] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2374, -- Therum Deepforge (8.3)
-			3082, --  Therum Deepforge (11.1.5)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		name = L['Box Labeled "Danger: Void Rat Inside"'],
 		spellId = 315301,
 		itemId = 174460,
@@ -1978,13 +1938,7 @@ local bfaPets = {
 	["Swirling Black Bottle"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2332, -- Thrall the Corrupted (8.3)
-			2338, -- Alleria Windrunner (8.3)
-			3086, -- Thrall the Corrupted (11.1.5)
-			3081, -- Alleria Windrunner (11.1.5)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		name = L["Swirling Black Bottle"],
 		spellId = 315302,
 		itemId = 174461,
@@ -2000,11 +1954,7 @@ local bfaPets = {
 	["Voidwoven Cat Collar"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2338, -- Alleria Windrunner (8.3)
-			3081, -- Alleria Windrunner (11.1.5)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		name = L["Voidwoven Cat Collar"],
 		spellId = 315298,
 		itemId = 174459,
@@ -2018,11 +1968,7 @@ local bfaPets = {
 	["Void-Link Frostwolf Collar"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2332, -- Thrall the Corrupted (8.3)
-			3086, -- Thrall the Corrupted (11.1.5)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		name = L["Void-Link Frostwolf Collar"],
 		spellId = 312030,
 		itemId = 174646,
@@ -2036,11 +1982,7 @@ local bfaPets = {
 	["C'Thuffer"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2370, -- Rexxar (8.3)
-			3090, -- Rexxar (11.1.5)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		name = L["C'Thuffer"],
 		spellId = 315290,
 		itemId = 174457,
@@ -2054,11 +1996,7 @@ local bfaPets = {
 	["Void-Scarred Hare"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2377, -- Magister Umbric (8.3)
-			3085, -- Magister Umbric (11.1.5)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		name = L["Void-Scarred Hare"],
 		spellId = 315297,
 		itemId = 174458,
@@ -2072,11 +2010,7 @@ local bfaPets = {
 	["Box With Faintly Glowing 'Air' Holes"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.BFA,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			2372, -- Oblivion Elemental (8.3)
-			3088, -- Oblivion Elemental (11.1.5)
-		},
+		method = CONSTANTS.DETECTION_METHODS.SPECIAL,
 		name = L["Box With Faintly Glowing 'Air' Holes"],
 		spellId = 312029,
 		itemId = 173726,

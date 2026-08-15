@@ -93,9 +93,6 @@ end
 ---Checks if we're on a fresh realm.
 ---@return boolean
 function SessionInfo.IsFresh()
-	if LibTSMWoW.IsBCClassic() then
-		return true
-	end
 	if not C_Seasons.HasActiveSeason() then
 		return false
 	end

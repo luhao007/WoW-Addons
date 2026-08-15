@@ -176,7 +176,7 @@ function AuctionHouse.GetOwnedInfo(index)
 			duration = time() + duration
 		end
 	elseif saleStatus == 1 then
-		if not currentBid and not LibTSMWoW.IsVanillaClassic() and not LibTSMWoW.IsBCClassic() then
+		if not currentBid and not LibTSMWoW.IsVanillaClassic() then
 			-- Sometimes wow doesn't tell us the current bid on sold auctions
 			currentBid = 0
 		end
@@ -278,6 +278,8 @@ end
 ---@return ItemKey
 function AuctionHouse.MakeItemKey(itemId, battlePetSpeciesId)
 	local itemKey = C_AuctionHouse.MakeItemKey(itemId, 0, 0, battlePetSpeciesId)
+	-- FIX for 9.0.1 bug where MakeItemKey randomly adds an itemLevel which breaks scanning
+	itemKey.itemLevel = 0
 	return itemKey
 end
 
@@ -475,7 +477,7 @@ end
 function AuctionHouse.IsPurchaseMessage(msg, name, quantity)
 	if msg == AuctionHouse.GetPurchaseMessage(name) then
 		return true
-	elseif quantity and not LibTSMWoW.IsVanillaClassic() and not LibTSMWoW.IsBCClassic() and msg == format(ERR_AUCTION_COMMODITY_WON_S, name, quantity) then
+	elseif quantity and not LibTSMWoW.IsVanillaClassic() and msg == format(ERR_AUCTION_COMMODITY_WON_S, name, quantity) then
 		return true
 	end
 	return false

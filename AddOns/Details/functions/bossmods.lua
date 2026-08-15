@@ -49,7 +49,7 @@ function Details:BossModsLink()
             local encounterTable = Details.encounter_table
 
             if (phase and encounterTable.phase ~= phase) then
-                --Details:Msg("Current phase is now:", phase)
+                --Details:Msg("当前阶段是:", phase)
                 Details:OnCombatPhaseChanged()
                 encounterTable.phase = phase
                 local currentCombat = Details:GetCurrentCombat()

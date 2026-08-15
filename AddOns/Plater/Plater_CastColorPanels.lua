@@ -67,7 +67,7 @@ local spellIndicators = {
 		id = "edited_name",
 		width = 12,
 		height = 12,
-		name = "Name Changed Indicator",
+		name = "名称更改指示器",
 		alpha = 1,
 		type = "spell_indicators",
 	},
@@ -80,7 +80,7 @@ local spellIndicators = {
 		id = "edited_audio",
 		width = 12,
 		height = 12,
-		name = "Audio Changed Indicator",
+		name = "音频更改指示器",
 		alpha = 1,
 		type = "spell_indicators",
 	},
@@ -93,7 +93,7 @@ local spellIndicators = {
 		id = "edited_color",
 		width = 12,
 		height = 12,
-		name = "Color Changed Indicator",
+		name = "颜色更改指示器",
 		alpha = 1,
 		type = "spell_indicators",
 	},
@@ -106,7 +106,7 @@ local spellIndicators = {
 		id = "edited_script",
 		width = 12,
 		height = 12,
-		name = "Script Changed Indicator",
+		name = "脚本更改指示器",
 		alpha = 1,
 		type = "spell_indicators",
 	},
@@ -269,14 +269,14 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
     local headerTable = {
         {text = "", width = 40}, --1
         {text = "", width = 20}, --2
-        {text = "Spell Id", width = 60}, --3
-        {text = "Spell Name", width = 120}, --4
-        {text = "Rename To", width = 120}, --5
-        {text = "Npc Name", width = 120}, --6
-        {text = "Send To Raid", width = 75}, --7
-        {text = "Play Sound", width = 110}, --8
-        {text = "Color", width = 110}, --9
-        {text = "Add Animation", width = 270}, --10
+        {text = "法术 Id", width = 60}, --3
+        {text = "法术名称", width = 120}, --4
+        {text = "重命名为", width = 120}, --5
+        {text = "Npc 名字", width = 120}, --6
+        {text = "发送到团队", width = 75}, --7
+        {text = "播放声音", width = 110}, --8
+        {text = "颜色", width = 110}, --9
+        {text = "添加动画", width = 270}, --10
     }
 
     local headerOptions = {
@@ -646,7 +646,7 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
         --local npcIdLabel = DF:CreateLabel(line, "", 10, "white", nil, "npcIdLabel")
 
         --send to raid button
-        local sendToRaidButton = DF:CreateButton(line, function()end, headerTable[7].width - 15, 20, "Send to Raid", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+        local sendToRaidButton = DF:CreateButton(line, function()end, headerTable[7].width - 15, 20, "发送到团队", -1, nil, nil, nil, nil, nil, DF:GetTemplate ("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate ("font", "PLATER_BUTTON"))
         line.sendToRaidButton = sendToRaidButton
 
         --location
@@ -822,9 +822,9 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
 
             previewFrame:SetScript("OnEnter", function(castBar)
                 GameCooltip:Reset()
-                GameCooltip:AddLine("Script:", previewFrame.scriptName)
-                GameCooltip:AddLine("Click to use this animation when the cast start")
-                GameCooltip:AddLine("Having enemy npcs near you, make their nameplates to preview this animation")
+                GameCooltip:AddLine("脚本:", previewFrame.scriptName)
+                GameCooltip:AddLine("当施法开始时点击使用这个动画")
+                GameCooltip:AddLine("在你附近有敌方npc, 用他们的姓名版来预览这个动画")
 
                 local scriptObject = platerInternal.Scripts.GetScriptObjectByName(previewFrame.scriptName)
                 if (scriptObject) then
@@ -928,7 +928,7 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
         local scriptName = previewFrame.scriptName
         local scriptObject = platerInternal.Scripts.GetScriptObjectByName(scriptName)
         if (not scriptObject) then
-            Plater:Msg("[StopCastBarPreview] script not found:", scriptName)
+            Plater:Msg("[StopCastBarPreview] 脚本未找到:", scriptName)
             return
         end
 
@@ -1044,8 +1044,8 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
                 set = function (self, fixedparam, value)
                     Plater.db.profile.cast_color_settings.enabled = value
                 end,
-                name = "Enable Original Cast Color",
-                desc = "Show a small indicator showing the original color of the cast.",
+                name = "启用原始施法颜色",
+                desc = "显示一个小指示器显示施法的原始颜色.",
                 childrenids = {"alpha", "width", "height_offset", "layer", "anchor", "x", "y"},
                 children_follow_enabled = true,
             },
@@ -1059,7 +1059,7 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
                 max = 1,
                 step = 0.1,
                 usedecimals = true,
-                name = "Alpha",
+                name = "透明度",
                 id = "alpha",
             },
             {
@@ -1071,7 +1071,7 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
                 min = 1,
                 max = 200,
                 step = 1,
-                name = "Width",
+                name = "宽度",
                 id = "width",
             },
             {
@@ -1083,14 +1083,14 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
                 min = -30,
                 max = 30,
                 step = 1,
-                name = "Height Offset",
+                name = "高度偏移",
                 id = "height_offset",
             },
             {
                 type = "select",
                 get = function() return Plater.db.profile.cast_color_settings.layer end,
                 values = function() return buildLayerMenu() end,
-                name = "Layer",
+                name = "层",
                 id = "layer",
             },
             {
@@ -1854,7 +1854,7 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
         auraSearchTextEntry:SetHook("OnChar", castFrame.OnSearchBoxTextChanged)
         auraSearchTextEntry:SetHook("OnTextChanged", castFrame.OnSearchBoxTextChanged)
         auraSearchTextEntry:SetAsSearchBox()
-        auraSearchTextEntry.tooltip = "- Spell Name\n- Npc Name\n- Zone Name\n- Encounter Name\n- SpellID\n- Custom Spell Name\n- Sound Name\n- Audio\n- Script Name"
+        auraSearchTextEntry.tooltip = "- 法术名称\n- Npc名称\n- 区域名称\n- 首领战名称\n- 法术ID\n- 自定义法术名称\n- 声音名称\n- 音频"
         auraSearchTextEntry:SetFrameLevel(castFrame.Header:GetFrameLevel() + 20)
         auraSearchTextEntry:SetBackdropColor(0.1, 0.1, 0.1, 0.9)
 
@@ -1869,7 +1869,7 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
         end
 
     --refresh button
-        local refreshButton = DF:CreateButton(castFrame, function() castFrame.RefreshScroll() end, 150, 20, _G["REFRESH"] or "Refresh", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "PLATER_BUTTON_DARK"), DF:GetTemplate("font", "PLATER_BUTTON"))
+        local refreshButton = DF:CreateButton(castFrame, function() castFrame.RefreshScroll() end, 150, 20, _G["REFRESH"] or "刷新", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "PLATER_BUTTON_DARK"), DF:GetTemplate("font", "PLATER_BUTTON"))
         refreshButton:SetPoint("bottomleft", spells_scroll, "bottomleft", 0, 0)
         refreshButton:SetFrameLevel(castFrame.Header:GetFrameLevel() + 20)
         refreshButton:SetIcon([[Interface\AddOns\Plater\images\circle_icon_refresh.png]], 16,    16,     "overlay", {0, 1, 0, 1}, nil,     nil,          nil,         nil,        nil,         "TRILINEAR")
@@ -1909,13 +1909,13 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
             mainFrame.ImportTextEditor = importTextEditor
 
             --import button
-            local okayImportButton = DF:CreateButton(footerFrame, mainFrame.ImportColors, buttons_size[1], buttons_size[2], "Okay", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+            local okayImportButton = DF:CreateButton(footerFrame, mainFrame.ImportColors, buttons_size[1], buttons_size[2], "确定", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
             okayImportButton:SetIcon([[Interface\BUTTONS\UI-Panel-BiggerButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
             okayImportButton:SetPoint("topright", importTextEditor, "bottomright", 0, 1)
             mainFrame.OkayImportButton = okayImportButton
 
             --cancel button
-            local cancelImportButton = DF:CreateButton(footerFrame, function() mainFrame.ImportTextEditor:Hide() end, buttons_size[1], buttons_size[2], "Cancel", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
+            local cancelImportButton = DF:CreateButton(footerFrame, function() mainFrame.ImportTextEditor:Hide() end, buttons_size[1], buttons_size[2], "取消", -1, nil, nil, nil, nil, nil, DF:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate("font", "PLATER_BUTTON"))
             cancelImportButton:SetIcon([[Interface\BUTTONS\UI-Panel-MinimizeButton-Up]], 20, 20, "overlay", {0.1, .9, 0.1, .9})
             cancelImportButton:SetPoint("right", okayImportButton, "left", -2, 0)
 
@@ -1950,14 +1950,14 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
                                 if (filePath and type(filePath) == "string") then
                                     DB_CAST_AUDIOCUES[spellId] = filePath
                                 else
-                                    Plater:Msg("Audio not installed:", audioName)
+                                    Plater:Msg("未安装音频:", audioName)
                                 end
                             end
                         end
                     end
 
                     castFrame.RefreshScroll()
-                    Plater:Msg("data imported.")
+                    Plater:Msg("数据已导入.")
                 else
                     Plater.SendScriptTypeErrorMsg(soundData)
                 end
@@ -2156,7 +2156,7 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
 
             --compress data and show it in the text editor
             local data = Plater.CompressData(exportedTable, "print")
-            castFrame.ImportEditor:SetText(data or "failed to export.")
+            castFrame.ImportEditor:SetText(data or "导出失败.")
 
             C_Timer.After(.1, function()
                 castFrame.ImportEditor.editbox:HighlightText()
@@ -2242,7 +2242,7 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
 
             --compress data and show it in the text editor
             local data = Plater.CompressData(exportedTable, "print")
-            castFrame.ImportEditor:SetText(data or "failed to export.")
+            castFrame.ImportEditor:SetText(data or "导出失败.")
 
             C_Timer.After(.1, function()
                 castFrame.ImportEditor.editbox:HighlightText()
@@ -2341,14 +2341,14 @@ function Plater.CreateCastColorOptionsFrame(castColorFrame)
         backdropFoot:SetFrameLevel(castFrame.Header:GetFrameLevel() + 19)
 
     --empty label
-        local empty_text = DF:CreateLabel(castFrame, "this list is automatically filled when\nyou see enemies casting spells inside a dungeons and raids\n\nthen you may select colors here.")
+        local empty_text = DF:CreateLabel(castFrame, "当你在地下城和团本中看到敌人施法时\n这个列表会自动填充\n\n然后你可以在这里选择颜色.")
         empty_text.fontsize = 24
         empty_text.align = "|"
         empty_text:SetPoint("center", spells_scroll, "center", -130, 0)
         castFrame.EmptyText = empty_text
 
     --create the description
-    castFrame.TitleDescText = Plater:CreateLabel(castFrame, "For raid and dungeon npcs, they are added into the list after you see them for the first time", 10, "silver")
+    castFrame.TitleDescText = Plater:CreateLabel(castFrame, "对于团本和地下城的npc, 在你第一次看到他们后他们会被添加到列表中", 10, "silver")
     castFrame.TitleDescText:SetPoint("bottomleft", spells_scroll, "topleft", 0, 26)
 
     castFrame:SetScript("OnHide", function()

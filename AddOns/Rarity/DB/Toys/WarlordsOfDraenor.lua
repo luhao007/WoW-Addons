@@ -49,10 +49,7 @@ local wodToys = {
 		cat = CONSTANTS.ITEM_CATEGORIES.WOD,
 		type = CONSTANTS.ITEM_TYPES.ITEM,
 		isToy = true,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1185, -- Majordomo Staghelm
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Fandral's Seed Pouch"],
 		itemId = 122304,
 		npcs = { 52571 },

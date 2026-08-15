@@ -13,9 +13,9 @@ local Base = Addon:NewPlugin('Base')
 
 function Base:OnInitialize()
     self:EnableWithAddon('Blizzard_PetBattleUI')
-    self:SetPluginTitle(L.SELECTOR_BASE_TITLE)
-    self:SetPluginNotes(L.SELECTOR_BASE_NOTES)
-    self:SetPluginIcon([[Interface\ICONS\ability_karoz_leap]])
+    self:SetPluginTitle(L.PLUGINBASE_TITLE)
+    self:SetPluginNotes(L.PLUGINBASE_NOTES)
+    self:SetPluginIcon([[Interface\ICONS\Ability_Garrison_OrangeBird]])
 end
 
 function Base:OnEnable()
@@ -25,7 +25,7 @@ function Base:OnDisable()
 end
 
 function Base:GetCurrentKey()
-    return self:GetOwnerKey(Enum.BattlePetOwner.Ally) .. ':' .. self:GetOwnerKey(Enum.BattlePetOwner.Enemy)
+    return self:GetOwnerKey(LE_BATTLE_PET_ALLY) .. ':' .. self:GetOwnerKey(LE_BATTLE_PET_ENEMY)
 end
 
 function Base:GetOwnerKey(owner)
@@ -62,7 +62,7 @@ end
 function Base:OnTooltipFormatting(tip, key)
     local allys, enemys = SplitTeams(key)
 
-    tip:AddDoubleLine(L.SELECTOR_BASE_ALLY, L.SELECTOR_BASE_ENEMY, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+    tip:AddDoubleLine(L.PLUGINBASE_TEAM_ALLY, L.PLUGINBASE_TEAM_ENEMY, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
 
     for i = 1, max(#allys, #enemys) do
         tip:AddDoubleLine(

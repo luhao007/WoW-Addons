@@ -313,7 +313,7 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                 elseif (selectedOptionType == 6) then --black space
                     newOptionObject.Value = 0
                     newOptionObject.Icon = iconList[selectedOptionType]
-                    newOptionObject.Name = "blank space"
+                    newOptionObject.Name = "空白"
 
                 elseif (selectedOptionType == 7) then --list
                     newOptionObject.Value = {}
@@ -746,14 +746,14 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local sharedOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "General Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "通用设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
                 --name
                 {
                     type = "textentry",
                     get = function() return mainFrame.getOptionValue("Name", "") end,
                     set = function (self, fixedparam, value) setOptionValue("Name", value, ""); mainFrame.ScriptOptionsScrollBox:Refresh() end,
-                    name = "Name",
-                    desc = "The name of this option.",
+                    name = "名称",
+                    desc = "该选项的名称.",
                     width = 200,
                 },
                 --key
@@ -761,8 +761,8 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                     type = "textentry",
                     get = function() return mainFrame.getOptionValue("Key", "") end,
                     set = function (self, fixedparam, value) setOptionValue("Key", value, "") end,
-                    name = "Key",
-                    desc = "Key to be used inside the code to insert the value.",
+                    name = "键",
+                    desc = "在代码中用于插入值的键.",
                     width = 200,
                 },
                 --desc
@@ -770,8 +770,8 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                     type = "textentry",
                     get = function() return mainFrame.getOptionValue("Desc", "") end,
                     set = function (self, fixedparam, value) setOptionValue("Desc", value, "") end,
-                    name = "Description",
-                    desc = "A short description of what this option controls.",
+                    name = "描述",
+                    desc = "对该选项控制内容的简短描述.",
                     width = 300,
                 },
             }
@@ -793,14 +793,14 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local colorOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "Settings for Color:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "颜色设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
                 --value
                 {
                     type = "color",
                     get = function() return mainFrame.getOptionValue("Value", {1, 1, 1, 1}) end,
                     set = function (self, r, g, b, a) setOptionValue("Value", {r, g, b, a}, {1, 1, 1, 1}) end,
-                    name = "Color",
-                    desc = "A Color",
+                    name = "颜色",
+                    desc = "颜色",
                 },
             }
 
@@ -819,38 +819,38 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local numberOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "Settings for Number:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "数字设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
                 --value
                 {
                     type = "textentry",
                     get = function() return mainFrame.getOptionValue("Value", 0) end,
                     set = function (self, fixedparam, value) setOptionValue("Value", tonumber(value), 0) end,
-                    name = "Default Value",
-                    desc = "The initial value shown for the player when showing the options.",
+                    name = "默认值",
+                    desc = "显示选项时为玩家显示的初始值.",
                 },
                 --min value
                 {
                     type = "textentry",
                     get = function() return mainFrame.getOptionValue("Min", 0) end,
                     set = function (self, fixedparam, value) setOptionValue("Min", tonumber(value), 0) end,
-                    name = "Min Value",
-                    desc = "The minimum value this option can go.",
+                    name = "最小值",
+                    desc = "该选项的最小值可以是.",
                 },
                 --max value
                 {
                     type = "textentry",
                     get = function() return mainFrame.getOptionValue("Max", 1) end,
                     set = function (self, fixedparam, value) setOptionValue("Max", tonumber(value), 0) end,
-                    name = "Max Value",
-                    desc = "The maximum value this option can go.",
+                    name = "最大值",
+                    desc = "该选项的最大值可以是.",
                 },
                 --allow fraction
                 {
                     type = "toggle",
                     get = function() return mainFrame.getOptionValue("Fraction", true) end,
                     set = function (self, fixedparam, value) setOptionValue("Fraction", value, true) end,
-                    name = "Allow Fractions",
-                    desc = "Allow fractions or only whole numbers if false.",
+                    name = "允许使用分数",
+                    desc = "允许使用分数或者如果为假只使用整数.",
                 },
             }
 
@@ -869,14 +869,14 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local textOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "Settings for Text:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "文本设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
                 --value
                 {
                     type = "textentry",
                     get = function() return mainFrame.getOptionValue("Value", "") end,
                     set = function (self, fixedparam, value) setOptionValue("Value", value, "") end,
-                    name = "Default Text",
-                    desc = "Default text shown to the player.",
+                    name = "默认文本",
+                    desc = "显示给玩家的默认文本.",
                 },
             }
 
@@ -895,14 +895,14 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local boolOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "Settings for Boolean:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "布尔设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
                 --value
                 {
                     type = "toggle",
                     get = function() return mainFrame.getOptionValue("Value", true) end,
                     set = function (self, fixedparam, value) setOptionValue("Value", value, true) end,
-                    name = "Default Toggle State",
-                    desc = "If the toggle is default pressed or not.",
+                    name = "默认切换状态",
+                    desc = "如果切换是默认按下或没有按下.",
                 },
             }
 
@@ -921,14 +921,14 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local labelOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "Settings for Label:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "标签设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
                 --value
                 {
                     type = "textentry",
                     get = function() return mainFrame.getOptionValue("Value", "") end,
                     set = function (self, fixedparam, value) setOptionValue("Value", value, "") end,
-                    name = "Label Text",
-                    desc = "Text shown as a header of a section.",
+                    name = "标签文本",
+                    desc = "显示为章节标题的文本.",
                     width = 330,
                 },
             }
@@ -948,7 +948,7 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local blankspaceOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "There's no settings for blank space" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "没有对空白处进行设置" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
             }
 
             blankspaceOptionsMenu.always_boxfirst = true
@@ -966,7 +966,7 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local listFrameOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "Edit the list box below:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "编辑下面的列表框:" end, text_template = DF:GetTemplate("font", "ORANGE_FONT_TEMPLATE")},
             }
             listFrameOptionsMenu.always_boxfirst = true
             DF:BuildMenuVolatile(listFrameOptionsFrame, listFrameOptionsMenu, 5, -5, options_frame_shared_height, false, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template)
@@ -1013,7 +1013,7 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
             local textureOptionsMenu = {
                 always_boxfirst = true,
 
-                {type = "label", get = function() return "Settings for Audio Selection:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+                {type = "label", get = function() return "材质设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
                 --value
                 { --this is the option within the option editor
                     type = "audiodropdown",
@@ -1021,8 +1021,8 @@ function Plater.CreateScriptingOptionsPanel(parent, mainFrame)
                     set = function(self, fixedparam, value)
                         setOptionValue("Value", value, "none")
                     end,
-                    name = "Audio File Name",
-                    desc = "Audio",
+                    name = "音频文件名",
+                    desc = "音频",
                 },
             }
             textureOptionsMenu.always_boxfirst = true

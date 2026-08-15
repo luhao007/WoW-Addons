@@ -1045,7 +1045,7 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		downloadText:SetSize(readyFrame:GetWidth() - 20, 200)
 		downloadText:SetTextColor(unpack(textColor))
 		detailsFramework:SetFontSize(downloadText, 16)
-		downloadText:SetText("YOUR M+ PANEL LEVELED UP!\n\nDownload\n|cFFFFFFFFDetails! Damage Meter Mythic+|r\n addon to see a complete overview of your runs!")
+		downloadText:SetText("你的大秘境面板等级提升了!\n\n下载\n|cFFFFFFFFDetails! Damage Meter Mythic+|r\n插件即可查看你副本历程的完整概览!")
 		downloadText:SetPoint("center", downloadFrame, "center", 0, 135)
 		downloadFrame.DownloadText = downloadText
 
@@ -1069,7 +1069,7 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		local clickToEnlargeText = downloadFrame:CreateFontString("$parentClickToEnlargeText", "overlay", "GameFontNormal")
 		clickToEnlargeText:SetTextColor(1, 1, 1)
 		detailsFramework:SetFontSize(clickToEnlargeText, 11)
-		clickToEnlargeText:SetText("Click to enlarge the preview image")
+		clickToEnlargeText:SetText("点击即可放大预览图")
 		clickToEnlargeText:SetPoint("top", previewImage, "bottom", 0, -5)
 		downloadFrame.ClickToEnlargeText = clickToEnlargeText
 
@@ -1089,7 +1089,7 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		local deprecatedText = downloadFrame:CreateFontString("$parentDeprecatedText", "overlay", "GameFontNormal")
 		deprecatedText:SetTextColor(1, 0.7, 0.7, 1)
 		detailsFramework:SetFontSize(deprecatedText, 11)
-		deprecatedText:SetText("this panel will be removed on 11.2")
+		deprecatedText:SetText("将于11.2被移除")
 		deprecatedText:SetPoint("bottom", downloadFrame, "bottom", 0, 7)
 
 		local whyFrame = CreateFrame("frame", nil, downloadFrame)
@@ -1098,10 +1098,10 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		whyFrame:SetScript("OnEnter", function()
 			GameCooltip:Preset(2)
 			GameCooltip:SetOwner(whyFrame, "bottom", "top", 0, 5)
-			GameCooltip:AddLine("We made the decision to expand the features of this panel and for that to happen we need more developers.")
-			GameCooltip:AddLine("Having to learn how the old code of this panel works and make implementations on it would be madness.")
-			GameCooltip:AddLine("Because of that, we decided to rewrite the entire thing and build from the ground up.")
-			GameCooltip:AddLine("This panel won't receive more updates which means it'll break when 11.2 patch is released.")
+			GameCooltip:AddLine("我们决定扩展此面板的功能, 为此我们需要更多开发者.")
+			GameCooltip:AddLine("学习这个面板的旧代码工作原理并在其上进行开发简直是荒谬至极.")
+			GameCooltip:AddLine("因此, 我们决定彻底重写它, 从头开始构建.")
+			GameCooltip:AddLine("该面板将不再接收更新, 这意味着它会在11.2版本发布时崩溃/失效.")
 			GameCooltip:Show()
 		end)
 		whyFrame:SetScript("OnLeave", function()
@@ -1111,7 +1111,7 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		local whyText = whyFrame:CreateFontString(nil, "overlay", "GameFontNormal")
 		whyText:SetTextColor(1, 1, 1)
 		detailsFramework:SetFontSize(whyText, 11)
-		whyText:SetText("why?")
+		whyText:SetText("为啥?")
 		whyText:SetPoint("center", whyFrame, "center", 0, 0)
 
 		---@type playerbanner[]
@@ -1322,7 +1322,7 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		readyFrame.ConfigButton:SetTexture(normalTexture, highlightTexture, pushedTexture, normalTexture)
 
 		--waiting for loot label
-		local waitingForLootLabel = detailsFramework:CreateLabel(contentFrame, "Waiting for loot", 12, "silver")
+		local waitingForLootLabel = detailsFramework:CreateLabel(contentFrame, "等待战利品", 12, "silver")
 		waitingForLootLabel:SetPoint("bottom", readyFrame, "bottom", 0, 54)
 		waitingForLootLabel:Hide()
 
@@ -1355,7 +1355,7 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		end
 
 		---@type df_button
-		readyFrame.ShowBreakdownButton = detailsFramework:CreateButton(contentFrame, showBreakdownFunc, 145, 30, "Show Breakdown")
+		readyFrame.ShowBreakdownButton = detailsFramework:CreateButton(contentFrame, showBreakdownFunc, 145, 30, "显示细分")
 		PixelUtil.SetPoint(readyFrame.ShowBreakdownButton, "topleft", readyFrame, "topleft", 31, -30)
 		PixelUtil.SetSize(readyFrame.ShowBreakdownButton, 145, 32)
 		--readyFrame.ShowBreakdownButton:SetBackdrop(nil)
@@ -1373,7 +1373,7 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		end
 
 		---@type df_button
-		readyFrame.ShowChartButton = detailsFramework:CreateButton(contentFrame, showChartFunc, 50, 30, "Chart")
+		readyFrame.ShowChartButton = detailsFramework:CreateButton(contentFrame, showChartFunc, 50, 30, "图表")
 		--set the template
 		--readyFrame.ShowChartButton:SetTemplate(detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
 		--readyFrame.ShowChartButton:SetBackdrop(nil)
@@ -1381,14 +1381,14 @@ function mythicDungeonFrames.ShowEndOfMythicPlusPanel()
 		readyFrame.ShowChartButton.textcolor = textColor
         --detailsFramework:AddRoundedCornersToFrame(readyFrame.ShowChartButton.widget, roundedCornerPreset)
 
-		local elapsedTimeLabel = detailsFramework:CreateLabel(contentFrame, "Run Time:", textSize, textColor)
+		local elapsedTimeLabel = detailsFramework:CreateLabel(contentFrame, "副本时间:", textSize, textColor)
 		elapsedTimeLabel:SetPoint("topleft", readyFrame, "topleft", 5, -70)
 		local elapsedTimeAmount = detailsFramework:CreateLabel(contentFrame, "00:00", textSize, textColor)
 		elapsedTimeAmount:SetPoint("left", elapsedTimeLabel, "left", 130, 0)
 		elapsedTimeLabel:Hide()
 		elapsedTimeAmount:Hide()
 
-		local timeNotInCombatLabel = detailsFramework:CreateLabel(contentFrame, "Time not in combat:", textSize, "orangered")
+		local timeNotInCombatLabel = detailsFramework:CreateLabel(contentFrame, "非战斗时间:", textSize, "orangered")
 		timeNotInCombatLabel:SetPoint("topleft", elapsedTimeLabel, "bottomleft", 0, -5)
 		local timeNotInCombatAmount = detailsFramework:CreateLabel(contentFrame, "00:00", textSize, "orangered")
 		timeNotInCombatAmount:SetPoint("left", timeNotInCombatLabel, "left", 130, 0)

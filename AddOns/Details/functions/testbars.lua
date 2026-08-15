@@ -32,7 +32,7 @@ function Details:TestBarsUpdate()
                 end
             end
             if not instanceObject then
-                Details:Msg("No instance found to update test bars.")
+                Details:Msg("未找到用于更新测试条目的副本.")
                 return
             end
         end

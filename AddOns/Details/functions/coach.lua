@@ -86,7 +86,7 @@ function Details.Coach.Client.SendDataToRL()
     --local data = Details.packFunctions.GetAllData()
     local okay, data = pcall(Details.packFunctions.GetAllData)
     if (not okay) then
-        Details:Msg("Error on GetAllData():", data)
+        Details:Msg("GetAllData()的错误:", data)
         Details.Coach.Client.UpdateTicker:Cancel()
         return
     end
@@ -251,7 +251,7 @@ function Details.Coach.Client.CoachIsEnabled_Response(isCoachEnabled, coachName)
     if (isCoachEnabled) then
         --coach confirmed the coach feature is enabled and running
         Details.Coach.Client.EnableCoach(coachName)
-        Details:Msg("[|cFFAAFFAADetails! Coach|r] current coach:", coachName)
+        Details:Msg("[|cFFAAFFAADetails! Coach|r] 当前教练:", coachName)
     end
 end
 
@@ -344,7 +344,7 @@ function Details.Coach.Client.EnableCoach(coachName)
         Details:Msg("[|cFFAAFFAADetails! Coach|r] there's a new coach: ", coachName)
     end
 
-    Details:Msg("[|cFFAAFFAADetails! Coach|r] current coach:", coachName)
+    Details:Msg("[|cFFAAFFAADetails! Coach|r] 当前教练:", coachName)
 end
 
 --coach received a notification that a new combat has started
@@ -469,7 +469,7 @@ function Details.Coach.WelcomePanel()
         local isLeaderTexture = DetailsFramework:CreateImage(welcomePanel, [[Interface\GLUES\LOADINGSCREENS\DynamicElements]], imageSize, imageSize)
         isLeaderTexture:SetTexCoord(0, 0.5, 0, 0.5)
         isLeaderTexture:SetPoint("topleft", detailsLogo, "topleft", 0, -60)
-        local isLeaderText = DetailsFramework:CreateLabel(welcomePanel, "In raid and all members are in the same guild.")
+        local isLeaderText = DetailsFramework:CreateLabel(welcomePanel, "在副本所有成员都在同一个公会中.")
         isLeaderText:SetPoint("left", isLeaderTexture, "right", 10, 0)
 
         local isOutsideTexture = DetailsFramework:CreateImage(welcomePanel, [[Interface\GLUES\LOADINGSCREENS\DynamicElements]], imageSize, imageSize)
@@ -493,14 +493,14 @@ function Details.Coach.WelcomePanel()
         local allUpdatedTexture = DetailsFramework:CreateImage(welcomePanel, [[Interface\GLUES\LOADINGSCREENS\DynamicElements]], imageSize, imageSize)
         allUpdatedTexture:SetTexCoord(0, 0.5, 0, 0.5)
         allUpdatedTexture:SetPoint("topleft", beInGroupSevenTexture, "bottomleft", 0, -5)
-        local allUpdatedText = DetailsFramework:CreateLabel(welcomePanel, "Users with updated Details!.")
+        local allUpdatedText = DetailsFramework:CreateLabel(welcomePanel, "用户需要更新Details!.")
         allUpdatedText:SetPoint("left", allUpdatedTexture, "right", 10, 0)
 
         local startCoachButton = DetailsFramework:CreateButton(welcomePanel, function()
             Details.coach.enabled = true
             Details.Coach.Server.EnableCoach()
             welcomePanel:Hide()
-            Details:Msg("welcome aboard commander!")
+            Details:Msg("恭迎大驾!")
 
         end, 80, 20, "Start Coaching!")
         startCoachButton:SetPoint("bottomright", welcomePanel, "bottomright", -10, 10)

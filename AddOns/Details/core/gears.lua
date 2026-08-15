@@ -627,27 +627,27 @@ function Details:DecompressData(data, dataType)
 
 			dataCompressed = LibDeflate:DecodeForPrint(data)
 			if (not dataCompressed) then
-				Details:Msg("couldn't decode the data.")
+				Details:Msg("无法解码数据.")
 				return false
 			end
 
 		elseif (dataType == "comm") then
 			dataCompressed = LibDeflate:DecodeForWoWAddonChannel(data)
 			if (not dataCompressed) then
-				Details:Msg("couldn't decode the data.")
+				Details:Msg("无法解码数据.")
 				return false
 			end
 		end
 		local dataSerialized = LibDeflate:DecompressDeflate(dataCompressed)
 
 		if (not dataSerialized) then
-			Details:Msg("couldn't uncompress the data.")
+			Details:Msg("无法解压缩数据.")
 			return false
 		end
 
 		local okay, data = LibAceSerializer:Deserialize(dataSerialized)
 		if (not okay) then
-			Details:Msg("couldn't unserialize the data.")
+			Details:Msg("无法解压缩数据.")
 			return false
 		end
 
@@ -1418,16 +1418,16 @@ end
 
 function Details.GetPlayTimeOnClassString()
     local playedTime = Details.GetPlayTimeOnClass()
-    local days = floor(playedTime / 86400) .. " days"
+    local days = floor(playedTime / 86400) .. " 天"
     playedTime = playedTime % 86400
-    local hours = floor(playedTime / 3600) .. " hours"
+    local hours = floor(playedTime / 3600) .. " 小时"
     playedTime = playedTime % 3600
-    local minutes = floor(playedTime / 60) .. " minutes"
+    local minutes = floor(playedTime / 60) .. " 分钟"
 
 	local expansionLevel = GetExpansionLevel()
 	local expansionName = _G["EXPANSION_NAME" .. GetExpansionLevel()]
 
-    return "|cffffff00Time played this class(" .. expansionName .. "): " .. days .. " " .. hours .. " " .. minutes
+    return "|cffffff00玩这个职业的时间(" .. expansionName .. "): " .. days .. " " .. hours .. " " .. minutes
 end
 
 --[=[
@@ -1444,7 +1444,7 @@ hooksecurefunc("ChatFrame_DisplayTimePlayed", function()
 			local levelText = TIME_PLAYED_LEVEL and TIME_PLAYED_LEVEL:gsub("%%s", "") or ""
 			for fontString in ChatFrame1.fontStringPool:EnumerateActive() do
 				if (fontString:GetText() and fontString:GetText():find(levelText)) then
-					print(Details.GetPlayTimeOnClassString() .. " \ncommand: /details playedclass")
+					print(Details.GetPlayTimeOnClassString() .. " \n命令: /details playedclass")
 					break
 				end
 			end
@@ -1476,7 +1476,7 @@ Details.UpdateAddOnMemoryUsage_Custom = function()
 		if (deltaTime >= 500) then
 			bigStutterCounter = bigStutterCounter + 1
 			if (bigStutterCounter >= 6) then
-				Details:Msg("an addon made your game freeze for more than a half second, use '/details perf' to know more.")
+				Details:Msg("一个插件使你的游戏卡顿超过半秒, 使用'/details perf'了解更多.")
 				bigStutterCounter = -10000 --make this msg appear only once
 			end
 		end
@@ -1485,15 +1485,15 @@ Details.UpdateAddOnMemoryUsage_Custom = function()
 		local stutterDegree = 0
 		if (stutterCounter > 60) then
 			if (deltaTime < 48) then
-				Details:Msg("some addon may be causing small framerate stuttering, use '/details perf' to know more.")
+				Details:Msg("一些插件可能会导致卡顿, 使用'/details perf'了解更多.")
 				stutterDegree = 1
 
 			elseif (deltaTime <= 100) then
-				Details:Msg("some addon may be causing framerate drops, use '/details perf' to know more.")
+				Details:Msg("某些插件可能导致帧速率下降, 使用'/details perf'了解更多.")
 				stutterDegree = 2
 
 			else
-				Details:Msg("some addon might be causing performance issues, use '/details perf' to know more.")
+				Details:Msg("一些插件可能会导致性能问题, 使用'/details perf'了解更多.")
 				stutterDegree = 3
 			end
 
@@ -1504,7 +1504,7 @@ Details.UpdateAddOnMemoryUsage_Custom = function()
 			deltaTime = deltaTime,
 			callStack = callStack,
 			culpritFunc = "_G.UpdateAddOnMemoryUsage()",
-			culpritDesc = "Calculates memory usage of addons",
+			culpritDesc = "计算插件的内存使用量",
 		}
 	end
 end

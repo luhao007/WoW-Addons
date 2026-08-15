@@ -31,7 +31,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 	local CONST_WINDOW_HEIGHT = 626
 	local CONST_SCROLL_LINE_AMOUNT = 21
 
-	local detailsKeystoneInfoFrame = detailsFramework:CreateSimplePanel(UIParent, CONST_WINDOW_WIDTH, CONST_WINDOW_HEIGHT, "M+ Keystones (/key, /keys, /keystone)", "DetailsKeystoneInfoFrame")
+	local detailsKeystoneInfoFrame = detailsFramework:CreateSimplePanel(UIParent, CONST_WINDOW_WIDTH, CONST_WINDOW_HEIGHT, "史诗钥石地下城钥石(/key, /keys, /keystone)", "DetailsKeystoneInfoFrame")
 	detailsKeystoneInfoFrame:Hide()
 
 	--pre create 30 protected buttons
@@ -141,7 +141,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 	cooldownBlocker.cooldownText = cooldownBlocker:CreateFontString(nil, "overlay", "GameFontNormal")
 	cooldownBlocker.cooldownText:SetPoint("center", cooldownBlocker, "center", 0, 0)
 	cooldownBlocker.cooldownText:SetTextColor(1, 1, 1, 0.25)
-	cooldownBlocker.cooldownText:SetText("Cooldown")
+	cooldownBlocker.cooldownText:SetText("冷却")
 	detailsFramework:SetFontSize(cooldownBlocker.cooldownText, 20)
 
 	local spellIdToCheckCooldown
@@ -159,7 +159,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 				local start, duration = cooldownInfo.startTime, cooldownInfo.duration
 				if (start > 0) then
 					cooldownBlocker:Show()
-					cooldownBlocker.cooldownText:SetText(detailsFramework:IntegerToCooldownTime((start + duration) - GetTime()) .. "\n remaining")
+					cooldownBlocker.cooldownText:SetText(detailsFramework:IntegerToCooldownTime((start + duration) - GetTime()) .. "\n剩余")
 				else
 					cooldownBlocker:Hide()
 					cooldownBlocker.cooldownText:SetText("")
@@ -232,7 +232,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 						teleportButton:SetPushedTexture(dungeonInfo[4])
 						teleportButton:SetHighlightTexture(dungeonInfo[4])
 
-						local dungeonName = dungeonInfo[1] or "Unknown Dungeon"
+						local dungeonName = dungeonInfo[1] or "未知地下城"
 						dungeonAcronym:SetText(detailsFramework.string.Acronym(dungeonName))
 						teleportButton.dungeonName = dungeonName
 						break
@@ -315,19 +315,19 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 
                 local selectAddOnLabel = selectAddonFrame:CreateFontString(nil, "overlay", "GameFontNormal")
                 selectAddOnLabel:SetPoint("topleft", selectAddonFrame, "topleft", 2, -2)
-                selectAddOnLabel:SetText("Choose which adddon should handle /key:")
+                selectAddOnLabel:SetText("选择哪个插件来处理/key:")
                 selectAddonFrame.Title = selectAddOnLabel
 
                 local redoSelectionLabel = selectAddonFrame:CreateFontString(nil, "overlay", "GameFontNormal")
                 redoSelectionLabel:SetPoint("bottomleft", selectAddonFrame, "bottomleft", 2, 2)
-                redoSelectionLabel:SetText("Click 'Select Addon' in the bottom right\ncorner to change again another time.")
+                redoSelectionLabel:SetText("点击右下角的'选择插件'按钮, \n以便之后再次更改.")
                 redoSelectionLabel:SetJustifyH("LEFT")
                 selectAddonFrame.RedoSelectionLabel = redoSelectionLabel
 
                 local selectSection = function()
                 end
 
-                local selectAddonButton = detailsFramework:CreateButton(f, function() selectAddonFrame:Show() end, 64, 20, "select addon for /key")
+                local selectAddonButton = detailsFramework:CreateButton(f, function() selectAddonFrame:Show() end, 64, 20, "未/key选择插件")
                 selectAddonButton:SetPoint("bottomright", f, "bottomright", 2, 17)
                 selectAddonButton.textcolor = "gray"
                 selectAddonButton.alpha = 0.9
@@ -450,7 +450,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                 local okayButton = detailsFramework:CreateButton(selectAddonFrame, function()
                     selectAddonFrame:Hide()
                     Details.slashk_addon = selectAddonFrame.currentSelected
-                    end, 64, 20, "Okay")
+                    end, 64, 20, "确定")
                 okayButton:SetPoint("bottom", selectAddonFrame, "bottom", 0, 30)
                 okayButton:SetTemplate(detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"))
 
@@ -628,13 +628,13 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                     --player name
                     local playerName = button:CreateFontString(nil, "overlay", "GameFontNormal")
                     playerName:SetPoint("left", roleIcon, "right", 2, 0)
-                    playerName:SetText("Player Name") --place holder
+                    playerName:SetText("玩家名字") --place holder
                     detailsFramework:SetFontSize(playerName, 10)
 
                     --type
                     local activityType = button:CreateFontString(nil, "overlay", "GameFontNormal")
                     activityType:SetPoint("bottomleft", button.widget, "bottomleft", 3, 1)
-                    activityType:SetText("Activity Type") --place holder
+                    activityType:SetText("激活类型") --place holder
                     detailsFramework:SetFontSize(activityType, 9)
 
                     local addFriendButtonSize = 16
@@ -664,7 +664,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                                     finalText = shortName .. " +" .. level
                                 end
 
-                                C_FriendList.SetFriendNotes(dfButton.playerName, "Added from Details! /keys.\n" .. timeWhen .. " Key: " .. finalText)
+                                C_FriendList.SetFriendNotes(dfButton.playerName, "由Details! /keys添加.\n" .. timeWhen .. " 钥石: " .. finalText)
                             end
                         end)
     --[=[
@@ -790,7 +790,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                             dfButton.runId = runId
                             dfButton.addToFriendsButton.playerName = playerName
                         else
-                            dfButton.activityType:SetText("M+")
+                            dfButton.activityType:SetText("史诗钥石地下城")
                         end
                     end
 
@@ -848,7 +848,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                             line.unitName = unitName
 
                             if (mapName == "") then
-                                mapName = "user need update details!"
+                                mapName = "用户需要更新details!插件"
                             end
 
                             local rioProfile
@@ -1001,7 +1001,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                                     end)
 
                                     if (not haveSet) then
-                                        print("ERROR:", errorText)
+                                        print("错误:", errorText)
                                     end
                                 end
                             else
@@ -1345,7 +1345,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
                                 mapName = C_ChallengeMode.GetMapUIInfo(keystoneInfo.mapID)
                             end
 
-                            mapName = mapName or "map name not found"
+                            mapName = mapName or "地图名称未找到"
 
                             --local mapInfoChallenge = C_Map.GetMapInfo(keystoneInfo.challengeMapID)
                             --local mapNameChallenge = mapInfoChallenge and mapInfoChallenge.name or ""

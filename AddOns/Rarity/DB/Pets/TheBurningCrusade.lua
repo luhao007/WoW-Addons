@@ -50,10 +50,7 @@ local tbcPets = {
 	["Phoenix Hatchling"] = {
 		cat = CONSTANTS.ITEM_CATEGORIES.TBC,
 		type = CONSTANTS.ITEM_TYPES.PET,
-		method = CONSTANTS.DETECTION_METHODS.ENCOUNTER,
-		encounters = {
-			1894, -- Kael'thas Sunstrider
-		},
+		method = CONSTANTS.DETECTION_METHODS.NPC,
 		name = L["Phoenix Hatchling"],
 		spellId = 46599,
 		itemId = 35504,

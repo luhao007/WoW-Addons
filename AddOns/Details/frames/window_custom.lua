@@ -173,7 +173,7 @@
 				titlebar:SetBackdropBorderColor(0, 0, 0, 1)
 
 			--menu title
-				local titleLabel = _detalhes.gump:NewLabel(titlebar, titlebar, nil, "titulo", "Details! Custom Displays", "GameFontNormal", 12)
+				local titleLabel = _detalhes.gump:NewLabel(titlebar, titlebar, nil, "titulo", "Details! 自定义显示", "GameFontNormal", 12)
 				titleLabel:SetPoint("center", titlebar , "center")
 				titleLabel:SetPoint("top", titlebar , "top", 0, -4)
 
@@ -702,7 +702,7 @@
 				customWindow.codeeditor:Show()
 				DetailsCustomPanel.CodeEditing = code
 
-				DetailsCustomPanel:SetAcceptButtonText ("Save Code") --Loc ["STRING_CUSTOM_DONE"]
+				DetailsCustomPanel:SetAcceptButtonText ("保存代码") --Loc ["STRING_CUSTOM_DONE"]
 			end
 
 			--left menu
@@ -1083,10 +1083,10 @@
 					local source_icon = [[Interface\COMMON\Indicator-Yellow]]
 
 					local targeting_options = {
-						{value = "[all]", label = "All Characters", desc = "Search for matches in all characters.", onclick = disable_source_field, icon = source_icon},
-						{value = "[raid]", label = "Raid or Party Group", desc = "Search for matches in all characters which is part of your party or raid group.", onclick = disable_source_field, icon = source_icon},
-						{value = "[player]", label = "Only You", desc = "Search for matches only in your character.", onclick = disable_source_field, icon = source_icon},
-						{value = false, label = "Specific Character", desc = "Type the name of the character used to search.", onclick = enable_source_field, icon = source_icon},
+						{value = "[all]", label = "所有角色", desc = "在所有角色中寻找匹配.", onclick = disable_source_field, icon = source_icon},
+						{value = "[raid]", label = "团队或小队", desc = "在你的小队或团队的所有角色中寻找匹配.", onclick = disable_source_field, icon = source_icon},
+						{value = "[player]", label = "只有你", desc = "仅在你的角色中寻找匹配.", onclick = disable_source_field, icon = source_icon},
+						{value = false, label = "特定角色", desc = "键入角色名字来寻找.", onclick = enable_source_field, icon = source_icon},
 					}
 					local build_source_list = function() return targeting_options end
 					local source_dropdown = gump:NewDropDown (box1, nil, "$parentSourceDropdown", "sourcedropdown", 178, 20, build_source_list, 1)
@@ -1304,11 +1304,11 @@
 					local target_icon2 = [[Interface\COMMON\Indicator-Gray]]
 
 					local targeting_options = {
-						{value = "[all]", label = "All Characters", desc = "Search for matches in all characters.", onclick = disable_target_field, icon = target_icon},
-						{value = "[raid]", label = "Raid or Party Group", desc = "Search for matches in all characters which is part of your party or raid group.", onclick = disable_target_field, icon = target_icon},
-						{value = "[player]", label = "Only You", desc = "Search for matches only in your character.", onclick = disable_target_field, icon = target_icon},
-						{value = false, label = "Specific Character", desc = "Type the name of the character used to search.", onclick = enable_target_field, icon = target_icon},
-						{value = "[none]", label = "No Target", desc = "Do not search for targets.", onclick = disable_target_field, icon = target_icon2},
+						{value = "[all]", label = "所有角色", desc = "在所有角色中寻找匹配.", onclick = disable_target_field, icon = target_icon},
+						{value = "[raid]", label = "团队或小队", desc = "在你的小队或团队的所有角色中寻找匹配.", onclick = disable_target_field, icon = target_icon},
+						{value = "[player]", label = "只有你", desc = "仅在你的角色中寻找匹配.", onclick = disable_target_field, icon = target_icon},
+						{value = false, label = "特定角色", desc = "键入角色名字来寻找.", onclick = enable_target_field, icon = target_icon},
+						{value = "[none]", label = "无目标", desc = "不用目标寻找.", onclick = disable_target_field, icon = target_icon2},
 					}
 					local build_target_list = function() return targeting_options end
 					local target_dropdown = gump:NewDropDown (box1, nil, "$parentTargetDropdown", "targetdropdown", 178, 20, build_target_list, 1)
@@ -1680,15 +1680,15 @@
 				tooltipcode_button:SetTemplate(CONST_CODETEXTENTRY_OPENCODEBUTTONS_TEMPLATE)
 
 				--edit total code
-				local totalcode_button = gump:NewButton(box2, nil, "$parentTotalCodeButton", "totalcodebutton", 160, 20, DetailsCustomPanel.StartEditCode, 3, nil, nil, "Edit Total Code")
+				local totalcode_button = gump:NewButton(box2, nil, "$parentTotalCodeButton", "totalcodebutton", 160, 20, DetailsCustomPanel.StartEditCode, 3, nil, nil, "编辑总代码")
 				totalcode_button:SetPoint("topleft", tooltipcode_button, "bottomleft", 0, -8)
-				totalcode_button.tooltip = "This code is responsible for edit the total number shown in the player bar.\n\nThis is not necessary if you want show exactly the value gotten in the search code."
+				totalcode_button.tooltip = "此代码负责编辑玩家栏中显示的总数.\n\n如果你想准确地显示搜索代码中得到的值则这不是必要的."
 				totalcode_button:SetTemplate(CONST_CODETEXTENTRY_OPENCODEBUTTONS_TEMPLATE)
 
 				--edit percent code
-				local percentcode_button = gump:NewButton(box2, nil, "$parentPercentCodeButton", "percentcodebutton", 160, 20, DetailsCustomPanel.StartEditCode, 4, nil, nil, "Edit Percent Code")
+				local percentcode_button = gump:NewButton(box2, nil, "$parentPercentCodeButton", "percentcodebutton", 160, 20, DetailsCustomPanel.StartEditCode, 4, nil, nil, "编辑百分比代码")
 				percentcode_button:SetPoint("topleft", totalcode_button, "bottomleft", 0, -8)
-				percentcode_button.tooltip = "Edit the code responsible for the percent number in the player bar.\n\nThis is not required if you want to use simple percentage (comparing with total)."
+				percentcode_button.tooltip = "编辑玩家栏中负责百分比数字的代码.\n\n如果想使用简单的百分比(与总数相比)则不需要此项."
 				percentcode_button:SetTemplate(CONST_CODETEXTENTRY_OPENCODEBUTTONS_TEMPLATE)
 
 				box2:Hide()
@@ -1794,7 +1794,7 @@
 					local object = DetailsCustomPanel.IsEditing
 
 					if (type(object) ~= "table") then
-						return _detalhes:Msg("This object need to be saved before.")
+						return _detalhes:Msg("此对象需要在此之前保存.")
 					end
 
 					object.script = main_code
@@ -1818,7 +1818,7 @@
 				local supportFrame = CreateFrame("frame", "$parentSupportFrame", customWindow)
 				supportFrame:SetFrameLevel(500)
 
-				local expand = gump:NewButton(supportFrame, nil, "$parentExpand", "expandbutton", CONST_EDITBOX_BUTTON_WIDTH, CONST_EDITBOX_BUTTON_HEIGHT, expand_func, 4, nil, nil, "Expand")
+				local expand = gump:NewButton(supportFrame, nil, "$parentExpand", "expandbutton", CONST_EDITBOX_BUTTON_WIDTH, CONST_EDITBOX_BUTTON_HEIGHT, expand_func, 4, nil, nil, "扩充")
 				expand:SetPoint("bottomleft", codeEditor, "topleft", 0, 1)
 				expand:SetTemplate(CONST_CODETEXTENTRYBUTTON_TEMPLATE)
 
@@ -1830,7 +1830,7 @@
 				font_size2:SetPoint("left", font_size1, "right", 2, 0)
 				font_size2:SetTemplate(CONST_CODETEXTENTRYBUTTON_TEMPLATE)
 
-				local apply1 = gump:NewButton(supportFrame, nil, "$parentApply", "applybutton", CONST_EDITBOX_BUTTON_WIDTH, CONST_EDITBOX_BUTTON_HEIGHT, apply_code, nil, nil, nil, "Apply")
+				local apply1 = gump:NewButton(supportFrame, nil, "$parentApply", "applybutton", CONST_EDITBOX_BUTTON_WIDTH, CONST_EDITBOX_BUTTON_HEIGHT, apply_code, nil, nil, nil, "申请")
 				apply1:SetPoint("left", font_size2, "right", 2, 0)
 				apply1:SetTemplate(CONST_CODETEXTENTRYBUTTON_TEMPLATE)
 

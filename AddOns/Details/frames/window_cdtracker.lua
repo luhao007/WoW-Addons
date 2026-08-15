@@ -508,7 +508,7 @@ end
         local DetailsCDTrackerWindow = CreateFrame("frame", "DetailsCDTrackerWindow", UIParent, "BackdropTemplate")
         DetailsCDTrackerWindow:SetSize(700, 480)
         DetailsCDTrackerWindow.Frame = DetailsCDTrackerWindow
-        DetailsCDTrackerWindow.__name = "Cooldown Tracker"
+        DetailsCDTrackerWindow.__name = "CD追踪"
         DetailsCDTrackerWindow.real_name = "DETAILS_CDTRACKERWINDOW"
         DetailsCDTrackerWindow.__icon = [[Interface\TUTORIALFRAME\UI-TUTORIALFRAME-SPIRITREZ]]
         DetailsCDTrackerWindow.__iconcoords = {130/512, 256/512, 0, 1}
@@ -560,8 +560,8 @@ end
                             Details222.CooldownTracking.DisableTracker()
                         end
                     end,
-                    name = "Enable Experimental Cooldown Tracker",
-                    desc = "Enable Experimental Cooldown Tracker",
+                    name = "启用实验性CD追踪",
+                    desc = "启用实验性CD追踪",
                 },
 
                 {--show only in group
@@ -571,8 +571,8 @@ end
                         Details.ocd_tracker.show_conditions.only_in_group = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Only in Group",
-                    desc = "Only in Group",
+                    name = "仅在组内",
+                    desc = "仅在组内",
                 },
 
                 {--show only inside instances
@@ -582,8 +582,8 @@ end
                         Details.ocd_tracker.show_conditions.only_inside_instance = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Only Inside Instances",
-                    desc = "Only Inside Instances",
+                    name = "仅在副本内",
+                    desc = "仅在副本内",
                 },
                 {--lock frame
                     type = "toggle",
@@ -592,8 +592,8 @@ end
                         Details.ocd_tracker.framme_locked = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Lock Frame",
-                    desc = "Lock Frame",
+                    name = "锁定框体",
+                    desc = "锁定框体",
                 },
 
                 {type = "breakline"},
@@ -605,8 +605,8 @@ end
                         Details.ocd_tracker.filters["defensive-raid"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Defensive: Raid",
-                    desc = "Example: druid tranquility.",
+                    name = "防御: 团本",
+                    desc = "比如: 德鲁伊宁静.",
                 },
 
                 {--filter: show target defensive cooldowns
@@ -616,8 +616,8 @@ end
                         Details.ocd_tracker.filters["defensive-target"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Defensive: Target",
-                    desc = "Example: priest pain suppression.",
+                    name = "防御: 目标",
+                    desc = "比如: 牧师痛苦压制.",
                 },
 
                 {--filter: show personal defensive cooldowns
@@ -627,8 +627,8 @@ end
                         Details.ocd_tracker.filters["defensive-personal"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Defensive: Personal",
-                    desc = "Example: mage ice block.",
+                    name = "防御: 个人",
+                    desc = "比如: 法师冰箱.",
                 },
 
                 {--filter: show ofensive cooldowns
@@ -638,8 +638,8 @@ end
                         Details.ocd_tracker.filters["ofensive"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Offensive Cooldowns",
-                    desc = "Example: priest power infusion.",
+                    name = "攻击冷却",
+                    desc = "比如: 牧师灌注.",
                 },
 
                 {--filter: show utility cooldowns
@@ -649,8 +649,8 @@ end
                         Details.ocd_tracker.filters["utility"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Utility Cooldowns",
-                    desc = "Example: druid roar.",
+                    name = "功能冷却",
+                    desc = "比如: 德鲁伊咆哮.",
                 },
 
                 {--filter: show interrupt cooldowns
@@ -660,8 +660,8 @@ end
                         Details.ocd_tracker.filters["interrupt"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Interrupt Cooldowns",
-                    desc = "Example: rogue kick.",
+                    name = "打断CD",
+                    desc = "例如: 潜行者脚踢.",
                 },
 
                 {--filter: item cooldowns
@@ -671,8 +671,8 @@ end
                         Details.ocd_tracker.filters["itemheal"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Item: Healing",
-                    desc = "Example: Healthstone.",
+                    name = "物品: 治疗",
+                    desc = "例: 治疗石.",
                 },
 
                 {--filter: item cooldowns
@@ -682,8 +682,8 @@ end
                         Details.ocd_tracker.filters["itempower"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Item: Power Increase",
-                    desc = "Example: Elemental Potion of Power.",
+                    name = "物品: 提升属性",
+                    desc = "例: 元素强能药水.",
                 },
 
                 {--filter: item cooldowns
@@ -693,8 +693,8 @@ end
                         Details.ocd_tracker.filters["itemutil"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Item: Utility",
-                    desc = "Example: Invisibility Potion.",
+                    name = "物品: 功能",
+                    desc = "例: 隐形药水.",
                 },
 
                 {--filter: crowd control
@@ -704,8 +704,8 @@ end
                         Details.ocd_tracker.filters["crowdcontrol"] = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Crowd Control",
-                    desc = "Example: Incapacitaion Roar.",
+                    name = "群控",
+                    desc = "例: 夺魂咆哮.",
                 },
 
                 {type = "breakline"},
@@ -720,8 +720,8 @@ end
                     min = 10,
                     max = 200,
                     step = 1,
-                    name = "Width",
-                    desc = "Width",
+                    name = "宽",
+                    desc = "宽",
                 },
 
                 {--bar height
@@ -734,8 +734,8 @@ end
                     min = 10,
                     max = 200,
                     step = 1,
-                    name = "Height",
-                    desc = "Height",
+                    name = "高",
+                    desc = "高",
                 },
                 
                 {--bar height
@@ -748,8 +748,8 @@ end
                     min = 1,
                     max = 30,
                     step = 1,
-                    name = "Lines Per Column",
-                    desc = "Lines Per Column",
+                    name = "每栏行数",
+                    desc = "每栏行数",
                 },
 
                 {--show anchor
@@ -759,8 +759,8 @@ end
                         Details.ocd_tracker.show_title = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Show Title",
-                    desc = "Show Title",
+                    name = "显示标题",
+                    desc = "显示标题",
                 },
 
                 {--show anchor
@@ -770,8 +770,8 @@ end
                         Details.ocd_tracker.group_frames = value
                         Details222.CooldownTracking.RefreshAllCooldownFrames()
                     end,
-                    name = "Group Frames",
-                    desc = "Group Frames",
+                    name = "小队框架",
+                    desc = "小队框架",
                 },
 
             }
@@ -791,7 +791,7 @@ end
             warning2:SetJustifyH("left")
             warning2:SetPoint("topleft", f, "topleft", 5, -160)
             DF:SetFontColor(warning2, "lime")
-            --warning2:SetText("This is a concept of a cooldown tracker using the new library 'Open Raid' which uses comms to update cooldown timers.\nThe code to implement is so small that can fit inside a weakaura\nIf you're a coder, the implementation is on Details/frames/window_cdtracker.lua")
+            --warning2:SetText("这是一个使用新库'Open Raid'的CD跟踪，该库使用通信来更新CD时间.\n要实现的代码非常小可以装在一个weakaura里面\n如果你是一个程序员实现的方法是在Details/frames/window_cdtracker.lua")
 
             cooldownSelectionFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
             --cooldownSelectionFrame:RegisterEvent("PLAYER_STARTED_MOVING") --debug

@@ -139,7 +139,7 @@ local buildHeaderData = function(sectionFrame, comparisonSources)
 
     local headerData = {
         {key = "icon", text = "", width = false, align = "left", canSort = false, dataType = "string", offset = 0},
-        {key = "name", text = "Spell Name", width = nameWidth, align = "left", canSort = false, dataType = "string", offset = 0, useSavedWidth = false},
+        {key = "name", text = "法术名称", width = nameWidth, align = "left", canSort = false, dataType = "string", offset = 0, useSavedWidth = false},
     }
 
     addHeaderColumn(headerData, "current", valueWidth, "")
@@ -195,7 +195,7 @@ local buildSpellRowsFromCurrentData = function(spellRows)
             if (not row) then
                 row = {
                     spellID = spellId,
-                    name = spellRow.name or "Unknown Spell",
+                    name = spellRow.name or "未知法术",
                     icon = spellRow.icon or sections.genericIcon,
                     amount = 0,
                 }

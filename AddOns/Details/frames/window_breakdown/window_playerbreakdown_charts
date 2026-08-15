@@ -147,7 +147,7 @@ end
     players = {
         --damage done by each player
         {
-            name = "Damage of Each Individual Player",
+            name = "每个玩家的伤害",
             combatObjectContainer = 1,
             playerOnly = true,
             playerKey = "total",
@@ -155,7 +155,7 @@ end
 
         --total damage done by the raid group
         {
-            name = "Damage of All Player Combined",
+            name = "所有玩家的伤害总和",
             combatObjectSubTableName = "totals",
             combatObjectSubTableKey = 1,
         },
@@ -362,8 +362,8 @@ eventListener:RegisterEvent("COMBAT_INVALID", chartsObject.OnDetailsEvent)
 eventListener:RegisterEvent("DETAILS_STARTED", chartsObject.OnDetailsEvent)
 
 function chartsObject.InstallTab()
-    local tabName = "Charts"
-    local tabNameLoc = "Damage Charts"
+    local tabName = "图表"
+    local tabNameLoc = "伤害图表"
 
     local canShowTab = function(tabOBject, playerObject)
         local combatObject = Details:GetCombatFromBreakdownWindow()
@@ -410,7 +410,7 @@ function chartsObject.CreateChartFrames(tab, tabFrame)
 
     local defaultChartSections = {
         {
-            Name = "Raid Damage",
+            Name = "团队伤害",
             ChartID = 1,
             ChartData = "alldamagers-segment",
         },

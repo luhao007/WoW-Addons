@@ -1400,15 +1400,15 @@ function Details:InstanciasHorizontais(instancia)
 end
 
 local resizeTooltip = {
-	{text = "|cff33CC00Click|cffEEEEEE: ".. Loc["STRING_RESIZE_COMMON"]},
+	{text = "|cff33CC00单击|cffEEEEEE: ".. Loc ["STRING_RESIZE_COMMON"]},
 
-	{text = "+|cff33CC00 Click|cffEEEEEE: " .. Loc["STRING_RESIZE_HORIZONTAL"]},
+	{text = "+|cff33CC00 单击|cffEEEEEE: " .. Loc ["STRING_RESIZE_HORIZONTAL"]},
 	{icon = [[Interface\AddOns\Details\images\key_shift]], width = 24, height = 14, l = 0, r = 1, t = 0, b =0.640625},
 
-	{text = "+|cff33CC00 Click|cffEEEEEE: " .. Loc["STRING_RESIZE_VERTICAL"]},
+	{text = "+|cff33CC00 单击|cffEEEEEE: " .. Loc ["STRING_RESIZE_VERTICAL"]},
 	{icon = [[Interface\AddOns\Details\images\key_alt]], width = 24, height = 14, l = 0, r = 1, t = 0, b =0.640625},
 
-	{text = "+|cff33CC00 Click|cffEEEEEE: " .. Loc["STRING_RESIZE_ALL"]},
+	{text = "+|cff33CC00 单击|cffEEEEEE: " .. Loc ["STRING_RESIZE_ALL"]},
 	{icon = [[Interface\AddOns\Details\images\key_ctrl]], width = 24, height = 14, l = 0, r = 1, t = 0, b =0.640625}
 }
 
@@ -2041,7 +2041,7 @@ local lineScript_Onmouseup = function(self, button)
 							if (func) then
 								local successful, errortext = pcall(func, self, self.minha_tabela, instanceObject)
 								if (not successful) then
-									Details:Msg("error occurred custom script shift+click:", errortext)
+									Details:Msg("发生错误的自定义脚本shift+单击:", errortext)
 								end
 								return
 							end
@@ -2079,7 +2079,7 @@ local lineScript_Onmouseup = function(self, button)
 					Details.OpenApocalypseBreakdown(windowIndex, instanceObject, segmentType, newSegmentId, damageMeterType, instanceLine.sourceData)
 					return
 				else
-					return Details:Msg("this bar is waiting update.")
+					return Details:Msg("此条正在等待更新.")
 				end
 
 				return
@@ -2302,10 +2302,10 @@ local iconFrame_OnEnter = function(self)
 						--discover which are the player position in the guild rank
 						local rankPosition = Details222.storage.GetUnitGuildRank(diffEngName, combat:GetBossInfo().id, attribute == 1 and "DAMAGER" or "HEALER", name, true)
 
-						GameCooltip:AddLine("Best Score:", Details:ToK2((bestRank.total or 0) / encounterTable.elapsed) .. " [|cFFFFFF00Rank: " .. (rankPosition or "#") .. "|r]", 1, "white")
+						GameCooltip:AddLine("最佳成绩:", Details:ToK2((bestRank.total or 0) / encounterTable.elapsed) .. " [|cFFFFFF00等级: " .. (rankPosition or "#") .. "|r]", 1, "white")
 						Details:AddTooltipBackgroundStatusbar()
 
-						GameCooltip:AddLine("|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:1:512:512:8:70:224:306|t Open Rank", "|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:1:512:512:8:70:328:409|t Refresh Talents", 1, "white", "white")
+						GameCooltip:AddLine("|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:1:512:512:8:70:224:306|t 公开排名", "|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:1:512:512:8:70:328:409|t 刷新天赋", 1, "white", "white")
 						Details:AddTooltipBackgroundStatusbar()
 
 						if (not gotInfo) then
@@ -2329,7 +2329,7 @@ local iconFrame_OnEnter = function(self)
 				if (dungeonPlayerInfo) then
 					local currentScore = dungeonPlayerInfo.currentSeasonScore or 0
 					if (currentScore > 0) then
-						GameCooltip:AddLine("M+ Score:", currentScore, 1, "white")
+						GameCooltip:AddLine("大秘境分数:", currentScore, 1, "white")
 						addedInfo = true
 					end
 				end
@@ -2348,7 +2348,7 @@ local iconFrame_OnEnter = function(self)
 					rioProfile = rioProfile.mythicKeystoneProfile
 					local currentScore = rioProfile.currentScore or 0
 					if (currentScore) then
-						GameCooltip:AddLine("M+ Score:", currentScore, 1, "white")
+						GameCooltip:AddLine("大秘境分数:", currentScore, 1, "white")
 						addedInfo = true
 					end
 				else
@@ -2356,7 +2356,7 @@ local iconFrame_OnEnter = function(self)
 					if (dungeonPlayerInfo) then
 						local currentScore = dungeonPlayerInfo.currentSeasonScore or 0
 						if (currentScore > 0) then
-							GameCooltip:AddLine("M+ Score:", currentScore, 1, "white")
+							GameCooltip:AddLine("大秘境分数:", currentScore, 1, "white")
 							addedInfo = true
 						end
 					end
@@ -2368,7 +2368,7 @@ local iconFrame_OnEnter = function(self)
 					if (dungeonPlayerInfo) then
 						local currentScore = dungeonPlayerInfo.currentSeasonScore or 0
 						if (currentScore > 0) then
-							GameCooltip:AddLine("M+ Score:", currentScore, 1, "white")
+							GameCooltip:AddLine("大秘境分数:", currentScore, 1, "white")
 							GameCooltip:AddIcon([[]], 1, 1, 1, 20)
 							Details:AddTooltipBackgroundStatusbar()
 							--increase frame height
@@ -2387,7 +2387,7 @@ local iconFrame_OnEnter = function(self)
 
 			if (actor.spec == 1473 and actor.tipo == DETAILS_ATTRIBUTE_DAMAGE) then
 				local damageDone = math.floor(actor.total + actor.total_extra)
-				GameCooltip:AddLine("Evoker Predicted Damage:", Details:Format(damageDone) .. " (" .. Details:Format(damageDone / Details:GetCurrentCombat():GetCombatTime()) .. ")", 1, "white")
+				GameCooltip:AddLine("唤魔师预测伤害:", Details:Format(damageDone) .. " (" .. Details:Format(damageDone / Details:GetCurrentCombat():GetCombatTime()) .. ")", 1, "white")
 				GameCooltip:AddIcon([[]], 1, 1, 1, 20)
 				Details:AddTooltipBackgroundStatusbar()
 				height = height + lineHeight
@@ -3236,7 +3236,7 @@ local onClickAlertButton = function(self, button)
 	if (self.func) then
 		local okey, errortext = pcall(self.func, unpack(self.func_param))
 		if (not okey) then
-			Details:Msg("error on alert function:", errortext)
+			Details:Msg("报警功能错误:", errortext)
 		end
 	end
 	self:GetParent():Hide()
@@ -3785,7 +3785,7 @@ function gump:CriaJanelaPrincipal(ID, instancia, criando)
 	--details version
 	instancia._version = baseframe:CreateFontString(nil, "overlay", "GameFontHighlightSmall")
 	instancia._version:SetTextColor(1, 1, 1)
-	instancia._version:SetText("this is a alpha version of Details\nyou can help us sending bug reports\nuse the blue button.") --deprecated
+	instancia._version:SetText("这是Details的Alpha测试版本\n您可以通过提交错误报告帮助我们\n请使用蓝色按钮.") --deprecated
 	instancia._version:Hide()
 
 	--wallpaper
@@ -4176,7 +4176,7 @@ local onEnterExtraStatusbar = function(self)
 	if (self.OnEnterCallback) then
 		local okay, errorText = pcall(self.OnEnterCallback, self)
 		if (not okay) then
-			Details:Msg("Error on extra statusbar OnEnterCallback: ", errorText)
+			Details:Msg("额外状态栏OnEnterCallback上的错误: ", errorText)
 		end
 	end
 end
@@ -4186,7 +4186,7 @@ local onLeaveExtraStatusbar = function(self)
 	if (self.OnLeaveCallback) then
 		local okay, errorText = pcall(self.OnLeaveCallback, self)
 		if (not okay) then
-			Details:Msg("Error on extra statusbar OnEnterCallback: ", errorText)
+			Details:Msg("额外状态栏OnEnterCallback上的错误: ", errorText)
 		end
 	end
 end
@@ -6547,7 +6547,7 @@ local build_mode_list = function(self, deltaTime)
 		end
 
 		if not detailsFramework.IsAddonApocalypseWow() then
-			gameCooltip:AddMenu(2, createAllInOneWindow, true, instance, nil, "Create Midnight Window (12.0)", _, true)
+			gameCooltip:AddMenu(2, createAllInOneWindow, true, instance, nil, "创建至暗之夜窗(12.0)", _, true)
 			gameCooltip:AddIcon([[Interface\AddOns\Details\assets\textures\icons\midnight.png]], 2, 1, 16, 14)
 			if (hasClosedInstances) then
 				GameCooltip:AddLine("$div", nil, 2, nil, -5, -11)
@@ -7038,7 +7038,7 @@ local buildSegmentTooltip = function(self, deltaTime, allInOneWindowFrame)
 								gameCooltip:AddIcon(Details:GetTextureAtlas("small-pin-yellow"), 2, 1)
 								gameCooltip:AddStatusBar(100, 2, 0, 0, 0, 0.25, false, false, statusBarTexture)
 
-								gameCooltip:AddLine("Session:", thisCombat.combatSessionId, 2, "white", "white")
+								gameCooltip:AddLine("会话:", thisCombat.combatSessionId, 2, "white", "white")
 								gameCooltip:AddIcon(Details:GetTextureAtlas("small-pin-yellow"), 2, 1)
 								gameCooltip:AddStatusBar(100, 2, 0, 0, 0, 0.25, false, false, statusBarTexture)
 
@@ -7296,8 +7296,8 @@ local buildSegmentTooltip = function(self, deltaTime, allInOneWindowFrame)
 						amountOfSegments = amountOfSegments + 1
 					else
 						if (thisCombat and thisCombat.__destroyed) then
-							Details:Msg("a deleted combat object was found on the segments history table, please report this bug on discord:")
-							Details:Msg("combat destroyed by:", thisCombat.__destroyedBy)
+							Details:Msg("在历史记录表上发现了一个被删除的战斗对象, 请在discord上报告这个错误:")
+							Details:Msg("被摧毁的战斗:", thisCombat.__destroyedBy)
 						else
 							gameCooltip:AddLine(Loc["STRING_SEGMENT_LOWER"] .. " #" .. i, _, 1, "gray")
 							gameCooltip:AddMenu(1, instance.SetSegmentFromCooltip, i)
@@ -7570,7 +7570,7 @@ local buildSegmentTooltip = function(self, deltaTime, allInOneWindowFrame)
 					name = string.sub (name, 1, #name - (#name - 20))
 				end
 
-				gameCooltip:AddLine("" .. name, minutos.."m "..segundos.."s", 2, "white", "white")
+				gameCooltip:AddLine("" .. name, minutos.."分"..segundos.."秒", 2, "white", "white")
 
 				local segmentType = segment.type
 				if (segmentType == DETAILS_SEGMENTTYPE_MYTHICDUNGEON_TRASH) then
@@ -7646,11 +7646,11 @@ Details.BuildSegmentMenu = buildSegmentTooltip
 
 function Details:SetUserCustomSkinFile (file)
 	if (type(file) ~= "string") then
-		error("SetUserCustomSkinFile() file must be a string.")
+		error("SetUserCustomSkinFile()文件必须是一个字符串.")
 	end
 
 	if (file:find("\\") or file:find("/")) then
-		error("SetUserCustomSkinFile() file must be only the file name (with out up folders) and slashes.")
+		error("SetUserCustomSkinFile()文件必须只有文件名(不含上级文件夹)和斜线.")
 	end
 
 	self.skin_custom = file
@@ -9732,17 +9732,17 @@ end
 
 		Details:SetTooltipMinWidth()
 
-		gameCooltip:AddLine("Reset, but keep Mythic+ Overall Segments", nil, 1, "white", nil, Details.font_sizes.menus, Details.font_faces.menus)
+		gameCooltip:AddLine("重置, 但保留大秘境总体分段", nil, 1, "white", nil, Details.font_sizes.menus, Details.font_faces.menus)
 		gameCooltip:AddIcon([[Interface\Buttons\UI-StopButton]], 1, 1, 14, 14, 0, 1, 0, 1, "orange")
 		gameCooltip:AddMenu(1, function() Details.tabela_historico:ResetDataByCombatType("m+overall"); GameCooltip:Hide() end)
 
 		gameCooltip:AddLine("$div", nil, 1, nil, -5, -11)
 
-		gameCooltip:AddLine("Remove Common Segments", nil, 1, "white", nil, Details.font_sizes.menus, Details.font_faces.menus)
+		gameCooltip:AddLine("删除共用分段", nil, 1, "white", nil, Details.font_sizes.menus, Details.font_faces.menus)
 		gameCooltip:AddIcon([[Interface\Buttons\UI-StopButton]], 1, 1, 14, 14, 0, 1, 0, 1, "orange")
 		gameCooltip:AddMenu(1, function() Details.tabela_historico:ResetDataByCombatType("generic"); GameCooltip:Hide() end)
 
-		gameCooltip:AddLine("Remove Battleground Segments", nil, 1, "white", nil, Details.font_sizes.menus, Details.font_faces.menus)
+		gameCooltip:AddLine("删除战场分段", nil, 1, "white", nil, Details.font_sizes.menus, Details.font_faces.menus)
 		gameCooltip:AddIcon([[Interface\Buttons\UI-StopButton]], 1, 1, 14, 14, 0, 1, 0, 1, "orange")
 		gameCooltip:AddMenu(1, function() Details.tabela_historico:ResetDataByCombatType("battleground"); GameCooltip:Hide() end)
 
@@ -10010,7 +10010,7 @@ local attributeButton_OnEnter = function(self, motion, forced, from_click)
 
 			GameCooltip:SetOption("TextHeightMod", 0)
 			GameCooltip:SetOption("IgnoreButtonAutoHeight", false)
-			GameCooltip:AddLine("All raid plugins already\nin use or disabled.", nil, 1, "white", nil, 10, SharedMedia:Fetch("font", "Friz Quadrata TT"))
+			GameCooltip:AddLine("所有团本插件已经\n在使用或禁用.", nil, 1, "white", nil, 10, SharedMedia:Fetch("font", "Friz Quadrata TT"))
 			GameCooltip:AddIcon([[Interface\GROUPFRAME\UI-GROUP-ASSISTANTICON]], 1, 1)
 			GameCooltip:SetWallpaper(1, Details.tooltip.menus_bg_texture, Details.tooltip.menus_bg_coords, Details.tooltip.menus_bg_color, true)
 		end
@@ -10392,7 +10392,7 @@ function gump:CriaCabecalho (baseframe, instancia)
 		GameCooltip.buttonOver = true
 		baseframe.cabecalho.button_mouse_over = true
 		GameCooltip:Preset(2)
-		GameCooltip:AddLine("Toggle between Details! and Blizzard Damage Meter", nil, 1, "white", nil, Details.font_sizes.menus, Details.font_faces.menus)
+		GameCooltip:AddLine("在Details!与暴雪伤害统计之间切换", nil, 1, "white", nil, Details.font_sizes.menus, Details.font_faces.menus)
 		GameCooltip:ShowCooltip(swapDamageMeterButton, "tooltip")
 	end)
 

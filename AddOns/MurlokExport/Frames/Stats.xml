@@ -130,7 +130,7 @@
 								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.secStats" x="75" y="-5"/>
 							</Anchors>
 						</Texture>
-						<FontString inherits="GameFontNormalSmall" parentKey="secStatName1" text="Stat 1">
+						<FontString inherits="GameFontNormalSmall" parentKey="secStatName1" text="属性 1">
 							<Anchors>
 								<Anchor point="TOP" relativeKey="$parent.secStatIcon1" relativePoint="BOTTOM" x="0" y="2"/>
 							</Anchors>
@@ -149,7 +149,7 @@
 								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.secStatIcon1" x="35"/>
 							</Anchors>							
 						</Texture>
-						<FontString inherits="GameFontNormalSmall" parentKey="secStatName2" text="Stat 2">
+						<FontString inherits="GameFontNormalSmall" parentKey="secStatName2" text="属性 2">
 							<Anchors>
 								<Anchor point="TOP" relativeKey="$parent.secStatIcon2" relativePoint="BOTTOM" x="0" y="2"/>
 							</Anchors>
@@ -168,7 +168,7 @@
 								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.secStatIcon2" x="35"/>
 							</Anchors>
 						</Texture>
-						<FontString inherits="GameFontNormalSmall" parentKey="secStatName3" text="Stat 3">
+						<FontString inherits="GameFontNormalSmall" parentKey="secStatName3" text="属性 3">
 							<Anchors>
 								<Anchor point="TOP" relativeKey="$parent.secStatIcon3" relativePoint="BOTTOM" x="0" y="2"/>
 							</Anchors>
@@ -187,7 +187,7 @@
 								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.secStatIcon3" x="35"/>
 							</Anchors>
 						</Texture>
-						<FontString inherits="GameFontNormalSmall" parentKey="secStatName4" text="Stat 4">
+						<FontString inherits="GameFontNormalSmall" parentKey="secStatName4" text="属性 4">
 							<Anchors>
 								<Anchor point="TOP" relativeKey="$parent.secStatIcon4" relativePoint="BOTTOM" x="0" y="2"/>
 							</Anchors>
@@ -207,7 +207,7 @@
 								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.minorStats" x="75" y="-5"/>
 							</Anchors>
 						</Texture>
-						<FontString inherits="GameFontNormalSmall" parentKey="minorStatName1" text="Stat 1">
+						<FontString inherits="GameFontNormalSmall" parentKey="minorStatName1" text="属性 1">
 							<Anchors>
 								<Anchor point="TOP" relativeKey="$parent.minorStatIcon1" relativePoint="BOTTOM" x="0" y="2"/>
 							</Anchors>
@@ -226,7 +226,7 @@
 								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.minorStatIcon1" x="35"/>
 							</Anchors>
 						</Texture>
-						<FontString inherits="GameFontNormalSmall" parentKey="minorStatName2" text="Stat 2">
+						<FontString inherits="GameFontNormalSmall" parentKey="minorStatName2" text="属性 2">
 							<Anchors>
 								<Anchor point="TOP" relativeKey="$parent.minorStatIcon2" relativePoint="BOTTOM" x="0" y="2"/>
 							</Anchors>
@@ -245,7 +245,7 @@
 								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.minorStatIcon2" x="35"/>
 							</Anchors>
 						</Texture>
-						<FontString inherits="GameFontNormalSmall" parentKey="minorStatName3" text="Stat 3">
+						<FontString inherits="GameFontNormalSmall" parentKey="minorStatName3" text="属性 3">
 							<Anchors>
 								<Anchor point="TOP" relativeKey="$parent.minorStatIcon3" relativePoint="BOTTOM" x="0" y="2"/>
 							</Anchors>

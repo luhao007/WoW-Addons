@@ -36,7 +36,7 @@ function platerInternal.CreateBossModOptions()
 
 	--outline table
 	local outline_modes = {"NONE", "MONOCHROME", "OUTLINE", "THICKOUTLINE", "MONOCHROME, OUTLINE", "MONOCHROME, THICKOUTLINE"}
-	local outline_modes_names = {"None", "Monochrome", "Outline", "Thick Outline", "Monochrome Outline", "Monochrome Thick Outline"}
+	local outline_modes_names = {"无", "单色", "轮廓", "粗体轮廓", "单色轮廓", "单色粗体轮廓"}
 	local build_outline_modes_table = function (actorType, member)
 		local t = {}
 		for i = 1, #outline_modes do
@@ -119,7 +119,7 @@ function platerInternal.CreateBossModOptions()
 	end
 
     local bossmod_options = {
-        {type = "label", get = function() return "DBM / BigWigs Support:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "DBM / BigWigs支持:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 
         {
             type = "toggle",
@@ -129,7 +129,7 @@ function platerInternal.CreateBossModOptions()
                 Plater.UpdateAllPlates()
             end,
             name = "OPTIONS_ENABLED",
-            desc = "Enable the boss mod icon support for BigWigs and DBM.",
+            desc = "启用BigWigs和DBM的首领模块图标支持.",
         },
         
         {
@@ -139,8 +139,8 @@ function platerInternal.CreateBossModOptions()
                 Plater.db.profile.bossmod_castrename_enabled = value
                 --Plater.UpdateAllPlates()
             end,
-            name = "Enable boss-mod cast spell renaming",
-            desc = "Enable cast rename based on BigWigs or DBM spell names.",
+            name = "启用首领模块施法技能重命名",
+            desc = "根据BigWigs或DBM施法名称启用施法重命名.",
         },
         
         {
@@ -150,13 +150,13 @@ function platerInternal.CreateBossModOptions()
                 Plater.db.profile.bossmod_castrename_priority = value
                 --Plater.UpdateAllPlates()
             end,
-            name = "Prioritize boss-mod cast renaming",
-            desc = "Prioritize cast rename based on BigWigs or DBM spell names over Plater cast names.",
+            name = "优先使用首领模块的施法重命名",
+            desc = "优先采用基于BigWigs或DBM技能名称的施法重命名, 而非Plater默认的施法名称.",
         },
         
         {type = "blank"},
         
-        {type = "label", get = function() return "Global Icon Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "全局图标设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         
         --width
         {
@@ -193,7 +193,7 @@ function platerInternal.CreateBossModOptions()
             get = function() return Plater.db.profile.bossmod_icons_anchor.side end,
             values = function() return build_anchor_side_table (nil, "bossmod_icons_anchor") end,
             name = "OPTIONS_ANCHOR",
-            desc = "Which side of the nameplate the icons should attach to.",
+            desc = "图标应依附姓名板的哪一侧.",
         },
         --x offset
         {
@@ -227,7 +227,7 @@ function platerInternal.CreateBossModOptions()
         },
         
         {type = "blank"},
-        {type = "label", get = function() return "Icon Spell-Name Text:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "图标法术名称文本:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         --text enabled
         {
             type = "toggle",
@@ -236,13 +236,13 @@ function platerInternal.CreateBossModOptions()
                 Plater.db.profile.bossmod_support_bars_text_enabled = value
                 Plater.UpdateAllPlates()
             end,
-            name = "Icon text enabled",
-            desc = "Enable Bar Text (Spell-Name).",
+            name = "图标文本已启用",
+            desc = "启用条文本(法术名称).",
         },
         
         {type = "blank"},
         
-        {type = "label", get = function() return "Icon Cooldown Text:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "图标冷却时间文本:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         {
             type = "toggle",
             get = function() return Plater.db.profile.bossmod_cooldown_text_enabled end,
@@ -251,7 +251,7 @@ function platerInternal.CreateBossModOptions()
                 Plater.UpdateAllPlates()
             end,
             name = "OPTIONS_ENABLED",
-            desc = "Enable Cooldown Text.",
+            desc = "启用冷却时间文本.",
         },
         --cd text size
         {
@@ -266,11 +266,11 @@ function platerInternal.CreateBossModOptions()
             max = 32,
             step = 1,
             name = "OPTIONS_SIZE",
-            desc = "Size",
+            desc = "尺寸",
         },
         
         {type = "breakline"},
-        {type = "label", get = function() return "DBM Options:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "DBM设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         {
             type = "toggle",
             get = function() return Plater.db.profile.bossmod_support_bars_enabled end,
@@ -278,8 +278,8 @@ function platerInternal.CreateBossModOptions()
                 Plater.db.profile.bossmod_support_bars_enabled = value
                 Plater.UpdateAllPlates()
             end,
-            name = "DBM CD-Bar Icons enabled",
-            desc = "Enable the boss mod bar support for DBM, to show timer bars as icons on the nameplates.",
+            name = "已启用DBM冷却条图标",
+            desc = "启用DBM的首领模块条支持, 以在姓名板上显示计时条图标.",
         },
         {
             type = "toggle",
@@ -288,8 +288,8 @@ function platerInternal.CreateBossModOptions()
                 Plater.db.profile.bossmod_aura_glow_cooldown = value
                 Plater.UpdateAllPlates()
             end,
-            name = "Cooldown Icon Glow",
-            desc = "Enable glow on expiring cooldown timer icons.",
+            name = "冷却图标发光",
+            desc = "启用即将到期的冷却计时器图标发光.",
         },
         {
             type = "toggle",
@@ -298,8 +298,8 @@ function platerInternal.CreateBossModOptions()
                 Plater.db.profile.bossmod_aura_glow_important_only = value
                 Plater.UpdateAllPlates()
             end,
-            name = "Glow only important cooldowns",
-            desc = "Enable glow on important expiring timer icons only.",
+            name = "仅在重要冷却技能上启用发光",
+            desc = "仅在重要即将到期的计时器图标上启用发光.",
         },
 		{
             type = "toggle",
@@ -308,22 +308,22 @@ function platerInternal.CreateBossModOptions()
                 Plater.db.profile.bossmod_aura_glow_casts = value
                 Plater.UpdateAllPlates()
             end,
-            name = "Cast Icon Glow",
-            desc = "Enable glow on expiring cast timer icons.",
+            name = "施法图标发光",
+            desc = "启用即将到期的施法计时器图标发光.",
         },
 		{
 			type = "select",
 			get = function() return Plater.db.profile.bossmod_aura_glow_cooldown_glow_type end,
 			values = function() return build_glow_types_table ("bossmod_aura_glow_cooldown_glow_type") end,
-			name = "Cooldown Icon Glow Type",
-            desc = "Select glow type for important expiring timer icons.",
+			name = "冷却图标发光类型",
+            desc = "选择重要即将到期的计时器图标的发光类型.",
 		},
 		{
 			type = "select",
 			get = function() return Plater.db.profile.bossmod_aura_glow_casts_glow_type end,
 			values = function() return build_glow_types_table ("bossmod_aura_glow_casts_glow_type") end,
-			name = "Cast Icon Glow Type",
-            desc = "Select glow type for expiring timer icons.",
+			name = "施法图标发光类型",
+            desc = "选择即将到期的计时器图标的发光类型.",
 		},
     }
 

@@ -171,7 +171,7 @@ function MinArch:EventMain(event, ...)
 
 	if (event == "PLAYER_REGEN_ENABLED") then
 		Main.frame:UnregisterEvent("PLAYER_REGEN_ENABLED");
-		Common:DisplayStatusMessage("Main update after combat", MINARCH_MSG_DEBUG);
+		Common:DisplayStatusMessage("战斗结束后主更新流程", MINARCH_MSG_DEBUG);
 	end
 
 	if (MinArch.IsReady == true) then
@@ -199,12 +199,12 @@ function MinArch:EventHist(event, ...)
 
 			if allGood then
 				-- all item info available, unregister this event
-				Common:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("迷你考古助手 - 所有物品现在都已加载(" .. event .. ").", MINARCH_MSG_DEBUG)
 				-- History.frame:UnregisterEvent(event)
 				History.frame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
 			else
 				-- not all item info available, try again when more details have been received
-				Common:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+				Common:DisplayStatusMessage("迷你考古助手 - 部分物品还没有加载(" .. event .. ").", MINARCH_MSG_DEBUG)
 				-- History.frame:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
 				History.frame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
@@ -214,7 +214,7 @@ function MinArch:EventHist(event, ...)
 				History:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
 		else
-            Common:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+            Common:DisplayStatusMessage("迷你考古助手 - 暂时没有神器的完成历史(" .. event .. ").", MINARCH_MSG_DEBUG)
             return;
 		end
 
@@ -224,7 +224,7 @@ function MinArch:EventHist(event, ...)
 	if (event == "RESEARCH_ARTIFACT_COMPLETE") then
 		local artifactName = ...;
 		if (researchEventTimer ~= nil) then
-			Common:DisplayStatusMessage("RESEARCH_ARTIFACT_COMPLETE called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("RESEARCH_ARTIFACT_COMPLETE调用过于频繁, 延迟" .. historyUpdateTimout .. "秒", MINARCH_MSG_DEBUG)
 			researchEventTimer:Cancel();
 		end
 		researchEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()

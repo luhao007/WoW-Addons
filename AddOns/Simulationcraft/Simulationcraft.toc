@@ -2,7 +2,7 @@
 ## Author: Theck, navv_, seriallos
 ## Version: 12.1.0-02
 
-## Title: Simulationcraft
+## Title: Simulationcraft【萌】
 ## Notes: Constructs SimC export strings
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF输出模拟器|r |cFFFFE00ASimulationcraft|r
 ## Notes-zhCN: 模拟当前人物的输出，来确认哪个装备属性更好。

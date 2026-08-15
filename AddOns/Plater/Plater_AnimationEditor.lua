@@ -50,7 +50,7 @@ function Plater.CreateSpellAnimationPanel()
 	
 	if IS_WOW_PROJECT_MIDNIGHT then
 		local optionsTable = {
-			{type = "label", get = function() return "Not available in Midnight and onwards due to API limitations." end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+			{type = "label", get = function() return "因API限制该功能在至暗之夜及之后时段不可用." end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 		}
 		DF:BuildMenu (animationFrame, optionsTable, 10, startYGeneralSettings, 330, true, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template, animationFrame.OnDataChange)
 		return
@@ -139,7 +139,7 @@ function Plater.CreateSpellAnimationPanel()
 		--check if there's an animation for this spell
 		local db = Plater.db.profile.spell_animation_list
 		if (db [spellID]) then
-			Plater:Msg ("an animation for this spell already exists.")
+			Plater:Msg ("这个法术的动画已经存在.")
 			return
 		end
 
@@ -272,7 +272,7 @@ function Plater.CreateSpellAnimationPanel()
 		local animationObject = animationFrame.GetAnimation (spellID)
 
 		if (not animationObject) then
-			Plater:Msg ("animation not found")
+			Plater:Msg ("未找到动画")
 			return
 		end
 
@@ -297,7 +297,7 @@ function Plater.CreateSpellAnimationPanel()
 	--copy the settings from the 'currentCopy' variable into the animation table for this widget
 	function animationFrame.PasteAnimationSettings (self)
 		if (not currentCopy or #currentCopy == 0) then
-			Plater:Msg ("there's no animation to paste.")
+			Plater:Msg ("没有动画可以粘贴.")
 			return
 		end
 
@@ -331,12 +331,12 @@ function Plater.CreateSpellAnimationPanel()
 				animationFrame.EditAnimation (spellID)
 
 				Plater.RefreshDBUpvalues()
-				Plater:Msg ("settings applied!")
+				Plater:Msg ("应用的设置!")
 			else
-				Plater:Msg ("animation net found")
+				Plater:Msg ("发现动画网络")
 			end
 		else
-			Plater:Msg ("invalid spellID")
+			Plater:Msg ("无效spellID")
 		end
 	end
 
@@ -360,7 +360,7 @@ function Plater.CreateSpellAnimationPanel()
 
 			local spellName = GetSpellInfo (spellID)
 			if (spellName) then
-				Plater:Msg (spellName .. " copied.")
+				Plater:Msg (spellName .. " 已复制.")
 			end
 
 		elseif (option == "export") then
@@ -663,11 +663,11 @@ function Plater.CreateSpellAnimationPanel()
 		local db = Plater.db.profile.spell_animation_list
 		db [spellID] = animationObject
 
-		Plater:Msg ("animation for spell " .. spellName .. " added!")
+		Plater:Msg ("法术动画 " .. spellName .. " 已添加!")
 
 		local _, class = UnitClass ("player")
 		if (class ~= animationObject.info.class) then
-			Plater:Msg ("this animation is for " .. animationObject.info.class .. " and won't show on this character.")
+			Plater:Msg ("这个动画是为 " .. animationObject.info.class .. " 而不会显示在这个角色上.")
 		end
 
 		animationFrame.EditAnimation (spellID)
@@ -691,20 +691,20 @@ function Plater.CreateSpellAnimationPanel()
 			local spellID = tonumber(animationObject.info.spellid)
 
 			if (not spellID) then
-				Plater:Msg ("invalid animation.")
+				Plater:Msg ("无效动画.")
 				return
 			end
 
 			local spellName = GetSpellInfo (spellID)
 			if (not spellName) then
-				Plater:Msg ("the spell for this animation doesn't exists.")
+				Plater:Msg ("这个动画的法术并不存在.")
 				return
 			end
 
 			--already have
 			if (db [spellID]) then
 				--show a box to confirm
-				DF:ShowPromptPanel ("Animation for " .. spellName .. " already exists, overwrite?", function()
+				DF:ShowPromptPanel ("动画为 " .. spellName .. " 已经存在，覆盖?", function()
 					--true
 					animationFrame.DoImportAnimation (animationObject)
 				end,
@@ -715,7 +715,7 @@ function Plater.CreateSpellAnimationPanel()
 				animationFrame.DoImportAnimation (animationObject)
 			end
 		else
-			Plater:Msg ("invalid animation.")
+			Plater:Msg ("无效动画.")
 		end
 	end
 
@@ -733,7 +733,7 @@ function Plater.CreateSpellAnimationPanel()
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> build the frames
 	local optionsTable = {
-		{type = "label", get = function() return "General Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+		{type = "label", get = function() return "常规设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
 		{
 			type = "toggle",
 			get = function() return Plater.db.profile.spell_animations end,
@@ -741,8 +741,8 @@ function Plater.CreateSpellAnimationPanel()
 				Plater.db.profile.spell_animations = value
 				Plater.RefreshDBUpvalues()
 			end,
-			name = "Spell Animations Enabled",
-			desc = "If enabled some of your abilities will cause the nameplate to shake or play a special effect when the ability hits the enemy.\n\nCustomize each animation in the Animations tab.",
+			name = "施法动画开关",
+			desc = "如果启用你的一些技能将导致姓名版晃动或在技能击中敌人时播放特殊效果.\n\n在动画选项卡中定制每个动画.",
 		},
 		{
 			type = "range",
@@ -753,8 +753,8 @@ function Plater.CreateSpellAnimationPanel()
 			min = 0.75,
 			max = 2.75,
 			step = 0.1,
-			name = "Overall Intensity",
-			desc = "Overall intensity scale of the spell animations.",
+			name = "整体强度",
+			desc = "法术动画的整体强度等级.",
 			thumbscale = 1.8,
 			usedecimals = true,
 		},
@@ -779,7 +779,7 @@ function Plater.CreateSpellAnimationPanel()
 		return t
 	end
 
-	local selectSpellLabel = DF:CreateLabel (animationFrame, "Select Spell to Add Animation:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+	local selectSpellLabel = DF:CreateLabel (animationFrame, "选择法术添加动画:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 	local selectSpellDropdown = DF:CreateDropDown (animationFrame, buildAddSpellOptions, 1, 130, 20, "SelectSpellDropdown", _, DF:GetTemplate ("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
 	selectSpellDropdown:SetPoint ("topleft", selectSpellLabel, "bottomleft", 0, -2)
 
@@ -788,9 +788,9 @@ function Plater.CreateSpellAnimationPanel()
 	addSpellButton:SetPoint ("left", selectSpellDropdown, "right", 2, 0)
 	addSpellButton.tooltip = function()
 		if (not next (CLEUFrame.SpellCaptured)) then
-			return "No spells to add?\n\nHit any npc with spells while this window is open to fill the dropdown with options."
+			return "没有法术要添加？?\n\n打开这个窗口, 然后用法术攻击任何怪物或NPC, 法术将会加入到下拉列表."
 		else
-			return "Add animation for the selected spell."
+			return "为所选法术添加动画."
 		end
 	end
 
@@ -804,8 +804,8 @@ function Plater.CreateSpellAnimationPanel()
 		GameCooltip:SetOption ("FixedWidth", 200)
 		GameCooltip:SetOwner  (importButton.widget)
 
-		GameCooltip:AddLine ("Import Animation", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
-		GameCooltip:AddLine ("Add an animation from a string.\n\nYou can export to string by right clicking an animation in the menu below.")
+		GameCooltip:AddLine ("导入动画", "", 1, "yellow", "yellow", 12, nil, "OUTLINE")
+		GameCooltip:AddLine ("从字符串添加动画.\n\n您可以通过右键单击下面菜单中的动画来导出为字符串.")
 
 		GameCooltip:Show()
 	end)
@@ -814,7 +814,7 @@ function Plater.CreateSpellAnimationPanel()
 	end)
 
 	--search box
-	local searchLabel = DF:CreateLabel (animationFrame, "Search:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+	local searchLabel = DF:CreateLabel (animationFrame, "查找:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 	searchLabel:SetPoint ("topleft", selectSpellDropdown, "bottomleft", 0, -5)
 
 	local searchAnimationTextEntry = DF:CreateTextEntry (animationFrame, function()end, 200, 20, "AnimationSearchTextEntry", _, _, options_dropdown_template)
@@ -823,7 +823,7 @@ function Plater.CreateSpellAnimationPanel()
 	searchAnimationTextEntry:SetPoint ("topleft", searchLabel, "bottomleft", 0, -2)
 
 	--scrollbox to select the spell animation to edit
-	local spellLabel = DF:CreateLabel (animationFrame, "Spell Animations", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+	local spellLabel = DF:CreateLabel (animationFrame, "施法动画", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 	spellLabel:SetPoint ("topleft", searchAnimationTextEntry, "bottomleft", 0, -5)
 
 	local animationSelectScrollBox = DF:CreateScrollBox (animationFrame, "$parentScrollBox", animationFrame.RefreshAnimationSelectScrollBox, {}, 200, scrollBoxHeight, scrollbox_lines, scrollbox_line_height)
@@ -911,21 +911,21 @@ function Plater.CreateSpellAnimationPanel()
 	animationPreviewFrame:SetHeight (60)
 	animationFrame.AnimationPreviewFrame = animationPreviewFrame
 
-	local previewHeaderLabel = DF:CreateLabel (animationPreviewFrame, "Preview Settings:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+	local previewHeaderLabel = DF:CreateLabel (animationPreviewFrame, "预览设置:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 	previewHeaderLabel:SetPoint ("topleft", animationPreviewFrame, "topleft", 5, -5)
 
 	--select effect dropdown (scale, shake)
-	local effectSelectionLabel = DF:CreateLabel (animationConfigFrame, "Effect:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
+	local effectSelectionLabel = DF:CreateLabel (animationConfigFrame, "效果:", DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE"))
 	local effectSelectionDropdown = DF:CreateDropDown (animationConfigFrame, animationFrame.RefreshEffectListDropdown, 1, 160, 20, "EffectSelectionDropdown", _, DF:GetTemplate ("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
 	effectSelectionDropdown:SetPoint ("left", effectSelectionLabel, "right", 2, 0)
 	animationFrame.EffectSelectionDropdown = effectSelectionDropdown
 
 	--add shake effect
-	local addShakeButton = DF:CreateButton (animationConfigFrame, animationFrame.AddNewShakeEffect, 120, 20, "Add Shake Effect", -1, nil, nil, nil, nil, nil, DF:GetTemplate ("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate ("font", "PLATER_BUTTON"))
+	local addShakeButton = DF:CreateButton (animationConfigFrame, animationFrame.AddNewShakeEffect, 120, 20, "加入抖动效果", -1, nil, nil, nil, nil, nil, DF:GetTemplate ("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate ("font", "PLATER_BUTTON"))
 	animationFrame.AddShakeButton = addShakeButton
 
 	--add scale effect
-	local addScaleButton = DF:CreateButton (animationConfigFrame, animationFrame.AddNewScaleEffect, 120, 20, "Add Scale Effect", -1, nil, nil, nil, nil, nil, DF:GetTemplate ("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate ("font", "PLATER_BUTTON"))
+	local addScaleButton = DF:CreateButton (animationConfigFrame, animationFrame.AddNewScaleEffect, 120, 20, "加入缩放效果", -1, nil, nil, nil, nil, nil, DF:GetTemplate ("button", "OPTIONS_BUTTON_TEMPLATE"), DF:GetTemplate ("font", "PLATER_BUTTON"))
 	addScaleButton:SetPoint ("left", addShakeButton, "right", 2, 0)
 	animationFrame.AddScaleButton = addScaleButton
 
@@ -978,7 +978,7 @@ function Plater.CreateSpellAnimationPanel()
 			set = function (self, fixedparam, value)
 				scaleOptionsFrame.Data.enabled = value
 			end,
-			name = "Enabled",
+			name = "启动",
 		},
 
 		{type = "blank"},
@@ -994,7 +994,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 1,
 			step = 0.05,
 			usedecimals = true,
-			name = "Duration",
+			name = "持续时间",
 		},
 
 		{type = "blank"},
@@ -1009,7 +1009,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 20,
 			step = 0.05,
 			usedecimals = true,
-			name = "Scale Up X",
+			name = "X轴拉伸",
 		},
 		{
 			type = "range",
@@ -1021,7 +1021,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 20,
 			step = 0.05,
 			usedecimals = true,
-			name = "Scale Up Y",
+			name = "Y轴拉伸",
 		},
 		{
 			type = "range",
@@ -1033,7 +1033,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 20,
 			step = 0.05,
 			usedecimals = true,
-			name = "Scale Down X",
+			name = "X轴收缩",
 		},
 		{
 			type = "range",
@@ -1045,7 +1045,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 20,
 			step = 0.05,
 			usedecimals = true,
-			name = "Scale Down Y",
+			name = "Y轴收缩",
 		},
 
 		{type = "blank"},
@@ -1060,7 +1060,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 20,
 			step = 0.05,
 			usedecimals = true,
-			name = "Cooldown",
+			name = "冷却",
 		},
 
 		{type = "blank"},
@@ -1075,7 +1075,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 2,
 			step = 0.05,
 			usedecimals = true,
-			name = "Critical Hit Scale",
+			name = "爆击命中缩放",
 		},
 	}
 
@@ -1086,7 +1086,7 @@ function Plater.CreateSpellAnimationPanel()
 			set = function (self, fixedparam, value)
 				shakeOptionsFrame.Data.enabled = value
 			end,
-			name = "Enabled",
+			name = "启用",
 		},
 
 		{type = "blank"},
@@ -1102,8 +1102,8 @@ function Plater.CreateSpellAnimationPanel()
 			max = 1,
 			step = 0.05,
 			usedecimals = true,
-			name = "Duration",
-			desc = "Animation duration time.",
+			name = "持续时间",
+			desc = "动画持续时间.",
 		},
 
 		{
@@ -1116,8 +1116,8 @@ function Plater.CreateSpellAnimationPanel()
 			max = 50,
 			step = 0.05,
 			usedecimals = true,
-			name = "Amplitude",
-			desc =  "Scale the strength of the animation.",
+			name = "幅度",
+			desc =  "缩放动画的幅度.",
 		},
 		{
 			type = "range",
@@ -1129,8 +1129,8 @@ function Plater.CreateSpellAnimationPanel()
 			max = 200,
 			step = 0.05,
 			usedecimals = true,
-			name = "Frequency",
-			desc =  "Scale how fast and often the animation plays within its duration time.",
+			name = "频率",
+			desc =  "缩放动画在其持续时间内的播放速度和频率.",
 		},
 
 		{type = "blank"},
@@ -1145,8 +1145,8 @@ function Plater.CreateSpellAnimationPanel()
 			max = 50,
 			step = 0.05,
 			usedecimals = true,
-			name = "Scale X",
-			desc = "Scale the animation on its horizontal axis.",
+			name = "X轴缩放",
+			desc = "在其水平轴上缩放动画.",
 		},
 		{
 			type = "range",
@@ -1158,8 +1158,8 @@ function Plater.CreateSpellAnimationPanel()
 			max = 50,
 			step = 0.05,
 			usedecimals = true,
-			name = "Scale Y",
-			desc = "Scale the animation on its vertical axis.",
+			name = "Y轴缩放",
+			desc = "在其垂直轴上缩放动画.",
 		},
 
 		{
@@ -1168,8 +1168,8 @@ function Plater.CreateSpellAnimationPanel()
 			set = function (self, fixedparam, value)
 				shakeOptionsFrame.Data.absolute_sineX = value
 			end,
-			name = "Absolute Sine X",
-			desc = "Makes the sine wave of the animation to not use its negative part making it always to the right side.\n\nIf the |cFFFFFF00Scale X|r option has a negative value the animation goes to the left side.",
+			name = "正弦X",
+			desc = "使动画的正弦波不使用其负数部分, 使其始终位于右侧.\n\n如果|cFFFFFF00X轴缩放|r选项有一个负值, 那么动画就会向左移动.",
 		},
 		{
 			type = "toggle",
@@ -1177,8 +1177,8 @@ function Plater.CreateSpellAnimationPanel()
 			set = function (self, fixedparam, value)
 				shakeOptionsFrame.Data.absolute_sineY = value
 			end,
-			name = "Absolute Sine Y",
-			desc = "Makes the sine wave of the animation to not use its negative part making it always to go up.\n\nIf the |cFFFFFF00Scale Y|r option has a negative value the animation goes down instead.",
+			name = "正弦Y",
+			desc = "使动画的正弦波不使用其负数部分，使其始终向上.\n\n如果|cFFFFFF00Y轴缩放|r选项有一个负值, 那么动画就会向下移动.",
 		},
 
 		{type = "blank"},
@@ -1193,8 +1193,8 @@ function Plater.CreateSpellAnimationPanel()
 			max = 2,
 			step = 0.05,
 			usedecimals = true,
-			name = "Fade In Time",
-			desc = "Time the animation takes to go from not playing at all to its full effect strength.\n\nThis time is within the animation duration time.",
+			name = "淡入时间",
+			desc = "动画从完全不播放到完全生效所需的时间强度.\n\n这个时间是在动画持续时间内.",
 		},
 		{
 			type = "range",
@@ -1206,8 +1206,8 @@ function Plater.CreateSpellAnimationPanel()
 			max = 2,
 			step = 0.05,
 			usedecimals = true,
-			name = "Fade Out Time",
-			desc = "Time the animation takes to go from playing its full effect to not playing at all.\n\nThis time is within the animation duration time.",
+			name = "淡出时间",
+			desc = "动画从播放全部效果到完全不播放所需的时间.\n\n这个时间是在动画持续时间内.",
 		},
 
 		{type = "blank"},
@@ -1222,8 +1222,8 @@ function Plater.CreateSpellAnimationPanel()
 			max = 20,
 			step = 0.05,
 			usedecimals = true,
-			name = "Cooldown",
-			desc = "Won't play this animation again while its cooldown time isn't passed.",
+			name = "冷却",
+			desc = "在其冷却时间未过时不会再播放此动画.",
 		},
 
 		{type = "blank"},
@@ -1238,7 +1238,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 2,
 			step = 0.05,
 			usedecimals = true,
-			name = "Critical Hit Scale",
+			name = "爆击命中缩放",
 		},
 	}
 
@@ -1269,7 +1269,7 @@ function Plater.CreateSpellAnimationPanel()
 				previewEnabled = value
 				animationFrame.UpdatePreview()
 			end,
-			name = "Enabled",
+			name = "启用",
 		},
 		{
 			type = "range",
@@ -1281,7 +1281,7 @@ function Plater.CreateSpellAnimationPanel()
 			max = 10,
 			step = 0.05,
 			usedecimals = true,
-			name = "Loop Time",
+			name = "循环时间",
 		},
 	}
 	DF:BuildMenu (animationPreviewFrame, animationPreviewOptionsTable, 5, -25, 10, true, options_text_template, options_dropdown_template, options_switch_template, true, options_slider_template, options_button_template, animationFrame.OnDataChange)

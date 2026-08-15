@@ -2,7 +2,7 @@
 ## Author: Alexandrix (EU - Teldrassil)
 ## Version: 1.6.0
 
-## Title: |cff00ccffMurlok|rExport
+## Title: |cff00ccffMurlok|r Export【萌】
 ## Notes: Simple addon to display Murlok.io rated Mythic+ or PvP data
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF|cff00ccffMurlok|r配装数据|r |cFFFFE00A|cff00ccffMurlok|rExport|r
 ## Notes-zhCN: Murlok网站导出的数据，包括配装和天赋等

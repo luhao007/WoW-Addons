@@ -686,10 +686,10 @@
 							--check if this is not a mythic+ run
 							if (C_ChallengeMode) then
 								if (C_ChallengeMode.GetActiveChallengeMapID() or C_ChallengeMode.GetActiveKeystoneInfo() or C_ChallengeMode.IsChallengeModeActive()) then
-									print("did not start as this is a m+ run")
+									print("未开始, 因为这是一个大秘境")
 									return
 								else
-									print("this is not a m+ run")
+									print("这不是一个大秘境")
 								end
 							end
 
@@ -1107,7 +1107,7 @@ do
 			local runToCompletion, errorText = pcall(func, ...)
 			if (not runToCompletion) then
 				if (Details.debug) then
-					Details:Msg("Safe run failed:", executionName, errorText)
+					Details:Msg("安全运行失败:", executionName, errorText)
 				end
 				return false
 			end
@@ -1729,7 +1729,7 @@ do
 				if (#foundSpells > 0) then
 					dumpt(foundSpells)
 				else
-					Details:Msg("spell", spellName, "not found.")
+					Details:Msg("法术", spellName, "未找到.")
 				end
 			end
 		end
@@ -1775,7 +1775,7 @@ do
 
 	--welcome
 		function _detalhes:WelcomeMsgLogon()
-			_detalhes:Msg("you can always reset the addon running the command |cFFFFFF00'/details reinstall'|r if it does fail to load after being updated.")
+			_detalhes:Msg("如果更新后无法加载你可以通过运行命令|cFFFFFF00'/details reinstall'|r来重置该插件.")
 
 			function _detalhes:wipe_combat_after_failed_load()
 				_detalhes.tabela_historico = _detalhes.historico:CreateNewSegmentDatabase()
@@ -1786,7 +1786,7 @@ do
 				_detalhes_database.tabela_overall = nil
 				_detalhes_database.tabela_historico = nil
 
-				_detalhes:Msg("seems failed to load, please type /reload to try again.")
+				_detalhes:Msg("看来加载失败了, 请输入/reload再试一次.")
 			end
 
 			Details.Schedules.After(5, _detalhes.wipe_combat_after_failed_load)
@@ -2007,7 +2007,7 @@ function Details:ProfilerResult()
 
 	for functionName, profile in pairs(Details222.ProfilingCache) do
 		local runTime = string.format("%.3f", profile.elapsed / 1000)
-		resultTable[functionName] = runTime .. " ms | runs: " .. profile.runs
+		resultTable[functionName] = runTime .. " ms | 运行: " .. profile.runs
 		total = total + profile.elapsed
 	end
 

@@ -64,12 +64,12 @@ function Details222.EJCache.OnClickEncounterJournalLink(tag, journalTypeString, 
 
                     local abilityString = DF:MakeStringFromSpellId(spellId)
                     if (abilityString) then
-                        abilityString = abilityString .. " (damage to)"
+                        abilityString = abilityString .. " (伤害)"
                     end
 
                     local anchor = {"bottom", "top", 0, 0}
                     gameCooltip:SetBannerImage(1, 2, [[Interface\PetBattles\Weather-Blizzard]], 220, 55, anchor, {0.85, 0.189609375, 1, 0}, {0, 0, 0, 1})
-                    gameCooltip:SetBannerText(1, 2, abilityString or "Ability Damage Done", {"bottomleft", "topleft", 0, 2}, "white", 14)
+                    gameCooltip:SetBannerText(1, 2, abilityString or "伤害技能", {"bottomleft", "topleft", 0, 2}, "white", 14)
                     gameCooltip:SetOwner(EncounterJournal, "topleft", "topright", 50, -10)
                     gameCooltip:Show()
                 end

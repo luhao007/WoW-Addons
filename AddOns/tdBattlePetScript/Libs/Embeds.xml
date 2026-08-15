@@ -1,10 +1,9 @@
-<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+<Ui xmlns:xsi="" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
 
+    <Include file="LibBase64-1.0\lib.xml"/>
+    <Include file="LibCRC32-1.0\LibCRC32-1.0.xml"/>
 
-    <Include file="LibBase64-1.0\lib.xml" />
-    <Include file="LibCRC32-1.0\LibCRC32-1.0.xml" />
-
-    <Include file="tdGUI\Load.xml" />
+    <Include file="tdGUI\Load.xml"/>
 </Ui>

@@ -425,9 +425,9 @@ L["STRING_OPTIONS_APPEARANCE"] = "外观"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT"] = "标题文本设置"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT_DESC"] = "这些选项控制窗口的标题文本。"
 --[[Translation missing --]]
-L["STRING_OPTIONS_AUTO_COMBATLOG"] = "Auto Start Combatlog"
+L["STRING_OPTIONS_AUTO_COMBATLOG"] = "自动开始战斗日志"
 --[[Translation missing --]]
-L["STRING_OPTIONS_AUTO_COMBATLOG_DESC"] = "Automatically start and stop logging combat to the combatlog.txt file when you enter or leave a raid or dungeon."
+L["STRING_OPTIONS_AUTO_COMBATLOG_DESC"] = "当你进入或离开团队副本或地下城时, 自动开始和停止记录战斗日志到combatlog.txt文件."
 L["STRING_OPTIONS_AUTO_SWITCH"] = "所有角色 |cFFFFAA00(战斗中)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_COMBAT"] = "|cFFFFAA00(战斗中)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_DAMAGER_DESC"] = "使用伤害输出专精时，窗口将自动显示此属性或插件。"
@@ -857,15 +857,15 @@ L["STRING_OPTIONS_PERFORMANCEPROFILES_ANCHOR"] = "性能配置："
 L["STRING_OPTIONS_PICONS_DIRECTION"] = "插件图标方向"
 L["STRING_OPTIONS_PICONS_DIRECTION_DESC"] = "改变这些插件图标显示在工具栏上的方向。"
 --[[Translation missing --]]
-L["STRING_OPTIONS_PLAYERNAME"] = "Player Name"
+L["STRING_OPTIONS_PLAYERNAME"] = "玩家姓名"
 --[[Translation missing --]]
-L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Auto Alignment"
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "自动对齐"
 --[[Translation missing --]]
-L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Disable this only if you experience player name alignment issues."
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "仅在遇到玩家姓名对齐问题时禁用此选项."
 --[[Translation missing --]]
-L["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"] = "Length Auto"
+L["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"] = "自动宽度"
 --[[Translation missing --]]
-L["STRING_OPTIONS_PLAYERNAME_WIDTH"] = "Length"
+L["STRING_OPTIONS_PLAYERNAME_WIDTH"] = "宽度"
 L["STRING_OPTIONS_PLUGINS"] = "插件"
 L["STRING_OPTIONS_PLUGINS_AUTHOR"] = "作者"
 L["STRING_OPTIONS_PLUGINS_NAME"] = "名字"
@@ -1025,7 +1025,7 @@ L["STRING_OPTIONS_SCROLLBAR_DESC"] = [=[启用或禁用滚动条。
 L["STRING_OPTIONS_SEGMENTSSAVE"] = "存储片段"
 L["STRING_OPTIONS_SEGMENTSSAVE_DESC"] = "这些选项控制你想要在游戏登录会话之间保存多少个片段。较高的值可能会增加角色注销时所需的时间。"
 --[[Translation missing --]]
-L["STRING_OPTIONS_SELECT_TEMPLATE"] = "Select Template"
+L["STRING_OPTIONS_SELECT_TEMPLATE"] = "选择模板"
 L["STRING_OPTIONS_SENDFEEDBACK"] = "反馈"
 L["STRING_OPTIONS_SHOW_SIDEBARS"] = "显示边框"
 L["STRING_OPTIONS_SHOW_SIDEBARS_DESC"] = "显示或隐藏窗口边框。"
@@ -1112,9 +1112,9 @@ L["STRING_OPTIONS_TEXT_RIGHT_ANCHOR"] = "右文本："
 L["STRING_OPTIONS_TEXT_ROUTILINE_DESC"] = "启用或禁用右边文字的下划线。"
 L["STRING_OPTIONS_TEXT_ROWICONS_ANCHOR"] = "图标："
 --[[Translation missing --]]
-L["STRING_OPTIONS_TEXT_SHADOWCOLOR"] = "Shadow Color"
+L["STRING_OPTIONS_TEXT_SHADOWCOLOR"] = "阴影颜色"
 --[[Translation missing --]]
-L["STRING_OPTIONS_TEXT_SHADOWOFFSET"] = "Shadow Offset %s"
+L["STRING_OPTIONS_TEXT_SHADOWOFFSET"] = "阴影偏移%s"
 L["STRING_OPTIONS_TEXT_SHOW_BRACKET"] = "括号"
 L["STRING_OPTIONS_TEXT_SHOW_BRACKET_DESC"] = "选择哪个字符是用来打开和关闭每秒和百分比块。"
 L["STRING_OPTIONS_TEXT_SHOW_PERCENT"] = "显示百分比"
@@ -1186,9 +1186,9 @@ L["STRING_OPTIONS_TOOLTIPS_BORDER_COLOR_DESC"] = "更改边框颜色"
 L["STRING_OPTIONS_TOOLTIPS_BORDER_SIZE_DESC"] = "更改边框大小"
 L["STRING_OPTIONS_TOOLTIPS_BORDER_TEXTURE_DESC"] = "修改边框纹理文件"
 --[[Translation missing --]]
-L["STRING_OPTIONS_TOOLTIPS_DISABLE"] = "Disable Tooltips"
+L["STRING_OPTIONS_TOOLTIPS_DISABLE"] = "禁用提示信息"
 --[[Translation missing --]]
-L["STRING_OPTIONS_TOOLTIPS_DISABLE_DESC"] = "Disable tooltips for the selected window."
+L["STRING_OPTIONS_TOOLTIPS_DISABLE_DESC"] = "禁用选定窗口的提示信息."
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR"] = "文字颜色"
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR_DESC"] = "更改提示文本上使用的颜色"
 L["STRING_OPTIONS_TOOLTIPS_FONTFACE"] = "文字字体"
@@ -1330,7 +1330,7 @@ L["STRING_OPTIONSMENU_WALLPAPER"] = "壁纸"
 L["STRING_OPTIONSMENU_WINDOW"] = "窗口设置"
 L["STRING_OPTIONSMENU_WINDOWBODY"] = "视窗设定"
 --[[Translation missing --]]
-L["STRING_OR"] = "Or"
+L["STRING_OR"] = "或"
 L["STRING_OVERALL"] = "总体"
 L["STRING_OVERHEAL"] = "过量治疗"
 L["STRING_OVERHEALED"] = "过量治疗的"
@@ -1609,5 +1609,8 @@ L["STRING_WINDOW1ATACH_DESC"] = "创建一个群组窗口，拖动 #2 到 窗口
 L["STRING_WIPE_ALERT"] = "团长命令：清除数据！"
 L["STRING_WIPE_ERROR1"] = "已经发送了一个清除指令。"
 L["STRING_WIPE_ERROR2"] = "不在团队中。"
-L["STRING_WIPE_ERROR3"] = "无法停止遇敌。"
-L["STRING_YES"] = "是"
+
+-- 新增本地化字符串 - 对应 parser_nocleu1.lua / segments.lua / storage_scheduler.lua
+L["STRING_SECRET_PET"] = "隐藏宠物"
+L["STRING_STORAGE_QUEUE_ERROR"] = "存储队列错误:"
+L["STRING_SHOWING_MYTHICPLUS_RUN_SEGMENT"] = "正在显示大秘境战斗分段"

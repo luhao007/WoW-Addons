@@ -87,15 +87,15 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
     --header
     local headerTable = {
         {text = "", width = 20},
-        {text = "Spell ID", width = 54},
-        {text = "Spell Name", width = 130},
-        {text = "Source", width = 130},
-        {text = "Spell Type", width = 75},
+        {text = "法术 ID", width = 54},
+        {text = "法术名称", width = 130},
+        {text = "来源", width = 130},
+        {text = "法术类型", width = 75},
         {text = "", width = 140},
-        {text = "Add to Blacklist", width = 100},
-        {text = "Add to Special Auras", width = 120},
-        {text = "Add to Script", width = 120},
-        {text = "From Last Combat", width = 100}, --, icon = _G.WeakAuras and [[Interface\AddOns\WeakAuras\Media\Textures\icon]] or ""
+        {text = "添加到黑名单", width = 100},
+        {text = "添加到特殊光环", width = 120},
+        {text = "添加到脚本", width = 120},
+        {text = "来自最近的战斗", width = 100}, --, icon = _G.WeakAuras and [[Interface\AddOns\WeakAuras\Media\Textures\icon]] or ""
     }
     local headerOptions = {
         padding = 2,
@@ -145,28 +145,28 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
         if (self.AuraType == "BUFF") then
             if (Plater.db.profile.aura_tracker.track_method == 0x1) then
                 Plater.db.profile.aura_tracker.buff_tracked [self.SpellID] = true
-                Plater:Msg("Aura added to buff tracking.")
+                Plater:Msg("在 buff 追踪中添加光环.")
 
             elseif (Plater.db.profile.aura_tracker.track_method == 0x2) then
                 local added = detailsFramework.table.addunique(Plater.db.profile.aura_tracker.buff, self.SpellID)
                 if (added) then
-                    Plater:Msg("Aura added to manual buff tracking.")
+                    Plater:Msg("在手动 buff 追踪中添加光环.")
                 else
-                    Plater:Msg("Aura not added: already on track.")
+                    Plater:Msg("未添加光环: 已追踪.")
                 end
             end
 
         elseif (self.AuraType == "DEBUFF") then
             if (Plater.db.profile.aura_tracker.track_method == 0x1) then
                 Plater.db.profile.aura_tracker.debuff_tracked [self.SpellID] = true
-                Plater:Msg("Aura added to debuff tracking.")
+                Plater:Msg("在 debuff 追踪中添加光环.")
 
             elseif (Plater.db.profile.aura_tracker.track_method == 0x2) then
                 local added = detailsFramework.table.addunique(Plater.db.profile.aura_tracker.debuff, self.SpellID)
                 if (added) then
-                    Plater:Msg("Aura added to manual debuff tracking.")
+                    Plater:Msg("在手动 debuff 追踪中添加光环.")
                 else
-                    Plater:Msg("Aura not added: already on track.")
+                    Plater:Msg("未添加光环: 已追踪.")
                 end
             end
         end
@@ -178,13 +178,13 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
         if (self.AuraType == "BUFF") then
             if (Plater.db.profile.aura_tracker.track_method == 0x1) then
                 Plater.db.profile.aura_tracker.buff_banned [self.SpellID] = true
-                Plater:Msg("Aura added to buff blacklist.")
+                Plater:Msg("光环被列入 buff 黑名单.")
             end
 
         elseif (self.AuraType == "DEBUFF") then
             if (Plater.db.profile.aura_tracker.track_method == 0x1) then
                 Plater.db.profile.aura_tracker.debuff_banned [self.SpellID] = true
-                Plater:Msg("Aura added to debuff blacklist.")
+                Plater:Msg("光环被列入 debuff 黑名单.")
             end
         end
     end
@@ -194,9 +194,9 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
 
         local added = detailsFramework.table.addunique(Plater.db.profile.extra_icon_auras, self.SpellID)
         if (added) then
-            Plater:Msg("Aura added to the special aura container.")
+            Plater:Msg("添加到特殊光环中的光环.")
         else
-            Plater:Msg("Aura not added: already on the special container.")
+            Plater:Msg("未添加光环: 已在特殊光环中.")
         end
     end
 
@@ -211,9 +211,9 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
                 if (added) then
                     --reload all scripts
                     Plater.WipeAndRecompileAllScripts("script")
-                    Plater:Msg("Trigger added to script.")
+                    Plater:Msg("为脚本添加触发器.")
                 else
-                    Plater:Msg("Script already have this trigger.")
+                    Plater:Msg("脚本已经有了这个触发器.")
                 end
 
                 --refresh and select no option
@@ -252,7 +252,7 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
             Details:OpenAuraPanel(self.SpellID, spellName, spellIcon, encounterID, self.AuraType == "BUFF" and 5 or self.AuraType == "DEBUFF" and 1 or self.IsCast and 7 or 2, 1)
             PlaterOptionsPanelFrame:Hide()
         else
-            Plater:Msg("Details! Damage Meter not found, install it from the Twitch App!")
+            Plater:Msg("Details! Damage Meter 未找到, 从 Twitch 应用程序安装!")
         end
     end
 
@@ -383,9 +383,9 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
         local spellTypeLabel = detailsFramework:CreateLabel(line, "", detailsFramework:GetTemplate("font", "PLATER_SCRIPTS_NAME"))
 
         --these are the three buttons shown when the spell is an aura
-        local addTracklistButton = detailsFramework:CreateButton(line, lineAddTracklist, headerTable[6].width, 20, "Track Aura", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
-        local addIgnorelistButton = detailsFramework:CreateButton(line, lineAddIgnorelist, headerTable[7].width, 20, "Blacklist Aura", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
-        local addSpecialButton = detailsFramework:CreateButton(line, lineAddSpecial, headerTable[8].width, 20, "Add To Buff Special", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
+        local addTracklistButton = detailsFramework:CreateButton(line, lineAddTracklist, headerTable[6].width, 20, "追踪光环", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
+        local addIgnorelistButton = detailsFramework:CreateButton(line, lineAddIgnorelist, headerTable[7].width, 20, "黑名单光环", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
+        local addSpecialButton = detailsFramework:CreateButton(line, lineAddSpecial, headerTable[8].width, 20, "添加到Buff特效", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
 
         --select audio dropdown when the spell is a cast
         local selectAudioDropdown = detailsFramework:CreateDropDown(line, line_refresh_audio_dropdown, 1, headerTable[6].width - 1, 20, "SelectAudioDropdown", nil, detailsFramework:GetTemplate("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
@@ -580,7 +580,7 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
                     line.SpellIDEntry:SetText(spellId)
 
                     --{event = token, source = sourceName, type = auraType, npcID = Plater:GetNpcIdFromGuid(sourceGUID or "")}
-                    line.SpellType:SetText(bIsCast and "Spell Cast" or spellData.event == "SPELL_AURA_APPLIED" and spellData.type or "")
+                    line.SpellType:SetText(bIsCast and "法术施放" or spellData.event == "SPELL_AURA_APPLIED" and spellData.type or "")
 
                     line.AddTrackList.SpellID = spellId
                     line.AddTrackList.AuraType = spellData.type
@@ -698,12 +698,12 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
                 DetailsForgePanel.SelectModule(_, _, 1)
             end
         else
-            Plater:Msg("Details! Damage Meter is required and isn't installed, get it on Twitch App!")
+            Plater:Msg("需要 Details! Damage Meter 但未安装, 在 Twitch 应用程序上获取!")
         end
     end
 
     ---@type df_button
-    local openSpellListButton = detailsFramework:CreateButton(auraLastEventFrame, openDetailsSpellList, 160, 20, "Open Full Spell List", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
+    local openSpellListButton = detailsFramework:CreateButton(auraLastEventFrame, openDetailsSpellList, 160, 20, "打开完整法术列表", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
     openSpellListButton:SetPoint("bottomright", latestSpellsScroll, "topright", 0, 24)
 
     --create the clean list button
@@ -714,7 +714,7 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
     end
 
     ---@type df_button
-    local clearListButton = detailsFramework:CreateButton(auraLastEventFrame, wipeSpellList, 160, 20, "Clear List", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
+    local clearListButton = detailsFramework:CreateButton(auraLastEventFrame, wipeSpellList, 160, 20, "清除列表", -1, nil, nil, nil, nil, nil, detailsFramework:GetTemplate("button", "OPTIONS_BUTTON_TEMPLATE"), detailsFramework:GetTemplate("font", "PLATER_BUTTON"))
     clearListButton:SetPoint("right", openSpellListButton, "left", -6, 0)
 
     --create search box
@@ -734,10 +734,10 @@ function Plater.CreateAuraLastEventOptionsFrame(auraLastEventFrame)
     auraSearchTextentry:SetHook("OnTextChanged", 	auraLastEventFrame.OnSearchBoxTextChanged)
     auraSearchTextentry:SetAsSearchBox()
 
-    local auraSearchLabel = detailsFramework:CreateLabel(auraLastEventFrame, "Search:", detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE"))
+    local auraSearchLabel = detailsFramework:CreateLabel(auraLastEventFrame, "查找:", detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE"))
     auraSearchLabel:SetPoint("right", auraSearchTextentry, "left", -2, 0)
 
     --create the description
-    auraLastEventFrame.TitleDescText = Plater:CreateLabel(auraLastEventFrame, "Quick way to manage auras from a recent raid boss or dungeon run.", 10, "silver")
+    auraLastEventFrame.TitleDescText = Plater:CreateLabel(auraLastEventFrame, "管理近期团本 Boss 或地下城产生的光环的快速方法.", 10, "silver")
     auraLastEventFrame.TitleDescText:SetPoint("bottomleft", latestSpellsScroll, "topleft", 0, 26)
 end

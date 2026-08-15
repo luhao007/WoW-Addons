@@ -6,7 +6,6 @@
 
 local LibTSMWoW = select(2, ...).LibTSMWoW
 local ExtraTooltip = LibTSMWoW:DefineClassType("ExtraTooltip")
-local ClientInfo = LibTSMWoW:Include("Util.ClientInfo")
 local private = {
 	numExtraTooltips = 0,
 }
@@ -62,7 +61,7 @@ function ExtraTooltip:Show()
 	self._anchorFrame = nil
 	GameTooltip.Show(self._frame)
 	local bottom = self._frame:GetBottom()
-	if bottom and (not ClientInfo.IsRetail() or not issecretvalue(bottom)) and self._frame:GetParent():IsShown() then
+	if bottom and self._frame:GetParent():IsShown() then
 		self._isTop = bottom <= 0
 	end
 	self:_OnUpdate()

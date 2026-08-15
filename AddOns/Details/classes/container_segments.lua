@@ -513,7 +513,7 @@ function Details222.Combat.AddCombat(combatToBeAdded)
 	if (combatToAdd_BossInfo and not combatToAdd_BossInfo.killed) then
 		local bRunOkay, errorText = pcall(setBossTryCounter, combatToBeAdded, segmentsTable, amountSegmentsInUse)
 		if (not bRunOkay) then
-			Details:Msg("error > failed to set boss try counter > ", errorText)
+			Details:Msg("错误 > 未能设置BOSS尝试计数器 > ", errorText)
 		end
 	end
 
@@ -575,19 +575,19 @@ function Details222.Combat.AddCombat(combatToBeAdded)
 		--get the amount of segments in the segmentsTable that are from the same boss and difficulty as the combat to be added
 		local bRunOkay2, result = pcall(getAmountOfSegmentsInThisBoss, combatToBeAdded)
 		if (not bRunOkay2) then
-			Details:Msg("bRunOkay2 Error > failed to get amount of segments in this boss > ", result)
+			Details:Msg("bRunOkay2 错误 > 未能获得该 BOSS 的阶段数 > ", result)
 		else
 			local segmentRemoveResult = ""
 			if (type(result) ~= "number") then
-				Details:Msg("result of bRunOkay2 isn't a number | result: ", result, type(result))
+				Details:Msg("bRunOkay2 的结果不是数字 | 结果: ", result, type(result))
 			end
 
 			local bRunOkay3, errorText3 = pcall(function()
 				local amountOfSegmentsInThisBoss = result --result of getAmountOfSegmentsInThisBoss()
 
 				if (not Details.segments_amount_boss_wipes) then
-					Details:Msg("Details.segments_amount_boss_wipes isn't a number, issue with profile? ", type(Details.segments_amount_boss_wipes))
-					Details:Msg("on default profile:", Details.default_profile.segments_amount_boss_wipes)
+					Details:Msg("Details.segments_amount_boss_wipes 不是一个数字, 是配置文件的问题吗? ", type(Details.segments_amount_boss_wipes))
+					Details:Msg("在默认配置文件上:", Details.default_profile.segments_amount_boss_wipes)
 				end
 
 				--is the amount of segments in this boss bigger than the amount of segment wipe allowed?
@@ -635,7 +635,7 @@ function Details222.Combat.AddCombat(combatToBeAdded)
 			end)
 
 			if (not bRunOkay3) then
-				Details:Msg("bRunOkay3 Error > ", errorText3)
+				Details:Msg("bRunOkay3 错误 > ", errorText3)
 			else
 				if (segmentRemoveResult ~= "") then
 					--Details:Msg("(testing)", segmentRemoveResult) --confirming that a segment got removed

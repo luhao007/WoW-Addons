@@ -83,14 +83,14 @@ local createOptionsPanel = function()
         Details:Msg("Settings reseted to default.")
     end
 
-    local resetSettingsButton = detailsFramework:CreateButton(optionsFrame, resetSettings, 130, 20, "Reset Settings")
+    local resetSettingsButton = detailsFramework:CreateButton(optionsFrame, resetSettings, 130, 20, "重置设置")
     resetSettingsButton:SetPoint("bottomleft", optionsFrame, "bottomleft", 5, 5)
     resetSettingsButton:SetTemplate(options_button_template)
 
     local subSectionTitleTextTemplate = detailsFramework:GetTemplate("font", "ORANGE_FONT_TEMPLATE")
 
     local optionsTable = {
-        {type = "label", get = function() return "Window Settings" end, text_template = subSectionTitleTextTemplate},
+        {type = "label", get = function() return "窗口设置" end, text_template = subSectionTitleTextTemplate},
         --background color from setting Details.frame_background_color
             { --background color
                 type = "color",
@@ -114,13 +114,13 @@ local createOptionsPanel = function()
                     colorTable[4] = a
                     Details:SetWindowColor(r, g, b, a)
                 end,
-                name = "Background Color",
-                desc = "Background Color",
+                name = "背景颜色",
+                desc = "背景颜色",
             },
 
         {type = "blank"},
 
-        {type = "label", get = function() return "Text Options" end, text_template = subSectionTitleTextTemplate},
+        {type = "label", get = function() return "文本选项" end, text_template = subSectionTitleTextTemplate},
             { --font color
                 type = "color",
                 get = function() return Details.breakdown_general.font_color[1], Details.breakdown_general.font_color[2], Details.breakdown_general.font_color[3], Details.breakdown_general.font_color[4] end,
@@ -132,8 +132,8 @@ local createOptionsPanel = function()
                     colorTable[4] = a
                     updateTextSettings()
                 end,
-                name = "Text Color",
-                desc = "Text Color",
+                name = "文本颜色",
+                desc = "文本颜色",
             },
 
             { --font size
@@ -146,8 +146,8 @@ local createOptionsPanel = function()
                 min = 8,
                 max = 20,
                 step = 1,
-                name = "Text Size",
-                desc = "Text Size",
+                name = "文本大小",
+                desc = "文本大小",
             },
 
             { --font outline
@@ -157,8 +157,8 @@ local createOptionsPanel = function()
                     Details.breakdown_general.font_outline = value
                     updateTextSettings()
                 end,
-                name = "Text Outline",
-                desc = "Text Outline",
+                name = "文字描边",
+                desc = "文字描边",
             },
 
             {---font face
@@ -168,14 +168,14 @@ local createOptionsPanel = function()
                     Details.breakdown_general.font_face = value
                     updateTextSettings()
                 end,
-                name = "Font Face",
-                desc = "Font Face",
+                name = "字体",
+                desc = "字体",
                 include_default = true,
             },
 
 
         {type = "breakline"},
-        {type = "label", get = function() return "Section Settings" end, text_template = subSectionTitleTextTemplate},
+        {type = "label", get = function() return "部分设置" end, text_template = subSectionTitleTextTemplate},
 
             { --locked -hidden = true,
                 type = "toggle",
@@ -188,8 +188,8 @@ local createOptionsPanel = function()
                     local container = DetailsSpellBreakdownTab.GetTargetScrollContainer()
                     container:SetResizeLocked(value)
                 end,
-                name = "Is Locked",
-                desc = "Is Locked",
+                name = "已锁定",
+                desc = "已锁定",
                 hidden = true,
             },
 
@@ -217,12 +217,12 @@ local createOptionsPanel = function()
                 max = 1,
                 step = 0.1,
                 usedecimals = true,
-                name = "Background Color",
-                desc = "Background Color",
+                name = "背景颜色",
+                desc = "背景颜色",
             },
 
         {type = "blank"},
-        {hidden = true, type = "label", get = function() return "Group Player Spells:" end, text_template = subSectionTitleTextTemplate},
+        {hidden = true, type = "label", get = function() return "玩家技能分组:" end, text_template = subSectionTitleTextTemplate},
             { --nest player spells | merge player spells
                 type = "toggle",
                 get = function() return Details.breakdown_spell_tab.nest_players_spells_with_same_name end,
@@ -230,13 +230,13 @@ local createOptionsPanel = function()
                     Details.breakdown_spell_tab.nest_players_spells_with_same_name = value
                     refreshAllWindows()
                 end,
-                name = "Group Player Spells With Same Name",
-                desc = "Group spells casted by players which has the same name",
+                name = "同名玩家技能分组",
+                desc = "将玩家施放的同名技能进行归类",
                 hidden = true,
             },
 
         {type = "blank"},
-        {hidden = true, type = "label", get = function() return "Group Pet Spells:" end, text_template = subSectionTitleTextTemplate},
+        {hidden = true, type = "label", get = function() return "宠物技能分组:" end, text_template = subSectionTitleTextTemplate},
 
             { --nest pet spells with the same name
                 type = "toggle",
@@ -244,8 +244,8 @@ local createOptionsPanel = function()
                 set = function(self, fixedparam, value)
                     Details.breakdown_spell_tab.nest_pet_spells_by_name = value
                 end,
-                name = "Group Pet Names Under a Pet Spell Bar",
-                desc = "Group Pets By Name",
+                name = "在宠物技能条下合并同名宠物",
+                desc = "按名称分组宠物",
                 hooks = {["OnSwitch"] = function()
                         if (Details.breakdown_spell_tab.nest_pet_spells_by_name) then
                             Details.breakdown_spell_tab.nest_pet_spells_by_caster = false
@@ -263,8 +263,8 @@ local createOptionsPanel = function()
                     Details.breakdown_spell_tab.nest_pet_spells_by_caster = value
 
                 end,
-                name = "Group Pet Spells Under a Pet Name Bar",
-                desc = "Group Pets By Spell",
+                name = "在宠物名称条下合并同名技能",
+                desc = "按技能分组宠物",
                 hooks = {["OnSwitch"] = function()
                         if (Details.breakdown_spell_tab.nest_pet_spells_by_caster) then
                             Details.breakdown_spell_tab.nest_pet_spells_by_name = false

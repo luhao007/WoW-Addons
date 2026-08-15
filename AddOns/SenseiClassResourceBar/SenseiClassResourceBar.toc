@@ -2,7 +2,7 @@
 ## Author: Sensei
 ## Version: 1.5.24
 
-## Title: Sensei Class Resource Bar
+## Title: Sensei Class Resource Bar【萌】
 ## Notes: Separate resource bars for all classes
 ## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFFSensei职业资源条|r |cFFFFE00ASenseiClassResourceBar|r
 ## Notes-zhCN: 显示职业资源条，如盗贼的能量条，法师的法力宝珠等

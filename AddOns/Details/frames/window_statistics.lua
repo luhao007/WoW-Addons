@@ -224,7 +224,7 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
                     statisticsFrame.DownloadedSize = statisticsFrame.DownloadedSize + length
                     local downloadSpeed = statisticsFrame.DownloadedSize / (time() - statisticsFrame.SyncStartTime)
 
-                    statisticsFrame.SyncText:SetText("working [downloading " .. statisticsFrame.DownloadedAmount .. "/" .. statisticsFrame.RequestedAmount .. ", " .. format("%.2f", downloadSpeed/1024) .. "Kbps]")
+                    statisticsFrame.SyncText:SetText("工作[下载 " .. statisticsFrame.DownloadedAmount .. "/" .. statisticsFrame.RequestedAmount .. ", " .. format("%.2f", downloadSpeed/1024) .. "Kbps]")
                 end
             end
         end
@@ -239,7 +239,7 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
                 --requested to download a selected list of encounter tables
                 elseif (guildSyncID == "G") then
                     statisticsFrame.RequestedAmount = statisticsFrame.RequestedAmount + #missingIDs
-                    statisticsFrame.SyncText:SetText("working [downloading " .. statisticsFrame.DownloadedAmount .. "/" .. statisticsFrame.RequestedAmount .. "]")
+                    statisticsFrame.SyncText:SetText("工作[下载 " .. statisticsFrame.DownloadedAmount .. "/" .. statisticsFrame.RequestedAmount .. "]")
                 end
             end
         end
@@ -254,7 +254,7 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
                     local bossName = statisticsFrame.select_boss.label:GetText()
                     local bossDiff = statisticsFrame.select_diff.label:GetText()
                     local guildName = statisticsFrame.select_guild.label:GetText()
-                    local reportTable = {"Details!: DPS Rank for: " .. (bossDiff or "") .. " " .. (bossName or "--x--x--") .. " <" .. (guildName or "") .. ">"}
+                    local reportTable = {"Details!: DPS排名: " .. (bossDiff or "") .. " " .. (bossName or "--x--x--") .. " <" .. (guildName or "") .. ">"}
                     local result = {}
 
                     for i = 1, AmtLines do
@@ -397,8 +397,8 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
 
         local buildRoleList = function()
             return {
-                {value = "DAMAGER", label = "Damager", icon = icon, onclick = onRoleSelect},
-                {value = "HEALER", label = "Healer", icon = icon, onclick = onRoleSelect}
+                {value = "DAMAGER", label = "伤害", icon = icon, onclick = onRoleSelect},
+                {value = "HEALER", label = "治疗", icon = icon, onclick = onRoleSelect}
             }
         end
 
@@ -712,10 +712,10 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
                         ---@type details_stats_gframe_data
                         local thisData = self.data
 
-                        GameCooltip:AddLine("Total Done:", Details:ToK2(thisData.value), 1, "white")
+                        GameCooltip:AddLine("完成总数:", Details:ToK2 (thisData.value), 1, "white")
                         GameCooltip:AddLine("Dps:", Details:ToK2(thisData.value / thisData.elapsed), 1, "white")
-                        GameCooltip:AddLine("Item Level:", floor(thisData.data.itemLevel), 1, "white")
-                        GameCooltip:AddLine("Date:", thisData.fulldate:gsub(".*%s", ""), 1, "white")
+                        GameCooltip:AddLine("物品等级:", floor (thisData.data.itemLevel), 1, "white")
+                        GameCooltip:AddLine("日期:", thisData.fulldate:gsub (".*%s", ""), 1, "white")
 
                         GameCooltip:SetOwner(self.ball.tooltip_anchor)
                         GameCooltip:Show()
@@ -739,12 +739,12 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
 
         function statisticsFrame:BuildGuildRankTable(encounterKillsTable, selectedGuildName, role)
             local header = {
-                {name = "Player Name", type = "text"},
-                {name = "Per Second", type = "text"},
-                {name = "Total", type = "text"},
-                {name = "Length", type = "text"},
-                {name = "Item Level", type = "text"},
-                {name = "Date", type = "text"}
+                {name = "玩家名称", type = "text"},
+                {name = "每秒", type = "text"},
+                {name = "总计", type = "text"},
+                {name = "长度", type = "text"},
+                {name = "物品等级", type = "text"},
+                {name = "日期", type = "text"}
             }
 
             ---@cast encounterKillsTable details_encounterkillinfo[]
@@ -850,7 +850,7 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
                 return
             end
 
-            local header = {{name = "Player Name", type = "text"}} -- , width = 90
+            local header = {{name = "玩家名字", type = "text"}} -- , width = 90
             local players = {}
 
             ---@type table<unitname, number>
@@ -1047,7 +1047,7 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
     end
 
     if (not statsWindow.UpdateDropdowns) then
-        Details:Msg("Failled to load statistics, Details! Storage is disabled?")
+        Details:Msg("加载统计数据失败, Details! Storage被禁用?")
         return
     end
 

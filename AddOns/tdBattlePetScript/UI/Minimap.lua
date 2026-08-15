@@ -14,6 +14,10 @@ local LibDBIcon = LibStub('LibDBIcon-1.0')
 local Minimap = Addon:NewModule('UI.Minimap', 'AceEvent-3.0')
 
 function Minimap:OnInitialize()
+    if Addon:GetSetting('hideMinimap') then
+        return
+    end
+
     local LDB = LibStub('LibDataBroker-1.1')
 
     local function HideTooltip()
@@ -33,26 +37,26 @@ function Minimap:OnInitialize()
             if click == 'RightButton' then
                 GUI:ToggleMenu(button, {
                     {
-                        text = L.ADDON_NAME,
+                        text = 'tdBattlePetScript',
                         isTitle = true,
                     },
                     {
-                        text = L.SCRIPT_MANAGER_TOGGLE,
+                        text = L.TOGGLE_SCRIPT_MANAGER,
                         func = function()
                             UI.MainPanel:TogglePanel()
                         end
                     },
                     {
-                        text = L.SHARE_IMPORT_SCRIPT,
+                        text = L.Import,
                         func = function()
                             UI.Import.Frame:Show()
                             UI.MainPanel:HidePanel()
                         end
                     },
                     {
-                        text = SETTINGS_TITLE,
+                        text = L.Options,
                         func = function()
-                            Addon:OpenOptionsFrame()
+                            Addon:OpenOptionFrame()
                         end
                     }
                 })
@@ -61,10 +65,11 @@ function Minimap:OnInitialize()
             end
         end,
         OnTooltipShow = function(tooltip)
-            tooltip:SetText(L.ADDON_NAME)
+            tooltip:SetText('tdBattlePetScript')
+            tooltip:AddLine(L.ADDON_NAME, GREEN_FONT_COLOR:GetRGB())
             tooltip:AddLine(' ')
-            tooltip:AddLine(UI.LEFT_MOUSE_BUTTON .. L.SCRIPT_MANAGER_TOGGLE, 1, 1, 1)
-            tooltip:AddLine(UI.RIGHT_MOUSE_BUTTON .. SETTINGS_TITLE, 1, 1, 1)
+            tooltip:AddLine(UI.LEFT_MOUSE_BUTTON .. L.TOGGLE_SCRIPT_MANAGER, 1, 1, 1)
+            tooltip:AddLine(UI.RIGHT_MOUSE_BUTTON .. L.Options, 1, 1, 1)
         end,
         OnLeave = HideTooltip
     })
@@ -72,8 +77,6 @@ function Minimap:OnInitialize()
     LibDBIcon:Register('tdBattlePetScript', BrokerObject, Addon.db.profile.minimap)
 
     self:RegisterMessage('PET_BATTLE_SCRIPT_SETTING_CHANGED_hideMinimap', 'Refresh')
-
-    self:Refresh()
 end
 
 function Minimap:Refresh()

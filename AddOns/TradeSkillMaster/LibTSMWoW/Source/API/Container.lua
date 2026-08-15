@@ -269,9 +269,9 @@ end
 ---@return number warbankQuantity
 function Container.GetItemCount(itemId)
 	-- GetItemCount() is a bit buggy and not all combinations of arguments work, so carefully call it to calculate the quantities
-	local bagQuantity = C_Item.GetItemCount(itemId, false, false, false, false)
-	local warbankQuantity = C_Item.GetItemCount(itemId, false, false, false, true) - bagQuantity
-	local bankQuantity = C_Item.GetItemCount(itemId, true, false, true, false) - bagQuantity
+	local bagQuantity = GetItemCount(itemId, false, false, false, false)
+	local warbankQuantity = GetItemCount(itemId, false, false, false, true) - bagQuantity
+	local bankQuantity = GetItemCount(itemId, true, false, true, false) - bagQuantity
 	return bagQuantity, bankQuantity, warbankQuantity
 end
 
@@ -286,7 +286,7 @@ end
 ---Gets the total number of free bag slots.
 ---@return number
 function Container.GetTotalFreeBagSlots()
-	return C_Container.CalculateTotalNumberOfFreeBagSlots()
+	return CalculateTotalNumberOfFreeBagSlots()
 end
 
 ---Returns whether or not an item can be deposited into the warbank.

@@ -219,7 +219,7 @@ function Main:Init()
 
     Common:FrameLoad(Main.frame);
 
-	Common:DisplayStatusMessage("Minimal Archaeology Initialized!");
+	Common:DisplayStatusMessage("迷你考古助手已初始化!");
 end
 
 function Main:UpdateArchaeologySkillBar()
@@ -329,7 +329,7 @@ end
 
 function Main:Update()
 	if (InCombatLockdown()) then
-		Common:DisplayStatusMessage("Main update delayed until combat ends", MINARCH_MSG_DEBUG);
+		Common:DisplayStatusMessage("主要更新推迟到战斗结束", MINARCH_MSG_DEBUG);
 		Main.frame:RegisterEvent("PLAYER_REGEN_ENABLED");
 		return;
 	end

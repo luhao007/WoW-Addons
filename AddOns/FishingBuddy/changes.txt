@@ -1,3 +1,59 @@
+Version 1.26.10
+- Fix all loot being recorded as fishing catches on Retail. The 1.26.9 tool-slot detection made "pole equipped" always true (the profession tool slot is permanently occupied), and IsFishingLoot() fell back to that equipment check. Loot now only counts as fish when the fishing channel itself ran within the last few seconds (looting the bobber always ends the channel, so real catches land inside that window; mob kills cannot). Same fix applied to LibFishing's caught-so-far counter.
+- Fix the Fish Watcher's "only while fishing" mode: casting Fishing (from the action bar or easy cast) now starts fishing mode, so the watcher appears while actually fishing and hides after the idle timeout; removing the pole from the tool slot (or main hand) now stops fishing mode immediately.
+- Fix fishing mode auto-starting at login when "partial gear" is enabled: the initial gear state is now seeded without triggering fishing mode.
+- Filter UNIT_SPELLCAST channel events to the player, so other units' casts no longer pollute cast tracking.
+- Fix cast tracking comparing channel events against the wrong spell id: the events report the castable Fishing spell (131474), but the handlers checked the profession id (131490), so the cast timestamp never refreshed at channel end and the loot gate rejected real catches. Channel handlers now accept both ids, with a fishing-mode safety net on channel stop.
+- Fix the fishing-pet fluff feature stealing the cast: summoning a battle pet at fishing-mode start ran synchronously inside the easy-cast click, so the first double-click summoned a pet instead of casting. The summon is now deferred to a quiet moment between casts (never while casting or channeling). The pet option also now respects the Fishing Fluff master toggle, as the options UI already implied, and the end-of-fishing pet restore only runs when the addon actually swapped pets (it used to toggle-dismiss the player's own pet).
+
+Version 1.26.9
+- Add support for patch 12.0.7 (Revelations). Bump TOC interface to 120007.
+- Fix fish tracking and the Fish Watcher not working on modern Retail. Since patch 10.0.2 fishing poles are profession tools equipped in the dedicated fishing tool slot (INVSLOT_FISHING_TOOL) rather than the main hand, but LibFishing's IsFishingPole() only inspected the main-hand slot, so pole detection failed. Because catch recording and the watcher key off pole detection, neither worked. IsFishingPole() now recognizes a pole in the fishing tool slot on Retail (falling back to the classic main-hand check on Classic).
+- Fix GetPoleBonus() reading the pole's fishing-skill bonus from the empty main-hand slot on Retail (it now reads the fishing tool slot), so the pole's skill bonus is counted again.
+
+Version 1.26.8
+- Fix additional Retail secret-string taint in FishingQuests.lua GetNPCID() by removing direct GUID string comparisons and moving all GUID parsing into pcall().
+
+Version 1.26.7
+- Fix a Retail taint in bobber detection by removing a restricted tooltip alpha comparison.
+
+Version 1.26.6
+- Add option to easy-cast even with no gear equipped.
+- Fix easy cast with Reusable Oversized Bobber by using the correct toy item ID.
+- Fix taint by replacing quest-title GetItemCount calls with questID/itemID and IsQuestCompletable checks.
+
+Version 1.26.5
+- Fix calendar taint error in FishingExtravaganza.lua by avoiding restricted `sequenceType` comparisons.
+- Improve calendar event parsing resilience when title/type/texture fields are missing.
+- Fix `ADDON_ACTION_BLOCKED` from `RegisterForClicks` by deferring mouse click registration updates until out of combat.
+
+Version 1.26.4
+- Add support for patch 12.0.1
+
+Version 1.26.3
+- Fix raid error by handling modern gossip quest tables and restricted strings safely in procLunkerQuests().
+
+Version 1.26.2
+- Fix FishingBuddy skill display by mapping Khaz Algar continent ID (2274) to The War Within continent detection.
+- Fix dungeon error when tooltip text is restricted by safely handling bobber tooltip string matching.
+
+Version 1.26.1
+- Add fishing support for Midnight Pre-Patch
+- Add TWW fishing skill tracking
+- Add zone mappings for TWW zones:
+- Replace deprecated `GetLootInfo()` with `GetLootSlotInfo()` and `GetNumLootItems()`
+- Add `GetLootSlotType()` filtering to process only item loot
+- Implement `IsFishingLoot()` function with fishing state tracking and 3-second timeout window
+- Fix item ID extraction from loot links with direct pattern matching fallback
+- Fix skill data loading for continent-specific fishing skills
+- Add automatic skill data refresh on `PLAYER_ENTERING_WORLD` event
+- Improve `UpdateFishingSkill()` to initialize rank from current profession skill
+- Add `GetTradeSkillData()` call to ensure trade skill UI loads properly
+- Fix fishing skill showing "0 + 0" in TWW zones
+- Fix fish not being added to journal in modern WoW
+- Fix loot tracking not detecting fishing state
+- Fix continent detection returning -1 for TWW zones
+
 Version 1.25
 - Update libraries
 - Get the core functionality working again
@@ -1752,4 +1808,3 @@ Version 0.7.6
 
 Version 0.7.5
 - fix a bad memory leak on the outfit display page
-

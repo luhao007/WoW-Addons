@@ -525,7 +525,7 @@
 			self.posicao[self.mostrando].h = pre_defined.altura
 
 		elseif (pre_defined and not pre_defined.x) then
-			Details:Msg("invalid pre_defined table for resize, please rezise the window manually.")
+			Details:Msg("调整大小的预定义表无效, 请手动调整窗口大小.")
 		end
 
 		self.baseframe:SetWidth(self.posicao[self.mostrando].w)
@@ -1129,7 +1129,7 @@
 			curse:SetPoint("topleft", panel, "topleft", 17, -160)
 			mmoc:SetPoint("topleft", panel, "topleft", 17, -220)
 
-			local wowi_title = gump:CreateLabel(panel, "Wow Interface:", nil, nil, "GameFontNormal")
+			local wowi_title = gump:CreateLabel(panel, "魔兽插件:", nil, nil, "GameFontNormal")
 			local wowi_desc = gump:CreateLabel(panel, Loc ["STRING_FEEDBACK_WOWI_DESC"], nil, "silver")
 			wowi_desc:SetWidth(202)
 
@@ -1225,7 +1225,7 @@
 				if (instance1) then
 					return Details:OpenOptionsWindow (instance1)
 				else
-					Details:Msg("couldn't open options panel: no window available.")
+					Details:Msg("无法打开选项面板: 没有可用的窗口.")
 				end
 			end
 		end
@@ -1253,10 +1253,10 @@
 			updatewindow_frame:SetSize(512, 200)
 			--updatewindow_frame.portrait:SetTexture([[Interface\CHARACTERFRAME\TEMPORARYPORTRAIT-FEMALE-GNOME]])
 
-			--updatewindow_frame.TitleText:SetText("A New Version Is Available!") --10.0 fuck
+			--updatewindow_frame.TitleText:SetText("新版本可用!") --10.0 fuck
 
 			updatewindow_frame.midtext = updatewindow_frame:CreateFontString(nil, "artwork", "GameFontNormal")
-			updatewindow_frame.midtext:SetText("Good news everyone!\nA new version has been forged and is waiting to be looted.")
+			updatewindow_frame.midtext:SetText("好消息!\n新版本已经完成正在等待被下载.")
 			updatewindow_frame.midtext:SetPoint("topleft", updatewindow_frame, "topleft", 10, -90)
 			updatewindow_frame.midtext:SetJustifyH("center")
 			updatewindow_frame.midtext:SetWidth(370)
@@ -1286,7 +1286,7 @@
 
 			updatewindow_frame.close = CreateFrame("Button", "DetailsUpdateDialogCloseButton", updatewindow_frame)
 			updatewindow_frame.close:SetPoint("bottomleft", updatewindow_frame, "bottomleft", 8, 4)
-			updatewindow_frame.close:SetText("Close")
+			updatewindow_frame.close:SetText("关闭")
 
 			updatewindow_frame.close:SetScript("OnClick", function(self)
 				DetailsUpdateDialog:Hide()
@@ -1436,7 +1436,7 @@
 						tooltip:AddLine(Loc ["STRING_MINIMAP_TOOLTIP12"])
 					end
 					tooltip:AddLine(Loc ["STRING_MINIMAP_TOOLTIP2"])
-					tooltip:AddLine("|cFFCFCFCFctrl + left click|r: show/hide windows")
+					tooltip:AddLine("|cFFCFCFCFctrl + 左键|r: 显示/隐藏窗口")
 				end,
 			})
 
@@ -1484,10 +1484,10 @@
 		local tooltip_hotcorner = function()
 			GameTooltip:AddLine("Details!", 1, 1, 1, 1)
 			if (Details.hotcorner_topleft.onclick_what_todo == 1) then
-				GameTooltip:AddLine("|cFF00FF00Left Click:|r open options panel.", 1, 1, 1, 1)
+				GameTooltip:AddLine("|cFF00FF00左键单击:|r 开启选项面板.", 1, 1, 1, 1)
 
 			elseif (Details.hotcorner_topleft.onclick_what_todo == 2) then
-				GameTooltip:AddLine("|cFF00FF00Left Click:|r clear all segments.", 1, 1, 1, 1)
+				GameTooltip:AddLine("|cFF00FF00左键单击:|r 清除所有分段.", 1, 1, 1, 1)
 
 			end
 		end
@@ -1512,8 +1512,8 @@
 				nil,
 				--quick click
 				{
-					{func = quickclick_func1, name = "Details! - Reset Data"},
-					{func = quickclick_func2, name = "Details! - Open Options"}
+					{func = quickclick_func1, name = "Details! - 重置数据"}, 
+					{func = quickclick_func2, name = "Details! - 打开选项"}
 				},
 				--onenter
 				nil,

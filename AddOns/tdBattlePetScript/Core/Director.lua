@@ -8,10 +8,8 @@ local ns        = select(2, ...)
 local Util      = ns.Util
 local Addon     = ns.Addon
 local Action    = ns.Action
-local L         = ns.L
 local Condition = ns.Condition
 local Director  = Addon:NewModule('Director', 'AceEvent-3.0')
-local GUI   	= LibStub('tdGUI-1.0')
 
 function Director:OnInitialize()
     self:RegisterEvent('PET_BATTLE_CLOSE', 'ClearScript')
@@ -26,25 +24,6 @@ end
 
 function Director:Debug(script)
     self:Action(script)
-end
-
-function Director:Test(item)
-    if type(item) == 'table' then
-        for i, v in ipairs(item) do
-            if Condition:Run(v[2]) and self:Test(v[1]) then
-                return true
-            end
-        end
-    elseif type(item) == 'string' then
-        if Action:Test(item) then
-            GUI:Notify {
-                        text = format('%s\n|cff00ffff%s: |cffffff00%s|r', L.ADDON_NAME, L.DIRECTOR_TEST_NEXT_ACTION, item or "-"),
-                        icon = ns.ICON,
-                        help = ''
-            }
-            return true
-        end
-    end
 end
 
 function Director:Action(item)
@@ -149,7 +128,7 @@ function Director:BuildScript(code)
                 if line:find('^%-%-') then
                     action = line
                 elseif line:find('[', nil, true) then
-                    action, condition = line:match('^/?([^%[]-)%s*%[([^%]]+)%]$')
+                    action, condition = line:match('^/?(.+)%s+%[(.+)%]$')
                 else
                     action = line:match('^/?(.+)$')
                 end

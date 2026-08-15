@@ -1,0 +1,35 @@
+## Interface: 120001, 120005, 120007, 120100
+## Author: 星野绫-罗宁 CN
+## Version: 1.6.6
+
+## Title: TinyTooltip-Remake
+## Notes: A powerful tooltip enhancement addon based on TinyTooltip.
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF鼠标提示增强|r |cFFFFE00ATinyTooltip-Remake|r
+## Notes-zhCN: 在鼠标提示中显示更多信息，并可选择鼠标提示窗口的位置
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
+
+## SavedVariables: TinyTooltipRemakeDB
+## SavedVariablesPerCharacter: TinyTooltipRemakeCharacterDB
+
+libs\lib.xml
+About.xml
+Core.lua
+DialogueUICompat.lua
+Config.lua
+General.lua
+Anchor.lua
+Unit.lua
+Model.lua
+Target.lua
+Item.lua
+Spell.lua
+Quest.lua
+ChatHover.lua
+LinkID.lua
+Mount.lua
+SkinFrames.lua
+
+libs\Template.xml
+locales\locales.xml
+Options.lua

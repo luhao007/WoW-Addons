@@ -116,13 +116,13 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
 
     --left menu
     local resourceDisplaysAvailable = { --name should be able to get from the client
-        {name = "Combo Point", defaultClass = {"DRUID", "ROGUE"}, enumName = CONST_ENUMNAME_COMBOPOINT, iconTexture = false, iconAtlas = "ClassOverlay-ComboPoint"}, --4
-        {name = "Holy Power", defaultClass = {"PALADIN"}, enumName = CONST_ENUMNAME_HOLYPOWER, iconTexture = [[Interface\PLAYERFRAME\ClassOverlayHolyPower]], iconCoords = {0.530999, 0.6619999, 0.01600000, 0.3479999}}, --9
-        {name = "Runes", defaultClass = {"DEATHKNIGHT"}, enumName = CONST_ENUMNAME_RUNES, iconTexture = [[Interface\PLAYERFRAME\UI-PlayerFrame-Deathknight-SingleRune]], iconCoords = {0, 1, 0, 1}}, --5
-        {name = "Arcane Charges", defaultClass = {"MAGE"}, enumName = CONST_ENUMNAME_ARCANECHARGES, iconTexture = [[Interface\PLAYERFRAME\MageArcaneCharges]], iconCoords = {64/256, 91/256, 64/128, 91/128}}, --16
-        {name = "Chi", defaultClass = {"MONK"}, enumName = CONST_ENUMNAME_CHI, iconTexture = [[Interface\PLAYERFRAME\MonkLightPower]], iconCoords = {0.1, .9, 0.1, .9}}, --12
-        {name = "Soul Shards", defaultClass = {"WARLOCK"}, enumName = CONST_ENUMNAME_SOULCHARGES, iconTexture = [[Interface\PLAYERFRAME\UI-WARLOCKSHARD]], iconCoords = {0/64, 18/64, 0/128, 18/128}}, --7
-		{name = "Essence", defaultClass = {"EVOKER"}, enumName = CONST_ENUMNAME_ESSENCE, iconTexture = false, iconAtlas = "UF-Essence-Icon"}, --8
+        {name = "连击点", defaultClass = {"DRUID", "ROGUE"}, enumName = CONST_ENUMNAME_COMBOPOINT, iconTexture = false, iconAtlas = "ClassOverlay-ComboPoint"}, --4
+        {name = "神圣能量", defaultClass = {"PALADIN"}, enumName = CONST_ENUMNAME_HOLYPOWER, iconTexture = [[Interface\PLAYERFRAME\ClassOverlayHolyPower]], iconCoords = {0.530999, 0.6619999, 0.01600000, 0.3479999}}, --9
+        {name = "符文", defaultClass = {"DEATHKNIGHT"}, enumName = CONST_ENUMNAME_RUNES, iconTexture = [[Interface\PLAYERFRAME\UI-PlayerFrame-Deathknight-SingleRune]], iconCoords = {0, 1, 0, 1}}, --5
+        {name = "奥术充能", defaultClass = {"MAGE"}, enumName = CONST_ENUMNAME_ARCANECHARGES, iconTexture = [[Interface\PLAYERFRAME\MageArcaneCharges]], iconCoords = {64/256, 91/256, 64/128, 91/128}}, --16
+        {name = "真气", defaultClass = {"MONK"}, enumName = CONST_ENUMNAME_CHI, iconTexture = [[Interface\PLAYERFRAME\MonkLightPower]], iconCoords = {0.1, .9, 0.1, .9}}, --12
+        {name = "灵魂碎片", defaultClass = {"WARLOCK"}, enumName = CONST_ENUMNAME_SOULCHARGES, iconTexture = [[Interface\PLAYERFRAME\UI-WARLOCKSHARD]], iconCoords = {0/64, 18/64, 0/128, 18/128}}, --7
+		{name = "精华", defaultClass = {"EVOKER"}, enumName = CONST_ENUMNAME_ESSENCE, iconTexture = false, iconAtlas = "UF-Essence-Icon"}, --8
     }
 
     local refreshResourceScrollBox = function(self, data, offset, totalLines)
@@ -165,7 +165,7 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
     selectResourceScrollBox:SetPoint("topleft", frame, "topleft", 5, hookbox_label_y)
     frame.selectResourceScrollBox = selectResourceScrollBox
 
-    local selectResourceLabel = DF:CreateLabel(frame, "Select which resource to use on this character:", 12, "orange")
+    local selectResourceLabel = DF:CreateLabel(frame, "选择要在这个角色上使用的资源:", 12, "orange")
     selectResourceLabel:SetPoint("bottomleft", selectResourceScrollBox, "topleft", 0, 4)
 
     local onEnterResourceLine = function(self)
@@ -291,7 +291,7 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
     --]=]
 
     local globalResourceOptions = {
-        {type = "label", get = function() return "Global Settings:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
+        {type = "label", get = function() return "全局设置:" end, text_template = DF:GetTemplate ("font", "ORANGE_FONT_TEMPLATE")},
         --use plater resources
         {
             type = "toggle",
@@ -303,8 +303,8 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
 				end
                 Plater.UpdateAllPlates()
             end,
-            name = "Use Plater Resources",
-            desc = "Use Plater Resources",
+            name = "使用Plater资源",
+            desc = "使用Plater资源",
         },
 
         --show on personal bar
@@ -315,8 +315,8 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
                 Plater.db.profile.resources_settings.global_settings.personal_bar = value
                 Plater.UpdateAllPlates()
             end,
-            name = "Show On Personal Bar",
-            desc = "Show On Personal Bar",
+            name = "显示在个人条",
+            desc = "显示在个人条",
         },
 
         --show depleted
@@ -327,8 +327,8 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
                 Plater.db.profile.resources_settings.global_settings.show_depleted = value
                 Plater.UpdateAllPlates()
             end,
-            name = "Show Background",
-            desc = "Show Background",
+            name = "显示背景",
+            desc = "显示背景",
         },
         --show resource number
         {
@@ -338,8 +338,8 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
                 Plater.db.profile.resources_settings.global_settings.show_number = value
                 Plater.UpdateAllPlates()
             end,
-            name = "Show Amount",
-            desc = "Show Amount",
+            name = "显示数量",
+            desc = "显示数量",
         },
 
         --anchor
@@ -348,7 +348,7 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
 			get = function() return Plater.db.profile.resources_settings.global_settings.anchor.side end,
 			values = function() return build_anchor_side_table("global_settings", "anchor") end,
 			name = LOC["OPTIONS_ANCHOR"],
-			desc = "Which side of the nameplate this widget is attach to.",
+			desc = "这个组件依附在姓名版的哪一面.",
 		},
 		--anchor x offset
 		{
@@ -363,7 +363,7 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
 			step = 1,
 			usedecimals = true,
 			name = LOC["OPTIONS_XOFFSET"],
-			desc = "Slightly move horizontally.",
+			desc = "水平方向微调.",
 		},
 		--anchor y offset
 		{
@@ -378,7 +378,7 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
 			step = 1,
 			usedecimals = true,
 			name = LOC["OPTIONS_YOFFSET"],
-			desc = "Slightly move vertically.",
+			desc = "垂直方向微调.",
 		},
 
         --scale
@@ -394,8 +394,8 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
 			max = 2,
 			step = 0.1,
 			usedecimals = true,
-			name = "Scale",
-			desc = "Scale",
+			name = "尺寸",
+			desc = "尺寸",
 		},
         --padding
 		{
@@ -409,8 +409,8 @@ function Plater.Resources.BuildResourceOptionsTab(frame)
 			min = -10,
 			max = 10,
 			step = 1,
-			name = "Padding",
-			desc = "Padding",
+			name = "填充",
+			desc = "填充",
 		},
     }
 

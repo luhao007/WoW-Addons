@@ -153,7 +153,7 @@
 	function Details:InstallPlugin(pluginType, pluginName, pluginIcon, pluginObject, pluginAbsoluteName, minVersion, authorName, version, defaultSavedTable)
 		if (minVersion and minVersion > Details.realversion) then
 			print(pluginName, Loc["STRING_TOOOLD"])
-			return Details:NewError("Details version is out of date.")
+			return Details:NewError ("Details版本已过期.")
 		end
 
 		if (pluginType == "TANK") then
@@ -161,19 +161,19 @@
 		end
 
 		if (not pluginType) then
-			return Details:NewError("InstallPlugin parameter 1 (plugin type) not especified")
+			return Details:NewError ("InstallPlugin参数1（插件类型）")
 		elseif (not pluginName) then
-			return Details:NewError("InstallPlugin parameter 2 (plugin name) can't be nil")
+			return Details:NewError ("InstallPlugin参数2（插件名称）不能为空")
 		elseif (not pluginIcon) then
-			return Details:NewError("InstallPlugin parameter 3 (plugin icon) can't be nil")
+			return Details:NewError ("InstallPlugin参数3（插件图标）不能为空")
 		elseif (not pluginObject) then
-			return Details:NewError("InstallPlugin parameter 4 (plugin object) can't be nil")
+			return Details:NewError ("InstallPlugin参数4（插件对象）不能为空")
 		elseif (not pluginAbsoluteName) then
-			return Details:NewError("InstallPlugin parameter 5 (plugin absolut name) can't be nil")
+			return Details:NewError ("InstallPlugin参数5（插件绝对名称）不能为空")
 		end
 
 		if (_G[pluginAbsoluteName]) then
-			print(Loc["STRING_PLUGIN_NAMEALREADYTAKEN"] .. ": " .. pluginName .. " name: " .. pluginAbsoluteName)
+			print (Loc ["STRING_PLUGIN_NAMEALREADYTAKEN"] .. ": " .. pluginName .. " 名字: " .. pluginAbsoluteName)
 			return
 		else
 			_G[pluginAbsoluteName] = pluginObject
@@ -208,7 +208,7 @@
 
 		if (pluginType == "SOLO") then
 			if (not pluginObject.Frame) then
-				return Details:NewError("plugin doesn't have a Frame, please check case-sensitive member name: Frame")
+				return Details:NewError ("插件没有Frame, 请检查区分大小写的成员名称：Frame")
 			end
 
 			Details.SoloTables.Plugins[#Details.SoloTables.Plugins+1] = pluginObject
@@ -289,12 +289,12 @@
 
 	local temp_event_function = function()
 		print("=====================")
-		print("Hello There plugin developer!")
-		print("Please make sure you are declaring")
-		print("A member called 'OnDetailsEvent' on your plugin object")
-		print("With a function to receive the events like bellow:")
+		print("你好插件开发者!")
+		print("请确保你正在申报")
+		print("插件对象上名为'OnDetailsEvent'的成员")
+		print("具有接收如下事件的函数:")
 		print("function PluginObject:OnDetailsEvent(event, ...) end")
-		print("Thank You Sir!===================")
+		print("谢谢!===================")
 	end
 
 	local registerEventFunc = function(self, event)
@@ -497,7 +497,7 @@
 
 	function Details:CreateRightClickToCloseLabel(parent)
 		local mouseIcon = detailsFramework:CreateAtlasString(Details:GetTextureAtlas("right-mouse-click"), 12, 9)
-		local rightClickToBackLabel = detailsFramework:CreateLabel(parent, mouseIcon .. " right click to close", "GameFontNormal")
+		local rightClickToBackLabel = detailsFramework:CreateLabel(parent, mouseIcon .. " 右键单击关闭", "GameFontNormal")
 		rightClickToBackLabel:SetAlpha(0.834)
 		rightClickToBackLabel.textcolor = "gray"
 		parent.RightClickLabel = rightClickToBackLabel
@@ -595,13 +595,13 @@
 					pluginContainerFrame:ClearAllPoints()
 					pluginContainerFrame:SetPoint("center", UIParent, "center", 0, 0)
 					LibWindow.SavePosition(pluginContainerFrame)
-					Details:Msg("detected options panel out of screen, position has reset")
+					Details:Msg("检测到选项面板超出屏幕，位置已重置")
 				end
 
 				local scaleFactor = pluginContainerFrame:GetScale()
 				if (scaleFactor < 0.65) then
 					pluginContainerFrame:SetScale(0.65)
-					Details:Msg("detected options panel scale issue, scale has reset, please reload the UI")
+					Details:Msg("检测到选项面板比例问题, 比例已重置, 请重新加载用户界面")
 				end
 			end)
 		end)
@@ -892,6 +892,6 @@
 				end
 			end
 
-			Details:Msg("|cFFFF7700plugin not found|r:|cFFFFFF00",(originalName or wildCard), "|rcheck if it is enabled in the addons control panel.") --localize-me
+			Details:Msg("|cFFFF7700找不到插件|r:|cFFFFFF00", (originalName or wildCard), "|r检查它是否在插件控制面板中启用.") --localize-me
 		end
 	end

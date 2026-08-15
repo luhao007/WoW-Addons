@@ -380,7 +380,7 @@ function Digsites:Init()
 		MinArch.db.profile.TomTom.taxi.archMode = false
 	end
 
-	Common:DisplayStatusMessage("Minimal Archaeology Digsites Initialized!");
+	Common:DisplayStatusMessage("迷你考古助手挖掘点已初始化!");
 end
 
 
@@ -451,7 +451,7 @@ function Digsites:UpdateActiveDigSites()
                         MinArchDigsitesGlobalDB["continent"][i][name]["race"] = race
                         MinArchDigsitesGlobalDB["continent"][i][name]["raceId"] = MinArchDigsiteList[contID][name].race
 					elseif not SpamBlock[name] then
-						Common:DisplayStatusMessage("Minimal Archaeology: Unknown digsite " .. name, MINARCH_MSG_STATUS)
+						Common:DisplayStatusMessage("迷你考古助手: 未知挖掘点" .. name, MINARCH_MSG_STATUS)
 						SpamBlock[name] = 1
 					end
 				--end
@@ -476,7 +476,7 @@ function Digsites:UpdateActiveDigSites()
 	end
 
 	if (currentActiveDigsites ~= activeDigsitesHash) then
-		Common:DisplayStatusMessage("Active digsites changed, clearing cache", MINARCH_MSG_DEBUG);
+		Common:DisplayStatusMessage("活跃挖掘点已变更. 正在清除缓存", MINARCH_MSG_DEBUG);
 		activeDigsitesHash = currentActiveDigsites;
 		nearestDigsiteCache = nil;
 	end
@@ -618,7 +618,7 @@ function Digsites:CreateDigSitesList(ContID)
 		row:Show()
 
 		row.name:SetText(name)
-		row.race:SetText(digsite.race or "Unknown")
+		row.race:SetText(digsite.race or "未知")
 		row.zone:SetText(digsite["zone"])
 
 		local r, g, b
@@ -726,7 +726,7 @@ function Digsites:UpdateActiveDigSitesRace(Race)
 
 	for name,digsite in pairs(MinArchDigsitesGlobalDB["continent"][ContID]) do
 		if (ax == nil or digsite["x"] == nil or ay == nil or digsite["y"] == nil) then
-			Common:DisplayStatusMessage('MinArch: location error in ' .. GetZoneText() .. " " .. GetSubZoneText());
+			Common:DisplayStatusMessage('迷你考古助手: 位置错误' .. GetZoneText() .. " " .. GetSubZoneText());
 		else
 			local xd = math.abs(ax - tonumber(digsite["x"]));
 			local yd = math.abs(ay - tonumber(digsite["y"]));
@@ -1070,7 +1070,7 @@ function Digsites:ShowRaceIconsOnMap()
 			end
 			if not pin then
 				if not SpamBlock[digsite.name .. 'pin'] then
-					Common:DisplayStatusMessage("Minimal Archaeology: Could not find pin for digsite "..digsite.name .. " " .. uiMapID)
+					Common:DisplayStatusMessage("迷你考古助手: 无法为考古点"..digsite.name .. " " .. uiMapID.."生成标记.")
 					SpamBlock[digsite.name .. 'pin'] = 1
 				end
 				return
@@ -1086,7 +1086,7 @@ function Digsites:ShowRaceIconsOnMap()
 
 			if not contID then
 				if not SpamBlock[name] then
-					Common:DisplayStatusMessage("Minimal Archaeology: Could not find continent for digsite "..name .. " " .. uiMapID)
+					Common:DisplayStatusMessage("迷你考古助手: 找不到挖掘点的大陆"..name .. " " .. uiMapID)
 					SpamBlock[name] = 1
 				end
 			else

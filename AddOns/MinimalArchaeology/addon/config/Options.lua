@@ -1740,7 +1740,7 @@ function Options:OnInitialize()
                 }
             };
 			local values = {}
-			values[0] = 'No priority'
+			values[0] = '无优先级'
 			for idx=1, #races do
 				values[idx] = tostring(idx)
 			end
